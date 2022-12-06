@@ -24,8 +24,8 @@ let package = Package(
         // AwesomeNumbersKit
         //=--------------------------------------=
         .library(
-            name: "AwesomeNumbersKit",
-            targets: ["AwesomeNumbersKit"]),
+        name: "AwesomeNumbersKit",
+        targets: ["AwesomeNumbersKit"]),
     ],
     targets: [
         //=--------------------------------------=
@@ -33,9 +33,18 @@ let package = Package(
         //=--------------------------------------=
         .target(
         name: "AwesomeNumbersKit",
-        dependencies: []),
+        dependencies: [],
+        swiftSettings: [
+            .unsafeFlags(["-Xfrontend", "-warn-long-function-bodies=100"],          .when(configuration: .debug)),
+            .unsafeFlags(["-Xfrontend", "-warn-long-expression-type-checking=100"], .when(configuration: .debug)),
+        ]),
+        
         .testTarget(
         name: "AwesomeNumbersKitTests",
-        dependencies: ["AwesomeNumbersKit"]),
+        dependencies: ["AwesomeNumbersKit"],
+        swiftSettings: [
+            .unsafeFlags(["-Xfrontend", "-warn-long-function-bodies=100"],          .when(configuration: .debug)),
+            .unsafeFlags(["-Xfrontend", "-warn-long-expression-type-checking=100"], .when(configuration: .debug)),
+        ]),
     ]
 )
