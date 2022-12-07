@@ -11,7 +11,7 @@
 // MARK: * Full Width
 //*============================================================================*
 
-@frozen public struct FullWidth<High, Low> where High: FixedWidthInteger, Low: FixedWidthInteger & UnsignedInteger {
+@frozen @usableFromInline struct FullWidth<High, Low> where High: FixedWidthInteger, Low: FixedWidthInteger & UnsignedInteger {
     
     public typealias Magnitude = FullWidth<High.Magnitude, Low>
     
@@ -55,7 +55,7 @@
 }
 
 //*============================================================================*
-// MARK: * Doulbe Width
+// MARK: * Full Width x Aliases
 //*============================================================================*
 
-public typealias DoubleWidth<Base> = FullWidth<Base, Base.Magnitude> where Base: FixedWidthInteger
+@usableFromInline typealias DoubleWidth<Base: FixedWidthInteger> = FullWidth<Base, Base.Magnitude>

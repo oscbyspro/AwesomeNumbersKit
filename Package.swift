@@ -14,6 +14,14 @@ import PackageDescription
 // MARK: * AwesomeNumbersKit
 //*============================================================================*
 
+let withSlowBuildAlerts: [SwiftSetting] = [
+.unsafeFlags(["-Xfrontend", "-warn-long-function-bodies=100"],          .when(configuration: .debug)),
+.unsafeFlags(["-Xfrontend", "-warn-long-expression-type-checking=100"], .when(configuration: .debug))]
+
+//*============================================================================*
+// MARK: * AwesomeNumbersKit x Package
+//*============================================================================*
+
 let package = Package(
     name: "AwesomeNumbersKit",
     platforms: [
@@ -26,6 +34,12 @@ let package = Package(
         .library(
         name: "AwesomeNumbersKit",
         targets: ["AwesomeNumbersKit"]),
+        //=--------------------------------------=
+        // AwesomeNumbersOBE
+        //=--------------------------------------=
+        .library(
+        name: "AwesomeNumbersOBE",
+        targets: ["AwesomeNumbersOBE"]),
     ],
     targets: [
         //=--------------------------------------=
@@ -34,17 +48,23 @@ let package = Package(
         .target(
         name: "AwesomeNumbersKit",
         dependencies: [],
-        swiftSettings: [
-            .unsafeFlags(["-Xfrontend", "-warn-long-function-bodies=100"],          .when(configuration: .debug)),
-            .unsafeFlags(["-Xfrontend", "-warn-long-expression-type-checking=100"], .when(configuration: .debug)),
-        ]),
+        swiftSettings: withSlowBuildAlerts),
         
         .testTarget(
         name: "AwesomeNumbersKitTests",
         dependencies: ["AwesomeNumbersKit"],
-        swiftSettings: [
-            .unsafeFlags(["-Xfrontend", "-warn-long-function-bodies=100"],          .when(configuration: .debug)),
-            .unsafeFlags(["-Xfrontend", "-warn-long-expression-type-checking=100"], .when(configuration: .debug)),
-        ]),
+        swiftSettings: withSlowBuildAlerts),
+        //=--------------------------------------=
+        // AwesomeNumbersOBE
+        //=--------------------------------------=
+        .target(
+        name: "AwesomeNumbersOBE",
+        dependencies: ["AwesomeNumbersKit"],
+        swiftSettings: withSlowBuildAlerts),
+        
+        .testTarget(
+        name: "AwesomeNumbersOBETests",
+        dependencies: ["AwesomeNumbersOBE"],
+        swiftSettings: withSlowBuildAlerts),
     ]
 )
