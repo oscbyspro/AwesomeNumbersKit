@@ -13,10 +13,13 @@ import AwesomeNumbersKit
 // MARK: * OBE x Fixed Width Integer Pointer
 //*============================================================================*
 
-@usableFromInline protocol OBEFixedWidthIntegerBuffer: WoRdS, RandomAccessCollection where
-Index == Int, Indices == Range<Int>, Element == UInt {
+@usableFromInline protocol OBEFixedWidthIntegerBuffer: WoRdS {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Type Meta Dats
+    //=------------------------------------------------------------------------=
         
-    associatedtype Integer: FixedWidthInteger
+    associatedtype Integer: OBEFixedWidthInteger
 }
 
 //=----------------------------------------------------------------------------=
@@ -41,28 +44,16 @@ extension OBEFixedWidthIntegerBuffer {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable static var count: Int {
+    @inlinable var count: Int {
         MemoryLayout<Integer>.stride / MemoryLayout<UInt>.stride
     }
     
-    @inlinable var count: Int {
-        Self.count
-    }
-    
     @inlinable var startIndex: Int {
-        #if _endian(big)
-        return Self.count - 1
-        #else
-        return 0
-        #endif
+        0
     }
     
     @inlinable var endIndex: Int {
-        #if _endian(big)
-        return -1
-        #else
-        return Self.count
-        #endif
+        count
     }
     
     @inlinable var firstIndex: Int {
@@ -70,42 +61,54 @@ extension OBEFixedWidthIntegerBuffer {
     }
     
     @inlinable var lastIndex: Int {
-        #if _endian(big)
-        return 0
-        #else
-        return Self.count - 1
-        #endif
+        count - 1
     }
     
+    @inlinable var indices: Range<Int> {
+        0 ..< count
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
     @inlinable func index(after index: Int) -> Int {
-        #if _endian(big)
-        return index - 1
-        #else
-        return index + 1
-        #endif
+        index + 1
     }
     
     @inlinable func index(before index: Int) -> Int {
-        #if _endian(big)
-        return index + 1
-        #else
-        return index - 1
-        #endif
+        index - 1
     }
     
     @inlinable func index(_ index: Int, offsetBy distance: Int) -> Int {
-        #if _endian(big)
-        return index - distance
-        #else
-        return index + distance
-        #endif
+        index + distance
     }
     
     @inlinable func distance(from start: Int, to end: Int) -> Int {
-        #if _endian(big)
-        start - end
-        #else
         end - start
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable func bigEndianIndex(_ index: Int) -> Int {
+        Swift.precondition(indices.contains(index))
+        
+        #if _endian(big)
+        return index
+        #else
+        return lastIndex - index
+        #endif
+    }
+    
+    @inlinable func littleEndianIndex(_ index: Int) -> Int {
+        Swift.precondition(indices.contains(index))
+        
+        #if _endian(big)
+        return lastIndex - index
+        #else
+        return index
         #endif
     }
 }

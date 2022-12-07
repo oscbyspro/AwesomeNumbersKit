@@ -38,13 +38,11 @@ extension OBEFixedWidthIntegerMutator {
     
     @usableFromInline subscript(index: Int) -> UInt {
         @_transparent _read {
-            precondition(indices.contains(index))
-            yield _base[index]
+            yield  _base[littleEndianIndex(index)]
         }
         
         @_transparent nonmutating _modify {
-            precondition(indices.contains(index))
-            yield &_base[index]
+            yield &_base[littleEndianIndex(index)]
         }
     }
 }
