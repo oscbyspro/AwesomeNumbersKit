@@ -15,7 +15,7 @@
 ///
 /// All fixed width integers in AwesomeNumbersKit conform to AwesomeFixedWidthInteger.
 ///
-public protocol AwesomeFixedWidthInteger: FixedWidthInteger {
+public protocol AwesomeFixedWidthInteger: AwesomeBinaryInteger, FixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

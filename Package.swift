@@ -54,6 +54,10 @@ let package = Package(
         name: "AwesomeNumbersKitTests",
         dependencies: ["AwesomeNumbersKit"],
         swiftSettings: withSlowBuildAlerts),
+        
+        .testTarget(
+        name: "AwesomeNumbersKitBenchmarks",
+        dependencies: ["AwesomeNumbersKit"]),
         //=--------------------------------------=
         // AwesomeNumbersOBE
         //=--------------------------------------=
@@ -66,5 +70,9 @@ let package = Package(
         name: "AwesomeNumbersOBETests",
         dependencies: ["AwesomeNumbersOBE"],
         swiftSettings: withSlowBuildAlerts),
+        
+        .testTarget(
+        name: "AwesomeNumbersOBEBenchmarks",
+        dependencies: ["AwesomeNumbersOBE"]),
     ]
 )
