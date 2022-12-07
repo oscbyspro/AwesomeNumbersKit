@@ -15,16 +15,20 @@ import AwesomeNumbersKit
 
 @usableFromInline protocol OBEFixedWidthInteger: AwesomeFixedWidthInteger where
 Magnitude: OBEFixedWidthInteger, Magnitude.High == High.Magnitude, Magnitude.Low == Low {
-    
+        
     associatedtype High: AwesomeFixedWidthInteger
     
     associatedtype Low:  AwesomeFixedWidthInteger where Low == High.Magnitude
+    
+    associatedtype Pointer: OBEFixedWidthIntegerPointer<Self>
+    
+    associatedtype Mutator: OBEFixedWidthIntegerMutator<Self>
         
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @_hasStorage var _storage: DoubleWidth<High>
+    @_hasStorage var _storage: FullWidth<High, Low>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -61,6 +65,22 @@ extension OBEFixedWidthInteger {
     @inlinable var low:  Low  {
         _read   { yield  self._storage.low  }
         _modify { yield &self._storage.low  }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var words: some WoRdS {
+        AwesomeNumbersOBE.Words(self)
+    }
+    
+    @inlinable func withUnsafeTwosComplementWords<T>(_ body: (Pointer) throws -> T) rethrows -> T {
+        try withUnsafePointer(to: self) { INTEGER in try body(Pointer(INTEGER)) }
+    }
+    
+    @inlinable mutating func withUnsafeMutableTwosComplementWords<T>(_ body: (Mutator) throws -> T) rethrows -> T {
+        try withUnsafeMutablePointer(to: &self) { INTEGER in try body(Mutator(INTEGER)) }
     }
 }
 

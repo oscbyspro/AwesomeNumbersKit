@@ -15,3 +15,10 @@ public typealias HL<H,L> = (high: H, low:  L)
 public typealias LH<L,H> = (low:  L, high: H)
 public typealias QR<Q,R> = (quotient: Q,  remainder: R)
 public typealias PVO<PV> = (partialValue: PV, overflow: Bool)
+
+//*============================================================================*
+// MARK: * Aliases x Protocols
+//*============================================================================*
+
+// TODO: await some RandomAccessCollection<Index == Int, Element == UInt>
+public protocol WoRdS: RandomAccessCollection<UInt> where Index == Int { }

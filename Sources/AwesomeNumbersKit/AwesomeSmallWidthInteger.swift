@@ -5,7 +5,7 @@
 /// An AwesomeFixedWidthInteger with trivial implementation.
 ///
 /// - Int
-/// - UInt64
+/// - Int64
 /// - UInt
 /// - UInt64
 ///
