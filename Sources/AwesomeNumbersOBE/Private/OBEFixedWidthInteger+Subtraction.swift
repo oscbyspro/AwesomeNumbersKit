@@ -19,12 +19,11 @@ extension OBEFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    // TODO: as Small or Pointer
     @inlinable public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
         let overflows: (Bool, Bool, Bool)
         overflows.0 = self.low .subtractReportingOverflow(amount.low )
         overflows.1 = self.high.subtractReportingOverflow(amount.high)
-        overflows.2 = self.high.subtractReportingOverflow(overflows.0 ? 1 : 0 as High)
+        overflows.2 = self.high.subtractReportingOverflow(overflows.0 ? 1 : 0 as High) // TODO: as Small or Pointer
         return overflows.1 || overflows.2
     }
     

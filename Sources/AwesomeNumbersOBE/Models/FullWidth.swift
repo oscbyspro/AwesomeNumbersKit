@@ -7,11 +7,18 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import AwesomeNumbersKit
+
 //*============================================================================*
 // MARK: * Full Width
 //*============================================================================*
 
-@frozen @usableFromInline struct FullWidth<High, Low> where High: FixedWidthInteger, Low: FixedWidthInteger & UnsignedInteger {
+/// The internal storage model for `(U)Int(128/256/512)`.
+///
+/// - `Self.bitWidth` must be an integer multiple of `UInt.bitWidth`.
+///
+@frozen @usableFromInline struct FullWidth<High, Low> where
+High: AwesomeFixedWidthInteger, Low: AwesomeFixedWidthInteger & UnsignedInteger {
     
     public typealias Magnitude = FullWidth<High.Magnitude, Low>
     
@@ -58,4 +65,4 @@
 // MARK: * Full Width x Aliases
 //*============================================================================*
 
-@usableFromInline typealias DoubleWidth<Base: FixedWidthInteger> = FullWidth<Base, Base.Magnitude>
+@usableFromInline typealias DoubleWidth<Base: AwesomeFixedWidthInteger> = FullWidth<Base, Base.Magnitude>

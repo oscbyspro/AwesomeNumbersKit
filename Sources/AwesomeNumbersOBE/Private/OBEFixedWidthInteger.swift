@@ -53,6 +53,10 @@ extension OBEFixedWidthInteger {
         self = unsafeBitCast(bitPattern, to: Self.self)
     }
     
+    @inlinable init(bitPattern: FullWidth<High, Low>) {
+        self = unsafeBitCast(bitPattern, to: Self.self)
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=

@@ -15,7 +15,7 @@
 ///
 /// All binary integers in AwesomeNumbersKit conform to AwesomeBinaryInteger.
 ///
-public protocol AwesomeBinaryInteger: BinaryInteger {
+public protocol AwesomeBinaryInteger: BinaryInteger where Magnitude: AwesomeBinaryInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
