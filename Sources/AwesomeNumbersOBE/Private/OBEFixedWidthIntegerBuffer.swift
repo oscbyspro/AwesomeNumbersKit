@@ -61,19 +61,19 @@ extension OBEFixedWidthIntegerBuffer {
     //=------------------------------------------------------------------------=
     
     @inlinable func distance(from start: Int, to end: Int) -> Int {
-        start.distance(to: end)
+        end - start
     }
     
     @inlinable func index(after index: Int) -> Int {
-        index.advanced(by:  1)
+        index + 1
     }
     
     @inlinable func index(before index: Int) -> Int {
-        index.advanced(by: -1)
+        index - 1
     }
     
     @inlinable func index(_ index: Int, offsetBy distance: Int) -> Int {
-        index.advanced(by: distance)
+        index + distance
     }
     
     //=------------------------------------------------------------------------=

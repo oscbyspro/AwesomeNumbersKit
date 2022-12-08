@@ -58,4 +58,8 @@ extension OBEFixedWidthInteger {
     @inlinable mutating func withUnsafeMutableTwosComplementWords<T>(_ body: (Mutator) throws -> T) rethrows -> T {
         try withUnsafeMutablePointer(to: &self) { INTEGER in try body(Mutator(INTEGER)) }
     }
+    
+    @inlinable static func fromUnsafeUninitializedTwosComplementWords(_ body: (Mutator) throws -> Void) rethrows -> Self {
+        var next = Self(); try next.withUnsafeMutableTwosComplementWords(body); return next
+    }
 }

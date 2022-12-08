@@ -33,7 +33,7 @@
         self._storage = DoubleWidth()
     }
     
-    /// Creates a new value from perameters of ascending significance.
+    /// Creates a new value from digits of ascending significance.
     ///
     /// - Parameter x64: a tuple of `UInt64` digits
     ///
@@ -41,7 +41,7 @@
         self._storage = DoubleWidth(ascending:(x64.0, x64.1))
     }
     
-    /// Creates a new value from perameters of ascending significance.
+    /// Creates a new value from digits of ascending significance.
     ///
     /// - Parameter x32: a tuple of `UInt32` digits
     ///
