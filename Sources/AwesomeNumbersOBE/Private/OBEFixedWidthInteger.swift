@@ -50,6 +50,10 @@ extension OBEFixedWidthInteger {
         self.init(bitPattern: FullWidth<High, Low>())
     }
     
+    @inlinable public init(repeating bit: Bool) {
+        self.init(descending:(High(repeating: bit), Low(repeating: bit)))
+    }
+    
     @inlinable init(bitPattern: FullWidth<High, Low>) {
         self = unsafeBitCast(bitPattern, to: Self.self)
     }

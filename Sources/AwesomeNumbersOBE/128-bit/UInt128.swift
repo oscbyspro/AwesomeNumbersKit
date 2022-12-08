@@ -17,7 +17,7 @@ import AwesomeNumbersKit
     
     @usableFromInline typealias High = UInt64
     
-    @usableFromInline typealias Low = UInt64
+    @usableFromInline typealias Low  = UInt64
     
     public typealias IntegerLiteralType = UInt
     

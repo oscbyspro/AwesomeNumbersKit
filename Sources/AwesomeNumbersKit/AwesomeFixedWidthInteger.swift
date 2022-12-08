@@ -18,6 +18,20 @@
 public protocol AwesomeFixedWidthInteger: AwesomeBinaryInteger, FixedWidthInteger where Magnitude: AwesomeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(repeating bit: Bool)
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable var  mostSignificantBit: Bool { get }
+    
+    @inlinable var leastSignificantBit: Bool { get }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     

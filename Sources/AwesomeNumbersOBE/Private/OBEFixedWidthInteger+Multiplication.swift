@@ -31,6 +31,10 @@ extension OBEFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    @inlinable public func multipliedReportingOverflow(by rhs: Self) -> PVO<Self> {
+        fatalError("TODO")
+    }
+    
     @inlinable public func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {
         //=--------------------------------------=
         //

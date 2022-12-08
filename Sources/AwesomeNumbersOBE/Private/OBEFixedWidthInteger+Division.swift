@@ -7,6 +7,8 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import AwesomeNumbersKit
+
 //*============================================================================*
 // MARK: * OBE x Fixed Width Integer x Division
 //*============================================================================*
@@ -31,5 +33,21 @@ extension OBEFixedWidthInteger {
     
     @inlinable public static func %(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs %= rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public func dividedReportingOverflow(by rhs: Self) -> PVO<Self> {
+        fatalError("TODO")
+    }
+    
+    @inlinable public func remainderReportingOverflow(dividingBy rhs: Self) -> PVO<Self> {
+        fatalError("TODO")
+    }
+    
+    @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
+        fatalError("TODO")
     }
 }

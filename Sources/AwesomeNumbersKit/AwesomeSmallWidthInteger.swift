@@ -18,6 +18,14 @@ public protocol AwesomeSmallWidthInteger: AwesomeFixedWidthInteger { }
 extension AwesomeSmallWidthInteger {
     
     //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public init(repeating bit: Bool) {
+        self = bit ? ~0 : 0
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
@@ -27,6 +35,14 @@ extension AwesomeSmallWidthInteger {
     
     @inlinable public var isLessThanZero: Bool {
         Self.isSigned ? self < 0 : false
+    }
+    
+    @inlinable public var mostSignificantBit: Bool {
+        self & 1 << (Self.bitWidth - 1) != 0
+    }
+    
+    @inlinable public var leastSignificantBit: Bool {
+        self & 1 != 0
     }
     
     //=------------------------------------------------------------------------=

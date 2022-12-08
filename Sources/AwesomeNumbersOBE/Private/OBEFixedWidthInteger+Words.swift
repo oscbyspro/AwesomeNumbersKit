@@ -63,6 +63,14 @@ extension OBEFixedWidthInteger {
         low.isZero ? Low.bitWidth + high.trailingZeroBitCount : low.trailingZeroBitCount
     }
     
+    @inlinable public var mostSignificantBit: Bool {
+        high.mostSignificantBit
+    }
+    
+    @inlinable public var leastSignificantBit: Bool {
+        low.leastSignificantBit
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
