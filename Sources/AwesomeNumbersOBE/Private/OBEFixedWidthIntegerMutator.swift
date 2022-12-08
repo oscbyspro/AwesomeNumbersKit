@@ -8,29 +8,25 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer Mutator
+// MARK: * OBE x Fixed Width Integer Pointer x Mutator
 //*============================================================================*
 
-@usableFromInline protocol OBEFixedWidthIntegerMutator<Integer>: OBEFixedWidthIntegerBuffer, MutableCollection {
-    
+@frozen @usableFromInline struct OBEFixedWidthIntegerMutator<Integer>:
+OBEFixedWidthIntegerBuffer where Integer: OBEFixedWidthInteger {
+
     //=------------------------------------------------------------------------=
-    // MARK: Storage
+    // MARK: State
     //=------------------------------------------------------------------------=
     
-    @_hasStorage let _base: UnsafeMutablePointer<UInt>
+    @usableFromInline let _base: UnsafeMutablePointer<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(_ INTEGER: UnsafeMutablePointer<Integer>)
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details
-//=----------------------------------------------------------------------------=
-
-extension OBEFixedWidthIntegerMutator {
+    @inlinable init(_ INTEGER: UnsafeMutablePointer<Integer>) {
+        self._base = UnsafeMutableRawPointer(INTEGER).assumingMemoryBound(to: UInt.self)
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
@@ -38,10 +34,12 @@ extension OBEFixedWidthIntegerMutator {
     
     @usableFromInline subscript(index: Int) -> UInt {
         @_transparent _read {
+            precondition( indices.contains(index))
             yield  _base[littleEndianIndex(index)]
         }
         
         @_transparent nonmutating _modify {
+            precondition( indices.contains(index))
             yield &_base[littleEndianIndex(index)]
         }
     }

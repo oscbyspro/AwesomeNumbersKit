@@ -20,9 +20,9 @@ Magnitude: OBEFixedWidthInteger, Magnitude.High == High.Magnitude, Magnitude.Low
     
     associatedtype Low:  AwesomeFixedWidthInteger where Low == High.Magnitude
     
-    associatedtype Pointer: OBEFixedWidthIntegerPointer<Self>
+    typealias Reader = OBEFixedWidthIntegerReader<Self>
     
-    associatedtype Mutator: OBEFixedWidthIntegerMutator<Self>
+    typealias Mutator = OBEFixedWidthIntegerMutator<Self>
         
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -65,21 +65,5 @@ extension OBEFixedWidthInteger {
     @inlinable var low:  Low  {
         _read   { yield  self._storage.low  }
         _modify { yield &self._storage.low  }
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public var words: some WoRdS {
-        AwesomeNumbersOBE.Words(self)
-    }
-    
-    @inlinable func withUnsafeTwosComplementWords<T>(_ body: (Pointer) throws -> T) rethrows -> T {
-        try withUnsafePointer(to: self) { INTEGER in try body(Pointer(INTEGER)) }
-    }
-    
-    @inlinable mutating func withUnsafeMutableTwosComplementWords<T>(_ body: (Mutator) throws -> T) rethrows -> T {
-        try withUnsafeMutablePointer(to: &self) { INTEGER in try body(Mutator(INTEGER)) }
     }
 }

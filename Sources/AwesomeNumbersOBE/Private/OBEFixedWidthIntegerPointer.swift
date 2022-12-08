@@ -7,25 +7,17 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import AwesomeNumbersKit
-
 //*============================================================================*
 // MARK: * OBE x Fixed Width Integer Pointer
 //*============================================================================*
 
-@usableFromInline protocol OBEFixedWidthIntegerPointer<Integer>: OBEFixedWidthIntegerBuffer {
+@usableFromInline protocol OBEFixedWidthIntegerPointer: OBEFixedWidthIntegerBuffer {
     
     //=------------------------------------------------------------------------=
-    // MARK: Storage
+    // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_hasStorage let _base: UnsafePointer<UInt>
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @inlinable init(_ INTEGER: UnsafePointer<Integer>)
+    @inlinable subscript(index: Int) -> UInt { get }
 }
 
 //=----------------------------------------------------------------------------=
@@ -38,9 +30,11 @@ extension OBEFixedWidthIntegerPointer {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @usableFromInline subscript(index: Int) -> UInt {
-        @_transparent _read {
-            yield _base[littleEndianIndex(index)]
-        }
+    @inlinable var isZero: Bool {
+        self.allSatisfy({ $0.isZero })
+    }
+    
+    @inlinable var isLessThanZero: Bool {
+        self[littleEndianIndex(lastIndex)].mostSignificantBit
     }
 }

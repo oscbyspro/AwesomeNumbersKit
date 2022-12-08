@@ -8,10 +8,11 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Pnt
+// MARK: * OBE x Fixed Width Integer Pointer x Reader
 //*============================================================================*
 
-@frozen @usableFromInline struct Pnt<Integer: OBEFixedWidthInteger>: OBEFixedWidthIntegerPointer {
+@frozen @usableFromInline struct OBEFixedWidthIntegerReader<Integer>:
+OBEFixedWidthIntegerBuffer where Integer: OBEFixedWidthInteger {
 
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -33,8 +34,8 @@
     
     @usableFromInline subscript(index: Int) -> UInt {
         @_transparent _read {
-            precondition(indices.contains(index))
-            yield _base[index]
+            precondition( indices.contains(index))
+            yield  _base[littleEndianIndex(index)]
         }
     }
 }

@@ -32,69 +32,55 @@ extension OBEFixedWidthIntegerBuffer {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable var isZero: Bool {
-        self.allSatisfy({ $0.isZero })
-    }
-    
-    @inlinable var isLessThanZero: Bool {
-        self[lastIndex] >> (UInt.bitWidth - 1) != 0
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
     @inlinable var count: Int {
-        MemoryLayout<Integer>.stride / MemoryLayout<UInt>.stride
+        Integer.count
     }
     
     @inlinable var startIndex: Int {
-        0
+        Integer.startIndex
     }
     
     @inlinable var endIndex: Int {
-        count
+        Integer.endIndex
     }
     
     @inlinable var firstIndex: Int {
-        startIndex
+        Integer.firstIndex
     }
     
     @inlinable var lastIndex: Int {
-        count - 1
+        Integer.lastIndex
     }
     
     @inlinable var indices: Range<Int> {
-        0 ..< count
+        Integer.indices
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
+    @inlinable func distance(from start: Int, to end: Int) -> Int {
+        start.distance(to: end)
+    }
+    
     @inlinable func index(after index: Int) -> Int {
-        index + 1
+        index.advanced(by:  1)
     }
     
     @inlinable func index(before index: Int) -> Int {
-        index - 1
+        index.advanced(by: -1)
     }
     
     @inlinable func index(_ index: Int, offsetBy distance: Int) -> Int {
-        index + distance
-    }
-    
-    @inlinable func distance(from start: Int, to end: Int) -> Int {
-        end - start
+        index.advanced(by: distance)
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable func bigEndianIndex(_ index: Int) -> Int {
-        Swift.precondition(indices.contains(index))
-        
+    @inlinable func bigEndianIndex(_ index: Int) -> Int {        
         #if _endian(big)
         return index
         #else
@@ -103,8 +89,6 @@ extension OBEFixedWidthIntegerBuffer {
     }
     
     @inlinable func littleEndianIndex(_ index: Int) -> Int {
-        Swift.precondition(indices.contains(index))
-        
         #if _endian(big)
         return lastIndex - index
         #else

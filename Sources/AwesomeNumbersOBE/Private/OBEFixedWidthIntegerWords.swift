@@ -8,10 +8,11 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Words
+// MARK: * OBE x Fixed Width Integer Words
 //*============================================================================*
 
-@frozen @usableFromInline struct Words<Integer: OBEFixedWidthInteger>: OBEFixedWidthIntegerBuffer {
+@frozen @usableFromInline struct OBEFixedWidthIntegerWords<Integer>:
+OBEFixedWidthIntegerBuffer where Integer: OBEFixedWidthInteger {
     
     //=--------------------------------------------------------------------=
     // MARK: State
