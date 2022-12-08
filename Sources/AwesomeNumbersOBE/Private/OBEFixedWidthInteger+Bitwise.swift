@@ -35,4 +35,12 @@ extension OBEFixedWidthInteger {
         lhs.low  ^= rhs.low
         lhs.high ^= rhs.high
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var byteSwapped: Self {
+        Self(descending:(Self.reinterpret(low.byteSwapped), Self.reinterpret(high.byteSwapped)))
+    }
 }

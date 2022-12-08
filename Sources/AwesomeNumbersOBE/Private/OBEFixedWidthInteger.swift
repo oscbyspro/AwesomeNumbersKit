@@ -13,9 +13,14 @@ import AwesomeNumbersKit
 // MARK: * OBE x Fixed Width Integer
 //*============================================================================*
 
+/// A fixed width integer implementation protocol.
+///
+/// - It must be safe to bit cast between `High` and `Low`.
+/// - It must be safe to bit cast between `Self` and `Magnitude`.
+///
 @usableFromInline protocol OBEFixedWidthInteger: AwesomeFixedWidthInteger where
 Magnitude: OBEFixedWidthInteger, Magnitude.High == High.Magnitude, Magnitude.Low == Low {
-        
+    
     associatedtype High: AwesomeFixedWidthInteger
     
     associatedtype Low:  AwesomeFixedWidthInteger where Low == High.Magnitude
@@ -41,12 +46,16 @@ extension OBEFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bitPattern: Magnitude) {
-        self = unsafeBitCast(bitPattern, to: Self.self)
+    @inlinable public init() {
+        self.init(bitPattern: FullWidth<High, Low>())
     }
     
     @inlinable init(bitPattern: FullWidth<High, Low>) {
         self = unsafeBitCast(bitPattern, to: Self.self)
+    }
+    
+    @inlinable init<T>(bitPattern: T) where T: OBEFixedWidthInteger, T.Low == Low {
+        self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
     }
     
     @inlinable init(ascending digits:(low: Low, high: High)) {
@@ -69,5 +78,17 @@ extension OBEFixedWidthInteger {
     @inlinable var low:  Low  {
         _read   { yield  self._storage.low  }
         _modify { yield &self._storage.low  }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func reinterpret(_ value: Low) -> High {
+        unsafeBitCast(value, to: High.self)
+    }
+    
+    @inlinable static func reinterpret(_ value: High) -> Low {
+        unsafeBitCast(value, to: Low.self)
     }
 }

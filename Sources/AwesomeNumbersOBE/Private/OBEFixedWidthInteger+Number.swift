@@ -21,6 +21,10 @@ extension OBEFixedWidthInteger {
         self.init(descending:(High(), Low(_truncatingBits: uint))) // Low.bitWidth >= UInt.bitWidth
     }
     
+    @inlinable public init(integerLiteral x: IntegerLiteralType) where IntegerLiteralType: BinaryInteger {
+        self.init(x)
+    }
+    
     #warning("WIP")
     #warning("WIP")
     #warning("WIP")

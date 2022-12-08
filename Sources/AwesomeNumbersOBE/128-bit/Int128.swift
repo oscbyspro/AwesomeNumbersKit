@@ -21,8 +21,6 @@ import AwesomeNumbersKit
     
     public typealias IntegerLiteralType = Int
     
-    public typealias Magnitude = UInt128
-    
     public typealias X64 = (UInt64, UInt64)
     
     public typealias X32 = (UInt32, UInt32, UInt32, UInt64)
@@ -36,12 +34,6 @@ import AwesomeNumbersKit
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
-    
-    /// Creates a new value equal to zero.
-    ///
-    @inlinable public init() {
-        self._storage = DoubleWidth()
-    }
     
     /// Creates a new value from digits of ascending significance.
     ///
@@ -57,5 +49,13 @@ import AwesomeNumbersKit
     ///
     @inlinable public init(x32: X32) {
         self.init(x64: Swift.unsafeBitCast(x32, to: X64.self))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessoes
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var magnitude: UInt128 {
+        Self.magnitude(self)
     }
 }

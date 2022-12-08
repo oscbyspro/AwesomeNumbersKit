@@ -37,12 +37,6 @@ import AwesomeNumbersKit
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    /// Creates a new value equal to zero.
-    ///
-    @inlinable public init() {
-        self._storage = DoubleWidth()
-    }
-    
     /// Creates a new value from digits of ascending significance.
     ///
     /// - Parameter x64: a tuple of `UInt64` digits
