@@ -15,6 +15,12 @@ import AwesomeNumbersKit
 
 /// The internal storage model for `(U)Int(128/256/512)`.
 ///
+/// - `High.bitWidth >= UInt.bitWidth`
+/// - `Low .bitWidth >= UInt.bitWidth`
+/// - `Self.bitWidth >= UInt.bitWidth * 2`
+///
+/// - `High.bitWidth` must be an integer multiple of `UInt.bitWidth`
+/// - `Low .bitWidth` must be an integer multiple of `UInt.bitWidth`
 /// - `Self.bitWidth` must be an integer multiple of `UInt.bitWidth`
 ///
 @frozen @usableFromInline struct FullWidth<High, Low>: Hashable where

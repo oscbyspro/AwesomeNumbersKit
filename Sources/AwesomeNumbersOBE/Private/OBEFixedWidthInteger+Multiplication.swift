@@ -19,6 +19,18 @@ extension OBEFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    @inlinable public static func *=(lhs: inout Self, rhs: Self) {
+        lhs = lhs * rhs
+    }
+    
+    @inlinable public static func *(lhs: Self, rhs: Self) -> Self {
+        let (pv, o) = lhs.multipliedReportingOverflow(by: rhs); precondition(!o); return pv
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable public func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {
         //=--------------------------------------=
         //

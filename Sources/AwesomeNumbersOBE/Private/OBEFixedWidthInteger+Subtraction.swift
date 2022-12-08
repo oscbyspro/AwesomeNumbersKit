@@ -19,15 +19,27 @@ extension OBEFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
-        let overflows: (Bool, Bool, Bool)
-        overflows.0 = self.low .subtractReportingOverflow(amount.low )
-        overflows.1 = self.high.subtractReportingOverflow(amount.high)
-        overflows.2 = self.high.subtractReportingOverflow(overflows.0 ? 1 : 0 as High) // TODO: as Small or Pointer
-        return overflows.1 || overflows.2
+    @inlinable public static func -=(lhs: inout Self, rhs: Self) {
+        let o = lhs.subtractReportingOverflow(rhs); precondition(!o)
     }
     
-    @inlinable public mutating func subtractReportingOverflow(_ amount: Self) -> PVO<Self> {
+    @inlinable public static func -(lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs += rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
+        let o: (Bool, Bool, Bool)
+        o.0 = self.low .subtractReportingOverflow(amount.low )
+        o.1 = self.high.subtractReportingOverflow(amount.high)
+        o.2 = self.high.subtractReportingOverflow(o.0 ? 1 : 0 as High) // TODO: as Small or Pointer
+        return o.1 || o.2
+    }
+    
+    @inlinable public func subtractingReportingOverflow(_ amount: Self) -> PVO<Self> {
         var pv = self; let o = pv.subtractReportingOverflow(amount); return (pv, o)
     }
 }

@@ -18,7 +18,7 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
 
     @inlinable public init(_truncatingBits uint: UInt) {
-        self.init(descending:(High(), Low(_truncatingBits: uint)))
+        self.init(descending:(High(), Low(_truncatingBits: uint))) // Low.bitWidth >= UInt.bitWidth
     }
     
     #warning("WIP")

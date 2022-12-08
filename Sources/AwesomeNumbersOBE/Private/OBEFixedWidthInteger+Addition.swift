@@ -19,15 +19,27 @@ extension OBEFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
-        let overflows: (Bool, Bool, Bool)
-        overflows.0 = self.low .addReportingOverflow(amount.low )
-        overflows.1 = self.high.addReportingOverflow(amount.high)
-        overflows.2 = self.high.addReportingOverflow(overflows.0 ? 1 : 0 as High) // TODO: as Small or Pointer
-        return overflows.1 || overflows.2
+    @inlinable public static func +=(lhs: inout Self, rhs: Self) {
+        let o = lhs.addReportingOverflow(rhs); precondition(!o)
     }
     
-    @inlinable public mutating func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
+    @inlinable public static func +(lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs += rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
+        let o: (Bool, Bool, Bool)
+        o.0 = self.low .addReportingOverflow(amount.low )
+        o.1 = self.high.addReportingOverflow(amount.high)
+        o.2 = self.high.addReportingOverflow(o.0 ? 1 : 0 as High) // TODO: as Small or Pointer
+        return o.1 || o.2
+    }
+    
+    @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
         var pv = self; let o = pv.addReportingOverflow(amount); return (pv, o)
     }
 }

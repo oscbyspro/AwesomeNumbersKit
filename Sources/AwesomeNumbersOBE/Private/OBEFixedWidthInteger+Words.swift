@@ -51,6 +51,22 @@ extension OBEFixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    @inlinable public var nonzeroBitCount: Int {
+        low.nonzeroBitCount + high.nonzeroBitCount
+    }
+    
+    @inlinable public var leadingZeroBitCount: Int {
+        high.isZero ? High.bitWidth + low.leadingZeroBitCount : high.leadingZeroBitCount
+    }
+    
+    @inlinable public var trailingZeroBitCount: Int {
+        low.isZero ? Low.bitWidth + high.trailingZeroBitCount : low.trailingZeroBitCount
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
     @inlinable public var words: some WoRdS {
         OBEFixedWidthIntegerWords(self)
     }
