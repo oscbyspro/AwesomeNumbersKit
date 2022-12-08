@@ -23,7 +23,7 @@ extension UInt {
     //=------------------------------------------------------------------------=
         
     @inlinable var mostSignificantBit: Bool {
-        self & 1 << (bitWidth - 1) != 0
+        self & 1 << (Self.bitWidth - 1) != 0
     }
     
     @inlinable var leastSignificantBit: Bool {

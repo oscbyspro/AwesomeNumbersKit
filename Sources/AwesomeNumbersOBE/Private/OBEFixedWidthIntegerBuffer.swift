@@ -56,6 +56,14 @@ extension OBEFixedWidthIntegerBuffer {
         Integer.indices
     }
     
+    @inlinable var first: UInt {
+        self[Integer.firstIndex]
+    }
+    
+    @inlinable var last: UInt {
+        self[Integer.lastIndex]
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=

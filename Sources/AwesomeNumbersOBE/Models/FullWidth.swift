@@ -15,9 +15,9 @@ import AwesomeNumbersKit
 
 /// The internal storage model for `(U)Int(128/256/512)`.
 ///
-/// - `Self.bitWidth` must be an integer multiple of `UInt.bitWidth`.
+/// - `Self.bitWidth` must be an integer multiple of `UInt.bitWidth`
 ///
-@frozen @usableFromInline struct FullWidth<High, Low> where
+@frozen @usableFromInline struct FullWidth<High, Low>: Hashable where
 High: AwesomeFixedWidthInteger, Low: AwesomeFixedWidthInteger & UnsignedInteger {
     
     public typealias Magnitude = FullWidth<High.Magnitude, Low>

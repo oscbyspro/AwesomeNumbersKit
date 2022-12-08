@@ -7,14 +7,24 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import AwesomeNumbersKit
+
 //*============================================================================*
 // MARK: * Int128
 //*============================================================================*
 
-@frozen public struct Int128 {
+@frozen public struct Int128: OBEFixedWidthInteger, SignedInteger {    
+    
+    @usableFromInline typealias High = Int64
+    
+    @usableFromInline typealias Low = UInt64
+    
+    public typealias IntegerLiteralType = Int
     
     public typealias Magnitude = UInt128
+    
     public typealias X64 = (UInt64, UInt64)
+    
     public typealias X32 = (UInt32, UInt32, UInt32, UInt64)
     
     //=------------------------------------------------------------------------=

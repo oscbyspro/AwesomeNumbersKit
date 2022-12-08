@@ -13,7 +13,7 @@
 
 @frozen @usableFromInline struct OBEFixedWidthIntegerMutator<Integer>:
 OBEFixedWidthIntegerBuffer where Integer: OBEFixedWidthInteger {
-
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=

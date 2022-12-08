@@ -29,14 +29,6 @@ Magnitude: OBEFixedWidthInteger, Magnitude.High == High.Magnitude, Magnitude.Low
     //=------------------------------------------------------------------------=
     
     @_hasStorage var _storage: FullWidth<High, Low>
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @inlinable init(ascending:(low: Low, high: High))
-    
-    @inlinable init(descending:(high: High, low: Low))
 }
 
 //=----------------------------------------------------------------------------=
@@ -55,6 +47,14 @@ extension OBEFixedWidthInteger {
     
     @inlinable init(bitPattern: FullWidth<High, Low>) {
         self = unsafeBitCast(bitPattern, to: Self.self)
+    }
+    
+    @inlinable init(ascending digits:(low: Low, high: High)) {
+        self.init(bitPattern:  FullWidth(ascending: digits))
+    }
+    
+    @inlinable init(descending digits:(high: High, low: Low)) {
+        self.init(bitPattern:  FullWidth(descending: digits))
     }
     
     //=------------------------------------------------------------------------=
