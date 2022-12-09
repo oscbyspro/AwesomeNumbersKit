@@ -7,34 +7,40 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import AwesomeNumbersKit
+
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer Pointer
+// MARK: * Int256
 //*============================================================================*
 
-@usableFromInline protocol OBEFixedWidthIntegerPointer: OBEFixedWidthIntegerBuffer {
+@frozen public struct Int256: OBESignedFixedWidthInteger {
+    
+    public typealias Magnitude = UInt256
+        
+    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
+    
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
+    // MARK: State
     //=------------------------------------------------------------------------=
     
-    @inlinable subscript(index: Int) -> UInt { get }
+    @usableFromInline var _storage: DoubleWidth<Int128>
 }
 
-//=----------------------------------------------------------------------------=
-// MARK: + Details
-//=----------------------------------------------------------------------------=
+//*============================================================================*
+// MARK: * UInt256
+//*============================================================================*
 
-extension OBEFixedWidthIntegerPointer {
+@frozen public struct UInt256: OBEUnsignedFixedWidthInteger {
     
+    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
+
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
+
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
+    // MARK: State
     //=------------------------------------------------------------------------=
-    
-    @inlinable var isZero: Bool {
-        self.allSatisfy({ $0.isZero })
-    }
-    
-    @inlinable var isLessThanZero: Bool {
-        Integer.isSigned ? self[littleEndianIndex(lastIndex)].mostSignificantBit : false
-    }
+
+    @usableFromInline var _storage: DoubleWidth<UInt128>
 }

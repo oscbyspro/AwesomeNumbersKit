@@ -31,11 +31,16 @@ extension OBEFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public func multipliedReportingOverflow(by rhs: Self) -> PVO<Self> {
+    @inlinable public mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
         fatalError("TODO")
     }
     
-    @inlinable public func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {
+    @inlinable public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
+        fatalError("TODO")
+    }
+    
+    // FIXME: @_transparent to erase protocol because @_specialize(where:) does not work
+    @_transparent public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
         //=--------------------------------------=
         //
         //=--------------------------------------=
@@ -48,10 +53,10 @@ extension OBEFixedWidthInteger {
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        let resultIsLessThanZero = self.isLessThanZero != other.isLessThanZero
+        let resultIsLessThanZero = self.isLessThanZero != amount.isLessThanZero
         
-        let lhs =  self.magnitude
-        let rhs = other.magnitude
+        let lhs =   self.magnitude
+        let rhs = amount.magnitude
         //=--------------------------------------=
         //
         //=--------------------------------------=

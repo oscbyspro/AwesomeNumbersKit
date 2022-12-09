@@ -21,6 +21,10 @@ extension AwesomeSmallWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    @inlinable public init(_ bit: Bool) {
+        self = bit ?  1 : 0
+    }
+    
     @inlinable public init(repeating bit: Bool) {
         self = bit ? ~0 : 0
     }
@@ -50,11 +54,15 @@ extension AwesomeSmallWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
-        let overflow: Bool; (self, overflow) = self.addingReportingOverflow(amount); return overflow
+        let o: Bool; (self, o) = self.addingReportingOverflow(amount); return o
     }
     
     @inlinable public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
-        let overflow: Bool; (self, overflow) = self.subtractingReportingOverflow(amount); return overflow
+        let o: Bool; (self, o) = self.subtractingReportingOverflow(amount); return o
+    }
+    
+    @inlinable public mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
+        let o: Bool; (self, o) = self.multipliedReportingOverflow(by: amount); return o
     }
 }
 

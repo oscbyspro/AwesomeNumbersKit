@@ -19,16 +19,20 @@ import AwesomeNumbersKit
 /// - It must be safe to bit cast between `Self` and `Magnitude`.
 ///
 @usableFromInline protocol OBEFixedWidthInteger: AwesomeFixedWidthInteger where
-Magnitude: OBEFixedWidthInteger, Magnitude.High == High.Magnitude, Magnitude.Low == Low {
+Magnitude: OBEUnsignedFixedWidthInteger, Magnitude.High == High.Magnitude, Magnitude.Low == Low {
     
     associatedtype High: AwesomeFixedWidthInteger
     
     associatedtype Low:  AwesomeFixedWidthInteger where Low == High.Magnitude
     
+    associatedtype X64 // (UInt64, UInt64, ...)
+    
+    associatedtype X32 // (UInt32, UInt32, UInt32, UInt32, ...)
+    
     typealias Reader = OBEFixedWidthIntegerReader<Self>
     
     typealias Mutator = OBEFixedWidthIntegerMutator<Self>
-        
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
@@ -50,8 +54,20 @@ extension OBEFixedWidthInteger {
         self.init(bitPattern: FullWidth<High, Low>())
     }
     
+    @inlinable public init(_ bit: Bool) {
+        self.init(descending:(High(), Low(bit)))
+    }
+    
     @inlinable public init(repeating bit: Bool) {
         self.init(descending:(High(repeating: bit), Low(repeating: bit)))
+    }
+    
+    @inlinable public init(x64: X64) {
+        self.init(ascending: unsafeBitCast(x64, to: (low: Low, high: High).self))
+    }
+    
+    @inlinable public init(x32: X32) {
+        self.init(ascending: unsafeBitCast(x32, to: (low: Low, high: High).self))
     }
     
     @inlinable init(bitPattern: FullWidth<High, Low>) {
@@ -96,3 +112,15 @@ extension OBEFixedWidthInteger {
         unsafeBitCast(value, to: Low.self)
     }
 }
+
+//*============================================================================*
+// MARK: * OBE x Fixed Width Integer x Signed
+//*============================================================================*
+
+@usableFromInline protocol OBESignedFixedWidthInteger: OBEFixedWidthInteger, SignedInteger { }
+
+//*============================================================================*
+// MARK: * OBE x Fixed Width Integer x Unsigned
+//*============================================================================*
+
+@usableFromInline protocol OBEUnsignedFixedWidthInteger: OBEFixedWidthInteger, UnsignedInteger { }

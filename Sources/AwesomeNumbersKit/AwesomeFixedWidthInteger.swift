@@ -21,6 +21,8 @@ public protocol AwesomeFixedWidthInteger: AwesomeBinaryInteger, FixedWidthIntege
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    @inlinable init(_ bit: Bool)
+    
     @inlinable init(repeating bit: Bool)
     
     //=------------------------------------------------------------------------=
@@ -38,4 +40,6 @@ public protocol AwesomeFixedWidthInteger: AwesomeBinaryInteger, FixedWidthIntege
     @inlinable mutating func addReportingOverflow(_ amount: Self) -> Bool
     
     @inlinable mutating func subtractReportingOverflow(_ amount: Self) -> Bool
+    
+    @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool
 }

@@ -8,17 +8,18 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Magnitude
+// MARK: * OBE x Fixed Width Integer x Magnitude x Signed
 //*============================================================================*
 
-extension OBEFixedWidthInteger where Self: SignedInteger {
+extension OBESignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable static func magnitude(_ x: Self) -> Magnitude {
-        // TODO: formTwosComplement()
-        let m = Magnitude(bitPattern: x); return x.isLessThanZero ? ~m &+ 1 : m
+    @inlinable public var magnitude: Magnitude {
+        let isLessThanZero = isLessThanZero
+        let bitPattern = Magnitude(bitPattern: self)
+        return isLessThanZero ? bitPattern.twosComplement() : bitPattern
     }
 }

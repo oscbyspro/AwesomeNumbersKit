@@ -43,3 +43,39 @@ extension OBEFixedWidthInteger {
         var pv = self; let o = pv.subtractReportingOverflow(amount); return (pv, o)
     }
 }
+
+//*============================================================================*
+// MARK: * OBE x Fixed Width Integer x Subtraction x Signed
+//*============================================================================*
+
+extension OBESignedFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static prefix func -(x: Self) -> Self {
+        x.negated()
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    // TODO: consider adding to awesome protocol
+    @inlinable public func negated() -> Self {
+        let (pv, o) = self.negatedReportingOverflow(); precondition(!o); return pv
+    }
+    
+    // TODO: consider adding to awesome protocol
+    @inlinable public mutating func negateReportingOverflow() -> Bool {
+        let wasLessThanZero = self.isLessThanZero
+        self.formTwosComplement()
+        return self.isLessThanZero == wasLessThanZero
+    }
+    
+    // TODO: consider adding to awesome protocol
+    @inlinable public func negatedReportingOverflow() -> PVO<Self> {
+        var pv = self; let o = pv.negateReportingOverflow(); return (pv, o)
+    }
+}

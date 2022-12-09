@@ -10,19 +10,30 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
+// MARK: * Int128
+//*============================================================================*
+
+@frozen public struct Int128: OBESignedFixedWidthInteger {
+    
+    public typealias Magnitude = UInt128
+        
+    public typealias X64 = (UInt64, UInt64)
+    
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32)
+    
+    //=------------------------------------------------------------------------=
+    // MARK: State
+    //=------------------------------------------------------------------------=
+    
+    @usableFromInline var _storage: DoubleWidth<Int64>
+}
+
+//*============================================================================*
 // MARK: * UInt128
 //*============================================================================*
 
-@frozen public struct UInt128: OBEFixedWidthInteger, UnsignedInteger {
-    
-    @usableFromInline typealias High = UInt64
-    
-    @usableFromInline typealias Low  = UInt64
-    
-    public typealias IntegerLiteralType = UInt
-    
-    public typealias Magnitude = UInt128
-    
+@frozen public struct UInt128: OBEUnsignedFixedWidthInteger {
+        
     public typealias X64 = (UInt64, UInt64)
     
     public typealias X32 = (UInt32, UInt32, UInt32, UInt32)
@@ -32,24 +43,4 @@ import AwesomeNumbersKit
     //=------------------------------------------------------------------------=
     
     @usableFromInline var _storage: DoubleWidth<UInt64>
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    /// Creates a new value from digits of ascending significance.
-    ///
-    /// - Parameter x64: a tuple of `UInt64` digits
-    ///
-    @inlinable public init(x64: X64) {
-        self._storage = DoubleWidth(ascending:(x64.0, x64.1))
-    }
-    
-    /// Creates a new value from digits of ascending significance.
-    ///
-    /// - Parameter x32: a tuple of `UInt32` digits
-    ///
-    @inlinable public init(x32: X32) {
-        self.init(x64: Swift.unsafeBitCast(x32, to: X64.self))
-    }
 }

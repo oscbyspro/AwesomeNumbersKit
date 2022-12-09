@@ -50,20 +50,20 @@ High: AwesomeFixedWidthInteger, Low: AwesomeFixedWidthInteger & UnsignedInteger 
         (self.high, self.low) = (High(), Low())
     }
     
-    /// Creates a new value from perameters of ascending significance.
+    /// Creates a new value from digits of ascending significance.
     ///
     /// - Parameter ascending: a low and high integer with platform endianness
     ///
-    @inlinable public init(ascending storage: (low: Low, high: High)) {
-        (self.low, self.high) = storage
+    @inlinable public init(ascending digits: (low: Low, high: High)) {
+        (self.low, self.high) = digits
     }
     
-    /// Creates a new value from perameters of descending significance.
+    /// Creates a new value from digits of descending significance.
     ///
     /// - Parameter descending: a high and low integer with platform endianness
     ///
-    @inlinable public init(descending storage: (high: High, low: Low)) {
-        (self.high, self.low) = storage
+    @inlinable public init(descending digits: (high: High, low: Low)) {
+        (self.high, self.low) = digits
     }
 }
 

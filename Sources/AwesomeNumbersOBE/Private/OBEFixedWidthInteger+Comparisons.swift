@@ -25,4 +25,19 @@ extension OBEFixedWidthInteger {
     @inlinable public var isLessThanZero: Bool {
         high.isLessThanZero
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
+        lhs.low  == rhs.low  &&
+        lhs.high == rhs.high
+    }
+    
+    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
+        if lhs.high < rhs.high { return true }
+        else if lhs.high > rhs.high { return false }
+        else { return lhs.low < rhs.low }
+    }
 }
