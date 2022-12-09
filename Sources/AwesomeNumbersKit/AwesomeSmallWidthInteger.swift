@@ -85,7 +85,7 @@ extension AwesomeSmallWidthInteger where Self: AwesomeSignedFixedWidthInteger {
     }
     
     @inlinable public func negatedReportingOverflow() -> PVO<Self> {
-        PVO(~self &+ 1, self == Self.max)
+        PVO(~self &+ 1, self == Self.min)
     }
 }
 
