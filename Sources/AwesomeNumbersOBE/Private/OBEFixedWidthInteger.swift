@@ -47,6 +47,11 @@ Magnitude: OBEUnsignedFixedWidthInteger, Magnitude.High == High.Magnitude, Magni
 extension OBEFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+
+    
+    //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
@@ -119,8 +124,56 @@ extension OBEFixedWidthInteger {
 
 @usableFromInline protocol OBESignedFixedWidthInteger: OBEFixedWidthInteger, SignedInteger { }
 
+//=----------------------------------------------------------------------------=
+// MARK: + Details
+//=----------------------------------------------------------------------------=
+
+extension OBESignedFixedWidthInteger {
+    
+    // TODO: these should not be needed
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static var zero: Self {
+        Self()
+    }
+    
+    @inlinable public static var min: Self {
+        Self(descending:(High.min, Low.min))
+    }
+
+    @inlinable public static var max: Self {
+        Self(descending:(High.max, Low.max))
+    }
+}
+
 //*============================================================================*
 // MARK: * OBE x Fixed Width Integer x Unsigned
 //*============================================================================*
 
 @usableFromInline protocol OBEUnsignedFixedWidthInteger: OBEFixedWidthInteger, UnsignedInteger { }
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details
+//=----------------------------------------------------------------------------=
+
+extension OBEUnsignedFixedWidthInteger {
+    
+    // TODO: these should not be needed
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static var zero: Self {
+        Self()
+    }
+    
+    @inlinable public static var min: Self {
+        Self(descending:(High.min, Low.min))
+    }
+
+    @inlinable public static var max: Self {
+        Self(descending:(High.max, Low.max))
+    }
+}

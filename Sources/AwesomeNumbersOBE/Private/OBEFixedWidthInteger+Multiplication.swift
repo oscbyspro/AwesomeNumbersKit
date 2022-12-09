@@ -32,15 +32,18 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
-        fatalError("TODO")
+        let o: Bool; (self, o) = self.multipliedReportingOverflow(by: amount); return o
     }
     
     @inlinable public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
-        fatalError("TODO")
+        let lhsIsLessThanZero =   self.isLessThanZero
+        let rhsIsLessThanZero = amount.isLessThanZero
+        let (high, low) = self.multipliedFullWidth(by: amount)
+        let overflow = lhsIsLessThanZero == rhsIsLessThanZero ? !high.isZero : (high < -1)
+        return (Self(bitPattern: low), overflow)
     }
-    
-    // FIXME: @_transparent to erase protocol because @_specialize(where:) does not work
-    @_transparent public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
+        
+    @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
         //=--------------------------------------=
         //
         //=--------------------------------------=
@@ -48,38 +51,38 @@ extension OBEFixedWidthInteger {
             let (x3, o3) = x0.addingReportingOverflow(x1)
             let (x4, o4) = x3.addingReportingOverflow(x2)
             let (x5) = o3 && o4 ? 2 : o3 || o4 ? 1 : 0 as Low // TODO: as UInt
-            return (x4, x5)
+            return (x5, x4)
         }
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        let resultIsLessThanZero = self.isLessThanZero != amount.isLessThanZero
-        
+        let isLessThanZero = self.isLessThanZero != amount.isLessThanZero
+
         let lhs =   self.magnitude
         let rhs = amount.magnitude
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        let mul0 = rhs.low .multipliedFullWidth(by: lhs.low )
-        let mul1 = rhs.low .multipliedFullWidth(by: lhs.high)
-        let mul2 = rhs.high.multipliedFullWidth(by: lhs.low )
-        let mul3 = rhs.high.multipliedFullWidth(by: lhs.high)
-        
-        let sum0 = sum(mul0.high, mul1.low,  mul2.low)
-        let sum1 = sum(mul1.high, mul2.high, mul3.low)
+        let m0 = rhs.low .multipliedFullWidth(by: lhs.low )
+        let m1 = rhs.low .multipliedFullWidth(by: lhs.high)
+        let m2 = rhs.high.multipliedFullWidth(by: lhs.low )
+        let m3 = rhs.high.multipliedFullWidth(by: lhs.high)
+
+        let s0 = sum(m0.high, m1.low,  m2.low)
+        let s1 = sum(m1.high, m2.high, m3.low)
         
         // TODO: sum.high is <= 2 and can be UInt
-        var low  = Magnitude(descending:(sum0.low,              mul0.low            ))
-        var high = Magnitude(descending:(mul3.high + sum1.high, sum0.high + sum1.low))
+        var low  = Magnitude(descending:(s0.low,            m0.low          ))
+        var high = Magnitude(descending:(m3.high + s1.high, s0.high + s1.low))
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        if  resultIsLessThanZero {
+        if  isLessThanZero {
             var carry: Bool // TODO: formTwosComplement()
             (low,  carry) = (~low ).addingReportingOverflow(1 as Magnitude)
             (high, carry) = (~high).addingReportingOverflow(carry ? 1 : 0 as Magnitude)
         }
-        
+
         return HL(Self(bitPattern: high), low)
     }
 }

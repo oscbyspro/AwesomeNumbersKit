@@ -24,7 +24,7 @@ extension OBEFixedWidthInteger {
     }
     
     @inlinable public static func -(lhs: Self, rhs: Self) -> Self {
-        var lhs = lhs; lhs += rhs; return lhs
+        var lhs = lhs; lhs -= rhs; return lhs
     }
     
     //=------------------------------------------------------------------------=

@@ -16,10 +16,6 @@ import XCTest
 // MARK: * Int256 x Tests x Addition
 //*============================================================================*
 
-#warning("WIP")
-#warning("WIP")
-#warning("WIP")
-
 final class Int256TestsOnAddition: XCTestCase {
     
     typealias T = Int256
@@ -41,7 +37,7 @@ final class Int256TestsOnAddition: XCTestCase {
         XCTAssertEqual(T( 1) + T( 0),  1)
         XCTAssertEqual(T( 1) + T( 1),  2)
         XCTAssertEqual(T( 1) + T( 2),  3)
-
+        
         XCTAssertEqual(T( 0) + T(-2), -2)
         XCTAssertEqual(T( 0) + T(-1), -1)
         XCTAssertEqual(T( 0) + T( 0),  0)
@@ -75,30 +71,26 @@ final class Int256TestsOnAddition: XCTestCase {
         XCTAssertEqual(T(x64:(0, 0, 0, w)) + -T(x64:(0, 0, 0, 3)), T(x64:( 0,  0,  0, ~3)))
     }
     
-//    func testAddingWrappingAround() {
-//        XCTAssertEqual(T.min &+ T( 1), T.min + 1)
-//        XCTAssertEqual(T.max &+ T( 1), T.min    )
-//
-//        XCTAssertEqual(T.min &+ T(-1), T.max    )
-//        XCTAssertEqual(T.max &+ T(-1), T.max - 1)
-//    }
-//
-//    func testAddingReportingOverflow() {
-//        XCTAssert(T.min.addingReportingOverflow(T( 1)) == (T.min + 1, false))
-//        XCTAssert(T.max.addingReportingOverflow(T( 1)) == (T.min,     true ))
-//
-//        XCTAssert(T.min.addingReportingOverflow(T(-1)) == (T.max,     true ))
-//        XCTAssert(T.max.addingReportingOverflow(T(-1)) == (T.max - 1, false))
-//    }
+    func testAddingWrappingAround() {
+        XCTAssertEqual(T.min &+ T( 1), T.min + 1)
+        XCTAssertEqual(T.max &+ T( 1), T.min    )
+
+        XCTAssertEqual(T.min &+ T(-1), T.max    )
+        XCTAssertEqual(T.max &+ T(-1), T.max - 1)
+    }
+    
+    func testAddingReportingOverflow() {
+        XCTAssert(T.min.addingReportingOverflow(T( 1)) == (T.min + 1, false) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(T( 1)) == (T.min,     true ) as (T, Bool))
+
+        XCTAssert(T.min.addingReportingOverflow(T(-1)) == (T.max,     true ) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(T(-1)) == (T.max - 1, false) as (T, Bool))
+    }
 }
 
 //*============================================================================*
 // MARK: * UInt256 x Tests x Addition
 //*============================================================================*
-
-#warning("WIP")
-#warning("WIP")
-#warning("WIP")
 
 final class UInt256TestsOnAddition: XCTestCase {
 
@@ -130,15 +122,15 @@ final class UInt256TestsOnAddition: XCTestCase {
         XCTAssertEqual(T(x64:(w, w, w, 0)) + T(x64:(0, 0, 0, 3)), T(x64:(w, w, w, 3)))
     }
 
-//    func testAddingWrappingAround() {
-//        XCTAssertEqual(T.min &+ T(1), T.min + 1)
-//        XCTAssertEqual(T.max &+ T(1), T.min    )
-//    }
-//
-//    func testAddingReportingOverflow() {
-//        XCTAssert(T.min.addingReportingOverflow(T(1)) == (T.min + 1, false))
-//        XCTAssert(T.max.addingReportingOverflow(T(1)) == (T.min,     true ))
-//    }
+    func testAddingWrappingAround() {
+        XCTAssertEqual(T.min &+ T(1), T.min + 1)
+        XCTAssertEqual(T.max &+ T(1), T.min    )
+    }
+
+    func testAddingReportingOverflow() {
+        XCTAssert(T.min.addingReportingOverflow(T(1)) == (T.min + 1, false) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(T(1)) == (T.min,     true ) as (T, Bool))
+    }
 }
 
 #endif

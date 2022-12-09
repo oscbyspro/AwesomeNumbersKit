@@ -68,11 +68,11 @@ final class Int256Tests: XCTestCase {
 //        XCTAssertEqual(abs(T( 0)), 0)
 //        XCTAssertEqual(abs(T(-3)), 3)
 //    }
-//
-//    func testStride() {
-//        XCTAssertEqual(T(3).advanced(by: 2), 5)
-//        XCTAssertEqual(T(3).distance(to: 5), 2)
-//    }
+
+    func testStride() {
+        XCTAssertEqual(T(3).advanced(by: 2), 5)
+        XCTAssertEqual(T(3).distance(to: 5), 2)
+    }
 }
 
 //*============================================================================*
@@ -125,11 +125,11 @@ final class UInt256Tests: XCTestCase {
 //        XCTAssertEqual(x ^ x, 0)
 //        XCTAssertEqual(~(~x), x)
 //    }
-//
-//    func testStride() {
-//        XCTAssertEqual(T(3).advanced(by: 2), 5)
-//        XCTAssertEqual(T(3).distance(to: 5), 2)
-//    }
+    
+    func testStride() {
+        XCTAssertEqual(T(3).advanced(by: 2), 5)
+        XCTAssertEqual(T(3).distance(to: 5), 2)
+    }
 }
 
 #endif

@@ -55,7 +55,7 @@ extension OBEFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func formTwosComplement() {
+    @inlinable public mutating func formTwosComplement() {
         self.withUnsafeMutableTwosComplementWords { SELF in
             var carry =  true
             for index in Self.indices {
@@ -64,7 +64,7 @@ extension OBEFixedWidthInteger {
         }
     }
     
-    @inlinable func twosComplement() -> Self {
+    @inlinable public func twosComplement() -> Self {
         var x = self; x.formTwosComplement(); return x
     }
 }
