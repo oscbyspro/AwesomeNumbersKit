@@ -18,7 +18,7 @@ import AwesomeNumbersKit
 /// - It must be safe to bit cast between `High` and `Low`.
 /// - It must be safe to bit cast between `Self` and `Magnitude`.
 ///
-@usableFromInline protocol OBEFixedWidthInteger: AwesomeFixedWidthInteger where
+@usableFromInline protocol OBEFixedWidthInteger: AwesomeFixedWidthInteger, CustomDebugStringConvertible where
 Magnitude: OBEUnsignedFixedWidthInteger, Magnitude.High == High.Magnitude, Magnitude.Low == Low {
     
     associatedtype High: AwesomeFixedWidthInteger
@@ -45,11 +45,6 @@ Magnitude: OBEUnsignedFixedWidthInteger, Magnitude.High == High.Magnitude, Magni
 //=----------------------------------------------------------------------------=
 
 extension OBEFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -152,7 +147,8 @@ extension OBESignedFixedWidthInteger {
 // MARK: * OBE x Fixed Width Integer x Unsigned
 //*============================================================================*
 
-@usableFromInline protocol OBEUnsignedFixedWidthInteger: OBEFixedWidthInteger, UnsignedInteger { }
+@usableFromInline protocol OBEUnsignedFixedWidthInteger: OBEFixedWidthInteger, UnsignedInteger where
+High: UnsignedInteger, High == Low, Magnitude == Self { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
