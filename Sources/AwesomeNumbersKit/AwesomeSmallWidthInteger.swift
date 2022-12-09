@@ -65,6 +65,14 @@ extension AwesomeSmallWidthInteger {
         let o: Bool; (self, o) = self.multipliedReportingOverflow(by: amount); return o
     }
     
+    @inlinable public mutating func divideReportingOverflow(by divisor: Self) -> Bool {
+        let o: Bool; (self, o) = self.dividedReportingOverflow(by: divisor); return o
+    }
+    
+    @inlinable public mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool {
+        let o: Bool; (self, o) = self.remainderReportingOverflow(dividingBy: divisor); return o
+    }
+    
     @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
         let (h, l) = multipliedFullWidth(by: amount); self = Self(truncatingIfNeeded: l); return h
     }

@@ -8,32 +8,20 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Comparisons
+// MARK: * OBE x Full Width x Awesome
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBEFullWidth {
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
+    // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public var isZero: Bool {
-        self._storage.isZero
+    @inlinable public init(_ bit: Bool) {
+        self.init(descending:(High(), Low(bit)))
     }
     
-    @inlinable public var isLessThanZero: Bool {
-        self._storage.isLessThanZero
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
-        lhs._storage == rhs._storage
-    }
-    
-    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
-        lhs._storage <  rhs._storage
+    @inlinable public init(repeating bit: Bool) {
+        self.init(descending:(High(repeating: bit), Low(repeating: bit)))
     }
 }

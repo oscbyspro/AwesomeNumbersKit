@@ -24,6 +24,14 @@ public protocol AwesomeBinaryInteger: BinaryInteger where Magnitude: AwesomeUnsi
     @inlinable var isZero: Bool { get }
     
     @inlinable var isLessThanZero: Bool { get }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable mutating func divideReportingOverflow(by divisor: Self) -> Bool
+    
+    @inlinable mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool
 }
 
 //*============================================================================*

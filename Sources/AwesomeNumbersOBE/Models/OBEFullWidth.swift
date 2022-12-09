@@ -65,6 +65,14 @@ High: AwesomeFixedWidthInteger, Low: AwesomeFixedWidthInteger & UnsignedInteger 
     @inlinable public init(descending digits: (high: High, low: Low)) {
         (self.high, self.low) = digits
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init<H>(bitPattern: OBEFullWidth<H, Low>) where H.Magnitude == High.Magnitude {
+        self = unsafeBitCast(bitPattern,  to: Self.self) // signitude or magnitude
+    }
 }
 
 //*============================================================================*

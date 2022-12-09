@@ -7,35 +7,33 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import AwesomeNumbersKit
-
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Addition
+// MARK: * OBE x Full Width x Comparisons
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBEFullWidth {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func +=(lhs: inout Self, rhs: Self) {
-        lhs._storage += rhs._storage
+    @inlinable public var isZero: Bool {
+        low.isZero && high.isZero
     }
     
-    @inlinable public static func +(lhs: Self, rhs: Self) -> Self {
-        Self(bitPattern: lhs._storage + rhs._storage)
+    @inlinable public var isLessThanZero: Bool {
+        high.isLessThanZero
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
-        self._storage.addReportingOverflow(amount._storage)
+    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
+        lhs.low == rhs.low && lhs.high == rhs.high
     }
     
-    @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
-        let (pv, o) = self._storage.addingReportingOverflow(amount._storage); return (Self(bitPattern: pv), o)
+    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
+        lhs.high < rhs.high ? true : lhs.high > rhs.high ? false : lhs.low < rhs.low
     }
 }

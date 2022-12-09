@@ -55,11 +55,11 @@ extension OBEFixedWidthInteger {
     }
     
     @inlinable public init(_ bit: Bool) {
-        self.init(descending:(High(), Low(bit)))
+        self.init(bitPattern: OBEFullWidth(bit))
     }
     
     @inlinable public init(repeating bit: Bool) {
-        self.init(descending:(High(repeating: bit), Low(repeating: bit)))
+        self.init(bitPattern: OBEFullWidth(repeating: bit))
     }
     
     @inlinable public init(x64: X64) {
@@ -85,7 +85,7 @@ extension OBEFixedWidthInteger {
     @inlinable init(descending digits:(high: High, low: Low)) {
         self.init(bitPattern: OBEFullWidth(descending: digits))
     }
-    
+        
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=

@@ -10,21 +10,31 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Subtraction
+// MARK: * Full Width x Subtraction
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBEFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
     @inlinable public static func -=(lhs: inout Self, rhs: Self) {
-        lhs._storage -= rhs._storage
+        let o = lhs.subtractReportingOverflow(rhs); precondition(!o)
     }
     
     @inlinable public static func -(lhs: Self, rhs: Self) -> Self {
-        Self(bitPattern: lhs._storage - rhs._storage)
+        var lhs = lhs; lhs -= rhs; return lhs
+    }
+    
+    // TODO: protocol
+    @inlinable public static func &-=(lhs: inout Self, rhs: Self) {
+        let _ = lhs.subtractReportingOverflow(rhs)
+    }
+    
+    // TODO: protocol
+    @inlinable public static func &-(lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs &-= rhs; return lhs
     }
     
     //=------------------------------------------------------------------------=
@@ -32,26 +42,14 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
-        self._storage.subtractReportingOverflow(amount._storage)
+        let o: (Bool, Bool, Bool)
+        o.0 = self.low .subtractReportingOverflow(amount.low )
+        o.1 = self.high.subtractReportingOverflow(amount.high)
+        o.2 = self.high.subtractReportingOverflow(o.0 ? 1 : 0 as High) // TODO: as Small or Pointer
+        return o.1 || o.2
     }
     
     @inlinable public func subtractingReportingOverflow(_ amount: Self) -> PVO<Self> {
-        let (pv, o) = self._storage.subtractingReportingOverflow(amount._storage); return (Self(bitPattern: pv), o)
-    }
-}
-
-
-//*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Subtraction x Signed
-//*============================================================================*
-
-extension OBESignedFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static prefix func -(x: Self) -> Self {
-        let (pv, o) = x.negatedReportingOverflow(); precondition(!o); return pv
+        var pv = self; let o = pv.subtractReportingOverflow(amount); return (pv, o)
     }
 }

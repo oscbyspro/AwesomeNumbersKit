@@ -8,38 +8,43 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Bitwise
+// MARK: * OBE x Full Width x Bitwise
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBEFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
     @inlinable public static prefix func ~(x: Self) -> Self {
-        Self(bitPattern: ~x._storage)
+        Self(descending:(~x.high, ~x.low))
     }
     
     @inlinable public static func &=(lhs: inout Self, rhs: Self) {
-        lhs._storage &= rhs._storage
+        lhs.low &= rhs.low; lhs.high &= rhs.high
+    }
+    
+    // TODO: protocol
+    @inlinable public static func &(lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs &= rhs; return lhs
     }
     
     @inlinable public static func |=(lhs: inout Self, rhs: Self) {
-        lhs._storage |= rhs._storage
+        lhs.low |= rhs.low; lhs.high |= rhs.high
+    }
+    
+    // TODO: protocol
+    @inlinable public static func |(lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs |= rhs; return lhs
     }
     
     @inlinable public static func ^=(lhs: inout Self, rhs: Self) {
-        lhs._storage ^= rhs._storage
+        lhs.low ^= rhs.low; lhs.high ^= rhs.high
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public var byteSwapped: Self {
-        let high = Self.reinterpret(self.low .byteSwapped)
-        let low  = Self.reinterpret(self.high.byteSwapped)
-        return Self(descending:(high, low))
+    // TODO: protocol
+    @inlinable public static func ^(lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs ^= rhs; return lhs
     }
 }

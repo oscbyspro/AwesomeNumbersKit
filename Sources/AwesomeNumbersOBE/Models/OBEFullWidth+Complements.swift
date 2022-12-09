@@ -7,35 +7,31 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import AwesomeNumbersKit
-
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Addition
+// MARK: * OBE x Full Width x Complements
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBEFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func +=(lhs: inout Self, rhs: Self) {
-        lhs._storage += rhs._storage
+    @inlinable public mutating func formTwosComplement() {
+        self = ~self &+ Self(descending:(High(), Low(1)))
     }
     
-    @inlinable public static func +(lhs: Self, rhs: Self) -> Self {
-        Self(bitPattern: lhs._storage + rhs._storage)
+    @inlinable public func twosComplement() -> Self {
+        var x = self; x.formTwosComplement(); return x
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
-        self._storage.addReportingOverflow(amount._storage)
-    }
-    
-    @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
-        let (pv, o) = self._storage.addingReportingOverflow(amount._storage); return (Self(bitPattern: pv), o)
+    @inlinable public var magnitude: Magnitude {
+        let isLessThanZero = isLessThanZero
+        let bitPattern = Magnitude(bitPattern: self)
+        return isLessThanZero ? bitPattern.twosComplement() : bitPattern
     }
 }
