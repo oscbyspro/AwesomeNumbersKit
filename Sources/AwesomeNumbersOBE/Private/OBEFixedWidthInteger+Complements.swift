@@ -8,7 +8,31 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Magnitude x Signed
+// MARK: * OBE x Fixed Width Integer x Complements
+//*============================================================================*
+
+extension OBEFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func formTwosComplement() {
+        self.withUnsafeMutableTwosComplementWords { SELF in
+            var carry =  true
+            for index in Self.indices {
+                (SELF[index], carry) = (~SELF[index]).addingReportingOverflow(UInt(carry))
+            }
+        }
+    }
+    
+    @inlinable public func twosComplement() -> Self {
+        var x = self; x.formTwosComplement(); return x
+    }
+}
+
+//*============================================================================*
+// MARK: * OBE x Fixed Width Integer x Complements x Signed
 //*============================================================================*
 
 extension OBESignedFixedWidthInteger {

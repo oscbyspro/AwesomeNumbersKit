@@ -69,9 +69,9 @@ extension OBESignedFixedWidthInteger {
     
     // TODO: consider adding to awesome protocol
     @inlinable public mutating func negateReportingOverflow() -> Bool {
-        let wasLessThanZero = self.isLessThanZero
+        let wasLessThanZero = isLessThanZero
         self.formTwosComplement()
-        return self.isLessThanZero == wasLessThanZero
+        return wasLessThanZero && isLessThanZero
     }
     
     // TODO: consider adding to awesome protocol

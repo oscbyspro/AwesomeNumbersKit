@@ -32,23 +32,23 @@ final class Int256TestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAdding() {
-        XCTAssertEqual(T( 1) + T(-2), -1)
-        XCTAssertEqual(T( 1) + T(-1),  0)
-        XCTAssertEqual(T( 1) + T( 0),  1)
-        XCTAssertEqual(T( 1) + T( 1),  2)
-        XCTAssertEqual(T( 1) + T( 2),  3)
+        XCTAssertEqual(T( 1) + T(-2), T(-1))
+        XCTAssertEqual(T( 1) + T(-1), T( 0))
+        XCTAssertEqual(T( 1) + T( 0), T( 1))
+        XCTAssertEqual(T( 1) + T( 1), T( 2))
+        XCTAssertEqual(T( 1) + T( 2), T( 3))
         
-        XCTAssertEqual(T( 0) + T(-2), -2)
-        XCTAssertEqual(T( 0) + T(-1), -1)
-        XCTAssertEqual(T( 0) + T( 0),  0)
-        XCTAssertEqual(T( 0) + T( 1),  1)
-        XCTAssertEqual(T( 0) + T( 2),  2)
+        XCTAssertEqual(T( 0) + T(-2), T(-2))
+        XCTAssertEqual(T( 0) + T(-1), T(-1))
+        XCTAssertEqual(T( 0) + T( 0), T( 0))
+        XCTAssertEqual(T( 0) + T( 1), T( 1))
+        XCTAssertEqual(T( 0) + T( 2), T( 2))
 
-        XCTAssertEqual(T(-1) + T(-2), -3)
-        XCTAssertEqual(T(-1) + T(-1), -2)
-        XCTAssertEqual(T(-1) + T( 0), -1)
-        XCTAssertEqual(T(-1) + T( 1),  0)
-        XCTAssertEqual(T(-1) + T( 2),  1)
+        XCTAssertEqual(T(-1) + T(-2), T(-3))
+        XCTAssertEqual(T(-1) + T(-1), T(-2))
+        XCTAssertEqual(T(-1) + T( 0), T(-1))
+        XCTAssertEqual(T(-1) + T( 1), T( 0))
+        XCTAssertEqual(T(-1) + T( 2), T( 1))
         
         XCTAssertEqual(T(x64:(w, w, w, 0)) +  T(x64:(3, 0, 0, 0)), T(x64:( 2,  0,  0,  1)))
         XCTAssertEqual(T(x64:(w, w, w, 0)) +  T(x64:(0, 3, 0, 0)), T(x64:( w,  2,  0,  1)))
@@ -72,11 +72,11 @@ final class Int256TestsOnAddition: XCTestCase {
     }
     
     func testAddingWrappingAround() {
-        XCTAssertEqual(T.min &+ T( 1), T.min + 1)
-        XCTAssertEqual(T.max &+ T( 1), T.min    )
+        XCTAssertEqual(T.min &+ T( 1), T.min + T(1))
+        XCTAssertEqual(T.max &+ T( 1), T.min)
 
-        XCTAssertEqual(T.min &+ T(-1), T.max    )
-        XCTAssertEqual(T.max &+ T(-1), T.max - 1)
+        XCTAssertEqual(T.min &+ T(-1), T.max)
+        XCTAssertEqual(T.max &+ T(-1), T.max - T(1))
     }
     
     func testAddingReportingOverflow() {
@@ -108,13 +108,13 @@ final class UInt256TestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
 
     func testAdding() {
-        XCTAssertEqual(T(0) + T(0), 0)
-        XCTAssertEqual(T(0) + T(1), 1)
-        XCTAssertEqual(T(0) + T(2), 2)
+        XCTAssertEqual(T(0) + T(0), T(0))
+        XCTAssertEqual(T(0) + T(1), T(1))
+        XCTAssertEqual(T(0) + T(2), T(2))
 
-        XCTAssertEqual(T(1) + T(0), 1)
-        XCTAssertEqual(T(1) + T(1), 2)
-        XCTAssertEqual(T(1) + T(2), 3)
+        XCTAssertEqual(T(1) + T(0), T(1))
+        XCTAssertEqual(T(1) + T(1), T(2))
+        XCTAssertEqual(T(1) + T(2), T(3))
 
         XCTAssertEqual(T(x64:(w, w, w, 0)) + T(x64:(3, 0, 0, 0)), T(x64:(2, 0, 0, 1)))
         XCTAssertEqual(T(x64:(w, w, w, 0)) + T(x64:(0, 3, 0, 0)), T(x64:(w, 2, 0, 1)))
@@ -123,8 +123,8 @@ final class UInt256TestsOnAddition: XCTestCase {
     }
 
     func testAddingWrappingAround() {
-        XCTAssertEqual(T.min &+ T(1), T.min + 1)
-        XCTAssertEqual(T.max &+ T(1), T.min    )
+        XCTAssertEqual(T.min &+ T(1), T.min + T(1))
+        XCTAssertEqual(T.max &+ T(1), T.min)
     }
 
     func testAddingReportingOverflow() {

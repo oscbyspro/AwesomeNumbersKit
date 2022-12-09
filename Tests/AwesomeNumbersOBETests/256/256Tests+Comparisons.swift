@@ -69,6 +69,11 @@ final class Int256TestsOnComparisons: XCTestCase {
         XCTAssert(T( 1) != T(-1))
         XCTAssert(T(-1) != T( 1))
         
+        XCTAssert(T.min == T.min)
+        XCTAssert(T.min != T.max)
+        XCTAssert(T.max != T.min)
+        XCTAssert(T.max == T.max)
+
         XCTAssertEqual(T(x64:(0, 0, 0, 0)), T(x64:(0, 0, 0, 0)))
         XCTAssertEqual(T(x64:(w, w, w, w)), T(x64:(w, w, w, w)))
     }
@@ -86,6 +91,11 @@ final class Int256TestsOnComparisons: XCTestCase {
         XCTAssertLessThan(T( 1), T( 2))
         XCTAssertLessThan(T(-2), T(-1))
         XCTAssertLessThan(T(-1), T( 1))
+        
+        XCTAssert(T.min == T.min)
+        XCTAssert(T.min <  T.max)
+        XCTAssert(T.max >  T.min)
+        XCTAssert(T.max == T.max)
         
         XCTAssert(T(x64:(w, w, 0, 0)) < T(x64:(w, w, w, 0)))
         XCTAssert(T(x64:(w, w, w, 0)) > T(x64:(w, w, 0, 0)))
@@ -148,6 +158,11 @@ final class UInt256TestsOnComparisons: XCTestCase {
         XCTAssert(T(0) != T(1))
         XCTAssert(T(1) != T(0))
         
+        XCTAssert(T.min == T.min)
+        XCTAssert(T.min != T.max)
+        XCTAssert(T.max != T.min)
+        XCTAssert(T.max == T.max)
+        
         XCTAssertEqual(T(x64:(0, 0, 0, 0)), T(x64:(0, 0, 0, 0)))
         XCTAssertEqual(T(x64:(w, w, w, w)), T(x64:(w, w, w, w)))
     }
@@ -162,6 +177,11 @@ final class UInt256TestsOnComparisons: XCTestCase {
         XCTAssertFalse(T(0) > T(0))
         XCTAssertFalse(T(1) < T(1))
         XCTAssertFalse(T(1) > T(1))
+        
+        XCTAssert(T.min == T.min)
+        XCTAssert(T.min <  T.max)
+        XCTAssert(T.max >  T.min)
+        XCTAssert(T.max == T.max)
         
         XCTAssert(T(x64:(w, w, w, 0)) < T(x64:(w, w, w, w)))
         XCTAssert(T(x64:(w, w, w, w)) > T(x64:(w, w, w, 0)))
