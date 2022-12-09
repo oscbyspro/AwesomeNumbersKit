@@ -7,43 +7,40 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import AwesomeNumbersKit
+
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Complements
+// MARK: * Int256
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+@frozen public struct Int256: OBESignedFixedWidthInteger {
+    
+    public typealias Magnitude = UInt256
+        
+    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
+    
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: State
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func formTwosComplement() {
-        self.withUnsafeMutableTwosComplementWords { SELF in
-            var carry =  true
-            for index in Self.indices {
-                (SELF[index], carry) = (~SELF[index]).addingReportingOverflow(UInt(carry))
-            }
-        }
-    }
-    
-    @inlinable public func twosComplement() -> Self {
-        var x = self; x.formTwosComplement(); return x
-    }
+    @usableFromInline var _storage: OBEDoubleWidth<Int128>
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Complements x Signed
+// MARK: * UInt256
 //*============================================================================*
 
-extension OBESignedFixedWidthInteger {
+@frozen public struct UInt256: OBEUnsignedFixedWidthInteger {
     
+    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
+
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
+
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
+    // MARK: State
     //=------------------------------------------------------------------------=
-    
-    @inlinable public var magnitude: Magnitude {
-        let isLessThanZero = isLessThanZero
-        let bitPattern = Magnitude(bitPattern: self)
-        return isLessThanZero ? bitPattern.twosComplement() : bitPattern
-    }
+
+    @usableFromInline var _storage: OBEDoubleWidth<UInt128>
 }

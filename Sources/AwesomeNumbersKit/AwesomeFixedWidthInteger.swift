@@ -42,4 +42,27 @@ public protocol AwesomeFixedWidthInteger: AwesomeBinaryInteger, FixedWidthIntege
     @inlinable mutating func subtractReportingOverflow(_ amount: Self) -> Bool
     
     @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool
+    
+    @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self
 }
+
+//*============================================================================*
+// MARK: * Awesome Fixed Width Integer x Signed
+//*============================================================================*
+
+public protocol AwesomeSignedFixedWidthInteger: AwesomeFixedWidthInteger, SignedInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+        
+    @inlinable mutating func negateReportingOverflow() -> Bool
+    
+    @inlinable func negatedReportingOverflow() -> PVO<Self>
+}
+
+//*============================================================================*
+// MARK: * Awesome Fixed Width Integer x Unsigned
+//*============================================================================*
+
+public protocol AwesomeUnsignedFixedWidthInteger: AwesomeFixedWidthInteger, UnsignedInteger { }

@@ -25,7 +25,7 @@ import AwesomeNumbersKit
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var _storage: DoubleWidth<Int64>
+    @usableFromInline var _storage: OBEDoubleWidth<Int64>
 }
 
 //*============================================================================*
@@ -42,5 +42,5 @@ import AwesomeNumbersKit
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var _storage: DoubleWidth<UInt64>
+    @usableFromInline var _storage: OBEDoubleWidth<UInt64>
 }

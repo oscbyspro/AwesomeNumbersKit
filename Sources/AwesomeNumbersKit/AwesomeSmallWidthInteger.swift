@@ -64,13 +64,36 @@ extension AwesomeSmallWidthInteger {
     @inlinable public mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
         let o: Bool; (self, o) = self.multipliedReportingOverflow(by: amount); return o
     }
+    
+    @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
+        let (h, l) = multipliedFullWidth(by: amount); self = Self(truncatingIfNeeded: l); return h
+    }
+}
+
+//*============================================================================*
+// MARK: * Awesome Small Width Integer x Signed
+//*============================================================================*
+
+extension AwesomeSmallWidthInteger where Self: AwesomeSignedFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func negateReportingOverflow() -> Bool {
+        let o: Bool; (self, o) = self.negatedReportingOverflow(); return o
+    }
+    
+    @inlinable public func negatedReportingOverflow() -> PVO<Self> {
+        PVO(~self &+ 1, self == Self.max)
+    }
 }
 
 //*============================================================================*
 // MARK: * Awesome Small Width Integer x Swift
 //*============================================================================*
 
-extension Int:    AwesomeSmallWidthInteger { }
-extension Int64:  AwesomeSmallWidthInteger { }
-extension UInt:   AwesomeSmallWidthInteger { }
-extension UInt64: AwesomeSmallWidthInteger { }
+extension Int:    AwesomeSmallWidthInteger, AwesomeSignedFixedWidthInteger   { }
+extension Int64:  AwesomeSmallWidthInteger, AwesomeSignedFixedWidthInteger   { }
+extension UInt:   AwesomeSmallWidthInteger, AwesomeUnsignedFixedWidthInteger { }
+extension UInt64: AwesomeSmallWidthInteger, AwesomeUnsignedFixedWidthInteger { }

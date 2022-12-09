@@ -55,27 +55,6 @@ extension OBESignedFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static prefix func -(x: Self) -> Self {
-        x.negated()
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    // TODO: consider adding to awesome protocol
-    @inlinable public func negated() -> Self {
-        let (pv, o) = self.negatedReportingOverflow(); precondition(!o); return pv
-    }
-    
-    // TODO: consider adding to awesome protocol
-    @inlinable public mutating func negateReportingOverflow() -> Bool {
-        let wasLessThanZero = isLessThanZero
-        self.formTwosComplement()
-        return wasLessThanZero && isLessThanZero
-    }
-    
-    // TODO: consider adding to awesome protocol
-    @inlinable public func negatedReportingOverflow() -> PVO<Self> {
-        var pv = self; let o = pv.negateReportingOverflow(); return (pv, o)
+        let (pv, o) = x.negatedReportingOverflow(); precondition(!o); return pv
     }
 }

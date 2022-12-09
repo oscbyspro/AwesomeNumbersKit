@@ -42,6 +42,11 @@ extension OBEFixedWidthInteger {
         return PVO(Self(bitPattern: product.low), overflow)
     }
     
+    @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
+        let product = multipliedFullWidth(by: amount)
+        self = Self(bitPattern: product.low); return product.high
+    }
+    
     @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
         //=--------------------------------------=
         //

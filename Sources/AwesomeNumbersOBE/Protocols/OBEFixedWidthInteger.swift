@@ -37,7 +37,7 @@ Magnitude: OBEUnsignedFixedWidthInteger, Magnitude.High == High.Magnitude, Magni
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @_hasStorage var _storage: FullWidth<High, Low>
+    @_hasStorage var _storage: OBEFullWidth<High, Low>
 }
 
 //=----------------------------------------------------------------------------=
@@ -51,7 +51,7 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public init() {
-        self.init(bitPattern: FullWidth<High, Low>())
+        self.init(bitPattern: OBEFullWidth<High, Low>())
     }
     
     @inlinable public init(_ bit: Bool) {
@@ -70,7 +70,7 @@ extension OBEFixedWidthInteger {
         self.init(ascending: unsafeBitCast(x32, to: (low: Low, high: High).self))
     }
     
-    @inlinable init(bitPattern: FullWidth<High, Low>) {
+    @inlinable init(bitPattern: OBEFullWidth<High, Low>) {
         self = unsafeBitCast(bitPattern, to: Self.self)
     }
     
@@ -79,11 +79,11 @@ extension OBEFixedWidthInteger {
     }
     
     @inlinable init(ascending digits:(low: Low, high: High)) {
-        self.init(bitPattern:  FullWidth(ascending: digits))
+        self.init(bitPattern: OBEFullWidth(ascending: digits))
     }
     
     @inlinable init(descending digits:(high: High, low: Low)) {
-        self.init(bitPattern:  FullWidth(descending: digits))
+        self.init(bitPattern: OBEFullWidth(descending: digits))
     }
     
     //=------------------------------------------------------------------------=
@@ -117,7 +117,7 @@ extension OBEFixedWidthInteger {
 // MARK: * OBE x Fixed Width Integer x Signed
 //*============================================================================*
 
-@usableFromInline protocol OBESignedFixedWidthInteger: OBEFixedWidthInteger, SignedInteger { }
+@usableFromInline protocol OBESignedFixedWidthInteger: OBEFixedWidthInteger, AwesomeSignedFixedWidthInteger { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -147,8 +147,8 @@ extension OBESignedFixedWidthInteger {
 // MARK: * OBE x Fixed Width Integer x Unsigned
 //*============================================================================*
 
-@usableFromInline protocol OBEUnsignedFixedWidthInteger: OBEFixedWidthInteger, UnsignedInteger where
-High: UnsignedInteger, High == Low, Magnitude == Self { }
+@usableFromInline protocol OBEUnsignedFixedWidthInteger: OBEFixedWidthInteger,
+AwesomeUnsignedFixedWidthInteger where High: UnsignedInteger, High == Low, Magnitude == Self { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details

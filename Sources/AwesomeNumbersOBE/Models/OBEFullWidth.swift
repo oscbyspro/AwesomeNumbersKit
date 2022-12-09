@@ -10,7 +10,7 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * Full Width
+// MARK: * OBE x Full Width
 //*============================================================================*
 
 /// The internal storage model for `(U)Int(128/256/512)`.
@@ -23,10 +23,10 @@ import AwesomeNumbersKit
 /// - `Low .bitWidth` must be an integer multiple of `UInt.bitWidth`
 /// - `Self.bitWidth` must be an integer multiple of `UInt.bitWidth`
 ///
-@frozen @usableFromInline struct FullWidth<High, Low>: Hashable where
+@frozen @usableFromInline struct OBEFullWidth<High, Low>: Hashable where
 High: AwesomeFixedWidthInteger, Low: AwesomeFixedWidthInteger & UnsignedInteger {
     
-    public typealias Magnitude = FullWidth<High.Magnitude, Low>
+    public typealias Magnitude = OBEFullWidth<High.Magnitude, Low>
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -68,7 +68,7 @@ High: AwesomeFixedWidthInteger, Low: AwesomeFixedWidthInteger & UnsignedInteger 
 }
 
 //*============================================================================*
-// MARK: * Full Width x Aliases
+// MARK: * OBE x Full Width x Aliases
 //*============================================================================*
 
-@usableFromInline typealias DoubleWidth<Base: AwesomeFixedWidthInteger> = FullWidth<Base, Base.Magnitude>
+@usableFromInline typealias OBEDoubleWidth<Base: AwesomeFixedWidthInteger> = OBEFullWidth<Base, Base.Magnitude>
