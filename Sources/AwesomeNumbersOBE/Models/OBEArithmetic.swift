@@ -10,7 +10,7 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Arithmetic
+// MARK: * OBE x Arithmetic x UInt
 //*============================================================================*
 
 extension UInt {
@@ -41,5 +41,23 @@ extension UInt {
     
     @inlinable func subtractingReportingOverflow(_ amount: Self, _ borrow: Bool) -> PVO<Self> {
         var S0 = self; let S1 = S0.subtractReportingOverflow(amount, borrow); return (S0, S1)
+    }
+}
+
+//*============================================================================*
+// MARK: * OBE x Arithmetic x Awesome
+//*============================================================================*
+
+extension AwesomeUnsignedFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func sum(_ x0: Self, _ x1: Self, _ x2: Self) -> HL<Self, Self> {
+        let (x3, o3) = x0.addingReportingOverflow(x1)
+        let (x4, o4) = x3.addingReportingOverflow(x2)
+        let (x5) = o3 && o4 ? 2 : o3 || o4 ? 1 : 0 as Self
+        return (x5, x4)
     }
 }

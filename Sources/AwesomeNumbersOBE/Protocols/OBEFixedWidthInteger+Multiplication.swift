@@ -46,46 +46,50 @@ extension OBEFixedWidthInteger {
         let product = multipliedFullWidth(by: amount)
         self = Self(bitPattern: product.low); return product.high
     }
+}
+
+//*============================================================================*
+// MARK: * OBE x Fixed Width Integer x Multiplication x Signed
+//*============================================================================*
+
+extension OBESignedFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
     
     @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        //=--------------------------------------=
-        //
-        //=--------------------------------------=
-        func sum(_ x0: Low, _ x1: Low, _ x2: Low) -> Magnitude {
-            let (x3, o3) = x0.addingReportingOverflow(x1)
-            let (x4, o4) = x3.addingReportingOverflow(x2)
-            let (x5) = o3 && o4 ? 2 : o3 || o4 ? 1 : 0 as Low // TODO: as UInt
-            return Magnitude(descending:(x5, x4))
-        }
-        //=--------------------------------------=
-        //
-        //=--------------------------------------=
-        let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero
+        var (high, low) = self.magnitude.multipliedFullWidth(by: amount.magnitude)
         
-        let lhs =   self.magnitude
-        let rhs = amount.magnitude
-        //=--------------------------------------=
-        //
-        //=--------------------------------------=
-        let m0 = lhs.low .multipliedFullWidth(by: rhs.low )
-        let m1 = lhs.low .multipliedFullWidth(by: rhs.high)
-        let m2 = lhs.high.multipliedFullWidth(by: rhs.low )
-        let m3 = lhs.high.multipliedFullWidth(by: rhs.high)
-        
-        let s0 = sum(m0.high, m1.low,  m2.low)
-        let s1 = sum(m1.high, m2.high, m3.low)
-        
-        var low  = Magnitude(descending:(s0.low,  m0.low ))
-        var high = Magnitude(descending:(m3.high, s0.high)) &+ s1
-        //=--------------------------------------=
-        //
-        //=--------------------------------------=
-        if  isLessThanOrEqualToZero {
+        if  self.isLessThanZero != amount.isLessThanZero {
             var carry: Bool // TODO: formTwosComplement()
             (low,  carry) = (~low ).addingReportingOverflow(1 as Magnitude)
             (high, carry) = (~high).addingReportingOverflow(carry ? 1 : 0 as Magnitude)
         }
         
         return HL(Self(bitPattern: high), low)
+    }
+}
+
+//*============================================================================*
+// MARK: * OBE x Fixed Width Integer x Multiplication x Unsigned
+//*============================================================================*
+
+extension OBEUnsignedFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public func multipliedFullWidth(by  amount:Self) -> HL<Self, Magnitude> {
+        let m0 = self.low .multipliedFullWidth(by: amount.low )
+        let m1 = self.low .multipliedFullWidth(by: amount.high)
+        let m2 = self.high.multipliedFullWidth(by: amount.low )
+        let m3 = self.high.multipliedFullWidth(by: amount.high)
+        let s0 = Magnitude(descending:Low.sum(m0.high, m1.low,  m2.low))
+        let s1 = Magnitude(descending:Low.sum(m1.high, m2.high, m3.low))
+        let v0 = Magnitude(descending:(s0.low,  m0.low ))
+        let v1 = Magnitude(descending:(m3.high, s0.high)) &+ s1
+        return HL(high: v1, low: v0)
     }
 }

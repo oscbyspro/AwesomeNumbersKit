@@ -23,7 +23,7 @@ Magnitude: OBEUnsignedFixedWidthInteger, Magnitude.High == High.Magnitude, Magni
     
     associatedtype High: AwesomeFixedWidthInteger
     
-    associatedtype Low:  AwesomeFixedWidthInteger where Low == High.Magnitude
+    associatedtype Low:  AwesomeUnsignedFixedWidthInteger where Low == High.Magnitude
     
     associatedtype X64 // (UInt64, UInt64, ...)
     
@@ -147,8 +147,7 @@ extension OBESignedFixedWidthInteger {
 // MARK: * OBE x Fixed Width Integer x Unsigned
 //*============================================================================*
 
-@usableFromInline protocol OBEUnsignedFixedWidthInteger: OBEFixedWidthInteger,
-AwesomeUnsignedFixedWidthInteger where High: UnsignedInteger, High == Low, Magnitude == Self { }
+@usableFromInline protocol OBEUnsignedFixedWidthInteger: OBEFixedWidthInteger, AwesomeUnsignedFixedWidthInteger where High == Low { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details

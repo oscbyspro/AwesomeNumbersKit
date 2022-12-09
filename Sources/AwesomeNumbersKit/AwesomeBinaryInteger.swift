@@ -15,7 +15,7 @@
 ///
 /// All binary integers in AwesomeNumbersKit conform to AwesomeBinaryInteger.
 ///
-public protocol AwesomeBinaryInteger: BinaryInteger where Magnitude: AwesomeBinaryInteger {
+public protocol AwesomeBinaryInteger: BinaryInteger where Magnitude: AwesomeUnsignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
@@ -25,3 +25,15 @@ public protocol AwesomeBinaryInteger: BinaryInteger where Magnitude: AwesomeBina
     
     @inlinable var isLessThanZero: Bool { get }
 }
+
+//*============================================================================*
+// MARK: * Awesome Binary Integer x Signed
+//*============================================================================*
+
+public protocol AwesomeSignedInteger: AwesomeBinaryInteger, SignedInteger { }
+
+//*============================================================================*
+// MARK: * Awesome Binary Integer x Unsigned
+//*============================================================================*
+
+public protocol AwesomeUnsignedInteger: AwesomeBinaryInteger, UnsignedInteger where Self == Magnitude { }
