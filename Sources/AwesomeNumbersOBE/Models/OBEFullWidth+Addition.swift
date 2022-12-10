@@ -47,6 +47,11 @@ extension OBEFullWidth {
     }
     
     @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
-        var pv = self; let o = pv.addReportingOverflow(amount); return (pv, o)
+        // the code is duplicated because it's faster this way...
+        var pv = self
+        let o0 = pv.low .addReportingOverflow(amount.low )
+        let o1 = pv.high.addReportingOverflow(amount.high)
+        let o2 = pv.high.addReportingOverflow(o0 ? 1 : 0 as High) // TODO: as Small or Pointer
+        return  (pv, o1 || o2)
     }
 }

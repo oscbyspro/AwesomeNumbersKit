@@ -23,7 +23,8 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public init(_truncatingBits source: UInt) {
-        self.init(descending:(High(), Low(_truncatingBits: source))) // Low.bitWidth >= UInt.bitWidth
+        let atLestOneWord = Low(_truncatingBits: source)
+        self.init(descending:(High(),    atLestOneWord))
     }
     
     //=------------------------------------------------------------------------=
@@ -31,55 +32,66 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable init(_integerLiteral source: some AwesomeFixedWidthInteger) {
+        let low  = Low(truncatingIfNeeded: source)
         let high = High(repeating: source.isLessThanZero)
-        let low  = Self.reinterpret(High(truncatingIfNeeded: source))
         self.init(descending:(high, low))
     }
     
-    @inlinable init(_normal source:(words: some Collection<UInt>, isLessThanZero: Bool)) {
+    @inlinable init(_normal source: some BinaryInteger) {
         self.init(_exactly: source)!
     }
     
-    @inlinable init?(_exactly source:(words: some Collection<UInt>, isLessThanZero: Bool)) {
-        let sign  = UInt(repeating: source.isLessThanZero)
-        let words = source.words; var index = words.startIndex
-        self.init(copy: words, from: &index,  extending: sign)
-        if source.isLessThanZero == isLessThanZero, words[index...].allSatisfy({ $0 == sign }) { return }
+    @inlinable init?(_exactly source: some BinaryInteger) {
+        let words = source.words
+        let isLessThanZero = type(of: source).isSigned && words.last?.mostSignificantBit == true
+        let sign = UInt(repeating: isLessThanZero)
+        self.init(_copy: words, _extending:  sign)
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
+        if  self.isLessThanZero == isLessThanZero {
+            let index = words.index(words.startIndex, offsetBy: Self.count, limitedBy: words.endIndex)
+            guard let index else { return }; if words[index...].allSatisfy({ $0 == sign }) { return }
+        }
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
         return nil
     }
     
-    @inlinable init(_clamping source:(words: some Collection<UInt>, isLessThanZero: Bool)) {
-        let sign  = UInt(repeating: source.isLessThanZero)
-        let words = source.words; var index = words.startIndex
-        self.init(copy: words, from: &index,  extending: sign)
-        if source.isLessThanZero == isLessThanZero, words[index...].allSatisfy({ $0 == sign }) { return }
-        self = source.isLessThanZero ? Self.min : Self.max
+    @inlinable init(_clamping source: some BinaryInteger) {
+        let words = source.words
+        let isLessThanZero = type(of: source).isSigned && words.last?.mostSignificantBit == true
+        let sign = UInt(repeating: isLessThanZero)
+        self.init(_copy: words, _extending:  sign)
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
+        if  self.isLessThanZero == isLessThanZero {
+            let index = words.index(words.startIndex, offsetBy: Self.count, limitedBy: words.endIndex)
+            guard let index else { return }; if words[index...].allSatisfy({ $0 == sign }) { return }
+        }
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
+        self = isLessThanZero ? Self.min : Self.max
     }
     
-    @inlinable init(_truncatingIfNeeded source:(words: some Collection<UInt>, isLessThanZero: Bool)) {
-        let sign  = UInt(repeating: source.isLessThanZero)
-        let words = source.words; var index = words.startIndex
-        self.init(copy: words, from: &index,  extending: sign)
+    @inlinable init(_truncatingIfNeeded source: some BinaryInteger) {
+        let words = source.words
+        let isLessThanZero = type(of: source).isSigned && words.last?.mostSignificantBit == true
+        self.init(_copy: words, _extending: UInt(repeating: isLessThanZero))
     }
     
-    @inlinable init<T>(copy words: T, from index: inout T.Index, extending sign: UInt) where T: Collection<UInt> {
-        self = Self.fromUnsafeUninitializedTwosComplementWords { NEXT in
-            var nextIndex = NEXT.startIndex
-            //=----------------------------------=
-            //
-            //=----------------------------------=
-            while nextIndex != NEXT.endIndex, index != words.endIndex {
-                NEXT[nextIndex] = words[index]
-                words.formIndex(after: &index)
-                NEXT .formIndex(after: &nextIndex)
+    @inlinable init(_copy words: some Collection<UInt>, _extending sign: UInt) {
+        self = Self.fromUnsafeUninitializedTwosComplementWords { SELF in
+            var index = Self.startIndex
+            for word in words {
+                if index == Self.endIndex { break }
+                SELF[index] = word; index = index &+ 1
             }
-            //=----------------------------------=
-            //
-            //=----------------------------------=
-            while nextIndex != NEXT.endIndex {
-                NEXT[nextIndex] = sign
-                NEXT.formIndex(after: &nextIndex)
-            }
+            
+            while index != SELF.endIndex { SELF[index] = sign; index &+= 1 }
         }
     }
 }
@@ -99,19 +111,19 @@ extension OBESignedFixedWidthInteger {
     }
     
     @inlinable public init(_ source: some BinaryInteger) {
-        self.init(_normal:(words: source.words, isLessThanZero: source < 0))
+        self.init(_normal: source)
     }
 
     @inlinable public init?(exactly source: some BinaryInteger) {
-        self.init(_exactly:(words: source.words, isLessThanZero: source < 0))
+        self.init(_exactly: source)
     }
 
     @inlinable public init(clamping source: some BinaryInteger) {
-        self.init(_clamping:(words: source.words, isLessThanZero: source < 0))
+        self.init(_clamping: source)
     }
 
     @inlinable public init(truncatingIfNeeded source: some BinaryInteger) {
-        self.init(_truncatingIfNeeded:(words: source.words, isLessThanZero: source < 0))
+        self.init(_truncatingIfNeeded: source)
     }
 }
 
@@ -130,18 +142,18 @@ extension OBEUnsignedFixedWidthInteger {
     }
     
     @inlinable public init(_ source: some BinaryInteger) {
-        self.init(_normal:(words: source.words, isLessThanZero: source < 0))
+        self.init(_normal: source)
     }
-    
+
     @inlinable public init?(exactly source: some BinaryInteger) {
-        self.init(_exactly:(words: source.words, isLessThanZero: source < 0))
+        self.init(_exactly: source)
     }
-    
+
     @inlinable public init(clamping source: some BinaryInteger) {
-        self.init(_clamping:(words: source.words, isLessThanZero: source < 0))
+        self.init(_clamping: source)
     }
-    
+
     @inlinable public init(truncatingIfNeeded source: some BinaryInteger) {
-        self.init(_truncatingIfNeeded:(words: source.words, isLessThanZero: source < 0))
+        self.init(_truncatingIfNeeded: source)
     }
 }

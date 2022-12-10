@@ -139,8 +139,7 @@ extension OBEUnsignedFixedWidthInteger {
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        assert(lhs.high.isZero == false)
-        assert(rhs.leadingZeroBitCount.isZero)
+        assert(rhs.mostSignificantBit)
         assert(M(descending:(lhs.high, lhs.mid)) < rhs)
         //=--------------------------------------=
         //
@@ -222,7 +221,7 @@ extension OBEUnsignedFixedWidthInteger {
         //
         //=--------------------------------------=
         let (q0, r0) = M._divide((lhs.high.high, lhs.high.low, lhs.low.high), by: rhs)
-        let (q1, r1) = M._divide((r0.high, r0.low, lhs.low.low), by: rhs)
+        let (q1, r1) = M._divide((r0.high,       r0.low,       lhs.low.low ), by: rhs)
         return (M(descending:(q0, q1)), r1 &>> normalization)
     }
     

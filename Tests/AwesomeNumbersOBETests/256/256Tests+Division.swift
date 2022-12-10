@@ -87,14 +87,14 @@ final class Int256TestsOnDivision: XCTestCase {
         dividend.low  = M(x64:( 6, 17, 35, 61))
         dividend.high = T(x64:(61, 52, 32,  0))
         
-//        XCTAssert(T(x64:(1, 2, 3, 4)).dividingFullWidth(dividend) == (T(x64:( 5,  6,  7,  8)), T(x64:( 1,  1,  1,  1))))
-//        XCTAssert(T(x64:(5, 6, 7, 8)).dividingFullWidth(dividend) == (T(x64:( 1,  2,  3,  4)), T(x64:( 1,  1,  1,  1))))
+        XCTAssert(T(x64:(1, 2, 3, 4)).dividingFullWidth(dividend) == (T(x64:( 5,  6,  7,  8)), T(x64:( 1,  1,  1,  1))))
+        XCTAssert(T(x64:(5, 6, 7, 8)).dividingFullWidth(dividend) == (T(x64:( 1,  2,  3,  4)), T(x64:( 1,  1,  1,  1))))
         
         dividend.low  = M(x64:(34, 54, 63, 62))
         dividend.high = T(x64:(34, 16,  5,  0))
         
-//        XCTAssert(T(x64:(4, 3, 2, 1)).dividingFullWidth(dividend) == (T(x64:( 9,  7,  6,  5)), T(x64:(~1, ~1, ~0,  0))))
-//        XCTAssert(T(x64:(8, 7, 6, 5)).dividingFullWidth(dividend) == (T(x64:( 4,  3,  2,  1)), T(x64:( 2,  2,  2,  2))))
+        XCTAssert(T(x64:(4, 3, 2, 1)).dividingFullWidth(dividend) == (T(x64:( 9,  7,  6,  5)), T(x64:(~1, ~1, ~0,  0))))
+        XCTAssert(T(x64:(8, 7, 6, 5)).dividingFullWidth(dividend) == (T(x64:( 4,  3,  2,  1)), T(x64:( 2,  2,  2,  2))))
         
         dividend.low  = M(x64:(~1,  w,  w,  w))
         dividend.high = T(x64:( w,  w,  w,  w))
@@ -166,21 +166,20 @@ final class UInt256TestsOnDivision: XCTestCase {
     // MARK: Tests x Full Width
     //=------------------------------------------------------------------------=
     
-    #warning("TODO")
     func testDividingFullWidth() {
         var dividend: (high: T, low: T)
         
         dividend.low  = T(x64:( 6, 17, 35, 61))
         dividend.high = T(x64:(61, 52, 32,  0))
         
-//        XCTAssert(T(x64:(1, 2, 3, 4)).dividingFullWidth(dividend) == (T(x64:(5, 6, 7, 8)), T(x64:(1, 1, 1, 1))))
-//        XCTAssert(T(x64:(5, 6, 7, 8)).dividingFullWidth(dividend) == (T(x64:(1, 2, 3, 4)), T(x64:(1, 1, 1, 1))))
+        XCTAssert(T(x64:(1, 2, 3, 4)).dividingFullWidth(dividend) == (T(x64:(5, 6, 7, 8)), T(x64:(1, 1, 1, 1))))
+        XCTAssert(T(x64:(5, 6, 7, 8)).dividingFullWidth(dividend) == (T(x64:(1, 2, 3, 4)), T(x64:(1, 1, 1, 1))))
         
         dividend.low  = T(x64:(34, 54, 63, 62))
         dividend.high = T(x64:(34, 16,  5,  0))
         
-//        XCTAssert(T(x64:(4, 3, 2, 1)).dividingFullWidth(dividend) == (T(x64:(9, 7, 6, 5)), T(x64:(~1, ~1, ~0, 0))))
-//        XCTAssert(T(x64:(8, 7, 6, 5)).dividingFullWidth(dividend) == (T(x64:(4, 3, 2, 1)), T(x64:( 2,  2,  2, 2))))
+        XCTAssert(T(x64:(4, 3, 2, 1)).dividingFullWidth(dividend) == (T(x64:(9, 7, 6, 5)), T(x64:(~1, ~1, ~0, 0))))
+        XCTAssert(T(x64:(8, 7, 6, 5)).dividingFullWidth(dividend) == (T(x64:(4, 3, 2, 1)), T(x64:( 2,  2,  2, 2))))
     }
     
     func testDividingFullWidthTruncatesQuotient() {
