@@ -108,7 +108,7 @@ final class Int256TestsOnBitshifts: XCTestCase {
         XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 3), T(x64:(w, w, 0, 0)))
         XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 4), T(x64:(0, w, w, 0)))
     }
-
+    
     func testBitrotatingLeftByBits() {
         XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &<< ( 0), T(x64:(3 >> 2, 0, 0, 3 << (s - 2))))
         XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &<< ( 1), T(x64:(3 >> 1, 0, 0, 3 << (s - 1))))
@@ -240,7 +240,7 @@ final class UInt256TestsOnBitshifts: XCTestCase {
         XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 3), T(x64:(w, w, 0, 0)))
         XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 4), T(x64:(0, w, w, 0)))
     }
-
+    
     func testBitrotatingLeftByBits() {
         XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &<< ( 0), T(x64:(3 >> 2, 0, 0, 3 << (s - 2))))
         XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &<< ( 1), T(x64:(3 >> 1, 0, 0, 3 << (s - 1))))
