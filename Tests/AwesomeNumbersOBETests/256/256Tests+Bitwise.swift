@@ -150,5 +150,4 @@ final class UInt256TestsOnBitwise: XCTestCase {
     }
 }
 
-
 #endif

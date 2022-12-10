@@ -18,8 +18,9 @@ import AwesomeNumbersKit
 /// - It must be safe to bit cast between `High` and `Low`.
 /// - It must be safe to bit cast between `Self` and `Magnitude`.
 ///
-@usableFromInline protocol OBEFixedWidthInteger: AwesomeFixedWidthInteger, CustomDebugStringConvertible where
-Magnitude: OBEUnsignedFixedWidthInteger, Magnitude.High == High.Magnitude, Magnitude.Low == Low {
+@usableFromInline protocol OBEFixedWidthInteger: AwesomeFixedWidthInteger,
+CustomDebugStringConvertible, OBEFixedWidthIntegerLayout where  Magnitude:
+OBEUnsignedFixedWidthInteger, Magnitude.High == High.Magnitude, Magnitude.Low == Low {
     
     associatedtype High: AwesomeFixedWidthInteger
     
@@ -28,10 +29,6 @@ Magnitude: OBEUnsignedFixedWidthInteger, Magnitude.High == High.Magnitude, Magni
     associatedtype X64 // (UInt64, UInt64, ...)
     
     associatedtype X32 // (UInt32, UInt32, UInt32, UInt32, ...)
-    
-    typealias Reader = OBEFixedWidthIntegerReader<Self>
-    
-    typealias Mutator = OBEFixedWidthIntegerMutator<Self>
     
     //=------------------------------------------------------------------------=
     // MARK: State

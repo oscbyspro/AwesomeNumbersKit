@@ -55,7 +55,7 @@ extension OBEFixedWidthInteger {
     
     @inlinable public func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self> {
         if divisor.isZero { return PVO(self, true) }
-        if Self.isSigned && divisor == -1 && self == Self.min { return PVO(self, true) }
+        if Self.isSigned && divisor == -1 && self == Self.min { return PVO(Self(), true) }
         return PVO(self.quotientAndRemainder(dividingBy: divisor).remainder, false)
     }
 }
@@ -169,18 +169,14 @@ extension OBEUnsignedFixedWidthInteger {
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        if  rhs.isZero {
-            fatalError("division by zero")
-        }
-        
-        if  rhs < lhs.high {
-            fatalError("division overflow")
+        if  lhs.high.isZero {
+            return lhs.low.quotientAndRemainder(dividingBy: rhs)
         }
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        if  lhs.high.isZero {
-            return lhs.low.quotientAndRemainder(dividingBy: rhs)
+        if  rhs.isZero {
+            fatalError("division by zero")
         }
         //=--------------------------------------=
         //
@@ -202,6 +198,12 @@ extension OBEUnsignedFixedWidthInteger {
             : rhs.low.dividingFullWidth((r2, lhs.low.low))
             
             return (M(descending:(q2, q3)), M(descending:(High(), r3)))
+        }
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
+        if  rhs < lhs.high {
+            fatalError("division overflow")
         }
         //=--------------------------------------=
         //
@@ -229,19 +231,19 @@ extension OBEUnsignedFixedWidthInteger {
         //=--------------------------------------=
         //
         //=--------------------------------------=
+        if  lhs.high.isZero {
+            let (q0, r0) = lhs.low.quotientAndRemainder(dividingBy: rhs.low)
+            return (M(descending:(High(), q0)),  M(descending:(High(), r0)))
+        }
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
         if  rhs.isZero {
             fatalError("division by zero")
         }
         
         if  rhs >= lhs {
             return rhs > lhs ? (M(), lhs) : (1, M())
-        }
-        //=--------------------------------------=
-        //
-        //=--------------------------------------=
-        if  lhs.high.isZero {
-            let (q0, r0) = lhs.low.quotientAndRemainder(dividingBy: rhs.low)
-            return (M(descending:(High(), q0)), M(descending:(High(), r0)))
         }
         //=--------------------------------------=
         //

@@ -20,4 +20,24 @@ extension OBEFullWidth {
     @inlinable public static var bitWidth: Int {
         High.bitWidth + Low.bitWidth
     }
+    
+    @inlinable public var nonzeroBitCount: Int {
+        low.nonzeroBitCount + high.nonzeroBitCount
+    }
+    
+    @inlinable public var leadingZeroBitCount: Int {
+        high.isZero ? High.bitWidth + low.leadingZeroBitCount : high.leadingZeroBitCount
+    }
+    
+    @inlinable public var trailingZeroBitCount: Int {
+        low.isZero ? Low.bitWidth + high.trailingZeroBitCount : low.trailingZeroBitCount
+    }
+    
+    @inlinable public var mostSignificantBit: Bool {
+        high.mostSignificantBit
+    }
+    
+    @inlinable public var leastSignificantBit: Bool {
+        low.leastSignificantBit
+    }
 }

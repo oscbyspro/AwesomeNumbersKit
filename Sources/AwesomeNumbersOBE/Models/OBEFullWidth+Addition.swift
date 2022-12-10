@@ -27,12 +27,10 @@ extension OBEFullWidth {
         var lhs = lhs; lhs += rhs; return lhs
     }
     
-    // TODO: protocol
     @inlinable public static func &+=(lhs: inout Self, rhs: Self) {
         let _ = lhs.addReportingOverflow(rhs)
     }
     
-    // TODO: protocol
     @inlinable public static func &+(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs &+= rhs; return lhs
     }

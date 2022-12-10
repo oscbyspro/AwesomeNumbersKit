@@ -19,7 +19,7 @@ import AwesomeNumbersKit
     // MARK: Type Meta Dats
     //=------------------------------------------------------------------------=
         
-    associatedtype Integer: OBEFixedWidthInteger
+    associatedtype Integer: OBEFixedWidthIntegerLayout
 }
 
 //=----------------------------------------------------------------------------=

@@ -67,10 +67,9 @@ final class Int256TestsOnDivision: XCTestCase {
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: T( 2)) == ( T(x64:(0, 2 + w/2, 1, 2)), false))
     }
 
-    #warning("TODO")
     func testRemainderReportingOverflow() {
-//        XCTAssert(T.min.remainderReportingOverflow(dividingBy:  0) == (T.min, true))
-//        XCTAssert(T.min.remainderReportingOverflow(dividingBy: -1) == (T( 0), true))
+        XCTAssert(T.min.remainderReportingOverflow(dividingBy:  0) == (T.min, true))
+        XCTAssert(T.min.remainderReportingOverflow(dividingBy: -1) == (T( 0), true))
         
         XCTAssert(T(x64:(1, 2, 3, 4)).remainderReportingOverflow(dividingBy: T(-2)) == (T(x64:(1, 0, 0, 0)), false))
         XCTAssert(T(x64:(1, 2, 3, 4)).remainderReportingOverflow(dividingBy: T(-1)) == (T(x64:(0, 0, 0, 0)), false))
@@ -184,17 +183,16 @@ final class UInt256TestsOnDivision: XCTestCase {
 //        XCTAssert(T(x64:(8, 7, 6, 5)).dividingFullWidth(dividend) == (T(x64:(4, 3, 2, 1)), T(x64:( 2,  2,  2, 2))))
     }
     
-    #warning("TODO")
     func testDividingFullWidthTruncatesQuotient() {
         var dividend: (high: T, low: T)
         
         dividend.low  = T(x64:(0, 0, 0, 0))
         dividend.high = T(x64:(w, w, w, w))
         
-//        XCTAssert(T(1).dividingFullWidth(dividend) == ( T(0),   T(0)) as (T, T))
-//        XCTAssert(T(2).dividingFullWidth(dividend) == (~T(0) << (T.bitWidth - 1), T(0)) as (T, T))
-//        XCTAssert(T(4).dividingFullWidth(dividend) == (~T(0) << (T.bitWidth - 2), T(0)) as (T, T))
-//        XCTAssert(T(8).dividingFullWidth(dividend) == (~T(0) << (T.bitWidth - 3), T(0)) as (T, T))
+        XCTAssert(T(1).dividingFullWidth(dividend) == ( T(0),   T(0)) as (T, T))
+        XCTAssert(T(2).dividingFullWidth(dividend) == (~T(0) << (T.bitWidth - 1), T(0)) as (T, T))
+        XCTAssert(T(4).dividingFullWidth(dividend) == (~T(0) << (T.bitWidth - 2), T(0)) as (T, T))
+        XCTAssert(T(8).dividingFullWidth(dividend) == (~T(0) << (T.bitWidth - 3), T(0)) as (T, T))
     }
 }
 
