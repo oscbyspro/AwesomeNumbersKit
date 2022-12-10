@@ -70,6 +70,26 @@ extension OBESignedFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> (quotient: Self, remainder: Self) {
+        let division  = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
+        var quotient  = Self(division.quotient )
+        var remainder = Self(division.remainder)
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
+        if  isLessThanZero {
+            remainder.negate()
+        }
+        
+        if  isLessThanZero != divisor.isLessThanZero {
+            quotient .negate()
+        }
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
+        return (quotient, remainder)
+    }
+    
     @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
         let dividend = OBEDoubleWidth<Self>(descending: dividend)
         let dividendIsLessThanZero = dividend.isLessThanZero
@@ -82,7 +102,7 @@ extension OBESignedFixedWidthInteger {
         }
         
         if  dividendIsLessThanZero != self.isLessThanZero {
-            quotient.formTwosComplement()
+            quotient .formTwosComplement()
         }
         //=--------------------------------------=
         //
@@ -100,6 +120,10 @@ extension OBEUnsignedFixedWidthInteger {
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
+    
+    @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
+        Magnitude._divide(self.magnitude, by: divisor.magnitude)
+    }
     
     @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
         Magnitude._divide(OBEDoubleWidth<Self>(descending: dividend).magnitude, by: self.magnitude)
@@ -121,7 +145,7 @@ extension OBEUnsignedFixedWidthInteger {
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        var quotient = lhs.high == rhs.high ? Low.max : rhs.high.dividingFullWidth((lhs.high, lhs.mid)).quotient
+        var quotient = (lhs.high == rhs.high) ? Low.max : rhs.high.dividingFullWidth((lhs.high, lhs.mid)).quotient
         var product  = D(descending:(M(), M(descending:(quotient.multipliedFullWidth(by: rhs.low)))))
         let (x, y): (High, High) = quotient.multipliedFullWidth(by: rhs.high)
         product += D(descending:(Magnitude(descending:(High(), x)),  M(descending:(y, Low()))))
@@ -130,7 +154,7 @@ extension OBEUnsignedFixedWidthInteger {
         //
         //=--------------------------------------=
         overestimated: while remainder < product {
-            quotient  &-= 1
+            quotient  &-= 1 as High
             remainder  += D(descending:(M(), rhs))
         }
         //=--------------------------------------=
