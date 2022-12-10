@@ -20,22 +20,30 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public var nonzeroBitCount: Int {
-        low.nonzeroBitCount + high.nonzeroBitCount
+        _storage.nonzeroBitCount
     }
     
     @inlinable public var leadingZeroBitCount: Int {
-        high.isZero ? High.bitWidth + low.leadingZeroBitCount : high.leadingZeroBitCount
+        _storage.leadingZeroBitCount
     }
     
     @inlinable public var trailingZeroBitCount: Int {
-        low.isZero ? Low.bitWidth + high.trailingZeroBitCount : low.trailingZeroBitCount
+        _storage.trailingZeroBitCount
     }
     
     @inlinable public var mostSignificantBit: Bool {
-        high.mostSignificantBit
+        _storage.mostSignificantBit
     }
     
     @inlinable public var leastSignificantBit: Bool {
-        low.leastSignificantBit
+        _storage.leastSignificantBit
+    }
+    
+    @inlinable public var mostSignificantWord: UInt {
+        _storage.mostSignificantWord
+    }
+    
+    @inlinable public var leastSignificantWord: UInt {
+        _storage.leastSignificantWord
     }
 }

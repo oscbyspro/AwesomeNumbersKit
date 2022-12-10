@@ -20,16 +20,11 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func formTwosComplement() {
-        self.withUnsafeMutableTwosComplementWords { SELF in
-            var carry =  true
-            for index in Self.indices {
-                (SELF[index], carry) = (~SELF[index]).addingReportingOverflow(UInt(carry))
-            }
-        }
+        self._storage.formTwosComplement()
     }
     
     @inlinable public func twosComplement() -> Self {
-        var x = self; x.formTwosComplement(); return x
+        Self(bitPattern: _storage.twosComplement())
     }
 }
 
@@ -44,21 +39,21 @@ extension OBESignedFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public var magnitude: Magnitude {
-        let isLessThanZero = isLessThanZero
-        let bitPattern = Magnitude(bitPattern: self)
-        return isLessThanZero ? bitPattern.twosComplement() : bitPattern
+        Magnitude(bitPattern: _storage.magnitude)
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    #warning("OBEFullWidth")
     @inlinable public mutating func negateReportingOverflow() -> Bool {
         let wasLessThanZero = isLessThanZero
         self.formTwosComplement()
         return wasLessThanZero && isLessThanZero
     }
     
+    #warning("OBEFullWidth")
     @inlinable public func negatedReportingOverflow() -> PVO<Self> {
         var pv = self; let o = pv.negateReportingOverflow(); return (pv, o)
     }

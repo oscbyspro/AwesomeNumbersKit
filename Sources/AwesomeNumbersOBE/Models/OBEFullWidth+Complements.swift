@@ -18,7 +18,11 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func formTwosComplement() {
-        self = ~self &+ Self(descending:(High(), Low(1)))
+        self.withUnsafeMutableTwosComplementWords { SELF in
+            var carry = true; for index in Self.indices {
+                (SELF[index], carry) = (~SELF[index]).addingReportingOverflow(UInt(carry))
+            }
+        }
     }
     
     @inlinable public func twosComplement() -> Self {

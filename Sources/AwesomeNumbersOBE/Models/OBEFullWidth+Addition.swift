@@ -40,11 +40,10 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
-        let o: (Bool, Bool, Bool)
-        o.0 = self.low .addReportingOverflow(amount.low )
-        o.1 = self.high.addReportingOverflow(amount.high)
-        o.2 = self.high.addReportingOverflow(o.0 ? 1 : 0 as High) // TODO: as Small or Pointer
-        return o.1 || o.2
+        let o0 = self.low .addReportingOverflow(amount.low )
+        let o1 = self.high.addReportingOverflow(amount.high)
+        let o2 = self.high.addReportingOverflow(o0 ? 1 : 0 as High) // TODO: as Small or Pointer
+        return o1 || o2
     }
     
     @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {

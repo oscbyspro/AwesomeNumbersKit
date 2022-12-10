@@ -40,4 +40,12 @@ extension OBEFullWidth {
     @inlinable public var leastSignificantBit: Bool {
         low.leastSignificantBit
     }
+    
+    @inlinable public var mostSignificantWord: UInt {
+        high.mostSignificantWord
+    }
+    
+    @inlinable public var leastSignificantWord: UInt {
+        low.leastSignificantWord
+    }
 }

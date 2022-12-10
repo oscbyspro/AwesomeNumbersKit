@@ -18,8 +18,8 @@ import XCTest
 
 final class IntTestsOnComplements: XCTestCase {
     
-    typealias T =  Int
-    typealias M = UInt
+    typealias T = Int
+    typealias M = T.Magnitude
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -37,5 +37,32 @@ final class IntTestsOnComplements: XCTestCase {
         XCTAssert(T.max.negatedReportingOverflow() == (T.min + 1, false) as (T, Bool))
     }
 }
+
+//*============================================================================*
+// MARK: * Int64 x Tests x Complements
+//*============================================================================*
+
+final class Int64TestsOnComplements: XCTestCase {
+    
+    typealias T = Int64
+    typealias M = T.Magnitude
+    
+    //=------------------------------------------------------------------------=
+    // MARK: State
+    //=------------------------------------------------------------------------=
+    
+    let w = UInt.max
+    let s = UInt.bitWidth
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Signed
+    //=------------------------------------------------------------------------=
+    
+    func testNegatedReportingOverflow() {
+        XCTAssert(T.min.negatedReportingOverflow() == (T.min,     true ) as (T, Bool))
+        XCTAssert(T.max.negatedReportingOverflow() == (T.min + 1, false) as (T, Bool))
+    }
+}
+
 
 #endif

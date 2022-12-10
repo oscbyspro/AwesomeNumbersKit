@@ -25,7 +25,6 @@ extension OBEFullWidth {
         lhs.low &= rhs.low; lhs.high &= rhs.high
     }
     
-    // TODO: protocol
     @inlinable public static func &(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs &= rhs; return lhs
     }
@@ -34,7 +33,6 @@ extension OBEFullWidth {
         lhs.low |= rhs.low; lhs.high |= rhs.high
     }
     
-    // TODO: protocol
     @inlinable public static func |(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs |= rhs; return lhs
     }
@@ -43,7 +41,6 @@ extension OBEFullWidth {
         lhs.low ^= rhs.low; lhs.high ^= rhs.high
     }
     
-    // TODO: protocol
     @inlinable public static func ^(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs ^= rhs; return lhs
     }

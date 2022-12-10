@@ -50,24 +50,24 @@ final class Int256Tests: XCTestCase {
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
     
-//    func testIdentities() {
-//        let x =  T(x64:(1, 2, 3, 4))
-//        XCTAssertEqual(x + 0, x)
-//        XCTAssertEqual(x - x, 0)
-//        XCTAssertEqual(x * 1, x)
-//        XCTAssertEqual(x / x, 1)
-//        XCTAssertEqual(x % x, 0)
-//        XCTAssertEqual(x & x, x)
-//        XCTAssertEqual(x | x, x)
-//        XCTAssertEqual(x ^ x, 0)
-//        XCTAssertEqual(~(~x), x)
-//    }
-//
-//    func testAbsoluteValue() {
-//        XCTAssertEqual(abs(T( 3)), 3)
-//        XCTAssertEqual(abs(T( 0)), 0)
-//        XCTAssertEqual(abs(T(-3)), 3)
-//    }
+    func testIdentities() {
+        let x =  T(x64:(1, 2, 3, 4))
+        XCTAssertEqual(x + 0, x)
+        XCTAssertEqual(x - x, 0)
+        XCTAssertEqual(x * 1, x)
+        XCTAssertEqual(x / x, 1)
+        XCTAssertEqual(x % x, 0)
+        XCTAssertEqual(x & x, x)
+        XCTAssertEqual(x | x, x)
+        XCTAssertEqual(x ^ x, 0)
+        XCTAssertEqual(~(~x), x)
+    }
+
+    func testAbsoluteValue() {
+        XCTAssertEqual(abs(T( 3)), 3)
+        XCTAssertEqual(abs(T( 0)), 0)
+        XCTAssertEqual(abs(T(-3)), 3)
+    }
 
     func testStride() {
         XCTAssertEqual(T(3).advanced(by: 2), 5)
@@ -113,18 +113,18 @@ final class UInt256Tests: XCTestCase {
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
     
-//    func testIdentities() {
-//        let x =  T(x64:(1, 2, 3, 4))
-//        XCTAssertEqual(x + 0, x)
-//        XCTAssertEqual(x - x, 0)
-//        XCTAssertEqual(x * 1, x)
-//        XCTAssertEqual(x / x, 1)
-//        XCTAssertEqual(x % x, 0)
-//        XCTAssertEqual(x & x, x)
-//        XCTAssertEqual(x | x, x)
-//        XCTAssertEqual(x ^ x, 0)
-//        XCTAssertEqual(~(~x), x)
-//    }
+    func testIdentities() {
+        let x =  T(x64:(1, 2, 3, 4))
+        XCTAssertEqual(x + 0, x)
+        XCTAssertEqual(x - x, 0)
+        XCTAssertEqual(x * 1, x)
+        XCTAssertEqual(x / x, 1)
+        XCTAssertEqual(x % x, 0)
+        XCTAssertEqual(x & x, x)
+        XCTAssertEqual(x | x, x)
+        XCTAssertEqual(x ^ x, 0)
+        XCTAssertEqual(~(~x), x)
+    }
     
     func testStride() {
         XCTAssertEqual(T(3).advanced(by: 2), 5)

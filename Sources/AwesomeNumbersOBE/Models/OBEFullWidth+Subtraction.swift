@@ -27,12 +27,10 @@ extension OBEFullWidth {
         var lhs = lhs; lhs -= rhs; return lhs
     }
     
-    // TODO: protocol
     @inlinable public static func &-=(lhs: inout Self, rhs: Self) {
         let _ = lhs.subtractReportingOverflow(rhs)
     }
     
-    // TODO: protocol
     @inlinable public static func &-(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs &-= rhs; return lhs
     }
@@ -42,11 +40,10 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
-        let o: (Bool, Bool, Bool)
-        o.0 = self.low .subtractReportingOverflow(amount.low )
-        o.1 = self.high.subtractReportingOverflow(amount.high)
-        o.2 = self.high.subtractReportingOverflow(o.0 ? 1 : 0 as High) // TODO: as Small or Pointer
-        return o.1 || o.2
+        let o0 = self.low .subtractReportingOverflow(amount.low )
+        let o1 = self.high.subtractReportingOverflow(amount.high)
+        let o2 = self.high.subtractReportingOverflow(o0 ? 1 : 0 as High) // TODO: as Small or Pointer
+        return o1 || o2
     }
     
     @inlinable public func subtractingReportingOverflow(_ amount: Self) -> PVO<Self> {

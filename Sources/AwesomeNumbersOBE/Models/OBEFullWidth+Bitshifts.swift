@@ -23,7 +23,6 @@ extension OBEDoubleWidth {
         lhs &<<= rhs
     }
     
-    // TODO: protocol
     @inlinable public static func <<(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs <<= rhs; return lhs
     }
@@ -34,7 +33,6 @@ extension OBEDoubleWidth {
         lhs &>>= rhs
     }
     
-    // TODO: protocol
     @inlinable public static func >>(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs >>= rhs; return lhs
     }
@@ -61,7 +59,6 @@ extension OBEDoubleWidth {
         lhs.low  &<<= rhs
     }
     
-    // TODO: protocol
     @inlinable public static func &<<(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs &<<= rhs; return lhs
     }
@@ -88,7 +85,6 @@ extension OBEDoubleWidth {
         lhs.high &>>= High(rhs)
     }
     
-    // TODO: protocol
     @inlinable public static func &>>(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs &>>= rhs; return lhs
     }
