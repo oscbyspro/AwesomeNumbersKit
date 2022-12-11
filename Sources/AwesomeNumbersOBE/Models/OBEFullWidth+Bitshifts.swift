@@ -71,26 +71,27 @@ extension OBEFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitshiftLeft(words: Int, bits: Int) {
-        assert(0 <= words && words < Self.endIndex)
-        assert(0 <= bits  && bits  < UInt.bitWidth)
         self.withUnsafeMutableTwosComplementWords { SELF in
+            assert(0 <= words && words < SELF.endIndex)
+            assert(0 <= bits  && bits  < UInt.bitWidth)
+            
             let a = bits
             let b = UInt.bitWidth &- bits
             let c = UInt(repeating: false)
             
-            var x = Self.endIndex &- words
-            var y = Self.endIndex &- words &- 1
-            var z = Self.endIndex
+            var x = SELF.index(SELF.endIndex, offsetBy: -words &- 0)
+            var y = SELF.index(SELF.endIndex, offsetBy: -words &- 1)
+            var z = SELF.endIndex
             
-            backwards: while z != Self.startIndex {
+            brrr: while z != SELF.startIndex {
                 x &-= 1
                 y &-= 1
                 z &-= 1
                 
-                let up   = x >= Self.startIndex ? SELF[x] << a : c
-                let down = y >= Self.startIndex ? SELF[y] >> b : c
+                let p = x >= SELF.startIndex ? SELF[x] << a : c
+                let q = y >= SELF.startIndex ? SELF[y] >> b : c
                 
-                SELF[z] = up | down
+                SELF[z] = p | q
             }
         }
     }
@@ -160,22 +161,23 @@ extension OBEFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitshiftRight(words: Int, bits: Int) {
-        assert(0 <= words && words < Self.endIndex)
-        assert(0 <= bits  && bits  < UInt.bitWidth)
         self.withUnsafeMutableTwosComplementWords { SELF in
+            assert(0 <= words && words < SELF.endIndex)
+            assert(0 <= bits  && bits  < UInt.bitWidth)
+            
             let a = bits
             let b = UInt.bitWidth &- bits
             let c = UInt(repeating:  SELF.isLessThanZero)
             
-            var x = words
-            var y = words &+ 1
-            var z = Self.startIndex
+            var x = SELF.index(SELF.startIndex, offsetBy: words &+ 0)
+            var y = SELF.index(SELF.startIndex, offsetBy: words &+ 1)
+            var z = SELF.startIndex
             
-            loop: while z !=   Self.endIndex {
-                let down = x < Self.endIndex ? SELF[x] >> a : c
-                let up   = y < Self.endIndex ? SELF[y] << b : c
+            brrr: while z != SELF.endIndex {
+                let p = x <  SELF.endIndex ? SELF[x] >> a : c
+                let q = y <  SELF.endIndex ? SELF[y] << b : c
 
-                SELF[z] = up | down
+                SELF[z] = p | q
                 
                 z &+= 1
                 x &+= 1
@@ -234,21 +236,25 @@ extension OBEFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitrotateLeft(words: Int, bits: Int) {
-        assert(0 <= words && words < Self.endIndex)
-        assert(0 <= bits  && bits  < UInt.bitWidth)
-        self = Self.fromUnsafeUninitializedTwosComplementWords { NEXT in
-        self.withUnsafeTwosComplementWords { SELF in
+        self = self.withUnsafeTwosComplementWords { SELF in
+        Self.fromUnsafeUninitializedTwosComplementWords { NEXT in
+            assert(0 <= words && words < SELF.endIndex)
+            assert(0 <= bits  && bits  < UInt.bitWidth)
+            
             let a = bits
             let b = UInt.bitWidth &- bits
 
-            var x = Self.endIndex &- words
-            var y = Self.endIndex &- words &- 1
-            var z = Self.endIndex
+            var x = SELF.index(SELF.endIndex, offsetBy: -words &- 0)
+            var y = SELF.index(SELF.endIndex, offsetBy: -words &- 1)
+            var z = SELF.endIndex
             
-            loop: while z != Self.startIndex {
-                z &-= 1
-                x = x > Self.startIndex ? x &- 1 : x &+ Self.lastIndex
-                y = y > Self.startIndex ? y &- 1 : y &+ Self.lastIndex
+            brrrrrrrrrrrrrrrrrrrrr: while z != SELF.startIndex {
+                if x == SELF.startIndex { x  = SELF.endIndex }
+                if y == SELF.startIndex { y  = SELF.endIndex }
+
+                SELF.formIndex(before: &x)
+                SELF.formIndex(before: &y)
+                SELF.formIndex(before: &z)
                 
                 NEXT[z] = SELF[x] << a | SELF[y] >> b
             }
@@ -306,22 +312,27 @@ extension OBEFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitrotateRight(words: Int, bits: Int) {
-        assert(0 <= words && words < Self.endIndex)
-        assert(0 <= bits  && bits  < UInt.bitWidth)
-        self = Self.fromUnsafeUninitializedTwosComplementWords { NEXT in
-        self.withUnsafeTwosComplementWords { SELF in
+        self = self.withUnsafeTwosComplementWords { SELF in
+        Self.fromUnsafeUninitializedTwosComplementWords { NEXT in
+            assert(0 <= words && words < SELF.endIndex)
+            assert(0 <= bits  && bits  < UInt.bitWidth)
+            
             let a = bits
             let b = UInt.bitWidth &- bits
             
-            var x = words &- 1
-            var y = words
-            var z = Self.startIndex
+            var x = SELF.index(SELF.startIndex, offsetBy: words &+ 0)
+            var y = SELF.index(SELF.startIndex, offsetBy: words &+ 1)
+            var z = SELF.startIndex
             
-            loop: while z  != Self.endIndex {
-                defer { z &+= 1 }
-                x = x < Self.lastIndex ? x &+ 1 : x &- Self.lastIndex
-                y = y < Self.lastIndex ? y &+ 1 : y &- Self.lastIndex
+            brrrrrrrrrrrrrrrrrrr: while z != SELF.endIndex {
+                if x == SELF.endIndex { x  = SELF.startIndex }
+                if y == SELF.endIndex { y  = SELF.startIndex }
+                
                 NEXT[z] = SELF[x] >> a | SELF[y] << b
+                
+                SELF.formIndex(after: &x)
+                SELF.formIndex(after: &y)
+                SELF.formIndex(after: &z)
             }
         }}
     }
