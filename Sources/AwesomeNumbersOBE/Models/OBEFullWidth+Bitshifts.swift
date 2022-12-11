@@ -244,16 +244,13 @@ extension OBEFullWidth {
             let a = bits
             let b = UInt.bitWidth &- bits
 
-            var x = SELF.index(SELF.endIndex, offsetBy: -words &- 0)
-            var y = SELF.index(SELF.endIndex, offsetBy: -words &- 1)
+            var x = SELF.index(SELF.endIndex, offsetBy: -0 &- words)
+            var y = SELF.index(SELF.endIndex, offsetBy: -1 &- words)
             var z = SELF.endIndex
             
-            brrrrrrrrrrrrrrrrrrrrr: while z != SELF.startIndex {
-                if x == SELF.startIndex { x  = SELF.endIndex }
-                if y == SELF.startIndex { y  = SELF.endIndex }
-
-                SELF.formIndex(before: &x)
-                SELF.formIndex(before: &y)
+            brrrrr: while z != SELF.startIndex {
+                x = y
+                SELF.formIndex(&y, offsetBy: y == SELF.startIndex ? SELF.lastIndex : -1)
                 SELF.formIndex(before: &z)
                 
                 NEXT[z] = SELF[x] << a | SELF[y] >> b
@@ -320,19 +317,16 @@ extension OBEFullWidth {
             let a = bits
             let b = UInt.bitWidth &- bits
             
-            var x = SELF.index(SELF.startIndex, offsetBy: words &+ 0)
-            var y = SELF.index(SELF.startIndex, offsetBy: words &+ 1)
-            var z = SELF.startIndex
+            var x = SELF.index(SELF.startIndex, offsetBy: +1 &+ words)
+            var y = SELF.index(SELF.startIndex, offsetBy: +0 &+ words)
+            var z = SELF.endIndex
             
-            brrrrrrrrrrrrrrrrrrr: while z != SELF.endIndex {
-                if x == SELF.endIndex { x  = SELF.startIndex }
-                if y == SELF.endIndex { y  = SELF.startIndex }
+            brrrrr: while z != SELF.startIndex {
+                x = y
+                SELF.formIndex(&y, offsetBy: y == SELF.startIndex ? SELF.lastIndex : -1)
+                SELF.formIndex(before: &z)
                 
-                NEXT[z] = SELF[x] >> a | SELF[y] << b
-                
-                SELF.formIndex(after: &x)
-                SELF.formIndex(after: &y)
-                SELF.formIndex(after: &z)
+                NEXT[z] = SELF[x] << b | SELF[y] >> a
             }
         }}
     }
