@@ -8,62 +8,320 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
+// MARK: * OBE x Full Width x Bitshifts x L
+//*============================================================================*
+
+extension OBEFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x some Binary Integer
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func <<=(lhs: inout Self, rhs: some BinaryInteger) {
+        //=--------------------------------------=
+        // RHS <  Self.zero
+        //=--------------------------------------=
+        if  rhs <   type(of: rhs).init() {
+            lhs >>= type(of: rhs).init() - rhs; return
+        }
+        //=--------------------------------------=
+        // RHS >= Self.bitWidth
+        //=--------------------------------------=
+        if  rhs >= Self.bitWidth {
+            lhs  = Self(); return
+        }
+        //=--------------------------------------=
+        // Self.zero <= RHS <  Self.bitWidth
+        //=--------------------------------------=
+        lhs._bitshiftLeft(by: Int(bitPattern: rhs.words.first ?? UInt()))
+    }
+    
+    @inlinable public static func <<(lhs: Self, rhs: some BinaryInteger) -> Self {
+        var lhs = lhs; lhs <<= rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Self
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func <<=(lhs: inout Self, rhs: Self) {
+        //=--------------------------------------=
+        // RHS <  Self.zero
+        //=--------------------------------------=
+        if  rhs.isLessThanZero {
+            lhs >>= Self(bitPattern: rhs.magnitude); return
+        }
+        //=--------------------------------------=
+        // RHS >= Self.bitWidth
+        //=--------------------------------------=
+        if  rhs.leadingZeroBitCount <= Self.bitWidth.leadingZeroBitCount {
+            lhs = Self(); return
+        }
+        //=--------------------------------------=
+        // Self.zero <= RHS <  Self.bitWidth
+        //=--------------------------------------=
+        lhs._bitshiftLeft(by: Int(bitPattern: rhs.leastSignificantWord))
+    }
+    
+    @inlinable public static func <<(lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs <<= rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Int
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func <<=(lhs: inout Self, rhs: Int) {
+        //=--------------------------------------=
+        // RHS <  Self.zero
+        //=--------------------------------------=
+        if  rhs.isLessThanZero {
+            lhs >>= Int() - rhs; return
+        }
+        //=--------------------------------------=
+        // RHS >= Self.bitWidth
+        //=--------------------------------------=
+        if  rhs >= Self.bitWidth {
+            lhs  = Self(); return
+        }
+        //=--------------------------------------=
+        // RHS <  Self.bitWidth
+        //=--------------------------------------=
+        lhs._bitshiftLeft(by: rhs)
+    }
+    
+    @inlinable public static func <<(lhs: Self, rhs: Int) -> Self {
+        var lhs = lhs; lhs <<= rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Int x Private
+    //=------------------------------------------------------------------------=
+    
+    /// - Parameters:
+    ///   - amount: `0 <= amount < Self.bitWidth`
+    ///
+    @inlinable mutating func _bitshiftLeft(by amount: Int) {
+        assert(0 <= amount && amount < Self.bitWidth)
+        let words = amount >> UInt.bitWidth.trailingZeroBitCount
+        let bits  = amount & (UInt.bitWidth &- 1)
+        self._bitshiftLeft(words: words, bits: bits)
+    }
+    
+    /// - Parameters:
+    ///   - words: `0 <= words < Self.endIndex`
+    ///   - bits:  `0 <= bits  < UInt.bitWidth`
+    ///
+    @inlinable mutating func _bitshiftLeft(words: Int, bits: Int) {
+        assert(0 <= words && words < Self.endIndex)
+        assert(0 <= bits  && bits  < UInt.bitWidth)
+        self.withUnsafeMutableTwosComplementWords { SELF in
+            let a = bits
+            let b = UInt.bitWidth &- bits
+            let c = UInt(repeating: false)
+            
+            var x = Self.endIndex &- words
+            var y = Self.endIndex &- words &- 1
+            var z = Self.endIndex
+            
+            backwards: while z != Self.startIndex {
+                x &-= 1
+                y &-= 1
+                z &-= 1
+                
+                let up   = x >= Self.startIndex ? SELF[x] << a : c
+                let down = y >= Self.startIndex ? SELF[y] >> b : c
+                
+                SELF[z] = up | down
+            }
+        }
+    }
+}
+
+//*============================================================================*
+// MARK: * OBE x Full Width x Bitshifts x R
+//*============================================================================*
+
+extension OBEFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x some BinaryInteger
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func >>=(lhs: inout Self, rhs: some BinaryInteger) {
+        //=--------------------------------------=
+        // RHS <  Self.zero
+        //=--------------------------------------=
+        if  rhs <   type(of: rhs).init() {
+            lhs <<= type(of: rhs).init() - rhs; return
+        }
+        //=--------------------------------------=
+        // RHS >= Self.bitWidth
+        //=--------------------------------------=
+        if  rhs >= Self.bitWidth {
+            lhs  = Self(repeating: lhs.isLessThanZero); return
+        }
+        //=--------------------------------------=
+        // Self.zero <= RHS <  Self.bitWidth
+        //=--------------------------------------=
+        lhs._bitshiftRight(by: Int(bitPattern: rhs.words.first ?? UInt()))
+    }
+    
+    @inlinable public static func >>(lhs: Self, rhs: some BinaryInteger) -> Self {
+        var lhs = lhs; lhs >>= rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Self
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func >>=(lhs: inout Self, rhs: Self) {
+        //=--------------------------------------=
+        // RHS <  Self.zero
+        //=--------------------------------------=
+        if  rhs.isLessThanZero {
+            lhs <<= Self(bitPattern: rhs.magnitude); return
+        }
+        //=--------------------------------------=
+        // RHS >= Self.bitWidth
+        //=--------------------------------------=
+        if  rhs.leadingZeroBitCount <= Self.bitWidth.leadingZeroBitCount {
+            lhs = Self(repeating: lhs.isLessThanZero); return
+        }
+        //=--------------------------------------=
+        // Self.zero <= RHS <  Self.bitWidth
+        //=--------------------------------------=
+        lhs._bitshiftRight(by: Int(bitPattern: rhs.leastSignificantWord))
+    }
+    
+    @inlinable public static func >>(lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs >>= rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Int
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func >>=(lhs: inout Self, rhs: Int) {
+        //=--------------------------------------=
+        // RHS <  Self.zero
+        //=--------------------------------------=
+        if  rhs.isLessThanZero {
+            lhs <<= Int() - rhs; return
+        }
+        //=--------------------------------------=
+        // RHS >= Self.bitWidth
+        //=--------------------------------------=
+        if  rhs >= Self.bitWidth {
+            lhs  = Self(repeating: lhs.isLessThanZero); return
+        }
+        //=--------------------------------------=
+        // Self.zero <= RHS <  Self.bitWidth
+        //=--------------------------------------=
+        lhs._bitshiftRight(by: rhs)
+    }
+    
+    @inlinable public static func >>(lhs: Self, rhs: Int) -> Self {
+        var lhs = lhs; lhs >>= rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Int x Private
+    //=------------------------------------------------------------------------=
+    
+    /// - Parameters:
+    ///   - amount: `0 <= amount < Self.bitWidth`
+    ///
+    @inlinable mutating func _bitshiftRight(by amount: Int) {
+        assert(0 <= amount && amount < Self.bitWidth)
+        let words = amount >> UInt.bitWidth.trailingZeroBitCount
+        let bits  = amount & (UInt.bitWidth &- 1)
+        self._bitshiftRight(words: words, bits: bits)
+    }
+    
+    /// - Parameters:
+    ///   - words: `0 <= words < Self.endIndex`
+    ///   - bits:  `0 <= bits  < UInt.bitWidth`
+    ///
+    @inlinable mutating func _bitshiftRight(words: Int, bits: Int) {
+        assert(0 <= words && words < Self.endIndex)
+        assert(0 <= bits  && bits  < UInt.bitWidth)
+        self.withUnsafeMutableTwosComplementWords { SELF in
+            let a = bits
+            let b = UInt.bitWidth &- bits
+            let c = UInt(repeating:  SELF.isLessThanZero)
+            
+            var x = words
+            var y = words &+ 1
+            var z = Self.startIndex
+            
+            loop: while z !=   Self.endIndex {
+                let down = x < Self.endIndex ? SELF[x] >> a : c
+                let up   = y < Self.endIndex ? SELF[y] << b : c
+
+                SELF[z] = up | down
+                
+                z &+= 1
+                x &+= 1
+                y &+= 1
+            }
+        }
+    }
+}
+
+//*============================================================================*
 // MARK: * OBE x Full Width x Bitrotations x L
 //*============================================================================*
 
 extension OBEFullWidth {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Transformations x Self
     //=------------------------------------------------------------------------=
     
     @inlinable public static func &<<=(lhs: inout Self, rhs: Self) {
-        lhs &<<= rhs.leastSignificantWord
+        lhs &<<= Int(bitPattern: rhs.leastSignificantWord)
     }
     
     @inlinable public static func &<<(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs &<<= rhs; return lhs
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Int
+    //=------------------------------------------------------------------------=
+    
     @inlinable public static func &<<=(lhs: inout Self, rhs: Int) {
-        lhs &<<= rhs.leastSignificantWord
+        lhs._bitrotateLeft(by: rhs & (Self.bitWidth &- 1))
     }
 
     @inlinable public static func &<<(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs &<<= rhs; return lhs
     }
     
-    @inlinable public static func &<<=(lhs: inout Self, rhs: UInt) {
-        let words = rhs >> UInt.bitWidth.trailingZeroBitCount
-        let bits  = rhs &  UInt(bitPattern: UInt.bitWidth &- 1)
-        lhs._bitrotateLeft(words: words &  (UInt(bitPattern: Self.count &- 1)), bits: bits)
-    }
-    
-    @inlinable public static func &<<(lhs: Self, rhs: UInt) -> Self {
-        var lhs = lhs; lhs &<<= rhs; return lhs
-    }
-    
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Transformations x UInt x Private
     //=------------------------------------------------------------------------=
     
     /// - Parameters:
-    ///   - words: `words < Self.count`
-    ///   - bits:  `bits  < UInt.bitWith`
+    ///   - amount: `0 <= amount < Self.bitWidth`
     ///
-    @inlinable mutating func _bitrotateLeft(words: UInt, bits: UInt) {
-        assert(words < Self.endIndex)
-        assert(bits  < UInt.bitWidth)
-        //=--------------------------------------=
-        //
-        //=--------------------------------------=
-        let words = Int(bitPattern: words)
-        let bits  = Int(bitPattern: bits )
-        //=--------------------------------------=
-        //
-        //=--------------------------------------=
+    @inlinable mutating func _bitrotateLeft(by amount: Int) {
+        assert(0 <= amount && amount < Self.bitWidth)
+        let words = amount >> UInt.bitWidth.trailingZeroBitCount
+        let bits  = amount & (UInt.bitWidth &- 1)
+        self._bitrotateLeft(words: words, bits: bits)
+    }
+    
+    /// - Parameters:
+    ///   - words: `0 <= words < Self.endIndex`
+    ///   - bits:  `0 <= bits  < UInt.bitWidth`
+    ///
+    @inlinable mutating func _bitrotateLeft(words: Int, bits: Int) {
+        assert(0 <= words && words < Self.endIndex)
+        assert(0 <= bits  && bits  < UInt.bitWidth)
         self = Self.fromUnsafeUninitializedTwosComplementWords { NEXT in
-        withUnsafeTwosComplementWords { SELF in
+        self.withUnsafeTwosComplementWords { SELF in
             let a = bits
             let b = UInt.bitWidth &- bits
 
@@ -89,56 +347,52 @@ extension OBEFullWidth {
 extension OBEFullWidth {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Transformations x Self
     //=------------------------------------------------------------------------=
     
     @inlinable public static func &>>=(lhs: inout Self, rhs: Self) {
-        lhs &>>= rhs.leastSignificantWord
+        lhs &>>= Int(bitPattern: rhs.leastSignificantWord)
     }
 
     @inlinable public static func &>>(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs &>>= rhs; return lhs
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Int
+    //=------------------------------------------------------------------------=
+    
     @inlinable public static func &>>=(lhs: inout Self, rhs: Int) {
-        lhs &>>= rhs.leastSignificantWord
+        lhs._bitrotateRight(by: rhs & (Self.bitWidth &- 1))
     }
 
     @inlinable public static func &>>(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs &>>= rhs; return lhs
     }
     
-    @inlinable public static func &>>=(lhs: inout Self, rhs: UInt) {
-        let words = rhs >> UInt.bitWidth.trailingZeroBitCount
-        let bits  = rhs &  UInt(bitPattern: UInt.bitWidth &- 1)
-        lhs._bitrotateRight(words: words & (UInt(bitPattern: Self.count &- 1)), bits: bits)
-    }
-
-    @inlinable public static func &>>(lhs: Self, rhs: UInt) -> Self {
-        var lhs = lhs; lhs &>>= rhs; return lhs
-    }
-    
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Transformations x Int x Private
     //=------------------------------------------------------------------------=
     
     /// - Parameters:
-    ///   - words: `words < Self.count`
-    ///   - bits:  `bits  < UInt.bitWith`
+    ///   - amount: `0 <= amount < Self.bitWidth`
     ///
-    @inlinable mutating func _bitrotateRight(words: UInt, bits: UInt) {
-        assert(words < Self.endIndex)
-        assert(bits  < UInt.bitWidth)
-        //=--------------------------------------=
-        //
-        //=--------------------------------------=
-        let words = Int(bitPattern: words)
-        let bits  = Int(bitPattern: bits )
-        //=--------------------------------------=
-        //
-        //=--------------------------------------=
+    @inlinable mutating func _bitrotateRight(by amount: Int) {
+        assert(0 <= amount && amount < Self.bitWidth)
+        let words = amount >> UInt.bitWidth.trailingZeroBitCount
+        let bits  = amount & (UInt.bitWidth &- 1)
+        self._bitrotateRight(words: words, bits: bits)
+    }
+    
+    /// - Parameters:
+    ///   - words: `0 <= words < Self.endIndex`
+    ///   - bits:  `0 <= bits  < UInt.bitWidth`
+    ///
+    @inlinable mutating func _bitrotateRight(words: Int, bits: Int) {
+        assert(0 <= words && words < Self.endIndex)
+        assert(0 <= bits  && bits  < UInt.bitWidth)
         self = Self.fromUnsafeUninitializedTwosComplementWords { NEXT in
-        withUnsafeTwosComplementWords { SELF in
+        self.withUnsafeTwosComplementWords { SELF in
             let a = bits
             let b = UInt.bitWidth &- bits
             
@@ -155,4 +409,3 @@ extension OBEFullWidth {
         }}
     }
 }
-
