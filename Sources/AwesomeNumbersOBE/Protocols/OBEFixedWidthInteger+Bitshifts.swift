@@ -22,20 +22,8 @@ extension OBEFixedWidthInteger {
     @inlinable public static func <<=(lhs: inout Self, rhs: some BinaryInteger) {
         lhs._storage <<= rhs
     }
-    
+
     @inlinable public static func <<(lhs: Self, rhs: some BinaryInteger) -> Self {
-        Self(bitPattern: lhs._storage << rhs)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x Self
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static func <<=(lhs: inout Self, rhs: Self) {
-        lhs._storage <<= rhs
-    }
-    
-    @inlinable public static func <<(lhs: Self, rhs: Self) -> Self {
         Self(bitPattern: lhs._storage << rhs)
     }
     
@@ -71,18 +59,6 @@ extension OBEFixedWidthInteger {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Self
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static func >>=(lhs: inout Self, rhs: Self) {
-        lhs._storage >>= rhs
-    }
-    
-    @inlinable public static func >>(lhs: Self, rhs: Self) -> Self {
-        Self(bitPattern: lhs._storage >> rhs)
-    }
-    
-    //=------------------------------------------------------------------------=
     // MARK: Transformations x Int
     //=------------------------------------------------------------------------=
     
@@ -102,15 +78,15 @@ extension OBEFixedWidthInteger {
 extension OBEFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Transformations x some Binary Integer
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func &<<=(lhs: inout Self, rhs: Self) {
-        lhs._storage &<<= rhs._storage
+    @inlinable public static func &<<=(lhs: inout Self, rhs: some BinaryInteger) {
+        lhs._storage &<<= rhs
     }
     
-    @inlinable public static func &<<(lhs: Self, rhs: Self) -> Self {
-        Self(bitPattern: lhs._storage &<< rhs._storage)
+    @inlinable public static func &<<(lhs: Self, rhs: some BinaryInteger) -> Self {
+        Self(bitPattern: lhs._storage &<< rhs)
     }
     
     //=------------------------------------------------------------------------=
@@ -133,15 +109,15 @@ extension OBEFixedWidthInteger {
 extension OBEFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Self
+    // MARK: Transformations x some Binary Integer
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func &>>=(lhs: inout Self, rhs: Self) {
-        lhs._storage &>>= rhs._storage
+    @inlinable public static func &>>=(lhs: inout Self, rhs: some BinaryInteger) {
+        lhs._storage &>>= rhs
     }
     
-    @inlinable public static func &>>(lhs: Self, rhs: Self) -> Self {
-        Self(bitPattern: lhs._storage &>> rhs._storage)
+    @inlinable public static func &>>(lhs: Self, rhs: some BinaryInteger) -> Self {
+        Self(bitPattern: lhs._storage &>> rhs)
     }
     
     //=------------------------------------------------------------------------=

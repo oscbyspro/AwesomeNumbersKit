@@ -87,6 +87,10 @@ extension OBEFixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    @inlinable public static var zero: Self {
+        Self()
+    }
+    
     @inlinable var high: High {
         _read   { yield  self._storage.high }
         _modify { yield &self._storage.high }
@@ -114,7 +118,8 @@ extension OBEFixedWidthInteger {
 // MARK: * OBE x Fixed Width Integer x Signed
 //*============================================================================*
 
-@usableFromInline protocol OBESignedFixedWidthInteger: OBEFixedWidthInteger, AwesomeSignedFixedWidthInteger { }
+@usableFromInline protocol OBESignedFixedWidthInteger: OBEFixedWidthInteger,
+AwesomeSignedFixedWidthInteger where High: AwesomeSignedFixedWidthInteger { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -122,14 +127,9 @@ extension OBEFixedWidthInteger {
 
 extension OBESignedFixedWidthInteger {
     
-    // TODO: these should not be needed
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
-    
-    @inlinable public static var zero: Self {
-        Self()
-    }
     
     @inlinable public static var min: Self {
         Self(descending:(High.min, Low.min))
@@ -144,7 +144,8 @@ extension OBESignedFixedWidthInteger {
 // MARK: * OBE x Fixed Width Integer x Unsigned
 //*============================================================================*
 
-@usableFromInline protocol OBEUnsignedFixedWidthInteger: OBEFixedWidthInteger, AwesomeUnsignedFixedWidthInteger where High == Low { }
+@usableFromInline protocol OBEUnsignedFixedWidthInteger: OBEFixedWidthInteger,
+AwesomeUnsignedFixedWidthInteger where High == Low { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -152,14 +153,9 @@ extension OBESignedFixedWidthInteger {
 
 extension OBEUnsignedFixedWidthInteger {
     
-    // TODO: these should not be needed
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
-    
-    @inlinable public static var zero: Self {
-        Self()
-    }
     
     @inlinable public static var min: Self {
         Self(descending:(High.min, Low.min))

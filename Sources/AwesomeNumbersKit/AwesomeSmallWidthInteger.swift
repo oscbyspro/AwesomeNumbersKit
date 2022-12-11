@@ -50,11 +50,11 @@ extension AwesomeSmallWidthInteger {
     }
     
     @inlinable public var mostSignificantWord: UInt {
-        words.last!
+        words.last  ?? UInt()
     }
     
     @inlinable public var leastSignificantWord: UInt {
-        words.first!
+        words.first ?? UInt()
     }
     
     //=------------------------------------------------------------------------=
