@@ -34,8 +34,8 @@ OBEFixedWidthIntegerPointer where Integer: OBEFixedWidthIntegerLayout {
     
     @usableFromInline subscript(index: Int) -> UInt {
         @_transparent _read {
-            precondition( indices.contains(index))
-            yield  _base[littleEndianIndex(index)]
+            precondition(indices.contains(index))
+            yield _base[littleEndianIndex(index)]
         }
     }
 }

@@ -68,37 +68,48 @@ extension OBEFixedWidthIntegerBuffer {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable func distance(from start: Int, to end: Int) -> Int {
-        end - start
-    }
-    
     @inlinable func index(after index: Int) -> Int {
-        index + 1
+        assert((/*------*/     endIndex) > index)
+        assert((startIndex ... endIndex).contains(index))
+        return index &+ 1
     }
     
     @inlinable func index(before index: Int) -> Int {
-        index - 1
+        assert((startIndex     /*----*/) < index)
+        assert((startIndex ... endIndex).contains(index))
+        return index &- 1
     }
     
     @inlinable func index(_ index: Int, offsetBy distance: Int) -> Int {
-        index + distance
+        let next = index &+ distance
+        assert((startIndex ... endIndex).contains(index))
+        assert((startIndex ... endIndex).contains(next ))
+        return next
+    }
+    
+    @inlinable func distance(from start: Int, to end: Int) -> Int {
+        assert((startIndex ... endIndex).contains(start))
+        assert((startIndex ... endIndex).contains(end  ))
+        return end &- start
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable func bigEndianIndex(_ index: Int) -> Int {        
+    @inlinable func bigEndianIndex(_ index: Int) -> Int {
+        assert(indices.contains(index))
         #if _endian(big)
         return index
         #else
-        return lastIndex - index
+        return lastIndex &- index
         #endif
     }
     
     @inlinable func littleEndianIndex(_ index: Int) -> Int {
+        assert(indices.contains(index))
         #if _endian(big)
-        return lastIndex - index
+        return lastIndex &- index
         #else
         return index
         #endif

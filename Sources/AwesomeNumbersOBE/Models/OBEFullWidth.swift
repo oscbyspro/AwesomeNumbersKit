@@ -24,7 +24,7 @@ import AwesomeNumbersKit
 /// - `Self.bitWidth` must be an integer multiple of `UInt.bitWidth`
 ///
 @frozen @usableFromInline struct OBEFullWidth<High, Low>: Hashable, OBEFixedWidthIntegerLayout where
-High: AwesomeFixedWidthInteger, Low: AwesomeFixedWidthInteger & UnsignedInteger {
+High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     public typealias Magnitude = OBEFullWidth<High.Magnitude, Low>
     
@@ -70,6 +70,14 @@ High: AwesomeFixedWidthInteger, Low: AwesomeFixedWidthInteger & UnsignedInteger 
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    @inlinable public init(_ bit: Bool) {
+        self.init(descending:(High(), Low(bit)))
+    }
+    
+    @inlinable public init(repeating bit: Bool) {
+        self.init(descending:(High(repeating: bit), Low(repeating: bit)))
+    }
+    
     @inlinable init<H>(bitPattern: OBEFullWidth<H, Low>) where H.Magnitude == High.Magnitude {
         self = unsafeBitCast(bitPattern,  to: Self.self) // signitude or magnitude
     }
@@ -78,7 +86,7 @@ High: AwesomeFixedWidthInteger, Low: AwesomeFixedWidthInteger & UnsignedInteger 
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent public static var isSigned: Bool {
+    @inlinable public static var isSigned: Bool {
         High.isSigned
     }
 }

@@ -46,13 +46,11 @@ extension OBESignedFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    #warning("OBEFullWidth")
     @inlinable public mutating func negateReportingOverflow() -> Bool {
-        let wasLessThanZero = isLessThanZero; self.formTwosComplement(); return wasLessThanZero && isLessThanZero
+        self._storage.negateReportingOverflow()
     }
     
-    #warning("OBEFullWidth")
     @inlinable public func negatedReportingOverflow() -> PVO<Self> {
-        var pv = self; let o = pv.negateReportingOverflow(); return PVO(pv, o)
+        let (pv, o) = self._storage.negatedReportingOverflow(); return PVO(Self(bitPattern: pv), o)
     }
 }

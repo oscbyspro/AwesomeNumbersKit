@@ -31,7 +31,7 @@ extension OBEFixedWidthIntegerPointer {
     //=------------------------------------------------------------------------=
     
     @inlinable var isZero: Bool {
-        self.allSatisfy({ $0.isZero })
+        allSatisfy({ $0.isZero })
     }
     
     @inlinable var isLessThanZero: Bool {

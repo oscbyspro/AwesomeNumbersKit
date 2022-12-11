@@ -85,18 +85,20 @@ extension OBEFixedWidthIntegerLayout {
         OBEFixedWidthIntegerWords(self)
     }
     
-    @inlinable func withUnsafeTwosComplementWords<T>(
+    @_transparent @usableFromInline func withUnsafeTwosComplementWords<T>(
     _ body: (Reader) throws -> T) rethrows -> T {
-        try withUnsafePointer(to: self) { INTEGER in try body(Reader(INTEGER)) }
+        try Swift.withUnsafePointer(to: self) { INTEGER in try body(Reader(INTEGER)) }
     }
     
-    @inlinable mutating func withUnsafeMutableTwosComplementWords<T>(
+    @_transparent @usableFromInline mutating func withUnsafeMutableTwosComplementWords<T>(
     _ body: (Mutator) throws -> T) rethrows -> T {
-        try withUnsafeMutablePointer(to: &self) { INTEGER in try body(Mutator(INTEGER)) }
+        try Swift.withUnsafeMutablePointer(to: &self) { INTEGER in try body(Mutator(INTEGER)) }
     }
     
-    @inlinable static func fromUnsafeUninitializedTwosComplementWords(
+    @_transparent @usableFromInline static func fromUnsafeUninitializedTwosComplementWords(
     _ body: (Mutator) throws -> Void) rethrows -> Self {
-        var next = Self(); try next.withUnsafeMutableTwosComplementWords(body); return next
+        try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { INTEGER in
+            let BASE = INTEGER.baseAddress.unsafelyUnwrapped; try body(Mutator(BASE)); return BASE.pointee
+        }
     }
 }
