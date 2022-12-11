@@ -77,10 +77,11 @@ extension OBEFullWidth {
             
             let a = bits
             let b = UInt.bitWidth &- bits
-            let c = UInt(repeating: false)
-            
-            var x = SELF.index(SELF.endIndex, offsetBy: -words &- 0)
-            var y = SELF.index(SELF.endIndex, offsetBy: -words &- 1)
+            let c = UInt(repeating: false) << a
+            let d = UInt(repeating: false) >> b
+
+            var x = SELF.index(SELF.endIndex, offsetBy: -0 &- words)
+            var y = SELF.index(SELF.endIndex, offsetBy: -1 &- words)
             var z = SELF.endIndex
             
             brrr: while z != SELF.startIndex {
@@ -89,7 +90,7 @@ extension OBEFullWidth {
                 z &-= 1
                 
                 let p = x >= SELF.startIndex ? SELF[x] << a : c
-                let q = y >= SELF.startIndex ? SELF[y] >> b : c
+                let q = y >= SELF.startIndex ? SELF[y] >> b : d
                 
                 SELF[z] = p | q
             }
@@ -167,16 +168,17 @@ extension OBEFullWidth {
             
             let a = bits
             let b = UInt.bitWidth &- bits
-            let c = UInt(repeating:  SELF.isLessThanZero)
+            let c = UInt(repeating:  SELF.isLessThanZero) << a
+            let d = UInt(repeating:  SELF.isLessThanZero) >> b
             
-            var x = SELF.index(SELF.startIndex, offsetBy: words &+ 0)
-            var y = SELF.index(SELF.startIndex, offsetBy: words &+ 1)
+            var x = SELF.index(SELF.startIndex, offsetBy: +0 &+ words)
+            var y = SELF.index(SELF.startIndex, offsetBy: +1 &+ words)
             var z = SELF.startIndex
             
             brrr: while z != SELF.endIndex {
                 let p = x <  SELF.endIndex ? SELF[x] >> a : c
-                let q = y <  SELF.endIndex ? SELF[y] << b : c
-
+                let q = y <  SELF.endIndex ? SELF[y] << b : d
+                
                 SELF[z] = p | q
                 
                 z &+= 1
