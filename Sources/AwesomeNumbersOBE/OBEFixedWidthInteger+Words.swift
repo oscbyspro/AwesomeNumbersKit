@@ -19,32 +19,8 @@ extension OBEFixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent public static var bitWidth: Int {
+    @inlinable public static var bitWidth: Int {
         Body.bitWidth
-    }
-    
-    @_transparent @usableFromInline static var count: Int {
-        Body.count
-    }
-    
-    @_transparent @usableFromInline static var startIndex: Int {
-        Body.startIndex
-    }
-    
-    @_transparent @usableFromInline static var endIndex: Int {
-        Body.endIndex
-    }
-    
-    @_transparent @usableFromInline static var firstIndex: Int {
-        Body.firstIndex
-    }
-    
-    @_transparent @usableFromInline static var lastIndex: Int {
-        Body.lastIndex
-    }
-    
-    @_transparent @usableFromInline static var indices: Range<Int> {
-        Body.indices
     }
     
     //=------------------------------------------------------------------------=
@@ -81,24 +57,5 @@ extension OBEFixedWidthInteger {
     
     @inlinable public var leastSignificantWord: UInt {
         body.leastSignificantWord
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @_transparent @usableFromInline func withUnsafeTwosComplementWords<T>(
-    _ operation: (Body.Reader) throws -> T) rethrows -> T {
-        try body.withUnsafeTwosComplementWords(operation)
-    }
-    
-    @_transparent @usableFromInline mutating func withUnsafeMutableTwosComplementWords<T>(
-    _ operation: (Body.Mutator) throws -> T) rethrows -> T {
-        try body.withUnsafeMutableTwosComplementWords(operation)
-    }
-    
-    @_transparent @usableFromInline static func fromUnsafeUninitializedTwosComplementWords(
-    _ operation: (Body.Mutator) throws -> Void) rethrows -> Self {
-        Self(bitPattern: try Body.fromUnsafeUninitializedTwosComplementWords(operation))
     }
 }

@@ -20,14 +20,14 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     associatedtype Low
     
-    typealias Layout = OBEFullWidth<High, Low>
+    typealias Body = OBEFullWidth<High, Low>
 }
 
 //*============================================================================*
 // MARK: * OBE x Full Width Digits x Little Endian x Mutator
 //*============================================================================*
 
-@frozen @usableFromInline struct OBEFullWidthLittleEndianMutator<High, Low>: OBEFullWidthDigits where
+@frozen @usableFromInline struct OBEFullWidthUnsafeLittleEndianMutator<High, Low>: OBEFullWidthDigits where
 High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
@@ -40,8 +40,8 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(_ INTEGER: UnsafeMutablePointer<Layout>) {
-        self._base = UnsafeMutableRawPointer(INTEGER).assumingMemoryBound(to: UInt.self)
+    @inlinable init(_ BODY: UnsafeMutablePointer<Body>) {
+        self._base = UnsafeMutableRawPointer(BODY).assumingMemoryBound(to: UInt.self)
     }
     
     //=------------------------------------------------------------------------=
@@ -65,7 +65,7 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
 // MARK: * OBE x Full Width Digits x Little Endian x Reader
 //*============================================================================*
 
-@frozen @usableFromInline struct OBEFullWidthLittleEndianReader<High, Low>: OBEFullWidthDigits where
+@frozen @usableFromInline struct OBEFullWidthUnsafeLittleEndianReader<High, Low>: OBEFullWidthDigits where
 High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
@@ -78,8 +78,8 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(_ INTEGER: UnsafePointer<Layout>) {
-        self._base = UnsafeRawPointer(INTEGER).assumingMemoryBound(to: UInt.self)
+    @inlinable init(_ BODY: UnsafePointer<Body>) {
+        self._base = UnsafeRawPointer(BODY).assumingMemoryBound(to: UInt.self)
     }
     
     //=------------------------------------------------------------------------=
@@ -105,13 +105,13 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     // MARK: State
     //=--------------------------------------------------------------------=
     
-    @usableFromInline var _base: Layout
+    @usableFromInline var _base: Body
     
     //=--------------------------------------------------------------------=
     // MARK: Initializers
     //=--------------------------------------------------------------------=
     
-    @inlinable init(_ base: Layout) { self._base = base }
+    @inlinable init(_ base: Body) { self._base = base }
     
     //=--------------------------------------------------------------------=
     // MARK: Accessors

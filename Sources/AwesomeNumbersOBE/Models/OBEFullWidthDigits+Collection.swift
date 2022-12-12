@@ -8,7 +8,7 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * OBE x Full Width Digits x Words
+// MARK: * OBE x Full Width Digits x Collection
 //*============================================================================*
 
 extension OBEFullWidthDigits {
@@ -18,35 +18,35 @@ extension OBEFullWidthDigits {
     //=------------------------------------------------------------------------=
     
     @inlinable var count: Int {
-        Layout.count
+        Body.count
     }
     
     @inlinable var startIndex: Int {
-        Layout.startIndex
+        Body.startIndex
     }
     
     @inlinable var endIndex: Int {
-        Layout.endIndex
+        Body.endIndex
     }
     
     @inlinable var firstIndex: Int {
-        Layout.firstIndex
+        Body.firstIndex
     }
     
     @inlinable var lastIndex: Int {
-        Layout.lastIndex
+        Body.lastIndex
     }
     
     @inlinable var indices: Range<Int> {
-        Layout.indices
+        Body.indices
     }
     
     @inlinable var first: UInt {
-        self[Layout.firstIndex]
+        self[Body.firstIndex]
     }
     
     @inlinable var last: UInt {
-        self[Layout.lastIndex]
+        self[Body.lastIndex]
     }
     
     //=------------------------------------------------------------------------=
@@ -54,50 +54,26 @@ extension OBEFullWidthDigits {
     //=------------------------------------------------------------------------=
     
     @inlinable func index(after index: Int) -> Int {
-        assert((/*------*/     endIndex) > index)
-        assert((startIndex ... endIndex).contains(index))
-        return index &+ 1
+        Body.index(after: index)
     }
     
     @inlinable func index(before index: Int) -> Int {
-        assert((startIndex     /*----*/) < index)
-        assert((startIndex ... endIndex).contains(index))
-        return index &- 1
+        Body.index(before: index)
     }
     
     @inlinable func index(_ index: Int, offsetBy distance: Int) -> Int {
-        let next = index &+ distance
-        assert((startIndex ... endIndex).contains(index))
-        assert((startIndex ... endIndex).contains(next ))
-        return next
+        Body.index(index, offsetBy: distance)
     }
     
     @inlinable func distance(from start: Int, to end: Int) -> Int {
-        assert((startIndex ... endIndex).contains(start))
-        assert((startIndex ... endIndex).contains(end  ))
-        return end &- start
+        Body.distance(from: start, to: end)
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
     @inlinable func bigEndianIndex(_ index: Int) -> Int {
-        assert(indices.contains(index))
-        #if _endian(big)
-        return index
-        #else
-        return lastIndex &- index
-        #endif
+        Body.bigEndianIndex(index)
     }
     
     @inlinable func littleEndianIndex(_ index: Int) -> Int {
-        assert(indices.contains(index))
-        #if _endian(big)
-        return lastIndex &- index
-        #else
-        return index
-        #endif
+        Body.littleEndianIndex(index)
     }
 }
-

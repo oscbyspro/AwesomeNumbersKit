@@ -19,32 +19,8 @@ extension OBEFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline static var bitWidth: Int {
+    @inlinable static var bitWidth: Int {
         High.bitWidth + Low.bitWidth
-    }
-    
-    @_transparent @usableFromInline static var count: Int {
-        MemoryLayout<Self>.stride / MemoryLayout<UInt>.stride
-    }
-    
-    @_transparent @usableFromInline static var startIndex: Int {
-        0
-    }
-    
-    @_transparent @usableFromInline static var endIndex: Int {
-        count
-    }
-    
-    @_transparent @usableFromInline static var firstIndex: Int {
-        0
-    }
-    
-    @_transparent @usableFromInline static var lastIndex: Int {
-        count - 1
-    }
-    
-    @_transparent @usableFromInline static var indices: Range<Int> {
-        0 ..< count
     }
     
     //=------------------------------------------------------------------------=
@@ -77,31 +53,5 @@ extension OBEFullWidth {
     
     @inlinable var leastSignificantWord: UInt {
         low.leastSignificantWord
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @_transparent @usableFromInline func withUnsafeTwosComplementWords<T>(
-    _ operation: (Reader) throws -> T) rethrows -> T {
-        try Swift.withUnsafePointer(to: self) { SELF in
-            try operation(Reader(SELF))
-        }
-    }
-    
-    @_transparent @usableFromInline mutating func withUnsafeMutableTwosComplementWords<T>(
-    _ operation: (Mutator) throws -> T) rethrows -> T {
-        try Swift.withUnsafeMutablePointer(to: &self) { SELF in
-            try operation(Mutator(SELF))
-        }
-    }
-    
-    @_transparent @usableFromInline static func fromUnsafeUninitializedTwosComplementWords(
-    _ operation: (Mutator) throws -> Void) rethrows -> Self {
-        try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
-            let SELF = BUFFER.baseAddress.unsafelyUnwrapped
-            try operation(Mutator(SELF)); return SELF.pointee
-        }
     }
 }
