@@ -85,13 +85,18 @@ extension OBEFixedWidthInteger {
     
     @inlinable init(_copy words: some Collection<UInt>, _extending sign: UInt) {
         self = Self.fromUnsafeUninitializedTwosComplementWords { SELF in
-            var index = Self.startIndex
+            var index = SELF.startIndex
+            
             for word in words {
-                if index == Self.endIndex { break }
-                SELF[index] = word; index = index &+ 1
+                if index == SELF.endIndex { break }
+                SELF[index] = word
+                SELF.formIndex(after: &index)
             }
             
-            while index != SELF.endIndex { SELF[index] = sign; index &+= 1 }
+            while index != SELF.endIndex {
+                SELF[index] = sign
+                SELF.formIndex(after: &index)
+            }
         }
     }
 }

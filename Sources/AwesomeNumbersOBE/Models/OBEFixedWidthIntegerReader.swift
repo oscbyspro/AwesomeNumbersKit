@@ -12,7 +12,7 @@
 //*============================================================================*
 
 @frozen @usableFromInline struct OBEFixedWidthIntegerReader<Integer>:
-OBEFixedWidthIntegerPointer where Integer: OBEFixedWidthIntegerLayout {
+OBEFixedWidthIntegerBuffer where Integer: OBEFixedWidthIntegerLayout {
 
     //=------------------------------------------------------------------------=
     // MARK: State

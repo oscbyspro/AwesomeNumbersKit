@@ -23,7 +23,7 @@ import AwesomeNumbersKit
 }
 
 //=----------------------------------------------------------------------------=
-// MARK: + Details
+// MARK: + Collection
 //=----------------------------------------------------------------------------=
 
 extension OBEFixedWidthIntegerBuffer {
@@ -113,5 +113,24 @@ extension OBEFixedWidthIntegerBuffer {
         #else
         return index
         #endif
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Comparisons
+//=----------------------------------------------------------------------------=
+
+extension OBEFixedWidthIntegerBuffer {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var isZero: Bool {
+        allSatisfy({ $0.isZero })
+    }
+    
+    @inlinable public var isLessThanZero: Bool {
+        Integer.isSigned ? self[littleEndianIndex(lastIndex)].mostSignificantBit : false
     }
 }

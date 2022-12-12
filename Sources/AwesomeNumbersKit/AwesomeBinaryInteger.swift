@@ -44,4 +44,4 @@ public protocol AwesomeSignedInteger: AwesomeBinaryInteger, SignedInteger { }
 // MARK: * Awesome Binary Integer x Unsigned
 //*============================================================================*
 
-public protocol AwesomeUnsignedInteger: AwesomeBinaryInteger, UnsignedInteger where Self == Magnitude { }
+public protocol AwesomeUnsignedInteger: AwesomeBinaryInteger, UnsignedInteger where Magnitude == Self { }
