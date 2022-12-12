@@ -28,6 +28,10 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     associatedtype Low
     
     typealias Body = OBEFullWidth<High, Low>
+    
+    typealias Reader  = OBEFullWidthReader <High, Low>
+    
+    typealias Mutator = OBEFullWidthMutator<High, Low>
 }
 
 //*============================================================================*
@@ -87,6 +91,10 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     @inlinable init(_ BODY: UnsafePointer<Body>) {
         self._base = UnsafeRawPointer(BODY).assumingMemoryBound(to: UInt.self)
+    }
+    
+    @inlinable init(_ MUTATOR: Mutator) {
+        self._base = UnsafeRawPointer(MUTATOR._base).assumingMemoryBound(to: UInt.self)
     }
     
     //=------------------------------------------------------------------------=

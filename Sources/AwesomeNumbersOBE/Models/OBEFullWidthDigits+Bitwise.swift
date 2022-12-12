@@ -8,37 +8,32 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Int256
+// MARK: * OBE x Full Width Digits x Bitwise
 //*============================================================================*
 
-@frozen public struct Int256: OBESignedFixedWidthInteger {
-    
-    public typealias Magnitude = UInt256
-        
-    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
-    
-    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
+extension OBEFullWidthMutator {
     
     //=------------------------------------------------------------------------=
-    // MARK: State
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: OBEDoubleWidth<Int128>
-}
-
-//*============================================================================*
-// MARK: * UInt256
-//*============================================================================*
-
-@frozen public struct UInt256: OBEUnsignedFixedWidthInteger {
+    @inlinable public static func &=(lhs: Self, rhs: Reader) {
+        for index in  lhs.indices { lhs[index] &= rhs[index] }
+    }
     
-    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
-
-    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
-
+    @inlinable public static func |=(lhs: Self, rhs: Reader) {
+        for index in  lhs.indices { lhs[index] |= rhs[index] }
+    }
+    
+    @inlinable public static func ^=(lhs: Self, rhs: Reader) {
+        for index in  lhs.indices { lhs[index] ^= rhs[index] }
+    }
+    
     //=------------------------------------------------------------------------=
-    // MARK: State
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
-
-    @usableFromInline var body: OBEDoubleWidth<UInt128>
+    
+    @inlinable public func bitInvert() {
+        for index in self.indices { self[index] = ~self[index] }
+    }
 }
