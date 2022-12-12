@@ -7,51 +7,55 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import AwesomeNumbersKit
-
 //*============================================================================*
-// MARK: * OBE x Full Width x Words
+// MARK: * OBE x Full Width Digits x Words
 //*============================================================================*
 
-extension OBEFullWidth {
+extension OBEFullWidthDigits {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
     @inlinable static var bitWidth: Int {
-        High.bitWidth &+ Low.bitWidth
+        Body.bitWidth
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
-    
+        
     @inlinable var mostSignificantBit: Bool {
-        high.mostSignificantBit
+        self[lastIndex].mostSignificantBit
     }
     
     @inlinable var leastSignificantBit: Bool {
-        low.leastSignificantBit
+        self[firstIndex].leastSignificantBit
     }
     
     @inlinable var mostSignificantWord: UInt {
-        high.mostSignificantWord
+        self[lastIndex].mostSignificantWord
     }
     
     @inlinable var leastSignificantWord: UInt {
-        low.leastSignificantWord
+        self[firstIndex].leastSignificantWord
     }
     
     @inlinable var nonzeroBitCount: Int {
-        low.nonzeroBitCount &+ high.nonzeroBitCount
+        self.reduce(0) { $0 &+ $1.nonzeroBitCount }
     }
     
     @inlinable var leadingZeroBitCount: Int {
-        high.isZero ? High.bitWidth &+ low.leadingZeroBitCount : high.leadingZeroBitCount
+        let index = self.lastIndex(where:{ !$0.isZero })
+        guard let index else { return Self.bitWidth }
+        let count = (self.lastIndex - index) * UInt.bitWidth
+        return count &+ self[index].leadingZeroBitCount
     }
-    
+
     @inlinable var trailingZeroBitCount: Int {
-        low.isZero ? Low.bitWidth &+ high.trailingZeroBitCount : low.trailingZeroBitCount
+        let index = self.firstIndex(where:{ !$0.isZero })
+        guard let index else { return Self.bitWidth }
+        let count = index * UInt.bitWidth
+        return count &+ self[index].trailingZeroBitCount
     }
 }

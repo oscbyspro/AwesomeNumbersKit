@@ -28,9 +28,9 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     public typealias Magnitude = OBEFullWidth<High.Magnitude, Low>
     
-    @usableFromInline typealias UnsafeLittleEndianReader  = OBEFullWidthUnsafeLittleEndianReader <High, Low>
+    @usableFromInline typealias Reader  = OBEFullWidthReader <High, Low>
     
-    @usableFromInline typealias UnsafeLittleEndianMutator = OBEFullWidthUnsafeLittleEndianMutator<High, Low>
+    @usableFromInline typealias Mutator = OBEFullWidthMutator<High, Low>
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

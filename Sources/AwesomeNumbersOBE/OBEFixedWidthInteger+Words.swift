@@ -28,7 +28,7 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public var words: some WoRdS {
-        OBEFullWidthLittleEndianWords(body)
+        OBEFullWidthWords(body)
     }
     
     @inlinable public var nonzeroBitCount: Int {

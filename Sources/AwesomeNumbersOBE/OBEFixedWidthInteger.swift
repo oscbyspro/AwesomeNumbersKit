@@ -112,7 +112,7 @@ extension OBEFixedWidthInteger {
     }
     
     @inlinable static func reinterpret(_ value: High) -> Low {
-        unsafeBitCast(value, to: Low.self)
+        unsafeBitCast(value, to: Low .self)
     }
 }
 

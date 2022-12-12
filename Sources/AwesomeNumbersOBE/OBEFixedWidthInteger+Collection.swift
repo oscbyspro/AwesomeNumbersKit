@@ -48,17 +48,17 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent @usableFromInline func withUnsafeTwosComplementWords<T>(
-    _ operation: (Body.UnsafeLittleEndianReader) throws -> T) rethrows -> T {
+    _ operation: (Body.Reader) throws -> T) rethrows -> T {
         try body.withUnsafeTwosComplementWords(operation)
     }
     
     @_transparent @usableFromInline mutating func withUnsafeMutableTwosComplementWords<T>(
-    _ operation: (Body.UnsafeLittleEndianMutator) throws -> T) rethrows -> T {
+    _ operation: (Body.Mutator) throws -> T) rethrows -> T {
         try body.withUnsafeMutableTwosComplementWords(operation)
     }
     
     @_transparent @usableFromInline static func fromUnsafeUninitializedTwosComplementWords(
-    _ operation: (Body.UnsafeLittleEndianMutator) throws -> Void) rethrows -> Self {
+    _ operation: (Body.Mutator) throws -> Void) rethrows -> Self {
         Self(bitPattern: try Body.fromUnsafeUninitializedTwosComplementWords(operation))
     }
 }

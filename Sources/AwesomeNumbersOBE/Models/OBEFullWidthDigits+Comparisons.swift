@@ -22,6 +22,6 @@ extension OBEFullWidthDigits {
     }
     
     @inlinable public var isLessThanZero: Bool {
-        Body.isSigned ? self[littleEndianIndex(lastIndex)].mostSignificantBit : false
+        Body.isSigned ? self[lastIndex].mostSignificantBit : false
     }
 }

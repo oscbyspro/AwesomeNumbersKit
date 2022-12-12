@@ -31,10 +31,10 @@ Magnitude: AwesomeUnsignedFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable var   mostSignificantBit: Bool { get }
+        
+    @inlinable var  leastSignificantBit: Bool { get }
     
     @inlinable var  mostSignificantWord: UInt { get }
-    
-    @inlinable var  leastSignificantBit: Bool { get }
     
     @inlinable var leastSignificantWord: UInt { get }
     

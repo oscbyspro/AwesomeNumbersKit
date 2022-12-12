@@ -13,6 +13,13 @@ import AwesomeNumbersKit
 // MARK: * OBE x Full Width Digits
 //*============================================================================*
 
+/// A fixed-width integer collection interface.
+///
+/// Little-endianness is assumed only for the sake of consistency with `/words`.
+///
+/// - It must use contiguously ascending integer indices starting from zero
+/// - It must iterate from least significant digit to most signifcant digit (little-endian)
+///
 @usableFromInline protocol OBEFullWidthDigits<High, Low>: WoRdS where
 High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
@@ -24,10 +31,10 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * OBE x Full Width Digits x Little Endian x Mutator
+// MARK: * OBE x Full Width Digits x Mutator
 //*============================================================================*
 
-@frozen @usableFromInline struct OBEFullWidthUnsafeLittleEndianMutator<High, Low>: OBEFullWidthDigits where
+@frozen @usableFromInline struct OBEFullWidthMutator<High, Low>: OBEFullWidthDigits where
 High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
@@ -50,22 +57,22 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     @usableFromInline subscript(index: Int) -> UInt {
         @_transparent _read {
-            precondition(indices.contains (index))
-            yield  _base[littleEndianIndex(index)]
+            precondition(indices.contains(index))
+            yield  _base[Body.littleEndianIndex(index)]
         }
         
         @_transparent nonmutating _modify {
-            precondition(indices.contains (index))
-            yield &_base[littleEndianIndex(index)]
+            precondition(indices.contains(index))
+            yield &_base[Body.littleEndianIndex(index)]
         }
     }
 }
 
 //*============================================================================*
-// MARK: * OBE x Full Width Digits x Little Endian x Reader
+// MARK: * OBE x Full Width Digits x Reader
 //*============================================================================*
 
-@frozen @usableFromInline struct OBEFullWidthUnsafeLittleEndianReader<High, Low>: OBEFullWidthDigits where
+@frozen @usableFromInline struct OBEFullWidthReader<High, Low>: OBEFullWidthDigits where
 High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
@@ -89,16 +96,16 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     @usableFromInline subscript(index: Int) -> UInt {
         @_transparent _read {
             precondition(indices.contains(index))
-            yield _base[littleEndianIndex(index)]
+            yield  _base[Body.littleEndianIndex(index)]
         }
     }
 }
 
 //*============================================================================*
-// MARK: * OBE x Full Width Digits x Little Endian x Words
+// MARK: * OBE x Full Width Digits x Words
 //*============================================================================*
 
-@frozen @usableFromInline struct OBEFullWidthLittleEndianWords<High, Low>: OBEFullWidthDigits where
+@frozen @usableFromInline struct OBEFullWidthWords<High, Low>: OBEFullWidthDigits where
 High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     //=--------------------------------------------------------------------=

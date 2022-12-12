@@ -68,12 +68,4 @@ extension OBEFullWidthDigits {
     @inlinable func distance(from start: Int, to end: Int) -> Int {
         Body.distance(from: start, to: end)
     }
-    
-    @inlinable func bigEndianIndex(_ index: Int) -> Int {
-        Body.bigEndianIndex(index)
-    }
-    
-    @inlinable func littleEndianIndex(_ index: Int) -> Int {
-        Body.littleEndianIndex(index)
-    }
 }

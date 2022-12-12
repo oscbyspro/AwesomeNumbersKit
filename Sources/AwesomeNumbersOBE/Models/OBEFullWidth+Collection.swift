@@ -97,24 +97,24 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @_transparent @usableFromInline func withUnsafeTwosComplementWords<T>(
-    _ operation: (UnsafeLittleEndianReader) throws -> T) rethrows -> T {
+    _ operation: (Reader) throws -> T) rethrows -> T {
         try Swift.withUnsafePointer(to: self) { SELF in
-            try operation(UnsafeLittleEndianReader(SELF))
+            try operation(Reader(SELF))
         }
     }
     
     @_transparent @usableFromInline mutating func withUnsafeMutableTwosComplementWords<T>(
-    _ operation: (UnsafeLittleEndianMutator) throws -> T) rethrows -> T {
+    _ operation: (Mutator) throws -> T) rethrows -> T {
         try Swift.withUnsafeMutablePointer(to: &self) { SELF in
-            try operation(UnsafeLittleEndianMutator(SELF))
+            try operation(Mutator(SELF))
         }
     }
     
     @_transparent @usableFromInline static func fromUnsafeUninitializedTwosComplementWords(
-    _ operation: (UnsafeLittleEndianMutator) throws -> Void) rethrows -> Self {
+    _ operation: (Mutator) throws -> Void) rethrows -> Self {
         try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
             let SELF = BUFFER.baseAddress.unsafelyUnwrapped
-            try operation(UnsafeLittleEndianMutator(SELF)); return SELF.pointee
+            try operation(Mutator(SELF)); return SELF.pointee
         }
     }
 }
