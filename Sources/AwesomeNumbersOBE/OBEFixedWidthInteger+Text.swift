@@ -18,6 +18,6 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public var debugDescription: String {
-        withUnsafeTwosComplementWords({ "\(Self.self)(\($0.lazy.map(String.init).joined(separator: ", ")))" })
+        "\(Self.self)(\(body.lazy.map(String.init).joined(separator: ", ")))"
     }
 }

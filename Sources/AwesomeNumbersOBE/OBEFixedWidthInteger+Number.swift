@@ -50,7 +50,7 @@ extension OBEFixedWidthInteger {
         //
         //=--------------------------------------=
         if  self.isLessThanZero == isLessThanZero {
-            let index = words.index(words.startIndex, offsetBy: Self.count, limitedBy: words.endIndex)
+            let index = words.index(words.startIndex, offsetBy: body.count, limitedBy: words.endIndex)
             guard let index else { return }; if words[index...].allSatisfy({ $0 == sign }) { return }
         }
         //=--------------------------------------=
@@ -68,7 +68,7 @@ extension OBEFixedWidthInteger {
         //
         //=--------------------------------------=
         if  self.isLessThanZero == isLessThanZero {
-            let index = words.index(words.startIndex, offsetBy: Self.count, limitedBy: words.endIndex)
+            let index = words.index(words.startIndex, offsetBy: body.count, limitedBy: words.endIndex)
             guard let index else { return }; if words[index...].allSatisfy({ $0 == sign }) { return }
         }
         //=--------------------------------------=
@@ -84,19 +84,18 @@ extension OBEFixedWidthInteger {
     }
     
     @inlinable init(_copy words: some Collection<UInt>, _extending sign: UInt) {
-        self = Self.fromUnsafeUninitializedTwosComplementWords { SELF in
-            var index = SELF.startIndex
-            
-            for word in words {
-                if index == SELF.endIndex { break }
-                SELF[index] = word
-                SELF.formIndex(after: &index)
-            }
-            
-            while index != SELF.endIndex {
-                SELF[index] = sign
-                SELF.formIndex(after: &index)
-            }
+        self = Self.uninitialized()
+        var index = body.startIndex
+
+        for word in words {
+            if index == body.endIndex { break }
+            body[unchecked: index] = word
+            body.formIndex(after: &index)
+        }
+
+        while index != body.endIndex {
+            body[unchecked: index] = sign
+            body.formIndex(after: &index)
         }
     }
 }

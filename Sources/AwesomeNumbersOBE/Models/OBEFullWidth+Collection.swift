@@ -91,30 +91,113 @@ extension OBEFullWidth {
         return index
         #endif
     }
+}
+
+//*============================================================================*
+// MARK: * OBE x Full Width x Collection
+//*============================================================================*
+
+extension OBEFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable var count: Int {
+        Self.count
+    }
+    
+    @inlinable var startIndex: Int {
+        Self.startIndex
+    }
+    
+    @inlinable var endIndex: Int {
+        Self.endIndex
+    }
+    
+    @inlinable var firstIndex: Int {
+        Self.firstIndex
+    }
+    
+    @inlinable var lastIndex: Int {
+        Self.lastIndex
+    }
+    
+    @inlinable var indices: Range<Int> {
+        Self.indices
+    }
+    
+    @inlinable var first: UInt {
+        self[Self.firstIndex]
+    }
+    
+    @inlinable var last: UInt {
+        self[Self.lastIndex]
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline func withUnsafeTwosComplementWords<T>(
-    _ operation: (Reader) throws -> T) rethrows -> T {
-        try Swift.withUnsafePointer(to: self) { SELF in
-            try operation(Reader(SELF))
+    @inlinable func index(after index: Int) -> Int {
+        Self.index(after: index)
+    }
+    
+    @inlinable func index(before index: Int) -> Int {
+        Self.index(before: index)
+    }
+    
+    @inlinable func index(_ index: Int, offsetBy distance: Int) -> Int {
+        Self.index(index, offsetBy: distance)
+    }
+    
+    @inlinable func distance(from start: Int, to end: Int) -> Int {
+        Self.distance(from: start, to: end)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @usableFromInline subscript(index: Int) -> UInt {
+        //=--------------------------------------=
+        // Pseudo Fixed Width Array (Get)
+        //=--------------------------------------=
+        @_transparent _read {
+            precondition(Self.indices.contains(index))
+            yield  self[unchecked: index]
+        }
+        //=--------------------------------------=
+        // Pseudo Fixed Width Array (Set)
+        //=--------------------------------------=
+        @_transparent _modify {
+            precondition(Self.indices.contains(index))
+            yield &self[unchecked: index]
         }
     }
     
-    @_transparent @usableFromInline mutating func withUnsafeMutableTwosComplementWords<T>(
-    _ operation: (Mutator) throws -> T) rethrows -> T {
-        try Swift.withUnsafeMutablePointer(to: &self) { SELF in
-            try operation(Mutator(SELF))
+    @usableFromInline subscript(unchecked index: Int) -> UInt {
+        //=--------------------------------------=
+        // Pseudo Fixed Width Array (Get)
+        //=--------------------------------------=
+        @_transparent get {
+            return withUnsafePointer(to: self) { SELF in
+                let RAW = UnsafeRawPointer(SELF)
+                let WORDS = RAW.assumingMemoryBound(to: UInt.self)
+                assert(Self.indices.contains(index))
+                return WORDS[Self.littleEndianIndex(index)]
+            }
         }
-    }
-    
-    @_transparent @usableFromInline static func fromUnsafeUninitializedTwosComplementWords(
-    _ operation: (Mutator) throws -> Void) rethrows -> Self {
-        try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
-            let SELF = BUFFER.baseAddress.unsafelyUnwrapped
-            try operation(Mutator(SELF)); return SELF.pointee
+        //=--------------------------------------=
+        // Pseudo Fixed Width Array (Set)
+        //=--------------------------------------=
+        @_transparent set {
+            withUnsafeMutablePointer(to: &self) { SELF in
+                let RAW = UnsafeMutableRawPointer(SELF)
+                let WORDS = RAW.assumingMemoryBound(to: UInt.self)
+                assert(Self.indices.contains(index))
+                WORDS[Self.littleEndianIndex(index)] = newValue
+            }
         }
     }
 }

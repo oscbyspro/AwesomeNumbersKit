@@ -71,29 +71,27 @@ extension OBEFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitshiftLeft(words: Int, bits: Int) {
-        self.withUnsafeMutableTwosComplementWords { SELF in
-            assert(0 <= words && words < SELF.endIndex)
-            assert(0 <= bits  && bits  < UInt.bitWidth)
-            
-            let a = bits
-            let b = UInt.bitWidth &- bits
-            let c = UInt(repeating: false) << a
-            let d = UInt(repeating: false) >> b
+        assert(0 <= words && words < self.endIndex)
+        assert(0 <= bits  && bits  < UInt.bitWidth)
+        
+        let a = bits
+        let b = UInt.bitWidth &- bits
+        let c = UInt(repeating: false) << a
+        let d = UInt(repeating: false) >> b
 
-            var x = SELF.index(SELF.endIndex, offsetBy: -0 &- words)
-            var y = SELF.index(SELF.endIndex, offsetBy: -1 &- words)
-            var z = SELF.endIndex
+        var x = self.index(self.endIndex, offsetBy: -0 &- words)
+        var y = self.index(self.endIndex, offsetBy: -1 &- words)
+        var z = self.endIndex
+        
+        brrr: while z != self.startIndex {
+            x &-= 1
+            y &-= 1
+            z &-= 1
             
-            brrr: while z != SELF.startIndex {
-                x &-= 1
-                y &-= 1
-                z &-= 1
-                
-                let p = x >= SELF.startIndex ? SELF[x] << a : c
-                let q = y >= SELF.startIndex ? SELF[y] >> b : d
-                
-                SELF[z] = p | q
-            }
+            let p = x >= self.startIndex ? self[unchecked: x] << a : c
+            let q = y >= self.startIndex ? self[unchecked: y] >> b : d
+            
+            self[unchecked: z] = p | q
         }
     }
 }
@@ -162,29 +160,27 @@ extension OBEFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitshiftRight(words: Int, bits: Int) {
-        self.withUnsafeMutableTwosComplementWords { SELF in
-            assert(0 <= words && words < SELF.endIndex)
-            assert(0 <= bits  && bits  < UInt.bitWidth)
+        assert(0 <= words && words < self.endIndex)
+        assert(0 <= bits  && bits  < UInt.bitWidth)
+        
+        let a = bits
+        let b = UInt.bitWidth &- bits
+        let c = UInt(repeating:  self.isLessThanZero) << a
+        let d = UInt(repeating:  self.isLessThanZero) >> b
+        
+        var x = self.index(self.startIndex, offsetBy: +0 &+ words)
+        var y = self.index(self.startIndex, offsetBy: +1 &+ words)
+        var z = self.startIndex
+        
+        brrr: while z != self.endIndex {
+            let p = x <  self.endIndex ? self[unchecked: x] >> a : c
+            let q = y <  self.endIndex ? self[unchecked: y] << b : d
             
-            let a = bits
-            let b = UInt.bitWidth &- bits
-            let c = UInt(repeating:  SELF.isLessThanZero) << a
-            let d = UInt(repeating:  SELF.isLessThanZero) >> b
+            self[unchecked: z] = p | q
             
-            var x = SELF.index(SELF.startIndex, offsetBy: +0 &+ words)
-            var y = SELF.index(SELF.startIndex, offsetBy: +1 &+ words)
-            var z = SELF.startIndex
-            
-            brrr: while z != SELF.endIndex {
-                let p = x <  SELF.endIndex ? SELF[x] >> a : c
-                let q = y <  SELF.endIndex ? SELF[y] << b : d
-                
-                SELF[z] = p | q
-                
-                z &+= 1
-                x &+= 1
-                y &+= 1
-            }
+            z &+= 1
+            x &+= 1
+            y &+= 1
         }
     }
 }
@@ -238,26 +234,25 @@ extension OBEFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitrotateLeft(words: Int, bits: Int) {
-        self = self.withUnsafeTwosComplementWords { SELF in
-        Self.fromUnsafeUninitializedTwosComplementWords { NEXT in
-            assert(0 <= words && words < SELF.endIndex)
-            assert(0 <= bits  && bits  < UInt.bitWidth)
-            
-            let a = bits
-            let b = UInt.bitWidth &- bits
+        assert(0 <= words && words < self.endIndex)
+        assert(0 <= bits  && bits  < UInt.bitWidth)
+        
+        var next = Self.uninitialized(); defer { self = next }
+        
+        let a = bits
+        let b = UInt.bitWidth &- bits
 
-            var x = SELF.index(SELF.endIndex, offsetBy: -0 &- words)
-            var y = SELF.index(SELF.endIndex, offsetBy: -1 &- words)
-            var z = SELF.endIndex
+        var x = self.index(self.endIndex, offsetBy: -0 &- words)
+        var y = self.index(self.endIndex, offsetBy: -1 &- words)
+        var z = self.endIndex
+        
+        brrrrr: while z != self.startIndex {
+            x = y
+            self.formIndex(&y, offsetBy: y == self.startIndex ? self.lastIndex : -1)
+            self.formIndex(before: &z)
             
-            brrrrr: while z != SELF.startIndex {
-                x = y
-                SELF.formIndex(&y, offsetBy: y == SELF.startIndex ? SELF.lastIndex : -1)
-                SELF.formIndex(before: &z)
-                
-                NEXT[z] = SELF[x] << a | SELF[y] >> b
-            }
-        }}
+            next[unchecked: z] = self[unchecked: x] << a | self[unchecked: y] >> b
+        }
     }
 }
 
@@ -311,25 +306,24 @@ extension OBEFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitrotateRight(words: Int, bits: Int) {
-        self = self.withUnsafeTwosComplementWords { SELF in
-        Self.fromUnsafeUninitializedTwosComplementWords { NEXT in
-            assert(0 <= words && words < SELF.endIndex)
-            assert(0 <= bits  && bits  < UInt.bitWidth)
+        assert(0 <= words && words < self.endIndex)
+        assert(0 <= bits  && bits  < UInt.bitWidth)
+        
+        var next = Self.uninitialized(); defer { self = next }
+        
+        let a = bits
+        let b = UInt.bitWidth &- bits
+        
+        var x = self.index(self.startIndex, offsetBy: +1 &+ words)
+        var y = self.index(self.startIndex, offsetBy: +0 &+ words)
+        var z = self.endIndex
+        
+        brrrrr: while z != self.startIndex {
+            x = y
+            self.formIndex(&y, offsetBy: y == self.startIndex ? self.lastIndex : -1)
+            self.formIndex(before: &z)
             
-            let a = bits
-            let b = UInt.bitWidth &- bits
-            
-            var x = SELF.index(SELF.startIndex, offsetBy: +1 &+ words)
-            var y = SELF.index(SELF.startIndex, offsetBy: +0 &+ words)
-            var z = SELF.endIndex
-            
-            brrrrr: while z != SELF.startIndex {
-                x = y
-                SELF.formIndex(&y, offsetBy: y == SELF.startIndex ? SELF.lastIndex : -1)
-                SELF.formIndex(before: &z)
-                
-                NEXT[z] = SELF[x] << b | SELF[y] >> a
-            }
-        }}
+            next[unchecked: z] = self[unchecked: x] << b | self[unchecked: y] >> a
+        }
     }
 }

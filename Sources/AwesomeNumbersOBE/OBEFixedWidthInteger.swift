@@ -36,7 +36,7 @@ Magnitude.High == High.Magnitude,  Magnitude.Low == Low {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @_hasStorage var body: Body
+    @inlinable var body: Body { get set }
 }
 
 //=----------------------------------------------------------------------------=
@@ -83,6 +83,10 @@ extension OBEFixedWidthInteger {
     
     @inlinable init<T>(bitPattern: T)  where T: OBEFixedWidthInteger, T.Magnitude == Magnitude {
         self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
+    }
+    
+    @inlinable static func uninitialized() -> Self {
+        self.init(bitPattern: Body.uninitialized())
     }
         
     //=------------------------------------------------------------------------=

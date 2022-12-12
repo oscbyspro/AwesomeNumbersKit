@@ -20,15 +20,13 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func formTwosComplement() {
-        self.withUnsafeMutableTwosComplementWords { SELF in
-            var carry =  true
-            for index in Self.indices {
-                (SELF[index], carry) = (~SELF[index]).addingReportingOverflow(UInt(carry))
-            }
+        var carry =  true
+        for index in self.indices {
+            (self[unchecked: index], carry) = (~self[unchecked: index]).addingReportingOverflow(UInt(carry))
         }
     }
     
-    @inlinable public func twosComplement() -> Self {
+    @inlinable public func  twosComplement() -> Self {
         var x = self; x.formTwosComplement(); return x
     }
     
@@ -52,12 +50,12 @@ extension OBEFullWidth where High: SignedInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable mutating func negateReportingOverflow() -> Bool {
-        let wasLessThanZero = self.isLessThanZero
+        let wasLessThanZero = isLessThanZero
         self.formTwosComplement() // ~self &+ 1
-        return wasLessThanZero && self.isLessThanZero
+        return wasLessThanZero && isLessThanZero
     }
     
     @inlinable func negatedReportingOverflow() -> PVO<Self> {
-        var pv = self; let o = pv.negateReportingOverflow(); return PVO(pv, o)
+        var pv = self; let o = pv.negateReportingOverflow(); return (pv, o)
     }
 }

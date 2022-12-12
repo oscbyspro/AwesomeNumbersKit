@@ -23,14 +23,10 @@ import AwesomeNumbersKit
 /// - `Low .bitWidth` must be an integer multiple of `UInt.bitWidth`
 /// - `Self.bitWidth` must be an integer multiple of `UInt.bitWidth`
 ///
-@frozen @usableFromInline struct OBEFullWidth<High, Low>: Hashable where
+@frozen @usableFromInline struct OBEFullWidth<High, Low>: WoRdS, Hashable where
 High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     public typealias Magnitude = OBEFullWidth<High.Magnitude, Low>
-    
-    @usableFromInline typealias Reader  = OBEFullWidthReader <High, Low>
-    
-    @usableFromInline typealias Mutator = OBEFullWidthMutator<High, Low>
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
@@ -56,24 +52,14 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    /// Creates a new value equal to zero.
-    ///
     @inlinable public init() {
         (self.high, self.low) = (High(), Low())
     }
     
-    /// Creates a new value from digits of ascending significance.
-    ///
-    /// - Parameter ascending: a low and high integer with platform endianness
-    ///
     @inlinable public init(ascending digits: (low: Low, high: High)) {
         (self.low, self.high) = digits
     }
     
-    /// Creates a new value from digits of descending significance.
-    ///
-    /// - Parameter descending: a high and low integer with platform endianness
-    ///
     @inlinable public init(descending digits: (high: High, low: Low)) {
         (self.high, self.low) = digits
     }
@@ -90,8 +76,12 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
         self.init(descending:(High(repeating: bit), Low(repeating: bit)))
     }
     
-    @inlinable init<H>(bitPattern: OBEFullWidth<H, Low>) where H.Magnitude == High.Magnitude {
+    @inlinable public init<H>(bitPattern: OBEFullWidth<H, Low>) where H.Magnitude == High.Magnitude {
         self = unsafeBitCast(bitPattern,  to: Self.self) // signitude or magnitude
+    }
+    
+    @_transparent @usableFromInline static func uninitialized() -> Self {
+        withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { $0.baseAddress.unsafelyUnwrapped.pointee }
     }
 }
 
