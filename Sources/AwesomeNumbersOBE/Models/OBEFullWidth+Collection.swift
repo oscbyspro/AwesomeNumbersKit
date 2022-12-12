@@ -17,27 +17,27 @@ extension OBEFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable static var count: Int {
+    @_transparent @usableFromInline static var count: Int {
         MemoryLayout<Self>.stride / MemoryLayout<UInt>.stride
     }
     
-    @inlinable static var startIndex: Int {
+    @_transparent @usableFromInline static var startIndex: Int {
         0
     }
     
-    @inlinable static var endIndex: Int {
+    @_transparent @usableFromInline static var endIndex: Int {
         count
     }
     
-    @inlinable static var firstIndex: Int {
+    @_transparent @usableFromInline static var firstIndex: Int {
         0
     }
     
-    @inlinable static var lastIndex: Int {
+    @_transparent @usableFromInline static var lastIndex: Int {
         count - 1
     }
     
-    @inlinable static var indices: Range<Int> {
+    @_transparent @usableFromInline static var indices: Range<Int> {
         0 ..< count
     }
     

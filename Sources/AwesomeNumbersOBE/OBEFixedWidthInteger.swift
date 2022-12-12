@@ -81,8 +81,8 @@ extension OBEFixedWidthInteger {
         self = unsafeBitCast(bitPattern, to: Self.self)
     }
     
-    @inlinable init<T>(bitPattern: T) where T: OBEFixedWidthInteger, T.Magnitude == Magnitude {
-        self = unsafeBitCast(bitPattern, to: Self.self) // signitude | magnitude
+    @inlinable init<T>(bitPattern: T)  where T: OBEFixedWidthInteger, T.Magnitude == Magnitude {
+        self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
     }
         
     //=------------------------------------------------------------------------=
