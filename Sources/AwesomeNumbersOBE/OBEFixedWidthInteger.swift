@@ -18,23 +18,25 @@ import AwesomeNumbersKit
 /// - It must be safe to bit cast between `High` and `Low`.
 /// - It must be safe to bit cast between `Self` and `Magnitude`.
 ///
-@usableFromInline protocol OBEFixedWidthInteger: AwesomeFixedWidthInteger,
-CustomDebugStringConvertible, OBEFixedWidthIntegerLayout where  Magnitude:
-OBEUnsignedFixedWidthInteger, Magnitude.High == High.Magnitude, Magnitude.Low == Low {
-    
-    associatedtype High: AwesomeFixedWidthInteger
-    
-    associatedtype Low:  AwesomeUnsignedFixedWidthInteger where Low == High.Magnitude
+@usableFromInline protocol OBEFixedWidthInteger:  AwesomeFixedWidthInteger,
+CustomDebugStringConvertible where Magnitude: OBEUnsignedFixedWidthInteger,
+Magnitude.High == High.Magnitude,  Magnitude.Low == Low {
     
     associatedtype X64 // (UInt64, UInt64, ...)
     
     associatedtype X32 // (UInt32, UInt32, UInt32, UInt32, ...)
     
+    associatedtype High: AwesomeFixedWidthInteger
+    
+    typealias Low  = High.Magnitude // double width
+    
+    typealias Body = OBEFullWidth<High, Low>
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @_hasStorage var _storage: OBEFullWidth<High, Low>
+    @_hasStorage var body: Body
 }
 
 //=----------------------------------------------------------------------------=
@@ -48,15 +50,15 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public init() {
-        self.init(bitPattern: OBEFullWidth<High, Low>())
+        self.init(bitPattern: Body())
     }
     
     @inlinable public init(_ bit: Bool) {
-        self.init(bitPattern: OBEFullWidth(bit))
+        self.init(bitPattern: Body(bit))
     }
     
     @inlinable public init(repeating bit: Bool) {
-        self.init(bitPattern: OBEFullWidth(repeating: bit))
+        self.init(bitPattern: Body(repeating: bit))
     }
     
     @inlinable public init(x64: X64) {
@@ -67,20 +69,20 @@ extension OBEFixedWidthInteger {
         self.init(ascending: unsafeBitCast(x32, to: (low: Low, high: High).self))
     }
     
+    @inlinable init(ascending digits:(low: Low, high: High)) {
+        self.init(bitPattern: Body(ascending: digits))
+    }
+    
+    @inlinable init(descending digits:(high: High, low: Low)) {
+        self.init(bitPattern: Body(descending: digits))
+    }
+    
     @inlinable init(bitPattern: OBEFullWidth<High, Low>) {
         self = unsafeBitCast(bitPattern, to: Self.self)
     }
     
-    @inlinable init<T>(bitPattern: T) where T: OBEFixedWidthInteger, T.Low == Low {
-        self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
-    }
-    
-    @inlinable init(ascending digits:(low: Low, high: High)) {
-        self.init(bitPattern: OBEFullWidth(ascending: digits))
-    }
-    
-    @inlinable init(descending digits:(high: High, low: Low)) {
-        self.init(bitPattern: OBEFullWidth(descending: digits))
+    @inlinable init<T>(bitPattern: T) where T: OBEFixedWidthInteger, T.Magnitude == Magnitude {
+        self = unsafeBitCast(bitPattern, to: Self.self) // signitude | magnitude
     }
         
     //=------------------------------------------------------------------------=
@@ -91,14 +93,14 @@ extension OBEFixedWidthInteger {
         Self()
     }
     
-    @inlinable var high: High {
-        _read   { yield  self._storage.high }
-        _modify { yield &self._storage.high }
+    @usableFromInline var high: High {
+        @_transparent _read   { yield  self.body.high }
+        @_transparent _modify { yield &self.body.high }
     }
     
-    @inlinable var low:  Low  {
-        _read   { yield  self._storage.low  }
-        _modify { yield &self._storage.low  }
+    @usableFromInline var low:  Low  {
+        @_transparent _read   { yield  self.body.low  }
+        @_transparent _modify { yield &self.body.low  }
     }
     
     //=------------------------------------------------------------------------=

@@ -7,35 +7,40 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import AwesomeNumbersKit
+
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer Pointer x Reader
+// MARK: * Int256
 //*============================================================================*
 
-@frozen @usableFromInline struct OBEFixedWidthIntegerReader<Integer>:
-OBEFixedWidthIntegerBuffer where Integer: OBEFixedWidthIntegerLayout {
-
+@frozen public struct Int256: OBESignedFixedWidthInteger {
+    
+    public typealias Magnitude = UInt256
+        
+    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
+    
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline let _base: UnsafePointer<UInt>
+    @usableFromInline var body: OBEDoubleWidth<Int128>
+}
+
+//*============================================================================*
+// MARK: * UInt256
+//*============================================================================*
+
+@frozen public struct UInt256: OBEUnsignedFixedWidthInteger {
     
+    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
+
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
+
     //=------------------------------------------------------------------------=
-    // MARK: Initializers
+    // MARK: State
     //=------------------------------------------------------------------------=
-    
-    @inlinable init(_ INTEGER: UnsafePointer<Integer>) {
-        self._base = UnsafeRawPointer(INTEGER).assumingMemoryBound(to: UInt.self)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @usableFromInline subscript(index: Int) -> UInt {
-        @_transparent _read {
-            precondition(indices.contains(index))
-            yield _base[littleEndianIndex(index)]
-        }
-    }
+
+    @usableFromInline var body: OBEDoubleWidth<UInt128>
 }

@@ -7,61 +7,46 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import AwesomeNumbersKit
-
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer Pointer
+// MARK: * OBE x Full Width Digits x Words
 //*============================================================================*
 
-@usableFromInline protocol OBEFixedWidthIntegerBuffer: WoRdS {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Type Meta Dats
-    //=------------------------------------------------------------------------=
-        
-    associatedtype Integer: OBEFixedWidthIntegerLayout
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Collection
-//=----------------------------------------------------------------------------=
-
-extension OBEFixedWidthIntegerBuffer {
+extension OBEFullWidthDigits {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
     @inlinable var count: Int {
-        Integer.count
+        Layout.count
     }
     
     @inlinable var startIndex: Int {
-        Integer.startIndex
+        Layout.startIndex
     }
     
     @inlinable var endIndex: Int {
-        Integer.endIndex
+        Layout.endIndex
     }
     
     @inlinable var firstIndex: Int {
-        Integer.firstIndex
+        Layout.firstIndex
     }
     
     @inlinable var lastIndex: Int {
-        Integer.lastIndex
+        Layout.lastIndex
     }
     
     @inlinable var indices: Range<Int> {
-        Integer.indices
+        Layout.indices
     }
     
     @inlinable var first: UInt {
-        self[Integer.firstIndex]
+        self[Layout.firstIndex]
     }
     
     @inlinable var last: UInt {
-        self[Integer.lastIndex]
+        self[Layout.lastIndex]
     }
     
     //=------------------------------------------------------------------------=
@@ -116,21 +101,3 @@ extension OBEFixedWidthIntegerBuffer {
     }
 }
 
-//=----------------------------------------------------------------------------=
-// MARK: + Comparisons
-//=----------------------------------------------------------------------------=
-
-extension OBEFixedWidthIntegerBuffer {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public var isZero: Bool {
-        allSatisfy({ $0.isZero })
-    }
-    
-    @inlinable public var isLessThanZero: Bool {
-        Integer.isSigned ? self[littleEndianIndex(lastIndex)].mostSignificantBit : false
-    }
-}

@@ -10,73 +10,77 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Full Width x Words
+// MARK: * OBE x Fixed Width Integer x Words
 //*============================================================================*
 
-extension OBEFullWidth {
+extension OBEFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline static var bitWidth: Int {
-        High.bitWidth + Low.bitWidth
+    @_transparent public static var bitWidth: Int {
+        Body.bitWidth
     }
     
     @_transparent @usableFromInline static var count: Int {
-        MemoryLayout<Self>.stride / MemoryLayout<UInt>.stride
+        Body.count
     }
     
     @_transparent @usableFromInline static var startIndex: Int {
-        0
+        Body.startIndex
     }
     
     @_transparent @usableFromInline static var endIndex: Int {
-        count
+        Body.endIndex
     }
     
     @_transparent @usableFromInline static var firstIndex: Int {
-        0
+        Body.firstIndex
     }
     
     @_transparent @usableFromInline static var lastIndex: Int {
-        count - 1
+        Body.lastIndex
     }
     
     @_transparent @usableFromInline static var indices: Range<Int> {
-        0 ..< count
+        Body.indices
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable var nonzeroBitCount: Int {
-        low.nonzeroBitCount + high.nonzeroBitCount
+    @inlinable public var words: some WoRdS {
+        OBEFullWidthLittleEndianWords(body)
     }
     
-    @inlinable var leadingZeroBitCount: Int {
-        high.isZero ? High.bitWidth + low.leadingZeroBitCount : high.leadingZeroBitCount
+    @inlinable public var nonzeroBitCount: Int {
+        body.nonzeroBitCount
     }
     
-    @inlinable var trailingZeroBitCount: Int {
-        low.isZero ? Low.bitWidth + high.trailingZeroBitCount : low.trailingZeroBitCount
+    @inlinable public var leadingZeroBitCount: Int {
+        body.leadingZeroBitCount
     }
     
-    @inlinable var mostSignificantBit: Bool {
-        high.mostSignificantBit
+    @inlinable public var trailingZeroBitCount: Int {
+        body.trailingZeroBitCount
     }
     
-    @inlinable var leastSignificantBit: Bool {
-        low.leastSignificantBit
+    @inlinable public var mostSignificantBit: Bool {
+        body.mostSignificantBit
     }
     
-    @inlinable var mostSignificantWord: UInt {
-        high.mostSignificantWord
+    @inlinable public var leastSignificantBit: Bool {
+        body.leastSignificantBit
     }
     
-    @inlinable var leastSignificantWord: UInt {
-        low.leastSignificantWord
+    @inlinable public var mostSignificantWord: UInt {
+        body.mostSignificantWord
+    }
+    
+    @inlinable public var leastSignificantWord: UInt {
+        body.leastSignificantWord
     }
     
     //=------------------------------------------------------------------------=
@@ -84,24 +88,17 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @_transparent @usableFromInline func withUnsafeTwosComplementWords<T>(
-    _ operation: (Reader) throws -> T) rethrows -> T {
-        try Swift.withUnsafePointer(to: self) { SELF in
-            try operation(Reader(SELF))
-        }
+    _ operation: (Body.Reader) throws -> T) rethrows -> T {
+        try body.withUnsafeTwosComplementWords(operation)
     }
     
     @_transparent @usableFromInline mutating func withUnsafeMutableTwosComplementWords<T>(
-    _ operation: (Mutator) throws -> T) rethrows -> T {
-        try Swift.withUnsafeMutablePointer(to: &self) { SELF in
-            try operation(Mutator(SELF))
-        }
+    _ operation: (Body.Mutator) throws -> T) rethrows -> T {
+        try body.withUnsafeMutableTwosComplementWords(operation)
     }
     
     @_transparent @usableFromInline static func fromUnsafeUninitializedTwosComplementWords(
-    _ operation: (Mutator) throws -> Void) rethrows -> Self {
-        try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
-            let SELF = BUFFER.baseAddress.unsafelyUnwrapped
-            try operation(Mutator(SELF)); return SELF.pointee
-        }
+    _ operation: (Body.Mutator) throws -> Void) rethrows -> Self {
+        Self(bitPattern: try Body.fromUnsafeUninitializedTwosComplementWords(operation))
     }
 }

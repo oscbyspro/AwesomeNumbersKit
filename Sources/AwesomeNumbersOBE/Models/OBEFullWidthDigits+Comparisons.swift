@@ -8,32 +8,20 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Comparisons
+// MARK: * OBE x Full Width Digits x Comparisons
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBEFullWidthDigits {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
     @inlinable public var isZero: Bool {
-        self._storage.isZero
+        allSatisfy({ $0.isZero })
     }
     
     @inlinable public var isLessThanZero: Bool {
-        self._storage.isLessThanZero
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
-        lhs._storage == rhs._storage
-    }
-    
-    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
-        lhs._storage <  rhs._storage
+        Layout.isSigned ? self[littleEndianIndex(lastIndex)].mostSignificantBit : false
     }
 }

@@ -10,37 +10,32 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * Int256
+// MARK: * OBE x Fixed Width Integer x Addition
 //*============================================================================*
 
-@frozen public struct Int256: OBESignedFixedWidthInteger {
-    
-    public typealias Magnitude = UInt256
-        
-    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
-    
-    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
+extension OBEFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: State
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var _storage: OBEDoubleWidth<Int128>
-}
-
-//*============================================================================*
-// MARK: * UInt256
-//*============================================================================*
-
-@frozen public struct UInt256: OBEUnsignedFixedWidthInteger {
+    @inlinable public static func +=(lhs: inout Self, rhs: Self) {
+        lhs.body += rhs.body
+    }
     
-    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
-
-    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
-
+    @inlinable public static func +(lhs: Self, rhs: Self) -> Self {
+        Self(bitPattern: lhs.body + rhs.body)
+    }
+    
     //=------------------------------------------------------------------------=
-    // MARK: State
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
-
-    @usableFromInline var _storage: OBEDoubleWidth<UInt128>
+    
+    @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
+        self.body.addReportingOverflow(amount.body)
+    }
+    
+    @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
+        let (pv, o) = self.body.addingReportingOverflow(amount.body); return (Self(bitPattern: pv), o)
+    }
 }

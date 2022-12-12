@@ -20,11 +20,11 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func <<=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs._storage <<= rhs
+        lhs.body <<= rhs
     }
 
     @inlinable public static func <<(lhs: Self, rhs: some BinaryInteger) -> Self {
-        Self(bitPattern: lhs._storage << rhs)
+        Self(bitPattern: lhs.body << rhs)
     }
     
     //=------------------------------------------------------------------------=
@@ -32,11 +32,11 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func <<=(lhs: inout Self, rhs: Int) {
-        lhs._storage <<= rhs
+        lhs.body <<= rhs
     }
     
     @inlinable public static func <<(lhs: Self, rhs: Int) -> Self {
-        Self(bitPattern: lhs._storage << rhs)
+        Self(bitPattern: lhs.body << rhs)
     }
 }
 
@@ -51,11 +51,11 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func >>=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs._storage >>= rhs
+        lhs.body >>= rhs
     }
     
     @inlinable public static func >>(lhs: Self, rhs: some BinaryInteger) -> Self {
-        Self(bitPattern: lhs._storage >> rhs)
+        Self(bitPattern: lhs.body >> rhs)
     }
     
     //=------------------------------------------------------------------------=
@@ -63,11 +63,11 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func >>=(lhs: inout Self, rhs: Int) {
-        lhs._storage >>= rhs
+        lhs.body >>= rhs
     }
     
     @inlinable public static func >>(lhs: Self, rhs: Int) -> Self {
-        Self(bitPattern: lhs._storage >> rhs)
+        Self(bitPattern: lhs.body >> rhs)
     }
 }
 
@@ -82,11 +82,11 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func &<<=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs._storage &<<= rhs
+        lhs.body &<<= rhs
     }
     
     @inlinable public static func &<<(lhs: Self, rhs: some BinaryInteger) -> Self {
-        Self(bitPattern: lhs._storage &<< rhs)
+        Self(bitPattern: lhs.body &<< rhs)
     }
     
     //=------------------------------------------------------------------------=
@@ -94,11 +94,11 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func &<<=(lhs: inout Self, rhs: Int) {
-        lhs._storage &<<= rhs
+        lhs.body &<<= rhs
     }
 
     @inlinable public static func &<<(lhs: Self, rhs: Int) -> Self {
-        Self(bitPattern: lhs._storage &<< rhs)
+        Self(bitPattern: lhs.body &<< rhs)
     }
 }
 
@@ -113,11 +113,11 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func &>>=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs._storage &>>= rhs
+        lhs.body &>>= rhs
     }
     
     @inlinable public static func &>>(lhs: Self, rhs: some BinaryInteger) -> Self {
-        Self(bitPattern: lhs._storage &>> rhs)
+        Self(bitPattern: lhs.body &>> rhs)
     }
     
     //=------------------------------------------------------------------------=
@@ -125,10 +125,10 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func &>>=(lhs: inout Self, rhs: Int) {
-        lhs._storage &>>= rhs
+        lhs.body &>>= rhs
     }
 
     @inlinable public static func &>>(lhs: Self, rhs: Int) -> Self {
-        Self(bitPattern: lhs._storage &>> rhs)
+        Self(bitPattern: lhs.body &>> rhs)
     }
 }

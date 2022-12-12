@@ -23,10 +23,22 @@ import AwesomeNumbersKit
 /// - `Low .bitWidth` must be an integer multiple of `UInt.bitWidth`
 /// - `Self.bitWidth` must be an integer multiple of `UInt.bitWidth`
 ///
-@frozen @usableFromInline struct OBEFullWidth<High, Low>: Hashable, OBEFixedWidthIntegerLayout where
+@frozen @usableFromInline struct OBEFullWidth<High, Low>: Hashable where
 High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     public typealias Magnitude = OBEFullWidth<High.Magnitude, Low>
+    
+    @usableFromInline typealias Reader  = OBEFullWidthLittleEndianReader <High, Low>
+    
+    @usableFromInline typealias Mutator = OBEFullWidthLittleEndianMutator<High, Low>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static var isSigned: Bool {
+        High.isSigned
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -80,14 +92,6 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     
     @inlinable init<H>(bitPattern: OBEFullWidth<H, Low>) where H.Magnitude == High.Magnitude {
         self = unsafeBitCast(bitPattern,  to: Self.self) // signitude or magnitude
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static var isSigned: Bool {
-        High.isSigned
     }
 }
 

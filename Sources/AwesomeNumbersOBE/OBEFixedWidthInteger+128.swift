@@ -10,47 +10,37 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Complements
+// MARK: * Int128
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+@frozen public struct Int128: OBESignedFixedWidthInteger {
+    
+    public typealias Magnitude = UInt128
+        
+    public typealias X64 = (UInt64, UInt64)
+    
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32)
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: State
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func formTwosComplement() {
-        self._storage.formTwosComplement()
-    }
-    
-    @inlinable public func twosComplement() -> Self {
-        Self(bitPattern: _storage.twosComplement())
-    }
+    @usableFromInline var body: OBEDoubleWidth<Int64>
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Complements x Signed
+// MARK: * UInt128
 //*============================================================================*
 
-extension OBESignedFixedWidthInteger {
+@frozen public struct UInt128: OBEUnsignedFixedWidthInteger {
+        
+    public typealias X64 = (UInt64, UInt64)
+    
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32)
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
+    // MARK: State
     //=------------------------------------------------------------------------=
     
-    @inlinable public var magnitude: Magnitude {
-        Magnitude(bitPattern: _storage.magnitude)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public mutating func negateReportingOverflow() -> Bool {
-        self._storage.negateReportingOverflow()
-    }
-    
-    @inlinable public func negatedReportingOverflow() -> PVO<Self> {
-        let (pv, o) = self._storage.negatedReportingOverflow(); return PVO(Self(bitPattern: pv), o)
-    }
+    @usableFromInline var body: OBEDoubleWidth<UInt64>
 }

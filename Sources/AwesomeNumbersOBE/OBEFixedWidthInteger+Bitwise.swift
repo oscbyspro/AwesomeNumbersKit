@@ -7,10 +7,8 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import AwesomeNumbersKit
-
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Addition
+// MARK: * OBE x Fixed Width Integer x Bitwise
 //*============================================================================*
 
 extension OBEFixedWidthInteger {
@@ -19,23 +17,29 @@ extension OBEFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func +=(lhs: inout Self, rhs: Self) {
-        lhs._storage += rhs._storage
+    @inlinable public static prefix func ~(x: Self) -> Self {
+        Self(bitPattern: ~x.body)
     }
     
-    @inlinable public static func +(lhs: Self, rhs: Self) -> Self {
-        Self(bitPattern: lhs._storage + rhs._storage)
+    @inlinable public static func &=(lhs: inout Self, rhs: Self) {
+        lhs.body &= rhs.body
+    }
+    
+    @inlinable public static func |=(lhs: inout Self, rhs: Self) {
+        lhs.body |= rhs.body
+    }
+    
+    @inlinable public static func ^=(lhs: inout Self, rhs: Self) {
+        lhs.body ^= rhs.body
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
-        self._storage.addReportingOverflow(amount._storage)
-    }
-    
-    @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
-        let (pv, o) = self._storage.addingReportingOverflow(amount._storage); return (Self(bitPattern: pv), o)
+    @inlinable public var byteSwapped: Self {
+        let high = Self.reinterpret(self.low .byteSwapped)
+        let low  = Self.reinterpret(self.high.byteSwapped)
+        return Self(descending:(high, low))
     }
 }

@@ -8,38 +8,32 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Bitwise
+// MARK: * OBE x Fixed Width Integer x Comparisons
 //*============================================================================*
 
 extension OBEFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public static prefix func ~(x: Self) -> Self {
-        Self(bitPattern: ~x._storage)
+    @inlinable public var isZero: Bool {
+        self.body.isZero
     }
     
-    @inlinable public static func &=(lhs: inout Self, rhs: Self) {
-        lhs._storage &= rhs._storage
-    }
-    
-    @inlinable public static func |=(lhs: inout Self, rhs: Self) {
-        lhs._storage |= rhs._storage
-    }
-    
-    @inlinable public static func ^=(lhs: inout Self, rhs: Self) {
-        lhs._storage ^= rhs._storage
+    @inlinable public var isLessThanZero: Bool {
+        self.body.isLessThanZero
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public var byteSwapped: Self {
-        let high = Self.reinterpret(self.low .byteSwapped)
-        let low  = Self.reinterpret(self.high.byteSwapped)
-        return Self(descending:(high, low))
+    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
+        lhs.body == rhs.body
+    }
+    
+    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
+        lhs.body <  rhs.body
     }
 }
