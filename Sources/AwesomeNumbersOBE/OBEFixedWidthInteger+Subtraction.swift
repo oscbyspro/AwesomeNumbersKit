@@ -41,7 +41,7 @@ extension OBEFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Subtraction x Signed
+// MARK: * OBE x Fixed Width Integer x Signed x Subtraction
 //*============================================================================*
 
 extension OBESignedFixedWidthInteger {
@@ -50,7 +50,102 @@ extension OBESignedFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static prefix func -(x: Self) -> Self {
-        let (pv, o) = x.negatedReportingOverflow(); precondition(!o); return pv
+    @inlinable public static func -=(lhs: inout Self, rhs: Int) {
+        lhs.subtract(rhs)
+    }
+    
+    @inlinable public static func -(lhs: Self, rhs: Int) -> Self {
+        lhs.subtracting(rhs)
+    }
+    
+    @inlinable public static func &-=(lhs: inout Self, rhs: Int) {
+        lhs.subtractWrappingAround(rhs)
+    }
+    
+    @inlinable public static func &-(lhs: Self, rhs: Int) -> Self {
+        lhs.subtractingWrappingAround(rhs)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func subtract(_ amount: Int, at index: Int = 0) {
+        self.body.subtract(amount, at: index)
+    }
+    
+    @inlinable public func subtracting(_ amount: Int, at index: Int = 0) -> Self {
+        Self(bitPattern: self.body.subtracting(amount, at: index))
+    }
+    
+    @inlinable public mutating func subtractWrappingAround(_ amount: Int, at index: Int = 0) {
+        self.body.subtractWrappingAround(amount, at: index)
+    }
+    
+    @inlinable public func subtractingWrappingAround(_ amount: Int, at index: Int = 0) -> Self {
+        Self(bitPattern: self.body.subtractingWrappingAround(amount))
+    }
+    
+    @inlinable public mutating func subtractReportingOverflow(_ amount: Int, at index: Int = 0) -> Bool {
+        self.body.subtractReportingOverflow(amount, at: index)
+    }
+    
+    @inlinable public func subtractingReportingOverflow(_ amount: Int, at index: Int = 0) -> PVO<Self> {
+        var pv = self; let o = pv.subtractReportingOverflow(amount, at: index); return (pv, o)
+    }
+}
+
+//*============================================================================*
+// MARK: * OBE x Fixed Width Integer x Unsigned x Subtraction
+//*============================================================================*
+
+extension OBEUnsignedFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func -=(lhs: inout Self, rhs: UInt) {
+        lhs.subtract(rhs)
+    }
+    
+    @inlinable public static func -(lhs: Self, rhs: UInt) -> Self {
+        lhs.subtracting(rhs)
+    }
+    
+    @inlinable public static func &-=(lhs: inout Self, rhs: UInt) {
+        lhs.subtractWrappingAround(rhs)
+    }
+    
+    @inlinable public static func &-(lhs: Self, rhs: UInt) -> Self {
+        lhs.subtractingWrappingAround(rhs)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func subtract(_ amount: UInt, at index: Int = 0) {
+        self.body.subtract(amount, at: index)
+    }
+    
+    @inlinable public func subtracting(_ amount: UInt, at index: Int = 0) -> Self {
+        Self(bitPattern: self.body.subtracting(amount, at: index))
+    }
+    
+    @inlinable public mutating func subtractWrappingAround(_ amount: UInt, at index: Int = 0) {
+        self.body.subtractWrappingAround(amount, at: index)
+    }
+    
+    @inlinable public func subtractingWrappingAround(_ amount: UInt, at index: Int = 0) -> Self {
+        Self(bitPattern: self.body.subtractingWrappingAround(amount))
+    }
+    
+    @inlinable public mutating func subtractReportingOverflow(_ amount: UInt, at index: Int = 0) -> Bool {
+        self.body.subtractReportingOverflow(amount, at: index)
+    }
+    
+    @inlinable public func subtractingReportingOverflow(_ amount: UInt, at index: Int = 0) -> PVO<Self> {
+        var pv = self; let o = pv.subtractReportingOverflow(amount, at: index); return (pv, o)
     }
 }

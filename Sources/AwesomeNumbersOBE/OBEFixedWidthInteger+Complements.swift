@@ -35,11 +35,11 @@ extension OBEFixedWidthInteger {
 extension OBESignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public var magnitude: Magnitude {
-        Magnitude(bitPattern: body.magnitude)
+    @inlinable public static prefix func -(x: Self) -> Self {
+        Self(bitPattern: -x.body)        
     }
     
     //=------------------------------------------------------------------------=
@@ -51,6 +51,14 @@ extension OBESignedFixedWidthInteger {
     }
     
     @inlinable public func negatedReportingOverflow() -> PVO<Self> {
-        let (pv, o) = self.body.negatedReportingOverflow(); return PVO(Self(bitPattern: pv), o)
+        var pv = self; let o = pv.negateReportingOverflow(); return (pv, o)        
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var magnitude: Magnitude {
+        Magnitude(bitPattern: body.magnitude)
     }
 }

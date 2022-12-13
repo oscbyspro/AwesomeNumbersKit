@@ -121,7 +121,7 @@ extension OBEFullWidthInteger where High: SignedInteger {
             let increment = carry ? 1 : ~0 as UInt // +1 vs -1
 
             while index != self.endIndex && carry == predicate {
-                carry = self[index].addReportingOverflow(increment)
+                carry = self[unchecked: index].addReportingOverflow(increment)
                 self.formIndex(after: &index)
             }
         }

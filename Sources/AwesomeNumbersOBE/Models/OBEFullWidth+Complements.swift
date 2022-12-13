@@ -57,6 +57,14 @@ extension OBEFullWidthInteger where High: SignedInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    @inlinable static prefix func -(x: Self) -> Self {
+        let (pv, o) = x.negatedReportingOverflow(); precondition(!o); return pv
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable mutating func negateReportingOverflow() -> Bool {
         let wasLessThanZero = isLessThanZero
         self.formTwosComplement() // ~self &+ 1

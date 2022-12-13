@@ -30,9 +30,9 @@ Magnitude: AwesomeUnsignedFixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable var   mostSignificantBit: Bool { get }
+    @inlinable var  mostSignificantBit: Bool { get }
         
-    @inlinable var  leastSignificantBit: Bool { get }
+    @inlinable var leastSignificantBit: Bool { get }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
