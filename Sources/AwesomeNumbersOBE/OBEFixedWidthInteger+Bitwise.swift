@@ -38,8 +38,6 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public var byteSwapped: Self {
-        let high = Self.reinterpret(self.low .byteSwapped)
-        let low  = Self.reinterpret(self.high.byteSwapped)
-        return Self(descending:(high, low))
+        Self(bitPattern:  body.byteSwapped)
     }
 }

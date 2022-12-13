@@ -13,18 +13,25 @@ import AwesomeNumbersKit
 // MARK: * OBE x Full Width x Bitwise
 //*============================================================================*
 
-extension OBEFullWidthInteger {
+extension OBEFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
     @inlinable static prefix func ~(x: Self) -> Self {
-        Self(descending:(~x.high, ~x.low))
+        var result = Self.uninitialized()
+        for index in Self.indices {
+            result[unchecked: index] = ~x[unchecked: index]
+        }
+        
+        return result
     }
     
     @inlinable static func &=(lhs: inout Self, rhs: Self) {
-        lhs.low &= rhs.low; lhs.high &= rhs.high
+        for index in Self.indices {
+            lhs[unchecked: index] &= rhs[unchecked: index]
+        }
     }
     
     @inlinable static func &(lhs: Self, rhs: Self) -> Self {
@@ -32,7 +39,9 @@ extension OBEFullWidthInteger {
     }
     
     @inlinable static func |=(lhs: inout Self, rhs: Self) {
-        lhs.low |= rhs.low; lhs.high |= rhs.high
+        for index in Self.indices {
+            lhs[unchecked: index] |= rhs[unchecked: index]
+        }
     }
     
     @inlinable static func |(lhs: Self, rhs: Self) -> Self {
@@ -40,10 +49,25 @@ extension OBEFullWidthInteger {
     }
     
     @inlinable static func ^=(lhs: inout Self, rhs: Self) {
-        lhs.low ^= rhs.low; lhs.high ^= rhs.high
+        for index in Self.indices {
+            lhs[unchecked: index] ^= rhs[unchecked: index]
+        }
     }
     
     @inlinable static func ^(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs ^= rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var byteSwapped: Self {
+        var result = Self.uninitialized()
+        for index in Self.indices {
+            result[unchecked: Self.lastIndex - index] = self[unchecked: index].byteSwapped
+        }
+        
+        return result
     }
 }
