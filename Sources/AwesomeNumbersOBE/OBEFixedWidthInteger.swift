@@ -27,8 +27,8 @@ Magnitude.High == High.Magnitude,  Magnitude.Low == Low {
     associatedtype X32 // (UInt32, UInt32, UInt32, UInt32, ...)
     
     associatedtype High: AwesomeFixedWidthInteger
-    
-    typealias Low  = High.Magnitude // double width
+        
+    associatedtype Low:  AwesomeUnsignedFixedWidthInteger where Low == High.Magnitude
     
     typealias Body = OBEFullWidth<High, Low>
     
@@ -37,6 +37,12 @@ Magnitude.High == High.Magnitude,  Magnitude.Low == Low {
     //=------------------------------------------------------------------------=
     
     @inlinable var body: Body { get set }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(bitPattern: Body)
 }
 
 //=----------------------------------------------------------------------------=
@@ -48,10 +54,6 @@ extension OBEFixedWidthInteger {
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
-    
-    @inlinable init(bitPattern: OBEFullWidth<High, Low>) {
-        self = unsafeBitCast(bitPattern,  to: Self.self)
-    }
     
     @inlinable init<T>(bitPattern: T) where T: OBEFixedWidthInteger, T.Magnitude == Magnitude {
         self.init(bitPattern: Body(bitPattern: bitPattern.body))

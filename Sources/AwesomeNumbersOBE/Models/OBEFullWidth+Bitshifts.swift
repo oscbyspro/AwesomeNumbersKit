@@ -270,7 +270,6 @@ extension OBEFullWidth {
     // MARK: Transformations x some Binary Integer
     //=------------------------------------------------------------------------=
     
-    
     @inlinable static func &>>=(lhs: inout Self, rhs: some BinaryInteger) {
         lhs &>>= Int(bitPattern: rhs.words.first ?? UInt())
     }

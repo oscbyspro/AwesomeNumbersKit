@@ -38,7 +38,7 @@ extension AwesomeSmallWidthInteger {
     }
     
     @inlinable public var isLessThanZero: Bool {
-        Self.isSigned ? self < 0 : false
+        Self.isSigned &&  self < 0
     }
     
     @inlinable public var mostSignificantBit: Bool {

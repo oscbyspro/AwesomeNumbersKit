@@ -38,7 +38,6 @@ extension OBEFullWidth {
 extension OBEFullWidthInteger {
     
     @usableFromInline typealias Magnitude = OBEFullWidth<High.Magnitude, Low>
-
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=

@@ -50,7 +50,7 @@ extension OBEFullWidthInteger {
         low.isZero && high.isZero
     }
     
-    @_transparent @usableFromInline var isLessThanZero: Bool {
+    @inlinable var isLessThanZero: Bool {
         high.isLessThanZero
     }
 }

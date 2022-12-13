@@ -23,7 +23,15 @@
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: OBEDoubleWidthInteger<Int128>
+    @usableFromInline var body: OBEFullWidth<Int128, UInt128>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(bitPattern: OBEFullWidth<Int128, UInt128>) {
+        self.body = bitPattern
+    }
 }
 
 //*============================================================================*
@@ -35,10 +43,18 @@
     public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
 
     public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
-
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
-
-    @usableFromInline var body: OBEDoubleWidthInteger<UInt128>
+    
+    @usableFromInline var body: OBEFullWidth<UInt128, UInt128>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(bitPattern: OBEFullWidth<UInt128, UInt128>) {
+        self.body = bitPattern
+    }
 }

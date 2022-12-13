@@ -23,7 +23,15 @@
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: OBEDoubleWidthInteger<Int64>
+    @usableFromInline var body: OBEFullWidth<Int64, UInt64>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(bitPattern: OBEFullWidth<Int64, UInt64>) {
+        self.body = bitPattern
+    }
 }
 
 //*============================================================================*
@@ -40,5 +48,13 @@
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: OBEDoubleWidthInteger<UInt64>
+    @usableFromInline var body: OBEFullWidth<UInt64, UInt64>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(bitPattern: OBEFullWidth<UInt64, UInt64>) {
+        self.body = bitPattern
+    }
 }
