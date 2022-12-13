@@ -10,13 +10,13 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Number
+// MARK: * OBE x Fixed Width Integer x Large x Number
 //*============================================================================*
 //=----------------------------------------------------------------------------=
 // most init methods must be overloaded at the un/signed integer protocol level
 //=----------------------------------------------------------------------------=
 
-extension OBEFixedWidthInteger {
+extension OBELargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -101,10 +101,10 @@ extension OBEFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Number x Signed
+// MARK: * OBE x Fixed Width Integer x Large x Signed x Number
 //*============================================================================*
 
-extension OBESignedFixedWidthInteger {
+extension OBESignedLargeFixedWidthInteger {
 
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -132,10 +132,10 @@ extension OBESignedFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Number x Unsigned
+// MARK: * OBE x Fixed Width Integer x Large x Unsigned x Number
 //*============================================================================*
 
-extension OBEUnsignedFixedWidthInteger {
+extension OBEUnsignedLargeFixedWidthInteger {
 
     //=------------------------------------------------------------------------=
     // MARK: Initializers

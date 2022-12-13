@@ -57,11 +57,7 @@ High: Comparable & Hashable, Low: Comparable & Hashable {
     //=------------------------------------------------------------------------=
     
     @inlinable init() {
-        self.init(repeating: 0)
-    }
-    
-    @inlinable init(_ bit: Bool) {
-        self = Self.uninitialized(); self[unchecked: self.firstIndex] = UInt(bit)
+        self.init(repeating: UInt())
     }
     
     @inlinable init(repeating bit: Bool) {

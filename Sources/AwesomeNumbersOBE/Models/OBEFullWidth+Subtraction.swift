@@ -67,38 +67,38 @@ extension OBEFullWidthInteger where High: SignedInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable static func -=(lhs: inout Self, rhs: Int) {
-        lhs.subtract(rhs)
+        lhs.subtract(rhs, at: 0)
     }
     
     @inlinable static func -(lhs: Self, rhs: Int) -> Self {
-        lhs.subtracting(rhs)
+        lhs.subtracting(rhs, at: 0)
     }
     
     @inlinable static func &-=(lhs: inout Self, rhs: Int) {
-        lhs.subtractWrappingAround(rhs)
+        lhs.subtractWrappingAround(rhs, at: 0)
     }
     
     @inlinable static func &-(lhs: Self, rhs: Int) -> Self {
-        lhs.subtractingWrappingAround(rhs)
+        lhs.subtractingWrappingAround(rhs, at: 0)
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func subtract(_ amount: Int, at index: Int = 0) {
+    @inlinable mutating func subtract(_ amount: Int, at index: Int) {
         let o = self.subtractReportingOverflow(amount, at: index); precondition(!o)
     }
     
-    @inlinable func subtracting(_ amount: Int, at index: Int = 0) -> Self {
+    @inlinable func subtracting(_ amount: Int, at index: Int) -> Self {
         var x = self; x.subtract(amount, at: index); return x
     }
     
-    @inlinable mutating func subtractWrappingAround(_ amount: Int, at index: Int = 0) {
+    @inlinable mutating func subtractWrappingAround(_ amount: Int, at index: Int) {
         let _ = self.subtractReportingOverflow(amount, at: index)
     }
     
-    @inlinable func subtractingWrappingAround(_ amount: Int, at index: Int = 0) -> Self {
+    @inlinable func subtractingWrappingAround(_ amount: Int, at index: Int) -> Self {
         var x = self; x.subtractWrappingAround(amount, at: index); return x
     }
     
@@ -137,7 +137,7 @@ extension OBEFullWidthInteger where High: SignedInteger {
         return lhsIsLessThanZero != rhsIsLessThanZero && lhsIsLessThanZero != self.isLessThanZero
     }
 
-    @inlinable func subtractingReportingOverflow(_ amount: Int, at index: Int = 0) -> PVO<Self> {
+    @inlinable func subtractingReportingOverflow(_ amount: Int, at index: Int) -> PVO<Self> {
         var pv = self; let o = pv.subtractReportingOverflow(amount, at: index); return (pv, o)
     }
 }
@@ -153,38 +153,38 @@ extension OBEFullWidthInteger where High: UnsignedInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable static func -=(lhs: inout Self, rhs: UInt) {
-        lhs.subtract(rhs)
+        lhs.subtract(rhs, at: 0)
     }
     
     @inlinable static func -(lhs: Self, rhs: UInt) -> Self {
-        lhs.subtracting(rhs)
+        lhs.subtracting(rhs, at: 0)
     }
     
     @inlinable static func &-=(lhs: inout Self, rhs: UInt) {
-        lhs.subtractWrappingAround(rhs)
+        lhs.subtractWrappingAround(rhs, at: 0)
     }
     
     @inlinable static func &-(lhs: Self, rhs: UInt) -> Self {
-        lhs.subtractingWrappingAround(rhs)
+        lhs.subtractingWrappingAround(rhs, at: 0)
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func subtract(_ amount: UInt, at index: Int = 0) {
+    @inlinable mutating func subtract(_ amount: UInt, at index: Int) {
         let o = self.subtractReportingOverflow(amount, at: index); precondition(!o)
     }
     
-    @inlinable func subtracting(_ amount: UInt, at index: Int = 0) -> Self {
+    @inlinable func subtracting(_ amount: UInt, at index: Int) -> Self {
         var x = self; x.subtract(amount, at: index); return x
     }
     
-    @inlinable mutating func subtractWrappingAround(_ amount: UInt, at index: Int = 0) {
+    @inlinable mutating func subtractWrappingAround(_ amount: UInt, at index: Int) {
         let _ = self.subtractReportingOverflow(amount, at: index)
     }
     
-    @inlinable func subtractingWrappingAround(_ amount: UInt, at index: Int = 0) -> Self {
+    @inlinable func subtractingWrappingAround(_ amount: UInt, at index: Int) -> Self {
         var x = self; x.subtractWrappingAround(amount, at: index); return x
     }
     
@@ -207,8 +207,7 @@ extension OBEFullWidthInteger where High: UnsignedInteger {
         return borrow
     }
 
-    @inlinable func subtractingReportingOverflow(_ amount: UInt, at index: Int = 0) -> PVO<Self> {
+    @inlinable func subtractingReportingOverflow(_ amount: UInt, at index: Int) -> PVO<Self> {
         var pv = self; let o = pv.subtractReportingOverflow(amount, at: index); return (pv, o)
     }
 }
-

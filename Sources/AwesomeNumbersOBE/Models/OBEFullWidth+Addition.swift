@@ -66,43 +66,23 @@ extension OBEFullWidthInteger where High: SignedInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func +=(lhs: inout Self, rhs: Int) {
-        lhs.add(rhs)
-    }
-    
-    @inlinable static func +(lhs: Self, rhs: Int) -> Self {
-        lhs.adding(rhs)
-    }
-    
-    @inlinable static func &+=(lhs: inout Self, rhs: Int) {
-        lhs.addWrappingAround(rhs)
-    }
-    
-    @inlinable static func &+(lhs: Self, rhs: Int) -> Self {
-        lhs.addingWrappingAround(rhs)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable mutating func add(_ amount: Int, at index: Int = 0) {
+    @inlinable mutating func add(_ amount: Int, at index: Int) {
         let o = self.addReportingOverflow(amount, at: index); precondition(!o)
     }
     
-    @inlinable func adding(_ amount: Int, at index: Int = 0) -> Self {
+    @inlinable func adding(_ amount: Int, at index: Int) -> Self {
         var x = self; x.add(amount, at: index); return x
     }
     
-    @inlinable mutating func addWrappingAround(_ amount: Int, at index: Int = 0) {
+    @inlinable mutating func addWrappingAround(_ amount: Int, at index: Int) {
         let _ = self.addReportingOverflow(amount, at: index)
     }
     
-    @inlinable func addingWrappingAround(_ amount: Int, at index: Int = 0) -> Self {
+    @inlinable func addingWrappingAround(_ amount: Int, at index: Int) -> Self {
         var x = self; x.addWrappingAround(amount, at: index); return x
     }
     
-    @inlinable mutating func addReportingOverflow(_ amount: Int, at index: Int = 0) -> Bool {
+    @inlinable mutating func addReportingOverflow(_ amount: Int, at index: Int) -> Bool {
         precondition(index >= self.startIndex)
         if index >= self.endIndex { return !amount.isZero }
         //=--------------------------------------=
@@ -129,7 +109,7 @@ extension OBEFullWidthInteger where High: SignedInteger {
         return lhsIsLessThanZero == rhsIsLessThanZero && lhsIsLessThanZero != self.isLessThanZero
     }
     
-    @inlinable func addingReportingOverflow(_ amount: Int, at index: Int = 0) -> PVO<Self> {
+    @inlinable func addingReportingOverflow(_ amount: Int, at index: Int) -> PVO<Self> {
         var pv = self; let o = pv.addReportingOverflow(amount, at: index); return (pv, o)
     }
 }
@@ -144,43 +124,23 @@ extension OBEFullWidthInteger where High: UnsignedInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func +=(lhs: inout Self, rhs: UInt) {
-        lhs.add(rhs)
-    }
-    
-    @inlinable static func +(lhs: Self, rhs: UInt) -> Self {
-        lhs.adding(rhs)
-    }
-    
-    @inlinable static func &+=(lhs: inout Self, rhs: UInt) {
-        lhs.addWrappingAround(rhs)
-    }
-    
-    @inlinable static func &+(lhs: Self, rhs: UInt) -> Self {
-        lhs.addingWrappingAround(rhs)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable mutating func add(_ amount: UInt, at index: Int = 0) {
+    @inlinable mutating func add(_ amount: UInt, at index: Int) {
         let o = self.addReportingOverflow(amount, at: index); precondition(!o)
     }
     
-    @inlinable func adding(_ amount: UInt, at index: Int = 0) -> Self {
+    @inlinable func adding(_ amount: UInt, at index: Int) -> Self {
         var x = self; x.add(amount, at: index); return x
     }
     
-    @inlinable mutating func addWrappingAround(_ amount: UInt, at index: Int = 0) {
+    @inlinable mutating func addWrappingAround(_ amount: UInt, at index: Int) {
         let _ = self.addReportingOverflow(amount, at: index)
     }
     
-    @inlinable func addingWrappingAround(_ amount: UInt, at index: Int = 0) -> Self {
+    @inlinable func addingWrappingAround(_ amount: UInt, at index: Int) -> Self {
         var x = self; x.addWrappingAround(amount, at: index); return x
     }
     
-    @inlinable mutating func addReportingOverflow(_ amount: UInt, at index: Int = 0) -> Bool {
+    @inlinable mutating func addReportingOverflow(_ amount: UInt, at index: Int) -> Bool {
         precondition(index >= self.startIndex)
         if index >= self.endIndex { return !amount.isZero }
         //=--------------------------------------=
@@ -196,7 +156,7 @@ extension OBEFullWidthInteger where High: UnsignedInteger {
         return carry
     }
     
-    @inlinable func addingReportingOverflow(_ amount: UInt, at index: Int = 0) -> PVO<Self> {
+    @inlinable func addingReportingOverflow(_ amount: UInt, at index: Int) -> PVO<Self> {
         var pv = self; let o = pv.addReportingOverflow(amount, at: index); return (pv, o)
     }
 }

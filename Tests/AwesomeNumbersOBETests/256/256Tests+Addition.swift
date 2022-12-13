@@ -92,23 +92,23 @@ final class Int256TestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAddingInt() {
-        XCTAssertEqual(T( 1) + Int(-2), T(-1))
-        XCTAssertEqual(T( 1) + Int(-1), T( 0))
-        XCTAssertEqual(T( 1) + Int( 0), T( 1))
-        XCTAssertEqual(T( 1) + Int( 1), T( 2))
-        XCTAssertEqual(T( 1) + Int( 2), T( 3))
-        
-        XCTAssertEqual(T( 0) + Int(-2), T(-2))
-        XCTAssertEqual(T( 0) + Int(-1), T(-1))
-        XCTAssertEqual(T( 0) + Int( 0), T( 0))
-        XCTAssertEqual(T( 0) + Int( 1), T( 1))
-        XCTAssertEqual(T( 0) + Int( 2), T( 2))
+        XCTAssertEqual(T( 1).adding(Int(-2), at: 0), T(-1))
+        XCTAssertEqual(T( 1).adding(Int(-1), at: 0), T( 0))
+        XCTAssertEqual(T( 1).adding(Int( 0), at: 0), T( 1))
+        XCTAssertEqual(T( 1).adding(Int( 1), at: 0), T( 2))
+        XCTAssertEqual(T( 1).adding(Int( 2), at: 0), T( 3))
 
-        XCTAssertEqual(T(-1) + Int(-2), T(-3))
-        XCTAssertEqual(T(-1) + Int(-1), T(-2))
-        XCTAssertEqual(T(-1) + Int( 0), T(-1))
-        XCTAssertEqual(T(-1) + Int( 1), T( 0))
-        XCTAssertEqual(T(-1) + Int( 2), T( 1))
+        XCTAssertEqual(T( 0).adding(Int(-2), at: 0), T(-2))
+        XCTAssertEqual(T( 0).adding(Int(-1), at: 0), T(-1))
+        XCTAssertEqual(T( 0).adding(Int( 0), at: 0), T( 0))
+        XCTAssertEqual(T( 0).adding(Int( 1), at: 0), T( 1))
+        XCTAssertEqual(T( 0).adding(Int( 2), at: 0), T( 2))
+
+        XCTAssertEqual(T(-1).adding(Int(-2), at: 0), T(-3))
+        XCTAssertEqual(T(-1).adding(Int(-1), at: 0), T(-2))
+        XCTAssertEqual(T(-1).adding(Int( 0), at: 0), T(-1))
+        XCTAssertEqual(T(-1).adding(Int( 1), at: 0), T( 0))
+        XCTAssertEqual(T(-1).adding(Int( 2), at: 0), T( 1))
                 
         XCTAssertEqual(T(x64:(w, w, w, 0)).adding( Int(3), at: 0), T(x64:( 2,  0,  0,  1)))
         XCTAssertEqual(T(x64:(w, w, w, 0)).adding( Int(3), at: 1), T(x64:( w,  2,  0,  1)))
@@ -132,19 +132,19 @@ final class Int256TestsOnAddition: XCTestCase {
     }
     
     func testAddingIntWrappingAround() {
-        XCTAssertEqual(T.min &+ Int( 1), T.min + T(1))
-        XCTAssertEqual(T.max &+ Int( 1), T.min)
+        XCTAssertEqual(T.min.addingWrappingAround(Int( 1), at: 0), T.min + T(1))
+        XCTAssertEqual(T.max.addingWrappingAround(Int( 1), at: 0), T.min)
 
-        XCTAssertEqual(T.min &+ Int(-1), T.max)
-        XCTAssertEqual(T.max &+ Int(-1), T.max - T(1))
+        XCTAssertEqual(T.min.addingWrappingAround(Int(-1), at: 0), T.max)
+        XCTAssertEqual(T.max.addingWrappingAround(Int(-1), at: 0), T.max - T(1))
     }
     
     func testAddingIntReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow(Int( 1)) == (T.min + 1, false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(Int( 1)) == (T.min,     true ) as (T, Bool))
+        XCTAssert(T.min.addingReportingOverflow(Int( 1), at: 0) == (T.min + 1, false) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(Int( 1), at: 0) == (T.min,     true ) as (T, Bool))
 
-        XCTAssert(T.min.addingReportingOverflow(Int(-1)) == (T.max,     true ) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(Int(-1)) == (T.max - 1, false) as (T, Bool))
+        XCTAssert(T.min.addingReportingOverflow(Int(-1), at: 0) == (T.max,     true ) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(Int(-1), at: 0) == (T.max - 1, false) as (T, Bool))
     }
 }
 
@@ -197,13 +197,13 @@ final class UInt256TestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAddingUInt() {
-        XCTAssertEqual(T(0) + UInt(0), T(0))
-        XCTAssertEqual(T(0) + UInt(1), T(1))
-        XCTAssertEqual(T(0) + UInt(2), T(2))
-        
-        XCTAssertEqual(T(1) + UInt(0), T(1))
-        XCTAssertEqual(T(1) + UInt(1), T(2))
-        XCTAssertEqual(T(1) + UInt(2), T(3))
+        XCTAssertEqual(T(0).adding(UInt(0), at: 0), T(0))
+        XCTAssertEqual(T(0).adding(UInt(1), at: 0), T(1))
+        XCTAssertEqual(T(0).adding(UInt(2), at: 0), T(2))
+
+        XCTAssertEqual(T(1).adding(UInt(0), at: 0), T(1))
+        XCTAssertEqual(T(1).adding(UInt(1), at: 0), T(2))
+        XCTAssertEqual(T(1).adding(UInt(2), at: 0), T(3))
         
         XCTAssertEqual(T(x64:(w, w, w, 0)).adding(UInt(3), at: 0), T(x64:(2, 0, 0, 1)))
         XCTAssertEqual(T(x64:(w, w, w, 0)).adding(UInt(3), at: 1), T(x64:(w, 2, 0, 1)))
@@ -212,13 +212,13 @@ final class UInt256TestsOnAddition: XCTestCase {
     }
     
     func testAddingUIntWrappingAround() {
-        XCTAssertEqual(T.min &+ UInt(1), T.min + T(1))
-        XCTAssertEqual(T.max &+ UInt(1), T.min)
+        XCTAssertEqual(T.min.addingWrappingAround(UInt(1), at: 0), T.min + T(1))
+        XCTAssertEqual(T.max.addingWrappingAround(UInt(1), at: 0), T.min)
     }
 
     func testAddingUIntReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow(UInt(1)) == (T.min + 1, false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(UInt(1)) == (T.min,     true ) as (T, Bool))
+        XCTAssert(T.min.addingReportingOverflow(UInt(1), at: 0) == (T.min + 1, false) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(UInt(1), at: 0) == (T.min,     true ) as (T, Bool))
     }
 }
 

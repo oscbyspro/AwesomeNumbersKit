@@ -10,10 +10,10 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Words
+// MARK: * OBE x Fixed Width Integer x Large x Words
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBELargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

@@ -7,54 +7,58 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import AwesomeNumbersKit
+
 //*============================================================================*
-// MARK: * Int256
+// MARK: * OBE x Fixed Width Integer x Large x Complements
 //*============================================================================*
 
-@frozen public struct Int256: OBESignedFixedWidthInteger {
-    
-    public typealias Magnitude = UInt256
-        
-    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
-    
-    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
+extension OBELargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: State
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: OBEFullWidth<Int128, UInt128>
+    @inlinable public mutating func formTwosComplement() {
+        self.body.formTwosComplement()
+    }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @inlinable init(bitPattern: OBEFullWidth<Int128, UInt128>) {
-        self.body = bitPattern
+    @inlinable public func twosComplement() -> Self {
+        Self(bitPattern: body.twosComplement())
     }
 }
 
 //*============================================================================*
-// MARK: * UInt256
+// MARK: * OBE x Fixed Width Integer x Large x Signed x Complements
 //*============================================================================*
 
-@frozen public struct UInt256: OBEUnsignedFixedWidthInteger {
-    
-    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
-
-    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
+extension OBESignedLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: State
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: OBEFullWidth<UInt128, UInt128>
+    @inlinable public static prefix func -(x: Self) -> Self {
+        Self(bitPattern: -x.body)        
+    }
     
     //=------------------------------------------------------------------------=
-    // MARK: Initializers
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bitPattern: OBEFullWidth<UInt128, UInt128>) {
-        self.body = bitPattern
+    @inlinable public mutating func negateReportingOverflow() -> Bool {
+        self.body.negateReportingOverflow()
+    }
+    
+    @inlinable public func negatedReportingOverflow() -> PVO<Self> {
+        var pv = self; let o = pv.negateReportingOverflow(); return (pv, o)        
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var magnitude: Magnitude {
+        Magnitude(bitPattern: body.magnitude)
     }
 }

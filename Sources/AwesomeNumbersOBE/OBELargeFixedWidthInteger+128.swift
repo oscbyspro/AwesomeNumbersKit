@@ -7,58 +7,54 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import AwesomeNumbersKit
-
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Complements
+// MARK: * Int128
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+@frozen public struct Int128: OBESignedLargeFixedWidthInteger {
+    
+    public typealias Magnitude = UInt128
+        
+    public typealias X64 = (UInt64, UInt64)
+    
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32)
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: State
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func formTwosComplement() {
-        self.body.formTwosComplement()
-    }
+    @usableFromInline var body: OBEFullWidth<Int64, UInt64>
     
-    @inlinable public func twosComplement() -> Self {
-        Self(bitPattern: body.twosComplement())
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(bitPattern: OBEFullWidth<Int64, UInt64>) {
+        self.body = bitPattern
     }
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Complements x Signed
+// MARK: * UInt128
 //*============================================================================*
 
-extension OBESignedFixedWidthInteger {
+@frozen public struct UInt128: OBEUnsignedLargeFixedWidthInteger {
+    
+    public typealias X64 = (UInt64, UInt64)
+    
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32)
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: State
     //=------------------------------------------------------------------------=
     
-    @inlinable public static prefix func -(x: Self) -> Self {
-        Self(bitPattern: -x.body)        
-    }
+    @usableFromInline var body: OBEFullWidth<UInt64, UInt64>
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func negateReportingOverflow() -> Bool {
-        self.body.negateReportingOverflow()
-    }
-    
-    @inlinable public func negatedReportingOverflow() -> PVO<Self> {
-        var pv = self; let o = pv.negateReportingOverflow(); return (pv, o)        
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public var magnitude: Magnitude {
-        Magnitude(bitPattern: body.magnitude)
+    @inlinable init(bitPattern: OBEFullWidth<UInt64, UInt64>) {
+        self.body = bitPattern
     }
 }

@@ -10,10 +10,10 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Multiplication
+// MARK: * OBE x Fixed Width Integer x Large x Multiplication
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBELargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -55,10 +55,10 @@ extension OBEFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Multiplication x Unsigned
+// MARK: * OBE x Fixed Width Integer x Large x Unsigned x Multiplication
 //*============================================================================*
 
-extension OBEUnsignedFixedWidthInteger {
+extension OBEUnsignedLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

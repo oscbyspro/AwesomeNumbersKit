@@ -8,10 +8,10 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Bitwise
+// MARK: * OBE x Fixed Width Integer x Large x Bitwise
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBELargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

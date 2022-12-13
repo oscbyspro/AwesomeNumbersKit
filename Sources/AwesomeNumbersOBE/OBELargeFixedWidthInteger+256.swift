@@ -8,53 +8,53 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Int128
+// MARK: * Int256
 //*============================================================================*
 
-@frozen public struct Int128: OBESignedFixedWidthInteger {
+@frozen public struct Int256: OBESignedLargeFixedWidthInteger {
     
-    public typealias Magnitude = UInt128
+    public typealias Magnitude = UInt256
         
-    public typealias X64 = (UInt64, UInt64)
+    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
     
-    public typealias X32 = (UInt32, UInt32, UInt32, UInt32)
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: OBEFullWidth<Int64, UInt64>
+    @usableFromInline var body: OBEFullWidth<Int128, UInt128>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bitPattern: OBEFullWidth<Int64, UInt64>) {
+    @inlinable init(bitPattern: OBEFullWidth<Int128, UInt128>) {
         self.body = bitPattern
     }
 }
 
 //*============================================================================*
-// MARK: * UInt128
+// MARK: * UInt256
 //*============================================================================*
 
-@frozen public struct UInt128: OBEUnsignedFixedWidthInteger {
-        
-    public typealias X64 = (UInt64, UInt64)
+@frozen public struct UInt256: OBEUnsignedLargeFixedWidthInteger {
     
-    public typealias X32 = (UInt32, UInt32, UInt32, UInt32)
+    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
+
+    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: OBEFullWidth<UInt64, UInt64>
+    @usableFromInline var body: OBEFullWidth<UInt128, UInt128>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bitPattern: OBEFullWidth<UInt64, UInt64>) {
+    @inlinable init(bitPattern: OBEFullWidth<UInt128, UInt128>) {
         self.body = bitPattern
     }
 }

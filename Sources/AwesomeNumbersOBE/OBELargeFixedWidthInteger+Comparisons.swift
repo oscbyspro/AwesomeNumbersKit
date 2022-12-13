@@ -8,10 +8,10 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Comparisons
+// MARK: * OBE x Fixed Width Integer x Large x Comparisons
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBELargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

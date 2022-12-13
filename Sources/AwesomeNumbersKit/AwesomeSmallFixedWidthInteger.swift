@@ -1,5 +1,5 @@
 //*============================================================================*
-// MARK: * Awesome Small Width Integer
+// MARK: * Awesome x Fixed Width Integer x Small
 //*============================================================================*
 
 /// An AwesomeFixedWidthInteger with trivial implementation.
@@ -9,13 +9,13 @@
 /// - UInt
 /// - UInt64
 ///
-public protocol AwesomeSmallWidthInteger: AwesomeFixedWidthInteger { }
+public protocol AwesomeSmallFixedWidthInteger: AwesomeFixedWidthInteger { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension AwesomeSmallWidthInteger {
+extension AwesomeSmallFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -79,10 +79,10 @@ extension AwesomeSmallWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * Awesome Small Width Integer x Signed
+// MARK: * Awesome x Fixed Width Integer x Small x Signed
 //*============================================================================*
 
-extension AwesomeSmallWidthInteger where Self: AwesomeSignedFixedWidthInteger {
+extension AwesomeSmallFixedWidthInteger where Self: AwesomeSignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -98,10 +98,10 @@ extension AwesomeSmallWidthInteger where Self: AwesomeSignedFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * Awesome Small Width Integer x Swift
+// MARK: * Awesome x Fixed Width Integer x Small x Swift
 //*============================================================================*
 
-extension Int:    AwesomeSmallWidthInteger, AwesomeSignedFixedWidthInteger   { }
-extension Int64:  AwesomeSmallWidthInteger, AwesomeSignedFixedWidthInteger   { }
-extension UInt:   AwesomeSmallWidthInteger, AwesomeUnsignedFixedWidthInteger { }
-extension UInt64: AwesomeSmallWidthInteger, AwesomeUnsignedFixedWidthInteger { }
+extension Int:    AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
+extension Int64:  AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
+extension UInt:   AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
+extension UInt64: AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }

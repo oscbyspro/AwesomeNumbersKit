@@ -10,10 +10,10 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Bitshifts x L
+// MARK: * OBE x Fixed Width Integer x Large x Bitshifts x L
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBELargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations x some Binary Integer
@@ -41,10 +41,10 @@ extension OBEFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Bitshifts x R
+// MARK: * OBE x Fixed Width Integer x Large x Bitshifts x R
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBELargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations x some Binary Integer
@@ -72,10 +72,10 @@ extension OBEFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Bitrotations x L
+// MARK: * OBE x Fixed Width Integer x Large x Bitrotations x L
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBELargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations x some Binary Integer
@@ -103,10 +103,10 @@ extension OBEFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Bitrotations x R
+// MARK: * OBE x Fixed Width Integer x Large x Bitrotations x R
 //*============================================================================*
 
-extension OBEFixedWidthInteger {
+extension OBELargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations x some Binary Integer

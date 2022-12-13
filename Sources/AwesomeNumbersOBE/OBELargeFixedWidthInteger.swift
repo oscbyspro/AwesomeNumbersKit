@@ -10,7 +10,7 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer
+// MARK: * OBE x Fixed Width Integer x Large
 //*============================================================================*
 
 /// A fixed width integer implementation protocol.
@@ -18,9 +18,9 @@ import AwesomeNumbersKit
 /// - It must be safe to bit cast between `High` and `Low`.
 /// - It must be safe to bit cast between `Self` and `Magnitude`.
 ///
-@usableFromInline protocol OBEFixedWidthInteger:  AwesomeFixedWidthInteger,
-CustomDebugStringConvertible where Magnitude: OBEUnsignedFixedWidthInteger,
-Magnitude.High == High.Magnitude,  Magnitude.Low == Low {
+@usableFromInline protocol OBELargeFixedWidthInteger: AwesomeLargeFixedWidthInteger,
+CustomDebugStringConvertible where Magnitude: OBEUnsignedLargeFixedWidthInteger,
+Magnitude.High == High.Magnitude {
     
     associatedtype X64 // (UInt64, UInt64, ...)
     
@@ -49,7 +49,7 @@ Magnitude.High == High.Magnitude,  Magnitude.Low == Low {
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension OBEFixedWidthInteger {
+extension OBELargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -59,16 +59,12 @@ extension OBEFixedWidthInteger {
         self.init(bitPattern: Body(bitPattern: bitPattern)) // signitude or magnitude
     }
     
-    @inlinable init<T>(bitPattern: T) where T: OBEFixedWidthInteger, T.Magnitude == Self.Magnitude {
+    @inlinable init<T>(bitPattern: T) where T: OBELargeFixedWidthInteger, T.Magnitude == Self.Magnitude {
         self.init(bitPattern: Body(bitPattern: bitPattern.body)) // signitude or magnitude
     }
     
     @inlinable public init() {
         self.init(bitPattern: Body())
-    }
-    
-    @inlinable public init(_ bit: Bool) {
-        self.init(bitPattern: Body(bit))
     }
     
     @inlinable public init(repeating bit: Bool) {
@@ -131,17 +127,17 @@ extension OBEFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Signed
+// MARK: * OBE x Fixed Width Integer x Large x Signed
 //*============================================================================*
 
-@usableFromInline protocol OBESignedFixedWidthInteger: OBEFixedWidthInteger,
-AwesomeSignedFixedWidthInteger where High: AwesomeSignedFixedWidthInteger { }
+@usableFromInline protocol OBESignedLargeFixedWidthInteger: OBELargeFixedWidthInteger,
+AwesomeSignedLargeFixedWidthInteger where High: AwesomeSignedFixedWidthInteger { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension OBESignedFixedWidthInteger {
+extension OBESignedLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
@@ -157,17 +153,17 @@ extension OBESignedFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * OBE x Fixed Width Integer x Unsigned
+// MARK: * OBE x Fixed Width Integer x Large x Unsigned
 //*============================================================================*
 
-@usableFromInline protocol OBEUnsignedFixedWidthInteger: OBEFixedWidthInteger,
-AwesomeUnsignedFixedWidthInteger where High == Low { }
+@usableFromInline protocol OBEUnsignedLargeFixedWidthInteger: OBELargeFixedWidthInteger,
+AwesomeUnsignedLargeFixedWidthInteger where High == Low { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension OBEUnsignedFixedWidthInteger {
+extension OBEUnsignedLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

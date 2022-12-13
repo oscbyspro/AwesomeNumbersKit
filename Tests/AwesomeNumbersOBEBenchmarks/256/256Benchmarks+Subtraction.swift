@@ -38,7 +38,7 @@ final class Int256BenchmarksOnSubtraction: XCTestCase {
         let rhs = Int.max
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs - rhs
+            _ = lhs.subtracting(rhs, at: 0)
         }
     }
 }
@@ -69,7 +69,7 @@ final class UInt256BenchmarksOnSubtraction: XCTestCase {
         let rhs = UInt.max
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs - rhs
+            _ = lhs.subtracting(rhs, at: 0)
         }
     }
 }

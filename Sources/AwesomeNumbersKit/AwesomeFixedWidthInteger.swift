@@ -8,7 +8,7 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Awesome Fixed Width Integer
+// MARK: * Awesome x Fixed Width Integer
 //*============================================================================*
 
 /// A FixedWidthInteger with additional requirements and capabilities.
@@ -21,8 +21,6 @@ Magnitude: AwesomeUnsignedFixedWidthInteger {
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
-    
-    @inlinable init(_ bit: Bool)
     
     @inlinable init(repeating bit: Bool)
     
@@ -48,7 +46,7 @@ Magnitude: AwesomeUnsignedFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * Awesome Fixed Width Integer x Signed
+// MARK: * Awesome x Fixed Width Integer x Signed
 //*============================================================================*
 
 public protocol AwesomeSignedFixedWidthInteger: AwesomeFixedWidthInteger, AwesomeSignedInteger {
@@ -63,7 +61,7 @@ public protocol AwesomeSignedFixedWidthInteger: AwesomeFixedWidthInteger, Awesom
 }
 
 //*============================================================================*
-// MARK: * Awesome Fixed Width Integer x Unsigned
+// MARK: * Awesome x Fixed Width Integer x Unsigned
 //*============================================================================*
 
 public protocol AwesomeUnsignedFixedWidthInteger: AwesomeFixedWidthInteger, AwesomeUnsignedInteger { }
