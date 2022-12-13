@@ -50,12 +50,4 @@ extension OBEFixedWidthInteger {
     @inlinable public var leastSignificantBit: Bool {
         body.leastSignificantBit
     }
-    
-    @inlinable public var mostSignificantWord: UInt {
-        body.mostSignificantWord
-    }
-    
-    @inlinable public var leastSignificantWord: UInt {
-        body.leastSignificantWord
-    }
 }

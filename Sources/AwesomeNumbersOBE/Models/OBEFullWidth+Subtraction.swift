@@ -13,7 +13,6 @@ import AwesomeNumbersKit
 // MARK: * Full Width x Integer x Subtraction
 //*============================================================================*
 
-// TODO: does not actually require integers
 extension OBEFullWidthInteger {
     
     //=------------------------------------------------------------------------=
@@ -55,4 +54,9 @@ extension OBEFullWidthInteger {
         let o2 = pv.high.subtractReportingOverflow(o0 ? 1 : 0 as High) // TODO: as Small or Pointer
         return  (pv, o1 || o2)
     }
+    
+    #warning("TODO: large x small")
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
 }

@@ -55,8 +55,12 @@ extension OBEFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init<T>(bitPattern: T) where T: OBEFixedWidthInteger, T.Magnitude == Magnitude {
-        self.init(bitPattern: Body(bitPattern: bitPattern.body))
+    @inlinable init<H>(bitPattern: OBEFullWidthInteger<H, Low>) where H.Magnitude == High.Magnitude {
+        self.init(bitPattern: Body(bitPattern: bitPattern)) // signitude or magnitude
+    }
+    
+    @inlinable init<T>(bitPattern: T) where T: OBEFixedWidthInteger, T.Magnitude == Self.Magnitude {
+        self.init(bitPattern: Body(bitPattern: bitPattern.body)) // signitude or magnitude
     }
     
     @inlinable public init() {

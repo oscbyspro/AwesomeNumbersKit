@@ -42,14 +42,6 @@ extension OBEFullWidthInteger {
         low.leastSignificantBit
     }
     
-    @inlinable var mostSignificantWord: UInt {
-        high.mostSignificantWord
-    }
-    
-    @inlinable var leastSignificantWord: UInt {
-        low.leastSignificantWord
-    }
-    
     @inlinable var nonzeroBitCount: Int {
         low.nonzeroBitCount &+ high.nonzeroBitCount
     }

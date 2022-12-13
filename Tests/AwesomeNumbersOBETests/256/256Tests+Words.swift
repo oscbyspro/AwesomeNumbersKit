@@ -100,26 +100,6 @@ final class Int256TestsOnWords: XCTestCase {
         XCTAssertEqual(T(x64:(0, 0, w, 0)).leastSignificantBit, false)
         XCTAssertEqual(T(x64:(0, 0, 0, w)).leastSignificantBit, false)
     }
-    
-    func testMostSignificantWord() {
-        XCTAssertEqual(T(x64:(0, 0, 0, 0)).mostSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(w, w, w, w)).mostSignificantWord, UInt.max)
-
-        XCTAssertEqual(T(x64:(w, 0, 0, 0)).mostSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(0, w, 0, 0)).mostSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(0, 0, w, 0)).mostSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)).mostSignificantWord, UInt.max)
-    }
-    
-    func testLeastSignificantWord() {
-        XCTAssertEqual(T(x64:(0, 0, 0, 0)).leastSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(w, w, w, w)).leastSignificantWord, UInt.max)
-
-        XCTAssertEqual(T(x64:(w, 0, 0, 0)).leastSignificantWord, UInt.max)
-        XCTAssertEqual(T(x64:(0, w, 0, 0)).leastSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(0, 0, w, 0)).leastSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)).leastSignificantWord, UInt(  ))
-    }
 }
 
 //*============================================================================*
@@ -203,26 +183,6 @@ final class UInt256TestsOnWords: XCTestCase {
         XCTAssertEqual(T(x64:(0, w, 0, 0)).leastSignificantBit, false)
         XCTAssertEqual(T(x64:(0, 0, w, 0)).leastSignificantBit, false)
         XCTAssertEqual(T(x64:(0, 0, 0, w)).leastSignificantBit, false)
-    }
-    
-    func testMostSignificantWord() {
-        XCTAssertEqual(T(x64:(0, 0, 0, 0)).mostSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(w, w, w, w)).mostSignificantWord, UInt.max)
-
-        XCTAssertEqual(T(x64:(w, 0, 0, 0)).mostSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(0, w, 0, 0)).mostSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(0, 0, w, 0)).mostSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)).mostSignificantWord, UInt.max)
-    }
-    
-    func testLeastSignificantWord() {
-        XCTAssertEqual(T(x64:(0, 0, 0, 0)).leastSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(w, w, w, w)).leastSignificantWord, UInt.max)
-
-        XCTAssertEqual(T(x64:(w, 0, 0, 0)).leastSignificantWord, UInt.max)
-        XCTAssertEqual(T(x64:(0, w, 0, 0)).leastSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(0, 0, w, 0)).leastSignificantWord, UInt(  ))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)).leastSignificantWord, UInt(  ))
     }
 }
 

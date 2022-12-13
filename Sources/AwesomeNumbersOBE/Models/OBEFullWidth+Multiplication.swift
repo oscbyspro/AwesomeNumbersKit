@@ -19,6 +19,12 @@ extension OBEFullWidthInteger where High.Magnitude == Low {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    @inlinable mutating func multiplyFullWidthAsKaratsuba(by amount: Self) -> Self {
+        let product = multipliedFullWidthAsKaratsuba(by: amount)
+        self = Self(bitPattern: product.low);
+        return Self(bitPattern: product.high)
+    }
+    
     @inlinable func multipliedFullWidthAsKaratsuba(by amount: Self) -> OBEFullWidth<Self, Magnitude> {
         let negate  = self.isLessThanZero != amount.isLessThanZero
         var product = self.magnitude.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.magnitude)

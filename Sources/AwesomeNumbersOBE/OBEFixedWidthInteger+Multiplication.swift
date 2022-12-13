@@ -43,8 +43,9 @@ extension OBEFixedWidthInteger {
     }
     
     @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        let product = multipliedFullWidth(by: amount)
-        self = Self(bitPattern: product.low); return product.high
+        let product = body.multipliedFullWidthAsKaratsuba(by: amount.body)
+        self = Self(bitPattern: product.low )
+        return Self(bitPattern: product.high)
     }
     
     @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
@@ -62,9 +63,17 @@ extension OBEUnsignedFixedWidthInteger {
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
+    //=------------------------------------------------------------------------=
+    // the compiler should optimize the general case but I am not sure it does
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
+        let product = body.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.body)
+        self = Self(bitPattern: product.low )
+        return Self(bitPattern: product.high)
+    }
     
     @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        // the compiler should be able to optimize the generic case but I'm not sure it does
         let product = body.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.body)
         return HL(Self(bitPattern: product.high), Magnitude(bitPattern: product.low))
     }

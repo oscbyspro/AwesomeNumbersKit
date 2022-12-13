@@ -34,10 +34,6 @@ Magnitude: AwesomeUnsignedFixedWidthInteger {
         
     @inlinable var  leastSignificantBit: Bool { get }
     
-    @inlinable var  mostSignificantWord: UInt { get }
-    
-    @inlinable var leastSignificantWord: UInt { get }
-    
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=

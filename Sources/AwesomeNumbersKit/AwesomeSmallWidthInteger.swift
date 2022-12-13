@@ -49,14 +49,6 @@ extension AwesomeSmallWidthInteger {
         self & 1 != 0
     }
     
-    @inlinable public var mostSignificantWord: UInt {
-        words.last  ?? UInt()
-    }
-    
-    @inlinable public var leastSignificantWord: UInt {
-        words.first ?? UInt()
-    }
-    
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
