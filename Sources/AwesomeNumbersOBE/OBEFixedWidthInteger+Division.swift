@@ -91,7 +91,7 @@ extension OBESignedFixedWidthInteger {
     }
     
     @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
-        let dividend = OBEDoubleWidth<Self>(descending: dividend)
+        let dividend = OBEDoubleWidthInteger<Self>(descending: dividend)
         let dividendIsLessThanZero = dividend.isLessThanZero
         var (quotient, remainder) = Magnitude._divide(dividend.magnitude, by: self.magnitude)
         //=--------------------------------------=
@@ -126,7 +126,7 @@ extension OBEUnsignedFixedWidthInteger {
     }
     
     @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
-        Magnitude._divide(OBEDoubleWidth<Self>(descending: dividend).magnitude, by: self.magnitude)
+        Magnitude._divide(OBEDoubleWidthInteger<Self>(descending: dividend).magnitude, by: self.magnitude)
     }
     
     //=------------------------------------------------------------------------=
@@ -135,7 +135,7 @@ extension OBEUnsignedFixedWidthInteger {
     
     @inlinable static func _divide(_ lhs: (high: Low, mid: Low, low: Low), by rhs: Magnitude) -> QR<Low, Magnitude> {
         typealias M = Magnitude
-        typealias D = OBEDoubleWidth<Magnitude>
+        typealias D = OBEDoubleWidthInteger<Magnitude>
         //=--------------------------------------=
         //
         //=--------------------------------------=
@@ -163,7 +163,7 @@ extension OBEUnsignedFixedWidthInteger {
         return (quotient, remainder.low)
     }
     
-    @inlinable static func _divide(_ lhs: OBEDoubleWidth<Magnitude>, by rhs: Magnitude) -> QR<Magnitude, Magnitude> {
+    @inlinable static func _divide(_ lhs: OBEDoubleWidthInteger<Magnitude>, by rhs: Magnitude) -> QR<Magnitude, Magnitude> {
         typealias M = Magnitude
         //=--------------------------------------=
         //

@@ -49,6 +49,14 @@ extension OBEFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    @inlinable init(bitPattern: OBEFullWidth<High, Low>) {
+        self = unsafeBitCast(bitPattern,  to: Self.self)
+    }
+    
+    @inlinable init<T>(bitPattern: T) where T: OBEFixedWidthInteger, T.Magnitude == Magnitude {
+        self.init(bitPattern: Body(bitPattern: bitPattern.body))
+    }
+    
     @inlinable public init() {
         self.init(bitPattern: Body())
     }
@@ -61,12 +69,16 @@ extension OBEFixedWidthInteger {
         self.init(bitPattern: Body(repeating: bit))
     }
     
+    @inlinable public init(repeating word: UInt) {
+        self.init(bitPattern: Body(repeating: word))
+    }
+    
     @inlinable public init(x64: X64) {
-        self.init(ascending: unsafeBitCast(x64, to: (low: Low, high: High).self))
+        self.init(bitPattern: Body(ascending: unsafeBitCast(x64, to: (low: Low, high: High).self)))
     }
     
     @inlinable public init(x32: X32) {
-        self.init(ascending: unsafeBitCast(x32, to: (low: Low, high: High).self))
+        self.init(bitPattern: Body(ascending: unsafeBitCast(x32, to: (low: Low, high: High).self)))
     }
     
     @inlinable init(ascending digits:(low: Low, high: High)) {
@@ -75,14 +87,6 @@ extension OBEFixedWidthInteger {
     
     @inlinable init(descending digits:(high: High, low: Low)) {
         self.init(bitPattern: Body(descending: digits))
-    }
-    
-    @inlinable init(bitPattern: OBEFullWidth<High, Low>) {
-        self = unsafeBitCast(bitPattern, to: Self.self)
-    }
-    
-    @inlinable init<T>(bitPattern: T)  where T: OBEFixedWidthInteger, T.Magnitude == Magnitude {
-        self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
     }
     
     @inlinable static func uninitialized() -> Self {

@@ -23,7 +23,7 @@
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: OBEDoubleWidth<Int64>
+    @usableFromInline var body: OBEDoubleWidthInteger<Int64>
 }
 
 //*============================================================================*
@@ -40,5 +40,5 @@
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: OBEDoubleWidth<UInt64>
+    @usableFromInline var body: OBEDoubleWidthInteger<UInt64>
 }

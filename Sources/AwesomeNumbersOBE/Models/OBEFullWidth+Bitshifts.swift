@@ -7,21 +7,24 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import AwesomeNumbersKit
+
 //*============================================================================*
 // MARK: * OBE x Full Width x Bitshifts x L
 //*============================================================================*
 
-extension OBEFullWidth {
+// TODO: needs isLessThanZero
+extension OBEFullWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations x some Binary Integer
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func <<=(lhs: inout Self, rhs: some BinaryInteger) {
+    @inlinable static func <<=(lhs: inout Self, rhs: some BinaryInteger) {
         lhs <<= Int(clamping: rhs)
     }
     
-    @inlinable public static func <<(lhs: Self, rhs: some BinaryInteger) -> Self {
+    @inlinable static func <<(lhs: Self, rhs: some BinaryInteger) -> Self {
         var lhs = lhs; lhs <<= rhs; return lhs
     }
     
@@ -29,7 +32,7 @@ extension OBEFullWidth {
     // MARK: Transformations x Int
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func <<=(lhs: inout Self, rhs: Int) {
+    @inlinable static func <<=(lhs: inout Self, rhs: Int) {
         //=--------------------------------------=
         // RHS <  Self.zero
         //=--------------------------------------=
@@ -48,7 +51,7 @@ extension OBEFullWidth {
         lhs._bitshiftLeft(by: rhs)
     }
     
-    @inlinable public static func <<(lhs: Self, rhs: Int) -> Self {
+    @inlinable static func <<(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs <<= rhs; return lhs
     }
     
@@ -100,17 +103,18 @@ extension OBEFullWidth {
 // MARK: * OBE x Full Width x Bitshifts x R
 //*============================================================================*
 
-extension OBEFullWidth {
+// TODO: needs isLessThanZero
+extension OBEFullWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations x some BinaryInteger
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func >>=(lhs: inout Self, rhs: some BinaryInteger) {
+    @inlinable static func >>=(lhs: inout Self, rhs: some BinaryInteger) {
         lhs >>= Int(clamping: rhs)
     }
     
-    @inlinable public static func >>(lhs: Self, rhs: some BinaryInteger) -> Self {
+    @inlinable static func >>(lhs: Self, rhs: some BinaryInteger) -> Self {
         var lhs = lhs; lhs >>= rhs; return lhs
     }
     
@@ -118,7 +122,7 @@ extension OBEFullWidth {
     // MARK: Transformations x Int
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func >>=(lhs: inout Self, rhs: Int) {
+    @inlinable static func >>=(lhs: inout Self, rhs: Int) {
         //=--------------------------------------=
         // RHS <  Self.zero
         //=--------------------------------------=
@@ -137,7 +141,7 @@ extension OBEFullWidth {
         lhs._bitshiftRight(by: rhs)
     }
     
-    @inlinable public static func >>(lhs: Self, rhs: Int) -> Self {
+    @inlinable static func >>(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs >>= rhs; return lhs
     }
     
@@ -195,11 +199,11 @@ extension OBEFullWidth {
     // MARK: Transformations x some Binary Integer
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func &<<=(lhs: inout Self, rhs: some BinaryInteger) {
+    @inlinable static func &<<=(lhs: inout Self, rhs: some BinaryInteger) {
         lhs &<<= Int(bitPattern: rhs.words.first ?? UInt())
     }
     
-    @inlinable public static func &<<(lhs: Self, rhs: some BinaryInteger) -> Self {
+    @inlinable static func &<<(lhs: Self, rhs: some BinaryInteger) -> Self {
         var lhs = lhs; lhs &<<= rhs; return lhs
     }
     
@@ -207,11 +211,11 @@ extension OBEFullWidth {
     // MARK: Transformations x Int
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func &<<=(lhs: inout Self, rhs: Int) {
+    @inlinable static func &<<=(lhs: inout Self, rhs: Int) {
         lhs._bitrotateLeft(by: rhs & (Self.bitWidth &- 1))
     }
 
-    @inlinable public static func &<<(lhs: Self, rhs: Int) -> Self {
+    @inlinable static func &<<(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs &<<= rhs; return lhs
     }
     
@@ -267,11 +271,11 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     
-    @inlinable public static func &>>=(lhs: inout Self, rhs: some BinaryInteger) {
+    @inlinable static func &>>=(lhs: inout Self, rhs: some BinaryInteger) {
         lhs &>>= Int(bitPattern: rhs.words.first ?? UInt())
     }
 
-    @inlinable public static func &>>(lhs: Self, rhs: some BinaryInteger) -> Self {
+    @inlinable static func &>>(lhs: Self, rhs: some BinaryInteger) -> Self {
         var lhs = lhs; lhs &>>= rhs; return lhs
     }
     
@@ -279,11 +283,11 @@ extension OBEFullWidth {
     // MARK: Transformations x Int
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func &>>=(lhs: inout Self, rhs: Int) {
+    @inlinable static func &>>=(lhs: inout Self, rhs: Int) {
         lhs._bitrotateRight(by: rhs & (Self.bitWidth &- 1))
     }
 
-    @inlinable public static func &>>(lhs: Self, rhs: Int) -> Self {
+    @inlinable static func &>>(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs &>>= rhs; return lhs
     }
     

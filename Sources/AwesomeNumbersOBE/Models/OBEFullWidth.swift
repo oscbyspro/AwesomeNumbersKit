@@ -15,6 +15,8 @@ import AwesomeNumbersKit
 
 /// The internal storage model for `(U)Int(128/256/512)`.
 ///
+/// It behaves as if it were an integer, without conforming to such protocols.
+///
 /// - `High.bitWidth >= UInt.bitWidth`
 /// - `Low .bitWidth >= UInt.bitWidth`
 /// - `Self.bitWidth >= UInt.bitWidth * 2`
@@ -23,18 +25,8 @@ import AwesomeNumbersKit
 /// - `Low .bitWidth` must be an integer multiple of `UInt.bitWidth`
 /// - `Self.bitWidth` must be an integer multiple of `UInt.bitWidth`
 ///
-@frozen @usableFromInline struct OBEFullWidth<High, Low>: WoRdS, Hashable where
-High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
-    
-    public typealias Magnitude = OBEFullWidth<High.Magnitude, Low>
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static var isSigned: Bool {
-        High.isSigned
-    }
+@frozen @usableFromInline struct OBEFullWidth<High, Low>: Comparable, Hashable, WoRdS where
+High: Comparable & Hashable, Low: Comparable & Hashable {
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -52,10 +44,6 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init() {
-        (self.high, self.low) = (High(), Low())
-    }
-    
     @inlinable public init(ascending digits: (low: Low, high: High)) {
         (self.low, self.high) = digits
     }
@@ -68,16 +56,20 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(_ bit: Bool) {
-        self.init(descending:(High(), Low(bit)))
+    @inlinable init() {
+        self.init(repeating: 0)
     }
     
-    @inlinable public init(repeating bit: Bool) {
-        self.init(descending:(High(repeating: bit), Low(repeating: bit)))
+    @inlinable init(_ bit: Bool) {
+        self = Self.uninitialized(); self[unchecked: self.firstIndex] = UInt(bit)
     }
     
-    @inlinable public init<H>(bitPattern: OBEFullWidth<H, Low>) where H.Magnitude == High.Magnitude {
-        self = unsafeBitCast(bitPattern,  to: Self.self) // signitude or magnitude
+    @inlinable init(repeating bit: Bool) {
+        self.init(repeating: UInt(repeating: bit))
+    }
+    
+    @inlinable init(repeating word: UInt) {
+        self = Self.uninitialized(); for index in self.indices { self[unchecked: index] = word }
     }
     
     @_transparent @usableFromInline static func uninitialized() -> Self {
@@ -89,4 +81,23 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger {
 // MARK: * OBE x Full Width x Aliases
 //*============================================================================*
 
-@usableFromInline typealias OBEDoubleWidth<Base: AwesomeFixedWidthInteger> = OBEFullWidth<Base, Base.Magnitude>
+@usableFromInline typealias OBEFullWidthInteger<High, Low> =
+OBEFullWidth<High, Low> where High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger
+
+@usableFromInline typealias OBEDoubleWidthInteger<Base> =
+OBEFullWidth<Base, Base.Magnitude> where Base: AwesomeFixedWidthInteger
+
+//*============================================================================*
+// MARK: * OBE x Full Width x Integer
+//*============================================================================*
+
+extension OBEFullWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init<H>(bitPattern: OBEFullWidthInteger<H, Low>) where H.Magnitude == High.Magnitude {
+        self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
+    }
+}

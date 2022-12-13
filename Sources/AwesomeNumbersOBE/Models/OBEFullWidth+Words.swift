@@ -20,8 +20,15 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable static var bitWidth: Int {
-        High.bitWidth &+ Low.bitWidth
+        MemoryLayout<Self>.stride * 8
     }
+}
+
+//*============================================================================*
+// MARK: * OBE x Full Width x Integer x Words
+//*============================================================================*
+
+extension OBEFullWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

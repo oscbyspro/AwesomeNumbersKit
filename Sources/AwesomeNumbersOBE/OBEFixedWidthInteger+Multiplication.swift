@@ -60,7 +60,7 @@ extension OBESignedFixedWidthInteger {
     
     @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
         let negate  = self.isLessThanZero != amount.isLessThanZero
-        var product = OBEDoubleWidth(descending: self.magnitude.multipliedFullWidth(by: amount.magnitude))
+        var product = OBEDoubleWidthInteger(descending: self.magnitude.multipliedFullWidth(by: amount.magnitude))
         if  negate  { product.formTwosComplement() }; return (Self(bitPattern: product.high), product.low)
     }
 }

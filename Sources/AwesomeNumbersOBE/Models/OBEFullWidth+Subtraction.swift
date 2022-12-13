@@ -10,28 +10,29 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * Full Width x Subtraction
+// MARK: * Full Width x Integer x Subtraction
 //*============================================================================*
 
-extension OBEFullWidth {
+// TODO: does not actually require integers
+extension OBEFullWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func -=(lhs: inout Self, rhs: Self) {
+    @inlinable static func -=(lhs: inout Self, rhs: Self) {
         let o = lhs.subtractReportingOverflow(rhs); precondition(!o)
     }
     
-    @inlinable public static func -(lhs: Self, rhs: Self) -> Self {
+    @inlinable static func -(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs -= rhs; return lhs
     }
     
-    @inlinable public static func &-=(lhs: inout Self, rhs: Self) {
+    @inlinable static func &-=(lhs: inout Self, rhs: Self) {
         let _ = lhs.subtractReportingOverflow(rhs)
     }
     
-    @inlinable public static func &-(lhs: Self, rhs: Self) -> Self {
+    @inlinable static func &-(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs &-= rhs; return lhs
     }
     
@@ -39,14 +40,14 @@ extension OBEFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
+    @inlinable mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
         let o0 = self.low .subtractReportingOverflow(amount.low )
         let o1 = self.high.subtractReportingOverflow(amount.high)
         let o2 = self.high.subtractReportingOverflow(o0 ? 1 : 0 as High) // TODO: as Small or Pointer
         return o1 || o2
     }
     
-    @inlinable public func subtractingReportingOverflow(_ amount: Self) -> PVO<Self> {
+    @inlinable func subtractingReportingOverflow(_ amount: Self) -> PVO<Self> {
         // the code is duplicated because it's faster this way...
         var pv = self
         let o0 = pv.low .subtractReportingOverflow(amount.low )

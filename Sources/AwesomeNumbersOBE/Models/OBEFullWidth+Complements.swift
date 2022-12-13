@@ -19,31 +19,40 @@ extension OBEFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func formTwosComplement() {
+    @inlinable mutating func formTwosComplement() {
         var carry =  true
         for index in self.indices {
             (self[unchecked: index], carry) = (~self[unchecked: index]).addingReportingOverflow(UInt(carry))
         }
     }
     
-    @inlinable public func  twosComplement() -> Self {
+    @inlinable func twosComplement() -> Self {
         var x = self; x.formTwosComplement(); return x
     }
+}
+
+//*============================================================================*
+// MARK: * OBE x Full Width x Integer x Complements
+//*============================================================================*
+
+extension OBEFullWidthInteger {
     
+    @usableFromInline typealias Magnitude = OBEFullWidth<High.Magnitude, Low>
+
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public var magnitude: Magnitude {
+    @inlinable var magnitude: Magnitude {
         Magnitude(bitPattern: isLessThanZero ? self.twosComplement() : self)
     }
 }
 
 //*============================================================================*
-// MARK: * OBE x Full Width x Signed x Complements
+// MARK: * OBE x Full Width x Integer x Signed x Complements
 //*============================================================================*
 
-extension OBEFullWidth where High: SignedInteger {
+extension OBEFullWidthInteger where High: SignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

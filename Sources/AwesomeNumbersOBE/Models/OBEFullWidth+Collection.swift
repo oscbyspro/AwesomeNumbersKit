@@ -17,27 +17,27 @@ extension OBEFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline static var count: Int {
+    @inlinable static var count: Int {
         MemoryLayout<Self>.stride / MemoryLayout<UInt>.stride
     }
     
-    @_transparent @usableFromInline static var startIndex: Int {
+    @inlinable static var startIndex: Int {
         0
     }
     
-    @_transparent @usableFromInline static var endIndex: Int {
+    @inlinable static var endIndex: Int {
         count
     }
     
-    @_transparent @usableFromInline static var firstIndex: Int {
+    @inlinable static var firstIndex: Int {
         0
     }
     
-    @_transparent @usableFromInline static var lastIndex: Int {
+    @inlinable static var lastIndex: Int {
         count - 1
     }
     
-    @_transparent @usableFromInline static var indices: Range<Int> {
+    @inlinable static var indices: Range<Int> {
         0 ..< count
     }
     
@@ -74,7 +74,7 @@ extension OBEFullWidth {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline static func bigEndianIndex(_ index: Int) -> Int {
+    @inlinable static func bigEndianIndex(_ index: Int) -> Int {
         assert(indices.contains(index))
         #if _endian(big)
         return index
@@ -83,7 +83,7 @@ extension OBEFullWidth {
         #endif
     }
     
-    @_transparent @usableFromInline static func littleEndianIndex(_ index: Int) -> Int {
+    @inlinable static func littleEndianIndex(_ index: Int) -> Int {
         assert(indices.contains(index))
         #if _endian(big)
         return lastIndex &- index
@@ -181,7 +181,7 @@ extension OBEFullWidth {
         // Pseudo Fixed Width Array (Get)
         //=--------------------------------------=
         @_transparent get {
-            return withUnsafePointer(to: self) { SELF in
+            withUnsafePointer(to: self) {  SELF in
                 let RAW = UnsafeRawPointer(SELF)
                 let WORDS = RAW.assumingMemoryBound(to: UInt.self)
                 assert(Self.indices.contains(index))
