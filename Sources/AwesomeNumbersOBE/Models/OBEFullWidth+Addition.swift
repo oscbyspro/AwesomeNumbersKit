@@ -47,12 +47,7 @@ extension OBEFullWidthInteger {
     }
     
     @inlinable func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
-        // the code is duplicated because it's faster this way...
-        var pv = self
-        let o0 = pv.low .addReportingOverflow(amount.low )
-        let o1 = pv.high.addReportingOverflow(amount.high)
-        let o2 = pv.high.addReportingOverflow(o0 ? 1 : 0 as High) // TODO: as Small or Pointer
-        return  (pv, o1 || o2)
+        var pv = self; let o = pv.addReportingOverflow(amount); return (pv, o)
     }
 }
 
@@ -71,7 +66,7 @@ extension OBEFullWidthInteger where High: SignedInteger {
     }
     
     @inlinable func adding(_ amount: Int, at index: Int) -> Self {
-        var x = self; x.add(amount, at: index); return x
+        let (pv, o) = self.addingReportingOverflow(amount, at: index); precondition(!o); return pv
     }
     
     @inlinable mutating func addWrappingAround(_ amount: Int, at index: Int) {
@@ -79,7 +74,7 @@ extension OBEFullWidthInteger where High: SignedInteger {
     }
     
     @inlinable func addingWrappingAround(_ amount: Int, at index: Int) -> Self {
-        var x = self; x.addWrappingAround(amount, at: index); return x
+        let (pv, _) = self.addingReportingOverflow(amount, at: index); return pv
     }
     
     @inlinable mutating func addReportingOverflow(_ amount: Int, at index: Int) -> Bool {
@@ -129,7 +124,7 @@ extension OBEFullWidthInteger where High: UnsignedInteger {
     }
     
     @inlinable func adding(_ amount: UInt, at index: Int) -> Self {
-        var x = self; x.add(amount, at: index); return x
+        let (pv, o) = self.addingReportingOverflow(amount, at: index); precondition(!o); return pv
     }
     
     @inlinable mutating func addWrappingAround(_ amount: UInt, at index: Int) {
@@ -137,7 +132,7 @@ extension OBEFullWidthInteger where High: UnsignedInteger {
     }
     
     @inlinable func addingWrappingAround(_ amount: UInt, at index: Int) -> Self {
-        var x = self; x.addWrappingAround(amount, at: index); return x
+        let (pv, _) = self.addingReportingOverflow(amount, at: index); return pv
     }
     
     @inlinable mutating func addReportingOverflow(_ amount: UInt, at index: Int) -> Bool {
@@ -146,8 +141,7 @@ extension OBEFullWidthInteger where High: UnsignedInteger {
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        var carry = self[unchecked: index].addReportingOverflow(amount)
-        
+        var carry =  self[unchecked: index].addReportingOverflow(amount)
         for index in self.index(after: index) ..< self.endIndex {
             guard carry else { break }
             carry = self[unchecked: index].addReportingOverflow(1 as UInt)
