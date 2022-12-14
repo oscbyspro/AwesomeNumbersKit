@@ -13,10 +13,10 @@ import AwesomeNumbersKit
 // MARK: * OBE x Fixed Width Integer x Large
 //*============================================================================*
 
-/// A fixed width integer implementation protocol.
+/// An internal fixed width integer implementation protocol.
 ///
-/// - It must be safe to bit cast between `High` and `Low`.
-/// - It must be safe to bit cast between `Self` and `Magnitude`.
+/// - It must be safe to bit cast between `Self` and `Self.Magnitude`.
+/// - It must be safe to bit cast between `Self.High` and  `Self.Low`.
 ///
 @usableFromInline protocol OBELargeFixedWidthInteger: AwesomeLargeFixedWidthInteger,
 CustomDebugStringConvertible where Magnitude: OBEUnsignedLargeFixedWidthInteger,

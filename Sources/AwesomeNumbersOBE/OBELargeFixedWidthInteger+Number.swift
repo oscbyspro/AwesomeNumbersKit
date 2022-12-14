@@ -23,6 +23,7 @@ extension OBELargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public init(_truncatingBits source: UInt) {
+        assert(Low.bitWidth >= UInt.bitWidth)
         let atLestOneWord = Low(_truncatingBits: source)
         self.init(descending:(High(),    atLestOneWord))
     }

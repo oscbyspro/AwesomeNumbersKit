@@ -25,8 +25,7 @@ import AwesomeNumbersKit
 /// - `Low .bitWidth` must be an integer multiple of `UInt.bitWidth`
 /// - `Self.bitWidth` must be an integer multiple of `UInt.bitWidth`
 ///
-@frozen @usableFromInline struct OBEFullWidth<High, Low>: Comparable, Hashable, WoRdS where
-High: Comparable & Hashable, Low: Comparable & Hashable {
+@frozen @usableFromInline struct OBEFullWidth<High, Low>: OBEFullWidthCollection {
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -65,11 +64,11 @@ High: Comparable & Hashable, Low: Comparable & Hashable {
     }
     
     @inlinable init(repeating word: UInt) {
-        self = Self.uninitialized(); for index in self.indices { self[unchecked: index] = word }
+        self = Self.uninitialized(); for index in indices { self[unchecked: index] = word }
     }
     
-    @_transparent @usableFromInline static func uninitialized() -> Self {
-        withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { $0.baseAddress.unsafelyUnwrapped.pointee }
+    @inlinable static func uninitialized() -> Self {
+        self.fromUnsafeWordsAllocation({ _ in })
     }
 }
 

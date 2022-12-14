@@ -7,6 +7,8 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import AwesomeNumbersKit
+
 //*============================================================================*
 // MARK: * OBE x Full Width x Collection
 //*============================================================================*
@@ -70,10 +72,6 @@ extension OBEFullWidth {
         return end &- start
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
     @inlinable static func bigEndianIndex(_ index: Int) -> Int {
         assert(indices.contains(index))
         #if _endian(big)
@@ -91,48 +89,75 @@ extension OBEFullWidth {
         return index
         #endif
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @usableFromInline subscript(index: Int) -> UInt {
+        @_transparent _read { yield  withUnsafeWords({ $0[index] /*------*/ }) }
+        @_transparent  set  { withUnsafeMutableWords({ $0[index] = newValue }) }
+    }
+    
+    @usableFromInline subscript(unchecked index: Int) -> UInt {
+        @_transparent _read { yield  withUnsafeWords({ $0[unchecked: index] /*------*/ }) }
+        @_transparent  set  { withUnsafeMutableWords({ $0[unchecked: index] = newValue }) }
+    }
 }
 
 //*============================================================================*
 // MARK: * OBE x Full Width x Collection
 //*============================================================================*
 
-extension OBEFullWidth {
+@usableFromInline protocol OBEFullWidthCollection: WoRdS {
+    
+    associatedtype High
+    
+    associatedtype Low
+    
+    typealias Body = OBEFullWidth<High, Low>
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details
+//=----------------------------------------------------------------------------=
+
+extension OBEFullWidthCollection {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
     @inlinable var count: Int {
-        Self.count
+        Body.count
     }
     
     @inlinable var startIndex: Int {
-        Self.startIndex
+        Body.startIndex
     }
     
     @inlinable var endIndex: Int {
-        Self.endIndex
+        Body.endIndex
     }
     
     @inlinable var firstIndex: Int {
-        Self.firstIndex
+        Body.firstIndex
     }
     
     @inlinable var lastIndex: Int {
-        Self.lastIndex
+        Body.lastIndex
     }
     
     @inlinable var indices: Range<Int> {
-        Self.indices
+        Body.indices
     }
     
     @inlinable var first: UInt {
-        self[Self.firstIndex]
+        self[Body.firstIndex]
     }
     
     @inlinable var last: UInt {
-        self[Self.lastIndex]
+        self[Body.lastIndex]
     }
     
     //=------------------------------------------------------------------------=
@@ -140,64 +165,27 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable func index(after index: Int) -> Int {
-        Self.index(after: index)
+        assert((/*------*/     endIndex) > index)
+        assert((startIndex ... endIndex).contains(index))
+        return index &+ 1
     }
     
     @inlinable func index(before index: Int) -> Int {
-        Self.index(before: index)
+        assert((startIndex     /*----*/) < index)
+        assert((startIndex ... endIndex).contains(index))
+        return index &- 1
     }
     
     @inlinable func index(_ index: Int, offsetBy distance: Int) -> Int {
-        Self.index(index, offsetBy: distance)
+        let next = index &+ distance
+        assert((startIndex ... endIndex).contains(index))
+        assert((startIndex ... endIndex).contains(next ))
+        return next
     }
     
     @inlinable func distance(from start: Int, to end: Int) -> Int {
-        Self.distance(from: start, to: end)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @usableFromInline subscript(index: Int) -> UInt {
-        //=--------------------------------------=
-        // Pseudo Fixed Width Array (Get)
-        //=--------------------------------------=
-        @_transparent _read {
-            precondition(Self.indices.contains(index))
-            yield  self[unchecked: index]
-        }
-        //=--------------------------------------=
-        // Pseudo Fixed Width Array (Set)
-        //=--------------------------------------=
-        @_transparent _modify {
-            precondition(Self.indices.contains(index))
-            yield &self[unchecked: index]
-        }
-    }
-    
-    @usableFromInline subscript(unchecked index: Int) -> UInt {
-        //=--------------------------------------=
-        // Pseudo Fixed Width Array (Get)
-        //=--------------------------------------=
-        @_transparent get {
-            withUnsafePointer(to: self) {  SELF in
-                let RAW = UnsafeRawPointer(SELF)
-                let WORDS = RAW.assumingMemoryBound(to: UInt.self)
-                assert(Self.indices.contains(index))
-                return WORDS[Self.littleEndianIndex(index)]
-            }
-        }
-        //=--------------------------------------=
-        // Pseudo Fixed Width Array (Set)
-        //=--------------------------------------=
-        @_transparent set {
-            withUnsafeMutablePointer(to: &self) { SELF in
-                let RAW = UnsafeMutableRawPointer(SELF)
-                let WORDS = RAW.assumingMemoryBound(to: UInt.self)
-                assert(Self.indices.contains(index))
-                WORDS[Self.littleEndianIndex(index)] = newValue
-            }
-        }
+        assert((startIndex ... endIndex).contains(start))
+        assert((startIndex ... endIndex).contains(end  ))
+        return end &- start
     }
 }
