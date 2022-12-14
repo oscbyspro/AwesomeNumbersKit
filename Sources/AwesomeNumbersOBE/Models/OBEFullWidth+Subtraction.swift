@@ -89,13 +89,13 @@ extension OBEFullWidthInteger where High: SignedInteger {
         //
         //=--------------------------------------=
         var borrow = self[unchecked: index].subtractReportingOverflow(UInt(bitPattern: amount))
-        var index = self.index(after: index)
+        var index  = self.index(after: index)
         //=----------------------------------=
-        //
+        // Plus & Borrow, Minus & No Borrow
         //=----------------------------------=
         if  borrow != rhsIsLessThanZero {
             let predicate = borrow
-            let decrement = borrow ? 1 : ~0 as UInt // +1 vs -1
+            let decrement = UInt(bitPattern: borrow ? 1 : -1)
             
             while index != self.endIndex && borrow == predicate {
                 borrow = self[unchecked: index].subtractReportingOverflow(decrement)

@@ -55,14 +55,6 @@ extension OBELargeFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init<H>(bitPattern: OBEFullWidthInteger<H, Low>) where H.Magnitude == High.Magnitude {
-        self.init(bitPattern: Body(bitPattern: bitPattern)) // signitude or magnitude
-    }
-    
-    @inlinable init<T>(bitPattern: T) where T: OBELargeFixedWidthInteger, T.Magnitude == Self.Magnitude {
-        self.init(bitPattern: Body(bitPattern: bitPattern.body)) // signitude or magnitude
-    }
-    
     @inlinable public init() {
         self.init(bitPattern: Body())
     }
@@ -83,6 +75,10 @@ extension OBELargeFixedWidthInteger {
         self.init(bitPattern: Body(ascending: unsafeBitCast(x32, to: (low: Low, high: High).self)))
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
     @inlinable init(ascending digits:(low: Low, high: High)) {
         self.init(bitPattern: Body(ascending: digits))
     }
@@ -93,6 +89,18 @@ extension OBELargeFixedWidthInteger {
     
     @inlinable static func uninitialized() -> Self {
         self.init(bitPattern: Body.uninitialized())
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init<H>(bitPattern: OBEFullWidthInteger<H, Low>) where H.Magnitude == High.Magnitude {
+        self.init(bitPattern: Body(bitPattern: bitPattern)) // signitude or magnitude
+    }
+    
+    @inlinable init<T>(bitPattern: T) where T: OBELargeFixedWidthInteger, T.Magnitude == Self.Magnitude {
+        self.init(bitPattern: Body(bitPattern: bitPattern.body)) // signitude or magnitude
     }
         
     //=------------------------------------------------------------------------=

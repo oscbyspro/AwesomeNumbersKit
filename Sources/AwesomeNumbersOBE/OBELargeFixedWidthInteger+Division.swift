@@ -70,7 +70,7 @@ extension OBESignedLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> (quotient: Self, remainder: Self) {
+    @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
         let division  = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
         var quotient  = Self(division.quotient )
         var remainder = Self(division.remainder)

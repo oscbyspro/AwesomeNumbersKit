@@ -38,10 +38,12 @@ extension OBEFullWidth {
 extension OBEFullWidthInteger {
     
     @usableFromInline typealias Magnitude = OBEFullWidth<High.Magnitude, Low>
+    
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
+    // TODO: it requires isLessThanZero and Self.Magnitude
     @inlinable var magnitude: Magnitude {
         Magnitude(bitPattern: isLessThanZero ? self.twosComplement() : self)
     }

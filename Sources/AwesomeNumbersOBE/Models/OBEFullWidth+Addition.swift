@@ -90,17 +90,21 @@ extension OBEFullWidthInteger where High: SignedInteger {
         //=--------------------------------------=
         var carry = self[unchecked: index].addReportingOverflow(UInt(bitPattern: amount))
         var index = self.index(after: index)
-        
+        //=--------------------------------------=
+        // Plus & Carry, Minus & No Carry
+        //=--------------------------------------=
         if  carry != rhsIsLessThanZero {
             let predicate = carry
-            let increment = carry ? 1 : ~0 as UInt // +1 vs -1
-
+            let increment = UInt(bitPattern: carry ? 1 : -1)
+            
             while index != self.endIndex && carry == predicate {
                 carry = self[unchecked: index].addReportingOverflow(increment)
                 self.formIndex(after: &index)
             }
         }
-        
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
         return lhsIsLessThanZero == rhsIsLessThanZero && lhsIsLessThanZero != self.isLessThanZero
     }
     

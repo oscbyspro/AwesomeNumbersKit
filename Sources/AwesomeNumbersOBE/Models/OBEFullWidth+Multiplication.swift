@@ -25,11 +25,11 @@ extension OBEFullWidthInteger where High.Magnitude == Low {
         return Self(bitPattern: product.high)
     }
     
-    @inlinable func multipliedFullWidthAsKaratsuba(by amount: Self) -> OBEFullWidth<Self, Magnitude> {
+    @inlinable func multipliedFullWidthAsKaratsuba(by amount: Self) -> X<Self, Magnitude> {
         let negate  = self.isLessThanZero != amount.isLessThanZero
         var product = self.magnitude.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.magnitude)
         if  negate  { product.formTwosComplement() }
-        return unsafeBitCast(product, to: OBEFullWidth<Self, Magnitude>.self) // TODO: without unsafeBitCast
+        return X(descending:(Self(bitPattern: product.high), product.low))
     }
 }
 
@@ -43,7 +43,7 @@ extension OBEFullWidthInteger where High == Low {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable func multipliedFullWidthAsKaratsubaAsUnsigned(by amount: Self) -> OBEFullWidth<Self, Magnitude> {
+    @inlinable func multipliedFullWidthAsKaratsubaAsUnsigned(by amount: Self) -> X<Self, Magnitude> {
         let m0 = self.low .multipliedFullWidth(by: amount.low )
         let m1 = self.low .multipliedFullWidth(by: amount.high)
         let m2 = self.high.multipliedFullWidth(by: amount.low )
@@ -54,6 +54,6 @@ extension OBEFullWidthInteger where High == Low {
 
         let r0 = Magnitude(descending:(s0.low,  m0.low ))
         let r1 = Magnitude(descending:(m3.high, s0.high)) &+ s1
-        return OBEFullWidth<Self, Magnitude>(descending:(r1, r0))
+        return X(descending:(r1, r0))
     }
 }

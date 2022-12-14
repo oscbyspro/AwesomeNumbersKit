@@ -27,6 +27,8 @@ import AwesomeNumbersKit
 ///
 @frozen @usableFromInline struct OBEFullWidth<High, Low>: OBEFullWidthCollection {
     
+    @usableFromInline typealias X<H, L> = OBEFullWidth<H, L>
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
