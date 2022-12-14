@@ -68,7 +68,7 @@ import AwesomeNumbersKit
     }
     
     @inlinable static func uninitialized() -> Self {
-        self.fromUnsafeWordsAllocation({ _ in })
+        self.fromUnsafeLittleEndianWordsAllocation({ _ in })
     }
 }
 

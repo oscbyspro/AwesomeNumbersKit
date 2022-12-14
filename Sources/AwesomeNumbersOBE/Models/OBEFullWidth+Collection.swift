@@ -31,10 +31,6 @@ extension OBEFullWidth {
         count
     }
     
-    @inlinable static var firstIndex: Int {
-        0
-    }
-    
     @inlinable static var lastIndex: Int {
         count - 1
     }
@@ -46,31 +42,6 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
-    
-    @inlinable static func index(after index: Int) -> Int {
-        assert((/*------*/     endIndex) > index)
-        assert((startIndex ... endIndex).contains(index))
-        return index &+ 1
-    }
-    
-    @inlinable static func index(before index: Int) -> Int {
-        assert((startIndex     /*----*/) < index)
-        assert((startIndex ... endIndex).contains(index))
-        return index &- 1
-    }
-    
-    @inlinable static func index(_ index: Int, offsetBy distance: Int) -> Int {
-        let next = index &+ distance
-        assert((startIndex ... endIndex).contains(index))
-        assert((startIndex ... endIndex).contains(next ))
-        return next
-    }
-    
-    @inlinable static func distance(from start: Int, to end: Int) -> Int {
-        assert((startIndex ... endIndex).contains(start))
-        assert((startIndex ... endIndex).contains(end  ))
-        return end &- start
-    }
     
     @inlinable static func bigEndianIndex(_ index: Int) -> Int {
         assert(indices.contains(index))
@@ -95,13 +66,13 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @usableFromInline subscript(index: Int) -> UInt {
-        @_transparent _read { yield  withUnsafeWords({ $0[index] /*------*/ }) }
-        @_transparent  set  { withUnsafeMutableWords({ $0[index] = newValue }) }
+        @_transparent _read { yield  withUnsafeLittleEndianWords({ $0[index] /*------*/ }) }
+        @_transparent  set  { withUnsafeMutableLittleEndianWords({ $0[index] = newValue }) }
     }
     
     @usableFromInline subscript(unchecked index: Int) -> UInt {
-        @_transparent _read { yield  withUnsafeWords({ $0[unchecked: index] /*------*/ }) }
-        @_transparent  set  { withUnsafeMutableWords({ $0[unchecked: index] = newValue }) }
+        @_transparent _read { yield  withUnsafeLittleEndianWords({ $0[unchecked: index] /*------*/ }) }
+        @_transparent  set  { withUnsafeMutableLittleEndianWords({ $0[unchecked: index] = newValue }) }
     }
 }
 
@@ -140,10 +111,6 @@ extension OBEFullWidthCollection {
         Body.endIndex
     }
     
-    @inlinable var firstIndex: Int {
-        Body.firstIndex
-    }
-    
     @inlinable var lastIndex: Int {
         Body.lastIndex
     }
@@ -152,40 +119,32 @@ extension OBEFullWidthCollection {
         Body.indices
     }
     
-    @inlinable var first: UInt {
-        self[Body.firstIndex]
-    }
-    
-    @inlinable var last: UInt {
-        self[Body.lastIndex]
-    }
-    
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
     @inlinable func index(after index: Int) -> Int {
-        assert((/*------*/     endIndex) > index)
-        assert((startIndex ... endIndex).contains(index))
+        assert((/*-----------*/     Body.endIndex) > index)
+        assert((Body.startIndex ... Body.endIndex).contains(index))
         return index &+ 1
     }
     
     @inlinable func index(before index: Int) -> Int {
-        assert((startIndex     /*----*/) < index)
-        assert((startIndex ... endIndex).contains(index))
+        assert((Body.startIndex     /*---------*/) < index)
+        assert((Body.startIndex ... Body.endIndex).contains(index))
         return index &- 1
     }
     
     @inlinable func index(_ index: Int, offsetBy distance: Int) -> Int {
         let next = index &+ distance
-        assert((startIndex ... endIndex).contains(index))
-        assert((startIndex ... endIndex).contains(next ))
+        assert((Body.startIndex ... Body.endIndex).contains(index))
+        assert((Body.startIndex ... Body.endIndex).contains(next ))
         return next
     }
     
     @inlinable func distance(from start: Int, to end: Int) -> Int {
-        assert((startIndex ... endIndex).contains(start))
-        assert((startIndex ... endIndex).contains(end  ))
+        assert((Body.startIndex ... Body.endIndex).contains(start))
+        assert((Body.startIndex ... Body.endIndex).contains(end  ))
         return end &- start
     }
 }

@@ -133,6 +133,7 @@ extension OBEUnsignedLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    /// See: https://github.com/apple/swift/blob/main/test/Prototypes/DoubleWidth.swift.gyb
     @inlinable static func _divide(_ lhs: (high: Low, mid: Low, low: Low), by rhs: Magnitude) -> QR<Low, Magnitude> {
         typealias M = Magnitude
         typealias D = OBEDoubleWidthInteger<Magnitude>
@@ -163,6 +164,7 @@ extension OBEUnsignedLargeFixedWidthInteger {
         return (quotient, remainder.low)
     }
     
+    /// See: https://github.com/apple/swift/blob/main/test/Prototypes/DoubleWidth.swift.gyb
     @inlinable static func _divide(_ lhs: OBEDoubleWidthInteger<Magnitude>, by rhs: Magnitude) -> QR<Magnitude, Magnitude> {
         typealias M = Magnitude
         //=--------------------------------------=
@@ -225,6 +227,7 @@ extension OBEUnsignedLargeFixedWidthInteger {
         return (M(descending:(q0, q1)), r1 &>> normalization)
     }
     
+    /// See: https://github.com/apple/swift/blob/main/test/Prototypes/DoubleWidth.swift.gyb
     @inlinable static func _divide(_ lhs: Magnitude, by rhs: Magnitude) -> QR<Magnitude, Magnitude> {
         typealias M = Magnitude
         //=--------------------------------------=
