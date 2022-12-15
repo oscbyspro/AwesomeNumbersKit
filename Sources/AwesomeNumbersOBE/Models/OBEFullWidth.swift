@@ -27,15 +27,15 @@ import AwesomeNumbersKit
 /// Self.bitWidth %  UInt.bitWidth == 0
 /// ```
 ///
-@frozen @usableFromInline struct OBEFullWidth<High, Low>: AwesomeFixedWidthInteger, OBEFullWidthCollection where
+@frozen @usableFromInline struct OBEFullWidth<High, Low>: AwesomeLargeFixedWidthInteger, OBEFullWidthCollection where
 High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger, Low == Low.Magnitude {
-    
-    @usableFromInline typealias Magnitude   = OBEFullWidth<High.Magnitude, Low.Magnitude>
-    
-    @usableFromInline typealias DoubleWidth = OBEFullWidth<Self, Magnitude>
     
     @usableFromInline typealias IntegerLiteralType = Int
     
+    @usableFromInline typealias DoubleWidth = OBEFullWidth<Self, Magnitude>
+    
+    @usableFromInline typealias Magnitude = OBEFullWidth<High.Magnitude, Low.Magnitude>
+        
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
@@ -114,3 +114,6 @@ extension OBEFullWidth: AwesomeUnsignedInteger where High: AwesomeUnsignedIntege
 
 extension OBEFullWidth:   AwesomeSignedFixedWidthInteger where High:   AwesomeSignedFixedWidthInteger { }
 extension OBEFullWidth: AwesomeUnsignedFixedWidthInteger where High: AwesomeUnsignedFixedWidthInteger { }
+
+extension OBEFullWidth:   AwesomeSignedLargeFixedWidthInteger where High:   AwesomeSignedFixedWidthInteger { }
+extension OBEFullWidth: AwesomeUnsignedLargeFixedWidthInteger where High: AwesomeUnsignedFixedWidthInteger { }

@@ -21,9 +21,9 @@ import AwesomeNumbersKit
 @usableFromInline protocol OBELargeFixedWidthInteger<High, Low>: AwesomeLargeFixedWidthInteger,
 CustomDebugStringConvertible where Magnitude: OBEUnsignedLargeFixedWidthInteger<High.Magnitude, Low.Magnitude> {
     
-    associatedtype X64 // (UInt64, UInt64, ...)
+    associatedtype X64 = Never // (UInt64, UInt64, ...)
     
-    associatedtype X32 // (UInt32, UInt32, UInt32, UInt32, ...)
+    associatedtype X32 = Never // (UInt32, UInt32, UInt32, UInt32, ...)
     
     associatedtype High: AwesomeFixedWidthInteger
         

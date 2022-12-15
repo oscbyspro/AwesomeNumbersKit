@@ -59,3 +59,15 @@ extension OBEFullWidth {
         fatalError("TODO")
     }
 }
+
+//*============================================================================*
+// MARK: * OBE x Full Width x Double Width x Division
+//*============================================================================*
+
+extension OBEFullWidth where High.Magnitude == Low {
+    
+    #warning("quotientAndRemainderAsBurnikelAndZiegler")
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+}

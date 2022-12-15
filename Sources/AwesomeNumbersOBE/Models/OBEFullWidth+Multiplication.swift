@@ -32,11 +32,14 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
-        fatalError("TODO")
+        let o: Bool; (self, o) = self.multipliedReportingOverflow(by: amount); return o
     }
     
-    @inlinable func multipliedReportingOverflow(by rhs: Self) -> PVO<Self> {
-        fatalError("TODO")
+    @inlinable func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
+        let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero
+        let product  = self.multipliedFullWidth(by: amount)
+        let overflow = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
+        return PVO(Self(bitPattern: product.low), overflow)
     }
     
     @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self {
