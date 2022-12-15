@@ -15,15 +15,17 @@ import AwesomeNumbersKit
 
 /// The internal storage model for `(U)Int(128/256/512)`.
 ///
-/// It behaves as if it were an integer, without conforming to such protocols.
+/// ```
+/// High.bitWidth >= UInt.bitWidth
+/// Low .bitWidth >= UInt.bitWidth
+/// Self.bitWidth >= UInt.bitWidth *  2
+/// ```
 ///
-/// - `High.bitWidth >= UInt.bitWidth`
-/// - `Low .bitWidth >= UInt.bitWidth`
-/// - `Self.bitWidth >= UInt.bitWidth * 2`
-///
-/// - `High.bitWidth` must be an integer multiple of `UInt.bitWidth`
-/// - `Low .bitWidth` must be an integer multiple of `UInt.bitWidth`
-/// - `Self.bitWidth` must be an integer multiple of `UInt.bitWidth`
+/// ```
+/// High.bitWidth %  UInt.bitWidth == 0
+/// Low .bitWidth %  UInt.bitWidth == 0
+/// Self.bitWidth %  UInt.bitWidth == 0
+/// ```
 ///
 @frozen @usableFromInline struct OBEFullWidth<High, Low>: OBEFullWidthCollection {
     
