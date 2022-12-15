@@ -20,42 +20,19 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable static prefix func ~(x: Self) -> Self {
-        var result = Self.uninitialized()
-        for index in Self.indices {
-            result[unchecked: index] = ~x[unchecked: index]
-        }
-        
-        return result
+        Self(descending:(~x.high, ~x.low))
     }
     
     @inlinable static func &=(lhs: inout Self, rhs: Self) {
-        for index in Self.indices {
-            lhs[unchecked: index] &= rhs[unchecked: index]
-        }
-    }
-    
-    @inlinable static func &(lhs: Self, rhs: Self) -> Self {
-        var lhs = lhs; lhs &= rhs; return lhs
+        lhs.low &= rhs.low; lhs.high &= rhs.high
     }
     
     @inlinable static func |=(lhs: inout Self, rhs: Self) {
-        for index in Self.indices {
-            lhs[unchecked: index] |= rhs[unchecked: index]
-        }
-    }
-    
-    @inlinable static func |(lhs: Self, rhs: Self) -> Self {
-        var lhs = lhs; lhs |= rhs; return lhs
+        lhs.low |= rhs.low; lhs.high |= rhs.high
     }
     
     @inlinable static func ^=(lhs: inout Self, rhs: Self) {
-        for index in Self.indices {
-            lhs[unchecked: index] ^= rhs[unchecked: index]
-        }
-    }
-    
-    @inlinable static func ^(lhs: Self, rhs: Self) -> Self {
-        var lhs = lhs; lhs ^= rhs; return lhs
+        lhs.low ^= rhs.low; lhs.high ^= rhs.high
     }
     
     //=------------------------------------------------------------------------=

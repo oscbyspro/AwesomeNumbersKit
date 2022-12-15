@@ -13,8 +13,7 @@ import AwesomeNumbersKit
 // MARK: * OBE x Full Width x Bitshifts x L
 //*============================================================================*
 
-// TODO: it only requires isLessThanZero
-extension OBEFullWidthInteger {
+extension OBEFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations x some Binary Integer
@@ -103,8 +102,7 @@ extension OBEFullWidthInteger {
 // MARK: * OBE x Full Width x Bitshifts x R
 //*============================================================================*
 
-// TODO: it only requires isLessThanZero
-extension OBEFullWidthInteger {
+extension OBEFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations x some BinaryInteger

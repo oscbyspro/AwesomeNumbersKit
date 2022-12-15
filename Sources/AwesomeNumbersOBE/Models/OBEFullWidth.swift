@@ -27,9 +27,26 @@ import AwesomeNumbersKit
 /// Self.bitWidth %  UInt.bitWidth == 0
 /// ```
 ///
-@frozen @usableFromInline struct OBEFullWidth<High, Low>: OBEFullWidthCollection {
+@frozen @usableFromInline struct OBEFullWidth<High, Low>: AwesomeFixedWidthInteger, OBEFullWidthCollection where
+High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger, Low == Low.Magnitude {
     
-    @usableFromInline typealias X<H, L> = OBEFullWidth<H, L>
+    @usableFromInline typealias Magnitude   = OBEFullWidth<High.Magnitude, Low.Magnitude>
+    
+    @usableFromInline typealias DoubleWidth = OBEFullWidth<Self, Magnitude>
+    
+    @usableFromInline typealias IntegerLiteralType = Int
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static var min: Self {
+        Self(descending:(High.min, Low.min))
+    }
+    
+    @inlinable static var max: Self {
+        Self(descending:(High.max, Low.max))
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -74,29 +91,26 @@ import AwesomeNumbersKit
     @inlinable static func uninitialized() -> Self {
         self.fromUnsafeLittleEndianWordsAllocation({ _ in })
     }
-}
-
-//*============================================================================*
-// MARK: * OBE x Full Width x Aliases
-//*============================================================================*
-
-@usableFromInline typealias OBEFullWidthInteger<High, Low> =
-OBEFullWidth<High, Low> where High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger
-
-@usableFromInline typealias OBEDoubleWidthInteger<Base> =
-OBEFullWidth<Base, Base.Magnitude> where Base: AwesomeFixedWidthInteger
-
-//*============================================================================*
-// MARK: * OBE x Full Width x Integer
-//*============================================================================*
-
-extension OBEFullWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init<H>(bitPattern: OBEFullWidthInteger<H, Low>) where H.Magnitude == High.Magnitude {
+    @inlinable init<T>(bitPattern: OBEFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
         self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
     }
 }
+
+//*============================================================================*
+// MARK: * OBE x Full Width x Conditional Conformances
+//*============================================================================*
+
+extension OBEFullWidth:   SignedNumeric where High:   SignedNumeric { }
+extension OBEFullWidth:   SignedInteger where High:   SignedInteger { }
+extension OBEFullWidth: UnsignedInteger where High: UnsignedInteger { }
+
+extension OBEFullWidth:   AwesomeSignedInteger where High:   AwesomeSignedInteger { }
+extension OBEFullWidth: AwesomeUnsignedInteger where High: AwesomeUnsignedInteger { }
+
+extension OBEFullWidth:   AwesomeSignedFixedWidthInteger where High:   AwesomeSignedFixedWidthInteger { }
+extension OBEFullWidth: AwesomeUnsignedFixedWidthInteger where High: AwesomeUnsignedFixedWidthInteger { }

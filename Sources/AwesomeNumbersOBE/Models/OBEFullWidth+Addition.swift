@@ -10,10 +10,10 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Full Width x Integer x Addition
+// MARK: * OBE x Full Width x Addition
 //*============================================================================*
 
-extension OBEFullWidthInteger {
+extension OBEFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -24,7 +24,7 @@ extension OBEFullWidthInteger {
     }
     
     @inlinable static func +(lhs: Self, rhs: Self) -> Self {
-        var lhs = lhs; lhs += rhs; return lhs
+        let (pv, o) = lhs.addingReportingOverflow(rhs); precondition(!o); return pv
     }
     
     @inlinable static func &+=(lhs: inout Self, rhs: Self) {
@@ -32,7 +32,7 @@ extension OBEFullWidthInteger {
     }
     
     @inlinable static func &+(lhs: Self, rhs: Self) -> Self {
-        var lhs = lhs; lhs &+= rhs; return lhs
+        let (pv, _) = lhs.addingReportingOverflow(rhs); return pv
     }
     
     //=------------------------------------------------------------------------=

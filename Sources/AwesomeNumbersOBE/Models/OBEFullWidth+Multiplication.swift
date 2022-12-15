@@ -10,10 +10,49 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Full Width x Integer x Multiplication
+// MARK: * OBE x Full Width x Multiplication
 //*============================================================================*
 
-extension OBEFullWidthInteger where High.Magnitude == Low {
+extension OBEFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func *=(lhs: inout Self, rhs: Self) {
+        let o = lhs.multiplyReportingOverflow(by: rhs); precondition(!o)
+    }
+    
+    @inlinable public static func *(lhs: Self, rhs: Self) -> Self {
+        let (pv, o) = lhs.multipliedReportingOverflow(by: rhs); precondition(!o); return pv
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
+        fatalError("TODO")
+    }
+    
+    @inlinable func multipliedReportingOverflow(by rhs: Self) -> PVO<Self> {
+        fatalError("TODO")
+    }
+    
+    @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self {
+        fatalError("TODO")
+    }
+    
+    @inlinable mutating func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {
+        fatalError("TODO")
+    }
+}
+
+//*============================================================================*
+// MARK: * OBE x Full Width x Double Width x Multiplication
+//*============================================================================*
+
+extension OBEFullWidth where High.Magnitude == Low {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -25,25 +64,25 @@ extension OBEFullWidthInteger where High.Magnitude == Low {
         return Self(bitPattern: product.high)
     }
     
-    @inlinable func multipliedFullWidthAsKaratsuba(by amount: Self) -> X<Self, Magnitude> {
+    @inlinable func multipliedFullWidthAsKaratsuba(by amount: Self) -> DoubleWidth {
         let negate  = self.isLessThanZero != amount.isLessThanZero
         var product = self.magnitude.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.magnitude)
         if  negate  { product.formTwosComplement() }
-        return X(descending:(Self(bitPattern: product.high), product.low))
+        return DoubleWidth(descending:(Self(bitPattern: product.high), product.low))
     }
 }
 
 //*============================================================================*
-// MARK: * OBE x Full Width x Integer x Unsigned x Multiplication
+// MARK: * OBE x Full Width x Double Width x Unsigned x Multiplication
 //*============================================================================*
 
-extension OBEFullWidthInteger where High == Low {
+extension OBEFullWidth where High == Low {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable func multipliedFullWidthAsKaratsubaAsUnsigned(by amount: Self) -> X<Self, Magnitude> {
+    @inlinable func multipliedFullWidthAsKaratsubaAsUnsigned(by amount: Self) -> DoubleWidth {
         let m0 = self.low .multipliedFullWidth(by: amount.low )
         let m1 = self.low .multipliedFullWidth(by: amount.high)
         let m2 = self.high.multipliedFullWidth(by: amount.low )
@@ -54,6 +93,6 @@ extension OBEFullWidthInteger where High == Low {
 
         let r0 = Magnitude(descending:(s0.low,  m0.low ))
         let r1 = Magnitude(descending:(m3.high, s0.high)) &+ s1
-        return X(descending:(r1, r0))
+        return DoubleWidth(descending:(r1, r0))
     }
 }

@@ -20,19 +20,19 @@ extension OBELargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func /=(lhs: inout Self, rhs: Self) {
-        let (pv, o) = lhs.dividedReportingOverflow(by: rhs); precondition(!o); lhs = pv
+        let o = lhs.divideReportingOverflow(by: rhs); precondition(!o)
     }
     
     @inlinable public static func /(lhs: Self, rhs: Self) -> Self {
-        var lhs = lhs; lhs /= rhs; return lhs
+        let (pv, o) = lhs.dividedReportingOverflow(by: rhs); precondition(!o); return pv
     }
     
     @inlinable public static func %=(lhs: inout Self, rhs: Self) {
-        let (pv, o) = lhs.remainderReportingOverflow(dividingBy: rhs); precondition(!o); lhs = pv
+        let o = lhs.formRemainderReportingOverflow(by: rhs); precondition(!o)
     }
     
     @inlinable public static func %(lhs: Self, rhs: Self) -> Self {
-        var lhs = lhs; lhs %= rhs; return lhs
+        let (pv, o) = lhs.remainderReportingOverflow(dividingBy: rhs); precondition(!o); return pv
     }
     
     //=------------------------------------------------------------------------=
@@ -91,7 +91,7 @@ extension OBESignedLargeFixedWidthInteger {
     }
     
     @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
-        let dividend = OBEDoubleWidthInteger<Self>(descending: dividend)
+        let dividend = OBEFullWidth<Self, Magnitude>(descending: dividend)
         let dividendIsLessThanZero = dividend.isLessThanZero
         var (quotient, remainder) = Magnitude._divide(dividend.magnitude, by: self.magnitude)
         //=--------------------------------------=
@@ -122,11 +122,14 @@ extension OBEUnsignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
-        Magnitude._divide(self.magnitude, by: divisor.magnitude)
+        let division = Magnitude._divide(self.magnitude, by: divisor.magnitude)
+        return QR(Self(bitPattern: division.quotient), Self(bitPattern: division.remainder))
     }
     
     @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
-        Magnitude._divide(OBEDoubleWidthInteger<Self>(descending: dividend).magnitude, by: self.magnitude)
+        let dividend = OBEFullWidth(descending:(Magnitude(bitPattern: dividend.high), dividend.low))
+        let division = Magnitude._divide(dividend.magnitude, by: self.magnitude)
+        return QR(Self(bitPattern: division.quotient), Self(bitPattern: division.remainder))
     }
     
     //=------------------------------------------------------------------------=
@@ -136,7 +139,7 @@ extension OBEUnsignedLargeFixedWidthInteger {
     /// See: https://github.com/apple/swift/blob/main/test/Prototypes/DoubleWidth.swift.gyb
     @inlinable static func _divide(_ lhs: (high: Low, mid: Low, low: Low), by rhs: Magnitude) -> QR<Low, Magnitude> {
         typealias M = Magnitude
-        typealias D = OBEDoubleWidthInteger<Magnitude>
+        typealias D = OBEFullWidth<Magnitude, Magnitude>
         //=--------------------------------------=
         //
         //=--------------------------------------=
@@ -165,7 +168,7 @@ extension OBEUnsignedLargeFixedWidthInteger {
     }
     
     /// See: https://github.com/apple/swift/blob/main/test/Prototypes/DoubleWidth.swift.gyb
-    @inlinable static func _divide(_ lhs: OBEDoubleWidthInteger<Magnitude>, by rhs: Magnitude) -> QR<Magnitude, Magnitude> {
+    @inlinable static func _divide(_ lhs: OBEFullWidth<Magnitude, Magnitude>, by rhs: Magnitude) -> QR<Magnitude, Magnitude> {
         typealias M = Magnitude
         //=--------------------------------------=
         //
@@ -177,7 +180,7 @@ extension OBEUnsignedLargeFixedWidthInteger {
         //
         //=--------------------------------------=
         if  rhs.isZero {
-            fatalError("division by zero")
+            preconditionFailure("division by zero")
         }
         //=--------------------------------------=
         //
@@ -204,7 +207,7 @@ extension OBEUnsignedLargeFixedWidthInteger {
         //
         //=--------------------------------------=
         if  rhs < lhs.high {
-            fatalError("division overflow")
+            preconditionFailure("division overflow")
         }
         //=--------------------------------------=
         //
@@ -241,7 +244,7 @@ extension OBEUnsignedLargeFixedWidthInteger {
         //
         //=--------------------------------------=
         if  rhs.isZero {
-            fatalError("division by zero")
+            preconditionFailure("division by zero")
         }
         
         if  rhs >= lhs {

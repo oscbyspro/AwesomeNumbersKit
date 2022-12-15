@@ -18,9 +18,8 @@ import AwesomeNumbersKit
 /// - It must be safe to bit cast between `Self` and `Self.Magnitude`.
 /// - It must be safe to bit cast between `Self.High` and  `Self.Low`.
 ///
-@usableFromInline protocol OBELargeFixedWidthInteger: AwesomeLargeFixedWidthInteger,
-CustomDebugStringConvertible where Magnitude: OBEUnsignedLargeFixedWidthInteger,
-Magnitude.High == High.Magnitude {
+@usableFromInline protocol OBELargeFixedWidthInteger<High, Low>: AwesomeLargeFixedWidthInteger,
+CustomDebugStringConvertible where Magnitude: OBEUnsignedLargeFixedWidthInteger<High.Magnitude, Low.Magnitude> {
     
     associatedtype X64 // (UInt64, UInt64, ...)
     
@@ -36,7 +35,7 @@ Magnitude.High == High.Magnitude {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @inlinable var body: Body { get set }
+    @_hasStorage var body: Body
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -95,7 +94,7 @@ extension OBELargeFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init<H>(bitPattern: OBEFullWidthInteger<H, Low>) where H.Magnitude == High.Magnitude {
+    @inlinable init<T>(bitPattern: OBEFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
         self.init(bitPattern: Body(bitPattern: bitPattern)) // signitude or magnitude
     }
     
@@ -138,7 +137,7 @@ extension OBELargeFixedWidthInteger {
 // MARK: * OBE x Fixed Width Integer x Large x Signed
 //*============================================================================*
 
-@usableFromInline protocol OBESignedLargeFixedWidthInteger: OBELargeFixedWidthInteger,
+@usableFromInline protocol OBESignedLargeFixedWidthInteger<High, Low>: OBELargeFixedWidthInteger,
 AwesomeSignedLargeFixedWidthInteger where High: AwesomeSignedFixedWidthInteger { }
 
 //=----------------------------------------------------------------------------=
@@ -152,11 +151,11 @@ extension OBESignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static var min: Self {
-        Self(descending:(High.min, Low.min))
+        Self(bitPattern: Body.min)
     }
 
     @inlinable public static var max: Self {
-        Self(descending:(High.max, Low.max))
+        Self(bitPattern: Body.max)
     }
 }
 
@@ -164,8 +163,8 @@ extension OBESignedLargeFixedWidthInteger {
 // MARK: * OBE x Fixed Width Integer x Large x Unsigned
 //*============================================================================*
 
-@usableFromInline protocol OBEUnsignedLargeFixedWidthInteger: OBELargeFixedWidthInteger,
-AwesomeUnsignedLargeFixedWidthInteger where High == Low { }
+@usableFromInline protocol OBEUnsignedLargeFixedWidthInteger<High, Low>: OBELargeFixedWidthInteger,
+AwesomeUnsignedLargeFixedWidthInteger where High: AwesomeUnsignedFixedWidthInteger, High == Low { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -178,10 +177,10 @@ extension OBEUnsignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static var min: Self {
-        Self(descending:(High.min, Low.min))
+        Self(bitPattern: Body.min)
     }
 
     @inlinable public static var max: Self {
-        Self(descending:(High.max, Low.max))
+        Self(bitPattern: Body.max)
     }
 }

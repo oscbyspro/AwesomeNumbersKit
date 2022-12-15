@@ -27,6 +27,14 @@ extension OBELargeFixedWidthInteger {
         Self(bitPattern: lhs.body - rhs.body)
     }
     
+    @inlinable static func &-=(lhs: inout Self, rhs: Self) {
+        lhs.body &-= rhs.body
+    }
+    
+    @inlinable static func &-(lhs: Self, rhs: Self) -> Self {
+        Self(bitPattern: lhs.body &- rhs.body)
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=

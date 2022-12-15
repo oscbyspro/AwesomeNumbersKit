@@ -20,7 +20,7 @@ extension OBELargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func *=(lhs: inout Self, rhs: Self) {
-        lhs = lhs * rhs
+        let o = lhs.multiplyReportingOverflow(by: rhs); precondition(!o)        
     }
     
     @inlinable public static func *(lhs: Self, rhs: Self) -> Self {

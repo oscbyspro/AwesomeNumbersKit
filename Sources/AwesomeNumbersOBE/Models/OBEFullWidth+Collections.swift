@@ -15,9 +15,9 @@ import AwesomeNumbersKit
 
 @usableFromInline protocol OBEFullWidthCollection: WoRdS {
     
-    associatedtype High
+    associatedtype High: AwesomeFixedWidthInteger
     
-    associatedtype Low
+    associatedtype Low:  AwesomeUnsignedFixedWidthInteger where Low == Low.Magnitude
     
     typealias Body = OBEFullWidth<High, Low>
 }
