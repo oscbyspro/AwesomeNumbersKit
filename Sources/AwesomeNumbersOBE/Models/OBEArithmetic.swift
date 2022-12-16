@@ -45,10 +45,10 @@ extension UInt {
 }
 
 //*============================================================================*
-// MARK: * OBE x Arithmetic x Awesome
+// MARK: * OBE x Arithmetic x Unsigned
 //*============================================================================*
 
-extension AwesomeUnsignedFixedWidthInteger {
+extension FixedWidthInteger where Self: UnsignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
