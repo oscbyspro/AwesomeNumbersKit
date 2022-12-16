@@ -5,8 +5,14 @@
 /// An AwesomeFixedWidthInteger with trivial implementation.
 ///
 /// - Int
+/// - Int8
+/// - Int16
+/// - Int32
 /// - Int64
 /// - UInt
+/// - UInt8
+/// - UInt16
+/// - UInt32
 /// - UInt64
 ///
 public protocol AwesomeSmallFixedWidthInteger: AwesomeFixedWidthInteger { }
@@ -102,6 +108,12 @@ extension AwesomeSmallFixedWidthInteger where Self: AwesomeSignedFixedWidthInteg
 //*============================================================================*
 
 extension Int:    AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
+extension Int8:   AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
+extension Int16:  AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
+extension Int32:  AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
 extension Int64:  AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
 extension UInt:   AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
+extension UInt8:  AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
+extension UInt16: AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
+extension UInt32: AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
 extension UInt64: AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
