@@ -1,8 +1,8 @@
 //*============================================================================*
-// MARK: * Awesome x Fixed Width Integer x Small
+// MARK: * Awesome x Fixed Width Integer x Trivial
 //*============================================================================*
 
-/// An AwesomeFixedWidthInteger with trivial implementation.
+/// Am aweesome fixed-width with trivial implementation.
 ///
 /// - Int
 /// - Int8
@@ -15,13 +15,13 @@
 /// - UInt32
 /// - UInt64
 ///
-public protocol AwesomeSmallFixedWidthInteger: AwesomeFixedWidthInteger { }
+public protocol AwesomeTrivialFixedWidthInteger: AwesomeFixedWidthInteger { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension AwesomeSmallFixedWidthInteger {
+extension AwesomeTrivialFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -85,10 +85,10 @@ extension AwesomeSmallFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * Awesome x Fixed Width Integer x Small x Signed
+// MARK: * Awesome x Fixed Width Integer x Signed x Trivial
 //*============================================================================*
 
-extension AwesomeSmallFixedWidthInteger where Self: AwesomeSignedFixedWidthInteger {
+extension AwesomeTrivialFixedWidthInteger where Self: AwesomeSignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -107,13 +107,13 @@ extension AwesomeSmallFixedWidthInteger where Self: AwesomeSignedFixedWidthInteg
 // MARK: * Awesome x Fixed Width Integer x Small x Swift
 //*============================================================================*
 
-extension Int:    AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
-extension Int8:   AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
-extension Int16:  AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
-extension Int32:  AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
-extension Int64:  AwesomeSmallFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
-extension UInt:   AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
-extension UInt8:  AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
-extension UInt16: AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
-extension UInt32: AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
-extension UInt64: AwesomeSmallFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
+extension Int:    AwesomeTrivialFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
+extension Int8:   AwesomeTrivialFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
+extension Int16:  AwesomeTrivialFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
+extension Int32:  AwesomeTrivialFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
+extension Int64:  AwesomeTrivialFixedWidthInteger,   AwesomeSignedFixedWidthInteger { }
+extension UInt:   AwesomeTrivialFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
+extension UInt8:  AwesomeTrivialFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
+extension UInt16: AwesomeTrivialFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
+extension UInt32: AwesomeTrivialFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }
+extension UInt64: AwesomeTrivialFixedWidthInteger, AwesomeUnsignedFixedWidthInteger { }

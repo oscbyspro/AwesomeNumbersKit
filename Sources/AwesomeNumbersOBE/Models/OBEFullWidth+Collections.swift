@@ -154,7 +154,7 @@ extension OBEFullWidth {
     
     @_transparent @usableFromInline func withUnsafeBigEndianWords<T>(
     _ operation: (UnsafeBigEndianWords) throws -> T) rethrows -> T {
-        try withUnsafePointer(to:   self) { SELF in
+        try withUnsafePointer(to: self) { SELF in
             let WORDS = UnsafeBigEndianWords(SELF)
             return  try operation(WORDS)
         }
@@ -162,7 +162,7 @@ extension OBEFullWidth {
     
     @_transparent @usableFromInline func withUnsafeLittleEndianWords<T>(
     _ operation: (UnsafeLittleEndianWords) throws -> T) rethrows -> T {
-        try withUnsafePointer(to:   self) { SELF in
+        try withUnsafePointer(to: self) { SELF in
             let WORDS = UnsafeLittleEndianWords(SELF)
             return  try operation(WORDS)
         }
@@ -170,7 +170,7 @@ extension OBEFullWidth {
     
     @_transparent @usableFromInline mutating func withUnsafeMutableBigEndianWords<T>(
     _ operation: (UnsafeMutableBigEndianWords) throws -> T) rethrows -> T {
-        try withUnsafeMutablePointer(to:  &self) { SELF in
+        try withUnsafeMutablePointer(to: &self) { SELF in
             let WORDS = UnsafeMutableBigEndianWords(SELF)
             return  try operation(WORDS)
         }
@@ -178,7 +178,7 @@ extension OBEFullWidth {
     
     @_transparent @usableFromInline mutating func withUnsafeMutableLittleEndianWords<T>(
     _ operation: (UnsafeMutableLittleEndianWords) throws -> T) rethrows -> T {
-        try withUnsafeMutablePointer(to:  &self) { SELF in
+        try withUnsafeMutablePointer(to: &self) { SELF in
             let WORDS = UnsafeMutableLittleEndianWords(SELF)
             return  try operation(WORDS)
         }
@@ -187,7 +187,7 @@ extension OBEFullWidth {
     @_transparent @usableFromInline static func fromUnsafeBigEndianWordsAllocation(
     _ operation: (UnsafeMutableBigEndianWords) throws -> Void) rethrows -> Self {
         try withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
-            let SELF  = BUFFER.baseAddress!
+            let SELF  = BUFFER.baseAddress.unsafelyUnwrapped
             let WORDS = UnsafeMutableBigEndianWords(SELF)
             try operation(WORDS)
             return SELF.pointee
@@ -197,7 +197,7 @@ extension OBEFullWidth {
     @_transparent @usableFromInline static func fromUnsafeLittleEndianWordsAllocation(
     _ operation: (UnsafeMutableLittleEndianWords) throws -> Void) rethrows -> Self {
         try withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
-            let SELF  = BUFFER.baseAddress!
+            let SELF  = BUFFER.baseAddress.unsafelyUnwrapped
             let WORDS = UnsafeMutableLittleEndianWords(SELF)
             try operation(WORDS)
             return SELF.pointee
@@ -205,7 +205,7 @@ extension OBEFullWidth {
     }
     
     //*========================================================================*
-    // MARK: * Unsafe Words x Big Endian
+    // MARK: * Unsafe x Words x Big Endian
     //*========================================================================*
  
     @frozen @usableFromInline struct UnsafeBigEndianWords: OBEFullWidthCollection {
@@ -244,7 +244,7 @@ extension OBEFullWidth {
     }
     
     //*========================================================================*
-    // MARK: * Unsafe Words x Big Endian x Mutable
+    // MARK: * Unsafe x Words x Big Endian x Mutable
     //*========================================================================*
  
     @frozen @usableFromInline struct UnsafeMutableBigEndianWords: OBEFullWidthCollection {
@@ -293,7 +293,7 @@ extension OBEFullWidth {
     }
     
     //*========================================================================*
-    // MARK: * Unsafe Words x Little Endian
+    // MARK: * Unsafe x Words x Little Endian
     //*========================================================================*
  
     @frozen @usableFromInline struct UnsafeLittleEndianWords: OBEFullWidthCollection {
@@ -332,7 +332,7 @@ extension OBEFullWidth {
     }
     
     //*========================================================================*
-    // MARK: * Unsafe Words x Little Endian x Mutable
+    // MARK: * Unsafe x Words x Little Endian x Mutable
     //*========================================================================*
  
     @frozen @usableFromInline struct UnsafeMutableLittleEndianWords: OBEFullWidthCollection {

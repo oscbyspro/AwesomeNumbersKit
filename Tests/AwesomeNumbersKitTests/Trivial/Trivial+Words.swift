@@ -46,78 +46,12 @@ final class IntTestsOnWords: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * Int64 x Tests x Words
-//*============================================================================*
-
-final class Int64TestsOnWords: XCTestCase {
-    
-    typealias T = Int64
-    typealias M = T.Magnitude
-    
-    //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let w = UInt.max
-    let s = UInt.bitWidth
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testMostSignificantBit() {
-        XCTAssertEqual(T.min.mostSignificantBit, true )
-        XCTAssertEqual(T(  ).mostSignificantBit, false)
-        XCTAssertEqual(T.max.mostSignificantBit, false)
-    }
-    
-    func testLeastSignificantBit() {
-        XCTAssertEqual(T.min.leastSignificantBit, false)
-        XCTAssertEqual(T(  ).leastSignificantBit, false)
-        XCTAssertEqual(T.max.leastSignificantBit, true )
-    }
-}
-
-//*============================================================================*
 // MARK: * UInt x Tests x Words
 //*============================================================================*
 
 final class UIntTestsOnWords: XCTestCase {
     
     typealias T = UInt
-    typealias M = T.Magnitude
-    
-    //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let w = UInt.max
-    let s = UInt.bitWidth
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testMostSignificantBit() {
-        XCTAssertEqual(T.min.mostSignificantBit, false)
-        XCTAssertEqual(T(  ).mostSignificantBit, false)
-        XCTAssertEqual(T.max.mostSignificantBit, true )
-    }
-    
-    func testLeastSignificantBit() {
-        XCTAssertEqual(T.min.leastSignificantBit, false)
-        XCTAssertEqual(T(  ).leastSignificantBit, false)
-        XCTAssertEqual(T.max.leastSignificantBit, true )
-    }
-}
-
-//*============================================================================*
-// MARK: * Int64 x Tests x Words
-//*============================================================================*
-
-final class UInt64TestsOnWords: XCTestCase {
-    
-    typealias T = UInt64
     typealias M = T.Magnitude
     
     //=------------------------------------------------------------------------=
