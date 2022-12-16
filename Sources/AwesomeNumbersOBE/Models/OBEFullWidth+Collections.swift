@@ -113,190 +113,51 @@ extension OBEFullWidth {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static func bigEndianIndex(_ index: Int) -> Int {
-        assert(indices.contains(index))
-        #if _endian(big)
-        return index
-        #else
-        return lastIndex &- index
-        #endif
-    }
-    
-    @inlinable static func littleEndianIndex(_ index: Int) -> Int {
-        assert(indices.contains(index))
-        #if _endian(big)
-        return lastIndex &- index
-        #else
-        return index
-        #endif
-    }
-    
-    //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
     @usableFromInline subscript(index: Int) -> UInt {
-        @_transparent _read { yield  withUnsafeLittleEndianWords({ $0[index] /*------*/ }) }
-        @_transparent  set  { withUnsafeMutableLittleEndianWords({ $0[index] = newValue }) }
+        @_transparent _read { yield  withUnsafeWords({ $0[index] /*------*/ }) }
+        @_transparent  set  { withUnsafeMutableWords({ $0[index] = newValue }) }
     }
     
     @usableFromInline subscript(unchecked index: Int) -> UInt {
-        @_transparent _read { yield  withUnsafeLittleEndianWords({ $0[unchecked: index] /*------*/ }) }
-        @_transparent  set  { withUnsafeMutableLittleEndianWords({ $0[unchecked: index] = newValue }) }
+        @_transparent _read { yield  withUnsafeWords({ $0[unchecked: index] /*------*/ }) }
+        @_transparent  set  { withUnsafeMutableWords({ $0[unchecked: index] = newValue }) }
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline func withUnsafeBigEndianWords<T>(
-    _ operation: (UnsafeBigEndianWords) throws -> T) rethrows -> T {
-        try withUnsafePointer(to: self) { SELF in
-            let WORDS = UnsafeBigEndianWords(SELF)
-            return  try operation(WORDS)
+    @_transparent @usableFromInline func withUnsafeWords<T>(
+    _ body: (UnsafeWords) throws -> T) rethrows -> T {
+        try Swift.withUnsafePointer(to: self) { SELF in
+            try body(UnsafeWords(SELF))
         }
     }
     
-    @_transparent @usableFromInline func withUnsafeLittleEndianWords<T>(
-    _ operation: (UnsafeLittleEndianWords) throws -> T) rethrows -> T {
-        try withUnsafePointer(to: self) { SELF in
-            let WORDS = UnsafeLittleEndianWords(SELF)
-            return  try operation(WORDS)
+    @_transparent @usableFromInline mutating func withUnsafeMutableWords<T>(
+    _ body: (UnsafeMutableWords) throws -> T) rethrows -> T {
+        try Swift.withUnsafeMutablePointer(to: &self) { SELF in
+            try body(UnsafeMutableWords(SELF))
         }
     }
     
-    @_transparent @usableFromInline mutating func withUnsafeMutableBigEndianWords<T>(
-    _ operation: (UnsafeMutableBigEndianWords) throws -> T) rethrows -> T {
-        try withUnsafeMutablePointer(to: &self) { SELF in
-            let WORDS = UnsafeMutableBigEndianWords(SELF)
-            return  try operation(WORDS)
-        }
-    }
-    
-    @_transparent @usableFromInline mutating func withUnsafeMutableLittleEndianWords<T>(
-    _ operation: (UnsafeMutableLittleEndianWords) throws -> T) rethrows -> T {
-        try withUnsafeMutablePointer(to: &self) { SELF in
-            let WORDS = UnsafeMutableLittleEndianWords(SELF)
-            return  try operation(WORDS)
-        }
-    }
-    
-    @_transparent @usableFromInline static func fromUnsafeBigEndianWordsAllocation(
-    _ operation: (UnsafeMutableBigEndianWords) throws -> Void) rethrows -> Self {
-        try withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
-            let SELF  = BUFFER.baseAddress.unsafelyUnwrapped
-            let WORDS = UnsafeMutableBigEndianWords(SELF)
-            try operation(WORDS)
-            return SELF.pointee
-        }
-    }
-    
-    @_transparent @usableFromInline static func fromUnsafeLittleEndianWordsAllocation(
-    _ operation: (UnsafeMutableLittleEndianWords) throws -> Void) rethrows -> Self {
-        try withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
-            let SELF  = BUFFER.baseAddress.unsafelyUnwrapped
-            let WORDS = UnsafeMutableLittleEndianWords(SELF)
-            try operation(WORDS)
+    @_transparent @usableFromInline static func fromUnsafeWordsAllocation(
+    _ body: (UnsafeMutableWords) throws -> Void) rethrows -> Self {
+        try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
+            let SELF = BUFFER.baseAddress!
+            try body(UnsafeMutableWords(SELF))
             return SELF.pointee
         }
     }
     
     //*========================================================================*
-    // MARK: * Unsafe x Words x Big Endian
+    // MARK: * Unsafe x Words
     //*========================================================================*
  
-    @frozen @usableFromInline struct UnsafeBigEndianWords: OBEFullWidthCollection {
-                
-        //=--------------------------------------------------------------------=
-        // MARK: State
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline let base: UnsafePointer<UInt>
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Initializers
-        //=--------------------------------------------------------------------=
-        
-        @inlinable init(_ BODY: UnsafePointer<Body>) {
-            self.base = UnsafeRawPointer(BODY).assumingMemoryBound(to: UInt.self)
-        }
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Accessors
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline subscript(index: Int) -> UInt {
-            @_transparent _read {
-                precondition(Body.indices.contains(index))
-                yield self[unchecked: index]
-            }
-        }
-        
-        @usableFromInline subscript(unchecked index: Int) -> UInt {
-            @_transparent _read {
-                assert(Body.indices.contains(index))
-                yield base[Body.bigEndianIndex(index)]
-            }
-        }
-    }
-    
-    //*========================================================================*
-    // MARK: * Unsafe x Words x Big Endian x Mutable
-    //*========================================================================*
- 
-    @frozen @usableFromInline struct UnsafeMutableBigEndianWords: OBEFullWidthCollection {
-        
-        //=--------------------------------------------------------------------=
-        // MARK: State
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline let base: UnsafeMutablePointer<UInt>
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Initializers
-        //=--------------------------------------------------------------------=
-        
-        @inlinable init(_ BODY: UnsafeMutablePointer<Body>) {
-            self.base = UnsafeMutableRawPointer(BODY).assumingMemoryBound(to: UInt.self)
-        }
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Accessors
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline subscript(index: Int) -> UInt {
-            @_transparent _read {
-                precondition(Body.indices.contains(index))
-                yield  self[unchecked: index]
-            }
-            
-            @_transparent nonmutating _modify {
-                precondition(Body.indices.contains(index))
-                yield &self[unchecked: index]
-            }
-        }
-        
-        @usableFromInline subscript(unchecked index: Int) -> UInt {
-            @_transparent _read {
-                assert(Body.indices.contains(index))
-                yield  base[Body.bigEndianIndex(index)]
-            }
-            
-            @_transparent nonmutating _modify {
-                assert(Body.indices.contains(index))
-                yield &base[Body.bigEndianIndex(index)]
-            }
-        }
-    }
-    
-    //*========================================================================*
-    // MARK: * Unsafe x Words x Little Endian
-    //*========================================================================*
- 
-    @frozen @usableFromInline struct UnsafeLittleEndianWords: OBEFullWidthCollection {
+    @frozen @usableFromInline struct UnsafeWords: OBEFullWidthCollection {
                 
         //=--------------------------------------------------------------------=
         // MARK: State
@@ -326,16 +187,20 @@ extension OBEFullWidth {
         @usableFromInline subscript(unchecked index: Int) -> UInt {
             @_transparent _read {
                 assert(indices.contains(index))
-                yield base[Body.littleEndianIndex(index)]
+                #if _endian(big)
+                yield base[lastIndex &- index]
+                #else
+                yield base[/*---------*/index]
+                #endif
             }
         }
     }
     
     //*========================================================================*
-    // MARK: * Unsafe x Words x Little Endian x Mutable
+    // MARK: * Unsafe x Words x Mutable
     //*========================================================================*
  
-    @frozen @usableFromInline struct UnsafeMutableLittleEndianWords: OBEFullWidthCollection {
+    @frozen @usableFromInline struct UnsafeMutableWords: OBEFullWidthCollection {
         
         //=--------------------------------------------------------------------=
         // MARK: State
@@ -370,12 +235,20 @@ extension OBEFullWidth {
         @usableFromInline subscript(unchecked index: Int) -> UInt {
             @_transparent _read {
                 assert(Body.indices.contains(index))
-                yield  base[Body.littleEndianIndex(index)]
+                #if _endian(big)
+                yield base[lastIndex &- index]
+                #else
+                yield base[/*---------*/index]
+                #endif
             }
             
             @_transparent nonmutating _modify {
                 assert(Body.indices.contains(index))
-                yield &base[Body.littleEndianIndex(index)]
+                #if _endian(big)
+                yield &base[lastIndex &- index]
+                #else
+                yield &base[/*---------*/index]
+                #endif
             }
         }
     }

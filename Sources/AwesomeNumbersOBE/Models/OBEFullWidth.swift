@@ -89,7 +89,7 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger, Low == Lo
     }
     
     @inlinable static func uninitialized() -> Self {
-        self.fromUnsafeLittleEndianWordsAllocation({ _ in })
+        self.fromUnsafeWordsAllocation({ _ in })
     }
     
     //=------------------------------------------------------------------------=
