@@ -43,11 +43,70 @@ extension OBEFullWidth {
     }
     
     @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self {
-        fatalError("TODO")
+        let (high, low) = self.multipliedFullWidth(by: amount); self = Self(bitPattern: low); return high
     }
     
-    @inlinable mutating func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {
-        fatalError("TODO")
+    @inlinable func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
+        let lhs = self, rhs = amount; var product = DoubleWidth()
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
+        lhs.withUnsafeWords { LHS in
+        rhs.withUnsafeWords { RHS in
+        product.withUnsafeMutableWords { PRODUCT in
+            //=----------------------------------=
+            // LHS x RHS
+            //=----------------------------------=
+            for lhsIndex in LHS.indices {
+                var carry = UInt()
+                var productIndex = lhsIndex
+                //=------------------------------=
+                //
+                //=------------------------------=
+                for rhsIndex in RHS.indices {
+                    let lhsWord = LHS[lhsIndex]
+                    let rhsWord = RHS[rhsIndex]
+                    carry = PRODUCT[productIndex].addFullWidth(carry, multiplicands:(lhsWord, rhsWord))
+                    PRODUCT.formIndex(after: &productIndex)
+                }
+                //=------------------------------=
+                //
+                //=------------------------------=
+                var overflow = PRODUCT[productIndex].addReportingOverflow(carry)
+                while overflow {
+                    PRODUCT.formIndex(after: &productIndex)
+                    overflow = PRODUCT[productIndex].addReportingOverflow(1 as UInt)
+                }
+            }
+            //=----------------------------------=
+            // RHS x LHS Sign
+            //=----------------------------------=
+            if  lhs.isLessThanZero {
+                var carry = true
+                var productIndex = LHS.count
+                for rhsIndex  in RHS.indices {
+                    carry = PRODUCT[productIndex].addReportingOverflow(UInt(carry ? 1 : 0))
+                    carry = PRODUCT[productIndex].addReportingOverflow(~RHS[rhsIndex]) || carry
+                    PRODUCT.formIndex(after: &productIndex)
+                }
+            }
+            //=----------------------------------=
+            // LHS x RHS Sign
+            //=----------------------------------=
+            if  rhs.isLessThanZero {
+                var carry = true
+                var productIndex = RHS.count
+                for lhsIndex  in LHS.indices {
+                    carry = PRODUCT[productIndex].addReportingOverflow(UInt(carry ? 1 : 0))
+                    carry = PRODUCT[productIndex].addReportingOverflow(~LHS[lhsIndex]) || carry
+                    PRODUCT.formIndex(after: &productIndex)
+                }
+            }
+        }}}
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
+        return HL(product.high, product.low)
     }
 }
 

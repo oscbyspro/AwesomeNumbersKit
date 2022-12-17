@@ -42,6 +42,30 @@ extension UInt {
     @inlinable func subtractingReportingOverflow(_ amount: Self, _ borrow: Bool) -> PVO<Self> {
         var pv = self; let o = pv.subtractReportingOverflow(amount, borrow); return PVO(pv,o)
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable mutating func addFullWidth(multiplicands: (Self, Self)) -> Self {
+        // it cannot crash for the same reason that 9 + 9 * 9 == 90
+        let (upper, lower) = multiplicands.0.multipliedFullWidth(by: multiplicands.1)
+        return self.addReportingOverflow(lower) ? upper &+ 1 : upper
+    }
+    
+    @inlinable func addingFullWidth(multiplicands: (Self, Self)) -> HL<Self, Self> {
+        var low = self; let high = low.addFullWidth(multiplicands: multiplicands); return (high, low)
+    }
+    
+    @inlinable mutating func addFullWidth(_ carry: Self, multiplicands: (Self, Self)) -> Self {
+        // it cannot crash for the same reason that 9 + 9 + 9 * 9 == 99
+        let upper = self.addFullWidth(multiplicands: multiplicands)
+        return self.addReportingOverflow(carry) ? upper &+ 1 : upper
+    }
+    
+    @inlinable func addingFullWidth(_ carry: Self,  multiplicands: (Self, Self)) -> HL<Self, Self> {
+        var low = self; let high = low.addFullWidth(carry, multiplicands: multiplicands); return (high, low)
+    }
 }
 
 //*============================================================================*
