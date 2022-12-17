@@ -100,6 +100,25 @@ final class Int256TestsOnWords: XCTestCase {
         XCTAssertEqual(T(x64:(0, 0, w, 0)).leastSignificantBit, false)
         XCTAssertEqual(T(x64:(0, 0, 0, w)).leastSignificantBit, false)
     }
+    
+    func testMinWordsCountReportingIsZeroOrMinusOne() throws {
+        guard MemoryLayout<UInt>.size == 8 else { throw XCTSkip() }
+        
+        XCTAssert(T(x64:(0, 0, 0, 0)).minWordsCountReportingIsZeroOrMinusOne() == (1, true ) as (Int, Bool))
+        XCTAssert(T(x64:(w, w, w, w)).minWordsCountReportingIsZeroOrMinusOne() == (1, true ) as (Int, Bool))
+        
+        XCTAssert(T(x64:(1, 0, 0, 0)).minWordsCountReportingIsZeroOrMinusOne() == (1, false) as (Int, Bool))
+        XCTAssert(T(x64:(1, w, w, w)).minWordsCountReportingIsZeroOrMinusOne() == (1, false) as (Int, Bool))
+        
+        XCTAssert(T(x64:(0, 1, 0, 0)).minWordsCountReportingIsZeroOrMinusOne() == (2, false) as (Int, Bool))
+        XCTAssert(T(x64:(w, 1, w, w)).minWordsCountReportingIsZeroOrMinusOne() == (2, false) as (Int, Bool))
+        
+        XCTAssert(T(x64:(0, 0, 1, 0)).minWordsCountReportingIsZeroOrMinusOne() == (3, false) as (Int, Bool))
+        XCTAssert(T(x64:(w, w, 1, w)).minWordsCountReportingIsZeroOrMinusOne() == (3, false) as (Int, Bool))
+        
+        XCTAssert(T(x64:(0, 0, 0, 1)).minWordsCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
+        XCTAssert(T(x64:(w, w, w, 1)).minWordsCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
+    }
 }
 
 //*============================================================================*
@@ -184,6 +203,25 @@ final class UInt256TestsOnWords: XCTestCase {
         XCTAssertEqual(T(x64:(0, 0, w, 0)).leastSignificantBit, false)
         XCTAssertEqual(T(x64:(0, 0, 0, w)).leastSignificantBit, false)
     }
+    
+    func testMinWordsCountReportingIsZeroOrMinusOne() throws {
+          guard MemoryLayout<UInt>.size == 8 else { throw XCTSkip() }
+
+          XCTAssert(T(x64:(0, 0, 0, 0)).minWordsCountReportingIsZeroOrMinusOne() == (1, true ) as (Int, Bool))
+          XCTAssert(T(x64:(w, w, w, w)).minWordsCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
+
+          XCTAssert(T(x64:(1, 0, 0, 0)).minWordsCountReportingIsZeroOrMinusOne() == (1, false) as (Int, Bool))
+          XCTAssert(T(x64:(1, w, w, w)).minWordsCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
+
+          XCTAssert(T(x64:(0, 1, 0, 0)).minWordsCountReportingIsZeroOrMinusOne() == (2, false) as (Int, Bool))
+          XCTAssert(T(x64:(w, 1, w, w)).minWordsCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
+
+          XCTAssert(T(x64:(0, 0, 1, 0)).minWordsCountReportingIsZeroOrMinusOne() == (3, false) as (Int, Bool))
+          XCTAssert(T(x64:(w, w, 1, w)).minWordsCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
+
+          XCTAssert(T(x64:(0, 0, 0, 1)).minWordsCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
+          XCTAssert(T(x64:(w, w, w, 1)).minWordsCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
+      }
 }
 
 #endif

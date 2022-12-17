@@ -50,4 +50,12 @@ extension OBELargeFixedWidthInteger {
     @inlinable public var leastSignificantBit: Bool {
         body.leastSignificantBit
     }
+    
+    @inlinable var minWordsCount: Int {
+        body.minWordsCount
+    }
+    
+    @inlinable func minWordsCountReportingIsZeroOrMinusOne() -> (count: Int, isZeroOrMinusOne: Bool) {
+        body.minWordsCountReportingIsZeroOrMinusOne()
+     }
 }

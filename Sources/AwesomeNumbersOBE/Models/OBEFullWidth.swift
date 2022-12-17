@@ -27,6 +27,11 @@ import AwesomeNumbersKit
 /// Self.bitWidth %  UInt.bitWidth == 0
 /// ```
 ///
+/// ```
+/// High must use two's complement representation
+/// Low  must use two's comlpement representation
+/// ```
+///
 @frozen @usableFromInline struct OBEFullWidth<High, Low>: AwesomeLargeFixedWidthInteger, OBEFullWidthCollection where
 High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger, Low == Low.Magnitude {
     

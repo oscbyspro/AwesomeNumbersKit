@@ -50,4 +50,14 @@ extension OBEFullWidth {
     @inlinable var trailingZeroBitCount: Int {
         low.isZero ? Low.bitWidth &+ high.trailingZeroBitCount : low.trailingZeroBitCount
     }
+    
+    @inlinable var minWordsCount: Int {
+        minWordsCountReportingIsZeroOrMinusOne().count
+    }
+    
+    @inlinable func minWordsCountReportingIsZeroOrMinusOne() -> (count: Int, isZeroOrMinusOne: Bool) {
+         let sign  = UInt(repeating: isLessThanZero)
+         let index = withUnsafeWords({ SELF in SELF.lastIndex(where:{ word in word != sign }) })
+         return index.map({($0 + 1, false)}) ?? (1, true)
+     }
 }
