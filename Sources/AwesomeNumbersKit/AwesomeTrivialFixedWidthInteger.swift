@@ -2,7 +2,7 @@
 // MARK: * Awesome x Fixed Width Integer x Trivial
 //*============================================================================*
 
-/// Am aweesome fixed-width with trivial implementation.
+/// An awesome fixed-width integer with trivial implementation.
 ///
 /// - Int
 /// - Int8

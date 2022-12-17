@@ -130,34 +130,37 @@ extension OBEFullWidth {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
+    /// Unsafe access to the integer's words, in order from least significant to most.
     @_transparent @usableFromInline func withUnsafeWords<T>(
-    _ body: (UnsafeWords) throws -> T) rethrows -> T {
+    _ body: (UnsafeWordsBufferPointer) throws -> T) rethrows -> T {
         try Swift.withUnsafePointer(to: self) { SELF in
-            try body(UnsafeWords(SELF))
+            try body(UnsafeWordsBufferPointer(SELF))
         }
     }
     
+    /// Unsafe access to the integer's words, in order from least significant to most.
     @_transparent @usableFromInline mutating func withUnsafeMutableWords<T>(
-    _ body: (UnsafeMutableWords) throws -> T) rethrows -> T {
+    _ body: (UnsafeMutableWordsBufferPointer) throws -> T) rethrows -> T {
         try Swift.withUnsafeMutablePointer(to: &self) { SELF in
-            try body(UnsafeMutableWords(SELF))
+            try body(UnsafeMutableWordsBufferPointer(SELF))
         }
     }
     
-    @_transparent @usableFromInline static func fromUnsafeWordsAllocation(
-    _ body: (UnsafeMutableWords) throws -> Void) rethrows -> Self {
+    /// Unsafe access to the integer's words, in order from least significant to most.
+    @_transparent @usableFromInline static func fromUnsafeTemporaryWords(
+    _ body: (UnsafeMutableWordsBufferPointer) throws -> Void) rethrows -> Self {
         try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
-            let SELF = BUFFER.baseAddress!
-            try body(UnsafeMutableWords(SELF))
+            let SELF = BUFFER.baseAddress.unsafelyUnwrapped
+            try body(UnsafeMutableWordsBufferPointer(SELF))
             return SELF.pointee
         }
     }
     
     //*========================================================================*
-    // MARK: * Unsafe x Words
+    // MARK: * Unsafe Words Buffer Pointer
     //*========================================================================*
- 
-    @frozen @usableFromInline struct UnsafeWords: OBEFullWidthCollection {
+    
+    @frozen @usableFromInline struct UnsafeWordsBufferPointer: OBEFullWidthCollection {
                 
         //=--------------------------------------------------------------------=
         // MARK: State
@@ -197,10 +200,10 @@ extension OBEFullWidth {
     }
     
     //*========================================================================*
-    // MARK: * Unsafe x Words x Mutable
+    // MARK: * Unsafe Words Buffer Pointer x Mutable
     //*========================================================================*
  
-    @frozen @usableFromInline struct UnsafeMutableWords: OBEFullWidthCollection {
+    @frozen @usableFromInline struct UnsafeMutableWordsBufferPointer: OBEFullWidthCollection {
         
         //=--------------------------------------------------------------------=
         // MARK: State
