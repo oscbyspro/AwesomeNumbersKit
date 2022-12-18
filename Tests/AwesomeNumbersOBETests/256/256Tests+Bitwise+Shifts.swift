@@ -13,10 +13,10 @@ import AwesomeNumbersOBE
 import XCTest
 
 //*============================================================================*
-// MARK: * Int256 x Tests x Bitshifts
+// MARK: * Int256 x Tests x Bitwise x Shifts
 //*============================================================================*
 
-final class Int256TestsOnBitshifts: XCTestCase {
+final class Int256TestsOnBitwiseShifts: XCTestCase {
     
     typealias T = Int256
     
@@ -28,7 +28,7 @@ final class Int256TestsOnBitshifts: XCTestCase {
     let s = UInt64.bitWidth
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Bitshifts
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeftByWords() {
@@ -90,65 +90,13 @@ final class Int256TestsOnBitshifts: XCTestCase {
         XCTAssertEqual(T(x64:(0, w << 32, w >> 32, 0)) >> 32, T(x64:(0, w, 0, 0)))
         XCTAssertEqual(T(x64:(0, w << 48, w >> 16, 0)) >> 48, T(x64:(0, w, 0, 0)))
     }
-    
-    //=----------------------------------------------------------------------------=
-    // MARK: Tests x Bitrotations
-    //=----------------------------------------------------------------------------=
-    
-    func testBitrotatingLeftByWords() {
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<<  (s * 0), T(x64:(0, w, w, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<<  (s * 1), T(x64:(0, 0, w, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<<  (s * 2), T(x64:(w, 0, 0, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<<  (s * 3), T(x64:(w, w, 0, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<<  (s * 4), T(x64:(0, w, w, 0)))
-
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 0), T(x64:(0, w, w, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 1), T(x64:(0, 0, w, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 2), T(x64:(w, 0, 0, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 3), T(x64:(w, w, 0, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 4), T(x64:(0, w, w, 0)))
-    }
-    
-    func testBitrotatingLeftByBits() {
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &<< ( 0), T(x64:(3 >> 2, 0, 0, 3 << (s - 2))))
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &<< ( 1), T(x64:(3 >> 1, 0, 0, 3 << (s - 1))))
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &<< ( 2), T(x64:(3 >> 0, 0, 0, 3 << (s - 0))))
-
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &>> (-0), T(x64:(3 >> 2, 0, 0, 3 << (s - 2))))
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &>> (-1), T(x64:(3 >> 1, 0, 0, 3 << (s - 1))))
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &>> (-2), T(x64:(3 >> 0, 0, 0, 3 << (s - 0))))
-    }
-
-    func testBitrotatingRightByWords() {
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>>  (s * 0), T(x64:(0, w, w, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>>  (s * 1), T(x64:(w, w, 0, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>>  (s * 2), T(x64:(w, 0, 0, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>>  (s * 3), T(x64:(0, 0, w, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>>  (s * 4), T(x64:(0, w, w, 0)))
-
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<< -(s * 0), T(x64:(0, w, w, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<< -(s * 1), T(x64:(w, w, 0, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<< -(s * 2), T(x64:(w, 0, 0, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<< -(s * 3), T(x64:(0, 0, w, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<< -(s * 4), T(x64:(0, w, w, 0)))
-    }
-
-    func testBitrotatingRightByBits() {
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &>> ( 0), T(x64:(3 >> 0, 0, 0, 3 << (s - 0))))
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &>> ( 1), T(x64:(3 >> 1, 0, 0, 3 << (s - 1))))
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &>> ( 2), T(x64:(3 >> 2, 0, 0, 3 << (s - 2))))
-
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &<< (-0), T(x64:(3 >> 0, 0, 0, 3 << (s - 0))))
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &<< (-1), T(x64:(3 >> 1, 0, 0, 3 << (s - 1))))
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &<< (-2), T(x64:(3 >> 2, 0, 0, 3 << (s - 2))))
-    }
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Tests x Bitshifts
+// MARK: * UInt256 x Tests x Bitwise x Shifts
 //*============================================================================*
 
-final class UInt256TestsOnBitshifts: XCTestCase {
+final class UInt256TestsOnBitwiseShifts: XCTestCase {
     
     typealias T = UInt256
     
@@ -160,7 +108,7 @@ final class UInt256TestsOnBitshifts: XCTestCase {
     let s = UInt64.bitWidth
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Bitshifts
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeftByWords() {
@@ -221,58 +169,6 @@ final class UInt256TestsOnBitshifts: XCTestCase {
         XCTAssertEqual(T(x64:(0, w << 16, w >> 48, 0)) >> 16, T(x64:(0, w, 0, 0)))
         XCTAssertEqual(T(x64:(0, w << 32, w >> 32, 0)) >> 32, T(x64:(0, w, 0, 0)))
         XCTAssertEqual(T(x64:(0, w << 48, w >> 16, 0)) >> 48, T(x64:(0, w, 0, 0)))
-    }
-    
-    //=----------------------------------------------------------------------------=
-    // MARK: Tests x Bitrotations
-    //=----------------------------------------------------------------------------=
-    
-    func testBitrotatingLeftByWords() {
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<<  (s * 0), T(x64:(0, w, w, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<<  (s * 1), T(x64:(0, 0, w, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<<  (s * 2), T(x64:(w, 0, 0, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<<  (s * 3), T(x64:(w, w, 0, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<<  (s * 4), T(x64:(0, w, w, 0)))
-
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 0), T(x64:(0, w, w, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 1), T(x64:(0, 0, w, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 2), T(x64:(w, 0, 0, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 3), T(x64:(w, w, 0, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>> -(s * 4), T(x64:(0, w, w, 0)))
-    }
-    
-    func testBitrotatingLeftByBits() {
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &<< ( 0), T(x64:(3 >> 2, 0, 0, 3 << (s - 2))))
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &<< ( 1), T(x64:(3 >> 1, 0, 0, 3 << (s - 1))))
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &<< ( 2), T(x64:(3 >> 0, 0, 0, 3 << (s - 0))))
-
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &>> (-0), T(x64:(3 >> 2, 0, 0, 3 << (s - 2))))
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &>> (-1), T(x64:(3 >> 1, 0, 0, 3 << (s - 1))))
-        XCTAssertEqual(T(x64:(0, 0, 0, 3 << (s - 2))) &>> (-2), T(x64:(3 >> 0, 0, 0, 3 << (s - 0))))
-    }
-
-    func testBitrotatingRightByWords() {
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>>  (s * 0), T(x64:(0, w, w, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>>  (s * 1), T(x64:(w, w, 0, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>>  (s * 2), T(x64:(w, 0, 0, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>>  (s * 3), T(x64:(0, 0, w, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &>>  (s * 4), T(x64:(0, w, w, 0)))
-
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<< -(s * 0), T(x64:(0, w, w, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<< -(s * 1), T(x64:(w, w, 0, 0)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<< -(s * 2), T(x64:(w, 0, 0, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<< -(s * 3), T(x64:(0, 0, w, w)))
-        XCTAssertEqual(T(x64:(0, w, w, 0)) &<< -(s * 4), T(x64:(0, w, w, 0)))
-    }
-
-    func testBitrotatingRightByBits() {
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &>> ( 0), T(x64:(3 >> 0, 0, 0, 3 << (s - 0))))
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &>> ( 1), T(x64:(3 >> 1, 0, 0, 3 << (s - 1))))
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &>> ( 2), T(x64:(3 >> 2, 0, 0, 3 << (s - 2))))
-
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &<< (-0), T(x64:(3 >> 0, 0, 0, 3 << (s - 0))))
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &<< (-1), T(x64:(3 >> 1, 0, 0, 3 << (s - 1))))
-        XCTAssertEqual(T(x64:(3, 0, 0, 0)) &<< (-2), T(x64:(3 >> 2, 0, 0, 3 << (s - 2))))
     }
 }
 

@@ -73,7 +73,6 @@ extension OBEFullWidth where High: UnsignedInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable @inline(never) func quotientAndRemainderAsKnuth(dividingBy divisor: Self) -> QR<Self, Self> {
-        typealias Large = OBEFullWidth<UInt, Magnitude>
         let (divisorReducedCount, divisorIsZero): (Int, Bool) = divisor.minWordsCountReportingIsZeroOrMinusOne()
         precondition(!divisorIsZero, "division by zero")
         //=--------------------------------------=
@@ -86,14 +85,15 @@ extension OBEFullWidth where High: UnsignedInteger {
         // Fast x UInt
         //=--------------------------------------=
         if  divisorReducedCount == 1 {
-            let (quotient, remainder): (Self, UInt) = self.quotientAndRemainder(dividingBy: divisor[unchecked: startIndex])
+            let word = divisor[unchecked: startIndex] as UInt
+            let (quotient, remainder) = self.quotientAndRemainder(dividingBy: word) as (Self, UInt)
             return QR(quotient, Self(small: remainder))
         }
         //=--------------------------------------=
         //
         //=--------------------------------------=
         var divisor   = divisor
-        var remainder = Large(descending:(UInt(), Magnitude(bitPattern: self)))
+        var remainder = OBEFullWidth<UInt, Magnitude>(descending:(UInt(), Magnitude(bitPattern: self)))
         
         var remainderReducedCount = remainder.low.minWordsCount
         let remainderBitAlignment = remainder[unchecked: remainder.index(before: remainderReducedCount)].leadingZeroBitCount
@@ -101,8 +101,8 @@ extension OBEFullWidth where High: UnsignedInteger {
         
         divisor  ._bitrotateLeft(words: Int(), bits: divisorBitAlignment)
         remainder._bitrotateLeft(words: Int(), bits: divisorBitAlignment)
-        remainder.formIndex(&remainderReducedCount, offsetBy: Int(remainderBitAlignment < divisorBitAlignment))
-                
+        remainderReducedCount &+= Int(remainderBitAlignment < divisorBitAlignment)
+        
         assert(divisor[divisor.index(before:   divisorReducedCount)].mostSignificantBit)
         assert(remainderReducedCount >= divisorReducedCount && divisorReducedCount >= 2)
         //=--------------------------------------=
@@ -128,14 +128,14 @@ extension OBEFullWidth where High: UnsignedInteger {
                 //=------------------------------=
                 // Approximation
                 //=------------------------------=
-                var digit = UInt.approximateQuotient(dividing: remainderLast2, by: divisorLast1)
-                var approximation = Large(descending: divisor.multipliedFullWidth(by: digit))
+                var digit = OBEFullWidthKnuthDivision.approximateQuotient(dividing: remainderLast2, by: divisorLast1)
+                var approximation = OBEFullWidth<UInt, Magnitude>(descending: divisor.multipliedFullWidth(by: digit))
                 approximation._bitrotateLeft(words: quotientIndex, bits: Int())
                 //=------------------------------=
-                // Overestimation < Divisor * 2
+                //
                 //=------------------------------=
                 overestimated: if approximation > remainder {
-                    var increment = Large(descending:(UInt(), Magnitude(bitPattern: divisor)))
+                    var increment = OBEFullWidth<UInt, Magnitude>(descending:(UInt(), Magnitude(bitPattern: divisor)))
                     increment._bitrotateLeft(words: quotientIndex, bits: Int())
                     //=--------------------------=
                     //
@@ -177,17 +177,16 @@ extension OBEFullWidth where High: UnsignedInteger {
 // MARK: * OBE x Full Width x Division x Knuth x Auxiliaries
 //*============================================================================*
 
-extension UInt {
+@usableFromInline enum OBEFullWidthKnuthDivision {
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
     /// - The quotient is overestimated by at most `2 * divisor`.
-    @inlinable static func approximateQuotient(dividing dividend: (Self, Self), by divisor: Self) -> Self {
+    @inlinable static func approximateQuotient(dividing dividend: (UInt, UInt), by divisor: UInt) -> UInt {
         assert(divisor.mostSignificantBit)
-        if  dividend.0 >= divisor { return max }
-        let division = divisor.dividingFullWidth((dividend.0, dividend.1))
-        return division.quotient
+        if dividend.0 >= divisor { return UInt.max }
+        return divisor.dividingFullWidth((dividend.0, dividend.1)).quotient
     }
 }

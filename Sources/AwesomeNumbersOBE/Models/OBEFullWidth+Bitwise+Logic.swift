@@ -10,7 +10,7 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Full Width x Bitwise
+// MARK: * OBE x Full Width x Bitwise x Logic
 //*============================================================================*
 
 extension OBEFullWidth {

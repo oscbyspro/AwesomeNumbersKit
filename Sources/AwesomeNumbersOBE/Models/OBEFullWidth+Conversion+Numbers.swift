@@ -24,7 +24,7 @@ extension OBEFullWidth {
     }
     
     @inlinable init(small source: Int) {
-        assert(Low.bitWidth >= UInt.bitWidth)
+        assert(Low.bitWidth >= source.bitWidth)
         let high = High(repeating: source.isLessThanZero)
         let low  = Low(truncatingIfNeeded: source)
         self.init(descending:(high, low))
@@ -32,7 +32,7 @@ extension OBEFullWidth {
     }
     
     @inlinable init(small source: UInt) {
-        assert(Low.bitWidth >= UInt.bitWidth)
+        assert(Low.bitWidth >= source.bitWidth)
         let high = High(repeating: source.isLessThanZero)
         let low  = Low(_truncatingBits: source)
         self.init(descending:(high, low))

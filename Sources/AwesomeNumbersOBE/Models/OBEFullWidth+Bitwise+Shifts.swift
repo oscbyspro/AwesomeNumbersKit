@@ -10,7 +10,7 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x Full Width x Bitshifts x L
+// MARK: * OBE x Full Width x Bitwise x Shifts x L
 //*============================================================================*
 
 extension OBEFullWidth {
@@ -101,7 +101,7 @@ extension OBEFullWidth {
 }
 
 //*============================================================================*
-// MARK: * OBE x Full Width x Bitshifts x R
+// MARK: * OBE x Full Width x Bitwise x Shifts x R
 //*============================================================================*
 
 extension OBEFullWidth {
@@ -188,149 +188,5 @@ extension OBEFullWidth {
                 y &+= 1
             }
         }
-    }
-}
-
-//*============================================================================*
-// MARK: * OBE x Full Width x Bitrotations x L
-//*============================================================================*
-
-extension OBEFullWidth {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x some Binary Integer
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static func &<<=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs &<<= Int(bitPattern: rhs.words.first ?? UInt())
-    }
-    
-    @inlinable static func &<<(lhs: Self, rhs: some BinaryInteger) -> Self {
-        var lhs = lhs; lhs &<<= rhs; return lhs
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static func &<<=(lhs: inout Self, rhs: Int) {
-        lhs._bitrotateLeft(by: rhs & (Self.bitWidth &- 1))
-    }
-
-    @inlinable static func &<<(lhs: Self, rhs: Int) -> Self {
-        var lhs = lhs; lhs &<<= rhs; return lhs
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int x Private
-    //=------------------------------------------------------------------------=
-    
-    /// - Parameters:
-    ///   - amount: `0 <= amount < Self.bitWidth`
-    ///
-    @inlinable mutating func _bitrotateLeft(by amount: Int) {
-        assert(0 <= amount && amount < Self.bitWidth)
-        let words = amount >> UInt.bitWidth.trailingZeroBitCount
-        let bits  = amount & (UInt.bitWidth &- 1)
-        self._bitrotateLeft(words: words, bits: bits)
-    }
-    
-    /// - Parameters:
-    ///   - words: `0 <= words < Self.endIndex`
-    ///   - bits:  `0 <= bits  < UInt.bitWidth`
-    ///
-    @inlinable mutating func _bitrotateLeft(words: Int, bits: Int) {
-        assert(0 <= words && words < self.endIndex)
-        assert(0 <= bits  && bits  < UInt.bitWidth)
-        
-        self = Self.fromUnsafeTemporaryWords { NEXT in
-        self.withUnsafeWords { SELf in
-            let a = bits
-            let b = UInt.bitWidth &- bits
-            
-            var x = SELf.index(SELf.endIndex, offsetBy: -0 &- words)
-            var y = SELf.index(SELf.endIndex, offsetBy: -1 &- words)
-            var z = SELf.endIndex
-            
-            brrrrr: while z != SELf.startIndex {
-                x = y
-                SELf.formIndex(&y, offsetBy: y == SELf.startIndex ? SELf.lastIndex : -1)
-                SELf.formIndex(before: &z)
-                
-                NEXT[unchecked: z] = SELf[unchecked: x] << a | SELf[unchecked: y] >> b
-            }
-        }}
-    }
-}
-
-//*============================================================================*
-// MARK: * OBE x Full Width x Bitrotations x R
-//*============================================================================*
-
-extension OBEFullWidth {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x some Binary Integer
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static func &>>=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs &>>= Int(bitPattern: rhs.words.first ?? UInt())
-    }
-
-    @inlinable static func &>>(lhs: Self, rhs: some BinaryInteger) -> Self {
-        var lhs = lhs; lhs &>>= rhs; return lhs
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static func &>>=(lhs: inout Self, rhs: Int) {
-        lhs._bitrotateRight(by: rhs & (Self.bitWidth &- 1))
-    }
-
-    @inlinable static func &>>(lhs: Self, rhs: Int) -> Self {
-        var lhs = lhs; lhs &>>= rhs; return lhs
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int x Private
-    //=------------------------------------------------------------------------=
-    
-    /// - Parameters:
-    ///   - amount: `0 <= amount < Self.bitWidth`
-    ///
-    @inlinable mutating func _bitrotateRight(by amount: Int) {
-        assert(0 <= amount && amount < Self.bitWidth)
-        let words = amount >> UInt.bitWidth.trailingZeroBitCount
-        let bits  = amount & (UInt.bitWidth &- 1)
-        self._bitrotateRight(words: words, bits: bits)
-    }
-    
-    /// - Parameters:
-    ///   - words: `0 <= words < Self.endIndex`
-    ///   - bits:  `0 <= bits  < UInt.bitWidth`
-    ///
-    @inlinable mutating func _bitrotateRight(words: Int, bits: Int) {
-        assert(0 <= words && words < self.endIndex)
-        assert(0 <= bits  && bits  < UInt.bitWidth)
-        
-        self = Self.fromUnsafeTemporaryWords { NEXT in
-        self.withUnsafeWords { SELf in
-            let a = bits
-            let b = UInt.bitWidth &- bits
-            
-            var x = SELf.index(SELf.startIndex, offsetBy: +1 &+ words)
-            var y = SELf.index(SELf.startIndex, offsetBy: +0 &+ words)
-            var z = SELf.endIndex
-            
-            brrrrr: while z != SELf.startIndex {
-                x = y
-                SELf.formIndex(&y, offsetBy: y == SELf.startIndex ? SELf.lastIndex : -1)
-                SELf.formIndex(before: &z)
-                
-                NEXT[unchecked: z] = SELf[unchecked: x] << b | SELf[unchecked: y] >> a
-            }
-        }}
     }
 }

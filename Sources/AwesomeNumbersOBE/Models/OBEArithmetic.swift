@@ -10,7 +10,7 @@
 import AwesomeNumbersKit
 
 //*============================================================================*
-// MARK: * OBE x UInt x Arithmetic
+// MARK: * OBE x Arithmetic x UInt
 //*============================================================================*
 
 extension UInt {
@@ -65,23 +65,5 @@ extension UInt {
     
     @inlinable func addingFullWidth(_ carry: Self,  multiplicands: (Self, Self)) -> HL<Self, Self> {
         var low = self; let high = low.addFullWidth(carry, multiplicands: multiplicands); return (high, low)
-    }
-}
-
-//*============================================================================*
-// MARK: * OBE x Fixed Width x Unsigned x Arithmetic
-//*============================================================================*
-
-extension FixedWidthInteger where Self: UnsignedInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static func sum(_ x0: Self, _ x1: Self, _ x2: Self) -> HL<Self, Self> {
-        let (x3, o3) = x0.addingReportingOverflow(x1)
-        let (x4, o4) = x3.addingReportingOverflow(x2)
-        let (x5) = o3 && o4 ? 2 : o3 || o4 ? 1 : 0 as Self
-        return (x5, x4)
     }
 }
