@@ -39,12 +39,12 @@ extension OBEFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public var byteSwapped: Self {
-        var result = Self.uninitialized()
+    @inlinable var byteSwapped: Self {
+        Self.fromUnsafeTemporaryWords { NEXT in
+        self.withUnsafeWords { SELF in
         for index in Self.indices {
-            result[unchecked: Self.lastIndex - index] = self[unchecked: index].byteSwapped
-        }
-        
-        return result
+            let word = SELF[unchecked:  index].byteSwapped
+            NEXT[unchecked: SELF.lastIndex - index] = word
+        }}}
     }
 }

@@ -69,6 +69,13 @@ extension OBEFullWidth {
     }
     
     /// - Parameters:
+    ///   - amount: `0 <= amount < Self.bitWidth`
+    ///
+    @inlinable func _bitshiftedLeft(by amount: Int) -> Self {
+        var x = self; x._bitshiftLeft(by: amount); return x
+    }
+    
+    /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
@@ -81,22 +88,29 @@ extension OBEFullWidth {
         let c = UInt(repeating: false) << a
         let d = UInt(repeating: false) >> b
         
-        var x = self.index(self.endIndex, offsetBy: -0 &- words)
-        var y = self.index(self.endIndex, offsetBy: -1 &- words)
-        var z = self.endIndex
+        var i = self.endIndex
+        var j = self.index(self.endIndex, offsetBy: -0 &- words)
+        var k = self.index(self.endIndex, offsetBy: -1 &- words)
         
         self.withUnsafeMutableWords { SELF in
-            brrr: while z != SELF.startIndex {
-                x &-= 1
-                y &-= 1
-                z &-= 1
-                
-                let p = x >= SELF.startIndex ? SELF[unchecked: x] << a : c
-                let q = y >= SELF.startIndex ? SELF[unchecked: y] >> b : d
-                
-                SELF[unchecked: z] = p | q
-            }
-        }
+        brrr: while i != SELF.startIndex {
+            i &-= 1
+            j &-= 1
+            k &-= 1
+            
+            let p = j >= SELF.startIndex ? SELF[unchecked: j] << a : c
+            let q = k >= SELF.startIndex ? SELF[unchecked: k] >> b : d
+            
+            SELF[unchecked: i] = p | q
+        }}
+    }
+    
+    /// - Parameters:
+    ///   - words: `0 <= words < Self.endIndex`
+    ///   - bits:  `0 <= bits  < UInt.bitWidth`
+    ///
+    @inlinable func _bitshiftedLeft(words: Int, bits: Int) -> Self {
+        var x = self; x._bitshiftLeft(words: words, bits: bits); return x
     }
 }
 
@@ -160,6 +174,13 @@ extension OBEFullWidth {
     }
     
     /// - Parameters:
+    ///   - amount: `0 <= amount < Self.bitWidth`
+    ///
+    @inlinable func _bitshiftedRight(by amount: Int) -> Self {
+        var x = self; x._bitshiftRight(by: amount); return x
+    }
+    
+    /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
@@ -172,21 +193,28 @@ extension OBEFullWidth {
         let c = UInt(repeating:  self.isLessThanZero) << a
         let d = UInt(repeating:  self.isLessThanZero) >> b
         
+        var i = self.startIndex
+        var j = self.index(self.startIndex, offsetBy: +0 &+ words)
+        var k = self.index(self.startIndex, offsetBy: +1 &+ words)
+        
         self.withUnsafeMutableWords { SELf in
-            var x = SELf.index(SELf.startIndex, offsetBy: +0 &+ words)
-            var y = SELf.index(SELf.startIndex, offsetBy: +1 &+ words)
-            var z = SELf.startIndex
+        brrr: while i != SELf.endIndex {
+            let p = j <  SELf.endIndex ? SELf[unchecked: j] >> a : c
+            let q = k <  SELf.endIndex ? SELf[unchecked: k] << b : d
             
-            brrr: while z != SELf.endIndex {
-                let p = x <  SELf.endIndex ? SELf[unchecked: x] >> a : c
-                let q = y <  SELf.endIndex ? SELf[unchecked: y] << b : d
-                
-                SELf[unchecked: z] = p | q
-                
-                z &+= 1
-                x &+= 1
-                y &+= 1
-            }
-        }
+            SELf[unchecked: i] = p | q
+            
+            i &+= 1
+            j &+= 1
+            k &+= 1
+        }}
+    }
+    
+    /// - Parameters:
+    ///   - words: `0 <= words < Self.endIndex`
+    ///   - bits:  `0 <= bits  < UInt.bitWidth`
+    ///
+    @inlinable func _bitshiftedRight(words: Int, bits: Int) -> Self {
+        var x = self; x._bitshiftRight(words: words, bits: bits); return x
     }
 }

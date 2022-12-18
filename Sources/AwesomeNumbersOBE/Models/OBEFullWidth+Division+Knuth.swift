@@ -21,23 +21,21 @@ extension OBEFullWidth {
     
     @inlinable func quotientAndRemainderAsKnuth(dividingBy divisor: Self) -> QR<Self, Self> {
         let dividendIsLessThanZero = self.isLessThanZero
-        let division  = self.magnitude.quotientAndRemainderAsKnuth(dividingBy: divisor.magnitude)
-        var quotient  = Self(division.quotient )
-        var remainder = Self(division.remainder)
+        var division = self.magnitude.quotientAndRemainderAsKnuth(dividingBy: divisor.magnitude)
         //=--------------------------------------=
         //
         //=--------------------------------------=
         if  dividendIsLessThanZero {
-            precondition(!remainder.formTwosComplementReportingOverflow())
+            precondition(!division.remainder.formTwosComplementReportingOverflow())
         }
         
         if  dividendIsLessThanZero != divisor.isLessThanZero {
-            precondition(!quotient .formTwosComplementReportingOverflow())
+            precondition(!division.quotient .formTwosComplementReportingOverflow())
         }
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        return QR(quotient, remainder)
+        return QR(Self(bitPattern: division.quotient), Self(bitPattern: division.remainder))
     }
     
     @inlinable func dividingFullWidthAsKnuth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
@@ -72,17 +70,21 @@ extension OBEFullWidth where High: UnsignedInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    /// Returns the quotient and remainder of dividing the dividend by the divisor.
+    ///
+    /// It is basically long division but with larger digits than those in base 10.
+    ///
     @inlinable @inline(never) func quotientAndRemainderAsKnuth(dividingBy divisor: Self) -> QR<Self, Self> {
         let (divisorReducedCount, divisorIsZero): (Int, Bool) = divisor.minWordsCountReportingIsZeroOrMinusOne()
         precondition(!divisorIsZero, "division by zero")
         //=--------------------------------------=
-        // LHS <= RHS
+        // Dividend <= Divisor
         //=--------------------------------------=
         if  self <= divisor {
             return (self == divisor) ? QR(1 as Self, Self()) : QR(Self(), self)
         }
         //=--------------------------------------=
-        // Fast x UInt
+        // Division By One Word
         //=--------------------------------------=
         if  divisorReducedCount == 1 {
             let word = divisor[unchecked: startIndex] as UInt
@@ -92,16 +94,13 @@ extension OBEFullWidth where High: UnsignedInteger {
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        var divisor   = divisor
+        var divisor = divisor
         var remainder = OBEFullWidth<UInt, Magnitude>(descending:(UInt(), Magnitude(bitPattern: self)))
-        
-        var remainderReducedCount = remainder.low.minWordsCount
-        let remainderBitAlignment = remainder[unchecked: remainder.index(before: remainderReducedCount)].leadingZeroBitCount
-        let   divisorBitAlignment =   divisor[unchecked:   divisor.index(before:   divisorReducedCount)].leadingZeroBitCount
-        
-        divisor  ._bitrotateLeft(words: Int(), bits: divisorBitAlignment)
-        remainder._bitrotateLeft(words: Int(), bits: divisorBitAlignment)
-        remainderReducedCount &+= Int(remainderBitAlignment < divisorBitAlignment)
+        let shift = divisor[unchecked: divisor.index(before: divisorReducedCount)].leadingZeroBitCount
+        let remainderReducedCount = remainder.low.minWordsCount // shift is taken into account by loop
+
+        divisor  ._bitrotateLeft(words: Int(), bits: shift)
+        remainder._bitrotateLeft(words: Int(), bits: shift)
         
         assert(divisor[divisor.index(before:   divisorReducedCount)].mostSignificantBit)
         assert(remainderReducedCount >= divisorReducedCount && divisorReducedCount >= 2)
@@ -120,9 +119,8 @@ extension OBEFullWidth where High: UnsignedInteger {
                 // The Reminder Changes Each Loop
                 //=------------------------------=
                 let remainderLast2: (UInt, UInt) = remainder.withUnsafeWords { REMAINDER in
-                    let remainderIndexIsEndIndex = remainderIndex == REMAINDER.endIndex
-                    let remainder0 = remainderIndexIsEndIndex ? 0 : REMAINDER[unchecked: remainderIndex]
-                    let remainder1 = REMAINDER[unchecked: REMAINDER.index(remainderIndex, offsetBy: -1)]
+                    let remainder0 = REMAINDER[unchecked: remainderIndex]
+                    let remainder1 = REMAINDER[unchecked: REMAINDER.index(before: remainderIndex)]
                     return (remainder0, remainder1)
                 }
                 //=------------------------------=
@@ -135,20 +133,9 @@ extension OBEFullWidth where High: UnsignedInteger {
                 //
                 //=------------------------------=
                 overestimated: if approximation > remainder {
-                    var increment = OBEFullWidth<UInt, Magnitude>(descending:(UInt(), Magnitude(bitPattern: divisor)))
-                    increment._bitrotateLeft(words: quotientIndex, bits: Int())
-                    //=--------------------------=
-                    //
-                    //=--------------------------=
-                    digit &-= 1 as UInt
-                    approximation &-= increment
-                    //=--------------------------=
-                    //
-                    //=--------------------------=
-                    if  approximation > remainder {
-                        digit &-= 1 as UInt
-                        approximation &-= increment
-                    }
+                    var stride = OBEFullWidth<UInt, Magnitude>(descending:(UInt(), Magnitude(bitPattern: divisor)))
+                    stride._bitrotateLeft(words:  quotientIndex, bits: Int())
+                    do1or2: repeat { digit &-= 1 as UInt; approximation &-= stride } while approximation > remainder
                 }
                 //=------------------------------=
                 //
@@ -161,7 +148,7 @@ extension OBEFullWidth where High: UnsignedInteger {
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        remainder._bitrotateRight(words: Int(), bits: divisorBitAlignment)
+        remainder._bitrotateRight(words: Int(), bits: shift)
         return QR(quotient, Self(bitPattern: remainder.low))
     }
     
