@@ -18,8 +18,9 @@ import AwesomeNumbersKit
 /// - It must be safe to bit cast between `Self` and `Self.Magnitude`.
 /// - It must be safe to bit cast between `Self.High` and  `Self.Low`.
 ///
-@usableFromInline protocol OBELargeFixedWidthInteger<High, Low>: AwesomeLargeFixedWidthInteger,
-CustomDebugStringConvertible where Magnitude: OBEUnsignedLargeFixedWidthInteger<High.Magnitude, Low.Magnitude> {
+@usableFromInline protocol OBELargeFixedWidthInteger<High, Low>:
+AwesomeLargeFixedWidthInteger, CustomDebugStringConvertible where
+Magnitude: OBEUnsignedLargeFixedWidthInteger<High.Magnitude, Low.Magnitude> {
     
     associatedtype X64 = Never // (UInt64, UInt64, ...)
     
@@ -27,7 +28,7 @@ CustomDebugStringConvertible where Magnitude: OBEUnsignedLargeFixedWidthInteger<
     
     associatedtype High: AwesomeFixedWidthInteger
         
-    associatedtype Low:  AwesomeUnsignedFixedWidthInteger where Low == High.Magnitude
+    associatedtype Low:  AwesomeUnsignedFixedWidthInteger where Low == Low.Magnitude
     
     typealias Body = OBEFullWidth<High, Low>
     

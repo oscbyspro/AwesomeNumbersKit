@@ -158,3 +158,35 @@ extension OBEFullWidth where High == Low {
         return DoubleWidth(descending:(r1, r0))
     }
 }
+
+//*============================================================================*
+// MARK: * OBE x Full Width x Unsigned x Multiplication x Small
+//*============================================================================*
+
+extension OBEFullWidth where High: UnsignedInteger {
+    
+    #warning("TEST")
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable mutating func multiplyFullWidth(by rhs: UInt) -> UInt {
+        var last = UInt(repeating: self.isLessThanZero)
+        return self.withUnsafeMutableWords { LHS in
+            var carry  = UInt(0)
+            for lhsIndex in LHS.indices {
+                let upper = LHS[lhsIndex].multiplyFullWidth(by:  rhs)
+                let extra = LHS[lhsIndex].addReportingOverflow(carry)
+                carry = extra ? (upper + 1) : upper
+            }
+            
+            let _ = last.multiplyFullWidth(by:  rhs)
+            let _ = last.addReportingOverflow(carry)
+            return  last
+        }
+    }
+    
+    @inlinable func multipliedFullWidth(by rhs: UInt) -> HL<UInt, Magnitude> {
+        var lhs = self; let rhs = lhs.multiplyFullWidth(by: rhs); return (rhs, Magnitude(bitPattern: lhs))
+    }
+}

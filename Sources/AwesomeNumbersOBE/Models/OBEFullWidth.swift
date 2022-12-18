@@ -32,8 +32,9 @@ import AwesomeNumbersKit
 /// Low  must use two's comlpement representation
 /// ```
 ///
-@frozen @usableFromInline struct OBEFullWidth<High, Low>: AwesomeLargeFixedWidthInteger, OBEFullWidthCollection where
-High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger, Low == Low.Magnitude {
+@frozen @usableFromInline struct OBEFullWidth<High, Low>: WoRdS, OBEFullWidthCollection,
+AwesomeLargeFixedWidthInteger, CustomDebugStringConvertible where High: AwesomeFixedWidthInteger,
+Low: AwesomeUnsignedFixedWidthInteger, Low == Low.Magnitude {
     
     @usableFromInline typealias IntegerLiteralType = Int
     
@@ -103,6 +104,18 @@ High: AwesomeFixedWidthInteger, Low: AwesomeUnsignedFixedWidthInteger, Low == Lo
     
     @inlinable init<T>(bitPattern: OBEFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
         self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable var ascending: LH<Low, High> {
+        LH(low, high)
+    }
+    
+    @inlinable var descending: HL<High, Low> {
+        HL(high, low)
     }
 }
 

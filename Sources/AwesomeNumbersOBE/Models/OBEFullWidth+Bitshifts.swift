@@ -80,20 +80,22 @@ extension OBEFullWidth {
         let b = UInt.bitWidth &- bits
         let c = UInt(repeating: false) << a
         let d = UInt(repeating: false) >> b
-
+        
         var x = self.index(self.endIndex, offsetBy: -0 &- words)
         var y = self.index(self.endIndex, offsetBy: -1 &- words)
         var z = self.endIndex
         
-        brrr: while z != self.startIndex {
-            x &-= 1
-            y &-= 1
-            z &-= 1
-            
-            let p = x >= self.startIndex ? self[unchecked: x] << a : c
-            let q = y >= self.startIndex ? self[unchecked: y] >> b : d
-            
-            self[unchecked: z] = p | q
+        self.withUnsafeMutableWords { SELF in
+            brrr: while z != SELF.startIndex {
+                x &-= 1
+                y &-= 1
+                z &-= 1
+                
+                let p = x >= SELF.startIndex ? SELF[unchecked: x] << a : c
+                let q = y >= SELF.startIndex ? SELF[unchecked: y] >> b : d
+                
+                SELF[unchecked: z] = p | q
+            }
         }
     }
 }
@@ -170,19 +172,21 @@ extension OBEFullWidth {
         let c = UInt(repeating:  self.isLessThanZero) << a
         let d = UInt(repeating:  self.isLessThanZero) >> b
         
-        var x = self.index(self.startIndex, offsetBy: +0 &+ words)
-        var y = self.index(self.startIndex, offsetBy: +1 &+ words)
-        var z = self.startIndex
-        
-        brrr: while z != self.endIndex {
-            let p = x <  self.endIndex ? self[unchecked: x] >> a : c
-            let q = y <  self.endIndex ? self[unchecked: y] << b : d
+        self.withUnsafeMutableWords { SELf in
+            var x = SELf.index(SELf.startIndex, offsetBy: +0 &+ words)
+            var y = SELf.index(SELf.startIndex, offsetBy: +1 &+ words)
+            var z = SELf.startIndex
             
-            self[unchecked: z] = p | q
-            
-            z &+= 1
-            x &+= 1
-            y &+= 1
+            brrr: while z != SELf.endIndex {
+                let p = x <  SELf.endIndex ? SELf[unchecked: x] >> a : c
+                let q = y <  SELf.endIndex ? SELf[unchecked: y] << b : d
+                
+                SELf[unchecked: z] = p | q
+                
+                z &+= 1
+                x &+= 1
+                y &+= 1
+            }
         }
     }
 }
@@ -239,22 +243,23 @@ extension OBEFullWidth {
         assert(0 <= words && words < self.endIndex)
         assert(0 <= bits  && bits  < UInt.bitWidth)
         
-        var next = Self.uninitialized(); defer { self = next }
-        
-        let a = bits
-        let b = UInt.bitWidth &- bits
-
-        var x = self.index(self.endIndex, offsetBy: -0 &- words)
-        var y = self.index(self.endIndex, offsetBy: -1 &- words)
-        var z = self.endIndex
-        
-        brrrrr: while z != self.startIndex {
-            x = y
-            self.formIndex(&y, offsetBy: y == self.startIndex ? self.lastIndex : -1)
-            self.formIndex(before: &z)
+        self = Self.fromUnsafeTemporaryWords { NEXT in
+        self.withUnsafeWords { SELf in
+            let a = bits
+            let b = UInt.bitWidth &- bits
             
-            next[unchecked: z] = self[unchecked: x] << a | self[unchecked: y] >> b
-        }
+            var x = SELf.index(SELf.endIndex, offsetBy: -0 &- words)
+            var y = SELf.index(SELf.endIndex, offsetBy: -1 &- words)
+            var z = SELf.endIndex
+            
+            brrrrr: while z != SELf.startIndex {
+                x = y
+                SELf.formIndex(&y, offsetBy: y == SELf.startIndex ? SELf.lastIndex : -1)
+                SELf.formIndex(before: &z)
+                
+                NEXT[unchecked: z] = SELf[unchecked: x] << a | SELf[unchecked: y] >> b
+            }
+        }}
     }
 }
 
@@ -310,21 +315,22 @@ extension OBEFullWidth {
         assert(0 <= words && words < self.endIndex)
         assert(0 <= bits  && bits  < UInt.bitWidth)
         
-        var next = Self.uninitialized(); defer { self = next }
-        
-        let a = bits
-        let b = UInt.bitWidth &- bits
-        
-        var x = self.index(self.startIndex, offsetBy: +1 &+ words)
-        var y = self.index(self.startIndex, offsetBy: +0 &+ words)
-        var z = self.endIndex
-        
-        brrrrr: while z != self.startIndex {
-            x = y
-            self.formIndex(&y, offsetBy: y == self.startIndex ? self.lastIndex : -1)
-            self.formIndex(before: &z)
+        self = Self.fromUnsafeTemporaryWords { NEXT in
+        self.withUnsafeWords { SELf in
+            let a = bits
+            let b = UInt.bitWidth &- bits
             
-            next[unchecked: z] = self[unchecked: x] << b | self[unchecked: y] >> a
-        }
+            var x = SELf.index(SELf.startIndex, offsetBy: +1 &+ words)
+            var y = SELf.index(SELf.startIndex, offsetBy: +0 &+ words)
+            var z = SELf.endIndex
+            
+            brrrrr: while z != SELf.startIndex {
+                x = y
+                SELf.formIndex(&y, offsetBy: y == SELf.startIndex ? SELf.lastIndex : -1)
+                SELf.formIndex(before: &z)
+                
+                NEXT[unchecked: z] = SELf[unchecked: x] << b | SELf[unchecked: y] >> a
+            }
+        }}
     }
 }

@@ -8,16 +8,16 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Aliases
+// MARK: * OBE x Full Width x Text
 //*============================================================================*
 
-public typealias HL<H,L> = (high: H, low:  L)
-public typealias LH<L,H> = (low:  L, high: H)
-public typealias QR<Q,R> = (quotient: Q,  remainder: R)
-public typealias PVO<PV> = (partialValue: PV, overflow: Bool)
-
-//*============================================================================*
-// MARK: * Aliases x Protocols
-//*============================================================================*
-
-public protocol WoRdS: RandomAccessCollection<UInt> where Index == Int { }
+extension OBEFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var debugDescription: String {
+        "\(Self.self)(\(self.lazy.map(String.init).joined(separator: ", ")))"
+    }
+}

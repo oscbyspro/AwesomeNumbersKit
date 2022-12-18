@@ -56,8 +56,8 @@ extension OBEFullWidth {
     }
     
     @inlinable func minWordsCountReportingIsZeroOrMinusOne() -> (count: Int, isZeroOrMinusOne: Bool) {
-         let sign  = UInt(repeating: isLessThanZero)
-         let index = withUnsafeWords({ SELF in SELF.lastIndex(where:{ word in word != sign }) })
-         return index.map({($0 + 1, false)}) ?? (1, true)
-     }
+        let sign  = UInt(repeating: isLessThanZero)
+        let index = withUnsafeWords({ SELF in SELF.lastIndex(where:{ word in word != sign }) })
+        return index.map({($0 + 1, false)}) ?? (1, true)
+    }
 }
