@@ -19,18 +19,25 @@ extension OBEFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(integerLiteral source: some AwesomeFixedWidthInteger) {
-        let low  = Low(truncatingIfNeeded: source)
+    @inlinable init(integerLiteral source: Int) {
+        self.init(small: source)
+    }
+    
+    @inlinable init(small source: Int) {
+        assert(Low.bitWidth >= UInt.bitWidth)
         let high = High(repeating: source.isLessThanZero)
+        let low  = Low(truncatingIfNeeded: source)
+        self.init(descending:(high, low))
+        precondition(isLessThanZero == source.isLessThanZero)
+    }
+    
+    @inlinable init(small source: UInt) {
+        assert(Low.bitWidth >= UInt.bitWidth)
+        let high = High(repeating: source.isLessThanZero)
+        let low  = Low(_truncatingBits: source)
         self.init(descending:(high, low))
     }
     
-    @inlinable init(_truncatingBits source: UInt) {
-        assert(Low.bitWidth >= UInt.bitWidth)
-        let word = Low(_truncatingBits: source)
-        self.init(descending:(High(),   word))
-    }
-
     @inlinable init(_ source: some BinaryInteger) {
         guard let value = Self(exactly: source) else {
             preconditionFailure("\(source) is not in \(Self.self)'s representable range")
@@ -84,6 +91,10 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
+    
+    @inlinable init(_truncatingBits source: UInt) {
+        self.init(small: source)
+    }
     
     @inlinable init(_copy words: some Collection<UInt>, _extending sign: UInt) {
         self = Self.fromUnsafeTemporaryWords { SELF in

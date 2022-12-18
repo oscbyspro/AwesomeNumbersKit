@@ -165,7 +165,6 @@ extension OBEFullWidth where High == Low {
 
 extension OBEFullWidth where High: UnsignedInteger {
     
-    #warning("TEST")
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
@@ -173,7 +172,7 @@ extension OBEFullWidth where High: UnsignedInteger {
     @inlinable mutating func multiplyFullWidth(by rhs: UInt) -> UInt {
         var last = UInt(repeating: self.isLessThanZero)
         return self.withUnsafeMutableWords { LHS in
-            var carry  = UInt(0)
+            var carry  = UInt()
             for lhsIndex in LHS.indices {
                 let upper = LHS[lhsIndex].multiplyFullWidth(by:  rhs)
                 let extra = LHS[lhsIndex].addReportingOverflow(carry)

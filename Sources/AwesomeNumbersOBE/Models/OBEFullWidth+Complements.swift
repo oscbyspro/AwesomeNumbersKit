@@ -32,6 +32,18 @@ extension OBEFullWidth {
         var x = self; x.formTwosComplement(); return x
     }
     
+    /// - Returns true when `Self.isSigned == true` and `self == min`.
+    @inlinable mutating func formTwosComplementReportingOverflow() -> Bool {
+        let wasLessThanZero = self.isLessThanZero
+        self.formTwosComplement() // ~self &+ 1
+        return wasLessThanZero && self.isLessThanZero
+    }
+    
+    /// - Returns true when `Self.isSigned == true` and `self == min`.
+    @inlinable func twosComplementReportingOverflow() -> PVO<Self> {
+        var pv = self; let o = pv.formTwosComplementReportingOverflow(); return (pv, o)
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
@@ -60,12 +72,10 @@ extension OBEFullWidth where Self: SignedInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable mutating func negateReportingOverflow() -> Bool {
-        let wasLessThanZero = isLessThanZero
-        self.formTwosComplement() // ~self &+ 1
-        return wasLessThanZero && isLessThanZero
+        self.formTwosComplementReportingOverflow()
     }
     
     @inlinable func negatedReportingOverflow() -> PVO<Self> {
-        var pv = self; let o = pv.negateReportingOverflow(); return (pv, o)
+        self.twosComplementReportingOverflow()
     }
 }

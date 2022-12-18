@@ -74,7 +74,6 @@ extension OBEFullWidth {
 
 extension OBEFullWidth where High: UnsignedInteger {
     
-    #warning("TEST")
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=

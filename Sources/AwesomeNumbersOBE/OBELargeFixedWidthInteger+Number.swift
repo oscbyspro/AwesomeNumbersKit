@@ -69,7 +69,7 @@ extension OBEUnsignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public init(integerLiteral source: UInt) {
-        self.init(bitPattern: Body(integerLiteral: source))
+        self.init(bitPattern: Body(small: source))
     }
     
     @inlinable public init(_ source: some BinaryInteger) {
