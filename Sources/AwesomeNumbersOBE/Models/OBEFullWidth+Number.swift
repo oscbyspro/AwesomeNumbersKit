@@ -86,18 +86,19 @@ extension OBEFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable init(_copy words: some Collection<UInt>, _extending sign: UInt) {
-        self = Self.uninitialized()
-        var index = self.startIndex
+        self = Self.fromUnsafeTemporaryWords { SELF in
+            var index = SELF.startIndex
 
-        for word in words {
-            if index == self.endIndex { break }
-            self[unchecked: index] = word
-            self.formIndex(after: &index)
-        }
-
-        while index != self.endIndex {
-            self[unchecked: index] = sign
-            self.formIndex(after: &index)
+            for word in words {
+                if index == SELF.endIndex { break }
+                SELF[unchecked: index] = word
+                SELF.formIndex(after: &index)
+            }
+            
+            while index != SELF.endIndex {
+                SELF[unchecked: index] = sign
+                SELF.formIndex(after: &index)
+            }
         }
     }
 }

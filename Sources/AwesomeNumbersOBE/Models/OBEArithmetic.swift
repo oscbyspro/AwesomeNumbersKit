@@ -32,7 +32,7 @@ extension UInt {
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
-        
+    
     @inlinable mutating func subtractReportingOverflow(_ amount: Self, _ borrow: Bool) -> Bool {
         let a = self.subtractReportingOverflow(amount)
         let b = self.subtractReportingOverflow(borrow ? 1 : 0)
@@ -65,48 +65,6 @@ extension UInt {
     
     @inlinable func addingFullWidth(_ carry: Self,  multiplicands: (Self, Self)) -> HL<Self, Self> {
         var low = self; let high = low.addFullWidth(carry, multiplicands: multiplicands); return (high, low)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Division
-    //=------------------------------------------------------------------------=
-    
-    /// - The quotient is overapproximated by at most one.
-    /// - The divisor's most significant bit must be set (clamping the error range).
-    @inlinable static func approximateQuotientAsKnuth(dividing x: (Self, Self, Self), by y: (Self, Self)) -> Self {
-        precondition(y.0.mostSignificantBit, "divisor < max / 2")
-        //=--------------------------------------=
-        //
-        //=--------------------------------------=
-        var q: Self
-        var r: Self
-        var o: Bool
-        //=--------------------------------------=
-        //
-        //=--------------------------------------=
-        if  x.0 == y.0 {
-            q = max
-            (r, o) = x.0.addingReportingOverflow(x.1)
-            if (o) { return q }
-        
-        } else {
-            
-            (q, r) = y.0.dividingFullWidth((x.0, x.1))
-        }
-        //=--------------------------------------=
-        // q * y - x <= 2
-        //=--------------------------------------=
-        var (a,  b) = q.multipliedFullWidth(by: y.1)
-        if  (a < r) || (a == r && b  <= x.2) { return q }
-        
-        (r,  o) = r.addingReportingOverflow(y.0)
-        if  (o) { return q - 1 }
-        
-        (b,  o) = b.subtractingReportingOverflow(y.1)
-        (a,  o) = a.subtractingReportingOverflow(o  ? 1 : 0 )
-        if  (a  < r) || (a == r && b <= x.2) { return q - 1 }
-        
-        return q - 2
     }
 }
 
