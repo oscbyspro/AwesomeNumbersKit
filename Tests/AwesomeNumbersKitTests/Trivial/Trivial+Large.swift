@@ -13,25 +13,32 @@ import AwesomeNumbersKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Trivial x Signed x Complements
+// MARK: * Trivial x Large
 //*============================================================================*
 
-final class TrivialTestsOnComplementsAsSigned: XCTestCase {
+final class TrivialTestsOnLarge: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allSignedFixedWidthIntegerTypes
+    let types = Trivial.allLargeFixedWidthIntegerTypes
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Signed
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testNegatedReportingOverflow() {
-        for type in types {
-            XCTAssertEqual(type.min.negatedReportingOverflow().overflow,  true )
-            XCTAssertEqual(type.max.negatedReportingOverflow().overflow, false)
+    func testBitWidthInvariants() {
+        for type: any AwesomeLargeFixedWidthInteger.Type in types {
+            XCTAssert(type.bitWidth / UInt.bitWidth >= 1)
+            XCTAssert(type.bitWidth % UInt.bitWidth == 0)
+        }
+    }
+    
+    func testInitRepeatingWord() {
+        let word = UInt.random(in: UInt.min ... UInt.max)
+        for type: any AwesomeLargeFixedWidthInteger.Type in types {
+            XCTAssert(type.init(repeating: word).words.allSatisfy({ $0 as! UInt == word }))
         }
     }
 }

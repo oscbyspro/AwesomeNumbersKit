@@ -8,35 +8,25 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Awesome x Fixed Width Integer x Large
+// MARK: * Awesome x Binary Integer x Large
 //*============================================================================*
 
-/// A large fixed-width integer with additional requirements and capabilities.
+/// A large binary integer with additional requirements and capabilities.
 ///
 /// ```
 /// self.bitWidth / UInt.bitWidth >= 1
 /// self.bitWidth % UInt.bitWidth == 0
 /// ```
-public protocol AwesomeLargeFixedWidthInteger: AwesomeFixedWidthInteger,
-AwesomeLargeBinaryInteger where Magnitude: AwesomeUnsignedLargeFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @inlinable init(repeating word: UInt)
-}
+public protocol AwesomeLargeBinaryInteger: AwesomeBinaryInteger where Magnitude: AwesomeUnsignedLargeBinaryInteger { }
 
 //*============================================================================*
 // MARK: * Awesome x Fixed Width Integer x Large x Signed
 //*============================================================================*
 
-public protocol AwesomeSignedLargeFixedWidthInteger: AwesomeLargeFixedWidthInteger,
-AwesomeSignedFixedWidthInteger, AwesomeSignedLargeBinaryInteger { }
+public protocol AwesomeSignedLargeBinaryInteger: AwesomeLargeBinaryInteger, AwesomeSignedInteger { }
 
 //*============================================================================*
 // MARK: * Awesome x Fixed Width Integer x Large x Unsigned
 //*============================================================================*
 
-public protocol AwesomeUnsignedLargeFixedWidthInteger: AwesomeLargeFixedWidthInteger,
-AwesomeUnsignedFixedWidthInteger, AwesomeUnsignedLargeBinaryInteger { }
+public protocol AwesomeUnsignedLargeBinaryInteger: AwesomeLargeBinaryInteger, AwesomeUnsignedInteger { }

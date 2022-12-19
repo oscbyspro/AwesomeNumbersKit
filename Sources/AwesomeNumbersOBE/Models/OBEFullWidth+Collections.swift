@@ -36,6 +36,10 @@ extension OBEFullWidthCollection {
         Body.count
     }
     
+    @inlinable var partitionIndex: Int {
+        Body.partitionIndex
+    }
+    
     @inlinable var startIndex: Int {
         Body.startIndex
     }
@@ -96,6 +100,10 @@ extension OBEFullWidth {
         MemoryLayout<Self>.stride / MemoryLayout<UInt>.stride
     }
     
+    @inlinable static var partitionIndex: Int {
+        MemoryLayout<Low >.stride / MemoryLayout<UInt>.stride
+    }
+    
     @inlinable static var startIndex: Int {
         0
     }
@@ -107,6 +115,7 @@ extension OBEFullWidth {
     @inlinable static var lastIndex: Int {
         count - 1
     }
+    
     
     @inlinable static var indices: Range<Int> {
         0 ..< count

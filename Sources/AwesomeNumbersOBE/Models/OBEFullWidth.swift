@@ -133,5 +133,8 @@ extension OBEFullWidth: AwesomeUnsignedInteger where High: AwesomeUnsignedIntege
 extension OBEFullWidth:   AwesomeSignedFixedWidthInteger where High:   AwesomeSignedFixedWidthInteger { }
 extension OBEFullWidth: AwesomeUnsignedFixedWidthInteger where High: AwesomeUnsignedFixedWidthInteger { }
 
+extension OBEFullWidth:   AwesomeSignedLargeBinaryInteger where High:   AwesomeSignedFixedWidthInteger { }
+extension OBEFullWidth: AwesomeUnsignedLargeBinaryInteger where High: AwesomeUnsignedFixedWidthInteger { }
+
 extension OBEFullWidth:   AwesomeSignedLargeFixedWidthInteger where High:   AwesomeSignedFixedWidthInteger { }
 extension OBEFullWidth: AwesomeUnsignedLargeFixedWidthInteger where High: AwesomeUnsignedFixedWidthInteger { }

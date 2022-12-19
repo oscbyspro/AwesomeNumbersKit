@@ -13,68 +13,68 @@ import AwesomeNumbersKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Int x Tests x Words
+// MARK: * Trivial x Signed x Words
 //*============================================================================*
 
-final class IntTestsOnWords: XCTestCase {
-    
-    typealias T = Int
-    typealias M = T.Magnitude
+final class TrivialTestsOnWordsAsSigned: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let w = UInt.max
-    let s = UInt.bitWidth
+    let types = Trivial.allSignedFixedWidthIntegerTypes
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testMostSignificantBit() {
-        XCTAssertEqual(T.min.mostSignificantBit, true )
-        XCTAssertEqual(T(  ).mostSignificantBit, false)
-        XCTAssertEqual(T.max.mostSignificantBit, false)
+        for type: any AwesomeSignedFixedWidthInteger.Type in types {
+            XCTAssertEqual(type.min .mostSignificantBit, true )
+            XCTAssertEqual(type.zero.mostSignificantBit, false)
+            XCTAssertEqual(type.max .mostSignificantBit, false)
+        }
     }
     
     func testLeastSignificantBit() {
-        XCTAssertEqual(T.min.leastSignificantBit, false)
-        XCTAssertEqual(T(  ).leastSignificantBit, false)
-        XCTAssertEqual(T.max.leastSignificantBit, true )
+        for type: any AwesomeSignedFixedWidthInteger.Type in types {
+            XCTAssertEqual(type.min .leastSignificantBit, false)
+            XCTAssertEqual(type.zero.leastSignificantBit, false)
+            XCTAssertEqual(type.max .leastSignificantBit, true )
+        }
     }
 }
 
 //*============================================================================*
-// MARK: * UInt x Tests x Words
+// MARK: * Trivial x Unsigned x Words
 //*============================================================================*
 
-final class UIntTestsOnWords: XCTestCase {
-    
-    typealias T = UInt
-    typealias M = T.Magnitude
+final class TrivialTestsOnWordsAsUnsigned: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let w = UInt.max
-    let s = UInt.bitWidth
+    let types = Trivial.allUnsignedFixedWidthIntegerTypes
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testMostSignificantBit() {
-        XCTAssertEqual(T.min.mostSignificantBit, false)
-        XCTAssertEqual(T(  ).mostSignificantBit, false)
-        XCTAssertEqual(T.max.mostSignificantBit, true )
+        for type: any AwesomeUnsignedFixedWidthInteger.Type in types {
+            XCTAssertEqual(type.min .mostSignificantBit, false)
+            XCTAssertEqual(type.zero.mostSignificantBit, false)
+            XCTAssertEqual(type.max .mostSignificantBit, true )
+        }
     }
     
     func testLeastSignificantBit() {
-        XCTAssertEqual(T.min.leastSignificantBit, false)
-        XCTAssertEqual(T(  ).leastSignificantBit, false)
-        XCTAssertEqual(T.max.leastSignificantBit, true )
+        for type: any AwesomeUnsignedFixedWidthInteger.Type in types {
+            XCTAssertEqual(type.min .leastSignificantBit, false)
+            XCTAssertEqual(type.zero.leastSignificantBit, false)
+            XCTAssertEqual(type.max .leastSignificantBit, true )
+        }
     }
 }
 

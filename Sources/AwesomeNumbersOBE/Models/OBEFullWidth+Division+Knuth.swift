@@ -64,7 +64,7 @@ extension OBEFullWidth {
 // MARK: * OBE x Full Width x Unsigned x Division x Knuth
 //*============================================================================*
 
-extension OBEFullWidth where High: UnsignedInteger {
+extension OBEFullWidth where Self: UnsignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

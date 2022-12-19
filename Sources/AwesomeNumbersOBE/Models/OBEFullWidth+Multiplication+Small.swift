@@ -13,7 +13,7 @@ import AwesomeNumbersKit
 // MARK: * OBE x Full Width x Unsigned x Multiplication x Small
 //*============================================================================*
 
-extension OBEFullWidth where High: UnsignedInteger {
+extension OBEFullWidth where Self: UnsignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
