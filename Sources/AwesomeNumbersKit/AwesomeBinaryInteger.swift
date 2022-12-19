@@ -26,6 +26,12 @@ public protocol AwesomeBinaryInteger: BinaryInteger where Magnitude: AwesomeUnsi
     @inlinable var isLessThanZero: Bool { get }
     
     //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(_ bit: Bool)
+    
+    //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     

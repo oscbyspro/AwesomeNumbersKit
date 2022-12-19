@@ -7,6 +7,8 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import AwesomeNumbersKit
+
 //*============================================================================*
 // MARK: * OBE x Full Width x Double Width x Multiplication x Karatsuba
 //*============================================================================*
@@ -16,6 +18,25 @@ extension OBEFullWidth where High.Magnitude == Low {
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
+    
+    @inlinable mutating func multiplyAsKaratsuba(by amount: Self) {
+        let o = self.multiplyReportingOverflowAsKaratsuba(by: amount); precondition(!o)
+    }
+    
+    @inlinable func multipliedAsKaratsuba(by amount: Self) -> Self {
+        let (pv, o) = self.multipliedReportingOverflowAsKaratsuba(by: amount); precondition(!o); return pv
+    }
+    
+    @inlinable mutating func multiplyReportingOverflowAsKaratsuba(by amount: Self) -> Bool {
+        let o: Bool; (self, o) = self.multipliedReportingOverflowAsKaratsuba(by: amount); return o
+    }
+    
+    @inlinable func multipliedReportingOverflowAsKaratsuba(by amount: Self) -> PVO<Self> {
+        let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero
+        let product  = self.multipliedFullWidthAsKaratsuba(by: amount)
+        let overflow = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
+        return PVO(Self(bitPattern: product.low), overflow)
+    }
     
     @inlinable mutating func multiplyFullWidthAsKaratsuba(by amount: Self) -> Self {
         let product = multipliedFullWidthAsKaratsuba(by: amount)
@@ -42,34 +63,32 @@ extension OBEFullWidth where High == Low {
     //=------------------------------------------------------------------------=
     
     @inlinable func multipliedFullWidthAsKaratsubaAsUnsigned(by amount: Self) -> DoubleWidth {
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
+        func sum(_ x0: Low, _ x1: Low, _ x2: Low) -> Magnitude {
+            let (x3, o3) = x0.addingReportingOverflow(x1)
+            let (x4, o4) = x3.addingReportingOverflow(x2)
+            let (x5) = Low(_truncatingBits:  UInt(o3) &+ UInt(o4))
+            return Magnitude(descending:(x5, x4))
+        }
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
         let m0 = self.low .multipliedFullWidth(by: amount.low )
         let m1 = self.low .multipliedFullWidth(by: amount.high)
         let m2 = self.high.multipliedFullWidth(by: amount.low )
         let m3 = self.high.multipliedFullWidth(by: amount.high)
-
-        let s0 = OBEFullWidthKaratsubaMultiplication.sum(m0.high, m1.low,  m2.low)
-        let s1 = OBEFullWidthKaratsubaMultiplication.sum(m1.high, m2.high, m3.low)
-
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
+        let s0 = sum(m0.high, m1.low,  m2.low)
+        let s1 = sum(m1.high, m2.high, m3.low)
+        //=--------------------------------------=
+        //
+        //=--------------------------------------=
         let r0 = Magnitude(descending:(s0.low,  m0.low ))
         let r1 = Magnitude(descending:(m3.high, s0.high)) &+ s1
         return DoubleWidth(descending:(r1, r0))
-    }
-}
-
-//*============================================================================*
-// MARK: * OBE x Full Width x Multiplication x Karatsuba
-//*============================================================================*
-
-@usableFromInline enum OBEFullWidthKaratsubaMultiplication {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static func sum<T>(_ x0: T, _ x1: T, _ x2: T) -> OBEFullWidth<T, T> {
-        let (x3, o3) = x0.addingReportingOverflow(x1)
-        let (x4, o4) = x3.addingReportingOverflow(x2)
-        let (x5) = o3 && o4 ? 2 : o3 || o4 ? 1 : 0 as T
-        return OBEFullWidth(descending:(x5, x4))
     }
 }

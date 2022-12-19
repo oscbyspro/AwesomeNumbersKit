@@ -118,26 +118,28 @@ extension OBEFullWidth where Self: UnsignedInteger {
                  QUOTIENT.formIndex(before:  &quotientIndex)
                 remainder.formIndex(before: &remainderIndex)
                 //=------------------------------=
-                // Approximation: 2 vs 1
+                // Approximate The Quotient Digit
                 //=------------------------------=
                 var digit: UInt = remainder.withUnsafeWords { REMAINDER in
                     assert(divisor0.mostSignificantBit)
-                    let remainder0  = REMAINDER[unchecked: remainderIndex]
-                    if  remainder0 >= divisor0 { return UInt.max }
-                    let remaidner1  = REMAINDER[unchecked: REMAINDER.index(before: remainderIndex)]
-                    return divisor0.dividingFullWidth((remainder0, remaidner1)).quotient
+                    let  remainder0  = REMAINDER[unchecked: remainderIndex]
+                    if   remainder0 >= divisor0 { return UInt.max }
+                    let  remainder1  = REMAINDER[unchecked: REMAINDER.index(before: remainderIndex)]
+                    return divisor0.dividingFullWidth((remainder0, remainder1)).quotient
                 }
                 
                 var approximation = PlusUInt(descending: divisor.multipliedFullWidth(by: digit))
                 approximation._bitrotateLeft(words: quotientIndex, bits: Int())
                 
-                overestimated: if approximation > remainder {
+                if  approximation > remainder {
                     var increment = PlusUInt(descending:(UInt(), Magnitude(bitPattern: divisor)))
                     increment._bitrotateLeft(words: quotientIndex, bits: Int())
-                    x1or2: repeat { digit &-= 1; approximation &-= increment  } while approximation > remainder
+                    
+                    brrrrrrrrrrrrrrrrrrrrrrr: do { digit &-= 1; approximation &-= increment }
+                    if approximation > remainder { digit &-= 1; approximation &-= increment }
                 }
                 //=------------------------------=
-                //
+                // The Quotient Digit Is Correct
                 //=------------------------------=
                 assert(approximation <= remainder)
                 remainder &-= approximation

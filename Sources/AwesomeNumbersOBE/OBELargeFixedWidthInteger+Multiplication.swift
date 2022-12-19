@@ -20,11 +20,11 @@ extension OBELargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func *=(lhs: inout Self, rhs: Self) {
-        let o = lhs.multiplyReportingOverflow(by: rhs); precondition(!o)        
+        lhs.body.multiplyAsKaratsuba(by: rhs.body)
     }
     
     @inlinable public static func *(lhs: Self, rhs: Self) -> Self {
-        let (pv, o) = lhs.multipliedReportingOverflow(by: rhs); precondition(!o); return pv
+        Self(bitPattern: lhs.body.multipliedAsKaratsuba(by: rhs.body))
     }
     
     //=------------------------------------------------------------------------=
@@ -32,14 +32,11 @@ extension OBELargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
-        let o: Bool; (self, o) = self.multipliedReportingOverflow(by: amount); return o
+        self.body.multiplyReportingOverflowAsKaratsuba(by: amount.body)
     }
     
     @inlinable public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
-        let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero
-        let product  = self.multipliedFullWidth(by: amount)
-        let overflow = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
-        return PVO(Self(bitPattern: product.low), overflow)
+        let (pv, o) = body.multipliedReportingOverflowAsKaratsuba(by: amount.body); return PVO(Self(bitPattern: pv), o)
     }
     
     @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {

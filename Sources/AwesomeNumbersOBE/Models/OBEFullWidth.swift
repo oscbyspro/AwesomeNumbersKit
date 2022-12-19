@@ -86,6 +86,10 @@ Low: AwesomeUnsignedFixedWidthInteger, Low == Low.Magnitude {
         self.init(descending:(High(), Low()))
     }
     
+    @inlinable init(_ bit: Bool) {
+        self.init(descending:(High(), Low(bit)))
+    }
+    
     @inlinable init(repeating bit: Bool) {
         self.init(descending:(High(repeating: bit), Low(repeating: bit)))
     }

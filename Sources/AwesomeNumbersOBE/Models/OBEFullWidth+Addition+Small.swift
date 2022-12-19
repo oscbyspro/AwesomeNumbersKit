@@ -19,6 +19,26 @@ extension OBEFullWidth where Self: SignedInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    @inlinable static func +=(lhs: inout Self, rhs: Int) {
+        let o = lhs.addReportingOverflow(rhs); precondition(!o)
+    }
+    
+    @inlinable static func +(lhs: Self, rhs: Int) -> Self {
+        let (pv, o) = lhs.addingReportingOverflow(rhs); precondition(!o); return pv
+    }
+    
+    @inlinable static func &+=(lhs: inout Self, rhs: Int) {
+        let _ = lhs.addReportingOverflow(rhs)
+    }
+    
+    @inlinable static func &+(lhs: Self, rhs: Int) -> Self {
+        let (pv, _) = lhs.addingReportingOverflow(rhs); return pv
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable mutating func addReportingOverflow(_ amount: Int) -> Bool {
         let lhsWasLessThanZero =   self.isLessThanZero
         let rhsWasLessThanZero = amount.isLessThanZero
@@ -36,7 +56,7 @@ extension OBEFullWidth where Self: SignedInteger {
             let predicate = carry
             let increment = carry ? 1 : ~0 as UInt // +1 vs -1
 
-            while index != LHS.endIndex && carry == predicate {
+            while carry == predicate && index != LHS.endIndex {
                 carry = LHS[index].addReportingOverflow(increment)
                 LHS.formIndex(after: &index)
             }
@@ -52,12 +72,31 @@ extension OBEFullWidth where Self: SignedInteger {
     }
 }
 
-
 //*============================================================================*
 // MARK: * OBE x Full Width x Unsigned x Addition x Small
 //*============================================================================*
 
 extension OBEFullWidth where Self: UnsignedInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func +=(lhs: inout Self, rhs: UInt) {
+        let o = lhs.addReportingOverflow(rhs); precondition(!o)
+    }
+    
+    @inlinable static func +(lhs: Self, rhs: UInt) -> Self {
+        let (pv, o) = lhs.addingReportingOverflow(rhs); precondition(!o); return pv
+    }
+    
+    @inlinable static func &+=(lhs: inout Self, rhs: UInt) {
+        let _ = lhs.addReportingOverflow(rhs)
+    }
+    
+    @inlinable static func &+(lhs: Self, rhs: UInt) -> Self {
+        let (pv, _) = lhs.addingReportingOverflow(rhs); return pv
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

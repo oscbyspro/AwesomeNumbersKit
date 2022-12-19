@@ -39,6 +39,7 @@ extension OBEFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    // TODO: as Small is possible if High: AwesomeLargeFixedWidthInteger
     @inlinable mutating func addReportingOverflow(_ amount: Self) -> Bool {
         let o0 = self.low .addReportingOverflow(amount.low )
         let o1 = self.high.addReportingOverflow(amount.high)

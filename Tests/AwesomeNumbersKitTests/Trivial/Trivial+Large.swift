@@ -38,7 +38,8 @@ final class TrivialTestsOnLarge: XCTestCase {
     func testInitRepeatingWord() {
         let word = UInt.random(in: UInt.min ... UInt.max)
         for type: any AwesomeLargeFixedWidthInteger.Type in types {
-            XCTAssert(type.init(repeating: word).words.allSatisfy({ $0 as! UInt == word }))
+            let words = type.init(repeating: word).words
+            XCTAssert(words.allSatisfy({ $0 as! UInt == word }))
         }
     }
 }

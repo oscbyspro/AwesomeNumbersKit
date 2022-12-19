@@ -19,6 +19,26 @@ extension OBEFullWidth where Self: SignedInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    @inlinable static func -=(lhs: inout Self, rhs: Int) {
+        let o = lhs.subtractReportingOverflow(rhs); precondition(!o)
+    }
+    
+    @inlinable static func -(lhs: Self, rhs: Int) -> Self {
+        let (pv, o) = lhs.subtractingReportingOverflow(rhs); precondition(!o); return pv
+    }
+    
+    @inlinable static func &-=(lhs: inout Self, rhs: Int) {
+        let _ = lhs.subtractReportingOverflow(rhs)
+    }
+    
+    @inlinable static func &-(lhs: Self, rhs: Int) -> Self {
+        let (pv, _) = lhs.subtractingReportingOverflow(rhs); return pv
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable mutating func subtractReportingOverflow(_ amount: Int) -> Bool {
         let lhsWasLessThanZero =   self.isLessThanZero
         let rhsWasLessThanZero = amount.isLessThanZero
@@ -36,7 +56,7 @@ extension OBEFullWidth where Self: SignedInteger {
             let predicate = borrow
             let decrement = borrow ? 1 : ~0 as UInt // +1 vs -1
 
-            while index != LHS.endIndex && borrow == predicate {
+            while borrow == predicate && index != LHS.endIndex {
                 borrow = LHS[index].subtractReportingOverflow(decrement)
                 LHS.formIndex(after: &index)
             }
@@ -44,7 +64,7 @@ extension OBEFullWidth where Self: SignedInteger {
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        return lhsWasLessThanZero == rhsWasLessThanZero && lhsWasLessThanZero != isLessThanZero
+        return lhsWasLessThanZero != rhsWasLessThanZero && lhsWasLessThanZero != isLessThanZero
     }
     
     @inlinable func subtractingReportingOverflow(_ amount: Int) -> PVO<Self> {
@@ -58,6 +78,26 @@ extension OBEFullWidth where Self: SignedInteger {
 //*============================================================================*
 
 extension OBEFullWidth where Self: UnsignedInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func -=(lhs: inout Self, rhs: UInt) {
+        let o = lhs.subtractReportingOverflow(rhs); precondition(!o)
+    }
+    
+    @inlinable static func -(lhs: Self, rhs: UInt) -> Self {
+        let (pv, o) = lhs.subtractingReportingOverflow(rhs); precondition(!o); return pv
+    }
+    
+    @inlinable static func &-=(lhs: inout Self, rhs: UInt) {
+        let _ = lhs.subtractReportingOverflow(rhs)
+    }
+    
+    @inlinable static func &-(lhs: Self, rhs: UInt) -> Self {
+        let (pv, _) = lhs.subtractingReportingOverflow(rhs); return pv
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

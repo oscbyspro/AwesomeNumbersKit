@@ -27,11 +27,11 @@ extension OBELargeFixedWidthInteger {
         Self(bitPattern: lhs.body + rhs.body)
     }
     
-    @inlinable static func &+=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func &+=(lhs: inout Self, rhs: Self) {
         lhs.body &+= rhs.body
     }
     
-    @inlinable static func &+(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func &+(lhs: Self, rhs: Self) -> Self {
         Self(bitPattern: lhs.body &+ rhs.body)
     }
     
@@ -45,5 +45,83 @@ extension OBELargeFixedWidthInteger {
     
     @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
         let (pv, o) = self.body.addingReportingOverflow(amount.body); return (Self(bitPattern: pv), o)
+    }
+}
+
+//*============================================================================*
+// MARK: * OBE x Fixed Width Integer x Large x Signed x Addition x Small
+//*============================================================================*
+
+extension OBESignedLargeFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func +=(lhs: inout Self, rhs: Int) {
+        lhs.body += rhs
+    }
+    
+    @inlinable public static func +(lhs: Self, rhs: Int) -> Self {
+        Self(bitPattern: lhs.body + rhs)
+    }
+    
+    @inlinable public static func &+=(lhs: inout Self, rhs: Int) {
+        lhs.body &+= rhs
+    }
+    
+    @inlinable public static func &+(lhs: Self, rhs: Int) -> Self {
+        Self(bitPattern: lhs.body &+ rhs)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func addReportingOverflow(_ amount: Int) -> Bool {
+        self.body.addReportingOverflow(amount)
+    }
+    
+    @inlinable public func addingReportingOverflow(_ amount: Int) -> PVO<Self> {
+        let (pv, o) = self.body.addingReportingOverflow(amount); return (Self(bitPattern: pv), o)
+    }
+}
+
+//*============================================================================*
+// MARK: * OBE x Fixed Width Integer x Large x Unsigned x Addition x Small
+//*============================================================================*
+
+extension OBEUnsignedLargeFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func +=(lhs: inout Self, rhs: UInt) {
+        lhs.body += rhs
+    }
+    
+    @inlinable public static func +(lhs: Self, rhs: UInt) -> Self {
+        Self(bitPattern: lhs.body + rhs)
+    }
+    
+    @inlinable public static func &+=(lhs: inout Self, rhs: UInt) {
+        lhs.body &+= rhs
+    }
+    
+    @inlinable public static func &+(lhs: Self, rhs: UInt) -> Self {
+        Self(bitPattern: lhs.body &+ rhs)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func addReportingOverflow(_ amount: UInt) -> Bool {
+        self.body.addReportingOverflow(amount)
+    }
+    
+    @inlinable public func addingReportingOverflow(_ amount: UInt) -> PVO<Self> {
+        let (pv, o) = self.body.addingReportingOverflow(amount); return (Self(bitPattern: pv), o)
     }
 }

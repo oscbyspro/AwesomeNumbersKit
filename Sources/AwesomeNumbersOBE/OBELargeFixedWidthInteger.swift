@@ -59,6 +59,10 @@ extension OBELargeFixedWidthInteger {
         self.init(bitPattern: Body())
     }
     
+    @inlinable public init(_ bit: Bool) {
+        self.init(bitPattern: Body(bit))
+    }
+    
     @inlinable public init(repeating bit: Bool) {
         self.init(bitPattern: Body(repeating: bit))
     }
