@@ -13,10 +13,10 @@ import AwesomeNumbersOBE
 import XCTest
 
 //*============================================================================*
-// MARK: * Int256 x Tests x Comparisons
+// MARK: * Int256 x Tests x Comparison
 //*============================================================================*
 
-final class Int256TestsOnComparisons: XCTestCase {
+final class Int256TestsOnComparison: XCTestCase {
     
     typealias T = Int256
     
@@ -117,10 +117,10 @@ final class Int256TestsOnComparisons: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Tests x Comparisons
+// MARK: * UInt256 x Tests x Comparison
 //*============================================================================*
 
-final class UInt256TestsOnComparisons: XCTestCase {
+final class UInt256TestsOnComparison: XCTestCase {
     
     typealias T = UInt256
     

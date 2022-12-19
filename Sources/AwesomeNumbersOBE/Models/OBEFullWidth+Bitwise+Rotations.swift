@@ -54,6 +54,13 @@ extension OBEFullWidth {
     }
     
     /// - Parameters:
+    ///   - amount: `0 <= amount < Self.bitWidth`
+    ///
+    @inlinable func _bitrotatedLeft(by amount: Int) -> Self {
+        var S0 = self; S0._bitrotateLeft(by: amount); return S0
+    }
+    
+    /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
@@ -78,6 +85,14 @@ extension OBEFullWidth {
                 NEXT[unchecked: z] = SELf[unchecked: x] << a | SELf[unchecked: y] >> b
             }
         }}
+    }
+    
+    /// - Parameters:
+    ///   - words: `0 <= words < Self.endIndex`
+    ///   - bits:  `0 <= bits  < UInt.bitWidth`
+    ///
+    @inlinable func _bitrotatedLeft(words: Int, bits: Int) -> Self {
+        var S0 = self; S0._bitrotateLeft(words: words, bits: bits); return S0
     }
 }
 
@@ -126,6 +141,13 @@ extension OBEFullWidth {
     }
     
     /// - Parameters:
+    ///   - amount: `0 <= amount < Self.bitWidth`
+    ///
+    @inlinable func _bitrotatedRight(by amount: Int) -> Self {
+        var S0 = self; S0._bitrotateRight(by: amount); return S0
+    }
+    
+    /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
@@ -150,5 +172,13 @@ extension OBEFullWidth {
                 NEXT[unchecked: z] = SELf[unchecked: x] << b | SELf[unchecked: y] >> a
             }
         }}
+    }
+    
+    /// - Parameters:
+    ///   - words: `0 <= words < Self.endIndex`
+    ///   - bits:  `0 <= bits  < UInt.bitWidth`
+    ///
+    @inlinable func _bitrotatedRight(words: Int, bits: Int) -> Self {
+        var S0 = self; S0._bitrotateRight(words: words, bits: bits); return S0
     }
 }

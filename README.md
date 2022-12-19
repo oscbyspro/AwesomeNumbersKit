@@ -8,10 +8,6 @@ Large number arithmetic in Swift
 <tr>
     <td>Int128</td>
     <td><a href="/Sources/AwesomeNumbersOBE">Sources</a></td>
-</tr>
-<tr>
-    <td>UInt128</td>
-    <td><a href="/Sources/AwesomeNumbersOBE">Sources</a></td>
     <td></td>
     <td></td>
 </tr>
@@ -20,6 +16,12 @@ Large number arithmetic in Swift
     <td><a href="/Sources/AwesomeNumbersOBE">Sources</a></td>
     <td><a href="/Tests/AwesomeNumbersOBETests/256">Tests</a></td>
     <td><a href="/Tests/AwesomeNumbersOBEBenchmarks/256">Benchmarks</a></td>
+</tr>
+<tr>
+    <td>UInt128</td>
+    <td><a href="/Sources/AwesomeNumbersOBE">Sources</a></td>
+    <td></td>
+    <td></td>
 </tr>
 <tr>
     <td>UInt256</td>

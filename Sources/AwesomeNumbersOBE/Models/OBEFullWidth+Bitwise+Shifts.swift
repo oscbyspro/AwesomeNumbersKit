@@ -72,7 +72,7 @@ extension OBEFullWidth {
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable func _bitshiftedLeft(by amount: Int) -> Self {
-        var x = self; x._bitshiftLeft(by: amount); return x
+        var S0 = self; S0._bitshiftLeft(by: amount); return S0
     }
     
     /// - Parameters:
@@ -110,7 +110,7 @@ extension OBEFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable func _bitshiftedLeft(words: Int, bits: Int) -> Self {
-        var x = self; x._bitshiftLeft(words: words, bits: bits); return x
+        var S0 = self; S0._bitshiftLeft(words: words, bits: bits); return S0
     }
 }
 
@@ -177,7 +177,7 @@ extension OBEFullWidth {
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable func _bitshiftedRight(by amount: Int) -> Self {
-        var x = self; x._bitshiftRight(by: amount); return x
+        var S0 = self; S0._bitshiftRight(by: amount); return S0
     }
     
     /// - Parameters:
@@ -215,6 +215,6 @@ extension OBEFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable func _bitshiftedRight(words: Int, bits: Int) -> Self {
-        var x = self; x._bitshiftRight(words: words, bits: bits); return x
+        var S0 = self; S0._bitshiftRight(words: words, bits: bits); return S0
     }
 }
