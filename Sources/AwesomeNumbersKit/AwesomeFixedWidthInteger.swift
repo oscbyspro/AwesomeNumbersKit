@@ -11,7 +11,7 @@
 // MARK: * Awesome x Fixed Width Integer
 //*============================================================================*
 
-/// A FixedWidthInteger with additional requirements and capabilities.
+/// A fixed-width integer with additional requirements and capabilities.
 ///
 /// All fixed width integers in AwesomeNumbersKit conform to AwesomeFixedWidthInteger.
 ///

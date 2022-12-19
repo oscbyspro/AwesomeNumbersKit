@@ -83,19 +83,19 @@ Low: AwesomeUnsignedFixedWidthInteger, Low == Low.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable init() {
-        self.init(repeating: UInt())
+        self.init(descending:(High(), Low()))
     }
     
     @inlinable init(repeating bit: Bool) {
-        self.init(repeating: UInt(repeating: bit))
+        self.init(descending:(High(repeating: bit), Low(repeating: bit)))
     }
     
     @inlinable init(repeating word: UInt) {
-        self = Self.uninitialized(); for index in indices { self[unchecked: index] = word }
+        self = Self.fromUnsafeTemporaryWords({ for index in $0.indices { $0[unchecked: index] = word } })
     }
     
     @inlinable static func uninitialized() -> Self {
-        self.fromUnsafeTemporaryWords({ _ in })
+        self.fromUnsafeTemporaryWords({  _ in  })
     }
     
     //=------------------------------------------------------------------------=
@@ -103,7 +103,7 @@ Low: AwesomeUnsignedFixedWidthInteger, Low == Low.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable init<T>(bitPattern: OBEFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
-        self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
+        self = unsafeBitCast(bitPattern,  to: Self.self) // signitude or magnitude
     }
     
     //=------------------------------------------------------------------------=

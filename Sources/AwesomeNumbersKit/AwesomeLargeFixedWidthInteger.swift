@@ -11,9 +11,15 @@
 // MARK: * Awesome x Fixed Width Integer x Large
 //*============================================================================*
 
+/// A large fixed-width integer with additional requirements and capabilities.
+///
+/// ```
+/// Self.bitWidth / UInt.bitWidth >= 1
+/// Self.bitWidth % UInt.bitWidth == 0
+/// ```
 public protocol AwesomeLargeFixedWidthInteger: AwesomeFixedWidthInteger where
 Magnitude: AwesomeUnsignedLargeFixedWidthInteger {
-        
+    
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=

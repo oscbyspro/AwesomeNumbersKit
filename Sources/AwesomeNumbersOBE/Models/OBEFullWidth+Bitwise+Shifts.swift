@@ -85,21 +85,19 @@ extension OBEFullWidth {
         
         let a = bits
         let b = UInt.bitWidth &- bits
-        let c = UInt(repeating: false) << a
-        let d = UInt(repeating: false) >> b
+        let c = UInt()
+        let d = UInt()
         
         var i = self.endIndex
-        var j = self.index(self.endIndex, offsetBy: -0 &- words)
-        var k = self.index(self.endIndex, offsetBy: -1 &- words)
+        let j = self.index(self.startIndex, offsetBy: words)
+        let k = self.index(after: j)
         
         self.withUnsafeMutableWords { SELF in
         brrr: while i != SELF.startIndex {
-            i &-= 1
-            j &-= 1
-            k &-= 1
+            SELF.formIndex(before: &i)
             
-            let p = j >= SELF.startIndex ? SELF[unchecked: j] << a : c
-            let q = k >= SELF.startIndex ? SELF[unchecked: k] >> b : d
+            let p = i >= j ? SELF[unchecked: i &- j] << a : c
+            let q = i >= k ? SELF[unchecked: i &- k] >> b : d
             
             SELF[unchecked: i] = p | q
         }}
@@ -190,21 +188,21 @@ extension OBEFullWidth {
         
         let a = bits
         let b = UInt.bitWidth &- bits
-        let c = UInt(repeating:  self.isLessThanZero) << a
-        let d = UInt(repeating:  self.isLessThanZero) >> b
+        let c = self.isLessThanZero ? ~UInt() << a : UInt()
+        let d = self.isLessThanZero ? ~UInt() >> b : UInt()
         
         var i = self.startIndex
-        var j = self.index(self.startIndex, offsetBy: +0 &+ words)
-        var k = self.index(self.startIndex, offsetBy: +1 &+ words)
+        var j = self.index(self.startIndex, offsetBy: words)
+        var k = self.index(after: j)
         
-        self.withUnsafeMutableWords { SELf in
-        brrr: while i != SELf.endIndex {
-            let p = j <  SELf.endIndex ? SELf[unchecked: j] >> a : c
-            let q = k <  SELf.endIndex ? SELf[unchecked: k] << b : d
+        self.withUnsafeMutableWords { SELF in
+        brrr: while i != SELF.endIndex {
+            let p = j <  SELF.endIndex ? SELF[unchecked: j] >> a : c
+            let q = k <  SELF.endIndex ? SELF[unchecked: k] << b : d
             
-            SELf[unchecked: i] = p | q
+            SELF[unchecked: i] = p | q
             
-            i &+= 1
+            SELF.formIndex(after: &i)
             j &+= 1
             k &+= 1
         }}

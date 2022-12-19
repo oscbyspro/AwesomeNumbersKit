@@ -82,7 +82,7 @@ extension OBEFullWidth where High: UnsignedInteger {
         // Dividend <= Divisor
         //=--------------------------------------=
         if  self <= divisor {
-            return (self == divisor) ? QR(1 as Self, Self()) : QR(Self(), self)
+            return (self == divisor) ? QR(1, Self()) : QR(Self(), self)
         }
         //=--------------------------------------=
         // Division By One Word
@@ -115,8 +115,8 @@ extension OBEFullWidth where High: UnsignedInteger {
             
             let divisor0 = divisor[unchecked: divisor.index(before: divisorCount)]
             backwards: while quotientIndex != QUOTIENT.startIndex {
-                 quotientIndex &-= 1
-                remainderIndex &-= 1
+                 QUOTIENT.formIndex(before:  &quotientIndex)
+                remainder.formIndex(before: &remainderIndex)
                 //=------------------------------=
                 // Approximation: 2 vs 1
                 //=------------------------------=
@@ -127,16 +127,14 @@ extension OBEFullWidth where High: UnsignedInteger {
                     let remaidner1  = REMAINDER[unchecked: REMAINDER.index(before: remainderIndex)]
                     return divisor0.dividingFullWidth((remainder0, remaidner1)).quotient
                 }
-                //=------------------------------=
-                //
-                //=------------------------------=
+                
                 var approximation = PlusUInt(descending: divisor.multipliedFullWidth(by: digit))
                 approximation._bitrotateLeft(words: quotientIndex, bits: Int())
                 
                 overestimated: if approximation > remainder {
-                    var stride = PlusUInt(descending:(UInt(), Magnitude(bitPattern: divisor)))
-                    stride._bitrotateLeft(words: quotientIndex, bits: Int())
-                    do1or2: repeat { digit &-= 1 as UInt; approximation &-= stride } while approximation > remainder
+                    var increment = PlusUInt(descending:(UInt(), Magnitude(bitPattern: divisor)))
+                    increment._bitrotateLeft(words: quotientIndex, bits: Int())
+                    x1or2: repeat { digit &-= 1; approximation &-= increment  } while approximation > remainder
                 }
                 //=------------------------------=
                 //
