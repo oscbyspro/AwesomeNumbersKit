@@ -13,25 +13,26 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Trivial x Signed x Complements
+// MARK: * Trivial x Either Int Or UInt
 //*============================================================================*
 
-final class TrivialTestsOnComplementsAsSigned: XCTestCase {
+final class TrivialTestsOnEitherIntOrUInt: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allSignedFixedWidthIntegerTypes
+    let types = Trivial.allEitherIntOrUIntTypes
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Signed
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testNegatedReportingOverflow() {
-        for type in types {
-            XCTAssertEqual(type.min.negatedReportingOverflow().overflow,  true )
-            XCTAssertEqual(type.max.negatedReportingOverflow().overflow, false)
+    func testIsEitherIntOrUInt() {
+        for type: any AwesomeEitherIntOrUInt.Type in types {
+            if let _ = type as?  Int.Type { continue }
+            if let _ = type as? UInt.Type { continue }
+            XCTFail("\(type) is neither Int nor UInt")
         }
     }
 }

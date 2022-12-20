@@ -39,12 +39,10 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    // TODO: as Small is possible if High: AwesomeLargeFixedWidthInteger
     @inlinable mutating func addReportingOverflow(_ amount: Self) -> Bool {
         let o0 = self.low .addReportingOverflow(amount.low )
         let o1 = self.high.addReportingOverflow(amount.high)
-        let o2 = self.high.addReportingOverflow(o0 ? 1 : 0 as High) // TODO: as Small or Pointer
-        return o1 || o2
+        return o0 && self.high.addReportingOverflow(1 as Digit) || o1
     }
     
     @inlinable func addingReportingOverflow(_ amount: Self) -> PVO<Self> {

@@ -28,8 +28,10 @@ import ANKFoundation
 /// ```
 ///
 @frozen @usableFromInline struct ANKFullWidth<High, Low>: WoRdS, ANKFullWidthCollection,
-AwesomeLargeFixedWidthInteger, CustomDebugStringConvertible where High: AwesomeFixedWidthInteger,
-Low: AwesomeUnsignedFixedWidthInteger, Low == Low.Magnitude {
+AwesomeLargeFixedWidthInteger, CustomDebugStringConvertible where High: AwesomeLargeFixedWidthInteger,
+Low: AwesomeUnsignedLargeFixedWidthInteger, Low == Low.Magnitude {
+    
+    public typealias Digit = High.Digit
     
     @usableFromInline typealias IntegerLiteralType = Int
     
@@ -135,5 +137,5 @@ extension ANKFullWidth: AwesomeUnsignedFixedWidthInteger where High: AwesomeUnsi
 extension ANKFullWidth:   AwesomeSignedLargeBinaryInteger where High:   AwesomeSignedFixedWidthInteger { }
 extension ANKFullWidth: AwesomeUnsignedLargeBinaryInteger where High: AwesomeUnsignedFixedWidthInteger { }
 
-extension ANKFullWidth:   AwesomeSignedLargeFixedWidthInteger where High:   AwesomeSignedFixedWidthInteger { }
-extension ANKFullWidth: AwesomeUnsignedLargeFixedWidthInteger where High: AwesomeUnsignedFixedWidthInteger { }
+extension ANKFullWidth:   AwesomeSignedLargeFixedWidthInteger where High:   AwesomeSignedLargeFixedWidthInteger { }
+extension ANKFullWidth: AwesomeUnsignedLargeFixedWidthInteger where High: AwesomeUnsignedLargeFixedWidthInteger { }

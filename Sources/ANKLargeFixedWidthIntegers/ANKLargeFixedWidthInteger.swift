@@ -45,9 +45,9 @@ Magnitude: ANKUnsignedLargeFixedWidthInteger<High.Magnitude, Low.Magnitude> {
     
     associatedtype X32 = Never // (UInt32, UInt32, UInt32, UInt32, ...)
     
-    associatedtype High: AwesomeFixedWidthInteger
+    associatedtype High: AwesomeLargeFixedWidthInteger where Digit == High.Digit
         
-    associatedtype Low:  AwesomeUnsignedFixedWidthInteger where Low == Low.Magnitude
+    associatedtype Low:  AwesomeUnsignedLargeFixedWidthInteger where Low == Low.Magnitude
     
     typealias Body = ANKFullWidth<High, Low>
     

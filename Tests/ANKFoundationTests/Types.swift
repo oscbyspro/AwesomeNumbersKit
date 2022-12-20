@@ -37,4 +37,7 @@ enum Trivial {
     
     static let allUnsignedLargeFixedWidthIntegerTypes =
     allFixedWidthIntegerTypes.compactMap({ $0 as? any AwesomeUnsignedLargeFixedWidthInteger.Type })
+    
+    static let allEitherIntOrUIntTypes =
+    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*-----------*/AwesomeEitherIntOrUInt.Type })
 }

@@ -15,9 +15,9 @@ import ANKFoundation
 
 @usableFromInline protocol ANKFullWidthCollection: WoRdS {
     
-    associatedtype High: AwesomeFixedWidthInteger
+    associatedtype High: AwesomeLargeFixedWidthInteger
     
-    associatedtype Low:  AwesomeUnsignedFixedWidthInteger where Low == Low.Magnitude
+    associatedtype Low:  AwesomeUnsignedLargeFixedWidthInteger where Low == Low.Magnitude
     
     typealias Body = ANKFullWidth<High, Low>
 }

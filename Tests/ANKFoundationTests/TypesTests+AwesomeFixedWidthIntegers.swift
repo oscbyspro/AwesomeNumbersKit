@@ -13,10 +13,10 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Trivial x Signed x Words
+// MARK: * Types x Awesome x Fixed Width Integers x Signed
 //*============================================================================*
 
-final class TrivialTestsOnWordsAsSigned: XCTestCase {
+final class TypesTestsOnWordsAsAwesomeSignedFixedWidthInteger: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -25,7 +25,18 @@ final class TrivialTestsOnWordsAsSigned: XCTestCase {
     let types = Trivial.allSignedFixedWidthIntegerTypes
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Complements
+    //=------------------------------------------------------------------------=
+    
+    func testNegatedReportingOverflow() {
+        for type in types {
+            XCTAssertEqual(type.min.negatedReportingOverflow().overflow,  true )
+            XCTAssertEqual(type.max.negatedReportingOverflow().overflow, false)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Words
     //=------------------------------------------------------------------------=
     
     func testMostSignificantBit() {
@@ -46,10 +57,10 @@ final class TrivialTestsOnWordsAsSigned: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * Trivial x Unsigned x Words
+// MARK: * Types x Awesome x Fixed Width Integers x Unigned
 //*============================================================================*
 
-final class TrivialTestsOnWordsAsUnsigned: XCTestCase {
+final class TypesTestsOnWordsAsAwesomeUnsignedFixedWidthInteger: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -58,7 +69,7 @@ final class TrivialTestsOnWordsAsUnsigned: XCTestCase {
     let types = Trivial.allUnsignedFixedWidthIntegerTypes
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Words
     //=------------------------------------------------------------------------=
     
     func testMostSignificantBit() {
