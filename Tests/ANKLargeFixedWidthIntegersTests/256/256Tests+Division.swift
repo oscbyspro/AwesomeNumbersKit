@@ -18,8 +18,8 @@ import XCTest
 
 final class Int256TestsOnDivision: XCTestCase {
     
-    typealias T =  Int256
-    typealias M = UInt256
+    typealias T =  ANKInt256
+    typealias M = ANKUInt256
         
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -122,7 +122,7 @@ final class Int256TestsOnDivision: XCTestCase {
 
 final class UInt256TestsOnDivision: XCTestCase {
     
-    typealias T = UInt256
+    typealias T = ANKUInt256
         
     //=------------------------------------------------------------------------=
     // MARK: State

@@ -18,7 +18,7 @@ import XCTest
 
 final class Int256BenchmarksOnBitshifts: XCTestCase {
     
-    typealias T = Int256
+    typealias T = ANKInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Bitshifts
@@ -71,7 +71,7 @@ final class Int256BenchmarksOnBitshifts: XCTestCase {
 
 final class UInt256BenchmarksOnBitshifts: XCTestCase {
     
-    typealias T = UInt256
+    typealias T = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Bitshifts

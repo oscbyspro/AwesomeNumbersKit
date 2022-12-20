@@ -18,8 +18,8 @@ import XCTest
 
 final class Int256TestsOnConversionAsNumbers: XCTestCase {
     
-    typealias T = Int256
-    typealias S = Int256
+    typealias T = ANKInt256
+    typealias S = ANKInt256
     typealias M = T.Magnitude
     
     //=------------------------------------------------------------------------=
@@ -188,8 +188,8 @@ final class Int256TestsOnConversionAsNumbers: XCTestCase {
 
 final class UInt256TestsOnConversionAsNumbers: XCTestCase {
     
-    typealias T = UInt256
-    typealias S =  Int256
+    typealias T = ANKUInt256
+    typealias S =  ANKInt256
     typealias M = T.Magnitude
     
     //=------------------------------------------------------------------------=

@@ -18,8 +18,8 @@ import XCTest
 
 final class Int256TestsOnComplements: XCTestCase {
     
-    typealias T =  Int256
-    typealias M = UInt256
+    typealias T =  ANKInt256
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -63,8 +63,8 @@ final class Int256TestsOnComplements: XCTestCase {
 
 final class UInt256TestsOnComplements: XCTestCase {
     
-    typealias T = UInt256
-    typealias M = UInt256
+    typealias T = ANKUInt256
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: State

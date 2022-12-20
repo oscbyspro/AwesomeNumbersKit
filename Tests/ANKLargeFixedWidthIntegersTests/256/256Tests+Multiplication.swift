@@ -18,8 +18,8 @@ import XCTest
 
 final class Int256TestsOnMultiplication: XCTestCase {
     
-    typealias T =  Int256
-    typealias M = UInt256
+    typealias T =  ANKInt256
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -96,8 +96,8 @@ final class Int256TestsOnMultiplication: XCTestCase {
 
 final class UInt256TestsOnMultiplication: XCTestCase {
     
-    typealias T = UInt256
-    typealias M = UInt256
+    typealias T = ANKUInt256
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: State

@@ -8,10 +8,10 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Int128
+// MARK: * ANK x Int128
 //*============================================================================*
 
-@frozen public struct Int128: ANKSignedLargeFixedWidthInteger {
+@frozen public struct ANKInt128: ANKSignedLargeFixedWidthInteger {
     
     public typealias Magnitude = UInt128
         
@@ -35,10 +35,10 @@
 }
 
 //*============================================================================*
-// MARK: * UInt128
+// MARK: * ANK x UInt128
 //*============================================================================*
 
-@frozen public struct UInt128: ANKUnsignedLargeFixedWidthInteger {
+@frozen public struct ANKUInt128: ANKUnsignedLargeFixedWidthInteger {
     
     public typealias X64 = (UInt64, UInt64)
     

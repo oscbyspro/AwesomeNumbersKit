@@ -13,10 +13,29 @@ import ANKFoundation
 // MARK: * ANK x Fixed Width Integer x Large
 //*============================================================================*
 
-/// An internal fixed width integer implementation protocol.
+/// An internal fixed-width integer implementation protocol.
 ///
-/// - It must be safe to bit cast between `Self` and `Self.Magnitude`.
-/// - It must be safe to bit cast between `Self.High` and  `Self.Low`.
+/// ```
+/// High.bitWidth / UInt.bitWidth >= 1
+/// Low .bitWidth / UInt.bitWidth >= 1
+/// Self.bitWidth / UInt.bitWidth >= 2
+/// ```
+///
+/// ```
+/// High.bitWidth % UInt.bitWidth == 0
+/// Low .bitWidth % UInt.bitWidth == 0
+/// Self.bitWidth % UInt.bitWidth == 0
+/// ```
+///
+/// ```
+/// High must use two's complement representation
+/// Low  must use two's comlpement representation
+/// ```
+///
+/// ```
+/// It must be safe to bit cast between Self.High and Self.Low
+/// It must be safe to bit cast between Self and Self.Magnitude
+/// ```
 ///
 @usableFromInline protocol ANKLargeFixedWidthInteger<High, Low>:
 AwesomeLargeFixedWidthInteger, CustomDebugStringConvertible where

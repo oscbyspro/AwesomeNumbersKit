@@ -47,8 +47,8 @@ extension UInt {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    /// - it cannot crash for the same reason that `9 + 9 * 9 == 90`
     @inlinable mutating func addFullWidth(multiplicands: (Self, Self)) -> Self {
-        // it cannot crash for the same reason that 9 + 9 * 9 == 90
         let (upper, lower) = multiplicands.0.multipliedFullWidth(by: multiplicands.1)
         return self.addReportingOverflow(lower) ? upper &+ 1 : upper
     }
@@ -57,8 +57,8 @@ extension UInt {
         var low = self; let high = low.addFullWidth(multiplicands: multiplicands); return (high, low)
     }
     
+    /// - it cannot crash for the same reason that `9 + 9 + 9 * 9 == 99`
     @inlinable mutating func addFullWidth(_ carry: Self, multiplicands: (Self, Self)) -> Self {
-        // it cannot crash for the same reason that 9 + 9 + 9 * 9 == 99
         let upper = self.addFullWidth(multiplicands: multiplicands)
         return self.addReportingOverflow(carry) ? upper &+ 1 : upper
     }

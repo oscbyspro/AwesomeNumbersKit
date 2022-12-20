@@ -16,20 +16,15 @@ import ANKFoundation
 /// The internal storage model for `(U)Int(128/256/512)`.
 ///
 /// ```
-/// High.bitWidth >= UInt.bitWidth
-/// Low .bitWidth >= UInt.bitWidth
-/// Self.bitWidth >= UInt.bitWidth *  2
+/// High.bitWidth / UInt.bitWidth >= 1
+/// Low .bitWidth / UInt.bitWidth >= 1
+/// Self.bitWidth / UInt.bitWidth >= 2
 /// ```
 ///
 /// ```
-/// High.bitWidth %  UInt.bitWidth == 0
-/// Low .bitWidth %  UInt.bitWidth == 0
-/// Self.bitWidth %  UInt.bitWidth == 0
-/// ```
-///
-/// ```
-/// High must use two's complement representation
-/// Low  must use two's comlpement representation
+/// High.bitWidth % UInt.bitWidth == 0
+/// Low .bitWidth % UInt.bitWidth == 0
+/// Self.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
 @frozen @usableFromInline struct ANKFullWidth<High, Low>: WoRdS, ANKFullWidthCollection,

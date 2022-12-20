@@ -17,6 +17,7 @@
 /// self.bitWidth / UInt.bitWidth >= 1
 /// self.bitWidth % UInt.bitWidth == 0
 /// ```
+/// 
 public protocol AwesomeLargeBinaryInteger: AwesomeBinaryInteger where Magnitude: AwesomeUnsignedLargeBinaryInteger { }
 
 //*============================================================================*

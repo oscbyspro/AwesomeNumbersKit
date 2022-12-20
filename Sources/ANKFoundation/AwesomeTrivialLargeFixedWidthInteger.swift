@@ -13,10 +13,10 @@
 
 /// An awesome large fixed-width integer with trivial implementation.
 ///
-/// - Int
-/// - Int64
-/// - UInt
-/// - UInt64
+/// - `Int`
+/// - `Int64`
+/// - `UInt`
+/// - `UInt64`
 ///
 public protocol AwesomeTrivialLargeFixedWidthInteger: AwesomeLargeFixedWidthInteger { }
 
@@ -32,14 +32,13 @@ extension AwesomeTrivialLargeFixedWidthInteger {
     
     @_transparent public init(repeating word: UInt) {
         self = withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
-            UnsafeMutableRawBufferPointer(BUFFER).assumingMemoryBound(to: UInt.self).assign(repeating: word)
-            return BUFFER.baseAddress.unsafelyUnwrapped.pointee
-        }
+        UnsafeMutableRawBufferPointer(BUFFER).assumingMemoryBound(to: UInt.self).assign(repeating: word)
+        return BUFFER.baseAddress.unsafelyUnwrapped.pointee }
     }
 }
 
 //*============================================================================*
-// MARK: * Awesome x Fixed Width Integer x Small x Swift
+// MARK: * Awesome x Fixed Width Integer x Large x Trivial x Swift
 //*============================================================================*
 
 extension Int:    AwesomeTrivialLargeFixedWidthInteger,   AwesomeSignedLargeFixedWidthInteger { }

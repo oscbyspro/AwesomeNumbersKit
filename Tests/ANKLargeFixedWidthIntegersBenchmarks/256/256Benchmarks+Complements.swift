@@ -18,7 +18,7 @@ import XCTest
 
 final class Int256BenchmarksOnMagnitude: XCTestCase {
     
-    typealias T = Int256
+    typealias T = ANKInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -59,7 +59,7 @@ final class Int256BenchmarksOnMagnitude: XCTestCase {
 
 final class UInt256BenchmarksOnMagnitude: XCTestCase {
     
-    typealias T = UInt256
+    typealias T = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

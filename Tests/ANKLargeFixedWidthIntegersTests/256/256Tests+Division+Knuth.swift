@@ -18,7 +18,7 @@ import XCTest
 
 final class UInt256TestsOnDivisionAsKnuth: XCTestCase {
     
-    typealias T = UInt256
+    typealias T = ANKUInt256
         
     //=------------------------------------------------------------------------=
     // MARK: State

@@ -18,7 +18,7 @@ import XCTest
 
 final class Int256Tests: XCTestCase {
     
-    typealias T = Int256
+    typealias T = ANKInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Initializers
@@ -81,7 +81,7 @@ final class Int256Tests: XCTestCase {
 
 final class UInt256Tests: XCTestCase {
     
-    typealias T = UInt256
+    typealias T = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Initializers
