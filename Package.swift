@@ -11,7 +11,7 @@
 import PackageDescription
 
 //*============================================================================*
-// MARK: * AwesomeNumbersKit
+// MARK: * Awesome Numbers Kit
 //*============================================================================*
 
 let withSlowBuildAlerts: [SwiftSetting] = [
@@ -19,7 +19,7 @@ let withSlowBuildAlerts: [SwiftSetting] = [
 .unsafeFlags(["-Xfrontend", "-warn-long-expression-type-checking=100"], .when(configuration: .debug))]
 
 //*============================================================================*
-// MARK: * AwesomeNumbersKit x Package
+// MARK: * Awesome Numbers Kit x Package
 //*============================================================================*
 
 let package = Package(
@@ -29,50 +29,65 @@ let package = Package(
     ],
     products: [
         //=--------------------------------------=
-        // AwesomeNumbersKit
+        // Awesome Numbers Kit
         //=--------------------------------------=
         .library(
         name: "AwesomeNumbersKit",
         targets: ["AwesomeNumbersKit"]),
         //=--------------------------------------=
-        // AwesomeNumbersOBE
+        // ANK x Foundation
         //=--------------------------------------=
         .library(
-        name: "AwesomeNumbersOBE",
-        targets: ["AwesomeNumbersOBE"]),
+        name: "ANKFoundation",
+        targets: ["ANKFoundation"]),
+        //=--------------------------------------=
+        // ANK x Large Fixed Width Integers
+        //=--------------------------------------=
+        .library(
+        name: "ANKLargeFixedWidthIntegers",
+        targets: ["ANKLargeFixedWidthIntegers"]),
     ],
     targets: [
         //=--------------------------------------=
-        // AwesomeNumbersKit
+        // Awesome Numbers Kit
         //=--------------------------------------=
         .target(
         name: "AwesomeNumbersKit",
+        dependencies: ["ANKFoundation", "ANKLargeFixedWidthIntegers"],
+        path: "Bundles/AwesomeNumbersKit"),
+        //=--------------------------------------=
+        // ANK x Foundation
+        //=--------------------------------------=
+        .target(
+        name: "ANKFoundation",
         dependencies: [],
         swiftSettings: withSlowBuildAlerts),
         
         .testTarget(
-        name: "AwesomeNumbersKitTests",
-        dependencies: ["AwesomeNumbersKit"],
+        name: "ANKFoundationTests",
+        dependencies: ["ANKFoundation"],
         swiftSettings: withSlowBuildAlerts),
         
         .testTarget(
-        name: "AwesomeNumbersKitBenchmarks",
-        dependencies: ["AwesomeNumbersKit"]),
+        name: "ANKFoundationBenchmarks",
+        dependencies: ["ANKFoundation"],
+        swiftSettings: withSlowBuildAlerts),
         //=--------------------------------------=
-        // AwesomeNumbersOBE
+        // ANK x Large Fixed Width Integers
         //=--------------------------------------=
         .target(
-        name: "AwesomeNumbersOBE",
-        dependencies: ["AwesomeNumbersKit"],
+        name: "ANKLargeFixedWidthIntegers",
+        dependencies: ["ANKFoundation"],
         swiftSettings: withSlowBuildAlerts),
         
         .testTarget(
-        name: "AwesomeNumbersOBETests",
-        dependencies: ["AwesomeNumbersOBE"],
+        name: "ANKLargeFixedWidthIntegersTests",
+        dependencies: ["ANKLargeFixedWidthIntegers"],
         swiftSettings: withSlowBuildAlerts),
         
         .testTarget(
-        name: "AwesomeNumbersOBEBenchmarks",
-        dependencies: ["AwesomeNumbersOBE"]),
+        name: "ANKLargeFixedWidthIntegersBenchmarks",
+        dependencies: ["ANKLargeFixedWidthIntegers"],
+        swiftSettings: withSlowBuildAlerts),
     ]
 )
