@@ -52,7 +52,7 @@ extension ANKFullWidth {
             //=----------------------------------=
             // Propagate Carry Digit By Digit
             //=----------------------------------=
-            if  carry == rhsWasLessThanZero { return false }
+            if  carry    == rhsWasLessThanZero { return false }
             let increment = rhsWasLessThanZero ? ~0 : 1 as UInt // -1 vs +1
             while carry  != rhsWasLessThanZero && index != LHS.endIndex {
                 carry = LHS[unchecked: index].addReportingOverflow(increment)

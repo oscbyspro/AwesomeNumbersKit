@@ -119,9 +119,10 @@ extension ANKFullWidth where Self: UnsignedInteger {
     ///
     /// It is basically long division but with larger digits than those in base 10.
     ///
-    @inlinable @inline(never) func quotientAndRemainderAsKnuth(dividingBy divisor: Self) -> QR<Self, Self> {
+    @inlinable func quotientAndRemainderAsKnuth(dividingBy divisor: Self) -> QR<Self, Self> {
         typealias PlusUInt = ANKFullWidth<UInt, Magnitude>
-        let (divisorCount, divisorIsZero) = divisor.minWordsCountReportingIsZeroOrMinusOne() as (Int, Bool)
+        let (divisorReducedWordCount, divisorIsZero) = divisor.reducedWordCountReportingIsZeroOrMinusOne() as (Int, Bool)
+        let (divisorReducedLastIndex) = divisor.index(before: divisorReducedWordCount)
         precondition(!divisorIsZero, "division by zero")
         //=--------------------------------------=
         // Dividend <= Divisor
@@ -132,8 +133,8 @@ extension ANKFullWidth where Self: UnsignedInteger {
         //=--------------------------------------=
         // Division By One Word
         //=--------------------------------------=
-        if  divisorCount == 1 {
-            let word = divisor[unchecked: startIndex] as UInt
+        if  divisorReducedLastIndex.isZero {
+            let word = divisor[unchecked: divisorReducedLastIndex] as UInt
             let (quotient, remainder) = self.quotientAndRemainder(dividingBy: word) as (Self, UInt)
             return QR(quotient, Self(small: remainder))
         }
@@ -141,36 +142,39 @@ extension ANKFullWidth where Self: UnsignedInteger {
         //
         //=--------------------------------------=
         var divisor = divisor
-        var remainder = PlusUInt(descending:(UInt(), Magnitude(bitPattern: self)))
-        let shift = divisor[unchecked: divisor.index(before: divisorCount)].leadingZeroBitCount
-        let remainderCount = remainder.low.minWordsCount // shift is taken into account by loop
-
-        divisor  ._bitrotateLeft(words: Int(), bits: shift)
-        remainder._bitrotateLeft(words: Int(), bits: shift)
+        let divisorShift = divisor[unchecked: divisorReducedLastIndex].leadingZeroBitCount
         
-        assert(  divisorCount >= 2)
-        assert(remainderCount >= 2)
-        assert(remainderCount >= divisorCount)
+        var (remainder) = PlusUInt(descending:(UInt(), Magnitude(bitPattern: self)))
+        let (remainderReducedWordCount, _) = remainder.low.reducedWordCountReportingIsZeroOrMinusOne()
+        let (remainderReducedLastIndex) = remainder.index(before: remainderReducedWordCount) // hm...
+        
+        divisor  ._bitrotateLeft(words: Int(), bits: divisorShift)
+        remainder._bitrotateLeft(words: Int(), bits: divisorShift)
+        
+        assert(  divisorReducedLastIndex >= 1)
+        assert(remainderReducedLastIndex >= 1)
+        assert(remainderReducedLastIndex >= divisorReducedLastIndex)
         //=--------------------------------------=
         //
         //=--------------------------------------=
         var quotient = Self(); quotient.withUnsafeMutableWords { QUOTIENT in
-            var remainderIndex = remainderCount &+ 1
-            var  quotientIndex = remainderIndex &- divisorCount
+            var remainderIndex = remainderReducedWordCount // index + 1
+            var  quotientIndex = remainderReducedWordCount &- divisorReducedLastIndex
             
-            let divisor0 = divisor[unchecked: divisor.index(before: divisorCount)]
-            backwards: while quotientIndex != QUOTIENT.startIndex {
-                 QUOTIENT.formIndex(before:  &quotientIndex)
-                remainder.formIndex(before: &remainderIndex)
+            let divisorLast0 = divisor[unchecked: divisorReducedLastIndex]
+            while quotientIndex != QUOTIENT.startIndex {
+                 QUOTIENT.formIndex(before: &quotientIndex)
                 //=------------------------------=
                 // Approximate The Quotient Digit
                 //=------------------------------=
                 var digit: UInt = remainder.withUnsafeWords { REMAINDER in
-                    assert(divisor0.mostSignificantBit)
-                    let  remainder0  = REMAINDER[unchecked: remainderIndex]
-                    if   remainder0 >= divisor0 { return UInt.max }
-                    let  remainder1  = REMAINDER[unchecked: REMAINDER.index(before: remainderIndex)]
-                    return divisor0.dividingFullWidth((remainder0, remainder1)).quotient
+                    let  remainderLast0  = REMAINDER[unchecked: remainderIndex]
+                    REMAINDER.formIndex(before: &remainderIndex)
+                    
+                    if   remainderLast0 >= divisorLast0 { return UInt.max }
+                    let  remainderLast1  = REMAINDER[unchecked: remainderIndex]
+                    let  remainderLastX  = HL(remainderLast0,   remainderLast1)
+                    return divisorLast0.dividingFullWidth(remainderLastX).quotient
                 }
                 
                 var approximation = PlusUInt(descending: divisor.multipliedFullWidth(by: digit))
@@ -194,7 +198,7 @@ extension ANKFullWidth where Self: UnsignedInteger {
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        remainder._bitrotateRight(words: Int(), bits: shift)
+        remainder._bitrotateRight(words: Int(), bits: divisorShift)
         return QR(quotient, Self(bitPattern: remainder.low))
     }
     

@@ -52,7 +52,7 @@ extension ANKFullWidth {
             //=----------------------------------=
             // Propagate Borrow Digit By Digit
             //=----------------------------------=
-            if  borrow == rhsWasLessThanZero { return false }
+            if  borrow   == rhsWasLessThanZero { return false }
             let decrement = rhsWasLessThanZero ? ~0 : 1 as UInt  // -1 vs +1
             while borrow != rhsWasLessThanZero && index != LHS.endIndex {
                 borrow = LHS[unchecked: index].subtractReportingOverflow(decrement)

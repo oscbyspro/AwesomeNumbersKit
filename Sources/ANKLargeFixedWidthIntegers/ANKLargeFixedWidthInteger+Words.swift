@@ -51,11 +51,17 @@ extension ANKLargeFixedWidthInteger {
         body.leastSignificantBit
     }
     
-    @_transparent var minWordsCount: Int {
-        body.minWordsCount
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @_transparent @usableFromInline func reducedWordCountReportingIsZeroOrMinusOne()
+    -> (reducedWordCount: Int, isZeroOrMinusOne: Bool) {
+        body.reducedWordCountReportingIsZeroOrMinusOne()
     }
     
-    @_transparent func minWordsCountReportingIsZeroOrMinusOne() -> (count: Int, isZeroOrMinusOne: Bool) {
-        body.minWordsCountReportingIsZeroOrMinusOne()
-     }
+    @_transparent @usableFromInline func reducedLastIndexReportingIsZeroOrMinusOne()
+    -> (reducedLastIndex: Int, isZeroOrMinusOne: Bool) {
+        body.reducedLastIndexReportingIsZeroOrMinusOne()
+    }
 }

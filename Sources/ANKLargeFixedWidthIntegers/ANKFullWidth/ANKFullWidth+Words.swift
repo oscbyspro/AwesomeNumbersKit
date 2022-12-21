@@ -51,13 +51,19 @@ extension ANKFullWidth {
         low.isZero ? Low.bitWidth &+ high.trailingZeroBitCount : low.trailingZeroBitCount
     }
     
-    @inlinable var minWordsCount: Int {
-        minWordsCountReportingIsZeroOrMinusOne().count
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    /// Returns its word count in reduced two's complement form.
+    @inlinable func reducedWordCountReportingIsZeroOrMinusOne() -> (reducedWordCount: Int, isZeroOrMinusOne: Bool) {
+        let (rli, izomo) = reducedLastIndexReportingIsZeroOrMinusOne(); return (rli + 1, izomo)
     }
     
-    @inlinable func minWordsCountReportingIsZeroOrMinusOne() -> (count: Int, isZeroOrMinusOne: Bool) {
+    /// Returns its last index in reduced two's complement form.
+    @inlinable func reducedLastIndexReportingIsZeroOrMinusOne() -> (reducedLastIndex: Int, isZeroOrMinusOne: Bool) {
         let sign  = UInt(repeating: isLessThanZero)
         let index = withUnsafeWords({ SELF in SELF.lastIndex(where:{ word in word != sign }) })
-        return index.map({($0 + 1, false)}) ?? (1, true)
+        return index.map({($0, false)}) ?? (Int(), true)
     }
 }
