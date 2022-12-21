@@ -161,8 +161,14 @@ extension ANKLargeFixedWidthInteger {
 // MARK: * ANK x Fixed Width Integer x Large x Signed
 //*============================================================================*
 
-@usableFromInline protocol ANKSignedLargeFixedWidthInteger<High, Low>: ANKLargeFixedWidthInteger,
-AwesomeSignedLargeFixedWidthInteger where High: AwesomeSignedFixedWidthInteger { }
+@usableFromInline protocol ANKSignedLargeFixedWidthInteger<High, Low>:
+ANKLargeFixedWidthInteger, AwesomeSignedLargeFixedWidthInteger where High:
+AwesomeSignedFixedWidthInteger, X64 == Magnitude.X64, X32 == Magnitude.X32 {
+    
+    associatedtype X64 = Magnitude.X64 // (UInt64, UInt64, ...)
+    
+    associatedtype X32 = Magnitude.X32 // (UInt32, UInt32, UInt32, UInt32, ...)
+}
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details

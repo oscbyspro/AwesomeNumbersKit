@@ -23,10 +23,6 @@
         
     public typealias Magnitude = ANKUInt64
     
-    public typealias X64 = (UInt64)
-    
-    public typealias X32 = (UInt32, UInt32)
-    
     @usableFromInline typealias Body = ANKFullWidth<Int, UInt>
     
     //=------------------------------------------------------------------------=
@@ -39,9 +35,7 @@
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bitPattern: Body) {
-        self.body = bitPattern
-    }
+    @inlinable init(bitPattern: Body) { self.body = bitPattern }
 }
 
 //=----------------------------------------------------------------------------=
@@ -89,9 +83,7 @@
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bitPattern: Body) {
-        self.body = bitPattern
-    }
+    @inlinable init(bitPattern: Body) { self.body = bitPattern }
 }
 
 //=----------------------------------------------------------------------------=

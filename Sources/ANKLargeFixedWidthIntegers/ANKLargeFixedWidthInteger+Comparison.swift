@@ -17,11 +17,11 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public var isZero: Bool {
+    @_transparent public var isZero: Bool {
         self.body.isZero
     }
     
-    @inlinable public var isLessThanZero: Bool {
+    @_transparent public var isLessThanZero: Bool {
         self.body.isLessThanZero
     }
     
@@ -29,11 +29,11 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
+    @_transparent public static func ==(lhs: Self, rhs: Self) -> Bool {
         lhs.body == rhs.body
     }
     
-    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
+    @_transparent public static func <(lhs: Self, rhs: Self) -> Bool {
         lhs.body <  rhs.body
     }
 }

@@ -47,18 +47,16 @@ extension ANKFullWidth {
         //=--------------------------------------=
         let carry: Bool = self.withUnsafeMutableWords { LHS in
             var index: Int  = LHS.startIndex
-            var carry: Bool = LHS[index].addReportingOverflow(UInt(bitPattern: amount))
+            var carry: Bool = LHS[unchecked: index].addReportingOverflow(UInt(bitPattern: amount))
             LHS.formIndex(after: &index)
             //=----------------------------------=
-            //
+            // Propagate Carry Digit By Digit
             //=----------------------------------=
             if  carry == rhsWasLessThanZero { return false }
-            let predicate: Bool = carry
-            let increment: UInt = carry ? 1 : ~0 // +1 vs -1
-
-            while carry == predicate && index != LHS.endIndex {
-                carry = LHS[index].addReportingOverflow(increment)
-                LHS.formIndex(after: &index)
+            let increment = rhsWasLessThanZero ? ~0 : 1 as UInt // -1 vs +1
+            while carry  != rhsWasLessThanZero && index != LHS.endIndex {
+                carry = LHS[unchecked: index].addReportingOverflow(increment)
+                LHS.formIndex(after:  &index)
             }
             
             return carry as Bool

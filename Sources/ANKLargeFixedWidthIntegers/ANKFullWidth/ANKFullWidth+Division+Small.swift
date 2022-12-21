@@ -43,10 +43,6 @@ extension ANKFullWidth where Self: UnsignedInteger {
     // MARK: Transformations x Components
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func formRemainderReportingQuotient(dividingBy divisor: UInt) -> Self {
-        let qr = quotientAndRemainder(dividingBy: divisor); self = Self(small: qr.remainder); return qr.quotient
-    }
-    
     @inlinable mutating func formQuotientReportingRemainder(dividingBy divisor: UInt) -> UInt {
         precondition(!divisor.isZero, "division by zero")
         
@@ -56,10 +52,14 @@ extension ANKFullWidth where Self: UnsignedInteger {
         self.withUnsafeMutableWords { SELF in
         while index != SELF.startIndex {
             (SELF).formIndex(before: &index)
-            (SELF[index], remainder) = divisor.dividingFullWidth((remainder, SELF[index]))
+            (SELF[unchecked: index], remainder) = divisor.dividingFullWidth((remainder, SELF[unchecked: index]))
         }}
         
         return remainder
+    }
+    
+    @inlinable mutating func formRemainderReportingQuotient(dividingBy divisor: UInt) -> Self {
+        let qr = quotientAndRemainder(dividingBy: divisor); self = Self(small: qr.remainder); return qr.quotient
     }
     
     @inlinable func quotientAndRemainder(dividingBy divisor: UInt) -> QR<Self, UInt> {

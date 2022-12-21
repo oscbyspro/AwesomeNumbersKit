@@ -14,24 +14,20 @@
 @frozen public struct ANKInt256: ANKSignedLargeFixedWidthInteger {
         
     public typealias Magnitude = ANKUInt256
-        
-    public typealias X64 = (UInt64, UInt64, UInt64, UInt64)
     
-    public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
+    @usableFromInline typealias Body = ANKFullWidth<ANKInt128, ANKUInt128>
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: ANKFullWidth<ANKInt128, ANKUInt128>
+    @usableFromInline var body: Body
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bitPattern: ANKFullWidth<ANKInt128, ANKUInt128>) {
-        self.body = bitPattern
-    }
+    @inlinable init(bitPattern: Body) { self.body = bitPattern }
 }
 
 //*============================================================================*
@@ -44,17 +40,17 @@
 
     public typealias X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
     
+    @usableFromInline typealias Body = ANKFullWidth<ANKUInt128, ANKUInt128>
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: ANKFullWidth<ANKUInt128, ANKUInt128>
+    @usableFromInline var body: Body
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bitPattern: ANKFullWidth<ANKUInt128, ANKUInt128>) {
-        self.body = bitPattern
-    }
+    @inlinable init(bitPattern: Body) { self.body = bitPattern }
 }

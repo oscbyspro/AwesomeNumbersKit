@@ -17,19 +17,19 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static prefix func ~(x: Self) -> Self {
+    @_transparent public static prefix func ~(x: Self) -> Self {
         Self(bitPattern: ~x.body)
     }
     
-    @inlinable public static func &=(lhs: inout Self, rhs: Self) {
+    @_transparent public static func &=(lhs: inout Self, rhs: Self) {
         lhs.body &= rhs.body
     }
     
-    @inlinable public static func |=(lhs: inout Self, rhs: Self) {
+    @_transparent public static func |=(lhs: inout Self, rhs: Self) {
         lhs.body |= rhs.body
     }
     
-    @inlinable public static func ^=(lhs: inout Self, rhs: Self) {
+    @_transparent public static func ^=(lhs: inout Self, rhs: Self) {
         lhs.body ^= rhs.body
     }
     
@@ -37,7 +37,7 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public var byteSwapped: Self {
-        Self(bitPattern:  body.byteSwapped)
+    @_transparent public var byteSwapped: Self {
+        Self(bitPattern: body.byteSwapped)
     }
 }

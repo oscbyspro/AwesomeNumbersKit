@@ -7,51 +7,53 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import ANKFoundation
-
 //*============================================================================*
-// MARK: * ANK x Full Width x Comparisons
+// MARK: * ANK x Int512
 //*============================================================================*
 
-extension ANKFullWidth {
+@frozen public struct ANKInt512: ANKSignedLargeFixedWidthInteger {
+        
+    public typealias Magnitude = ANKUInt512
+    
+    @usableFromInline typealias Body = ANKFullWidth<ANKInt256, ANKUInt256>
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
+    // MARK: State
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline static var isSigned: Bool {
-        High.isSigned
-    }
+    @usableFromInline var body: Body
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
+    // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable static func ==(lhs: Self, rhs: Self) -> Bool {
-        lhs.low == rhs.low && lhs.high == rhs.high
-    }
+    @inlinable init(bitPattern: Body) { self.body = bitPattern }
+}
+
+//*============================================================================*
+// MARK: * ANK x UInt256
+//*============================================================================*
+
+@frozen public struct ANKUInt512: ANKUnsignedLargeFixedWidthInteger {
+        
+    public typealias X64 = (
+    UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64)
     
-    @inlinable static func <(lhs: Self, rhs: Self) -> Bool {
-        lhs.high < rhs.high ? true : lhs.high > rhs.high ? false : lhs.low < rhs.low
-    }
+    public typealias X32 = (
+    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
+    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
     
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable var isZero: Bool {
-        low.isZero && high.isZero
-    }
-    
-    @inlinable var isLessThanZero: Bool {
-        high.isLessThanZero
-    }
+    @usableFromInline typealias Body = ANKFullWidth<ANKUInt256, ANKUInt256>
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
+    // MARK: State
     //=------------------------------------------------------------------------=
     
-    @inlinable func hash(into hasher: inout Hasher) {
-        hasher.combine(low ); hasher.combine(high)
-    }
+    @usableFromInline var body: Body
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(bitPattern: Body) { self.body = bitPattern }
 }

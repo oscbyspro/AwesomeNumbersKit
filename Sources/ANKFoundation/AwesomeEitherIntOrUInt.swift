@@ -23,11 +23,11 @@ extension AwesomeEitherIntOrUInt {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(repeating word: UInt) {
+    @_transparent public init(repeating word: UInt) {
         self.init(_truncatingBits:   word)
     }
     
-    @inlinable public init(bitPattern: some AwesomeEitherIntOrUInt) {
+    @_transparent public init(bitPattern: some AwesomeEitherIntOrUInt) {
         self = Swift.unsafeBitCast(bitPattern, to: Self.self)
     }
 }
@@ -38,3 +38,22 @@ extension AwesomeEitherIntOrUInt {
 
 extension  Int: AwesomeEitherIntOrUInt,   AwesomeSignedLargeFixedWidthInteger { }
 extension UInt: AwesomeEitherIntOrUInt, AwesomeUnsignedLargeFixedWidthInteger { }
+
+//=----------------------------------------------------------------------------=
+// MARK: + Operators Marked As Unavailable in /Integers.swift
+//=----------------------------------------------------------------------------=
+
+extension Int {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public static func &+(lhs: Self, rhs: Digit) -> Self {
+        lhs.addingReportingOverflow(rhs).partialValue
+    }
+
+    @_transparent public static func &-(lhs: Self, rhs: Digit) -> Self {
+        lhs.subtractingReportingOverflow(rhs).partialValue
+    }
+}

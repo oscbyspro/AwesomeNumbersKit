@@ -19,11 +19,11 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func formTwosComplement() {
+    @_transparent public mutating func formTwosComplement() {
         self.body.formTwosComplement()
     }
     
-    @inlinable public func twosComplement() -> Self {
+    @_transparent public func twosComplement() -> Self {
         Self(bitPattern: body.twosComplement())
     }
 }
@@ -38,7 +38,7 @@ extension ANKSignedLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static prefix func -(x: Self) -> Self {
+    @_transparent public static prefix func -(x: Self) -> Self {
         Self(bitPattern: -x.body)        
     }
     
@@ -46,11 +46,11 @@ extension ANKSignedLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func negateReportingOverflow() -> Bool {
+    @_transparent public mutating func negateReportingOverflow() -> Bool {
         self.body.negateReportingOverflow()
     }
     
-    @inlinable public func negatedReportingOverflow() -> PVO<Self> {
+    @_transparent public func negatedReportingOverflow() -> PVO<Self> {
         var pv = self; let o = pv.negateReportingOverflow(); return (pv, o)        
     }
     
@@ -58,7 +58,7 @@ extension ANKSignedLargeFixedWidthInteger {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public var magnitude: Magnitude {
+    @_transparent public var magnitude: Magnitude {
         Magnitude(bitPattern: body.magnitude)
     }
 }

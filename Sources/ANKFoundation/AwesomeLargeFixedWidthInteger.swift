@@ -29,7 +29,6 @@ AwesomeLargeBinaryInteger where Magnitude: AwesomeUnsignedLargeFixedWidthInteger
     
     @inlinable init(repeating word: UInt)
     
-    #warning("TODO............................................................")
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
@@ -38,15 +37,14 @@ AwesomeLargeBinaryInteger where Magnitude: AwesomeUnsignedLargeFixedWidthInteger
 
     @inlinable static func +(lhs: Self, rhs: Digit) -> Self
 
-//    @inlinable static func &+=(lhs: inout Self, rhs: Digit)
-//
-//    @inlinable static func &+(lhs: Self, rhs: Digit) -> Self
+    @inlinable static func &+=(lhs: inout Self, rhs: Digit)
+
+    @inlinable static func &+(lhs: Self, rhs: Digit) -> Self
 
     @inlinable mutating func addReportingOverflow(_ amount: Digit) -> Bool
     
     @inlinable func addingReportingOverflow(_ amount: Digit) -> PVO<Self>
     
-    #warning("TODO............................................................")
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
@@ -55,9 +53,9 @@ AwesomeLargeBinaryInteger where Magnitude: AwesomeUnsignedLargeFixedWidthInteger
 
     @inlinable static func -(lhs: Self, rhs: Digit) -> Self
 
-//    @inlinable static func &-=(lhs: inout Self, rhs: Digit)
-//    
-//    @inlinable static func &-(lhs: Self, rhs: Digit) -> Self
+    @inlinable static func &-=(lhs: inout Self, rhs: Digit)
+    
+    @inlinable static func &-(lhs: Self, rhs: Digit) -> Self
 
     @inlinable mutating func subtractReportingOverflow(_ amount: Digit) -> Bool
 

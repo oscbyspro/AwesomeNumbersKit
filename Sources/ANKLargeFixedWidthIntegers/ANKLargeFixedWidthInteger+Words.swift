@@ -19,7 +19,7 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public static var bitWidth: Int {
+    @_transparent public static var bitWidth: Int {
         Body.bitWidth
     }
     
@@ -27,35 +27,35 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public var words: some WoRdS {
+    @_transparent public var words: some WoRdS {
         body
     }
     
-    @inlinable public var nonzeroBitCount: Int {
+    @_transparent public var nonzeroBitCount: Int {
         body.nonzeroBitCount
     }
     
-    @inlinable public var leadingZeroBitCount: Int {
+    @_transparent public var leadingZeroBitCount: Int {
         body.leadingZeroBitCount
     }
     
-    @inlinable public var trailingZeroBitCount: Int {
+    @_transparent public var trailingZeroBitCount: Int {
         body.trailingZeroBitCount
     }
     
-    @inlinable public var mostSignificantBit: Bool {
+    @_transparent public var mostSignificantBit: Bool {
         body.mostSignificantBit
     }
     
-    @inlinable public var leastSignificantBit: Bool {
+    @_transparent public var leastSignificantBit: Bool {
         body.leastSignificantBit
     }
     
-    @inlinable var minWordsCount: Int {
+    @_transparent var minWordsCount: Int {
         body.minWordsCount
     }
     
-    @inlinable func minWordsCountReportingIsZeroOrMinusOne() -> (count: Int, isZeroOrMinusOne: Bool) {
+    @_transparent func minWordsCountReportingIsZeroOrMinusOne() -> (count: Int, isZeroOrMinusOne: Bool) {
         body.minWordsCountReportingIsZeroOrMinusOne()
      }
 }

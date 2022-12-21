@@ -24,8 +24,8 @@ extension ANKFullWidth where Self: UnsignedInteger {
         return self.withUnsafeMutableWords { LHS in
             var carry  = UInt()
             for lhsIndex in LHS.indices {
-                let upper = LHS[lhsIndex].multiplyFullWidth(by:  rhs)
-                let extra = LHS[lhsIndex].addReportingOverflow(carry)
+                let upper = LHS[unchecked: lhsIndex].multiplyFullWidth(by:  rhs)
+                let extra = LHS[unchecked: lhsIndex].addReportingOverflow(carry)
                 carry = extra ? (upper + 1) : upper
             }
             

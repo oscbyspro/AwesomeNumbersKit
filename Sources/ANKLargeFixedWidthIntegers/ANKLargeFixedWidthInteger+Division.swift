@@ -19,53 +19,59 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func /=(lhs: inout Self, rhs: Self) {
-        let o = lhs.divideReportingOverflow(by: rhs); precondition(!o)
+    @_transparent public static func /=(lhs: inout Self, rhs: Self) {
+        lhs.body.divideAsKnuth(by: rhs.body)
     }
     
-    @inlinable public static func /(lhs: Self, rhs: Self) -> Self {
-        let (pv, o) = lhs.dividedReportingOverflow(by: rhs); precondition(!o); return pv
+    @_transparent public static func /(lhs: Self, rhs: Self) -> Self {
+        Self(bitPattern: lhs.body.dividedAsKnuth(by: rhs.body))
     }
     
-    @inlinable public static func %=(lhs: inout Self, rhs: Self) {
-        let o = lhs.formRemainderReportingOverflow(by: rhs); precondition(!o)
+    @_transparent public static func %=(lhs: inout Self, rhs: Self) {
+        lhs.body.formRemainderAsKnuth(dividingBy: rhs.body)
     }
     
-    @inlinable public static func %(lhs: Self, rhs: Self) -> Self {
-        let (pv, o) = lhs.remainderReportingOverflow(dividingBy: rhs); precondition(!o); return pv
+    @_transparent public static func %(lhs: Self, rhs: Self) -> Self {
+        Self(bitPattern: lhs.body.remainderAsKnuth(dividingBy: rhs.body))
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func divideReportingOverflow(by divisor: Self) -> Bool {
-        let o: Bool; (self, o) = self.dividedReportingOverflow(by: divisor); return o
+    @_transparent public mutating func divideReportingOverflow(by divisor: Self) -> Bool {
+        self.body.divideReportingOverflowAsKnuth(by: divisor.body)
     }
     
-    @inlinable public func dividedReportingOverflow(by divisor: Self) -> PVO<Self> {
-        if divisor.isZero { return PVO(self, true) }
-        if Self.isSigned && divisor == -1 && self == Self.min { return PVO(self, true) }
-        return PVO(self.quotientAndRemainder(dividingBy: divisor).quotient, false)
+    @_transparent public func dividedReportingOverflow(by divisor: Self) -> PVO<Self> {
+        let pvo = self.body.dividedReportingOverflowAsKnuth(by: divisor.body)
+        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
     
-    @inlinable public mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool {
-        let o: Bool; (self, o) = self.remainderReportingOverflow(dividingBy: divisor); return o
+    @_transparent public mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool {
+        self.body.formRemainderReportingOverflowAsKnuth(by: divisor.body)
     }
     
-    @inlinable public func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self> {
-        if divisor.isZero { return PVO(self, true) }
-        if Self.isSigned && divisor == -1 && self == Self.min { return PVO(Self(), true) }
-        return PVO(self.quotientAndRemainder(dividingBy: divisor).remainder, false)
+    @_transparent public func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self> {
+        let pvo = self.body.remainderReportingOverflowAsKnuth(dividingBy: divisor.body)
+        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
     
-    @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
-        let division = self.body.quotientAndRemainderAsKnuth(dividingBy: divisor.body)
-        return QR(Self(bitPattern: division.quotient), Self(bitPattern: division.remainder))
+    @_transparent public mutating func formQuotientReportingRemainder(dividingBy divisor: Self) -> Self {
+        Self(bitPattern: self.body.formQuotientReportingRemainderAsKnuth(dividingBy: divisor.body))
     }
     
-    @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
-        let division = self.body.dividingFullWidthAsKnuth((dividend.high.body, dividend.low.body))
-        return QR(Self(bitPattern: division.quotient), Self(bitPattern: division.remainder))
+    @_transparent public mutating func formRemainderReportingQuotient(dividingBy divisor: Self) -> Self {
+        Self(bitPattern: self.body.formRemainderReportingQuotientAsKnuth(dividingBy: divisor.body))
+    }    
+    
+    @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
+        let qr = self.body.quotientAndRemainderAsKnuth(dividingBy: divisor.body)
+        return QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
+    }
+    
+    @_transparent public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
+        let qr = self.body.dividingFullWidthAsKnuth((dividend.high.body, dividend.low.body))
+        return QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
     }
 }

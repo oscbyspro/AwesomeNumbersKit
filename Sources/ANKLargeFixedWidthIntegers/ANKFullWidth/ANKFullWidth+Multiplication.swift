@@ -64,18 +64,18 @@ extension ANKFullWidth {
                 //
                 //=------------------------------=
                 for rhsIndex in RHS.indices {
-                    let lhsWord = LHS[lhsIndex]
-                    let rhsWord = RHS[rhsIndex]
-                    carry = PRODUCT[productIndex].addFullWidth(carry, multiplicands:(lhsWord, rhsWord))
-                    PRODUCT.formIndex(after: &productIndex)
+                    let lhsWord = LHS[unchecked: lhsIndex]
+                    let rhsWord = RHS[unchecked: rhsIndex]
+                    carry = PRODUCT[unchecked: productIndex].addFullWidth(carry, multiplicands:(lhsWord, rhsWord))
+                    PRODUCT.formIndex(after:  &productIndex)
                 }
                 //=------------------------------=
                 //
                 //=------------------------------=
-                var overflow = PRODUCT[productIndex].addReportingOverflow(carry)
+                var overflow = PRODUCT[unchecked: productIndex].addReportingOverflow(carry)
                 while overflow {
                     PRODUCT.formIndex(after: &productIndex)
-                    overflow = PRODUCT[productIndex].addReportingOverflow(1 as UInt)
+                    overflow = PRODUCT[unchecked: productIndex].addReportingOverflow(1 as UInt)
                 }
             }
             //=----------------------------------=
@@ -85,9 +85,9 @@ extension ANKFullWidth {
                 var carry = true
                 var productIndex = LHS.count
                 for rhsIndex  in RHS.indices {
-                    carry = PRODUCT[productIndex].addReportingOverflow(UInt(carry ? 1 : 0))
-                    carry = PRODUCT[productIndex].addReportingOverflow(~RHS[rhsIndex]) || carry
-                    PRODUCT.formIndex(after: &productIndex)
+                    carry = PRODUCT[unchecked: productIndex].addReportingOverflow(UInt(carry ? 1 : 0))
+                    carry = PRODUCT[unchecked: productIndex].addReportingOverflow(~RHS[unchecked: rhsIndex]) || carry
+                    PRODUCT.formIndex(after:  &productIndex)
                 }
             }
             //=----------------------------------=
@@ -97,9 +97,9 @@ extension ANKFullWidth {
                 var carry = true
                 var productIndex = RHS.count
                 for lhsIndex  in LHS.indices {
-                    carry = PRODUCT[productIndex].addReportingOverflow(UInt(carry ? 1 : 0))
-                    carry = PRODUCT[productIndex].addReportingOverflow(~LHS[lhsIndex]) || carry
-                    PRODUCT.formIndex(after: &productIndex)
+                    carry = PRODUCT[unchecked: productIndex].addReportingOverflow(UInt(carry ? 1 : 0))
+                    carry = PRODUCT[unchecked: productIndex].addReportingOverflow(~LHS[unchecked: lhsIndex]) || carry
+                    PRODUCT.formIndex(after:  &productIndex)
                 }
             }
         }}}

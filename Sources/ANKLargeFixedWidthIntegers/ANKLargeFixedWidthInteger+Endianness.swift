@@ -17,11 +17,11 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(bigEndian value: Self) {
+    @_transparent public init(bigEndian value: Self) {
         self.init(bitPattern: Body(bigEndian: value.body))
     }
     
-    @inlinable public init(littleEndian value: Self) {
+    @_transparent public init(littleEndian value: Self) {
         self.init(bitPattern: Body(littleEndian: value.body))
     }
     
@@ -29,11 +29,11 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public var bigEndian: Self {
+    @_transparent public var bigEndian: Self {
         Self(bitPattern: body.bigEndian)
     }
     
-    @inlinable public var littleEndian: Self {
+    @_transparent public var littleEndian: Self {
         Self(bitPattern: body.littleEndian)
     }
 }

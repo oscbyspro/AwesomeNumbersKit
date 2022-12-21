@@ -38,6 +38,10 @@ public protocol AwesomeBinaryInteger: BinaryInteger where Magnitude: AwesomeUnsi
     @inlinable mutating func divideReportingOverflow(by divisor: Self) -> Bool
     
     @inlinable mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool
+    
+    @inlinable mutating func formRemainderReportingQuotient(dividingBy divisor: Self) -> Self
+
+    @inlinable mutating func formQuotientReportingRemainder(dividingBy divisor: Self) -> Self
 }
 
 //*============================================================================*

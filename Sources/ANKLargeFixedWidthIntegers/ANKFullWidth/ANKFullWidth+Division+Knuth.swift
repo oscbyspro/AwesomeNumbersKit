@@ -19,18 +19,63 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    @inlinable mutating func divideAsKnuth(by divisor: Self) {
+        let o = self.divideReportingOverflowAsKnuth(by: divisor); precondition(!o)
+    }
+    
+    @inlinable func dividedAsKnuth(by divisor: Self) -> Self {
+        let (pv, o) = self.dividedReportingOverflowAsKnuth(by: divisor); precondition(!o); return pv
+    }
+    
+    @inlinable mutating func formRemainderAsKnuth(dividingBy divisor: Self) {
+        let o = self.formRemainderReportingOverflowAsKnuth(by: divisor); precondition(!o)
+    }
+    
+    @inlinable func remainderAsKnuth(dividingBy divisor: Self) -> Self {
+        let (pv, o) = self.remainderReportingOverflowAsKnuth(dividingBy: divisor); precondition(!o); return pv
+    }
+    
+    @inlinable mutating func divideReportingOverflowAsKnuth(by divisor: Self) -> Bool {
+        let o: Bool; (self, o) = self.dividedReportingOverflowAsKnuth(by: divisor); return o
+    }
+    
+    @inlinable func dividedReportingOverflowAsKnuth(by divisor: Self) -> PVO<Self> {
+        if divisor.isZero { return PVO(self, true) }
+        if Self.isSigned && divisor == -1 && self == Self.min { return PVO(self, true) }
+        return PVO(self.quotientAndRemainderAsKnuth(dividingBy: divisor).quotient, false)
+    }
+    
+    @inlinable mutating func formRemainderReportingOverflowAsKnuth(by divisor: Self) -> Bool {
+        let o: Bool; (self, o) = self.remainderReportingOverflowAsKnuth(dividingBy: divisor); return o
+    }
+    
+    @inlinable func remainderReportingOverflowAsKnuth(dividingBy divisor: Self) -> PVO<Self> {
+        if divisor.isZero { return PVO(self, true) }
+        if Self.isSigned && divisor == -1 && self == Self.min { return PVO(Self(), true) }
+        return PVO(self.quotientAndRemainderAsKnuth(dividingBy: divisor).remainder, false)
+    }
+    
+    @inlinable mutating func formQuotientReportingRemainderAsKnuth(dividingBy divisor: Self) -> Self {
+        let qr = quotientAndRemainderAsKnuth(dividingBy: divisor); self = qr.quotient; return qr.remainder
+    }
+    
+    @inlinable mutating func formRemainderReportingQuotientAsKnuth(dividingBy divisor: Self) -> Self {
+        let qr = quotientAndRemainderAsKnuth(dividingBy: divisor); self = qr.remainder; return qr.quotient
+    }
+    
     @inlinable func quotientAndRemainderAsKnuth(dividingBy divisor: Self) -> QR<Self, Self> {
         let dividendIsLessThanZero = self.isLessThanZero
         var division = self.magnitude.quotientAndRemainderAsKnuth(dividingBy: divisor.magnitude)
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        if  dividendIsLessThanZero {
-            precondition(!division.remainder.formTwosComplementReportingOverflow())
+        if  dividendIsLessThanZero != divisor.isLessThanZero {
+            let overflow = division.quotient .formTwosComplementReportingOverflow()
+            precondition(!overflow, "the quotient overflowed during division")
         }
         
-        if  dividendIsLessThanZero != divisor.isLessThanZero {
-            precondition(!division.quotient .formTwosComplementReportingOverflow())
+        if  dividendIsLessThanZero {
+            division.remainder.formTwosComplement() // cannot overflow: abs <= max
         }
         //=--------------------------------------=
         //
@@ -44,14 +89,14 @@ extension ANKFullWidth {
         let dividendIsLessThanZero = dividend.isLessThanZero
         var division = self.magnitude.dividingFullWidthAsKnuth(dividend.magnitude.descending)
         //=--------------------------------------=
-        // Truncates Negation Overflow
+        //
         //=--------------------------------------=
-        if  dividendIsLessThanZero {
-            division.remainder.formTwosComplement()
+        if  dividendIsLessThanZero != divisorIsLessThanZero {
+            division.quotient .formTwosComplement() // truncates overflow scenario
         }
         
-        if  dividendIsLessThanZero != divisorIsLessThanZero {
-            division.quotient .formTwosComplement()
+        if  dividendIsLessThanZero {
+            division.remainder.formTwosComplement() // cannot overflow: abs <= max
         }
         //=--------------------------------------=
         //

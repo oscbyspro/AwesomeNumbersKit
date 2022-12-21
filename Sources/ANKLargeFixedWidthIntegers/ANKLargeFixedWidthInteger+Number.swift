@@ -22,7 +22,7 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(_truncatingBits source: UInt) {
+    @_transparent public init(_truncatingBits source: UInt) {
         self.init(bitPattern: Body(_truncatingBits: source))
     }
 }
@@ -37,23 +37,23 @@ extension ANKSignedLargeFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(integerLiteral source: Int) {
+    @_transparent public init(integerLiteral source: Int) {
         self.init(bitPattern: Body(integerLiteral: source))
     }
     
-    @inlinable public init(_ source: some BinaryInteger) {
+    @_transparent public init(_ source: some BinaryInteger) {
         self.init(bitPattern: Body(source))
     }
 
-    @inlinable public init?(exactly source: some BinaryInteger) {
+    @_transparent public init?(exactly source: some BinaryInteger) {
         guard let body = Body(exactly: source) else { return nil }; self.init(bitPattern: body)
     }
 
-    @inlinable public init(clamping source: some BinaryInteger) {
+    @_transparent public init(clamping source: some BinaryInteger) {
         self.init(bitPattern: Body(clamping: source))
     }
 
-    @inlinable public init(truncatingIfNeeded source: some BinaryInteger) {
+    @_transparent public init(truncatingIfNeeded source: some BinaryInteger) {
         self.init(bitPattern: Body(truncatingIfNeeded: source))
     }
 }
@@ -68,23 +68,23 @@ extension ANKUnsignedLargeFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(integerLiteral source: UInt) {
+    @_transparent public init(integerLiteral source: UInt) {
         self.init(bitPattern: Body(small: source))
     }
     
-    @inlinable public init(_ source: some BinaryInteger) {
+    @_transparent public init(_ source: some BinaryInteger) {
         self.init(bitPattern: Body(source))
     }
 
-    @inlinable public init?(exactly source: some BinaryInteger) {
+    @_transparent public init?(exactly source: some BinaryInteger) {
         guard let body = Body(exactly: source) else { return nil }; self.init(bitPattern: body)
     }
 
-    @inlinable public init(clamping source: some BinaryInteger) {
+    @_transparent public init(clamping source: some BinaryInteger) {
         self.init(bitPattern: Body(clamping: source))
     }
 
-    @inlinable public init(truncatingIfNeeded source: some BinaryInteger) {
+    @_transparent public init(truncatingIfNeeded source: some BinaryInteger) {
         self.init(bitPattern: Body(truncatingIfNeeded: source))
     }
 }

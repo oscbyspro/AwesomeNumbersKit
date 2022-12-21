@@ -16,7 +16,7 @@ import XCTest
 // MARK: * Types x Awesome x Fixed Width Integers x Signed
 //*============================================================================*
 
-final class TypesTestsOnWordsAsAwesomeSignedFixedWidthInteger: XCTestCase {
+final class TypesTestsOnAwesomeSignedFixedWidthInteger: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -60,7 +60,7 @@ final class TypesTestsOnWordsAsAwesomeSignedFixedWidthInteger: XCTestCase {
 // MARK: * Types x Awesome x Fixed Width Integers x Unigned
 //*============================================================================*
 
-final class TypesTestsOnWordsAsAwesomeUnsignedFixedWidthInteger: XCTestCase {
+final class TypesTestsOnAwesomeUnsignedFixedWidthInteger: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State

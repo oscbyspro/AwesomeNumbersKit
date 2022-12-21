@@ -19,19 +19,19 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func +=(lhs: inout Self, rhs: Self) {
+    @_transparent public static func +=(lhs: inout Self, rhs: Self) {
         lhs.body += rhs.body
     }
     
-    @inlinable public static func +(lhs: Self, rhs: Self) -> Self {
+    @_transparent public static func +(lhs: Self, rhs: Self) -> Self {
         Self(bitPattern: lhs.body + rhs.body)
     }
     
-    @inlinable public static func &+=(lhs: inout Self, rhs: Self) {
+    @_transparent public static func &+=(lhs: inout Self, rhs: Self) {
         lhs.body &+= rhs.body
     }
     
-    @inlinable public static func &+(lhs: Self, rhs: Self) -> Self {
+    @_transparent public static func &+(lhs: Self, rhs: Self) -> Self {
         Self(bitPattern: lhs.body &+ rhs.body)
     }
     
@@ -39,11 +39,11 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
+    @_transparent public mutating func addReportingOverflow(_ amount: Self) -> Bool {
         self.body.addReportingOverflow(amount.body)
     }
     
-    @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
+    @_transparent public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
         let (pv, o) = self.body.addingReportingOverflow(amount.body); return (Self(bitPattern: pv), o)
     }
 }
@@ -58,19 +58,19 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func +=(lhs: inout Self, rhs: Digit) {
+    @_transparent public static func +=(lhs: inout Self, rhs: Digit) {
         lhs.body += rhs
     }
     
-    @inlinable public static func +(lhs: Self, rhs: Digit) -> Self {
+    @_transparent public static func +(lhs: Self, rhs: Digit) -> Self {
         Self(bitPattern: lhs.body + rhs)
     }
     
-    @inlinable public static func &+=(lhs: inout Self, rhs: Digit) {
+    @_transparent public static func &+=(lhs: inout Self, rhs: Digit) {
         lhs.body &+= rhs
     }
     
-    @inlinable public static func &+(lhs: Self, rhs: Digit) -> Self {
+    @_transparent public static func &+(lhs: Self, rhs: Digit) -> Self {
         Self(bitPattern: lhs.body &+ rhs)
     }
     
@@ -78,11 +78,11 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func addReportingOverflow(_ amount: Digit) -> Bool {
+    @_transparent public mutating func addReportingOverflow(_ amount: Digit) -> Bool {
         self.body.addReportingOverflow(amount)
     }
     
-    @inlinable public func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {
+    @_transparent public func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {
         let (pv, o) = self.body.addingReportingOverflow(amount); return (Self(bitPattern: pv), o)
     }
 }

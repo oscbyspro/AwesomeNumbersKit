@@ -19,51 +19,55 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func /=(lhs: inout Self, rhs: Self) {
-        let o = lhs.divideReportingOverflow(by: rhs); precondition(!o)
+    @_transparent @usableFromInline static func /=(lhs: inout Self, rhs: Self) {
+        lhs.divideAsKnuth(by: rhs)
     }
     
-    @inlinable public static func /(lhs: Self, rhs: Self) -> Self {
-        let (pv, o) = lhs.dividedReportingOverflow(by: rhs); precondition(!o); return pv
+    @_transparent @usableFromInline static func /(lhs: Self, rhs: Self) -> Self {
+        lhs.dividedAsKnuth(by: rhs)
     }
     
-    @inlinable public static func %=(lhs: inout Self, rhs: Self) {
-        let o = lhs.formRemainderReportingOverflow(by: rhs); precondition(!o)
+    @_transparent @usableFromInline static func %=(lhs: inout Self, rhs: Self) {
+        lhs.formRemainderAsKnuth(dividingBy: rhs)
     }
     
-    @inlinable public static func %(lhs: Self, rhs: Self) -> Self {
-        let (pv, o) = lhs.remainderReportingOverflow(dividingBy: rhs); precondition(!o); return pv
+    @_transparent @usableFromInline static func %(lhs: Self, rhs: Self) -> Self {
+        lhs.remainderAsKnuth(dividingBy: rhs)
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func divideReportingOverflow(by divisor: Self) -> Bool {
-        let o: Bool; (self, o) = self.dividedReportingOverflow(by: divisor); return o
+    @_transparent @usableFromInline mutating func divideReportingOverflow(by divisor: Self) -> Bool {
+        self.divideReportingOverflowAsKnuth(by: divisor)
     }
     
-    @inlinable func dividedReportingOverflow(by divisor: Self) -> PVO<Self> {
-        if divisor.isZero { return PVO(self, true) }
-        if Self.isSigned && divisor == -1 && self == Self.min { return PVO(self, true) }
-        return PVO(self.quotientAndRemainder(dividingBy: divisor).quotient, false)
+    @_transparent @usableFromInline func dividedReportingOverflow(by  divisor: Self) -> PVO<Self> {
+        self.dividedReportingOverflowAsKnuth(by: divisor)
     }
     
-    @inlinable mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool {
-        let o: Bool; (self, o) = self.remainderReportingOverflow(dividingBy: divisor); return o
+    @_transparent @usableFromInline mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool {
+        self.formRemainderReportingOverflowAsKnuth(by: divisor)
     }
     
-    @inlinable func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self> {
-        if divisor.isZero { return PVO(self, true) }
-        if Self.isSigned && divisor == -1 && self == Self.min { return PVO(Self(), true) }
-        return PVO(self.quotientAndRemainder(dividingBy: divisor).remainder, false)
+    @_transparent @usableFromInline func remainderReportingOverflow(dividingBy  divisor: Self) -> PVO<Self> {
+        self.remainderReportingOverflowAsKnuth(dividingBy: divisor)
     }
     
-    @inlinable func quotientAndRemainder(dividingBy  divisor: Self) -> QR<Self, Self> {
+    @_transparent @usableFromInline mutating func formQuotientReportingRemainder(dividingBy divisor: Self) -> Self {
+        self.formQuotientReportingRemainderAsKnuth(dividingBy: divisor)
+    }
+    
+    @_transparent @usableFromInline mutating func formRemainderReportingQuotient(dividingBy divisor: Self) -> Self {
+        self.formRemainderReportingQuotientAsKnuth(dividingBy: divisor)
+    }
+    
+    @_transparent @usableFromInline func quotientAndRemainder(dividingBy  divisor: Self) -> QR<Self, Self> {
         self.quotientAndRemainderAsKnuth(dividingBy: divisor)
     }
     
-    @inlinable func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
+    @_transparent @usableFromInline func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
         self.dividingFullWidthAsKnuth(dividend)
     }
 }

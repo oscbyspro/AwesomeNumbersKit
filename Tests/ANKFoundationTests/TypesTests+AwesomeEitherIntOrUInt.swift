@@ -13,10 +13,10 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Trivial x Either Int Or UInt
+// MARK: * Types x Either Int Or UInt
 //*============================================================================*
 
-final class TrivialTestsOnEitherIntOrUInt: XCTestCase {
+final class TypesTestsOnEitherIntOrUInt: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State

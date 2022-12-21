@@ -16,7 +16,7 @@ import XCTest
 // MARK: * Types x Awesome x Fixed Width Integers x Large
 //*============================================================================*
 
-final class TrivialTestsOnLarge: XCTestCase {
+final class TypesTestsOnAwesomeLargeFixedWidthInteger: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State
