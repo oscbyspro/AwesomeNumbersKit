@@ -20,6 +20,9 @@ Large number arithmetic in Swift
     <td></td>
     <td></td>
 </tr>
+</table>
+
+<table>
 <tr>
     <td><a href="/Sources/ANKLargeFixedWidthIntegers">UInt128</a></td>
     <td></td>

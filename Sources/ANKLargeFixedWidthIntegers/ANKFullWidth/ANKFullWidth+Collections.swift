@@ -116,7 +116,6 @@ extension ANKFullWidth {
         count - 1
     }
     
-    
     @inlinable static var indices: Range<Int> {
         0 ..< count
     }

@@ -74,27 +74,27 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init() {
+    @_transparent public init() {
         self.init(bitPattern: Body())
     }
     
-    @inlinable public init(_ bit: Bool) {
+    @_transparent public init(_ bit: Bool) {
         self.init(bitPattern: Body(bit))
     }
     
-    @inlinable public init(repeating bit: Bool) {
+    @_transparent public init(repeating bit: Bool) {
         self.init(bitPattern: Body(repeating: bit))
     }
     
-    @inlinable public init(repeating word: UInt) {
+    @_transparent public init(repeating word: UInt) {
         self.init(bitPattern: Body(repeating: word))
     }
     
-    @inlinable public init(x64: X64) {
+    @_transparent public init(x64: X64) {
         self.init(bitPattern: Body(ascending: unsafeBitCast(x64, to: (low: Low, high: High).self)))
     }
     
-    @inlinable public init(x32: X32) {
+    @_transparent public init(x32: X32) {
         self.init(bitPattern: Body(ascending: unsafeBitCast(x32, to: (low: Low, high: High).self)))
     }
     
@@ -102,15 +102,15 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(ascending digits:(low: Low, high: High)) {
+    @_transparent @usableFromInline init(ascending digits:(low: Low, high: High)) {
         self.init(bitPattern: Body(ascending: digits))
     }
     
-    @inlinable init(descending digits:(high: High, low: Low)) {
+    @_transparent @usableFromInline init(descending digits:(high: High, low: Low)) {
         self.init(bitPattern: Body(descending: digits))
     }
     
-    @inlinable static func uninitialized() -> Self {
+    @_transparent @usableFromInline static func uninitialized() -> Self {
         self.init(bitPattern: Body.uninitialized())
     }
     
@@ -118,20 +118,40 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init<T>(bitPattern: ANKFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
+    @_transparent @usableFromInline init<T>(bitPattern: ANKFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
         self.init(bitPattern: Body(bitPattern: bitPattern)) // signitude or magnitude
     }
     
-    @inlinable init<T>(bitPattern: T) where T: ANKLargeFixedWidthInteger, T.Magnitude == Self.Magnitude {
+    @_transparent @usableFromInline init<T>(bitPattern: T) where T: ANKLargeFixedWidthInteger, T.Magnitude == Self.Magnitude {
         self.init(bitPattern: Body(bitPattern: bitPattern.body)) // signitude or magnitude
     }
-        
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @_transparent @usableFromInline static func h(l: inout Self, _ hl: Body.DoubleWidth) -> Self {
+        l = Self(bitPattern: hl.low); return Self(bitPattern: hl.high)
+    }
+    
+    @_transparent @usableFromInline static func hl(_ hl: Body.DoubleWidth) -> HL<Self, Magnitude> {
+        HL(Self(bitPattern: hl.high), Magnitude(bitPattern: hl.low))
+    }
+    
+    @_transparent @usableFromInline static func pvo(_ pvo: PVO<Body>) -> PVO<Self> {
+        PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
+    }
+    
+    @_transparent @usableFromInline static func qr(_ qr: QR<Body, Body>) -> QR<Self, Self> {
+        QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public static var zero: Self {
-        Self()
+    @_transparent public static var zero: Self {
+        Self(bitPattern: Body.zero)
     }
     
     @usableFromInline var high: High {
@@ -148,11 +168,11 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable static func reinterpret(_ value: Low) -> High {
+    @_transparent @usableFromInline static func reinterpret(_ value: Low) -> High {
         unsafeBitCast(value, to: High.self)
     }
     
-    @inlinable static func reinterpret(_ value: High) -> Low {
+    @_transparent @usableFromInline static func reinterpret(_ value: High) -> Low {
         unsafeBitCast(value, to: Low .self)
     }
 }
@@ -180,11 +200,11 @@ extension ANKSignedLargeFixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public static var min: Self {
+    @_transparent public static var min: Self {
         Self(bitPattern: Body.min)
     }
 
-    @inlinable public static var max: Self {
+    @_transparent public static var max: Self {
         Self(bitPattern: Body.max)
     }
 }
@@ -206,11 +226,11 @@ extension ANKUnsignedLargeFixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public static var min: Self {
+    @_transparent public static var min: Self {
         Self(bitPattern: Body.min)
     }
 
-    @inlinable public static var max: Self {
+    @_transparent public static var max: Self {
         Self(bitPattern: Body.max)
     }
 }

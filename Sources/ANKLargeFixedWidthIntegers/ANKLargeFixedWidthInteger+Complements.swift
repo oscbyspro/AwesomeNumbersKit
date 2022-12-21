@@ -51,7 +51,7 @@ extension ANKSignedLargeFixedWidthInteger {
     }
     
     @_transparent public func negatedReportingOverflow() -> PVO<Self> {
-        var pv = self; let o = pv.negateReportingOverflow(); return (pv, o)        
+        Self.pvo(body.negatedReportingOverflow())        
     }
     
     //=------------------------------------------------------------------------=

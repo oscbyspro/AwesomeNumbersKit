@@ -67,11 +67,11 @@ Low: AwesomeUnsignedLargeFixedWidthInteger, Low == Low.Magnitude {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(ascending digits: (low: Low, high: High)) {
+    @_transparent public init(ascending digits: (low: Low, high: High)) {
         (self.low, self.high) = digits
     }
     
-    @inlinable public init(descending digits: (high: High, low: Low)) {
+    @_transparent public init(descending digits: (high: High, low: Low)) {
         (self.high, self.low) = digits
     }
     
@@ -95,7 +95,7 @@ Low: AwesomeUnsignedLargeFixedWidthInteger, Low == Low.Magnitude {
         self = Self.fromUnsafeTemporaryWords({ for index in $0.indices { $0[unchecked: index] = word } })
     }
     
-    @inlinable static func uninitialized() -> Self {
+    @_transparent @usableFromInline static func uninitialized() -> Self {
         self.fromUnsafeTemporaryWords({  _ in  })
     }
     
@@ -103,19 +103,19 @@ Low: AwesomeUnsignedLargeFixedWidthInteger, Low == Low.Magnitude {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init<T>(bitPattern: ANKFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
-        self = unsafeBitCast(bitPattern,  to: Self.self) // signitude or magnitude
+    @_transparent @usableFromInline init<T>(bitPattern: ANKFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
+        self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable var ascending: LH<Low, High> {
+    @_transparent @usableFromInline var ascending: LH<Low, High> {
         LH(low, high)
     }
     
-    @inlinable var descending: HL<High, Low> {
+    @_transparent @usableFromInline var descending: HL<High, Low> {
         HL(high, low)
     }
 }

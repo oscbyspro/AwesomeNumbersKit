@@ -20,7 +20,7 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bigEndian value: Self) {
+    @_transparent @usableFromInline init(bigEndian value: Self) {
         #if _endian(big)
         self = value
         #else
@@ -28,7 +28,7 @@ extension ANKFullWidth {
         #endif
     }
     
-    @inlinable init(littleEndian value: Self) {
+    @_transparent @usableFromInline init(littleEndian value: Self) {
         #if _endian(little)
         self = value
         #else
@@ -40,7 +40,7 @@ extension ANKFullWidth {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable var bigEndian: Self {
+    @_transparent @usableFromInline var bigEndian: Self {
         #if _endian(big)
         return self
         #else
@@ -48,7 +48,7 @@ extension ANKFullWidth {
         #endif
     }
     
-    @inlinable var littleEndian: Self {
+    @_transparent @usableFromInline var littleEndian: Self {
         #if _endian(little)
         return self
         #else

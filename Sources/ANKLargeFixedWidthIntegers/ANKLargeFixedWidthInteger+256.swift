@@ -27,7 +27,7 @@
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bitPattern: Body) { self.body = bitPattern }
+    @_transparent @usableFromInline init(bitPattern: Body) { self.body = bitPattern }
 }
 
 //*============================================================================*
@@ -52,5 +52,5 @@
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bitPattern: Body) { self.body = bitPattern }
+    @_transparent @usableFromInline init(bitPattern: Body) { self.body = bitPattern }
 }

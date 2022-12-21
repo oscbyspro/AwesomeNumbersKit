@@ -158,8 +158,8 @@ extension ANKFullWidth where Self: UnsignedInteger {
         //
         //=--------------------------------------=
         var quotient = Self(); quotient.withUnsafeMutableWords { QUOTIENT in
-            var remainderIndex = remainderReducedWordCount // index + 1
-            var  quotientIndex = remainderReducedWordCount &- divisorReducedLastIndex
+            var remainderIndex = remainderReducedWordCount // reduced endIndex
+            var  quotientIndex = remainderReducedWordCount &- divisorReducedLastIndex // reduced endIndex
             
             let divisorLast0 = divisor[unchecked: divisorReducedLastIndex]
             while quotientIndex != QUOTIENT.startIndex {

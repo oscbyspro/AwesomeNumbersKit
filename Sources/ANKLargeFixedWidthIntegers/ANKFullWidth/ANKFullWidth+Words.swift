@@ -27,15 +27,15 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable var words: some WoRdS {
+    @_transparent @usableFromInline var words: some WoRdS {
         self
     }
     
-    @inlinable var mostSignificantBit: Bool {
+    @_transparent @usableFromInline var mostSignificantBit: Bool {
         high.mostSignificantBit
     }
     
-    @inlinable var leastSignificantBit: Bool {
+    @_transparent @usableFromInline var leastSignificantBit: Bool {
         low.leastSignificantBit
     }
     

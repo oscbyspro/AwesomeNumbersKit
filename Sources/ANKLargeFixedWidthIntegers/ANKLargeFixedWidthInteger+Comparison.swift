@@ -18,11 +18,11 @@ extension ANKLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public var isZero: Bool {
-        self.body.isZero
+        body.isZero
     }
     
     @_transparent public var isLessThanZero: Bool {
-        self.body.isLessThanZero
+        body.isLessThanZero
     }
     
     //=------------------------------------------------------------------------=

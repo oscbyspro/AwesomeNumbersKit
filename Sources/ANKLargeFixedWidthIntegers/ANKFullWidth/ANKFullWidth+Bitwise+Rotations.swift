@@ -23,7 +23,7 @@ extension ANKFullWidth {
         lhs &<<= Int(bitPattern: rhs.words.first ?? UInt())
     }
     
-    @inlinable static func &<<(lhs: Self, rhs: some BinaryInteger) -> Self {
+    @_transparent @usableFromInline static func &<<(lhs: Self, rhs: some BinaryInteger) -> Self {
         var lhs = lhs; lhs &<<= rhs; return lhs
     }
     
@@ -35,7 +35,7 @@ extension ANKFullWidth {
         lhs._bitrotateLeft(by: rhs & (Self.bitWidth &- 1))
     }
 
-    @inlinable static func &<<(lhs: Self, rhs: Int) -> Self {
+    @_transparent @usableFromInline static func &<<(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs &<<= rhs; return lhs
     }
     
@@ -56,7 +56,7 @@ extension ANKFullWidth {
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
-    @inlinable func _bitrotatedLeft(by amount: Int) -> Self {
+    @_transparent @usableFromInline func _bitrotatedLeft(by amount: Int) -> Self {
         var S0 = self; S0._bitrotateLeft(by: amount); return S0
     }
     
@@ -91,7 +91,7 @@ extension ANKFullWidth {
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
-    @inlinable func _bitrotatedLeft(words: Int, bits: Int) -> Self {
+    @_transparent @usableFromInline func _bitrotatedLeft(words: Int, bits: Int) -> Self {
         var S0 = self; S0._bitrotateLeft(words: words, bits: bits); return S0
     }
 }
@@ -110,7 +110,7 @@ extension ANKFullWidth {
         lhs &>>= Int(bitPattern: rhs.words.first ?? UInt())
     }
 
-    @inlinable static func &>>(lhs: Self, rhs: some BinaryInteger) -> Self {
+    @_transparent @usableFromInline static func &>>(lhs: Self, rhs: some BinaryInteger) -> Self {
         var lhs = lhs; lhs &>>= rhs; return lhs
     }
     
@@ -122,7 +122,7 @@ extension ANKFullWidth {
         lhs._bitrotateRight(by: rhs & (Self.bitWidth &- 1))
     }
 
-    @inlinable static func &>>(lhs: Self, rhs: Int) -> Self {
+    @_transparent @usableFromInline static func &>>(lhs: Self, rhs: Int) -> Self {
         var lhs = lhs; lhs &>>= rhs; return lhs
     }
     
@@ -143,7 +143,7 @@ extension ANKFullWidth {
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
-    @inlinable func _bitrotatedRight(by amount: Int) -> Self {
+    @_transparent @usableFromInline func _bitrotatedRight(by amount: Int) -> Self {
         var S0 = self; S0._bitrotateRight(by: amount); return S0
     }
     
@@ -178,7 +178,7 @@ extension ANKFullWidth {
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
-    @inlinable func _bitrotatedRight(words: Int, bits: Int) -> Self {
+    @_transparent @usableFromInline func _bitrotatedRight(words: Int, bits: Int) -> Self {
         var S0 = self; S0._bitrotateRight(words: words, bits: bits); return S0
     }
 }
