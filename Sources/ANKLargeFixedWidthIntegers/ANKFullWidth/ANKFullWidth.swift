@@ -28,27 +28,28 @@ import ANKFoundation
 /// ```
 ///
 @frozen @usableFromInline struct ANKFullWidth<High, Low>: WoRdS, ANKFullWidthCollection,
-AwesomeLargeFixedWidthInteger, CustomDebugStringConvertible where High: AwesomeLargeFixedWidthInteger,
-Low: AwesomeUnsignedLargeFixedWidthInteger, Low == Low.Magnitude {
+AwesomeLargeFixedWidthInteger where High: AwesomeLargeFixedWidthInteger,
+Low: AwesomeUnsignedLargeFixedWidthInteger<UInt>, Low == Low.Magnitude,
+High.Digit: AwesomeEitherIntOrUInt, High.Magnitude.Digit == UInt {
     
     public typealias Digit = High.Digit
     
     @usableFromInline typealias IntegerLiteralType = Int
-    
-    @usableFromInline typealias DoubleWidth = ANKFullWidth<Self, Magnitude>
-    
-    @usableFromInline typealias Magnitude = ANKFullWidth<High.Magnitude, Low.Magnitude>
         
+    @usableFromInline typealias Magnitude = ANKFullWidth<High.Magnitude, Low>
+        
+    @usableFromInline typealias DoubleWidth = ANKFullWidth<Self, Self.Magnitude>
+    
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
     @inlinable static var min: Self {
-        Self(descending:(High.min, Low.min))
+        Self(descending:(Self.High.min, Self.Low.min))
     }
     
     @inlinable static var max: Self {
-        Self(descending:(High.max, Low.max))
+        Self(descending:(Self.High.max, Self.Low.max))
     }
     
     //=------------------------------------------------------------------------=
@@ -56,22 +57,22 @@ Low: AwesomeUnsignedLargeFixedWidthInteger, Low == Low.Magnitude {
     //=------------------------------------------------------------------------=
     
     #if _endian(big)
-    public var high: High
-    public var low:  Low
+    public var high: Self.High
+    public var low:  Self.Low
     #else
-    public var low:  Low
-    public var high: High
+    public var low:  Self.Low
+    public var high: Self.High
     #endif
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(ascending digits: (low: Low, high: High)) {
+    @_transparent public init(ascending  digits: LH<Self.Low, Self.High>) {
         (self.low, self.high) = digits
     }
     
-    @_transparent public init(descending digits: (high: High, low: Low)) {
+    @_transparent public init(descending digits: HL<Self.High, Self.Low>) {
         (self.high, self.low) = digits
     }
     
@@ -80,15 +81,15 @@ Low: AwesomeUnsignedLargeFixedWidthInteger, Low == Low.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable init() {
-        self.init(descending:(High(), Low()))
+        self.init(descending:(Self.High(), Self.Low()))
     }
     
-    @inlinable init(_ bit: Bool) {
-        self.init(descending:(High(), Low(bit)))
+    @inlinable init(bit: Bool) {
+        self.init(descending:(Self.High(), Self.Low(bit: bit)))
     }
     
     @inlinable init(repeating bit: Bool) {
-        self.init(descending:(High(repeating: bit), Low(repeating: bit)))
+        self.init(descending:(Self.High(repeating: bit), Self.Low(repeating: bit)))
     }
     
     @inlinable init(repeating word: UInt) {
@@ -111,12 +112,12 @@ Low: AwesomeUnsignedLargeFixedWidthInteger, Low == Low.Magnitude {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline var ascending: LH<Low, High> {
-        LH(low, high)
+    @_transparent @usableFromInline var ascending:  LH<Self.Low, Self.High> {
+        LH(self.low, self.high)
     }
     
-    @_transparent @usableFromInline var descending: HL<High, Low> {
-        HL(high, low)
+    @_transparent @usableFromInline var descending: HL<Self.High, Self.Low> {
+        HL(self.high, self.low)
     }
 }
 
@@ -134,8 +135,8 @@ extension ANKFullWidth: AwesomeUnsignedInteger where High: AwesomeUnsignedIntege
 extension ANKFullWidth:   AwesomeSignedFixedWidthInteger where High:   AwesomeSignedFixedWidthInteger { }
 extension ANKFullWidth: AwesomeUnsignedFixedWidthInteger where High: AwesomeUnsignedFixedWidthInteger { }
 
-extension ANKFullWidth:   AwesomeSignedLargeBinaryInteger where High:   AwesomeSignedLargeBinaryInteger { }
-extension ANKFullWidth: AwesomeUnsignedLargeBinaryInteger where High: AwesomeUnsignedLargeBinaryInteger { }
+extension ANKFullWidth:   AwesomeSignedLargeBinaryInteger where High:   AwesomeSignedLargeBinaryInteger< Int> { }
+extension ANKFullWidth: AwesomeUnsignedLargeBinaryInteger where High: AwesomeUnsignedLargeBinaryInteger<UInt> { }
 
-extension ANKFullWidth:   AwesomeSignedLargeFixedWidthInteger where High:   AwesomeSignedLargeFixedWidthInteger { }
-extension ANKFullWidth: AwesomeUnsignedLargeFixedWidthInteger where High: AwesomeUnsignedLargeFixedWidthInteger { }
+extension ANKFullWidth:   AwesomeSignedLargeFixedWidthInteger where High:   AwesomeSignedLargeFixedWidthInteger< Int> { }
+extension ANKFullWidth: AwesomeUnsignedLargeFixedWidthInteger where High: AwesomeUnsignedLargeFixedWidthInteger<UInt> { }

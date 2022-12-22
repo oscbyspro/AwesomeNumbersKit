@@ -40,11 +40,11 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable var isZero: Bool {
-        low.isZero && high.isZero
+        self.low.isZero && self.high.isZero
     }
     
     @inlinable var isLessThanZero: Bool {
-        high.isLessThanZero
+        self.high.isLessThanZero
     }
     
     //=------------------------------------------------------------------------=
@@ -52,6 +52,6 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable func hash(into hasher: inout Hasher) {
-        hasher.combine(low ); hasher.combine(high)
+        hasher.combine(self.low); hasher.combine(self.high)
     }
 }

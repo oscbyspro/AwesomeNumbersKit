@@ -19,19 +19,19 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func +=(lhs: inout Self, rhs: Digit) {
+    @inlinable static func +=(lhs: inout Self, rhs: Self.Digit) {
         let o = lhs.addReportingOverflow(rhs); precondition(!o)
     }
     
-    @inlinable static func +(lhs: Self, rhs: Digit) -> Self {
+    @inlinable static func +(lhs: Self, rhs: Self.Digit) -> Self {
         let (pv, o) = lhs.addingReportingOverflow(rhs); precondition(!o); return pv
     }
     
-    @inlinable static func &+=(lhs: inout Self, rhs: Digit) {
+    @inlinable static func &+=(lhs: inout Self, rhs: Self.Digit) {
         let _ = lhs.addReportingOverflow(rhs)
     }
     
-    @inlinable static func &+(lhs: Self, rhs: Digit) -> Self {
+    @inlinable static func &+(lhs: Self, rhs: Self.Digit) -> Self {
         let (pv, _) = lhs.addingReportingOverflow(rhs); return pv
     }
     
@@ -39,11 +39,9 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func addReportingOverflow(_ amount: Digit) -> Bool {
+    @inlinable mutating func addReportingOverflow(_ amount: Self.Digit) -> Bool {
         let lhsWasLessThanZero: Bool =   self.isLessThanZero
         let rhsWasLessThanZero: Bool = amount.isLessThanZero
-        //=--------------------------------------=
-        //
         //=--------------------------------------=
         let carry: Bool = self.withUnsafeMutableWords { LHS in
             var index: Int  = LHS.startIndex
@@ -62,11 +60,9 @@ extension ANKFullWidth {
             return carry as Bool
         }
         //=--------------------------------------=
-        //
-        //=--------------------------------------=
-        if !Self.isSigned { return carry }
-        let hadSameSign = lhsWasLessThanZero == rhsWasLessThanZero
-        return hadSameSign && lhsWasLessThanZero != isLessThanZero
+        if  !Self.isSigned {  return carry }
+        let    hadSameSign =  lhsWasLessThanZero ==  rhsWasLessThanZero
+        return hadSameSign && lhsWasLessThanZero != self.isLessThanZero
     }
     
     @inlinable func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {

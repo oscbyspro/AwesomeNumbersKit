@@ -36,15 +36,15 @@ extension ANKLargeFixedWidthInteger {
     }
     
     @_transparent public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
-        Self.pvo(body.multipliedReportingOverflowAsKaratsuba(by: amount.body))
+        Self.pvo(self.body.multipliedReportingOverflowAsKaratsuba(by: amount.body))
     }
     
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        Self.h(l: &self, body.multipliedFullWidthAsKaratsuba(by: amount.body))
+        Self.h(l: &self, self.body.multipliedFullWidthAsKaratsuba(by: amount.body))
     }
     
     @_transparent public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        Self.hl(body.multipliedFullWidthAsKaratsuba(by: amount.body))
+        Self.hl(self.body.multipliedFullWidthAsKaratsuba(by: amount.body))
     }
 }
 
@@ -62,10 +62,10 @@ extension ANKUnsignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        Self.h(l: &self, body.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.body))
+        Self.h(l: &self, self.body.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.body))
     }
     
     @_transparent public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        Self.hl(body.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.body))
+        Self.hl(self.body.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.body))
     }
 }

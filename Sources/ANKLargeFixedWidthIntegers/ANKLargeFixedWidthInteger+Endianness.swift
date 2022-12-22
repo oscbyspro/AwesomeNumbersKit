@@ -30,10 +30,10 @@ extension ANKLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public var bigEndian: Self {
-        Self(bitPattern: body.bigEndian)
+        Self(bitPattern: self.body.bigEndian)
     }
     
     @_transparent public var littleEndian: Self {
-        Self(bitPattern: body.littleEndian)
+        Self(bitPattern: self.body.littleEndian)
     }
 }

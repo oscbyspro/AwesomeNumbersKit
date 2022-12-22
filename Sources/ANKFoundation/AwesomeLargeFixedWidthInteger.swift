@@ -18,8 +18,9 @@
 /// self.bitWidth % UInt.bitWidth == 0
 /// ```
 /// 
-public protocol AwesomeLargeFixedWidthInteger: AwesomeFixedWidthInteger,
-AwesomeLargeBinaryInteger where Magnitude: AwesomeUnsignedLargeFixedWidthInteger {
+public protocol AwesomeLargeFixedWidthInteger<Digit>: AwesomeFixedWidthInteger,
+AwesomeLargeBinaryInteger where Magnitude: AwesomeUnsignedLargeFixedWidthInteger,
+Digit: AwesomeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -43,7 +44,7 @@ AwesomeLargeBinaryInteger where Magnitude: AwesomeUnsignedLargeFixedWidthInteger
     // MARK: Division
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func formQuotientReportingRemainder(dividingBy divisor: Digit) -> Digit
+    @inlinable mutating func divideReportingRemainder(dividingBy divisor: Digit) -> Digit
     
     @inlinable mutating func formRemainderReportingQuotient(dividingBy divisor: Digit) -> Self
     
@@ -66,12 +67,12 @@ AwesomeLargeBinaryInteger where Magnitude: AwesomeUnsignedLargeFixedWidthInteger
 // MARK: * Awesome x Fixed Width Integer x Large x Signed
 //*============================================================================*
 
-public protocol AwesomeSignedLargeFixedWidthInteger: AwesomeLargeFixedWidthInteger,
-AwesomeSignedFixedWidthInteger, AwesomeSignedLargeBinaryInteger { }
+public protocol AwesomeSignedLargeFixedWidthInteger<Digit>: AwesomeLargeFixedWidthInteger,
+AwesomeSignedFixedWidthInteger, AwesomeSignedLargeBinaryInteger where Digit: AwesomeSignedFixedWidthInteger { }
 
 //*============================================================================*
 // MARK: * Awesome x Fixed Width Integer x Large x Unsigned
 //*============================================================================*
 
-public protocol AwesomeUnsignedLargeFixedWidthInteger: AwesomeLargeFixedWidthInteger,
-AwesomeUnsignedFixedWidthInteger, AwesomeUnsignedLargeBinaryInteger { }
+public protocol AwesomeUnsignedLargeFixedWidthInteger<Digit>: AwesomeLargeFixedWidthInteger,
+AwesomeUnsignedFixedWidthInteger, AwesomeUnsignedLargeBinaryInteger where Digit: AwesomeUnsignedFixedWidthInteger { }

@@ -8,7 +8,7 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Awesome Binary Integer
+// MARK: * Awesome x Binary Integer
 //*============================================================================*
 
 /// A BinaryInteger with additional requirements and capabilities.
@@ -21,7 +21,7 @@ public protocol AwesomeBinaryInteger: BinaryInteger where Magnitude: AwesomeUnsi
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(_ bit: Bool)
+    @inlinable init(bit: Bool)
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
@@ -39,9 +39,9 @@ public protocol AwesomeBinaryInteger: BinaryInteger where Magnitude: AwesomeUnsi
     
     @inlinable mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool
     
+    @inlinable mutating func divideReportingRemainder(dividingBy divisor: Self) -> Self
+    
     @inlinable mutating func formRemainderReportingQuotient(dividingBy divisor: Self) -> Self
-
-    @inlinable mutating func formQuotientReportingRemainder(dividingBy divisor: Self) -> Self
 }
 
 //*============================================================================*

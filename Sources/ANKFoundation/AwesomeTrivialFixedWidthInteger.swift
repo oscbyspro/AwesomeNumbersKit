@@ -27,12 +27,12 @@ extension AwesomeTrivialFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(_ bit: Bool) {
-        self = bit ?  1 : 0
+    @_transparent public init(bit: Bool) {
+        self = bit ?  (1 as Self) : (0 as Self)
     }
     
     @_transparent public init(repeating bit: Bool) {
-        self = bit ? ~0 : 0
+        self = bit ? ~(0 as Self) : (0 as Self)
     }
     
     //=------------------------------------------------------------------------=
@@ -40,19 +40,19 @@ extension AwesomeTrivialFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public var isZero: Bool {
-        self == 0
+        self == (0 as Self)
     }
     
     @_transparent public var isLessThanZero: Bool {
-        Self.isSigned && self < 0
+        Self.isSigned && self < (0 as Self)
     }
     
     @_transparent public var mostSignificantBit: Bool {
-        self & 1 << (Self.bitWidth - 1) != 0
+        self & (1 as Self) << (Self.bitWidth - 1) != (0 as Self)
     }
     
     @_transparent public var leastSignificantBit: Bool {
-        self & 1 != 0
+        self & (1 as Self) != (0 as Self)
     }
     
     //=------------------------------------------------------------------------=
@@ -79,7 +79,7 @@ extension AwesomeTrivialFixedWidthInteger {
         let o: Bool; (self, o) = self.remainderReportingOverflow(dividingBy: divisor); return o
     }
     
-    @_transparent public mutating func formQuotientReportingRemainder(dividingBy divisor: Self) -> Self {
+    @_transparent public mutating func divideReportingRemainder(dividingBy divisor: Self) -> Self {
         let qr = self.quotientAndRemainder(dividingBy: divisor); self = qr.quotient; return qr.remainder
     }
     

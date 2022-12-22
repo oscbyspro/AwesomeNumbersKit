@@ -11,7 +11,7 @@
 // MARK: * Awesome x Either Int Or UInt
 //*============================================================================*
 
-public protocol AwesomeEitherIntOrUInt: AwesomeFixedWidthInteger where Magnitude == UInt { }
+public protocol AwesomeEitherIntOrUInt: AwesomeLargeFixedWidthInteger<Self> where Magnitude == UInt { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -24,11 +24,11 @@ extension AwesomeEitherIntOrUInt {
     //=------------------------------------------------------------------------=
     
     @_transparent public init(repeating word: UInt) {
-        self.init(_truncatingBits:   word)
+        self.init(_truncatingBits: word)
     }
     
     @_transparent public init(bitPattern: some AwesomeEitherIntOrUInt) {
-        self = Swift.unsafeBitCast(bitPattern, to: Self.self)
+        self = unsafeBitCast(bitPattern, to: Self.self)
     }
 }
 
@@ -49,11 +49,11 @@ extension Int {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public static func &+(lhs: Self, rhs: Digit) -> Self {
+    @_transparent public static func &+(lhs: Self, rhs: Self) -> Self {
         lhs.addingReportingOverflow(rhs).partialValue
     }
 
-    @_transparent public static func &-(lhs: Self, rhs: Digit) -> Self {
+    @_transparent public static func &-(lhs: Self, rhs: Self) -> Self {
         lhs.subtractingReportingOverflow(rhs).partialValue
     }
 }

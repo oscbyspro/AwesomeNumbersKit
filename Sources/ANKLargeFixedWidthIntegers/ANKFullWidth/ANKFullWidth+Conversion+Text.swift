@@ -11,7 +11,7 @@
 // MARK: * ANK x Full Width x Text
 //*============================================================================*
 
-extension ANKFullWidth {
+extension ANKFullWidth: CustomDebugStringConvertible {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

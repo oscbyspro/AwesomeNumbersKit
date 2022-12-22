@@ -21,7 +21,7 @@ extension UInt {
     
     @inlinable mutating func addReportingOverflow(_ amount: Self, _ carry: Bool) -> Bool {
         let a = self.addReportingOverflow(amount)
-        let b = self.addReportingOverflow(UInt(carry))
+        let b = self.addReportingOverflow(UInt(bit: carry))
         return  a || b
     }
     
@@ -35,7 +35,7 @@ extension UInt {
     
     @inlinable mutating func subtractReportingOverflow(_ amount: Self, _ borrow: Bool) -> Bool {
         let a = self.subtractReportingOverflow(amount)
-        let b = self.subtractReportingOverflow(UInt(borrow))
+        let b = self.subtractReportingOverflow(UInt(bit: borrow))
         return  a || b
     }
     

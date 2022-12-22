@@ -12,7 +12,9 @@
 //*============================================================================*
 
 @frozen public struct ANKInt128: ANKSignedLargeFixedWidthInteger {
-        
+    
+    public typealias Digit = Int
+    
     public typealias Magnitude = ANKUInt128
     
     @usableFromInline typealias Body = ANKFullWidth<ANKInt64, ANKUInt64>
@@ -36,6 +38,8 @@
 
 @frozen public struct ANKUInt128: ANKUnsignedLargeFixedWidthInteger {
         
+    public typealias Digit = UInt
+    
     public typealias X64 = (UInt64, UInt64)
     
     public typealias X32 = (UInt32, UInt32, UInt32, UInt32)

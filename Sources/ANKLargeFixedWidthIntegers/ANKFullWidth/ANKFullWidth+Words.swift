@@ -32,23 +32,23 @@ extension ANKFullWidth {
     }
     
     @_transparent @usableFromInline var mostSignificantBit: Bool {
-        high.mostSignificantBit
+        self.high.mostSignificantBit
     }
     
     @_transparent @usableFromInline var leastSignificantBit: Bool {
-        low.leastSignificantBit
+        self.low.leastSignificantBit
     }
     
     @inlinable var nonzeroBitCount: Int {
-        low.nonzeroBitCount &+ high.nonzeroBitCount
+        self.low.nonzeroBitCount &+ self.high.nonzeroBitCount
     }
     
     @inlinable var leadingZeroBitCount: Int {
-        high.isZero ? High.bitWidth &+ low.leadingZeroBitCount : high.leadingZeroBitCount
+        self.high.isZero ? High.bitWidth &+ self.low.leadingZeroBitCount : self.high.leadingZeroBitCount
     }
     
     @inlinable var trailingZeroBitCount: Int {
-        low.isZero ? Low.bitWidth &+ high.trailingZeroBitCount : low.trailingZeroBitCount
+        self.low.isZero ? Low.bitWidth &+ self.high.trailingZeroBitCount : self.low.trailingZeroBitCount
     }
     
     //=------------------------------------------------------------------------=
@@ -56,14 +56,16 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     /// Returns its word count in reduced two's complement form.
-    @inlinable func reducedWordCountReportingIsZeroOrMinusOne() -> (reducedWordCount: Int, isZeroOrMinusOne: Bool) {
-        let (rli, izomo) = reducedLastIndexReportingIsZeroOrMinusOne(); return (rli + 1, izomo)
+    @inlinable func reducedWordCountReportingIsZeroOrMinusOne()
+    -> (reducedWordCount: Int, isZeroOrMinusOne: Bool) {
+        let (rli, izomo) = self.reducedLastIndexReportingIsZeroOrMinusOne(); return (rli + 1, izomo)
     }
     
     /// Returns its last index in reduced two's complement form.
-    @inlinable func reducedLastIndexReportingIsZeroOrMinusOne() -> (reducedLastIndex: Int, isZeroOrMinusOne: Bool) {
-        let sign  = UInt(repeating: isLessThanZero)
-        let index = withUnsafeWords({ SELF in SELF.lastIndex(where:{ word in word != sign }) })
+    @inlinable func reducedLastIndexReportingIsZeroOrMinusOne()
+    -> (reducedLastIndex: Int, isZeroOrMinusOne: Bool) {
+        let sign  = UInt(repeating: self.isLessThanZero)
+        let index = self.withUnsafeWords({ SELF in SELF.lastIndex(where:{ word in word != sign }) })
         return index.map({($0, false)}) ?? (Int(), true)
     }
 }

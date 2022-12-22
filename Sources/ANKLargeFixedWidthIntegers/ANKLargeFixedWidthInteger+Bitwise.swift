@@ -38,6 +38,6 @@ extension ANKLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public var byteSwapped: Self {
-        Self(bitPattern: body.byteSwapped)
+        Self(bitPattern: self.body.byteSwapped)
     }
 }

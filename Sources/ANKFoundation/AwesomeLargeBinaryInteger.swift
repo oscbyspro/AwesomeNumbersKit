@@ -18,10 +18,10 @@
 /// self.bitWidth % UInt.bitWidth == 0
 /// ```
 /// 
-public protocol AwesomeLargeBinaryInteger: AwesomeBinaryInteger where
+public protocol AwesomeLargeBinaryInteger<Digit>: AwesomeBinaryInteger where
 Magnitude: AwesomeUnsignedLargeBinaryInteger {
     
-    associatedtype Digit: AwesomeEitherIntOrUInt
+    associatedtype Digit: AwesomeBinaryInteger
     
     //=------------------------------------------------------------------------=
     // MARK: Addition
@@ -64,12 +64,12 @@ Magnitude: AwesomeUnsignedLargeBinaryInteger {
 // MARK: * Awesome x Fixed Width Integer x Large x Signed
 //*============================================================================*
 
-public protocol AwesomeSignedLargeBinaryInteger: AwesomeLargeBinaryInteger,
-AwesomeSignedInteger where Digit == Int { }
+public protocol AwesomeSignedLargeBinaryInteger<Digit>: AwesomeLargeBinaryInteger,
+AwesomeSignedInteger where Digit: AwesomeSignedInteger { }
 
 //*============================================================================*
 // MARK: * Awesome x Fixed Width Integer x Large x Unsigned
 //*============================================================================*
 
-public protocol AwesomeUnsignedLargeBinaryInteger: AwesomeLargeBinaryInteger,
-AwesomeUnsignedInteger where Digit == UInt { }
+public protocol AwesomeUnsignedLargeBinaryInteger<Digit>: AwesomeLargeBinaryInteger,
+AwesomeUnsignedInteger where Digit: AwesomeUnsignedInteger { }

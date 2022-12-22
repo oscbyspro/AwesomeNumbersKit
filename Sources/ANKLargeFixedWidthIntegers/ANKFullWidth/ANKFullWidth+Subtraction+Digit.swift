@@ -19,19 +19,19 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func -=(lhs: inout Self, rhs: Digit) {
+    @inlinable static func -=(lhs: inout Self, rhs: Self.Digit) {
         let o = lhs.subtractReportingOverflow(rhs); precondition(!o)
     }
     
-    @inlinable static func -(lhs: Self, rhs: Digit) -> Self {
+    @inlinable static func -(lhs: Self, rhs: Self.Digit) -> Self {
         let (pv, o) = lhs.subtractingReportingOverflow(rhs); precondition(!o); return pv
     }
     
-    @inlinable static func &-=(lhs: inout Self, rhs: Digit) {
+    @inlinable static func &-=(lhs: inout Self, rhs: Self.Digit) {
         let _ = lhs.subtractReportingOverflow(rhs)
     }
     
-    @inlinable static func &-(lhs: Self, rhs: Digit) -> Self {
+    @inlinable static func &-(lhs: Self, rhs: Self.Digit) -> Self {
         let (pv, _) = lhs.subtractingReportingOverflow(rhs); return pv
     }
     
@@ -39,11 +39,9 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func subtractReportingOverflow(_ amount: Digit) -> Bool {
+    @inlinable mutating func subtractReportingOverflow(_ amount: Self.Digit) -> Bool {
         let lhsWasLessThanZero: Bool =   self.isLessThanZero
         let rhsWasLessThanZero: Bool = amount.isLessThanZero
-        //=--------------------------------------=
-        //
         //=--------------------------------------=
         let borrow: Bool = self.withUnsafeMutableWords { LHS in
             var index:  Int  = LHS.startIndex
@@ -62,14 +60,12 @@ extension ANKFullWidth {
             return borrow as Bool
         }
         //=--------------------------------------=
-        //
-        //=--------------------------------------=
-        if !Self.isSigned { return borrow }
-        let notSameSign = lhsWasLessThanZero != rhsWasLessThanZero
-        return notSameSign && lhsWasLessThanZero != isLessThanZero
+        if  !Self.isSigned { return borrow }
+        let    notSameSign =  lhsWasLessThanZero !=  rhsWasLessThanZero
+        return notSameSign && lhsWasLessThanZero != self.isLessThanZero
     }
     
-    @inlinable func subtractingReportingOverflow(_ amount: Digit) -> PVO<Self> {
+    @inlinable func subtractingReportingOverflow(_ amount: Self.Digit) -> PVO<Self> {
         var pv = self; let o = pv.subtractReportingOverflow(amount); return (pv, o)
     }
 }

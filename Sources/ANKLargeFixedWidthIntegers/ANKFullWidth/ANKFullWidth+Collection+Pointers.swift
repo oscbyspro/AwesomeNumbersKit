@@ -7,132 +7,11 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import ANKFoundation
-
 //*============================================================================*
-// MARK: * ANK x Full Width x Collection
-//*============================================================================*
-
-@usableFromInline protocol ANKFullWidthCollection: WoRdS {
-    
-    associatedtype High: AwesomeLargeFixedWidthInteger
-    
-    associatedtype Low:  AwesomeUnsignedLargeFixedWidthInteger where Low == Low.Magnitude
-    
-    typealias Body = ANKFullWidth<High, Low>
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details
-//=----------------------------------------------------------------------------=
-
-extension ANKFullWidthCollection {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable var count: Int {
-        Body.count
-    }
-    
-    @inlinable var partitionIndex: Int {
-        Body.partitionIndex
-    }
-    
-    @inlinable var startIndex: Int {
-        Body.startIndex
-    }
-    
-    @inlinable var endIndex: Int {
-        Body.endIndex
-    }
-    
-    @inlinable var lastIndex: Int {
-        Body.lastIndex
-    }
-    
-    @inlinable var indices: Range<Int> {
-        Body.indices
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @inlinable func index(after index: Int) -> Int {
-        assert((/*-----------*/     Body.endIndex) > index)
-        assert((Body.startIndex ... Body.endIndex).contains(index))
-        return index &+ 1
-    }
-    
-    @inlinable func index(before index: Int) -> Int {
-        assert((Body.startIndex     /*---------*/) < index)
-        assert((Body.startIndex ... Body.endIndex).contains(index))
-        return index &- 1
-    }
-    
-    @inlinable func index(_ index: Int, offsetBy distance: Int) -> Int {
-        let next = index &+ distance
-        assert((Body.startIndex ... Body.endIndex).contains(index))
-        assert((Body.startIndex ... Body.endIndex).contains(next ))
-        return next
-    }
-    
-    @inlinable func distance(from start: Int, to end: Int) -> Int {
-        assert((Body.startIndex ... Body.endIndex).contains(start))
-        assert((Body.startIndex ... Body.endIndex).contains(end  ))
-        return end &- start
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Full Width x Collection
+// MARK: * ANK x Full Width x Collection x Pointers
 //*============================================================================*
 
 extension ANKFullWidth {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static var count: Int {
-        MemoryLayout<Self>.stride / MemoryLayout<UInt>.stride
-    }
-    
-    @inlinable static var partitionIndex: Int {
-        MemoryLayout<Low >.stride / MemoryLayout<UInt>.stride
-    }
-    
-    @inlinable static var startIndex: Int {
-        0
-    }
-    
-    @inlinable static var endIndex: Int {
-        count
-    }
-    
-    @inlinable static var lastIndex: Int {
-        count - 1
-    }
-    
-    @inlinable static var indices: Range<Int> {
-        0 ..< count
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @usableFromInline subscript(index: Int) -> UInt {
-        @_transparent _read { yield  withUnsafeWords({ $0[index] /*------*/ }) }
-        @_transparent  set  { withUnsafeMutableWords({ $0[index] = newValue }) }
-    }
-    
-    @usableFromInline subscript(unchecked index: Int) -> UInt {
-        @_transparent _read { yield  withUnsafeWords({ $0[unchecked: index] /*------*/ }) }
-        @_transparent  set  { withUnsafeMutableWords({ $0[unchecked: index] = newValue }) }
-    }
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
@@ -141,7 +20,7 @@ extension ANKFullWidth {
     /// Unsafe access to the integer's words, in order from least significant to most.
     @_transparent @usableFromInline func withUnsafeWords<T>(
     _ body: (UnsafeWordsBufferPointer) throws -> T) rethrows -> T {
-        try Swift.withUnsafePointer(to: self) { SELF in
+        try withUnsafePointer(to: self) { SELF in
             try body(UnsafeWordsBufferPointer(SELF))
         }
     }
@@ -149,7 +28,7 @@ extension ANKFullWidth {
     /// Unsafe access to the integer's words, in order from least significant to most.
     @_transparent @usableFromInline mutating func withUnsafeMutableWords<T>(
     _ body: (UnsafeMutableWordsBufferPointer) throws -> T) rethrows -> T {
-        try Swift.withUnsafeMutablePointer(to: &self) { SELF in
+        try withUnsafeMutablePointer(to: &self) { SELF in
             try body(UnsafeMutableWordsBufferPointer(SELF))
         }
     }
@@ -157,7 +36,7 @@ extension ANKFullWidth {
     /// Unsafe access to the integer's words, in order from least significant to most.
     @_transparent @usableFromInline static func fromUnsafeTemporaryWords(
     _ body: (UnsafeMutableWordsBufferPointer) throws -> Void) rethrows -> Self {
-        try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
+        try withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
             let SELF = BUFFER.baseAddress.unsafelyUnwrapped
             try body(UnsafeMutableWordsBufferPointer(SELF))
             return SELF.pointee
@@ -190,18 +69,18 @@ extension ANKFullWidth {
         
         @usableFromInline subscript(index: Int) -> UInt {
             @_transparent _read {
-                precondition(indices.contains(index))
+                precondition(Body.indices.contains(index))
                 yield self[unchecked: index]
             }
         }
         
         @usableFromInline subscript(unchecked index: Int) -> UInt {
             @_transparent _read {
-                assert(indices.contains(index))
+                assert(Body.indices.contains(index))
                 #if _endian(big)
-                yield base[lastIndex &- index]
+                yield self.base[Body.lastIndex &- index]
                 #else
-                yield base[/*---------*/index]
+                yield self.base[/*--------------*/index]
                 #endif
             }
         }
@@ -247,18 +126,18 @@ extension ANKFullWidth {
             @_transparent _read {
                 assert(Body.indices.contains(index))
                 #if _endian(big)
-                yield base[lastIndex &- index]
+                yield self.base[Body.lastIndex &- index]
                 #else
-                yield base[/*---------*/index]
+                yield self.base[/*--------------*/index]
                 #endif
             }
             
             @_transparent nonmutating _modify {
                 assert(Body.indices.contains(index))
                 #if _endian(big)
-                yield &base[lastIndex &- index]
+                yield &self.base[Body.lastIndex &- index]
                 #else
-                yield &base[/*---------*/index]
+                yield &self.base[/*---------*/index]
                 #endif
             }
         }

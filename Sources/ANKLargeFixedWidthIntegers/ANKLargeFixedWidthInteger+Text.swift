@@ -18,6 +18,6 @@ extension ANKLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public var debugDescription: String {
-        "\(Self.self)(\(body.lazy.map(String.init).joined(separator: ", ")))"
+        "\(Self.self)(\(self.body.lazy.map(String.init).joined(separator: ", ")))"
     }
 }

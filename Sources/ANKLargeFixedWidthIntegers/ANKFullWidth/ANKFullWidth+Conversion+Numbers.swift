@@ -33,14 +33,10 @@ extension ANKFullWidth {
         let sign = UInt(repeating: isLessThanZero)
         self.init(_copy: words, _extending:  sign)
         //=--------------------------------------=
-        //
-        //=--------------------------------------=
         if  self.isLessThanZero == isLessThanZero {
             let index = words.index(words.startIndex, offsetBy: self.count, limitedBy: words.endIndex)
             guard let index else { return }; if words[index...].allSatisfy({ $0 == sign }) { return }
         }
-        //=--------------------------------------=
-        //
         //=--------------------------------------=
         return nil
     }
@@ -51,14 +47,10 @@ extension ANKFullWidth {
         let sign = UInt(repeating: isLessThanZero)
         self.init(_copy: words, _extending:  sign)
         //=--------------------------------------=
-        //
-        //=--------------------------------------=
         if  self.isLessThanZero == isLessThanZero {
             let index = words.index(words.startIndex, offsetBy: self.count, limitedBy: words.endIndex)
             guard let index else { return }; if words[index...].allSatisfy({ $0 == sign }) { return }
         }
-        //=--------------------------------------=
-        //
         //=--------------------------------------=
         self = isLessThanZero ? Self.min : Self.max
     }
@@ -118,14 +110,12 @@ extension ANKFullWidth {
         assert(Low.bitWidth >= source.bitWidth)
         let high = High(repeating: source.isLessThanZero)
         //=--------------------------------------=
-        // Powered By Compiler Origami
-        //=--------------------------------------=
         if  type(of: source).isSigned {
-            let low  = Low(truncatingIfNeeded: source)
+            let low = Low(truncatingIfNeeded: source)
             self.init(descending:(high, low))
             precondition(isLessThanZero == source.isLessThanZero)
         } else {
-            let low  = Low(_truncatingBits: UInt(bitPattern: source))
+            let low = Low(_truncatingBits: UInt(bitPattern: source))
             self.init(descending:(high, low))
         }
     }

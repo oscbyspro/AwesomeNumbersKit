@@ -23,7 +23,7 @@ extension ANKFullWidth {
         var carry =  true
         for index in self.indices {
             var word = ~self[unchecked: index]
-            carry = word.addReportingOverflow(UInt(carry))
+            carry = word.addReportingOverflow(UInt(bit: carry))
             self[unchecked: index] = word
         }
     }
@@ -49,7 +49,7 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable var magnitude: Magnitude {
-        Magnitude(bitPattern: isLessThanZero ? self.twosComplement() : self)
+        Magnitude(bitPattern: self.isLessThanZero ? self.twosComplement() : self)
     }
 }
 

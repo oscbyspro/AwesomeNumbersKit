@@ -55,8 +55,8 @@ extension ANKLargeFixedWidthInteger {
         Self.pvo(self.body.remainderReportingOverflowAsKnuth(dividingBy: divisor.body))
     }
     
-    @_transparent public mutating func formQuotientReportingRemainder(dividingBy divisor: Self) -> Self {
-        Self(bitPattern: self.body.formQuotientReportingRemainderAsKnuth(dividingBy: divisor.body))
+    @_transparent public mutating func divideReportingRemainder(dividingBy divisor: Self) -> Self {
+        Self(bitPattern: self.body.divideReportingRemainderAsKnuth(dividingBy: divisor.body))
     }
     
     @_transparent public mutating func formRemainderReportingQuotient(dividingBy divisor: Self) -> Self {
@@ -64,11 +64,11 @@ extension ANKLargeFixedWidthInteger {
     }    
     
     @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
-        Self.qr(body.quotientAndRemainderAsKnuth(dividingBy: divisor.body))
+        Self.qr(self.body.quotientAndRemainderAsKnuth(dividingBy: divisor.body))
     }
     
     @_transparent public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
-        Self.qr(body.dividingFullWidthAsKnuth((dividend.high.body, dividend.low.body)))
+        Self.qr(self.body.dividingFullWidthAsKnuth((dividend.high.body, dividend.low.body)))
     }
 }
 
@@ -118,8 +118,8 @@ extension ANKLargeFixedWidthInteger {
         self.body.remainderReportingOverflow(dividingBy: divisor)
     }
     
-    @_transparent public mutating func formQuotientReportingRemainder(dividingBy divisor: Digit) -> Digit {
-        self.body.formQuotientReportingRemainder(dividingBy: divisor)
+    @_transparent public mutating func divideReportingRemainder(dividingBy divisor: Digit) -> Digit {
+        self.body.divideReportingRemainder(dividingBy: divisor)
     }
     
     @_transparent public mutating func formRemainderReportingQuotient(dividingBy divisor: Digit) -> Self {

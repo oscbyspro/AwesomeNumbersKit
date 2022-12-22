@@ -9,8 +9,21 @@
 
 import ANKFoundation
 
+#warning("TODO")
 //*============================================================================*
-// MARK: * ANK x Full Width x Unsigned x Multiplication x Small
+// MARK: * ANK x Full Width x Multiplication x Digit
+//*============================================================================*
+
+extension ANKFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+}
+
+#warning("REMOVE, maybe")
+//*============================================================================*
+// MARK: * ANK x Full Width x Unsigned x Multiplication x Digit
 //*============================================================================*
 
 extension ANKFullWidth where Self: UnsignedInteger {

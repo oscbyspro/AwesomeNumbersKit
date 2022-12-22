@@ -28,27 +28,27 @@ extension ANKLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public var words: some WoRdS {
-        body
+        self.body
     }
     
     @_transparent public var nonzeroBitCount: Int {
-        body.nonzeroBitCount
+        self.body.nonzeroBitCount
     }
     
     @_transparent public var leadingZeroBitCount: Int {
-        body.leadingZeroBitCount
+        self.body.leadingZeroBitCount
     }
     
     @_transparent public var trailingZeroBitCount: Int {
-        body.trailingZeroBitCount
+        self.body.trailingZeroBitCount
     }
     
     @_transparent public var mostSignificantBit: Bool {
-        body.mostSignificantBit
+        self.body.mostSignificantBit
     }
     
     @_transparent public var leastSignificantBit: Bool {
-        body.leastSignificantBit
+        self.body.leastSignificantBit
     }
     
     //=------------------------------------------------------------------------=
@@ -57,11 +57,11 @@ extension ANKLargeFixedWidthInteger {
     
     @_transparent @usableFromInline func reducedWordCountReportingIsZeroOrMinusOne()
     -> (reducedWordCount: Int, isZeroOrMinusOne: Bool) {
-        body.reducedWordCountReportingIsZeroOrMinusOne()
+        self.body.reducedWordCountReportingIsZeroOrMinusOne()
     }
     
     @_transparent @usableFromInline func reducedLastIndexReportingIsZeroOrMinusOne()
     -> (reducedLastIndex: Int, isZeroOrMinusOne: Bool) {
-        body.reducedLastIndexReportingIsZeroOrMinusOne()
+        self.body.reducedLastIndexReportingIsZeroOrMinusOne()
     }
 }
