@@ -17,19 +17,21 @@
     
     public typealias Magnitude = ANKUInt128
     
-    @usableFromInline typealias Body = ANKFullWidth<ANKInt64, ANKUInt64>
+    @usableFromInline typealias Base = ANKInt64
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: Body
+    @usableFromInline var body: Self.Body
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init(bitPattern: Body) { self.body = bitPattern }
+    @_transparent @usableFromInline init(bitPattern: Self.Body) {
+        self.body = bitPattern
+    }
 }
 
 //*============================================================================*
@@ -44,17 +46,19 @@
     
     public typealias X32 = (UInt32, UInt32, UInt32, UInt32)
     
-    @usableFromInline typealias Body = ANKFullWidth<ANKUInt64, ANKUInt64>
+    @usableFromInline typealias Base = ANKUInt64
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: Body
+    @usableFromInline var body: Self.Body
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init(bitPattern: Body) { self.body = bitPattern }
+    @_transparent @usableFromInline init(bitPattern: Self.Body) {
+        self.body = bitPattern
+    }
 }

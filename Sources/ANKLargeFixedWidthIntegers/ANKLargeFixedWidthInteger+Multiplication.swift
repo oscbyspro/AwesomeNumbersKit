@@ -36,36 +36,58 @@ extension ANKLargeFixedWidthInteger {
     }
     
     @_transparent public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
-        Self.pvo(self.body.multipliedReportingOverflowAsKaratsuba(by: amount.body))
+        let pvo = self.body.multipliedReportingOverflowAsKaratsuba(by: amount.body)
+        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
     
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        Self.h(l: &self, self.body.multipliedFullWidthAsKaratsuba(by: amount.body))
+        let hl = self.body.multipliedFullWidthAsKaratsuba(by: amount.body)
+        self = Self(bitPattern: hl.low); return Self(bitPattern:  hl.high)
     }
     
     @_transparent public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        Self.hl(self.body.multipliedFullWidthAsKaratsuba(by: amount.body))
+        let hl = self.body.multipliedFullWidthAsKaratsuba(by:  amount.body)
+        return HL(Self(bitPattern: hl.high), Magnitude(bitPattern: hl.low))
     }
 }
 
 //*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Large x Unsigned x Multiplication
+// MARK: * ANK x Fixed Width Integer x Large x Multiplication x Digit
 //*============================================================================*
 
-extension ANKUnsignedLargeFixedWidthInteger {
+extension ANKLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
-    //=------------------------------------------------------------------------=
-    // the compiler should optimize the general case but I am not sure it does
-    //=------------------------------------------------------------------------=
     
-    @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        Self.h(l: &self, self.body.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.body))
+    @_transparent public static func *=(lhs: inout Self, rhs: Digit) {
+        lhs.body *= rhs
     }
     
-    @_transparent public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        Self.hl(self.body.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.body))
+    @_transparent public static func *(lhs: Self, rhs: Digit) -> Self {
+        Self(bitPattern: lhs.body * rhs)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public mutating func multiplyReportingOverflow(by amount: Digit) -> Bool {
+        self.body.multiplyReportingOverflow(by: amount)
+    }
+    
+    @_transparent public func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
+        let pvo = self.body.multipliedReportingOverflow(by: amount)
+        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
+    }
+    
+    @_transparent public mutating func multiplyFullWidth(by amount: Digit) -> Digit {
+        self.body.multiplyFullWidth(by: amount)
+    }
+    
+    @_transparent public func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
+        let hl = self.body.multipliedFullWidth(by: amount)
+        return HL(hl.high, Magnitude(bitPattern:  hl.low))
     }
 }

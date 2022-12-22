@@ -25,11 +25,20 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultipliedFullWidth() {
-        let a = T(x64:(~0, ~1, ~2, ~3))
-        let b = T(x64:( 0,  1,  2,  3))
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = T(x64:( 0,  1,  2,  3))
         
         for _ in 0 ..< 1_000_000 {
-            _ = a.multipliedFullWidth(by: b)
+            _ = lhs.multipliedFullWidth(by: rhs)
+        }
+    }
+    
+    func testMultipliedFullWidthByInt() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = Int.max
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.multipliedFullWidth(by: rhs)
         }
     }
 }
@@ -47,11 +56,20 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultipliedFullWidth() {
-        let a = T(x64:(~0, ~1, ~2, ~3))
-        let b = T(x64:( 0,  1,  2,  3))
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = T(x64:( 0,  1,  2,  3))
         
         for _ in 0 ..< 1_000_000 {
-            _ = a.multipliedFullWidth(by: b)
+            _ = lhs.multipliedFullWidth(by: rhs)
+        }
+    }
+    
+    func testMultipliedFullWidthByUInt() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = UInt.max
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.multipliedFullWidth(by: rhs)
         }
     }
 }

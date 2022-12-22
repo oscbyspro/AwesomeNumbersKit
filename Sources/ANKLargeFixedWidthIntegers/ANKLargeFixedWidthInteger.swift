@@ -49,7 +49,7 @@ Base.Digit: AwesomeEitherIntOrUInt, Self.Digit == Base.Digit {
     
     typealias Low  = Base.Magnitude
     
-    typealias Body = ANKFullWidth<Self.Base, Self.Base.Magnitude>
+    typealias Body = ANKFullWidth<Base, Base.Magnitude>
         
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -91,23 +91,11 @@ extension ANKLargeFixedWidthInteger {
     }
     
     @_transparent public init(x64: X64) {
-        self.init(bitPattern: Self.Body(ascending: unsafeBitCast(x64, to: (low: Self.Low, high: Self.High).self)))
+        self.init(bitPattern: Self.Body(ascending: unsafeBitCast(x64, to: LH<Self.Low, Self.High>.self)))
     }
     
     @_transparent public init(x32: X32) {
-        self.init(bitPattern: Self.Body(ascending: unsafeBitCast(x32, to: (low: Self.Low, high: Self.High).self)))
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @_transparent @usableFromInline init(ascending digits:(low: Low, high: High)) {
-        self.init(bitPattern: Self.Body(ascending: digits))
-    }
-    
-    @_transparent @usableFromInline init(descending digits:(high: High, low: Low)) {
-        self.init(bitPattern: Self.Body(descending: digits))
+        self.init(bitPattern: Self.Body(ascending: unsafeBitCast(x32, to: LH<Self.Low, Self.High>.self)))
     }
     
     @_transparent @usableFromInline static func uninitialized() -> Self {
@@ -118,36 +106,24 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init<T>(bitPattern: T) where T: ANKLargeFixedWidthInteger, T.Magnitude == Self.Magnitude {
-        self.init(bitPattern: Self.Body(bitPattern: bitPattern.body)) // signitude or magnitude
+    @_transparent @usableFromInline init(ascending  digits: LH<Self.Low, Self.High>) {
+        self.init(bitPattern: Self.Body(ascending: digits))
     }
     
-    @_transparent @usableFromInline init<T>(bitPattern: ANKFullWidth<T, T.Magnitude>) where T.Magnitude == Self.Base.Magnitude {
-        self.init(bitPattern: Self.Body(bitPattern: bitPattern)) // signitude or magnitude
+    @_transparent @usableFromInline init(descending digits: HL<Self.High, Self.Low>) {
+        self.init(bitPattern: Self.Body(descending: digits))
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline static func h(l: inout Self, _ hl: Self.Body.DoubleWidth) -> Self {
-        l = Self(bitPattern: hl.low); return Self(bitPattern: hl.high)
+    @_transparent @usableFromInline init<T>(bitPattern: ANKFullWidth<T, T.Magnitude>) where T.Magnitude == Base.Magnitude {
+        self.init(bitPattern: Body(bitPattern: bitPattern))
     }
     
-    @_transparent @usableFromInline static func hl(_ hl: Self.Body.DoubleWidth) -> HL<Self, Self.Magnitude> {
-        HL(Self(bitPattern: hl.high), Self.Magnitude(bitPattern: hl.low))
-    }
-    
-    @_transparent @usableFromInline static func pvo(_ pvo: PVO<Self.Body>) -> PVO<Self> {
-        PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
-    }
-    
-    @_transparent @usableFromInline static func qr(_ qr: QR<Self.Body, Self.Body>) -> QR<Self, Self> {
-        QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
-    }
-    
-    @_transparent @usableFromInline static func qr(_ qr: QR<Self.Body, Self.Digit>) -> QR<Self, Self.Digit> {
-        QR(Self(bitPattern: qr.quotient), qr.remainder)
+    @_transparent @usableFromInline init<T>(bitPattern: T) where T: ANKLargeFixedWidthInteger, T.Magnitude == Magnitude {
+        self.init(bitPattern: Body(bitPattern: bitPattern.body))
     }
     
     //=------------------------------------------------------------------------=
@@ -155,7 +131,7 @@ extension ANKLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public static var zero: Self {
-        Self(bitPattern: Body.zero)
+        Self(bitPattern: Self.Body.zero)
     }
     
     @usableFromInline var high: Self.High {
@@ -167,18 +143,6 @@ extension ANKLargeFixedWidthInteger {
         @_transparent _read   { yield  self.body.low  }
         @_transparent _modify { yield &self.body.low  }
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @_transparent @usableFromInline static func reinterpret(_ value: Self.Low) -> Self.High {
-        unsafeBitCast(value, to: Self.High.self)
-    }
-    
-    @_transparent @usableFromInline static func reinterpret(_ value: Self.High) -> Self.Low {
-        unsafeBitCast(value, to: Self.Low .self)
-    }
 }
 
 //*============================================================================*
@@ -187,7 +151,7 @@ extension ANKLargeFixedWidthInteger {
 
 @usableFromInline protocol ANKSignedLargeFixedWidthInteger<Base>:
 ANKLargeFixedWidthInteger, AwesomeSignedLargeFixedWidthInteger<Int> where
-Self.Base: AwesomeSignedLargeFixedWidthInteger<Int>,
+Base: AwesomeSignedLargeFixedWidthInteger<Int>,
 X64 == Self.Magnitude.X64, X32 == Self.Magnitude.X32 {
     
     associatedtype X64 = Self.Magnitude.X64 // (UInt64, UInt64, ...)
@@ -219,7 +183,7 @@ extension ANKSignedLargeFixedWidthInteger {
 //*============================================================================*
 
 @usableFromInline protocol ANKUnsignedLargeFixedWidthInteger<Base>: ANKLargeFixedWidthInteger,
-AwesomeUnsignedLargeFixedWidthInteger<UInt> where Self.High: AwesomeUnsignedLargeFixedWidthInteger<UInt>,
+AwesomeUnsignedLargeFixedWidthInteger<UInt> where Self.Base: AwesomeUnsignedLargeFixedWidthInteger<UInt>,
 Self.Base == Self.Base.Magnitude { }
 
 //=----------------------------------------------------------------------------=
@@ -233,10 +197,10 @@ extension ANKUnsignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public static var min: Self {
-        Self(bitPattern: Body.min)
+        Self(bitPattern: Self.Body.min)
     }
 
     @_transparent public static var max: Self {
-        Self(bitPattern: Body.max)
+        Self(bitPattern: Self.Body.max)
     }
 }

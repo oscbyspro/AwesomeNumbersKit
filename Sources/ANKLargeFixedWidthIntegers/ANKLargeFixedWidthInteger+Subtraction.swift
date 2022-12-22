@@ -44,7 +44,8 @@ extension ANKLargeFixedWidthInteger {
     }
     
     @_transparent public func subtractingReportingOverflow(_ amount: Self) -> PVO<Self> {
-        Self.pvo(body.subtractingReportingOverflow(amount.body))
+        let pvo = self.body.subtractingReportingOverflow(amount.body)
+        return PVO(Self(bitPattern: pvo.partialValue),  pvo.overflow)
     }
 }
 
@@ -83,6 +84,7 @@ extension ANKLargeFixedWidthInteger {
     }
     
     @_transparent public func subtractingReportingOverflow(_ amount: Digit) -> PVO<Self> {
-        Self.pvo(body.subtractingReportingOverflow(amount))
+        let pvo = self.body.subtractingReportingOverflow(amount)
+        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
 }

@@ -20,22 +20,26 @@
 #if arch(i386) || arch(arm) || arch(arm64_32) || arch(wasm32) || arch(powerpc)
 
 @frozen @usableFromInline struct ANKInt64: ANKUnsignedLargeFixedWidthInteger {
-        
+    
+    public typealias Digit = Int
+    
     public typealias Magnitude = ANKUInt64
     
-    @usableFromInline typealias Body = ANKFullWidth<Int, UInt>
+    @usableFromInline typealias Base = Int
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: Body
+    @usableFromInline var body: Self.Body
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init(bitPattern: Body) { self.body = bitPattern }
+    @_transparent @usableFromInline init(bitPattern: Self.Body) {
+        self.body = bitPattern
+    }
 }
 
 //=----------------------------------------------------------------------------=
@@ -66,24 +70,28 @@
 #if arch(i386) || arch(arm) || arch(arm64_32) || arch(wasm32) || arch(powerpc)
 
 @frozen @usableFromInline struct ANKUInt64: ANKUnsignedLargeFixedWidthInteger {
-        
+    
+    public typealias Digit = UInt
+    
     public typealias X64 = (UInt64)
     
     public typealias X32 = (UInt32, UInt32)
     
-    @usableFromInline typealias Body = ANKFullWidth<UInt, UInt>
+    @usableFromInline typealias Base = UInt
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: Body
+    @usableFromInline var body: Self.Body
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init(bitPattern: Body) { self.body = bitPattern }
+    @_transparent @usableFromInline init(bitPattern: Self.Body) {
+        self.body = bitPattern
+    }
 }
 
 //=----------------------------------------------------------------------------=

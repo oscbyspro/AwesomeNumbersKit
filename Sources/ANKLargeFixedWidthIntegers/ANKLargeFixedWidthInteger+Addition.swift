@@ -44,7 +44,8 @@ extension ANKLargeFixedWidthInteger {
     }
     
     @_transparent public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
-        Self.pvo(body.addingReportingOverflow(amount.body))
+        let pvo = self.body.addingReportingOverflow(amount.body)
+        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
 }
 
@@ -58,19 +59,19 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public static func +=(lhs: inout Self, rhs: Digit) {
+    @_transparent public static func +=(lhs: inout Self, rhs: Self.Digit) {
         lhs.body += rhs
     }
     
-    @_transparent public static func +(lhs: Self, rhs: Digit) -> Self {
+    @_transparent public static func +(lhs: Self, rhs: Self.Digit) -> Self {
         Self(bitPattern: lhs.body + rhs)
     }
     
-    @_transparent public static func &+=(lhs: inout Self, rhs: Digit) {
+    @_transparent public static func &+=(lhs: inout Self, rhs: Self.Digit) {
         lhs.body &+= rhs
     }
     
-    @_transparent public static func &+(lhs: Self, rhs: Digit) -> Self {
+    @_transparent public static func &+(lhs: Self, rhs: Self.Digit) -> Self {
         Self(bitPattern: lhs.body &+ rhs)
     }
     
@@ -78,11 +79,12 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public mutating func addReportingOverflow(_ amount: Digit) -> Bool {
+    @_transparent public mutating func addReportingOverflow(_ amount: Self.Digit) -> Bool {
         self.body.addReportingOverflow(amount)
     }
     
-    @_transparent public func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {
-        Self.pvo(body.addingReportingOverflow(amount))
+    @_transparent public func addingReportingOverflow(_ amount: Self.Digit) -> PVO<Self> {
+        let pvo = self.body.addingReportingOverflow(amount)
+        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
 }

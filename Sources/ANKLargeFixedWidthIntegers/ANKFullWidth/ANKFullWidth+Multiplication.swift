@@ -47,53 +47,34 @@ extension ANKFullWidth {
     }
     
     @inlinable func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        let lhs = self, rhs = amount; var product = DoubleWidth()
+        let lhsIsLessThanZero =   self.isLessThanZero
+        let rhsIsLessThanZero = amount.isLessThanZero
         //=--------------------------------------=
-        lhs.withUnsafeWords { LHS in
-        rhs.withUnsafeWords { RHS in
+        var product = DoubleWidth()
+        //=--------------------------------------=
+        self  .withUnsafeWords { LHS in
+        amount.withUnsafeWords { RHS in
         product.withUnsafeMutableWords { PRODUCT in
             //=----------------------------------=
-            // LHS x RHS
-            //=----------------------------------=
+            var carry =  UInt()
             for lhsIndex in LHS.indices {
-                var carry = UInt()
-                var productIndex = lhsIndex
-                //=------------------------------=
-                for rhsIndex in RHS.indices {
-                    let lhsWord = LHS[unchecked: lhsIndex]
-                    let rhsWord = RHS[unchecked: rhsIndex]
-                    carry = PRODUCT[unchecked: productIndex].addFullWidth(carry, multiplicands:(lhsWord, rhsWord))
-                    PRODUCT.formIndex(after:  &productIndex)
-                }
-                //=------------------------------=
-                var overflow = PRODUCT[unchecked: productIndex].addReportingOverflow(carry)
-                while overflow {
-                    PRODUCT.formIndex(after: &productIndex)
-                    overflow = PRODUCT[unchecked: productIndex].addReportingOverflow(1 as UInt)
+            for rhsIndex in RHS.indices {
+                let lhsWord = LHS[unchecked: lhsIndex]
+                let rhsWord = RHS[unchecked: rhsIndex]
+                carry = PRODUCT[unchecked: lhsIndex &+ rhsIndex].addFullWidth(carry, multiplicands:(lhsWord, rhsWord))
+            }}
+            //=----------------------------------=
+            if  lhsIsLessThanZero {
+                var carry = true; for rhsIndex in RHS.indices {
+                    let word = ~RHS[unchecked: rhsIndex]
+                    carry = PRODUCT[unchecked: LHS.count &+ rhsIndex].addReportingOverflow(word, carry)
                 }
             }
             //=----------------------------------=
-            // RHS x LHS Sign
-            //=----------------------------------=
-            if  lhs.isLessThanZero {
-                var carry = true
-                var productIndex = LHS.count
-                for rhsIndex  in RHS.indices {
-                    carry = PRODUCT[unchecked: productIndex].addReportingOverflow(UInt(bit: carry))
-                    carry = PRODUCT[unchecked: productIndex].addReportingOverflow(~RHS[unchecked: rhsIndex]) || carry
-                    PRODUCT.formIndex(after:  &productIndex)
-                }
-            }
-            //=----------------------------------=
-            // LHS x RHS Sign
-            //=----------------------------------=
-            if  rhs.isLessThanZero {
-                var carry = true
-                var productIndex = RHS.count
-                for lhsIndex  in LHS.indices {
-                    carry = PRODUCT[unchecked: productIndex].addReportingOverflow(UInt(bit: carry))
-                    carry = PRODUCT[unchecked: productIndex].addReportingOverflow(~LHS[unchecked: lhsIndex]) || carry
-                    PRODUCT.formIndex(after:  &productIndex)
+            if  rhsIsLessThanZero {
+                var carry = true; for lhsIndex in LHS.indices {
+                    let word = ~LHS[unchecked: lhsIndex]
+                    carry = PRODUCT[unchecked: lhsIndex &+ RHS.count].addReportingOverflow(word, carry)
                 }
             }
         }}}

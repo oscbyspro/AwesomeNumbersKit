@@ -9,7 +9,6 @@
 
 import ANKFoundation
 
-#warning("TODO")
 //*============================================================================*
 // MARK: * ANK x Full Width x Multiplication x Digit
 //*============================================================================*
@@ -19,36 +18,65 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
-}
-
-#warning("REMOVE, maybe")
-//*============================================================================*
-// MARK: * ANK x Full Width x Unsigned x Multiplication x Digit
-//*============================================================================*
-
-extension ANKFullWidth where Self: UnsignedInteger {
+    
+    @inlinable public static func *=(lhs: inout Self, rhs: Self.Digit) {
+        let o = lhs.multiplyReportingOverflow(by: rhs); precondition(!o)
+    }
+    
+    @inlinable public static func *(lhs: Self, rhs: Self.Digit) -> Self {
+        let (pv, o) = lhs.multipliedReportingOverflow(by: rhs); precondition(!o); return pv
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func multiplyFullWidth(by rhs: UInt) -> UInt {
-        var last = UInt(repeating: self.isLessThanZero)
-        return self.withUnsafeMutableWords { LHS in
-            var carry  = UInt()
-            for lhsIndex in LHS.indices {
-                let upper = LHS[unchecked: lhsIndex].multiplyFullWidth(by:  rhs)
-                let extra = LHS[unchecked: lhsIndex].addReportingOverflow(carry)
-                carry = extra ? (upper + 1) : upper
-            }
-            
-            let _ = last.multiplyFullWidth(by:  rhs)
-            let _ = last.addReportingOverflow(carry)
-            return  last
-        }
+    @inlinable mutating func multiplyReportingOverflow(by amount: Self.Digit) -> Bool {
+        let o: Bool; (self, o) = self.multipliedReportingOverflow(by: amount); return o
     }
     
-    @inlinable func multipliedFullWidth(by rhs: UInt) -> HL<UInt, Magnitude> {
-        var lhs = self; let rhs = lhs.multiplyFullWidth(by: rhs); return (rhs, Magnitude(bitPattern: lhs))
+    @inlinable func multipliedReportingOverflow(by amount: Self.Digit) -> PVO<Self> {
+        let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero
+        let product  = self.multipliedFullWidth(by: amount)
+        let overflow = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
+        return PVO(Self(bitPattern: product.low), overflow)
+    }
+    
+    @inlinable mutating func multiplyFullWidth(by amount: Self.Digit) -> Self.Digit {
+        let (high, low) = self.multipliedFullWidth(by: amount); self = Self(bitPattern: low); return high
+    }
+    
+    @inlinable func multipliedFullWidth(by amount:  Digit) -> HL<Self.Digit, Self.Magnitude> {
+        let lhsIsLessThanZero =   self.isLessThanZero
+        let rhsIsLessThanZero = amount.isLessThanZero
+        //=--------------------------------------=
+        var product = ANKFullWidth<Self.Digit, Self.Magnitude>()
+        //=--------------------------------------=
+        self.withUnsafeWords { LHS in
+        product.withUnsafeMutableWords { PRODUCT in
+            let rhsWord = UInt(bitPattern: amount)
+            //=----------------------------------=
+            var carry =  UInt()
+            for index in LHS.indices {
+                let lhsWord = LHS[unchecked: index]
+                (carry, PRODUCT[unchecked: index]) = carry.addingFullWidth(multiplicands:(lhsWord, rhsWord))
+            }
+            
+            let lhsWord = UInt(repeating: lhsIsLessThanZero)
+            PRODUCT[unchecked:  PRODUCT.lastIndex] = carry.addingFullWidth(multiplicands:(lhsWord, rhsWord)).low
+            //=----------------------------------=
+            if  lhsIsLessThanZero {
+                _ = PRODUCT[unchecked: PRODUCT.lastIndex].addReportingOverflow(~rhsWord, true)
+            }
+            //=----------------------------------=
+            if  rhsIsLessThanZero {
+                var carry = true; for index in LHS.indices {
+                    let lhsWord = ~LHS[unchecked: index]
+                    carry = PRODUCT[unchecked: index &+ 1].addReportingOverflow(~lhsWord, carry)
+                }
+            }
+        }}
+        //=--------------------------------------=
+        return HL(product.high, product.low)
     }
 }

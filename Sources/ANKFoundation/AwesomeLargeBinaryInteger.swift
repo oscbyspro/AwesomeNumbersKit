@@ -52,6 +52,14 @@ Magnitude: AwesomeUnsignedLargeBinaryInteger {
     @inlinable func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit>
     
     //=------------------------------------------------------------------------=
+    // MARK: Multiplication
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func *=(lhs: inout Self, rhs: Digit)
+    
+    @inlinable static func *(lhs: Self, rhs: Digit) -> Self
+    
+    //=------------------------------------------------------------------------=
     // MARK: Subtraction
     //=------------------------------------------------------------------------=
     

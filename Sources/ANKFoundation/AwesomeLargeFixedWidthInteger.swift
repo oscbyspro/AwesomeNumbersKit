@@ -51,6 +51,18 @@ Digit: AwesomeFixedWidthInteger {
     @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>
     
     //=------------------------------------------------------------------------=
+    // MARK: Multiplication
+    //=------------------------------------------------------------------------=
+    
+    @inlinable mutating func multiplyReportingOverflow(by amount: Digit) -> Bool
+    
+    @inlinable func multipliedReportingOverflow(by amount: Digit) -> PVO<Self>
+    
+    @inlinable mutating func multiplyFullWidth(by amount: Digit) -> Digit
+    
+    @inlinable func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude>
+    
+    //=------------------------------------------------------------------------=
     // MARK: Subtraction
     //=------------------------------------------------------------------------=
 

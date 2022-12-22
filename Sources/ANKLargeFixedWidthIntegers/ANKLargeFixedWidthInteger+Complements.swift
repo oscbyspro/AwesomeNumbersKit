@@ -51,7 +51,8 @@ extension ANKSignedLargeFixedWidthInteger {
     }
     
     @_transparent public func negatedReportingOverflow() -> PVO<Self> {
-        Self.pvo(self.body.negatedReportingOverflow())        
+        let pvo = self.body.negatedReportingOverflow()
+        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
     
     //=------------------------------------------------------------------------=
