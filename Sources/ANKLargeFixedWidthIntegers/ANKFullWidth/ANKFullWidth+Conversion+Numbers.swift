@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Number
+// MARK: * ANK x Full Width x Number x Integer
 //*============================================================================*
 
 extension ANKFullWidth {
@@ -18,25 +18,6 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
-    
-    @inlinable init(integerLiteral source: Int) {
-        self.init(small: source)
-    }
-    
-    @inlinable init(small source: Int) {
-        assert(Low.bitWidth >= source.bitWidth)
-        let high = High(repeating: source.isLessThanZero)
-        let low  = Low(truncatingIfNeeded: source)
-        self.init(descending:(high, low))
-        precondition(isLessThanZero == source.isLessThanZero)
-    }
-    
-    @inlinable init(small source: UInt) {
-        assert(Low.bitWidth >= source.bitWidth)
-        let high = High(repeating: source.isLessThanZero)
-        let low  = Low(_truncatingBits: source)
-        self.init(descending:(high, low))
-    }
     
     @inlinable init(_ source: some BinaryInteger) {
         guard let value = Self(exactly: source) else {
@@ -92,10 +73,6 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(_truncatingBits source: UInt) {
-        self.init(small: source)
-    }
-    
     @inlinable init(_copy words: some Collection<UInt>, _extending sign: UInt) {
         self = Self.fromUnsafeTemporaryWords { SELF in
             var index = SELF.startIndex
@@ -110,6 +87,46 @@ extension ANKFullWidth {
                 SELF[unchecked: index] = sign
                 SELF.formIndex(after: &index)
             }
+        }
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Full Width x Conversion x Number x Digit
+//*============================================================================*
+
+extension ANKFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+        
+    @inlinable init(integerLiteral source: Int) {
+        self.init(digit: source)
+    }
+    
+    @inlinable init(_truncatingBits source: UInt) {
+        self.init(digit: source)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @_semantics("optimize.sil.specialize.generic.partial.never")
+    @inlinable init(digit source: some AwesomeEitherIntOrUInt) {
+        assert(Low.bitWidth >= source.bitWidth)
+        let high = High(repeating: source.isLessThanZero)
+        //=--------------------------------------=
+        // Powered By Compiler Origami
+        //=--------------------------------------=
+        if  type(of: source).isSigned {
+            let low  = Low(truncatingIfNeeded: source)
+            self.init(descending:(high, low))
+            precondition(isLessThanZero == source.isLessThanZero)
+        } else {
+            let low  = Low(_truncatingBits: UInt(bitPattern: source))
+            self.init(descending:(high, low))
         }
     }
 }

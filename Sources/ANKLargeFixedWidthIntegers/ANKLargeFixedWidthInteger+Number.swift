@@ -69,7 +69,7 @@ extension ANKUnsignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public init(integerLiteral source: UInt) {
-        self.init(bitPattern: Body(small: source))
+        self.init(bitPattern: Body(digit: source))
     }
     
     @_transparent public init(_ source: some BinaryInteger) {

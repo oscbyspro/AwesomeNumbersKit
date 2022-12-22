@@ -11,7 +11,7 @@
 // MARK: * Awesome x Either Int Or UInt
 //*============================================================================*
 
-public protocol AwesomeEitherIntOrUInt: AwesomeFixedWidthInteger where Magnitude: AwesomeEitherIntOrUInt { }
+public protocol AwesomeEitherIntOrUInt: AwesomeFixedWidthInteger where Magnitude == UInt { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details

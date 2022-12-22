@@ -134,8 +134,8 @@ extension ANKFullWidth: AwesomeUnsignedInteger where High: AwesomeUnsignedIntege
 extension ANKFullWidth:   AwesomeSignedFixedWidthInteger where High:   AwesomeSignedFixedWidthInteger { }
 extension ANKFullWidth: AwesomeUnsignedFixedWidthInteger where High: AwesomeUnsignedFixedWidthInteger { }
 
-extension ANKFullWidth:   AwesomeSignedLargeBinaryInteger where High:   AwesomeSignedFixedWidthInteger { }
-extension ANKFullWidth: AwesomeUnsignedLargeBinaryInteger where High: AwesomeUnsignedFixedWidthInteger { }
+extension ANKFullWidth:   AwesomeSignedLargeBinaryInteger where High:   AwesomeSignedLargeBinaryInteger { }
+extension ANKFullWidth: AwesomeUnsignedLargeBinaryInteger where High: AwesomeUnsignedLargeBinaryInteger { }
 
 extension ANKFullWidth:   AwesomeSignedLargeFixedWidthInteger where High:   AwesomeSignedLargeFixedWidthInteger { }
 extension ANKFullWidth: AwesomeUnsignedLargeFixedWidthInteger where High: AwesomeUnsignedLargeFixedWidthInteger { }

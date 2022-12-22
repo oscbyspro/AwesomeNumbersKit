@@ -67,23 +67,23 @@ extension ANKFullWidth where High == Low {
         //
         //=--------------------------------------=
         func sum(_ x0: Low, _ x1: Low, _ x2: Low) -> Magnitude {
-            let (x3, o3) = x0.addingReportingOverflow(x1)
-            let (x4, o4) = x3.addingReportingOverflow(x2)
-            let (x5) = Low(_truncatingBits:  UInt(o3) &+ UInt(o4))
-            return Magnitude(descending:(x5, x4))
+            let (x3, o3) = x0.addingReportingOverflow(x1) as (Low, Bool)
+            let (x4, o4) = x3.addingReportingOverflow(x2) as (Low, Bool)
+            let (x5)/**/ = Low.init(_truncatingBits: UInt(o3) &+ UInt(o4))
+            return Magnitude(descending:(x5, x4) as (Low, Low))
         }
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        let m0 = self.low .multipliedFullWidth(by: amount.low )
-        let m1 = self.low .multipliedFullWidth(by: amount.high)
-        let m2 = self.high.multipliedFullWidth(by: amount.low )
-        let m3 = self.high.multipliedFullWidth(by: amount.high)
+        let m0 = self.low .multipliedFullWidth(by: amount.low ) as HL<Low, Low>
+        let m1 = self.low .multipliedFullWidth(by: amount.high) as HL<Low, Low>
+        let m2 = self.high.multipliedFullWidth(by: amount.low ) as HL<Low, Low>
+        let m3 = self.high.multipliedFullWidth(by: amount.high) as HL<Low, Low>
         //=--------------------------------------=
         //
         //=--------------------------------------=
-        let s0 = sum(m0.high, m1.low,  m2.low)
-        let s1 = sum(m1.high, m2.high, m3.low)
+        let s0 = sum(m0.high, m1.low,  m2.low) as Magnitude
+        let s1 = sum(m1.high, m2.high, m3.low) as Magnitude
         //=--------------------------------------=
         //
         //=--------------------------------------=

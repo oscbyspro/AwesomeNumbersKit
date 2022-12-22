@@ -146,6 +146,10 @@ extension ANKLargeFixedWidthInteger {
         QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
     }
     
+    @_transparent @usableFromInline static func qr(_ qr: QR<Body, Digit>) -> QR<Self, Digit> {
+        QR(Self(bitPattern: qr.quotient), qr.remainder)
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=

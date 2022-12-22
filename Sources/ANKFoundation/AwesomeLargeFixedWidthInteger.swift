@@ -21,8 +21,6 @@
 public protocol AwesomeLargeFixedWidthInteger: AwesomeFixedWidthInteger,
 AwesomeLargeBinaryInteger where Magnitude: AwesomeUnsignedLargeFixedWidthInteger {
     
-    associatedtype Digit: AwesomeEitherIntOrUInt
-    
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
@@ -30,28 +28,30 @@ AwesomeLargeBinaryInteger where Magnitude: AwesomeUnsignedLargeFixedWidthInteger
     @inlinable init(repeating word: UInt)
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Addition
     //=------------------------------------------------------------------------=
-    
-    @inlinable static func +=(lhs: inout Self, rhs: Digit)
-
-    @inlinable static func +(lhs: Self, rhs: Digit) -> Self
 
     @inlinable static func &+=(lhs: inout Self, rhs: Digit)
 
     @inlinable static func &+(lhs: Self, rhs: Digit) -> Self
-
+    
     @inlinable mutating func addReportingOverflow(_ amount: Digit) -> Bool
     
     @inlinable func addingReportingOverflow(_ amount: Digit) -> PVO<Self>
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Division
     //=------------------------------------------------------------------------=
     
-    @inlinable static func -=(lhs: inout Self, rhs: Digit)
-
-    @inlinable static func -(lhs: Self, rhs: Digit) -> Self
+    @inlinable mutating func formQuotientReportingRemainder(dividingBy divisor: Digit) -> Digit
+    
+    @inlinable mutating func formRemainderReportingQuotient(dividingBy divisor: Digit) -> Self
+    
+    @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Subtraction
+    //=------------------------------------------------------------------------=
 
     @inlinable static func &-=(lhs: inout Self, rhs: Digit)
     
@@ -67,11 +67,11 @@ AwesomeLargeBinaryInteger where Magnitude: AwesomeUnsignedLargeFixedWidthInteger
 //*============================================================================*
 
 public protocol AwesomeSignedLargeFixedWidthInteger: AwesomeLargeFixedWidthInteger,
-AwesomeSignedFixedWidthInteger, AwesomeSignedLargeBinaryInteger where Digit == Int { }
+AwesomeSignedFixedWidthInteger, AwesomeSignedLargeBinaryInteger { }
 
 //*============================================================================*
 // MARK: * Awesome x Fixed Width Integer x Large x Unsigned
 //*============================================================================*
 
 public protocol AwesomeUnsignedLargeFixedWidthInteger: AwesomeLargeFixedWidthInteger,
-AwesomeUnsignedFixedWidthInteger, AwesomeUnsignedLargeBinaryInteger where Digit == UInt { }
+AwesomeUnsignedFixedWidthInteger, AwesomeUnsignedLargeBinaryInteger { }

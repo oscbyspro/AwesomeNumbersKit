@@ -18,16 +18,58 @@
 /// self.bitWidth % UInt.bitWidth == 0
 /// ```
 /// 
-public protocol AwesomeLargeBinaryInteger: AwesomeBinaryInteger where Magnitude: AwesomeUnsignedLargeBinaryInteger { }
+public protocol AwesomeLargeBinaryInteger: AwesomeBinaryInteger where
+Magnitude: AwesomeUnsignedLargeBinaryInteger {
+    
+    associatedtype Digit: AwesomeEitherIntOrUInt
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Addition
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func +=(lhs: inout Self, rhs: Digit)
+
+    @inlinable static func +(lhs: Self, rhs: Digit) -> Self
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Division
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func /=(lhs: inout Self, rhs: Digit)
+    
+    @inlinable static func /(lhs: Self, rhs: Digit) -> Self
+    
+    @inlinable static func %=(lhs: inout Self, rhs: Digit)
+    
+    @inlinable static func %(lhs: Self, rhs: Digit) -> Digit
+    
+    @inlinable mutating func divideReportingOverflow(by divisor: Digit) -> Bool
+    
+    @inlinable func dividedReportingOverflow(by divisor: Digit) -> PVO<Self>
+    
+    @inlinable mutating func formRemainderReportingOverflow(by divisor: Digit) -> Bool
+    
+    @inlinable func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Subtraction
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func -=(lhs: inout Self, rhs: Digit)
+
+    @inlinable static func -(lhs: Self, rhs: Digit) -> Self
+}
 
 //*============================================================================*
 // MARK: * Awesome x Fixed Width Integer x Large x Signed
 //*============================================================================*
 
-public protocol AwesomeSignedLargeBinaryInteger: AwesomeLargeBinaryInteger, AwesomeSignedInteger { }
+public protocol AwesomeSignedLargeBinaryInteger: AwesomeLargeBinaryInteger,
+AwesomeSignedInteger where Digit == Int { }
 
 //*============================================================================*
 // MARK: * Awesome x Fixed Width Integer x Large x Unsigned
 //*============================================================================*
 
-public protocol AwesomeUnsignedLargeBinaryInteger: AwesomeLargeBinaryInteger, AwesomeUnsignedInteger { }
+public protocol AwesomeUnsignedLargeBinaryInteger: AwesomeLargeBinaryInteger,
+AwesomeUnsignedInteger where Digit == UInt { }

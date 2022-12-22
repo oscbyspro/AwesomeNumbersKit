@@ -19,7 +19,7 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline static var bitWidth: Int {
+    @inlinable static var bitWidth: Int {
         High.bitWidth + Low.bitWidth
     }
     
