@@ -19,19 +19,19 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func +=(lhs: inout Self, rhs: Self.Digit) {
+    @inlinable static func +=(lhs: inout Self, rhs: Digit) {
         let o = lhs.addReportingOverflow(rhs); precondition(!o)
     }
     
-    @inlinable static func +(lhs: Self, rhs: Self.Digit) -> Self {
+    @inlinable static func +(lhs: Self, rhs: Digit) -> Self {
         let (pv, o) = lhs.addingReportingOverflow(rhs); precondition(!o); return pv
     }
     
-    @inlinable static func &+=(lhs: inout Self, rhs: Self.Digit) {
+    @inlinable static func &+=(lhs: inout Self, rhs: Digit) {
         let _ = lhs.addReportingOverflow(rhs)
     }
     
-    @inlinable static func &+(lhs: Self, rhs: Self.Digit) -> Self {
+    @inlinable static func &+(lhs: Self, rhs: Digit) -> Self {
         let (pv, _) = lhs.addingReportingOverflow(rhs); return pv
     }
     
@@ -39,7 +39,7 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func addReportingOverflow(_ amount: Self.Digit) -> Bool {
+    @inlinable mutating func addReportingOverflow(_ amount: Digit) -> Bool {
         let lhsWasLessThanZero: Bool =   self.isLessThanZero
         let rhsWasLessThanZero: Bool = amount.isLessThanZero
         //=--------------------------------------=

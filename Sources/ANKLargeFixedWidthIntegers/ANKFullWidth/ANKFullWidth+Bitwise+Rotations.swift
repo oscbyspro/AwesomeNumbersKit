@@ -9,6 +9,7 @@
 
 import ANKFoundation
 
+#warning("&<< and &>> mean masked bitshift, not bitrotation")
 //*============================================================================*
 // MARK: * ANK x Full Width x Bitwise x Rotations x L
 //*============================================================================*
@@ -47,9 +48,9 @@ extension ANKFullWidth {
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable mutating func _bitrotateLeft(by amount: Int) {
-        assert(0 <= amount && amount < Self.bitWidth)
-        let words = amount >> UInt.bitWidth.trailingZeroBitCount
-        let bits  = amount & (UInt.bitWidth &- 1)
+        assert(0 <= amount &&  amount < Self.bitWidth)
+        let words = amount &>> UInt.bitWidth.trailingZeroBitCount
+        let bits  = amount &  (UInt.bitWidth &- 1)
         self._bitrotateLeft(words: words, bits: bits)
     }
     
@@ -96,6 +97,7 @@ extension ANKFullWidth {
     }
 }
 
+#warning("&<< and &>> mean masked bitshift, not bitrotation")
 //*============================================================================*
 // MARK: * ANK x Full Width x Bitwise x Rotations x R
 //*============================================================================*
@@ -134,9 +136,9 @@ extension ANKFullWidth {
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable mutating func _bitrotateRight(by amount: Int) {
-        assert(0 <= amount && amount < Self.bitWidth)
-        let words = amount >> UInt.bitWidth.trailingZeroBitCount
-        let bits  = amount & (UInt.bitWidth &- 1)
+        assert(0 <= amount &&  amount < Self.bitWidth)
+        let words = amount &>> UInt.bitWidth.trailingZeroBitCount
+        let bits  = amount &  (UInt.bitWidth &- 1)
         self._bitrotateRight(words: words, bits: bits)
     }
     

@@ -55,15 +55,13 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    /// Returns its word count in reduced two's complement form.
-    @inlinable func reducedWordCountReportingIsZeroOrMinusOne()
-    -> (reducedWordCount: Int, isZeroOrMinusOne: Bool) {
-        let (rli, izomo) = self.reducedLastIndexReportingIsZeroOrMinusOne(); return (rli + 1, izomo)
+    /// Returns its word count in minimum two's complement form.
+    @inlinable func minWordCountReportingIsZeroOrMinusOne() -> (minWordCount: Int, isZeroOrMinusOne: Bool) {
+        let (mli, izomo) = self.minLastIndexReportingIsZeroOrMinusOne(); return (mli + 1, izomo)
     }
     
-    /// Returns its last index in reduced two's complement form.
-    @inlinable func reducedLastIndexReportingIsZeroOrMinusOne()
-    -> (reducedLastIndex: Int, isZeroOrMinusOne: Bool) {
+    /// Returns its last index in minimum two's complement form.
+    @inlinable func minLastIndexReportingIsZeroOrMinusOne() -> (minLastIndex: Int, isZeroOrMinusOne: Bool) {
         let sign  = UInt(repeating: self.isLessThanZero)
         let index = self.withUnsafeWords({ SELF in SELF.lastIndex(where:{ word in word != sign }) })
         return index.map({($0, false)}) ?? (Int(), true)

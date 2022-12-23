@@ -8,16 +8,16 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Awesome x Either Int Or UInt
+// MARK: * Awesome x Int Or UInt
 //*============================================================================*
 
-public protocol AwesomeEitherIntOrUInt: AwesomeLargeFixedWidthInteger<Self> where Magnitude == UInt { }
+public protocol AwesomeIntOrUInt: AwesomeLargeFixedWidthInteger<Self> where Magnitude == UInt { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension AwesomeEitherIntOrUInt {
+extension AwesomeIntOrUInt {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -27,7 +27,7 @@ extension AwesomeEitherIntOrUInt {
         self.init(_truncatingBits: word)
     }
     
-    @_transparent public init(bitPattern: some AwesomeEitherIntOrUInt) {
+    @_transparent public init(bitPattern: some AwesomeIntOrUInt) {
         self = unsafeBitCast(bitPattern, to: Self.self)
     }
 }
@@ -36,8 +36,8 @@ extension AwesomeEitherIntOrUInt {
 // MARK: * Awesome x Either Int Or UInt x Swift
 //*============================================================================*
 
-extension  Int: AwesomeEitherIntOrUInt,   AwesomeSignedLargeFixedWidthInteger { }
-extension UInt: AwesomeEitherIntOrUInt, AwesomeUnsignedLargeFixedWidthInteger { }
+extension  Int: AwesomeIntOrUInt,   AwesomeSignedLargeFixedWidthInteger { }
+extension UInt: AwesomeIntOrUInt, AwesomeUnsignedLargeFixedWidthInteger { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Operators Marked As Unavailable in /Integers.swift

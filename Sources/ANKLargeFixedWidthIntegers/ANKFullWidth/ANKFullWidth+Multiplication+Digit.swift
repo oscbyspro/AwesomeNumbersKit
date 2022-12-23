@@ -19,11 +19,11 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func *=(lhs: inout Self, rhs: Self.Digit) {
+    @inlinable public static func *=(lhs: inout Self, rhs: Digit) {
         let o = lhs.multiplyReportingOverflow(by: rhs); precondition(!o)
     }
     
-    @inlinable public static func *(lhs: Self, rhs: Self.Digit) -> Self {
+    @inlinable public static func *(lhs: Self, rhs: Digit) -> Self {
         let (pv, o) = lhs.multipliedReportingOverflow(by: rhs); precondition(!o); return pv
     }
     
@@ -31,52 +31,41 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func multiplyReportingOverflow(by amount: Self.Digit) -> Bool {
+    @inlinable mutating func multiplyReportingOverflow(by amount: Digit) -> Bool {
         let o: Bool; (self, o) = self.multipliedReportingOverflow(by: amount); return o
     }
     
-    @inlinable func multipliedReportingOverflow(by amount: Self.Digit) -> PVO<Self> {
+    @inlinable func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
         let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero
         let product  = self.multipliedFullWidth(by: amount)
         let overflow = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
         return PVO(Self(bitPattern: product.low), overflow)
     }
     
-    @inlinable mutating func multiplyFullWidth(by amount: Self.Digit) -> Self.Digit {
+    @inlinable mutating func multiplyFullWidth(by amount: Digit) -> Digit {
         let (high, low) = self.multipliedFullWidth(by: amount); self = Self(bitPattern: low); return high
     }
     
-    @inlinable func multipliedFullWidth(by amount:  Digit) -> HL<Self.Digit, Self.Magnitude> {
-        let lhsIsLessThanZero =   self.isLessThanZero
-        let rhsIsLessThanZero = amount.isLessThanZero
-        //=--------------------------------------=
-        var product = ANKFullWidth<Self.Digit, Self.Magnitude>()
-        //=--------------------------------------=
+    @inlinable func multipliedFullWidth(by amount: Digit) -> HL<Digit, Self.Magnitude> {
         self.withUnsafeWords { LHS in
-        product.withUnsafeMutableWords { PRODUCT in
-            let rhsWord = UInt(bitPattern: amount)
+            if amount.isZero { return HL(Digit(), Magnitude()) }
             //=----------------------------------=
-            var carry =  UInt()
-            for index in LHS.indices {
-                let lhsWord = LHS[unchecked: index]
-                (carry, PRODUCT[unchecked: index]) = carry.addingFullWidth(multiplicands:(lhsWord, rhsWord))
-            }
-            
-            let lhsWord = UInt(repeating: lhsIsLessThanZero)
-            PRODUCT[unchecked:  PRODUCT.lastIndex] = carry.addingFullWidth(multiplicands:(lhsWord, rhsWord)).low
-            //=----------------------------------=
-            if  lhsIsLessThanZero {
-                _ = PRODUCT[unchecked: PRODUCT.lastIndex].addReportingOverflow(~rhsWord, true)
-            }
-            //=----------------------------------=
-            if  rhsIsLessThanZero {
-                var carry = true; for index in LHS.indices {
-                    let lhsWord = ~LHS[unchecked: index]
-                    carry = PRODUCT[unchecked: index &+ 1].addReportingOverflow(~lhsWord, carry)
+            let product = ExtraDigitWidth.fromUnsafeTemporaryWords { PRODUCT in
+                var a = UInt()
+                var b = amount.isLessThanZero as Bool
+                let x = UInt(bitPattern: amount)
+                //=------------------------------=
+                for i in LHS.indices {
+                    let y = LHS[unchecked: i]
+                    let p = a.addingFullWidth(multiplicands:(y, x))
+                    (a, PRODUCT[unchecked: i]) = p
+                    if (amount.isLessThanZero) { b = a.addReportingOverflow(~y, b) }
                 }
+                //=------------------------------=
+                PRODUCT[unchecked: PRODUCT.lastIndex] = self.isLessThanZero ? a &+ ~x &+ 1 : a
             }
-        }}
-        //=--------------------------------------=
-        return HL(product.high, product.low)
+            //=----------------------------------=
+            return HL(product.high, product.low)
+        }
     }
 }

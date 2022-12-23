@@ -47,8 +47,7 @@ extension ANKFullWidth where High.Magnitude == Low {
     @inlinable func multipliedFullWidthAsKaratsuba(by amount: Self) -> DoubleWidth {
         let negate  = self.isLessThanZero != amount.isLessThanZero
         var product = self.magnitude.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.magnitude)
-        if  negate  { product.formTwosComplement() } // cannot overflow: abs < max
-        return DoubleWidth(descending:(Self(bitPattern: product.high), product.low))
+        if  negate  { product.formTwosComplement() }; return DoubleWidth(bitPattern: product)
     }
 }
 

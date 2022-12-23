@@ -29,7 +29,7 @@ extension ANKFullWidth {
     }
     
     @inlinable func twosComplement() -> Self {
-        var x = self; x.formTwosComplement(); return x
+        var S0 = self; S0.formTwosComplement(); return S0
     }
     
     /// - Returns true when `Self.isSigned == true` and `self == min`.

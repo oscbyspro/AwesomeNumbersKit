@@ -29,7 +29,7 @@ final class TypesTestsOnEitherIntOrUInt: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsEitherIntOrUInt() {
-        for type: any AwesomeEitherIntOrUInt.Type in types {
+        for type: any AwesomeIntOrUInt.Type in types {
             if let _ = type as?  Int.Type { continue }
             if let _ = type as? UInt.Type { continue }
             XCTFail("\(type) is neither Int nor UInt")

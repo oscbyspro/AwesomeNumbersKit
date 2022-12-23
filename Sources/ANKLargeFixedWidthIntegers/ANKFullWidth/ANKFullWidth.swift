@@ -30,15 +30,17 @@ import ANKFoundation
 @frozen @usableFromInline struct ANKFullWidth<High, Low>: WoRdS, ANKFullWidthCollection,
 AwesomeLargeFixedWidthInteger where High: AwesomeLargeFixedWidthInteger,
 Low: AwesomeUnsignedLargeFixedWidthInteger<UInt>, Low == Low.Magnitude,
-High.Digit: AwesomeEitherIntOrUInt, High.Magnitude.Digit == UInt {
+High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {
     
     public typealias Digit = High.Digit
     
     @usableFromInline typealias IntegerLiteralType = Int
         
     @usableFromInline typealias Magnitude = ANKFullWidth<High.Magnitude, Low>
-        
-    @usableFromInline typealias DoubleWidth = ANKFullWidth<Self, Self.Magnitude>
+    
+    @usableFromInline typealias DoubleWidth = ANKFullWidth<Self, Magnitude>
+    
+    @usableFromInline typealias ExtraDigitWidth = ANKFullWidth<Digit, Magnitude>
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

@@ -15,6 +15,10 @@
     
     public typealias Digit = Int
     
+    public typealias X64 = Magnitude.X64
+    
+    public typealias X32 = Magnitude.X32
+    
     public typealias Magnitude = ANKUInt512
     
     @usableFromInline typealias Base = ANKInt256
@@ -23,13 +27,13 @@
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: Self.Body
+    @usableFromInline var body: Body
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init(bitPattern: Self.Body) {
+    @_transparent @usableFromInline init(bitPattern: Body) {
         self.body = bitPattern
     }
 }
@@ -55,13 +59,13 @@
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline var body: Self.Body
+    @usableFromInline var body: Body
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init(bitPattern: Self.Body) {
+    @_transparent @usableFromInline init(bitPattern: Body) {
         self.body = bitPattern
     }
 }

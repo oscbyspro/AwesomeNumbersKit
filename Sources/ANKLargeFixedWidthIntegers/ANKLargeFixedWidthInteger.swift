@@ -36,32 +36,31 @@ import ANKFoundation
 ///
 @usableFromInline protocol ANKLargeFixedWidthInteger<Base>:
 AwesomeLargeFixedWidthInteger, CustomDebugStringConvertible where
-Self.Magnitude: ANKUnsignedLargeFixedWidthInteger<Base.Magnitude>,
-Base.Digit: AwesomeEitherIntOrUInt, Self.Digit == Base.Digit {
+Magnitude: ANKUnsignedLargeFixedWidthInteger<Base.Magnitude> {
     
     associatedtype X64 = Never // (UInt64, UInt64, ...)
     
     associatedtype X32 = Never // (UInt32, UInt32, UInt32, UInt32, ...)
     
-    associatedtype Base: AwesomeLargeFixedWidthInteger
+    associatedtype Base: AwesomeLargeFixedWidthInteger where Base.Digit: AwesomeIntOrUInt, Digit == Base.Digit
         
     typealias High = Base
     
     typealias Low  = Base.Magnitude
     
     typealias Body = ANKFullWidth<Base, Base.Magnitude>
-        
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @_hasStorage var body: Self.Body
+    @_hasStorage var body: Body
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(bitPattern: Self.Body)
+    @inlinable init(bitPattern: Body)
 }
 
 //=----------------------------------------------------------------------------=
@@ -75,55 +74,43 @@ extension ANKLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public init() {
-        self.init(bitPattern: Self.Body())
+        self.init(bitPattern: Body())
     }
     
     @_transparent public init(bit: Bool) {
-        self.init(bitPattern: Self.Body(bit: bit))
+        self.init(bitPattern: Body(bit: bit))
     }
     
     @_transparent public init(repeating bit: Bool) {
-        self.init(bitPattern: Self.Body(repeating: bit))
+        self.init(bitPattern: Body(repeating: bit))
     }
     
     @_transparent public init(repeating word: UInt) {
-        self.init(bitPattern: Self.Body(repeating: word))
+        self.init(bitPattern: Body(repeating: word))
     }
     
     @_transparent public init(x64: X64) {
-        self.init(bitPattern: Self.Body(ascending: unsafeBitCast(x64, to: LH<Self.Low, Self.High>.self)))
+        self.init(bitPattern: Body(ascending: unsafeBitCast(x64, to: LH<Low, High>.self)))
     }
     
     @_transparent public init(x32: X32) {
-        self.init(bitPattern: Self.Body(ascending: unsafeBitCast(x32, to: LH<Self.Low, Self.High>.self)))
+        self.init(bitPattern: Body(ascending: unsafeBitCast(x32, to: LH<Low, High>.self)))
     }
     
     @_transparent @usableFromInline static func uninitialized() -> Self {
-        self.init(bitPattern: Self.Body.uninitialized())
+        self.init(bitPattern: Body.uninitialized())
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init(ascending  digits: LH<Self.Low, Self.High>) {
-        self.init(bitPattern: Self.Body(ascending: digits))
+    @_transparent @usableFromInline init(ascending  digits: LH<Low, High>) {
+        self.init(bitPattern: Body(ascending: digits))
     }
     
-    @_transparent @usableFromInline init(descending digits: HL<Self.High, Self.Low>) {
-        self.init(bitPattern: Self.Body(descending: digits))
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @_transparent @usableFromInline init<T>(bitPattern: ANKFullWidth<T, T.Magnitude>) where T.Magnitude == Base.Magnitude {
-        self.init(bitPattern: Body(bitPattern: bitPattern))
-    }
-    
-    @_transparent @usableFromInline init<T>(bitPattern: T) where T: ANKLargeFixedWidthInteger, T.Magnitude == Magnitude {
-        self.init(bitPattern: Body(bitPattern: bitPattern.body))
+    @_transparent @usableFromInline init(descending digits: HL<High, Low>) {
+        self.init(bitPattern: Body(descending: digits))
     }
     
     //=------------------------------------------------------------------------=
@@ -131,15 +118,15 @@ extension ANKLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public static var zero: Self {
-        Self(bitPattern: Self.Body.zero)
+        Self(bitPattern: Body.zero)
     }
     
-    @usableFromInline var high: Self.High {
+    @usableFromInline var high: High {
         @_transparent _read   { yield  self.body.high }
         @_transparent _modify { yield &self.body.high }
     }
     
-    @usableFromInline var low:  Self.Low  {
+    @usableFromInline var low:  Low  {
         @_transparent _read   { yield  self.body.low  }
         @_transparent _modify { yield &self.body.low  }
     }
@@ -151,13 +138,7 @@ extension ANKLargeFixedWidthInteger {
 
 @usableFromInline protocol ANKSignedLargeFixedWidthInteger<Base>:
 ANKLargeFixedWidthInteger, AwesomeSignedLargeFixedWidthInteger<Int> where
-Base: AwesomeSignedLargeFixedWidthInteger<Int>,
-X64 == Self.Magnitude.X64, X32 == Self.Magnitude.X32 {
-    
-    associatedtype X64 = Self.Magnitude.X64 // (UInt64, UInt64, ...)
-    
-    associatedtype X32 = Self.Magnitude.X32 // (UInt32, UInt32, UInt32, UInt32, ...)
-}
+Base: AwesomeSignedLargeFixedWidthInteger<Int> { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -170,11 +151,11 @@ extension ANKSignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public static var min: Self {
-        Self(bitPattern: Self.Body.min)
+        Self(bitPattern: Body.min)
     }
 
     @_transparent public static var max: Self {
-        Self(bitPattern: Self.Body.max)
+        Self(bitPattern: Body.max)
     }
 }
 
@@ -183,8 +164,8 @@ extension ANKSignedLargeFixedWidthInteger {
 //*============================================================================*
 
 @usableFromInline protocol ANKUnsignedLargeFixedWidthInteger<Base>: ANKLargeFixedWidthInteger,
-AwesomeUnsignedLargeFixedWidthInteger<UInt> where Self.Base: AwesomeUnsignedLargeFixedWidthInteger<UInt>,
-Self.Base == Self.Base.Magnitude { }
+AwesomeUnsignedLargeFixedWidthInteger<UInt> where Base: AwesomeUnsignedLargeFixedWidthInteger<UInt>,
+Base == Base.Magnitude { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -197,10 +178,10 @@ extension ANKUnsignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public static var min: Self {
-        Self(bitPattern: Self.Body.min)
+        Self(bitPattern: Body.min)
     }
 
     @_transparent public static var max: Self {
-        Self(bitPattern: Self.Body.max)
+        Self(bitPattern: Body.max)
     }
 }

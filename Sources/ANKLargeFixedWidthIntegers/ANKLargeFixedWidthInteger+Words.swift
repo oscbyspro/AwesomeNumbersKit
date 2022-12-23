@@ -55,13 +55,11 @@ extension ANKLargeFixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline func reducedWordCountReportingIsZeroOrMinusOne()
-    -> (reducedWordCount: Int, isZeroOrMinusOne: Bool) {
-        self.body.reducedWordCountReportingIsZeroOrMinusOne()
+    @_transparent @usableFromInline func minWordCountReportingIsZeroOrMinusOne() -> (minWordCount: Int, isZeroOrMinusOne: Bool) {
+        self.body.minWordCountReportingIsZeroOrMinusOne()
     }
     
-    @_transparent @usableFromInline func reducedLastIndexReportingIsZeroOrMinusOne()
-    -> (reducedLastIndex: Int, isZeroOrMinusOne: Bool) {
-        self.body.reducedLastIndexReportingIsZeroOrMinusOne()
+    @_transparent @usableFromInline func minLastIndexReportingIsZeroOrMinusOne() -> (minLastIndex: Int, isZeroOrMinusOne: Bool) {
+        self.body.minLastIndexReportingIsZeroOrMinusOne()
     }
 }
