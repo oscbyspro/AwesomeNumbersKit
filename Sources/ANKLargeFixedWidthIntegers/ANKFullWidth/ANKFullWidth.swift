@@ -47,11 +47,11 @@ High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {
     //=------------------------------------------------------------------------=
     
     @inlinable static var min: Self {
-        Self(descending:(Self.High.min, Self.Low.min))
+        Self(descending:(High.min, Low.min))
     }
     
     @inlinable static var max: Self {
-        Self(descending:(Self.High.max, Self.Low.max))
+        Self(descending:(High.max, Low.max))
     }
     
     //=------------------------------------------------------------------------=
@@ -59,22 +59,22 @@ High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {
     //=------------------------------------------------------------------------=
     
     #if _endian(big)
-    public var high: Self.High
-    public var low:  Self.Low
+    public var high: High
+    public var low:  Low
     #else
-    public var low:  Self.Low
-    public var high: Self.High
+    public var low:  Low
+    public var high: High
     #endif
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(ascending  digits: LH<Self.Low, Self.High>) {
+    @_transparent public init(ascending  digits: LH<Low, High>) {
         (self.low, self.high) = digits
     }
     
-    @_transparent public init(descending digits: HL<Self.High, Self.Low>) {
+    @_transparent public init(descending digits: HL<High, Low>) {
         (self.high, self.low) = digits
     }
     
@@ -83,19 +83,23 @@ High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {
     //=------------------------------------------------------------------------=
     
     @inlinable init() {
-        self.init(descending:(Self.High(), Self.Low()))
+        self.init(descending:(High(), Low()))
     }
     
     @inlinable init(bit: Bool) {
-        self.init(descending:(Self.High(), Self.Low(bit: bit)))
+        self.init(descending:(High(), Low(bit: bit)))
     }
     
     @inlinable init(repeating bit: Bool) {
-        self.init(descending:(Self.High(repeating: bit), Self.Low(repeating: bit)))
+        self.init(descending:(High(repeating: bit), Low(repeating: bit)))
     }
     
     @inlinable init(repeating word: UInt) {
         self = Self.fromUnsafeTemporaryWords({ for index in $0.indices { $0[unchecked: index] = word } })
+    }
+    
+    @inlinable init(digit: Digit) {
+        self.init(descending:(High(repeating: digit.isLessThanZero), Low(digit: UInt(bitPattern: digit))))
     }
     
     @_transparent @usableFromInline init<T>(bitPattern: ANKFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
@@ -110,11 +114,11 @@ High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline var ascending:  LH<Self.Low, Self.High> {
+    @_transparent @usableFromInline var ascending:  LH<Low, High> {
         LH(self.low, self.high)
     }
     
-    @_transparent @usableFromInline var descending: HL<Self.High, Self.Low> {
+    @_transparent @usableFromInline var descending: HL<High, Low> {
         HL(self.high, self.low)
     }
 }

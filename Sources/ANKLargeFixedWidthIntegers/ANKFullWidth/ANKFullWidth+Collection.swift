@@ -13,9 +13,10 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Collection
 //*============================================================================*
 
-@usableFromInline protocol ANKFullWidthCollection: WoRdS {
+@usableFromInline protocol ANKFullWidthCollection: WoRdS where
+High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {
     
-    associatedtype High: AwesomeLargeFixedWidthInteger where High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt
+    associatedtype High: AwesomeLargeFixedWidthInteger
     
     associatedtype Low:  AwesomeUnsignedLargeFixedWidthInteger<UInt> where Low == Low.Magnitude
     

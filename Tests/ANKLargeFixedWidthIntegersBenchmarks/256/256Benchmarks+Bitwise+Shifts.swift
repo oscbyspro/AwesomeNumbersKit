@@ -16,12 +16,12 @@ import XCTest
 // MARK: * Int256 x Benchmarks x Bitshifts
 //*============================================================================*
 
-final class Int256BenchmarksOnBitshifts: XCTestCase {
+final class Int256BenchmarksOnBitwiseShifts: XCTestCase {
     
     typealias T = ANKInt256
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Bitshifts
+    // MARK: Tests x L
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeft() {
@@ -33,6 +33,19 @@ final class Int256BenchmarksOnBitshifts: XCTestCase {
         }
     }
     
+    func testBitrotatingLeftByMasking() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = UInt.bitWidth * 3/2
+
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs &<< rhs
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x R
+    //=------------------------------------------------------------------------=
+    
     func testBitshiftingRight() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = UInt.bitWidth * 3/2
@@ -42,20 +55,7 @@ final class Int256BenchmarksOnBitshifts: XCTestCase {
         }
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bitrotations
-    //=------------------------------------------------------------------------=
-    
-    func testBitrotatingLeft() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
-        let rhs = UInt.bitWidth * 3/2
-
-        for _ in 0 ..< 1_000_000 {
-            _ = lhs &<< rhs
-        }
-    }
-    
-    func testBitrotatingRight() {
+    func testBitrotatingRightByMasking() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = UInt.bitWidth * 3/2
                 
@@ -66,15 +66,15 @@ final class Int256BenchmarksOnBitshifts: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Benchmarks x Bitshifts
+// MARK: * UInt256 x Benchmarks x Bitwise x Shifts
 //*============================================================================*
 
-final class UInt256BenchmarksOnBitshifts: XCTestCase {
+final class UInt256BenchmarksOnBitwiseShifts: XCTestCase {
     
     typealias T = ANKUInt256
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Bitshifts
+    // MARK: Tests x L
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeft() {
@@ -86,6 +86,19 @@ final class UInt256BenchmarksOnBitshifts: XCTestCase {
         }
     }
     
+    func testBitshiftingLeftByMasking() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = UInt.bitWidth * 3/2
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs &<< rhs
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x R
+    //=------------------------------------------------------------------------=
+    
     func testBitshiftingRight() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = UInt.bitWidth * 3/2
@@ -95,20 +108,7 @@ final class UInt256BenchmarksOnBitshifts: XCTestCase {
         }
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bitrotations
-    //=------------------------------------------------------------------------=
-    
-    func testBitrotatingLeft() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
-        let rhs = UInt.bitWidth * 3/2
-
-        for _ in 0 ..< 1_000_000 {
-            _ = lhs &<< rhs
-        }
-    }
-    
-    func testBitrotatingRight() {
+    func testBitshiftingRightByMasking() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = UInt.bitWidth * 3/2
                 

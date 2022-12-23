@@ -24,7 +24,13 @@ Magnitude: AwesomeUnsignedLargeBinaryInteger {
     associatedtype Digit: AwesomeBinaryInteger
     
     //=------------------------------------------------------------------------=
-    // MARK: Addition
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(digit: Digit)
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Addition
     //=------------------------------------------------------------------------=
     
     @inlinable static func +=(lhs: inout Self, rhs: Digit)
@@ -32,7 +38,7 @@ Magnitude: AwesomeUnsignedLargeBinaryInteger {
     @inlinable static func +(lhs: Self, rhs: Digit) -> Self
     
     //=------------------------------------------------------------------------=
-    // MARK: Division
+    // MARK: Transformations x Division
     //=------------------------------------------------------------------------=
     
     @inlinable static func /=(lhs: inout Self, rhs: Digit)
@@ -52,7 +58,7 @@ Magnitude: AwesomeUnsignedLargeBinaryInteger {
     @inlinable func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit>
     
     //=------------------------------------------------------------------------=
-    // MARK: Multiplication
+    // MARK: Transformations x Multiplication
     //=------------------------------------------------------------------------=
     
     @inlinable static func *=(lhs: inout Self, rhs: Digit)
@@ -60,12 +66,25 @@ Magnitude: AwesomeUnsignedLargeBinaryInteger {
     @inlinable static func *(lhs: Self, rhs: Digit) -> Self
     
     //=------------------------------------------------------------------------=
-    // MARK: Subtraction
+    // MARK: Transformations x Subtraction
     //=------------------------------------------------------------------------=
     
     @inlinable static func -=(lhs: inout Self, rhs: Digit)
 
     @inlinable static func -(lhs: Self, rhs: Digit) -> Self
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + where Digit == Self
+//=----------------------------------------------------------------------------=
+
+extension AwesomeLargeBinaryInteger where Digit == Self {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public init(digit: Digit) { self = digit }
 }
 
 //*============================================================================*

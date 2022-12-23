@@ -139,8 +139,8 @@ extension ANKFullWidth where Self: AwesomeUnsignedLargeFixedWidthInteger {
         var  remainder = ExtraDigitWidth(descending:(UInt(), Magnitude(bitPattern: self)))
         let _remainder = remainder.low.minLastIndexReportingIsZeroOrMinusOne() // hm...
         
-        divisor  ._bitrotateLeft(words: Int(), bits: divisorShift)
-        remainder._bitrotateLeft(words: Int(), bits: divisorShift)
+        divisor  ._bitshiftLeft(words: Int(), bits: divisorShift)
+        remainder._bitshiftLeft(words: Int(), bits: divisorShift)
         
         assert(  _divisor.minLastIndex as Int >= 1)
         assert(_remainder.minLastIndex as Int >= 1)
@@ -167,11 +167,11 @@ extension ANKFullWidth where Self: AwesomeUnsignedLargeFixedWidthInteger {
                 }
                 
                 var approximation = ExtraDigitWidth(descending: divisor.multipliedFullWidth(by: digit))
-                approximation._bitrotateLeft(words: quotientIndex, bits: Int())
+                approximation._bitshiftLeft(words: quotientIndex, bits: Int())
                 
                 if  approximation > remainder {
                     var increment = ExtraDigitWidth(descending:(UInt(), Magnitude(bitPattern: divisor)))
-                    increment._bitrotateLeft(words: quotientIndex, bits: Int())
+                    increment._bitshiftLeft(words: quotientIndex, bits: Int())
                     
                     brrrrrrrrrrrrrrrrrrrrrrr: do { digit &-= 1; approximation &-= increment }
                     if approximation > remainder { digit &-= 1; approximation &-= increment }
@@ -185,7 +185,7 @@ extension ANKFullWidth where Self: AwesomeUnsignedLargeFixedWidthInteger {
             }
         }
         //=--------------------------------------=
-        remainder._bitrotateRight(words: Int(), bits: divisorShift)
+        remainder._bitshiftRight(words: Int(), bits: divisorShift)
         return QR(quotient, Self(bitPattern: remainder.low))
     }
     

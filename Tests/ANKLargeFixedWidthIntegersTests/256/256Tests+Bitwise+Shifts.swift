@@ -9,7 +9,7 @@
 
 #if DEBUG
 
-import ANKLargeFixedWidthIntegers
+@testable import ANKLargeFixedWidthIntegers
 import XCTest
 
 //*============================================================================*
@@ -28,7 +28,7 @@ final class Int256TestsOnBitwiseShifts: XCTestCase {
     let s = UInt64.bitWidth
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x L
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeftByWords() {
@@ -54,6 +54,10 @@ final class Int256TestsOnBitwiseShifts: XCTestCase {
         XCTAssertEqual(T(x64:(0, w << 32, w >> 32, 0)) << 32, T(x64:(0, 0, w, 0)))
         XCTAssertEqual(T(x64:(0, w << 16, w >> 48, 0)) << 48, T(x64:(0, 0, w, 0)))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x R
+    //=------------------------------------------------------------------------=
     
     func testBitshiftingRightByWords() {
         XCTAssertEqual(T(x64:(0, 0, 0, w)) >>  (s * 0), T(x64:(0, 0, 0, w)))
@@ -108,7 +112,7 @@ final class UInt256TestsOnBitwiseShifts: XCTestCase {
     let s = UInt64.bitWidth
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x L
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeftByWords() {
@@ -134,8 +138,12 @@ final class UInt256TestsOnBitwiseShifts: XCTestCase {
         XCTAssertEqual(T(x64:(0, w << 32, w >> 32, 0)) << 32, T(x64:(0, 0, w, 0)))
         XCTAssertEqual(T(x64:(0, w << 16, w >> 48, 0)) << 48, T(x64:(0, 0, w, 0)))
     }
-
-    func testBitshiftingRight() {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x R
+    //=------------------------------------------------------------------------=
+    
+    func testBitshiftingRightByWords() {
         XCTAssertEqual(T(x64:(0, 0, 0, w)) >>  (s * 0), T(x64:(0, 0, 0, w)))
         XCTAssertEqual(T(x64:(0, 0, 0, w)) >>  (s * 1), T(x64:(0, 0, w, 0)))
         XCTAssertEqual(T(x64:(0, 0, 0, w)) >>  (s * 2), T(x64:(0, w, 0, 0)))

@@ -16,63 +16,36 @@ import ANKFoundation
 extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x some Binary Integer
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func <<=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs <<= Int(clamping: rhs)
+    @inlinable static func &<<=(lhs: inout Self, rhs: Self) {
+        lhs._bitshiftLeft(by: rhs.absoluteValueModuloBitWidth)
     }
     
-    @inlinable static func <<(lhs: Self, rhs: some BinaryInteger) -> Self {
-        var lhs = lhs; lhs <<= rhs; return lhs
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static func <<=(lhs: inout Self, rhs: Int) {
-        //=--------------------------------------=
-        // RHS <  Self.zero
-        //=--------------------------------------=
-        if  rhs.isLessThanZero {
-            lhs >>= Int() - rhs; return
-        }
-        //=--------------------------------------=
-        // RHS >= Self.bitWidth
-        //=--------------------------------------=
-        if  rhs >= Self.bitWidth {
-            lhs  = Self(); return
-        }
-        //=--------------------------------------=
-        // RHS <  Self.bitWidth
-        //=--------------------------------------=
-        lhs._bitshiftLeft(by: rhs)
-    }
-    
-    @inlinable static func <<(lhs: Self, rhs: Int) -> Self {
-        var lhs = lhs; lhs <<= rhs; return lhs
+    @_transparent @usableFromInline static func &<<(lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs &<<= rhs; return lhs
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int x Private
+    // MARK: Transformations x Int x Internal
     //=------------------------------------------------------------------------=
     
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable mutating func _bitshiftLeft(by amount: Int) {
-        assert(0 <= amount && amount < Self.bitWidth)
-        let words = amount >> UInt.bitWidth.trailingZeroBitCount
-        let bits  = amount & (UInt.bitWidth &- 1)
-        self._bitshiftLeft(words: words, bits: bits)
+        self = self._bitshiftedLeft(by: amount)
     }
     
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable func _bitshiftedLeft(by amount: Int) -> Self {
-        var S0 = self; S0._bitshiftLeft(by: amount); return S0
+        assert(0 <= amount &&  amount < Self.bitWidth)
+        let words = amount &>> UInt.bitWidth.trailingZeroBitCount
+        let bits  = amount &  (UInt.bitWidth &- 1)
+        return self._bitshiftedLeft(words: words, bits: bits)
     }
     
     /// - Parameters:
@@ -80,27 +53,7 @@ extension ANKFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitshiftLeft(words: Int, bits: Int) {
-        assert(0 <= words && words < self.endIndex)
-        assert(0 <= bits  && bits  < UInt.bitWidth)
-        
-        let a = bits
-        let b = UInt.bitWidth &- bits
-        let c = UInt()
-        let d = UInt()
-        
-        var i = self.endIndex
-        let j = self.index(self.startIndex, offsetBy: words)
-        let k = self.index(after: j)
-        
-        self.withUnsafeMutableWords { SELF in
-        brrr: while i != SELF.startIndex {
-            SELF.formIndex(before: &i)
-            
-            let p = i >= j ? SELF[unchecked: i &- j] << a : c
-            let q = i >= k ? SELF[unchecked: i &- k] >> b : d
-            
-            SELF[unchecked: i] = p | q
-        }}
+        self = self._bitshiftedLeft(words: words, bits: bits)
     }
     
     /// - Parameters:
@@ -108,7 +61,36 @@ extension ANKFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable func _bitshiftedLeft(words: Int, bits: Int) -> Self {
-        var S0 = self; S0._bitshiftLeft(words: words, bits: bits); return S0
+        assert(0 <= words && words < self.endIndex)
+        assert(0 <= bits  && bits  < UInt.bitWidth)
+        //=--------------------------------------=
+        var next = Self()
+        //=--------------------------------------=
+        next.withUnsafeMutableWords { NEXT in
+        self.withUnsafeWords { SELF in
+            let a = bits
+            let b = UInt.bitWidth &- bits
+            
+            var i = SELF.endIndex
+            var j = SELF.index(i, offsetBy: -words)
+            var k = SELF.index(before: j)
+            
+            while k  != SELF.startIndex {
+                SELF.formIndex(before: &i)
+                SELF.formIndex(before: &j)
+                SELF.formIndex(before: &k)
+                
+                let p = /*-------*/ SELF[unchecked: j] &<< a
+                let q = !a.isZero ? SELF[unchecked: k] &>> b : UInt()
+                NEXT[unchecked: i] = p | q
+            }
+            
+            SELF.formIndex(before: &i)
+            SELF.formIndex(before: &j)
+            NEXT[unchecked: i] = SELF[unchecked: j] &<< a
+        }}
+        //=--------------------------------------=
+        return next
     }
 }
 
@@ -119,63 +101,36 @@ extension ANKFullWidth {
 extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x some BinaryInteger
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func >>=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs >>= Int(clamping: rhs)
+    @inlinable static func &>>=(lhs: inout Self, rhs: Self) {
+        lhs._bitshiftRight(by: rhs.absoluteValueModuloBitWidth)
     }
     
-    @inlinable static func >>(lhs: Self, rhs: some BinaryInteger) -> Self {
-        var lhs = lhs; lhs >>= rhs; return lhs
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static func >>=(lhs: inout Self, rhs: Int) {
-        //=--------------------------------------=
-        // RHS <  Self.zero
-        //=--------------------------------------=
-        if  rhs.isLessThanZero {
-            lhs <<= Int() - rhs; return
-        }
-        //=--------------------------------------=
-        // RHS >= Self.bitWidth
-        //=--------------------------------------=
-        if  rhs >= Self.bitWidth {
-            lhs  = Self(repeating: lhs.isLessThanZero); return
-        }
-        //=--------------------------------------=
-        // Self.zero <= RHS <  Self.bitWidth
-        //=--------------------------------------=
-        lhs._bitshiftRight(by: rhs)
-    }
-    
-    @inlinable static func >>(lhs: Self, rhs: Int) -> Self {
-        var lhs = lhs; lhs >>= rhs; return lhs
+    @_transparent @usableFromInline static func &>>(lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs &>>= rhs; return lhs
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int x Private
+    // MARK: Transformations x Int x Internal
     //=------------------------------------------------------------------------=
     
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable mutating func _bitshiftRight(by amount: Int) {
-        assert(0 <= amount && amount < Self.bitWidth)
-        let words = amount >> UInt.bitWidth.trailingZeroBitCount
-        let bits  = amount & (UInt.bitWidth &- 1)
-        self._bitshiftRight(words: words, bits: bits)
+        self = self._bitshiftedRight(by: amount)
     }
     
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable func _bitshiftedRight(by amount: Int) -> Self {
-        var S0 = self; S0._bitshiftRight(by: amount); return S0
+        assert(0 <= amount &&  amount < Self.bitWidth)
+        let words = amount &>> UInt.bitWidth.trailingZeroBitCount
+        let bits  = amount &  (UInt.bitWidth &- 1)
+        return self._bitshiftedRight(words: words, bits: bits)
     }
     
     /// - Parameters:
@@ -183,29 +138,7 @@ extension ANKFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitshiftRight(words: Int, bits: Int) {
-        assert(0 <= words && words < self.endIndex)
-        assert(0 <= bits  && bits  < UInt.bitWidth)
-        
-        let a = bits
-        let b = UInt.bitWidth &- bits
-        let c = self.isLessThanZero ? ~UInt() << a : UInt()
-        let d = self.isLessThanZero ? ~UInt() >> b : UInt()
-        
-        var i = self.startIndex
-        var j = self.index(self.startIndex, offsetBy: words)
-        var k = self.index(after: j)
-        
-        self.withUnsafeMutableWords { SELF in
-        brrr: while i != SELF.endIndex {
-            let p = j <  SELF.endIndex ? SELF[unchecked: j] >> a : c
-            let q = k <  SELF.endIndex ? SELF[unchecked: k] << b : d
-            
-            SELF[unchecked: i] = p | q
-            
-            SELF.formIndex(after: &i)
-            j &+= 1
-            k &+= 1
-        }}
+        self = self._bitshiftedRight(words: words, bits: bits)
     }
     
     /// - Parameters:
@@ -213,6 +146,36 @@ extension ANKFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable func _bitshiftedRight(words: Int, bits: Int) -> Self {
-        var S0 = self; S0._bitshiftRight(words: words, bits: bits); return S0
+        assert(0 <= words && words < self.endIndex)
+        assert(0 <= bits  && bits  < UInt.bitWidth)
+        //=--------------------------------------=
+        let isLessThanZero = (self.isLessThanZero)
+        var next = Self(repeating: isLessThanZero)
+        //=--------------------------------------=
+        next.withUnsafeMutableWords { NEXT in
+        self.withUnsafeWords { SELF in
+            let a = bits
+            let b = UInt.bitWidth &- bits
+            
+            var i = SELF.startIndex
+            var j = SELF.index(i, offsetBy: words)
+            var k = SELF.index(after: j)
+
+            while k  != SELF.endIndex {
+                let p = /*-------*/ SELF[unchecked: j] &>> a
+                let q = !a.isZero ? SELF[unchecked: k] &<< b : UInt()
+                NEXT[unchecked: i] = p | q
+                
+                SELF.formIndex(after: &i)
+                SELF.formIndex(after: &j)
+                SELF.formIndex(after: &k)
+            }
+            
+            let p = SELF[unchecked: j] &>> a
+            let q = !a.isZero && isLessThanZero ? ~UInt() &<< b : UInt()
+            NEXT[unchecked: i] = p | q
+        }}
+        //=--------------------------------------=
+        return next
     }
 }

@@ -89,6 +89,10 @@ extension ANKLargeFixedWidthInteger {
         self.init(bitPattern: Body(repeating: word))
     }
     
+    @_transparent public init(digit: Digit) {
+        self.init(bitPattern: Body(digit: digit))
+    }
+    
     @_transparent public init(x64: X64) {
         self.init(bitPattern: Body(ascending: unsafeBitCast(x64, to: LH<Low, High>.self)))
     }

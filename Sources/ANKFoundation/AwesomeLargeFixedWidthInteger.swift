@@ -29,7 +29,7 @@ Digit: AwesomeFixedWidthInteger {
     @inlinable init(repeating word: UInt)
     
     //=------------------------------------------------------------------------=
-    // MARK: Addition
+    // MARK: Transformations x Addition
     //=------------------------------------------------------------------------=
 
     @inlinable static func &+=(lhs: inout Self, rhs: Digit)
@@ -41,7 +41,7 @@ Digit: AwesomeFixedWidthInteger {
     @inlinable func addingReportingOverflow(_ amount: Digit) -> PVO<Self>
     
     //=------------------------------------------------------------------------=
-    // MARK: Division
+    // MARK: Transformations x Division
     //=------------------------------------------------------------------------=
     
     @inlinable mutating func divideReportingRemainder(dividingBy divisor: Digit) -> Digit
@@ -51,7 +51,7 @@ Digit: AwesomeFixedWidthInteger {
     @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>
     
     //=------------------------------------------------------------------------=
-    // MARK: Multiplication
+    // MARK: Transformations x Multiplication
     //=------------------------------------------------------------------------=
     
     @inlinable mutating func multiplyReportingOverflow(by amount: Digit) -> Bool
@@ -63,7 +63,7 @@ Digit: AwesomeFixedWidthInteger {
     @inlinable func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude>
     
     //=------------------------------------------------------------------------=
-    // MARK: Subtraction
+    // MARK: Transformations x Subtraction
     //=------------------------------------------------------------------------=
 
     @inlinable static func &-=(lhs: inout Self, rhs: Digit)

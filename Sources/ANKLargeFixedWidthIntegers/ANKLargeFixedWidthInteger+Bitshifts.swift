@@ -16,27 +16,15 @@ import ANKFoundation
 extension ANKLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x some Binary Integer
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public static func <<=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs.body <<= rhs
-    }
-
-    @_transparent public static func <<(lhs: Self, rhs: some BinaryInteger) -> Self {
-        Self(bitPattern: lhs.body << rhs)
+    @_transparent public static func &<<=(lhs: inout Self, rhs: Self) {
+        lhs.body &<<= rhs.body
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public static func <<=(lhs: inout Self, rhs: Int) {
-        lhs.body <<= rhs
-    }
-    
-    @_transparent public static func <<(lhs: Self, rhs: Int) -> Self {
-        Self(bitPattern: lhs.body << rhs)
+    @_transparent public static func &<<(lhs: Self, rhs: Self) -> Self {
+        Self(bitPattern: lhs.body &<< rhs.body)
     }
 }
 
@@ -47,88 +35,14 @@ extension ANKLargeFixedWidthInteger {
 extension ANKLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x some Binary Integer
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public static func >>=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs.body >>= rhs
+    @_transparent public static func &>>=(lhs: inout Self, rhs: Self) {
+        lhs.body &>>= rhs.body
     }
     
-    @_transparent public static func >>(lhs: Self, rhs: some BinaryInteger) -> Self {
-        Self(bitPattern: lhs.body >> rhs)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public static func >>=(lhs: inout Self, rhs: Int) {
-        lhs.body >>= rhs
-    }
-    
-    @_transparent public static func >>(lhs: Self, rhs: Int) -> Self {
-        Self(bitPattern: lhs.body >> rhs)
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Large x Bitrotations x L
-//*============================================================================*
-
-extension ANKLargeFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x some Binary Integer
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public static func &<<=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs.body &<<= rhs
-    }
-    
-    @_transparent public static func &<<(lhs: Self, rhs: some BinaryInteger) -> Self {
-        Self(bitPattern: lhs.body &<< rhs)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public static func &<<=(lhs: inout Self, rhs: Int) {
-        lhs.body &<<= rhs
-    }
-
-    @_transparent public static func &<<(lhs: Self, rhs: Int) -> Self {
-        Self(bitPattern: lhs.body &<< rhs)
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Large x Bitrotations x R
-//*============================================================================*
-
-extension ANKLargeFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x some Binary Integer
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public static func &>>=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs.body &>>= rhs
-    }
-    
-    @_transparent public static func &>>(lhs: Self, rhs: some BinaryInteger) -> Self {
-        Self(bitPattern: lhs.body &>> rhs)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public static func &>>=(lhs: inout Self, rhs: Int) {
-        lhs.body &>>= rhs
-    }
-
-    @_transparent public static func &>>(lhs: Self, rhs: Int) -> Self {
-        Self(bitPattern: lhs.body &>> rhs)
+    @_transparent public static func &>>(lhs: Self, rhs: Self) -> Self {
+        Self(bitPattern: lhs.body &>> rhs.body)
     }
 }
