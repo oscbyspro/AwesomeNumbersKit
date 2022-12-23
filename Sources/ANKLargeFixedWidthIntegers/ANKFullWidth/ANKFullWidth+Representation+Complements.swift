@@ -20,16 +20,18 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable mutating func formTwosComplement() {
-        var carry =  true
-        for index in self.indices {
-            var word = ~self[unchecked: index]
-            carry = word.addReportingOverflow(UInt(bit: carry))
-            self[unchecked: index] = word
+        self.withUnsafeMutableWords { SELF in
+            var carry =  true
+            for index in SELF.indices {
+                var word = ~SELF[unchecked: index]
+                carry = word.addReportingOverflow(UInt(bit: carry))
+                SELF[unchecked: index] = word
+            }
         }
     }
     
     @inlinable func twosComplement() -> Self {
-        var S0 = self; S0.formTwosComplement(); return S0
+        var x = self; x.formTwosComplement(); return x
     }
     
     /// - Returns true when `Self.isSigned == true` and `self == min`.

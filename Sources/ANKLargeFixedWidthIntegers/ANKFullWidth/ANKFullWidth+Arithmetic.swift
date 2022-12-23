@@ -13,19 +13,15 @@
 
 extension ANKFullWidth {
     
-    #warning("TODO")
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
     /// - Returns: `abs(self % Self.bitWidth)`
     @inlinable var absoluteValueModuloBitWidth: Int {
-        //=--------------------------------------=
         if  Self.bitWidth.nonzeroBitCount == 1 {
             return Int(bitPattern: self.first) & (Self.bitWidth &- 1)
         }
-        //=--------------------------------------=
-        // TODO: faster (maybe remainder theorem)
         //=--------------------------------------=
         let value = Int(bitPattern: self % Digit(bitPattern: Self.bitWidth))
         return self.isLessThanZero ? -value : value

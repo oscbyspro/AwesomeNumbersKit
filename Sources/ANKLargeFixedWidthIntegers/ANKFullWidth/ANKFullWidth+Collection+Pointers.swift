@@ -137,7 +137,7 @@ extension ANKFullWidth {
                 #if _endian(big)
                 yield &self.base[Body.lastIndex &- index]
                 #else
-                yield &self.base[/*---------*/index]
+                yield &self.base[/*--------------*/index]
                 #endif
             }
         }

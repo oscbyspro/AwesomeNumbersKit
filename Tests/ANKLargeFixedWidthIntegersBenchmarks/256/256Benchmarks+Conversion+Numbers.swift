@@ -13,10 +13,10 @@ import ANKLargeFixedWidthIntegers
 import XCTest
 
 //*============================================================================*
-// MARK: * Int256 x Benchmarks x Number
+// MARK: * Int256 x Benchmarks x Conversion x Numbers
 //*============================================================================*
 
-final class Int256BenchmarksOnNumber: XCTestCase {
+final class Int256BenchmarksOnConversionAsNumbers: XCTestCase {
     
     typealias T = ANKInt256
     typealias S = ANKInt256
@@ -119,10 +119,10 @@ final class Int256BenchmarksOnNumber: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Benchmarks x Number
+// MARK: * UInt256 x Benchmarks x Conversion x Numbers
 //*============================================================================*
 
-final class UInt256BenchmarksOnNumber: XCTestCase {
+final class UInt256BenchmarksOnConversionAsNumbers: XCTestCase {
     
     typealias T = ANKUInt256
     typealias S =  ANKInt256

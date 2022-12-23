@@ -109,18 +109,6 @@ High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {
     @_transparent @usableFromInline static func uninitialized() -> Self {
         self.fromUnsafeTemporaryWords({  _ in  })
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @_transparent @usableFromInline var ascending:  LH<Low, High> {
-        LH(self.low, self.high)
-    }
-    
-    @_transparent @usableFromInline var descending: HL<High, Low> {
-        HL(self.high, self.low)
-    }
 }
 
 //*============================================================================*

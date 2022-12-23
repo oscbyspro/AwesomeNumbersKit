@@ -24,7 +24,7 @@ extension ANKLargeFixedWidthInteger {
     }
     
     @_transparent public func twosComplement() -> Self {
-        Self(bitPattern: body.twosComplement())
+        Self(bitPattern: self.body.twosComplement())
     }
 }
 
@@ -51,8 +51,7 @@ extension ANKSignedLargeFixedWidthInteger {
     }
     
     @_transparent public func negatedReportingOverflow() -> PVO<Self> {
-        let pvo = self.body.negatedReportingOverflow()
-        return PVO(Self(bitPattern:  pvo.partialValue), pvo.overflow)
+        let (pv, o) = self.body.negatedReportingOverflow(); return (Self(bitPattern: pv), o)
     }
     
     //=------------------------------------------------------------------------=

@@ -43,7 +43,7 @@ extension ANKFullWidth {
         self.low.isZero && self.high.isZero
     }
     
-    @inlinable var isLessThanZero: Bool {
+    @_transparent @usableFromInline var isLessThanZero: Bool {
         self.high.isLessThanZero
     }
     

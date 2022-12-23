@@ -29,28 +29,10 @@ extension UInt {
         var pv = self; let o = pv.addReportingOverflow(amount, carry); return PVO(pv,o)
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable mutating func subtractReportingOverflow(_ amount: Self, _ borrow: Bool) -> Bool {
-        let a = self.subtractReportingOverflow(amount)
-        let b = self.subtractReportingOverflow(UInt(bit: borrow))
-        return  a || b
-    }
-    
-    @inlinable func subtractingReportingOverflow(_ amount: Self, _ borrow: Bool) -> PVO<Self> {
-        var pv = self; let o = pv.subtractReportingOverflow(amount, borrow); return PVO(pv,o)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
     /// - it cannot crash for the same reason that `9 + 9 * 9 == 90`
     @inlinable mutating func addFullWidth(multiplicands: (Self, Self)) -> Self {
-        let (upper, lower) = multiplicands.0.multipliedFullWidth(by: multiplicands.1)
-        return self.addReportingOverflow(lower) ? upper &+ 1 : upper
+        let hl = multiplicands.0.multipliedFullWidth(by: multiplicands.1)
+        return self.addReportingOverflow(hl.low) ? hl.high &+ 1 : hl.high
     }
     
     @inlinable func addingFullWidth(multiplicands: (Self, Self)) -> HL<Self, Self> {
@@ -59,8 +41,8 @@ extension UInt {
     
     /// - it cannot crash for the same reason that `9 + 9 + 9 * 9 == 99`
     @inlinable mutating func addFullWidth(_ carry: Self, multiplicands: (Self, Self)) -> Self {
-        let upper = self.addFullWidth(multiplicands: multiplicands)
-        return self.addReportingOverflow(carry) ? upper &+ 1 : upper
+        let high = self.addFullWidth(multiplicands: multiplicands)
+        return self.addReportingOverflow(carry) ? high &+ 1 : high
     }
     
     @inlinable func addingFullWidth(_ carry: Self,  multiplicands: (Self, Self)) -> HL<Self, Self> {

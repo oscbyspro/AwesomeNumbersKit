@@ -101,11 +101,6 @@ extension ANKFullWidth {
         self.init(digit: source)
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @inlinable init(digit source: some AwesomeIntOrUInt) {
         assert(Low.bitWidth >= source.bitWidth)
         let high = High(repeating: source.isLessThanZero)
