@@ -33,14 +33,14 @@ extension AwesomeIntOrUInt {
 }
 
 //*============================================================================*
-// MARK: * Awesome x Either Int Or UInt x Swift
+// MARK: * Awesome x Int Or UInt x Swift
 //*============================================================================*
 
 extension  Int: AwesomeIntOrUInt,   AwesomeSignedLargeFixedWidthInteger { }
 extension UInt: AwesomeIntOrUInt, AwesomeUnsignedLargeFixedWidthInteger { }
 
 //=----------------------------------------------------------------------------=
-// MARK: + Operators Marked As Unavailable in /Integers.swift
+// MARK: + Fixes Marked As Unavailable in /Integers.swift
 //=----------------------------------------------------------------------------=
 
 extension Int {
