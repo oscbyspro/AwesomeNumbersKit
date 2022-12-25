@@ -91,11 +91,11 @@ Low == Low.Magnitude, High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt
     }
     
     @inlinable init(repeating bit: Bool) {
-        self.init(descending:(High(repeating: bit), Low(repeating: bit)))
+        self.init(descending:(High(repeating:  bit), Low(repeating:  bit)))
     }
     
     @inlinable init(repeating word: UInt) {
-        self = Self.fromUnsafeTemporaryWords({ for index in $0.indices { $0[unchecked: index] = word } })
+        self.init(descending:(High(repeating: word), Low(repeating: word)))
     }
     
     @inlinable init(digit: Digit) {
@@ -106,13 +106,8 @@ Low == Low.Magnitude, High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init(bitPatternAsMagnitude: Magnitude) {
-        self = unsafeBitCast(bitPatternAsMagnitude, to: Self.self)
-    }
-    
-    #warning("FIXME: type checking calls to this method is slow")
     @_transparent @usableFromInline init<T>(bitPattern: ANKFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
-        self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
+        self = Swift.unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
     }
 }
 

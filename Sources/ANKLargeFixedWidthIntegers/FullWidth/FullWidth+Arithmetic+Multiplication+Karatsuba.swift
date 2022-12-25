@@ -34,21 +34,21 @@ extension ANKFullWidth where High.Magnitude == Low {
     }
     
     @inlinable func multipliedReportingOverflowAsKaratsuba(by amount: Self) -> PVO<Self> {
-        let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero
+        let isLessThanOrEqualToZero: Bool = self.isLessThanZero != amount.isLessThanZero
         let product: DoubleWidth = self.multipliedFullWidthAsKaratsuba(by: amount)
-        let overflow: Bool = isLessThanOrEqualToZero ? (product.high < (-1 as Self)) : !product.high.isZero
-        return PVO(Self(bitPatternAsMagnitude: product.low), overflow)
+        let overflow: Bool = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
+        return PVO(Self(bitPattern: product.low), overflow)
     }
     
     @inlinable mutating func multiplyFullWidthAsKaratsuba(by amount: Self) -> Self {
-        let hl = self.multipliedFullWidthAsKaratsuba(by: amount)
-        self = Self(bitPatternAsMagnitude: hl.low); return Self(bitPattern: hl.high)
+        let hl: DoubleWidth = self.multipliedFullWidthAsKaratsuba(by: amount)
+        self = Self(bitPattern: hl.low); return Self(bitPattern: hl.high)
     }
     
     @inlinable func multipliedFullWidthAsKaratsuba(by amount: Self) -> DoubleWidth {
-        let negate  = self.isLessThanZero != amount.isLessThanZero
-        let product = self.magnitude.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.magnitude)
-        return DoubleWidth(bitPatternAsMagnitude: negate ? product.twosComplement() : product)
+        let negate:  Bool = self.isLessThanZero != amount.isLessThanZero
+        let product: DoubleWidth.Magnitude = self.magnitude.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.magnitude)
+        return DoubleWidth(bitPattern: negate ? product.twosComplement() : product)
     }
 }
 
@@ -80,8 +80,8 @@ extension ANKFullWidth where High == Low {
         //=--------------------------------------=
         let r0 = Magnitude(descending:(s0.low,  m0.low))
         var r1 = Magnitude(descending:(m3.high, Low(_truncatingBits: s0.high)))
-        let o0 = r1.low .addReportingOverflow(s1.low)
-        let o1 = r1.high.addReportingOverflow(s1.high &+ Digit(bit: o0))
+        let o0 = r1.low .addReportingOverflow(s1.low) as Bool
+        let o1 = r1.high.addReportingOverflow(s1.high &+ Digit(bit: o0)) as Bool
         //=--------------------------------------=
         assert(!o1); return DoubleWidth(descending:(r1, r0))
     }

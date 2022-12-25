@@ -13,7 +13,7 @@
 import XCTest
 
 //*============================================================================*
-// MARK: * UInt256 x Tests x Division x Knuth
+// MARK: * UInt256 x Division x Knuth
 //*============================================================================*
 
 final class UInt256TestsOnDivisionAsKnuth: XCTestCase {

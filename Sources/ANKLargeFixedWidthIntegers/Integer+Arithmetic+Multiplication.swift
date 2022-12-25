@@ -42,7 +42,7 @@ extension ANKLargeFixedWidthInteger {
     
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
         let hl: Body.DoubleWidth = self.body.multipliedFullWidthAsKaratsuba(by: amount.body)
-        self.body = Body(bitPatternAsMagnitude: hl.low); return Self(bitPattern: hl.high)
+        self.body = Body(bitPattern: hl.low); return Self(bitPattern: hl.high)
     }
     
     @_transparent public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {

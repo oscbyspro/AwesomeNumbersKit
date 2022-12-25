@@ -14,9 +14,9 @@ import PackageDescription
 // MARK: * Awesome Numbers Kit
 //*============================================================================*
 
-let withSlowBuildAlerts: [SwiftSetting] = [
-.unsafeFlags(["-Xfrontend", "-warn-long-function-bodies=400"],          .when(configuration: .debug)),
-.unsafeFlags(["-Xfrontend", "-warn-long-expression-type-checking=400"], .when(configuration: .debug))]
+let withSlowBuildAlerts: [SwiftSetting] = []
+//.unsafeFlags(["-Xfrontend", "-warn-long-function-bodies=400"],          .when(configuration: .debug)),
+//.unsafeFlags(["-Xfrontend", "-warn-long-expression-type-checking=400"], .when(configuration: .debug))]
 
 //*============================================================================*
 // MARK: * Awesome Numbers Kit x Package

@@ -13,7 +13,7 @@
 import XCTest
 
 //*============================================================================*
-// MARK: * Int256 x Tests x Words
+// MARK: * Int256 x Words
 //*============================================================================*
 
 final class Int256TestsOnWords: XCTestCase {
@@ -122,7 +122,7 @@ final class Int256TestsOnWords: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Tests x Words
+// MARK: * UInt256 x Words
 //*============================================================================*
 
 final class UInt256TestsOnWords: XCTestCase {

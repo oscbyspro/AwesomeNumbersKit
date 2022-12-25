@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Bitwise x Operators
+// MARK: * ANK x Full Width x Bitwise x Operations
 //*============================================================================*
 
 extension ANKFullWidth {

@@ -13,7 +13,7 @@ import ANKLargeFixedWidthIntegers
 import XCTest
 
 //*============================================================================*
-// MARK: * Int256 x Tests x Endianness
+// MARK: * Int256 x Endianness
 //*============================================================================*
 
 final class Int256TestsOnEndianness: XCTestCase {
@@ -54,7 +54,7 @@ final class Int256TestsOnEndianness: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Tests x Endianness
+// MARK: * UInt256 x Endianness
 //*============================================================================*
 
 final class UInt256TestsOnEndianness: XCTestCase {

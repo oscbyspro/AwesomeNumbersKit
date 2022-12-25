@@ -49,11 +49,10 @@ extension ANKFullWidth {
             var borrow: Bool = LHS[unchecked: index].subtractReportingOverflow(UInt(bitPattern: amount))
             LHS.formIndex(after: &index)
             //=----------------------------------=
-            // Propagate Borrow Digit By Digit
+            if borrow == rhsWasLessThanZero { return false }
             //=----------------------------------=
-            if  borrow   == rhsWasLessThanZero { return false }
-            let decrement = rhsWasLessThanZero ? ~0 : 1 as UInt  // -1 vs +1
-            while borrow != rhsWasLessThanZero && index != LHS.endIndex {
+            let decrement: UInt = rhsWasLessThanZero ? ~0 : 1 // -1 vs +1
+            loop: while borrow != rhsWasLessThanZero, index != LHS.endIndex {
                 borrow = LHS[unchecked: index].subtractReportingOverflow(decrement)
                 LHS.formIndex(after:   &index)
             }
@@ -61,9 +60,9 @@ extension ANKFullWidth {
             return borrow as Bool
         }
         //=--------------------------------------=
-        if  !Self.isSigned { return borrow }
-        let    notSameSign =  lhsWasLessThanZero !=  rhsWasLessThanZero
-        return notSameSign && lhsWasLessThanZero != self.isLessThanZero
+        if !Self.isSigned { return borrow }
+        let notSameSign: Bool = lhsWasLessThanZero !=  rhsWasLessThanZero
+        return notSameSign &&   lhsWasLessThanZero != self.isLessThanZero
     }
     
     @inlinable func subtractingReportingOverflow(_ amount: Digit) -> PVO<Self> {

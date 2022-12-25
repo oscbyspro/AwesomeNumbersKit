@@ -41,12 +41,12 @@ extension ANKFullWidth {
         let isLessThanOrEqualToZero: Bool = self.isLessThanZero != amount.isLessThanZero
         let product: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
         let overflow: Bool = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
-        return PVO(Self(bitPatternAsMagnitude: product.low), overflow)
+        return PVO(Self(bitPattern: product.low), overflow)
     }
     
     @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self {
         let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(bitPatternAsMagnitude: hl.low); return hl.high
+        self = Self(bitPattern: hl.low); return hl.high
     }
     
     @inlinable func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
@@ -65,8 +65,7 @@ extension ANKFullWidth {
                 let lhsWord: UInt = LHS[unchecked: lhsIndex]
                 let rhsWord: UInt = RHS[unchecked: rhsIndex]
                 let productIndex: Int = lhsIndex &+ rhsIndex
-                let multiplicands: (UInt, UInt) = (lhsWord, rhsWord)
-                carry = PRODUCT[unchecked: productIndex].addFullWidth(carry, multiplicands: multiplicands)
+                carry = PRODUCT[unchecked: productIndex].addFullWidth(carry, multiplicands:(lhsWord, rhsWord))
             }}
             //=----------------------------------=
             if  lhsIsLessThanZero {

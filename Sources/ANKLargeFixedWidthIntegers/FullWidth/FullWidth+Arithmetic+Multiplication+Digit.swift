@@ -40,35 +40,38 @@ extension ANKFullWidth {
     @inlinable func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
         let isLessThanOrEqualToZero: Bool = self.isLessThanZero != amount.isLessThanZero
         let product: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
-        let overflow = isLessThanOrEqualToZero ? (product.high < (-1 as Digit)) : !product.high.isZero
-        return PVO(Self(bitPatternAsMagnitude: product.low), overflow)
+        let overflow = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
+        return PVO(Self(bitPattern: product.low), overflow)
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
     
     @inlinable mutating func multiplyFullWidth(by amount: Digit) -> Digit {
         let hl: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(bitPatternAsMagnitude: hl.low); return hl.high
+        self = Self(bitPattern: hl.low); return hl.high
     }
     
     @inlinable func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
-        self.withUnsafeWords { LHS in
-            if amount.isZero { return HL(Digit(), Magnitude()) }
-            //=----------------------------------=
-            let product = ExtraDigitWidth.fromUnsafeTemporaryWords { PRODUCT in
-                var a = UInt()
-                var b = amount.isLessThanZero as Bool
-                let x = UInt(bitPattern: amount)
-                //=------------------------------=
-                for i in LHS.indices {
-                    let y: UInt = LHS[unchecked: i]
-                    let p: HL<UInt, UInt> = a.addingFullWidth(multiplicands:(y, x))
-                    (a, PRODUCT[unchecked: i]) = p
-                    if (amount.isLessThanZero) { b = a.addReportingOverflow(~y, b) }
-                }
-                //=------------------------------=
-                PRODUCT[unchecked: PRODUCT.lastIndex] = self.isLessThanZero ? a &+ ~x &+ 1 : a
+        //=--------------------------------------=
+        if amount.isZero { return HL(Digit(), Magnitude()) }
+        //=--------------------------------------=
+        var high = UInt()
+        let low: Magnitude = self.withUnsafeWords { LHS in
+        Magnitude.fromUnsafeTemporaryWords { LOW in
+            var x = amount.isLessThanZero as Bool
+            let rhsWord = UInt(bitPattern: amount)
+            
+            for index in LHS.indices {
+                let lhsWord = LHS[unchecked:  index]
+                (high, LOW[unchecked: index]) = high.addingFullWidth(multiplicands:(lhsWord, rhsWord) )
+                if  amount.isLessThanZero { x = high.addReportingOverflow(~lhsWord, x) }
             }
-            //=----------------------------------=
-            return HL(product.high, product.low)
-        }
+            
+            high = self.isLessThanZero ? high &+ ~rhsWord &+ 1 : high
+        }}
+        //=--------------------------------------=
+        return HL(Digit(bitPattern: high), low)
     }
 }

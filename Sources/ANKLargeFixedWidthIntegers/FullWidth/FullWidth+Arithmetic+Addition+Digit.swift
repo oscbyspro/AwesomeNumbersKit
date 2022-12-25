@@ -49,11 +49,10 @@ extension ANKFullWidth {
             var carry: Bool = LHS[unchecked: index].addReportingOverflow(UInt(bitPattern: amount))
             LHS.formIndex(after: &index)
             //=----------------------------------=
-            // Propagate Carry Digit By Digit
+            if carry == rhsWasLessThanZero { return false }
             //=----------------------------------=
-            if  carry    == rhsWasLessThanZero { return false }
-            let increment = rhsWasLessThanZero ? ~0 : 1 as UInt // -1 vs +1
-            while carry  != rhsWasLessThanZero && index != LHS.endIndex {
+            let increment: UInt = rhsWasLessThanZero ? ~0 : 1 // -1 vs +1
+            loop: while carry  != rhsWasLessThanZero, index != LHS.endIndex {
                 carry = LHS[unchecked: index].addReportingOverflow(increment)
                 LHS.formIndex(after:  &index)
             }
@@ -61,9 +60,9 @@ extension ANKFullWidth {
             return carry as Bool
         }
         //=--------------------------------------=
-        if  !Self.isSigned {  return carry }
-        let    hadSameSign =  lhsWasLessThanZero ==  rhsWasLessThanZero
-        return hadSameSign && lhsWasLessThanZero != self.isLessThanZero
+        if !Self.isSigned { return carry }
+        let hadSameSign: Bool = lhsWasLessThanZero ==  rhsWasLessThanZero
+        return hadSameSign &&   lhsWasLessThanZero != self.isLessThanZero
     }
     
     @inlinable func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {

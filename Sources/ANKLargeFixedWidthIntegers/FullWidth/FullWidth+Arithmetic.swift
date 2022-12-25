@@ -19,6 +19,7 @@ extension ANKFullWidth {
     
     /// - Returns: `abs(self % Self.bitWidth)`
     @inlinable var absoluteValueModuloBitWidth: Int {
+        //=--------------------------------------=
         if  Self.bitWidth.nonzeroBitCount == 1 {
             return Int(bitPattern: self.first) & (Self.bitWidth &- 1)
         }

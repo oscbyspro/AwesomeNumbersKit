@@ -13,8 +13,8 @@
 
 public typealias HL<H,L> = (high: H, low:  L)
 public typealias LH<L,H> = (low:  L, high: H)
-public typealias QR<Q,R> = (quotient: Q,  remainder: R)
 public typealias PVO<PV> = (partialValue: PV, overflow: Bool)
+public typealias QR<Q,R> = (quotient: Q,  remainder: R)
 
 //*============================================================================*
 // MARK: * Aliases x Protocols

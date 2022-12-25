@@ -13,7 +13,7 @@ import ANKLargeFixedWidthIntegers
 import XCTest
 
 //*============================================================================*
-// MARK: * Int256 x Benchmarks x Bitshifts
+// MARK: * Int256 x Bitshifts
 //*============================================================================*
 
 final class Int256BenchmarksOnBitwiseShifts: XCTestCase {
@@ -66,7 +66,7 @@ final class Int256BenchmarksOnBitwiseShifts: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Benchmarks x Bitwise x Shifts
+// MARK: * UInt256 x Bitwise x Shifts
 //*============================================================================*
 
 final class UInt256BenchmarksOnBitwiseShifts: XCTestCase {

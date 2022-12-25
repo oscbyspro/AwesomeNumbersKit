@@ -21,16 +21,16 @@ extension ANKFullWidth {
     
     @inlinable init(integerLiteral source: Int) {
         assert(Low.bitWidth >= Int.bitWidth)
-        let high = High(repeating: source.isLessThanZero)
         let low  = Low(truncatingIfNeeded: source)
+        let high = High(repeating: source.isLessThanZero)
         self.init(descending:(high, low))
         precondition(self.isLessThanZero == source.isLessThanZero)
     }
     
     @inlinable init(_truncatingBits source: UInt) {
         assert(Low.bitWidth >= UInt.bitWidth)
+        let low  = Low(_truncatingBits: source)
         let high = High(repeating: source.isLessThanZero)
-        let low  = Low.init(_truncatingBits: source)
         self.init(descending:(high, low))
     }
     

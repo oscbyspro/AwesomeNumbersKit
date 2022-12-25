@@ -13,7 +13,7 @@ import ANKLargeFixedWidthIntegers
 import XCTest
 
 //*============================================================================*
-// MARK: * Int256 x Tests x Multiplication
+// MARK: * Int256 x Multiplication
 //*============================================================================*
 
 final class Int256TestsOnMultiplication: XCTestCase {
@@ -139,7 +139,7 @@ final class Int256TestsOnMultiplication: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Tests x Multiplication
+// MARK: * UInt256 x Multiplication
 //*============================================================================*
 
 final class UInt256TestsOnMultiplication: XCTestCase {
