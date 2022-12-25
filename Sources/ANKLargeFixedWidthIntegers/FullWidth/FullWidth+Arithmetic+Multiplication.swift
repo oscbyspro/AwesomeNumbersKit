@@ -24,7 +24,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public static func *(lhs: Self, rhs: Self) -> Self {
-        let pvo = lhs.multipliedReportingOverflow(by: rhs)
+        let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
     
@@ -33,51 +33,57 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
-        let pvo = self.multipliedReportingOverflow(by: amount)
+        let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
         self = pvo.partialValue; return pvo.overflow
     }
     
     @inlinable func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
-        let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero
-        let product  = self.multipliedFullWidth(by: amount)
-        let overflow = isLessThanOrEqualToZero ? (product.high < (-1 as Self)) : !product.high.isZero
-        return PVO(Self(bitPattern: product.low), overflow)
+        let isLessThanOrEqualToZero: Bool = self.isLessThanZero != amount.isLessThanZero
+        let product: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
+        let overflow: Bool = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
+        return PVO(Self(bitPatternAsMagnitude: product.low), overflow)
     }
     
     @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self {
-        let hl = self.multipliedFullWidth(by: amount)
-        self = Self(bitPattern: hl.low); return hl.high
+        let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
+        self = Self(bitPatternAsMagnitude: hl.low); return hl.high
     }
     
     @inlinable func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        let lhsIsLessThanZero =   self.isLessThanZero
-        let rhsIsLessThanZero = amount.isLessThanZero
+        let lhsIsLessThanZero: Bool =   self.isLessThanZero
+        let rhsIsLessThanZero: Bool = amount.isLessThanZero
         //=--------------------------------------=
         var product = DoubleWidth()
         //=--------------------------------------=
-        self  .withUnsafeWords { LHS in
-        amount.withUnsafeWords { RHS in
+        self   .withUnsafeWords { LHS in
+        amount .withUnsafeWords { RHS in
         product.withUnsafeMutableWords { PRODUCT in
             //=----------------------------------=
-            var carry =  UInt()
-            for lhsIndex in LHS.indices {
-            for rhsIndex in RHS.indices {
-                let lhsWord = LHS[unchecked: lhsIndex]
-                let rhsWord = RHS[unchecked: rhsIndex]
-                carry = PRODUCT[unchecked: lhsIndex &+ rhsIndex].addFullWidth(carry, multiplicands:(lhsWord, rhsWord))
+            var carry: UInt = UInt()
+            for lhsIndex: Int in LHS.indices {
+            for rhsIndex: Int in RHS.indices {
+                let lhsWord: UInt = LHS[unchecked: lhsIndex]
+                let rhsWord: UInt = RHS[unchecked: rhsIndex]
+                let productIndex: Int = lhsIndex &+ rhsIndex
+                let multiplicands: (UInt, UInt) = (lhsWord, rhsWord)
+                carry = PRODUCT[unchecked: productIndex].addFullWidth(carry, multiplicands: multiplicands)
             }}
             //=----------------------------------=
             if  lhsIsLessThanZero {
-                var carry = true; for rhsIndex in RHS.indices {
-                    let word = ~RHS[unchecked: rhsIndex]
-                    carry = PRODUCT[unchecked: LHS.count &+ rhsIndex].addReportingOverflow(word, carry)
+                var carry: Bool = true
+                for rhsIndex: Int in  RHS.indices {
+                    let word: UInt = ~RHS[unchecked: rhsIndex]
+                    let productIndex: Int = rhsIndex &+ LHS.count
+                    carry = PRODUCT[unchecked: productIndex].addReportingOverflow(word, carry)
                 }
             }
             //=----------------------------------=
             if  rhsIsLessThanZero {
-                var carry = true; for lhsIndex in LHS.indices {
-                    let word = ~LHS[unchecked: lhsIndex]
-                    carry = PRODUCT[unchecked: lhsIndex &+ RHS.count].addReportingOverflow(word, carry)
+                var carry: Bool = true
+                for lhsIndex: Int in  LHS.indices {
+                    let word: UInt = ~LHS[unchecked: lhsIndex]
+                    let productIndex: Int = lhsIndex &+ RHS.count
+                    carry = PRODUCT[unchecked: productIndex].addReportingOverflow(word, carry)
                 }
             }
         }}}

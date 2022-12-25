@@ -24,7 +24,7 @@ extension ANKFullWidth {
     }
     
     @inlinable static func +(lhs: Self, rhs: Self) -> Self {
-        let pvo = lhs.addingReportingOverflow(rhs)
+        let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
     

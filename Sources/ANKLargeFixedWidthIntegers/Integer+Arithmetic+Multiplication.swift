@@ -36,17 +36,17 @@ extension ANKLargeFixedWidthInteger {
     }
     
     @_transparent public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
-        let pvo = self.body.multipliedReportingOverflowAsKaratsuba(by: amount.body)
+        let pvo: PVO<Body> = self.body.multipliedReportingOverflowAsKaratsuba(by: amount.body)
         return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
     
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        let hl = self.body.multipliedFullWidthAsKaratsuba(by: amount.body)
-        self.body = Body(bitPattern: hl.low); return Self(bitPattern: hl.high)
+        let hl: Body.DoubleWidth = self.body.multipliedFullWidthAsKaratsuba(by: amount.body)
+        self.body = Body(bitPatternAsMagnitude: hl.low); return Self(bitPattern: hl.high)
     }
     
     @_transparent public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        let hl = self.body.multipliedFullWidthAsKaratsuba(by:  amount.body)
+        let hl: Body.DoubleWidth = self.body.multipliedFullWidthAsKaratsuba(by: amount.body)
         return HL(Self(bitPattern: hl.high), Magnitude(bitPattern: hl.low))
     }
 }
@@ -78,7 +78,7 @@ extension ANKLargeFixedWidthInteger {
     }
     
     @_transparent public func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
-        let pvo = self.body.multipliedReportingOverflow(by:  amount)
+        let pvo: PVO<Body> = self.body.multipliedReportingOverflow(by: amount)
         return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
     

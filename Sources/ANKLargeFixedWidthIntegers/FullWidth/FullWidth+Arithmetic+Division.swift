@@ -55,14 +55,6 @@ extension ANKFullWidth {
         self.remainderReportingOverflowAsKnuth(dividingBy: divisor)
     }
     
-    @_transparent @usableFromInline mutating func divideReportingRemainder(dividingBy divisor: Self) -> Self {
-        self.divideReportingRemainderAsKnuth(dividingBy: divisor)
-    }
-    
-    @_transparent @usableFromInline mutating func formRemainderReportingQuotient(dividingBy divisor: Self) -> Self {
-        self.formRemainderReportingQuotientAsKnuth(dividingBy: divisor)
-    }
-    
     @_transparent @usableFromInline func quotientAndRemainder(dividingBy  divisor: Self) -> QR<Self, Self> {
         self.quotientAndRemainderAsKnuth(dividingBy: divisor)
     }

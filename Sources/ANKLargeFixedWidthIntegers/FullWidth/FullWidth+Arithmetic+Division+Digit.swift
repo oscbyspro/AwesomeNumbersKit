@@ -24,7 +24,7 @@ extension ANKFullWidth {
     }
     
     @inlinable static func /(lhs: Self, rhs: Digit) -> Self {
-        let pvo = lhs.dividedReportingOverflow(by: rhs)
+        let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
     
@@ -33,7 +33,7 @@ extension ANKFullWidth {
     }
     
     @inlinable static func %(lhs: Self, rhs: Digit) -> Digit {
-        let pvo = lhs.remainderReportingOverflow(dividingBy: rhs)
+        let pvo: PVO<Digit> = lhs.remainderReportingOverflow(dividingBy: rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
     
@@ -42,7 +42,7 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable mutating func divideReportingOverflow(by divisor: Digit) -> Bool {
-        let pvo = self.dividedReportingOverflow(by: divisor)
+        let pvo: PVO<Self> = self.dividedReportingOverflow(by: divisor)
         self = pvo.partialValue; return pvo.overflow
     }
     
@@ -53,7 +53,7 @@ extension ANKFullWidth {
     }
     
     @inlinable mutating func formRemainderReportingOverflow(by divisor: Digit) -> Bool {
-        let pvo = self.remainderReportingOverflow(dividingBy: divisor)
+        let pvo: PVO<Digit> = self.remainderReportingOverflow(dividingBy: divisor)
         self = Self(digit: pvo.partialValue); return pvo.overflow
     }
     
@@ -64,22 +64,12 @@ extension ANKFullWidth {
         return PVO(self.quotientAndRemainder(dividingBy: divisor).remainder, false)
     }
     
-    @inlinable mutating func divideReportingRemainder(dividingBy divisor: Digit) -> Digit {
-        let qr = self.quotientAndRemainder(dividingBy: divisor)
-        self = qr.quotient; return qr.remainder
-    }
-    
-    @inlinable mutating func formRemainderReportingQuotient(dividingBy divisor: Digit) -> Self {
-        let qr = self.quotientAndRemainder(dividingBy: divisor)
-        self = Self(digit: qr.remainder); return qr.quotient
-    }
-    
     @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
-        let dividendIsLessThanZero = self.isLessThanZero
-        var qr = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
+        let dividendIsLessThanZero: Bool = self.isLessThanZero
+        var qr: QR<Magnitude, UInt> = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
         //=--------------------------------------=
         if  dividendIsLessThanZero != divisor.isLessThanZero {
-            let overflow = qr.quotient.formTwosComplementReportingOverflow()
+            let overflow: Bool = qr.quotient.formTwosComplementReportingOverflow()
             precondition(!overflow, "quotient overflow during division")
         }
         
@@ -87,7 +77,7 @@ extension ANKFullWidth {
             qr.remainder = ~qr.remainder &+ 1 // cannot overflow: abs <= max
         }
         //=--------------------------------------=
-        return QR(Self(bitPattern: qr.quotient), Digit(bitPattern: qr.remainder))
+        return QR(Self(bitPatternAsMagnitude: qr.quotient), Digit(bitPattern: qr.remainder))
     }
 }
 
@@ -104,16 +94,17 @@ extension ANKFullWidth where Self: AwesomeUnsignedLargeFixedWidthInteger {
     @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
         precondition(!divisor.isZero)
         //=--------------------------------------=
-        var quotient = self, remainder = UInt()
+        var quotient  = self
+        var remainder = UInt()
         //=--------------------------------------=
         quotient.withUnsafeMutableWords { QUOTIENT in
-            var quotientIndex = QUOTIENT.endIndex
+            var quotientIndex: Int = QUOTIENT.endIndex
             //=----------------------------------=
             backwards: while quotientIndex != QUOTIENT.startIndex {
                 QUOTIENT.formIndex(before: &quotientIndex)
-                let dividend = (remainder, QUOTIENT[unchecked: quotientIndex]) as (UInt, UInt)
-                let division = divisor.dividingFullWidth(dividend) as (UInt, UInt)
-                (QUOTIENT[unchecked: quotientIndex], remainder) = division as (UInt, UInt)
+                let dividend: (UInt, UInt) = (remainder, QUOTIENT[unchecked: quotientIndex])
+                let division: (UInt, UInt) = divisor.dividingFullWidth(dividend)
+                (QUOTIENT[unchecked: quotientIndex], remainder) = division
             }
         }
         //=--------------------------------------=

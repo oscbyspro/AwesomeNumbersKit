@@ -57,7 +57,7 @@ extension ANKFullWidth {
     
     /// Returns its word count in minimum two's complement form.
     @inlinable func minWordCountReportingIsZeroOrMinusOne() -> (minWordCount: Int, isZeroOrMinusOne: Bool) {
-        let x = self.minLastIndexReportingIsZeroOrMinusOne(); return (1 + x.minLastIndex, x.isZeroOrMinusOne)
+        let x = self.minLastIndexReportingIsZeroOrMinusOne(); return (x.minLastIndex + 1, x.isZeroOrMinusOne)
     }
     
     /// Returns its last index in minimum two's complement form.

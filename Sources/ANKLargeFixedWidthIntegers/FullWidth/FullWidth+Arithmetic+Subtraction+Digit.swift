@@ -24,7 +24,7 @@ extension ANKFullWidth {
     }
     
     @inlinable static func -(lhs: Self, rhs: Digit) -> Self {
-        let pvo = lhs.subtractingReportingOverflow(rhs)
+        let pvo: PVO<Self> = lhs.subtractingReportingOverflow(rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
     

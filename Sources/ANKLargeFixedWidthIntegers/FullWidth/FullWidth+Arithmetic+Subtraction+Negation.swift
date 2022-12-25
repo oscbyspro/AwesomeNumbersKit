@@ -20,7 +20,7 @@ extension ANKFullWidth where Self: SignedInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable static prefix func -(x: Self) -> Self {
-        let pvo = x.negatedReportingOverflow()
+        let pvo: PVO<Self> = x.negatedReportingOverflow()
         precondition(!pvo.overflow); return pvo.partialValue
     }
     

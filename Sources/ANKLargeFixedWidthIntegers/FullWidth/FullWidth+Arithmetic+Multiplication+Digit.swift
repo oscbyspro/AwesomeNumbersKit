@@ -24,7 +24,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public static func *(lhs: Self, rhs: Digit) -> Self {
-        let pvo = lhs.multipliedReportingOverflow(by: rhs)
+        let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
     
@@ -33,20 +33,20 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable mutating func multiplyReportingOverflow(by amount: Digit) -> Bool {
-        let pvo = self.multipliedReportingOverflow(by: amount)
+        let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
         self = pvo.partialValue; return pvo.overflow
     }
     
     @inlinable func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
-        let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero
-        let product  = self.multipliedFullWidth(by: amount) as HL<Digit, Magnitude>
+        let isLessThanOrEqualToZero: Bool = self.isLessThanZero != amount.isLessThanZero
+        let product: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
         let overflow = isLessThanOrEqualToZero ? (product.high < (-1 as Digit)) : !product.high.isZero
-        return PVO(Self(bitPattern: product.low), overflow)
+        return PVO(Self(bitPatternAsMagnitude: product.low), overflow)
     }
     
     @inlinable mutating func multiplyFullWidth(by amount: Digit) -> Digit {
-        let hl = self.multipliedFullWidth(by: amount)
-        self = Self(bitPattern: hl.low); return hl.high
+        let hl: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
+        self = Self(bitPatternAsMagnitude: hl.low); return hl.high
     }
     
     @inlinable func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
@@ -59,8 +59,8 @@ extension ANKFullWidth {
                 let x = UInt(bitPattern: amount)
                 //=------------------------------=
                 for i in LHS.indices {
-                    let y = LHS[unchecked: i]
-                    let p = a.addingFullWidth(multiplicands:(y, x))
+                    let y: UInt = LHS[unchecked: i]
+                    let p: HL<UInt, UInt> = a.addingFullWidth(multiplicands:(y, x))
                     (a, PRODUCT[unchecked: i]) = p
                     if (amount.isLessThanZero) { b = a.addReportingOverflow(~y, b) }
                 }

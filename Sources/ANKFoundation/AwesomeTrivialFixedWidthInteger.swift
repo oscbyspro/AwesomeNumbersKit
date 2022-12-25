@@ -60,35 +60,33 @@ extension AwesomeTrivialFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public mutating func addReportingOverflow(_ amount: Self) -> Bool {
-        let o: Bool; (self, o) = self.addingReportingOverflow(amount); return o
+        let pvo: PVO<Self> = self.addingReportingOverflow(amount)
+        self = pvo.partialValue; return pvo.overflow
     }
     
     @_transparent public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
-        let o: Bool; (self, o) = self.subtractingReportingOverflow(amount); return o
+        let pvo: PVO<Self> = self.subtractingReportingOverflow(amount)
+        self = pvo.partialValue; return pvo.overflow
     }
     
     @_transparent public mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
-        let o: Bool; (self, o) = self.multipliedReportingOverflow(by: amount); return o
+        let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
+        self = pvo.partialValue; return pvo.overflow
     }
     
-    @_transparent public mutating func divideReportingOverflow(by divisor: Self) -> Bool {
-        let o: Bool; (self, o) = self.dividedReportingOverflow(by: divisor); return o
+    @_transparent public mutating func divideReportingOverflow(by amount: Self) -> Bool {
+        let pvo: PVO<Self> = self.dividedReportingOverflow(by: amount)
+        self = pvo.partialValue; return pvo.overflow
     }
     
-    @_transparent public mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool {
-        let o: Bool; (self, o) = self.remainderReportingOverflow(dividingBy: divisor); return o
-    }
-    
-    @_transparent public mutating func divideReportingRemainder(dividingBy divisor: Self) -> Self {
-        let qr = self.quotientAndRemainder(dividingBy: divisor); self = qr.quotient; return qr.remainder
-    }
-    
-    @_transparent public mutating func formRemainderReportingQuotient(dividingBy divisor: Self) -> Self {
-        let qr = self.quotientAndRemainder(dividingBy: divisor); self = qr.remainder; return qr.quotient
+    @_transparent public mutating func formRemainderReportingOverflow(by amount: Self) -> Bool {
+        let pvo: PVO<Self> = self.remainderReportingOverflow(dividingBy: amount)
+        self = pvo.partialValue; return pvo.overflow
     }
     
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        let hl = multipliedFullWidth(by: amount); self = Self(truncatingIfNeeded: hl.low); return hl.high
+        let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
+        self = Self(truncatingIfNeeded: hl.low); return hl.high
     }
 }
 
@@ -103,7 +101,8 @@ extension AwesomeTrivialFixedWidthInteger where Self: AwesomeSignedFixedWidthInt
     //=------------------------------------------------------------------------=
     
     @_transparent public mutating func negateReportingOverflow() -> Bool {
-        let o: Bool; (self, o) = self.negatedReportingOverflow(); return o
+        let pvo: PVO<Self> = self.negatedReportingOverflow()
+        self = pvo.partialValue; return pvo.overflow
     }
     
     @_transparent public func negatedReportingOverflow() -> PVO<Self> {

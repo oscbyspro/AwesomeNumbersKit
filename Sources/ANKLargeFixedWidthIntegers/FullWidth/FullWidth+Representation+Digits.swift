@@ -13,12 +13,12 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Digits
 //*============================================================================*
 
-@usableFromInline protocol ANKFullWidthCollection: WoRdS where
+@usableFromInline protocol ANKFullWidthCollection: WoRdS where Low == Low.Magnitude,
 High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {
     
     associatedtype High: AwesomeLargeFixedWidthInteger
     
-    associatedtype Low:  AwesomeUnsignedLargeFixedWidthInteger<UInt> where Low == Low.Magnitude
+    associatedtype Low:  AwesomeUnsignedLargeFixedWidthInteger<UInt>
     
     typealias Body = ANKFullWidth<High, Low>
     

@@ -44,10 +44,6 @@ Digit: AwesomeFixedWidthInteger {
     // MARK: Transformations x Division
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func divideReportingRemainder(dividingBy divisor: Digit) -> Digit
-    
-    @inlinable mutating func formRemainderReportingQuotient(dividingBy divisor: Digit) -> Self
-    
     @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>
     
     //=------------------------------------------------------------------------=

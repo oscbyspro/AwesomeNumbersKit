@@ -24,12 +24,12 @@ extension ANKFullWidth where High.Magnitude == Low {
     }
     
     @inlinable func multipliedAsKaratsuba(by amount: Self) -> Self {
-        let pvo = self.multipliedReportingOverflowAsKaratsuba(by: amount)
+        let pvo: PVO<Self> = self.multipliedReportingOverflowAsKaratsuba(by: amount)
         precondition(!pvo.overflow); return pvo.partialValue
     }
     
     @inlinable mutating func multiplyReportingOverflowAsKaratsuba(by amount: Self) -> Bool {
-        let pvo = self.multipliedReportingOverflowAsKaratsuba(by: amount)
+        let pvo: PVO<Self> = self.multipliedReportingOverflowAsKaratsuba(by: amount)
         self = pvo.partialValue; return pvo.overflow
     }
     
@@ -37,18 +37,18 @@ extension ANKFullWidth where High.Magnitude == Low {
         let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero
         let product: DoubleWidth = self.multipliedFullWidthAsKaratsuba(by: amount)
         let overflow: Bool = isLessThanOrEqualToZero ? (product.high < (-1 as Self)) : !product.high.isZero
-        return PVO(Self(bitPattern: product.low), overflow)
+        return PVO(Self(bitPatternAsMagnitude: product.low), overflow)
     }
     
     @inlinable mutating func multiplyFullWidthAsKaratsuba(by amount: Self) -> Self {
         let hl = self.multipliedFullWidthAsKaratsuba(by: amount)
-        self = Self(bitPattern: hl.low); return Self(bitPattern: hl.high)
+        self = Self(bitPatternAsMagnitude: hl.low); return Self(bitPattern: hl.high)
     }
     
     @inlinable func multipliedFullWidthAsKaratsuba(by amount: Self) -> DoubleWidth {
         let negate  = self.isLessThanZero != amount.isLessThanZero
         let product = self.magnitude.multipliedFullWidthAsKaratsubaAsUnsigned(by: amount.magnitude)
-        return DoubleWidth(bitPattern: negate ? product.twosComplement() : product)        
+        return DoubleWidth(bitPatternAsMagnitude: negate ? product.twosComplement() : product)
     }
 }
 

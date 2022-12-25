@@ -43,8 +43,8 @@ extension ANKFullWidth {
     ///
     @inlinable func _bitshiftedLeft(by amount: Int) -> Self {
         assert(0 <= amount &&  amount < Self.bitWidth)
-        let words = amount &>> UInt.bitWidth.trailingZeroBitCount
-        let bits  = amount &  (UInt.bitWidth &- 1)
+        let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
+        let bits:  Int = amount &  (UInt.bitWidth &- 1)
         return self._bitshiftedLeft(words: words, bits: bits)
     }
     
@@ -68,20 +68,20 @@ extension ANKFullWidth {
         //=--------------------------------------=
         next.withUnsafeMutableWords { NEXT in
         self.withUnsafeWords { SELF in
-            let a = bits
-            let b = UInt.bitWidth &- bits
+            let a: Int = bits
+            let b: Int = UInt.bitWidth &- bits
             
-            var i = SELF.endIndex
-            var j = SELF.index(i, offsetBy: -words)
-            var k = SELF.index(before: j)
+            var i: Int = SELF.endIndex
+            var j: Int = SELF.index(i, offsetBy: -words)
+            var k: Int = SELF.index(before: j)
             
-            while k  != SELF.startIndex {
+            while k != SELF.startIndex {
                 SELF.formIndex(before: &i)
                 SELF.formIndex(before: &j)
                 SELF.formIndex(before: &k)
                 
-                let p = /*-------*/ SELF[unchecked: j] &<< a
-                let q = !a.isZero ? SELF[unchecked: k] &>> b : UInt()
+                let p: UInt = /*-------*/ SELF[unchecked: j] &<< a
+                let q: UInt = !a.isZero ? SELF[unchecked: k] &>> b : UInt()
                 NEXT[unchecked: i] = p | q
             }
             
@@ -128,8 +128,8 @@ extension ANKFullWidth {
     ///
     @inlinable func _bitshiftedRight(by amount: Int) -> Self {
         assert(0 <= amount &&  amount < Self.bitWidth)
-        let words = amount &>> UInt.bitWidth.trailingZeroBitCount
-        let bits  = amount &  (UInt.bitWidth &- 1)
+        let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
+        let bits:  Int = amount &  (UInt.bitWidth &- 1)
         return self._bitshiftedRight(words: words, bits: bits)
     }
     
@@ -149,21 +149,21 @@ extension ANKFullWidth {
         assert(0 <= words && words < self.endIndex)
         assert(0 <= bits  && bits  < UInt.bitWidth)
         //=--------------------------------------=
-        let isLessThanZero = (self.isLessThanZero)
-        var next = Self(repeating: isLessThanZero)
+        let isLessThanZero: Bool = (self.isLessThanZero)
+        var next: Self = Self(repeating: isLessThanZero)
         //=--------------------------------------=
         next.withUnsafeMutableWords { NEXT in
         self.withUnsafeWords { SELF in
-            let a = bits
-            let b = UInt.bitWidth &- bits
+            let a: Int = bits
+            let b: Int = UInt.bitWidth &- bits
             
-            var i = SELF.startIndex
-            var j = SELF.index(i, offsetBy: words)
-            var k = SELF.index(after: j)
+            var i: Int = SELF.startIndex
+            var j: Int = SELF.index(i, offsetBy: words)
+            var k: Int = SELF.index(after: j)
 
-            while k  != SELF.endIndex {
-                let p = /*-------*/ SELF[unchecked: j] &>> a
-                let q = !a.isZero ? SELF[unchecked: k] &<< b : UInt()
+            while k != SELF.endIndex {
+                let p: UInt = /*-------*/ SELF[unchecked: j] &>> a
+                let q: UInt = !a.isZero ? SELF[unchecked: k] &<< b : UInt()
                 NEXT[unchecked: i] = p | q
                 
                 SELF.formIndex(after: &i)
@@ -171,8 +171,8 @@ extension ANKFullWidth {
                 SELF.formIndex(after: &k)
             }
             
-            let p = SELF[unchecked: j] &>> a
-            let q = !a.isZero && isLessThanZero ? ~UInt() &<< b : UInt()
+            let p: UInt = SELF[unchecked: j] &>> a
+            let q: UInt = !a.isZero && isLessThanZero ? ~UInt() &<< b : UInt()
             NEXT[unchecked: i] = p | q
         }}
         //=--------------------------------------=

@@ -27,10 +27,10 @@ import ANKFoundation
 /// Self.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
-@frozen @usableFromInline struct ANKFullWidth<High, Low>: WoRdS, ANKFullWidthCollection,
-AwesomeLargeFixedWidthInteger where High: AwesomeLargeFixedWidthInteger,
-Low: AwesomeUnsignedLargeFixedWidthInteger<UInt>, Low == Low.Magnitude,
-High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {
+@frozen @usableFromInline struct ANKFullWidth<High, Low>: WoRdS,
+ANKFullWidthCollection, AwesomeLargeFixedWidthInteger, CustomDebugStringConvertible where
+High: AwesomeLargeFixedWidthInteger, Low: AwesomeUnsignedLargeFixedWidthInteger<UInt>,
+Low == Low.Magnitude, High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {
     
     public typealias Digit = High.Digit
     
@@ -102,7 +102,15 @@ High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {
         self.init(descending:(High(repeating: digit.isLessThanZero), Low(digit: UInt(bitPattern: digit))))
     }
     
-    #warning("FIXME: type checking calls to this method is very slow")
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @_transparent @usableFromInline init(bitPatternAsMagnitude: Magnitude) {
+        self = unsafeBitCast(bitPatternAsMagnitude, to: Self.self)
+    }
+    
+    #warning("FIXME: type checking calls to this method is slow")
     @_transparent @usableFromInline init<T>(bitPattern: ANKFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
         self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
     }

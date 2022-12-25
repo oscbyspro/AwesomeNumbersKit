@@ -19,7 +19,26 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(_ source: some BinaryInteger) {
+    @inlinable init(integerLiteral source: Int) {
+        assert(Low.bitWidth >= Int.bitWidth)
+        let high = High(repeating: source.isLessThanZero)
+        let low  = Low(truncatingIfNeeded: source)
+        self.init(descending:(high, low))
+        precondition(self.isLessThanZero == source.isLessThanZero)
+    }
+    
+    @inlinable init(_truncatingBits source: UInt) {
+        assert(Low.bitWidth >= UInt.bitWidth)
+        let high = High(repeating: source.isLessThanZero)
+        let low  = Low.init(_truncatingBits: source)
+        self.init(descending:(high, low))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init<T>(_ source: T) where T: BinaryInteger {
         guard let value = Self(exactly: source) else {
             preconditionFailure("\(source) is not in \(Self.self)'s representable range")
         }
@@ -27,9 +46,9 @@ extension ANKFullWidth {
         self = value
     }
     
-    @inlinable init?(exactly source: some BinaryInteger) {
-        let words = source.words
-        let isLessThanZero = type(of: source).isSigned && words.last?.mostSignificantBit == true
+    @inlinable init?<T>(exactly source: T) where T: BinaryInteger {
+        let words: T.Words = source.words
+        let isLessThanZero: Bool = T.isSigned && words.last?.mostSignificantBit == true
         let sign = UInt(repeating: isLessThanZero)
         self.init(_copy: words, _extending:  sign)
         //=--------------------------------------=
@@ -41,9 +60,9 @@ extension ANKFullWidth {
         return nil
     }
     
-    @inlinable init(clamping source: some BinaryInteger) {
-        let words = source.words
-        let isLessThanZero = type(of: source).isSigned && words.last?.mostSignificantBit == true
+    @inlinable init<T>(clamping source: T) where T: BinaryInteger {
+        let words: T.Words = source.words
+        let isLessThanZero: Bool = T.isSigned && words.last?.mostSignificantBit == true
         let sign = UInt(repeating: isLessThanZero)
         self.init(_copy: words, _extending:  sign)
         //=--------------------------------------=
@@ -55,21 +74,21 @@ extension ANKFullWidth {
         self = isLessThanZero ? Self.min : Self.max
     }
     
-    @inlinable init(truncatingIfNeeded source: some BinaryInteger) {
-        let words = source.words
-        let isLessThanZero = type(of: source).isSigned && words.last?.mostSignificantBit == true
+    @inlinable init<T>(truncatingIfNeeded source: T) where T: BinaryInteger {
+        let words: T.Words = source.words
+        let isLessThanZero: Bool = T.isSigned && words.last?.mostSignificantBit == true
         self.init(_copy: words, _extending: UInt(repeating: isLessThanZero))
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
-    
+
     @inlinable init(_copy words: some Collection<UInt>, _extending sign: UInt) {
         self = Self.fromUnsafeTemporaryWords { SELF in
-            var index = SELF.startIndex
+            var index: Int = SELF.startIndex
 
-            for word in words {
+            for word: UInt in words {
                 if index == SELF.endIndex { break }
                 SELF[unchecked: index] = word
                 SELF.formIndex(after: &index)
@@ -79,39 +98,6 @@ extension ANKFullWidth {
                 SELF[unchecked: index] = sign
                 SELF.formIndex(after: &index)
             }
-        }
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Full Width x Conversion x Number x Digit
-//*============================================================================*
-
-extension ANKFullWidth {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-        
-    @inlinable init(integerLiteral source: Int) {
-        self.init(digit: source)
-    }
-    
-    @inlinable init(_truncatingBits source: UInt) {
-        self.init(digit: source)
-    }
-    
-    @inlinable init(digit source: some AwesomeIntOrUInt) {
-        assert(Low.bitWidth >= source.bitWidth)
-        let high = High(repeating: source.isLessThanZero)
-        //=--------------------------------------=
-        if  type(of: source).isSigned {
-            let low = Low(truncatingIfNeeded: source)
-            self.init(descending:(high, low))
-            precondition(isLessThanZero == source.isLessThanZero)
-        } else {
-            let low = Low(_truncatingBits: UInt(bitPattern: source))
-            self.init(descending:(high, low))
         }
     }
 }

@@ -21,8 +21,8 @@ extension ANKFullWidth {
     
     @inlinable mutating func formTwosComplement() {
         self.withUnsafeMutableWords { SELF in
-            var carry =  true
-            for index in SELF.indices {
+            var carry: Bool = true
+            for index: Int in SELF.indices {
                 var word: UInt = ~SELF[unchecked: index]
                 carry = word.addReportingOverflow(UInt(bit: carry))
                 SELF[unchecked: index] = word
@@ -36,15 +36,15 @@ extension ANKFullWidth {
     
     /// - Returns true when `Self.isSigned == true` and `self == min`.
     @inlinable mutating func formTwosComplementReportingOverflow() -> Bool {
-        let wasLessThanZero = self.isLessThanZero
+        let wasLessThanZero: Bool = self.isLessThanZero
         self.formTwosComplement() // ~self &+ 1
         return wasLessThanZero && self.isLessThanZero
     }
     
     /// - Returns true when `Self.isSigned == true` and `self == min`.
     @inlinable func twosComplementReportingOverflow() -> PVO<Self> {
-        var partialValue = self;
-        let overflow = partialValue.formTwosComplementReportingOverflow()
+        var partialValue = self
+        let overflow: Bool = partialValue.formTwosComplementReportingOverflow()
         return PVO(partialValue, overflow)
     }
     
