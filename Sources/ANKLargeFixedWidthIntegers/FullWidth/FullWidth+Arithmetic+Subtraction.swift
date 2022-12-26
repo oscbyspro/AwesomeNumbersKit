@@ -28,8 +28,12 @@ extension ANKFullWidth {
         precondition(!pvo.overflow); return pvo.partialValue
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable static func &-=(lhs: inout Self, rhs: Self) {
-        _ = lhs.subtractReportingOverflow(rhs)
+        _ = lhs.subtractReportingOverflow(rhs) as Bool
     }
     
     @inlinable static func &-(lhs: Self, rhs: Self) -> Self {

@@ -37,8 +37,12 @@ extension ANKLargeFixedWidthInteger {
     
     @_transparent public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
         let pvo: PVO<Body> = self.body.multipliedReportingOverflowAsKaratsuba(by: amount.body)
-        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
+        return   PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
     
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
         let hl: Body.DoubleWidth = self.body.multipliedFullWidthAsKaratsuba(by: amount.body)
@@ -47,7 +51,7 @@ extension ANKLargeFixedWidthInteger {
     
     @_transparent public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
         let hl: Body.DoubleWidth = self.body.multipliedFullWidthAsKaratsuba(by: amount.body)
-        return HL(Self(bitPattern: hl.high), Magnitude(bitPattern: hl.low))
+        return  HL(Self(bitPattern: hl.high), Magnitude(bitPattern: hl.low))
     }
 }
 
@@ -79,15 +83,19 @@ extension ANKLargeFixedWidthInteger {
     
     @_transparent public func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
         let pvo: PVO<Body> = self.body.multipliedReportingOverflow(by: amount)
-        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
+        return   PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
     
     @_transparent public mutating func multiplyFullWidth(by amount: Digit) -> Digit {
         self.body.multiplyFullWidth(by: amount)
     }
     
     @_transparent public func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
-        let hl = self.body.multipliedFullWidth(by: amount)
-        return HL(hl.high, Magnitude(bitPattern:  hl.low))
+        let hl: HL<Digit, Body.Magnitude> = self.body.multipliedFullWidth(by: amount)
+        return  HL(hl.high, Magnitude(bitPattern: hl.low))
     }
 }

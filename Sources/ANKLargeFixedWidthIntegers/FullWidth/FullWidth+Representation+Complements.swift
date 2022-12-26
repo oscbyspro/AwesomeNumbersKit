@@ -34,6 +34,10 @@ extension ANKFullWidth {
         var x = self; x.formTwosComplement(); return x
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     /// - Returns true when `Self.isSigned == true` and `self == min`.
     @inlinable mutating func formTwosComplementReportingOverflow() -> Bool {
         let wasLessThanZero: Bool = self.isLessThanZero

@@ -28,6 +28,10 @@ extension ANKFullWidth {
         precondition(!pvo.overflow); return pvo.partialValue
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable static func &+=(lhs: inout Self, rhs: Self) {
         _ = lhs.addReportingOverflow(rhs)
     }
@@ -48,8 +52,6 @@ extension ANKFullWidth {
     }
     
     @inlinable func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
-        var partialValue = self
-        let overflow: Bool = partialValue.addReportingOverflow(amount)
-        return PVO(partialValue, overflow)
+        var pv = self; let o: Bool = pv.addReportingOverflow(amount); return PVO(pv, o)
     }
 }

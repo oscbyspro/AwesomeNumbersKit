@@ -28,6 +28,10 @@ extension ANKFullWidth where High.Magnitude == Low {
         precondition(!pvo.overflow); return pvo.partialValue
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable mutating func multiplyReportingOverflowAsKaratsuba(by amount: Self) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflowAsKaratsuba(by: amount)
         self = pvo.partialValue; return pvo.overflow
@@ -39,6 +43,10 @@ extension ANKFullWidth where High.Magnitude == Low {
         let overflow: Bool = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
         return PVO(Self(bitPattern: product.low), overflow)
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
     
     @inlinable mutating func multiplyFullWidthAsKaratsuba(by amount: Self) -> Self {
         let hl: DoubleWidth = self.multipliedFullWidthAsKaratsuba(by: amount)

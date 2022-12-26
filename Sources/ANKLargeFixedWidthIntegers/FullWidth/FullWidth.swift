@@ -38,9 +38,9 @@ Low == Low.Magnitude, High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt
         
     @usableFromInline typealias Magnitude = ANKFullWidth<High.Magnitude, Low>
     
-    @usableFromInline typealias DoubleWidth = ANKFullWidth<Self, Magnitude>
+    @usableFromInline typealias Plus1 = ANKFullWidth<Digit, Magnitude>
     
-    @usableFromInline typealias ExtraDigitWidth = ANKFullWidth<Digit, Magnitude>
+    @usableFromInline typealias DoubleWidth = ANKFullWidth<Self, Magnitude>
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
@@ -107,7 +107,7 @@ Low == Low.Magnitude, High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt
     //=------------------------------------------------------------------------=
     
     @_transparent @usableFromInline init<T>(bitPattern: ANKFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
-        self = Swift.unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
+        self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
     }
 }
 

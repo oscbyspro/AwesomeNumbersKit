@@ -27,6 +27,10 @@ extension ANKLargeFixedWidthInteger {
         Self(bitPattern: lhs.body + rhs.body)
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @_transparent public static func &+=(lhs: inout Self, rhs: Self) {
         lhs.body &+= rhs.body
     }
@@ -45,7 +49,7 @@ extension ANKLargeFixedWidthInteger {
     
     @_transparent public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
         let pvo: PVO<Body> = self.body.addingReportingOverflow(amount.body)
-        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
+        return   PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
 }
 
@@ -67,6 +71,10 @@ extension ANKLargeFixedWidthInteger {
         Self(bitPattern: lhs.body + rhs)
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @_transparent public static func &+=(lhs: inout Self, rhs: Digit) {
         lhs.body &+= rhs
     }
@@ -85,6 +93,6 @@ extension ANKLargeFixedWidthInteger {
     
     @_transparent public func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {
         let pvo: PVO<Body> = self.body.addingReportingOverflow(amount)
-        return PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
+        return   PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
 }

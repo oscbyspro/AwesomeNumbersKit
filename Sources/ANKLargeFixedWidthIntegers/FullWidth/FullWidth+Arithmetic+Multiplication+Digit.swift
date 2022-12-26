@@ -40,7 +40,7 @@ extension ANKFullWidth {
     @inlinable func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
         let isLessThanOrEqualToZero: Bool = self.isLessThanZero != amount.isLessThanZero
         let product: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
-        let overflow = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
+        let overflow: Bool = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
         return PVO(Self(bitPattern: product.low), overflow)
     }
     
@@ -62,13 +62,13 @@ extension ANKFullWidth {
         Magnitude.fromUnsafeTemporaryWords { LOW in
             var x = amount.isLessThanZero as Bool
             let rhsWord = UInt(bitPattern: amount)
-            
+            //=----------------------------------=
             for index in LHS.indices {
                 let lhsWord = LHS[unchecked:  index]
-                (high, LOW[unchecked: index]) = high.addingFullWidth(multiplicands:(lhsWord, rhsWord) )
+                (high, LOW[unchecked: index]) = high.addingFullWidth(multiplicands:(lhsWord, rhsWord))
                 if  amount.isLessThanZero { x = high.addReportingOverflow(~lhsWord, x) }
             }
-            
+            //=----------------------------------=
             high = self.isLessThanZero ? high &+ ~rhsWord &+ 1 : high
         }}
         //=--------------------------------------=

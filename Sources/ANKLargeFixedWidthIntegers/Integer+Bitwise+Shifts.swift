@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Integer x Bitshifts x L
+// MARK: * ANK x Integer x Bitwise x Shifts
 //*============================================================================*
 
 extension ANKLargeFixedWidthInteger {
@@ -26,13 +26,6 @@ extension ANKLargeFixedWidthInteger {
     @_transparent public static func &<<(lhs: Self, rhs: Self) -> Self {
         Self(bitPattern: lhs.body &<< rhs.body)
     }
-}
-
-//*============================================================================*
-// MARK: * ANK x Integer x Bitshifts x R
-//*============================================================================*
-
-extension ANKLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

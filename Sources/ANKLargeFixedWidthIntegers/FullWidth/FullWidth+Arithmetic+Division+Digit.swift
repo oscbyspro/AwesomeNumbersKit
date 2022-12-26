@@ -80,11 +80,17 @@ extension ANKFullWidth {
         return PVO(qr.remainder, false)
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
-        let dividendIsLessThanZero: Bool = self.isLessThanZero
+        let  divisorIsLessThanZero: Bool = divisor.isLessThanZero
+        let dividendIsLessThanZero: Bool =    self.isLessThanZero
+        //=--------------------------------------=
         var qr: QR<Magnitude, UInt> = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
         //=--------------------------------------=
-        if  dividendIsLessThanZero != divisor.isLessThanZero {
+        if  dividendIsLessThanZero != divisorIsLessThanZero {
             let overflow: Bool = qr.quotient.formTwosComplementReportingOverflow()
             precondition(!overflow, "quotient overflow during division")
         }

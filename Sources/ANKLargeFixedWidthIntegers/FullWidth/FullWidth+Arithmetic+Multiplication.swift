@@ -44,6 +44,10 @@ extension ANKFullWidth {
         return PVO(Self(bitPattern: product.low), overflow)
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self {
         let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
         self = Self(bitPattern: hl.low); return hl.high

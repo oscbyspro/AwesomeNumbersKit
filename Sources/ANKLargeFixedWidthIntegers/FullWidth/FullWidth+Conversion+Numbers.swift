@@ -47,29 +47,25 @@ extension ANKFullWidth {
     }
     
     @inlinable init?<T>(exactly source: T) where T: BinaryInteger {
-        let words: T.Words = source.words
+        let words: T.Words = source.words; let index: T.Words.Index
         let isLessThanZero: Bool = T.isSigned && words.last?.mostSignificantBit == true
         let sign = UInt(repeating: isLessThanZero)
-        self.init(_copy: words, _extending:  sign)
         //=--------------------------------------=
-        if  self.isLessThanZero == isLessThanZero {
-            let index = words.index(words.startIndex, offsetBy: self.count, limitedBy: words.endIndex)
-            guard let index else { return }; if words[index...].allSatisfy({ $0 == sign }) { return }
-        }
+        (self, index) = Self._copy(words, _extending: sign) as (Self, Int)
+        //=--------------------------------------=
+        if self.isLessThanZero == isLessThanZero, words[index...].allSatisfy({ $0 == sign }) { return }
         //=--------------------------------------=
         return nil
     }
     
     @inlinable init<T>(clamping source: T) where T: BinaryInteger {
-        let words: T.Words = source.words
+        let words: T.Words = source.words; let index: T.Words.Index
         let isLessThanZero: Bool = T.isSigned && words.last?.mostSignificantBit == true
         let sign = UInt(repeating: isLessThanZero)
-        self.init(_copy: words, _extending:  sign)
         //=--------------------------------------=
-        if  self.isLessThanZero == isLessThanZero {
-            let index = words.index(words.startIndex, offsetBy: self.count, limitedBy: words.endIndex)
-            guard let index else { return }; if words[index...].allSatisfy({ $0 == sign }) { return }
-        }
+        (self, index) = Self._copy(words, _extending: sign) as (Self, Int)
+        //=--------------------------------------=
+        if self.isLessThanZero == isLessThanZero && words[index...].allSatisfy({ $0 == sign }) { return }
         //=--------------------------------------=
         self = isLessThanZero ? Self.min : Self.max
     }
@@ -77,27 +73,38 @@ extension ANKFullWidth {
     @inlinable init<T>(truncatingIfNeeded source: T) where T: BinaryInteger {
         let words: T.Words = source.words
         let isLessThanZero: Bool = T.isSigned && words.last?.mostSignificantBit == true
-        self.init(_copy: words, _extending: UInt(repeating: isLessThanZero))
+        let sign = UInt(repeating: isLessThanZero)
+        //=--------------------------------------=
+        (self, _) = Self._copy(words, _extending: sign) as (Self, Int)
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-
-    @inlinable init(_copy words: some Collection<UInt>, _extending sign: UInt) {
-        self = Self.fromUnsafeTemporaryWords { SELF in
-            var index: Int = SELF.startIndex
-
-            for word: UInt in words {
-                if index == SELF.endIndex { break }
-                SELF[unchecked: index] = word
-                SELF.formIndex(after: &index)
+    @inlinable static func _copy<T>(_ source: T, _extending sign: UInt) -> (Self, T.Index) where T: Collection<UInt>, T.Index == Int {
+        assert(sign == UInt.min || sign == UInt.max)
+        //=--------------------------------------=
+        var index = source.startIndex
+        //=--------------------------------------=
+        let value = Self.fromUnsafeTemporaryWords { SELF in
+            //=----------------------------------=
+            var bodyIndex = SELF.startIndex
+            var sourceIndex = source.startIndex
+            defer { index = sourceIndex }
+            //=----------------------------------=
+            while sourceIndex != source.endIndex {
+                guard bodyIndex != SELF.endIndex else { return }
+                
+                let word = source[sourceIndex]
+                source.formIndex(after: &sourceIndex)
+                
+                SELF[unchecked: bodyIndex] = word
+                SELF.formIndex(after: &bodyIndex)
             }
-            
-            while index != SELF.endIndex {
-                SELF[unchecked: index] = sign
-                SELF.formIndex(after: &index)
+            //=----------------------------------=
+            while bodyIndex != SELF.endIndex {
+                SELF[unchecked: bodyIndex] = sign
+                SELF.formIndex(after: &bodyIndex)
             }
         }
+        //=--------------------------------------=
+        return (value, index)
     }
 }

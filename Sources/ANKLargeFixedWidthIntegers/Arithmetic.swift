@@ -26,31 +26,37 @@ extension UInt {
     }
     
     @inlinable func addingReportingOverflow(_ amount: Self, _ carry: Bool) -> PVO<Self> {
-        var partialValue: Self = self
+        var partialValue = self
         let overflow: Bool = partialValue.addReportingOverflow(amount, carry)
         return PVO(partialValue, overflow)
     }
     
-    /// - it cannot crash for the same reason that `9 + 9 * 9 == 90`
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable mutating func addFullWidth(multiplicands: (Self, Self)) -> Self {
         let hl: HL<Self, Self> = multiplicands.0.multipliedFullWidth(by: multiplicands.1)
-        return self.addReportingOverflow(hl.low) ? hl.high &+ (1 as Self) : hl.high
+        return self.addReportingOverflow(hl.low) ? hl.high &+ 1 : hl.high
     }
     
     @inlinable func addingFullWidth(multiplicands: (Self, Self)) -> HL<Self, Self> {
-        var low:  Self = self
+        var low = self
         let high: Self = low.addFullWidth(multiplicands: multiplicands)
         return HL(high,  low)
     }
     
-    /// - it cannot crash for the same reason that `9 + 9 + 9 * 9 == 99`
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable mutating func addFullWidth(_ carry: Self, multiplicands: (Self, Self)) -> Self {
         let high: Self = self.addFullWidth(multiplicands: multiplicands)
-        return self.addReportingOverflow(carry) ? high &+ (1 as Self) : high
+        return self.addReportingOverflow(carry) ? high &+ 1 : high
     }
     
-    @inlinable func addingFullWidth(_ carry: Self,  multiplicands: (Self, Self)) -> HL<Self, Self> {
-        var low:  Self = self
+    @inlinable func addingFullWidth(_ carry: Self, multiplicands: (Self, Self)) -> HL<Self, Self> {
+        var low = self
         let high: Self = low.addFullWidth(carry, multiplicands: multiplicands)
         return HL(high,  low)
     }

@@ -25,7 +25,7 @@ final class TypesTestsOnAwesomeLargeFixedWidthInteger: XCTestCase {
     let types = Trivial.allLargeFixedWidthIntegerTypes
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Initializers
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testInitRepeatingWord() {
@@ -35,10 +35,6 @@ final class TypesTestsOnAwesomeLargeFixedWidthInteger: XCTestCase {
             XCTAssert(words.allSatisfy({ $0 as! UInt == word }))
         }
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Words
-    //=------------------------------------------------------------------------=
     
     func testBitWidthInvariants() {
         for type: any AwesomeLargeFixedWidthInteger.Type in types {

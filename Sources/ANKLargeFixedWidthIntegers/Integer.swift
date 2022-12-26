@@ -81,25 +81,17 @@ extension ANKLargeFixedWidthInteger {
         self.init(bitPattern: Body(bit: bit))
     }
     
+    @_transparent public init(digit: Digit) {
+        self.init(bitPattern: Body(digit: digit))
+    }
+    
     @_transparent public init(repeating bit: Bool) {
         self.init(bitPattern: Body(repeating: bit))
     }
     
     @_transparent public init(repeating word: UInt) {
         self.init(bitPattern: Body(repeating: word))
-    }
-    
-    @_transparent public init(digit: Digit) {
-        self.init(bitPattern: Body(digit: digit))
-    }
-    
-    @_transparent public init(x64: X64) {
-        self.init(bitPattern: Body(ascending: unsafeBitCast(x64, to: LH<Low, High>.self)))
-    }
-    
-    @_transparent public init(x32: X32) {
-        self.init(bitPattern: Body(ascending: unsafeBitCast(x32, to: LH<Low, High>.self)))
-    }
+    }    
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -111,6 +103,14 @@ extension ANKLargeFixedWidthInteger {
     
     @_transparent @usableFromInline init(descending digits: HL<High, Low>) {
         self.init(bitPattern: Body(descending: digits))
+    }
+    
+    @_transparent public init(x64: X64) {
+        self.init(bitPattern: Body(ascending: unsafeBitCast(x64, to: LH<Low, High>.self)))
+    }
+    
+    @_transparent public init(x32: X32) {
+        self.init(bitPattern: Body(ascending: unsafeBitCast(x32, to: LH<Low, High>.self)))
     }
     
     //=------------------------------------------------------------------------=

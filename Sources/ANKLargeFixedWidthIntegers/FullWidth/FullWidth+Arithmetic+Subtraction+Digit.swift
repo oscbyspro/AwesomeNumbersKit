@@ -28,8 +28,12 @@ extension ANKFullWidth {
         precondition(!pvo.overflow); return pvo.partialValue
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable static func &-=(lhs: inout Self, rhs: Digit) {
-        _ = lhs.subtractReportingOverflow(rhs)
+        _ = lhs.subtractReportingOverflow(rhs) as Bool
     }
     
     @inlinable static func &-(lhs: Self, rhs: Digit) -> Self {
@@ -44,15 +48,15 @@ extension ANKFullWidth {
         let lhsWasLessThanZero: Bool =   self.isLessThanZero
         let rhsWasLessThanZero: Bool = amount.isLessThanZero
         //=--------------------------------------=
-        let borrow: Bool = self.withUnsafeMutableWords { LHS in
-            var index:  Int  = LHS.startIndex
+        let borrow = self.withUnsafeMutableWords { LHS in
+            var index = LHS.startIndex
             var borrow: Bool = LHS[unchecked: index].subtractReportingOverflow(UInt(bitPattern: amount))
             LHS.formIndex(after: &index)
             //=----------------------------------=
             if borrow == rhsWasLessThanZero { return false }
             //=----------------------------------=
-            let decrement: UInt = rhsWasLessThanZero ? ~0 : 1 // -1 vs +1
-            loop: while borrow != rhsWasLessThanZero, index != LHS.endIndex {
+            let decrement = rhsWasLessThanZero ? ~0 : 1 as UInt
+            while borrow != rhsWasLessThanZero, index != LHS.endIndex {
                 borrow = LHS[unchecked: index].subtractReportingOverflow(decrement)
                 LHS.formIndex(after:   &index)
             }
@@ -61,8 +65,8 @@ extension ANKFullWidth {
         }
         //=--------------------------------------=
         if !Self.isSigned { return borrow }
-        let notSameSign: Bool = lhsWasLessThanZero !=  rhsWasLessThanZero
-        return notSameSign &&   lhsWasLessThanZero != self.isLessThanZero
+        if lhsWasLessThanZero == rhsWasLessThanZero { return false }
+        return lhsWasLessThanZero != self.isLessThanZero
     }
     
     @inlinable func subtractingReportingOverflow(_ amount: Digit) -> PVO<Self> {

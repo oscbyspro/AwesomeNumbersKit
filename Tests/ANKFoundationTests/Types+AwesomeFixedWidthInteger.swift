@@ -25,18 +25,7 @@ final class TypesTestsOnAwesomeSignedFixedWidthInteger: XCTestCase {
     let types = Trivial.allSignedFixedWidthIntegerTypes
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Complements
-    //=------------------------------------------------------------------------=
-    
-    func testNegatedReportingOverflow() {
-        for type in types {
-            XCTAssertEqual(type.min.negatedReportingOverflow().overflow,  true )
-            XCTAssertEqual(type.max.negatedReportingOverflow().overflow, false)
-        }
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Words
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testMostSignificantBit() {
@@ -54,6 +43,17 @@ final class TypesTestsOnAwesomeSignedFixedWidthInteger: XCTestCase {
             XCTAssertEqual(type.max .leastSignificantBit, true )
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests
+    //=------------------------------------------------------------------------=
+    
+    func testNegatedReportingOverflow() {
+        for type in types {
+            XCTAssertEqual(type.min.negatedReportingOverflow().overflow, true )
+            XCTAssertEqual(type.max.negatedReportingOverflow().overflow, false)
+        }
+    }
 }
 
 //*============================================================================*
@@ -69,7 +69,7 @@ final class TypesTestsOnAwesomeUnsignedFixedWidthInteger: XCTestCase {
     let types = Trivial.allUnsignedFixedWidthIntegerTypes
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Words
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testMostSignificantBit() {

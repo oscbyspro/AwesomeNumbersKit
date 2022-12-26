@@ -28,8 +28,12 @@ extension ANKFullWidth {
         precondition(!pvo.overflow); return pvo.partialValue
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable static func &+=(lhs: inout Self, rhs: Digit) {
-        _ = lhs.addReportingOverflow(rhs)
+        _ = lhs.addReportingOverflow(rhs) as Bool
     }
     
     @inlinable static func &+(lhs: Self, rhs: Digit) -> Self {
@@ -44,15 +48,15 @@ extension ANKFullWidth {
         let lhsWasLessThanZero: Bool =   self.isLessThanZero
         let rhsWasLessThanZero: Bool = amount.isLessThanZero
         //=--------------------------------------=
-        let carry: Bool = self.withUnsafeMutableWords { LHS in
-            var index: Int  = LHS.startIndex
+        let carry = self.withUnsafeMutableWords { LHS in
+            var index = LHS.startIndex
             var carry: Bool = LHS[unchecked: index].addReportingOverflow(UInt(bitPattern: amount))
             LHS.formIndex(after: &index)
             //=----------------------------------=
             if carry == rhsWasLessThanZero { return false }
             //=----------------------------------=
-            let increment: UInt = rhsWasLessThanZero ? ~0 : 1 // -1 vs +1
-            loop: while carry  != rhsWasLessThanZero, index != LHS.endIndex {
+            let increment = rhsWasLessThanZero ? ~0 : 1 as UInt
+            while carry  != rhsWasLessThanZero, index != LHS.endIndex {
                 carry = LHS[unchecked: index].addReportingOverflow(increment)
                 LHS.formIndex(after:  &index)
             }
@@ -61,8 +65,8 @@ extension ANKFullWidth {
         }
         //=--------------------------------------=
         if !Self.isSigned { return carry }
-        let hadSameSign: Bool = lhsWasLessThanZero ==  rhsWasLessThanZero
-        return hadSameSign &&   lhsWasLessThanZero != self.isLessThanZero
+        if lhsWasLessThanZero != rhsWasLessThanZero { return false }
+        return lhsWasLessThanZero != self.isLessThanZero
     }
     
     @inlinable func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {
