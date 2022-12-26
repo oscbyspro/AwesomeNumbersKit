@@ -10,6 +10,55 @@
 import ANKFoundation
 
 //*============================================================================*
+// MARK: * ANK x Full Width x Addition
+//*============================================================================*
+
+extension ANKFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func +=(lhs: inout Self, rhs: Self) {
+        precondition(!lhs.addReportingOverflow(rhs))
+    }
+    
+    @inlinable static func +(lhs: Self, rhs: Self) -> Self {
+        let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
+        precondition(!pvo.overflow); return pvo.partialValue
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func &+=(lhs: inout Self, rhs: Self) {
+        _ = lhs.addReportingOverflow(rhs) as Bool
+    }
+    
+    @inlinable static func &+(lhs: Self, rhs: Self) -> Self {
+        lhs.addingReportingOverflow(rhs).partialValue
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable mutating func addReportingOverflow(_ amount: Self) -> Bool {
+        let a: Bool = self.low .addReportingOverflow(amount.low )
+        let b: Bool = self.high.addReportingOverflow(amount.high)
+        let c: Bool = a && self.high.addReportingOverflow(1 as Digit)
+        return b || c
+    }
+    
+    @inlinable func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
+        var partialValue = self
+        let overflow: Bool = partialValue.addReportingOverflow(amount)
+        return PVO(partialValue, overflow)        
+    }
+}
+
+//*============================================================================*
 // MARK: * ANK x Full Width x Addition x Digit
 //*============================================================================*
 
@@ -48,7 +97,7 @@ extension ANKFullWidth {
         let lhsWasLessThanZero: Bool =   self.isLessThanZero
         let rhsWasLessThanZero: Bool = amount.isLessThanZero
         //=--------------------------------------=
-        let carry = self.withUnsafeMutableWords { LHS in
+        let carry: Bool = self.withUnsafeMutableWords { LHS in
             var index = LHS.startIndex
             var carry: Bool = LHS[unchecked: index].addReportingOverflow(UInt(bitPattern: amount))
             LHS.formIndex(after: &index)

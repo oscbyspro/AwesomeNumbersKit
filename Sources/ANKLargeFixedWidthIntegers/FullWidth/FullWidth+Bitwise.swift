@@ -10,29 +10,42 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Subtraction x Negation
+// MARK: * ANK x Full Width x Bitwise
 //*============================================================================*
 
-extension ANKFullWidth where Self: SignedInteger {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static prefix func -(x: Self) -> Self {
-        let pvo: PVO<Self> = x.negatedReportingOverflow()
-        precondition(!pvo.overflow); return pvo.partialValue
+    @inlinable static prefix func ~(x: Self) -> Self {
+        Self(descending:(~x.high, ~x.low))
+    }
+    
+    @inlinable static func &=(lhs: inout Self, rhs: Self) {
+        lhs.low &= rhs.low; lhs.high &= rhs.high
+    }
+    
+    @inlinable static func |=(lhs: inout Self, rhs: Self) {
+        lhs.low |= rhs.low; lhs.high |= rhs.high
+    }
+    
+    @inlinable static func ^=(lhs: inout Self, rhs: Self) {
+        lhs.low ^= rhs.low; lhs.high ^= rhs.high
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func negateReportingOverflow() -> Bool {
-        self.formTwosComplementReportingOverflow()
-    }
-    
-    @inlinable func negatedReportingOverflow() -> PVO<Self> {
-        self.twosComplementReportingOverflow()
+    @inlinable var byteSwapped: Self {
+        Self.fromUnsafeTemporaryWords { NEXT in
+        self.withUnsafeWords { SELF in
+            for index in  SELF.indices {
+                let word: UInt = SELF[unchecked: index].byteSwapped
+                NEXT[unchecked: SELF.lastIndex - index] = word
+            }
+        }}
     }
 }

@@ -60,3 +60,31 @@ extension ANKFullWidth {
         Magnitude(bitPattern: self.isLessThanZero ? self.twosComplement() : self)
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Full Width x Complements x Negation
+//*============================================================================*
+
+extension ANKFullWidth where Self: SignedInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static prefix func -(x: Self) -> Self {
+        let pvo: PVO<Self> = x.negatedReportingOverflow()
+        precondition(!pvo.overflow); return pvo.partialValue
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable mutating func negateReportingOverflow() -> Bool {
+        self.formTwosComplementReportingOverflow()
+    }
+    
+    @inlinable func negatedReportingOverflow() -> PVO<Self> {
+        self.twosComplementReportingOverflow()
+    }
+}

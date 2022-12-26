@@ -13,10 +13,10 @@ import ANKLargeFixedWidthIntegers
 import XCTest
 
 //*============================================================================*
-// MARK: * Int256 x Magnitude
+// MARK: * Int256 x Complements
 //*============================================================================*
 
-final class Int256BenchmarksOnMagnitude: XCTestCase {
+final class Int256BenchmarksOnComplements: XCTestCase {
     
     typealias T = ANKInt256
     
@@ -54,10 +54,10 @@ final class Int256BenchmarksOnMagnitude: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Magnitude
+// MARK: * UInt256 x Complements
 //*============================================================================*
 
-final class UInt256BenchmarksOnMagnitude: XCTestCase {
+final class UInt256BenchmarksOnComplements: XCTestCase {
     
     typealias T = ANKUInt256
     

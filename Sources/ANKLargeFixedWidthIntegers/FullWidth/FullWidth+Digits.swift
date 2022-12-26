@@ -217,9 +217,9 @@ extension ANKFullWidth {
             @_transparent _read {
                 assert(self.indices.contains(index))
                 #if _endian(big)
-                yield self.base[self.lastIndex &- index]
+                yield self.base[lastIndex &- index]
                 #else
-                yield self.base[/*--------------*/index]
+                yield self.base[index]
                 #endif
             }
         }
@@ -267,7 +267,7 @@ extension ANKFullWidth {
                 #if _endian(big)
                 yield self.base[self.lastIndex &- index]
                 #else
-                yield self.base[/*--------------*/index]
+                yield self.base[index]
                 #endif
             }
             
@@ -276,7 +276,7 @@ extension ANKFullWidth {
                 #if _endian(big)
                 yield &self.base[self.lastIndex &- index]
                 #else
-                yield &self.base[/*--------------*/index]
+                yield &self.base[index]
                 #endif
             }
         }

@@ -20,19 +20,19 @@ extension ANKLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public static func /=(lhs: inout Self, rhs: Self) {
-        lhs.body.divideAsKnuth(by: rhs.body)
+        lhs.body /= rhs.body
     }
     
     @_transparent public static func /(lhs: Self, rhs: Self) -> Self {
-        Self(bitPattern: lhs.body.dividedAsKnuth(by: rhs.body))
+        Self(bitPattern: lhs.body / rhs.body)
     }
     
     @_transparent public static func %=(lhs: inout Self, rhs: Self) {
-        lhs.body.formRemainderAsKnuth(dividingBy: rhs.body)
+        lhs.body %= rhs.body
     }
     
     @_transparent public static func %(lhs: Self, rhs: Self) -> Self {
-        Self(bitPattern: lhs.body.remainderAsKnuth(dividingBy: rhs.body))
+        Self(bitPattern: lhs.body % rhs.body)
     }
     
     //=------------------------------------------------------------------------=
@@ -40,20 +40,20 @@ extension ANKLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public mutating func divideReportingOverflow(by divisor: Self) -> Bool {
-        self.body.divideReportingOverflowAsKnuth(by: divisor.body)
+        self.body.divideReportingOverflow(by: divisor.body)
     }
     
     @_transparent public func dividedReportingOverflow(by divisor: Self) -> PVO<Self> {
-        let pvo: PVO<Body> = self.body.dividedReportingOverflowAsKnuth(by: divisor.body)
+        let pvo: PVO<Body> = self.body.dividedReportingOverflow(by: divisor.body)
         return   PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
     
     @_transparent public mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool {
-        self.body.formRemainderReportingOverflowAsKnuth(by: divisor.body)
+        self.body.formRemainderReportingOverflow(by: divisor.body)
     }
     
     @_transparent public func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self> {
-        let pvo: PVO<Body> = self.body.remainderReportingOverflowAsKnuth(dividingBy: divisor.body)
+        let pvo: PVO<Body> = self.body.remainderReportingOverflow(dividingBy: divisor.body)
         return   PVO(Self(bitPattern: pvo.partialValue), pvo.overflow)
     }
     
@@ -62,12 +62,12 @@ extension ANKLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
-        let qr: QR<Body, Body> = self.body.quotientAndRemainderAsKnuth(dividingBy: divisor.body)
+        let qr: QR<Body, Body> = self.body.quotientAndRemainder(dividingBy: divisor.body)
         return  QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
     }
     
     @_transparent public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
-        let qr: QR<Body, Body> = self.body.dividingFullWidthAsKnuth((dividend.high.body, dividend.low.body))
+        let qr: QR<Body, Body> = self.body.dividingFullWidth((dividend.high.body, dividend.low.body))
         return  QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
     }
 }
