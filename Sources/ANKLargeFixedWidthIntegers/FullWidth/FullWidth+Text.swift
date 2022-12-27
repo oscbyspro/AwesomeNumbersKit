@@ -29,7 +29,7 @@ extension ANKFullWidth {
         let isLessThanZero: Bool = sign == .minus && !magnitude.isZero
         //=--------------------------------------=
         var instance = Self(bitPattern: magnitude)
-        if isLessThanZero {  instance.formTwosComplement()  }
+        if isLessThanZero {  instance.formTwosComplement()  }        
         if isLessThanZero != instance.isLessThanZero { return nil }
         return instance
     }
@@ -110,33 +110,22 @@ extension ANKFullWidth where High: AwesomeUnsignedLargeFixedWidthInteger<UInt> {
         //=--------------------------------------=
         let utf8 = source.utf8
         let root = UInt.root(radix)
-        let alignment = utf8.count % root.exponent // still faster than bounds checking alternative
         //=--------------------------------------=
         var magnitude = Self()
         //=--------------------------------------=
         let success = magnitude.withUnsafeMutableWords { MAGNITUDE in
+            //=----------------------------------=
             var sourceIndex = utf8.endIndex
+            let sourceStartIndex = utf8.startIndex
             var magnitudeIndex = MAGNITUDE.startIndex
             //=----------------------------------=
-            backwards: if !alignment.isZero {
-                assert(magnitudeIndex != MAGNITUDE.endIndex)
-                
-                let startIndex = utf8.index(sourceIndex, offsetBy: -alignment)
-                guard let digit = UInt(source[startIndex ..< sourceIndex], radix: radix) else { return false }
-                sourceIndex = startIndex
-                
-                MAGNITUDE[magnitudeIndex] = digit
-                MAGNITUDE.formIndex(after: &magnitudeIndex)
-            }
-            //=----------------------------------=
-            backwards: while sourceIndex != utf8.startIndex {
-                #warning("TODO: consider case with many zeros")
-                guard magnitudeIndex != MAGNITUDE.endIndex else { return false }
-                
-                let startIndex = utf8.index(sourceIndex, offsetBy: -root.exponent) // negation is optimizable
-                guard  let digit = UInt(source[startIndex ..< sourceIndex], radix: radix) else { return false }
-                sourceIndex = startIndex
-                
+            backwards: while sourceIndex != sourceStartIndex {
+                //=------------------------------=
+                if magnitudeIndex == MAGNITUDE.endIndex { return source[..<sourceIndex].allSatisfy({ $0 == "0" }) }
+                let nextIndex = utf8.index(sourceIndex, offsetBy: -root.exponent, limitedBy: sourceStartIndex) ?? sourceStartIndex
+                guard let digit = UInt(source[nextIndex ..< sourceIndex], radix: radix) else { return false }
+                sourceIndex = nextIndex
+                //=------------------------------=
                 MAGNITUDE[magnitudeIndex] = digit
                 MAGNITUDE.formIndex(after: &magnitudeIndex)
             }

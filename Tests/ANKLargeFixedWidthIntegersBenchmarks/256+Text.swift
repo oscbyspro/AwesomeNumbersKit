@@ -37,7 +37,6 @@ final class Int256BenchmarksOnText: XCTestCase {
         }
     }
     
-    #warning("FIXME")
     func testDecodePowerOf2() {
         for _ in 0 ..< 1_000 {
             _ = T(decode: Self.source, radix: 16)!
