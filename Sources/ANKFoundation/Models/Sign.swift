@@ -8,35 +8,27 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * ANK x Integer x Text
+// MARK: * ANK x Sign
 //*============================================================================*
 
-extension ANKLargeFixedWidthInteger {
+@frozen public enum ANKSign: Equatable {
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
+    // MARK: State
     //=------------------------------------------------------------------------=
     
-    @_transparent public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
-        Body.decodeBigEndianText(source, radix: radix).map(Self.init(bitPattern:))
+    case plus
+    case minus
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public init(_ bit: Bool) {
+        self = bit ? .minus : .plus
     }
     
-    @_transparent public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool = false) -> String {
-        Body.encodeBigEndianText(source.body, radix: radix, uppercase: uppercase)
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Integer x Text x Descriptions
-//*============================================================================*
-
-extension ANKLargeFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public var debugDescription: String {
-        "\(Self.self)(\(self.body.lazy.map(String.init).joined(separator: ", ")))"
+    @inlinable public init(_ sign: FloatingPointSign) {
+        self = sign == .plus ? .plus : .minus
     }
 }

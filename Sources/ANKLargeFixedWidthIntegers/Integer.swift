@@ -35,7 +35,7 @@ import ANKFoundation
 /// ```
 ///
 @usableFromInline protocol ANKLargeFixedWidthInteger<Base>:
-AwesomeLargeFixedWidthInteger, CustomDebugStringConvertible where
+AwesomeLargeFixedWidthInteger, AwesomeTextualInteger, CustomDebugStringConvertible where
 Magnitude: ANKUnsignedLargeFixedWidthInteger<Base.Magnitude> {
     
     associatedtype X64 = Never // (UInt64, UInt64, ...)

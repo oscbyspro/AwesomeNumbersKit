@@ -61,3 +61,44 @@ extension UInt {
         return HL(high,  low)
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Arithmetic x UInt
+//*============================================================================*
+
+extension UInt {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    /// - Returns: Largest pair such that: `pow(radix, exponent) <= pow(2, T.bitWidth)`.
+    @usableFromInline static func root(_ radix: Int) -> (exponent: Int, power: Self) {
+        precondition(radix >= 2)
+        //=--------------------------------------=
+        var power = Self(1)
+        let radix = Self(radix)
+        var exponent = Self(0)
+        //=--------------------------------------=
+        loop: while true {
+            //=----------------------------------=
+            let product = power.multipliedFullWidth(by: radix)
+            //=----------------------------------=
+            if !product.high.isZero {
+                if  product.low.isZero {
+                    exponent &+= 1
+                    power = product.low
+                }
+                
+                break loop
+            }
+            //=----------------------------------=
+            exponent &+= 1
+            power = product.low
+        }
+        //=--------------------------------------=
+        assert(exponent.mostSignificantBit == false)
+        //=--------------------------------------=
+        return (Int(bitPattern: exponent), power)
+    }
+}

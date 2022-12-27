@@ -66,6 +66,10 @@ extension ANKLargeFixedWidthInteger {
         return  QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Full Width
+    //=------------------------------------------------------------------------=
+    
     @_transparent public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
         let qr: QR<Body, Body> = self.body.dividingFullWidth((dividend.high.body, dividend.low.body))
         return  QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
