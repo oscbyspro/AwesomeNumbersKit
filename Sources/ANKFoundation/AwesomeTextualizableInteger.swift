@@ -8,10 +8,10 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Awesome x Binary Integer x Textual
+// MARK: * Awesome x Binary Integer x Textualizable
 //*============================================================================*
 
-public protocol AwesomeTextualInteger: BinaryInteger, ExpressibleByStringLiteral {
+public protocol AwesomeTextualizableInteger: BinaryInteger, ExpressibleByStringLiteral {
 
     //=------------------------------------------------------------------------=
     // MARK: Utilities
@@ -26,17 +26,17 @@ public protocol AwesomeTextualInteger: BinaryInteger, ExpressibleByStringLiteral
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension AwesomeTextualInteger {
+extension AwesomeTextualizableInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
         
     @_transparent public init(stringLiteral source: String) {
-        self.init(decode: source, radix: nil)!
+        self.init(decoding: source, radix: nil)!
     }
     
-    @_transparent public init?(decode source: some StringProtocol, radix: Int? = nil) {
+    @_transparent public init?(decoding source: some StringProtocol, radix: Int? = nil) {
         guard let value = Self.decodeBigEndianText(source, radix: radix) else { return nil }; self = value
     }
     
@@ -44,27 +44,8 @@ extension AwesomeTextualInteger {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public var description: String {
+    @_transparent public var description: String {
         Self.encodeBigEndianText(self, radix: 10, uppercase: false)
-    }
-    
-    @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
-        String(source, radix: radix, uppercase: uppercase)
-    }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details x Fixed Width
-//=----------------------------------------------------------------------------=
-
-extension AwesomeTextualInteger where Self: FixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-        
-    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
-        Self(source, radix: radix ?? 10)
     }
 }
 
@@ -78,7 +59,7 @@ extension String {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(encode source: some AwesomeTextualInteger, radix: Int = 10, uppercase: Bool = false) {
+    @_transparent public init(encoding source: some AwesomeTextualizableInteger, radix: Int = 10, uppercase: Bool = false) {
         self = type(of: source).encodeBigEndianText(source, radix: radix, uppercase: uppercase)
     }
 }

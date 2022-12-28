@@ -33,25 +33,25 @@ final class Int256BenchmarksOnText: XCTestCase {
     
     func testDecode() {
         for _ in 0 ..< 1_000 {
-            _ = T(decode: Self.source, radix: 20)!
+            _ = T(decoding: Self.source, radix: 20)!
         }
     }
     
     func testDecodePowerOf2() {
         for _ in 0 ..< 1_000 {
-            _ = T(decode: Self.source, radix: 16)!
+            _ = T(decoding: Self.source, radix: 16)!
         }
     }
     
     func testEncode() {
         for _ in 0 ..< 1_000 {
-            _ = String(encode: Self.number, radix: 20)
+            _ = String(encoding: Self.number, radix: 20)
         }
     }
     
     func testEncodePowerOf2() {
         for _ in 0 ..< 1_000 {
-            _ = String(encode: Self.number, radix: 16)
+            _ = String(encoding: Self.number, radix: 16)
         }
     }
 }
@@ -77,25 +77,25 @@ final class UInt256BenchmarksOnText: XCTestCase {
     
     func testDecode() {
         for _ in 0 ..< 1_000 {
-            _ = T(decode: Self.source, radix: 20)!
+            _ = T(decoding: Self.source, radix: 20)!
         }
     }
     
     func testDecodePowerOf2() {
         for _ in 0 ..< 1_000 {
-            _ = T(decode: Self.source, radix: 16)!
+            _ = T(decoding: Self.source, radix: 16)!
         }
     }
     
     func testEncode() {
         for _ in 0 ..< 1_000 {
-            _ = String(encode: Self.number, radix: 20)
+            _ = String(encoding: Self.number, radix: 20)
         }
     }
     
     func testEncodePowerOf2() {
         for _ in 0 ..< 1_000 {
-            _ = String(encode: Self.number, radix: 16)
+            _ = String(encoding: Self.number, radix: 16)
         }
     }
 }

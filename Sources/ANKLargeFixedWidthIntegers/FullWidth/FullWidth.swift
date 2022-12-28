@@ -27,7 +27,7 @@ import ANKFoundation
 /// Self.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
-@frozen @usableFromInline struct ANKFullWidth<High, Low>: WoRdS, AwesomeTextualInteger,
+@frozen @usableFromInline struct ANKFullWidth<High, Low>: WoRdS, AwesomeTextualizableInteger,
 ANKFullWidthCollection, AwesomeLargeFixedWidthInteger, CustomDebugStringConvertible where
 High: AwesomeLargeFixedWidthInteger, Low: AwesomeUnsignedLargeFixedWidthInteger<UInt>,
 Low == Low.Magnitude, High.Digit: AwesomeIntOrUInt, High.Magnitude.Digit == UInt {

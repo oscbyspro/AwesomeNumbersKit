@@ -21,17 +21,19 @@ extension ANKFullWidth {
     
     @inlinable static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
         var bigEndianText = source[...]
-        let sign: ANKSign = bigEndianText.removeSignPrefix() ?? ANKSign.plus
+        let sign: ANKSign = bigEndianText.removeSignPrefix() ?? .plus
         let radix: Int = radix ?? bigEndianText.removeRadixLiteralPrefix() ?? 10
         let magnitude: Magnitude? = Magnitude._decodeBigEndianDigits(bigEndianText, radix: radix)
         //=--------------------------------------=
         guard let magnitude else { return nil }
         let isLessThanZero: Bool = sign == .minus && !magnitude.isZero
-        //=--------------------------------------=
         var instance = Self(bitPattern: magnitude)
-        if isLessThanZero {  instance.formTwosComplement()  }        
-        if isLessThanZero != instance.isLessThanZero { return nil }
-        return instance
+        //=--------------------------------------=
+        if  isLessThanZero {
+            instance.formTwosComplement()
+        }
+        //=--------------------------------------=
+        return isLessThanZero != instance.isLessThanZero ? nil : instance
     }
     
     @inlinable static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool = false) -> String {
@@ -51,26 +53,6 @@ extension ANKFullWidth where High: AwesomeUnsignedLargeFixedWidthInteger<UInt> {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
-        var bigEndianText = source[...]
-        let sign: ANKSign = bigEndianText.removeSignPrefix() ?? ANKSign.plus
-        let radix: Int = radix ?? bigEndianText.removeRadixLiteralPrefix() ?? 10
-        let magnitude: Self? = Self._decodeBigEndianDigits(bigEndianText, radix: radix)
-        guard let magnitude else { return nil }
-        guard sign == .plus || magnitude.isZero else { return nil }
-        return magnitude
-    }
-    
-    @inlinable static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool = false) -> String {
-        var bigEndianText = String()
-        Self._encode(source, radix: radix, uppercase: uppercase, to: &bigEndianText)
-        return bigEndianText
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
     @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: Int) -> Self? {
         switch radix.nonzeroBitCount == 1 {
         case  true: return self._decodeBigEndianDigitsWhereRadixIsPowerOf2(source, radix: radix)
@@ -85,21 +67,23 @@ extension ANKFullWidth where High: AwesomeUnsignedLargeFixedWidthInteger<UInt> {
         let alignment = utf8.count % root.exponent
         //=--------------------------------------=
         var magnitude = Self()
-        var index = utf8.startIndex
+        var chunkStartIndex = utf8.startIndex
         //=--------------------------------------=
         forwards: if !alignment.isZero {
-            let endIndex = utf8.index(index, offsetBy: alignment)
-            guard let digit = UInt(source[index ..< endIndex], radix: radix) else { return nil }
-            index = endIndex
-            magnitude += digit
+            let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy: alignment)
+            guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix) else { return nil }
+            chunkStartIndex = chunkEndIndex
+            //=----------------------------------=
+            magnitude += digit as UInt
         }
         //=--------------------------------------=
-        forwards: while index != utf8.endIndex {
-            let endIndex = utf8.index(index, offsetBy: root.exponent)
-            guard let digit = UInt(source[index ..< endIndex], radix: radix) else { return nil }
-            index = endIndex
-            magnitude *= root.power
-            magnitude += digit
+        forwards: while chunkStartIndex != utf8.endIndex {
+            let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy: root.exponent)
+            guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix) else { return nil }
+            chunkStartIndex = chunkEndIndex
+            //=----------------------------------=
+            magnitude *= root.power as UInt
+            magnitude += digit as UInt
         }
         //=--------------------------------------=
         return magnitude
@@ -115,17 +99,19 @@ extension ANKFullWidth where High: AwesomeUnsignedLargeFixedWidthInteger<UInt> {
         //=--------------------------------------=
         let success = magnitude.withUnsafeMutableWords { MAGNITUDE in
             //=----------------------------------=
-            var sourceIndex = utf8.endIndex
-            let sourceStartIndex = utf8.startIndex
+            var chunkEndIndex  = utf8.endIndex
             var magnitudeIndex = MAGNITUDE.startIndex
             //=----------------------------------=
-            backwards: while sourceIndex != sourceStartIndex {
+            backwards: while chunkEndIndex != utf8.startIndex {
                 //=------------------------------=
-                if magnitudeIndex == MAGNITUDE.endIndex { return source[..<sourceIndex].allSatisfy({ $0 == "0" }) }
-                let nextIndex = utf8.index(sourceIndex, offsetBy: -root.exponent, limitedBy: sourceStartIndex) ?? sourceStartIndex
-                guard let digit = UInt(source[nextIndex ..< sourceIndex], radix: radix) else { return false }
-                sourceIndex = nextIndex
+                if  magnitudeIndex == MAGNITUDE.endIndex {
+                    return source[..<chunkEndIndex].allSatisfy({ $0 == "0" })
+                }
                 //=------------------------------=
+                let chunkStartIndex = utf8.index(chunkEndIndex, offsetBy: -root.exponent, limitedBy: utf8.startIndex) ?? utf8.startIndex
+                guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix) else { return false }
+                //=------------------------------=
+                chunkEndIndex = chunkStartIndex
                 MAGNITUDE[magnitudeIndex] = digit
                 MAGNITUDE.formIndex(after: &magnitudeIndex)
             }
@@ -148,21 +134,25 @@ extension ANKFullWidth where High: AwesomeUnsignedLargeFixedWidthInteger<UInt> {
     
     @inlinable static func _encodeWhereRadixIsWhatever(_ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
         precondition(02 <= radix && radix <= 36)
-        if magnitude.isZero { return text += "0" }
+        //=--------------------------------------=
+        let magnitudeLeadingZeroBitCount = magnitude.leadingZeroBitCount
+        if  magnitudeLeadingZeroBitCount == Self.bitWidth { return text += "0" }
         //=--------------------------------------=
         var (magnitude) = magnitude
         let (exponent, power) = UInt.root(radix)
         //=--------------------------------------=
-        let length = magnitude.bitWidth - magnitude.leadingZeroBitCount
-        let consumption = UInt.bitWidth - power.leadingZeroBitCount - 1
-        let chunks = length / consumption + 1 // is overestimated count
+        let length: Int = magnitude.bitWidth - magnitudeLeadingZeroBitCount
+        let consumption: Int = UInt.bitWidth - power.leadingZeroBitCount &- 1
+        let chunks: Int = length / consumption &+ 1 // is overestimated count
         //=--------------------------------------=
         text.reserveCapacity(text.utf8.count + chunks * exponent)
+        //=--------------------------------------=
         withUnsafeTemporaryAllocation(of: UInt.self, capacity: chunks) { CHUNKS in
-            //=----------------------------------=
             var index = CHUNKS.startIndex
+            //=----------------------------------=
             while !magnitude.isZero {
-                (magnitude, CHUNKS[index]) = magnitude.quotientAndRemainder(dividingBy: power)
+                let qr: QR<Self, UInt> = magnitude.quotientAndRemainder(dividingBy: power)
+                (magnitude, CHUNKS[index]) = qr
                 CHUNKS.formIndex(after: &index)
             }
             //=----------------------------------=
@@ -172,14 +162,13 @@ extension ANKFullWidth where High: AwesomeUnsignedLargeFixedWidthInteger<UInt> {
             backwards: while index != CHUNKS.startIndex {
                 CHUNKS.formIndex(before:  &index)
                 let digits = String(CHUNKS[index], radix: radix, uppercase: uppercase)
-                text += repeatElement("0", count:  exponent - digits.utf8.count)
+                text += repeatElement("0", count:  exponent &- digits.utf8.count)
                 text += digits
             }
         }
     }
     
     @inlinable static func _encodeWhereRadixIsPowerOf2(_ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
-        assert(!Self.isSigned)
         precondition(02 <= radix && radix <= 36)
         //=--------------------------------------=
         let _magnitude = magnitude.minWordCountReportingIsZeroOrMinusOne()
@@ -188,6 +177,7 @@ extension ANKFullWidth where High: AwesomeUnsignedLargeFixedWidthInteger<UInt> {
         let exponent = UInt.root(radix).exponent
         //=--------------------------------------=
         text.reserveCapacity(text.utf8.count + _magnitude.minWordCount * exponent)
+        //=--------------------------------------=
         magnitude.withUnsafeWords { MAGNITUDE in
             //=----------------------------------=
             var index = MAGNITUDE.index(before: _magnitude.minWordCount)
