@@ -19,25 +19,25 @@ enum Trivial {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    static let allFixedWidthIntegerTypes: [any AwesomeFixedWidthInteger.Type] =
+    static let allFixedWidthIntegerTypes: [any ANKFixedWidthInteger.Type] =
     [Int.self,  Int8.self,  Int16.self,  Int32.self,  Int64.self,
     UInt.self, UInt8.self, UInt16.self, UInt32.self, UInt64.self]
     
     static let allSignedFixedWidthIntegerTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*---*/AwesomeSignedFixedWidthInteger.Type })
+    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*---*/ANKSignedFixedWidthInteger.Type })
     
     static let allUnsignedFixedWidthIntegerTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*-*/AwesomeUnsignedFixedWidthInteger.Type })
+    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*-*/ANKUnsignedFixedWidthInteger.Type })
     
     static let allLargeFixedWidthIntegerTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*----*/AwesomeLargeFixedWidthInteger.Type })
+    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*----*/ANKLargeFixedWidthInteger.Type })
     
     static let allSignedLargeFixedWidthIntegerTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any   AwesomeSignedLargeFixedWidthInteger.Type })
+    allFixedWidthIntegerTypes.compactMap({ $0 as? any   ANKSignedLargeFixedWidthInteger.Type })
     
     static let allUnsignedLargeFixedWidthIntegerTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any AwesomeUnsignedLargeFixedWidthInteger.Type })
+    allFixedWidthIntegerTypes.compactMap({ $0 as? any ANKUnsignedLargeFixedWidthInteger.Type })
     
     static let allEitherIntOrUIntTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*-----------------*/AwesomeIntOrUInt.Type })
+    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*-----------------*/ANKIntOrUInt.Type })
 }
