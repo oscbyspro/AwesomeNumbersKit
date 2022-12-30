@@ -19,7 +19,7 @@ extension _ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable static var bitWidth: Int {
+    @inlinable public static var bitWidth: Int {
         High.bitWidth + Low.bitWidth
     }
     
@@ -27,27 +27,27 @@ extension _ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline var words: some WoRdS {
+    @_transparent public var words: some WoRdS {
         self
     }
     
-    @_transparent @usableFromInline var mostSignificantBit: Bool {
+    @_transparent public var mostSignificantBit: Bool {
         self.high.mostSignificantBit
     }
     
-    @_transparent @usableFromInline var leastSignificantBit: Bool {
+    @_transparent public var leastSignificantBit: Bool {
         self.low.leastSignificantBit
     }
     
-    @inlinable var nonzeroBitCount: Int {
+    @inlinable public var nonzeroBitCount: Int {
         self.low.nonzeroBitCount &+ self.high.nonzeroBitCount
     }
     
-    @inlinable var leadingZeroBitCount: Int {
+    @inlinable public var leadingZeroBitCount: Int {
         self.high.isZero ? High.bitWidth &+ self.low.leadingZeroBitCount : self.high.leadingZeroBitCount
     }
     
-    @inlinable var trailingZeroBitCount: Int {
+    @inlinable public var trailingZeroBitCount: Int {
         self.low.isZero ? Low.bitWidth &+ self.high.trailingZeroBitCount : self.low.trailingZeroBitCount
     }
     

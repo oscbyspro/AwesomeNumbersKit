@@ -19,19 +19,19 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static prefix func ~(x: Self) -> Self {
+    @inlinable public static prefix func ~(x: Self) -> Self {
         Self(descending:(~x.high, ~x.low))
     }
     
-    @inlinable static func &=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func &=(lhs: inout Self, rhs: Self) {
         lhs.low &= rhs.low; lhs.high &= rhs.high
     }
     
-    @inlinable static func |=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func |=(lhs: inout Self, rhs: Self) {
         lhs.low |= rhs.low; lhs.high |= rhs.high
     }
     
-    @inlinable static func ^=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func ^=(lhs: inout Self, rhs: Self) {
         lhs.low ^= rhs.low; lhs.high ^= rhs.high
     }
     
@@ -39,7 +39,7 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable var byteSwapped: Self {
+    @inlinable public var byteSwapped: Self {
         Self.fromUnsafeTemporaryWords { NEXT in
         self.withUnsafeWords { SELF in
             for index in  SELF.indices {

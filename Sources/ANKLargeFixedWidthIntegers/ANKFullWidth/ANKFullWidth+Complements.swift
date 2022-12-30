@@ -56,7 +56,7 @@ extension _ANKFullWidth {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable var magnitude: Magnitude {
+    @inlinable public var magnitude: Magnitude {
         Magnitude(bitPattern: self.isLessThanZero ? self.twosComplement() : self)
     }
 }

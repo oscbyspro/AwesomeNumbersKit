@@ -34,7 +34,7 @@ import ANKFoundation
 /// It must be safe to bit cast between Base and Base.Magnitude
 /// ```
 ///
-@usableFromInline protocol _ANKLargeFixedWidthInteger<Base>:
+@usableFromInline protocol _ANKLargeFixedWidthInteger<Base>: ANKBitPattern,
 ANKLargeFixedWidthInteger, ANKTextualizableInteger, CustomDebugStringConvertible where
 Magnitude: _ANKUnsignedLargeFixedWidthInteger<Base.Magnitude> {
     
@@ -43,6 +43,8 @@ Magnitude: _ANKUnsignedLargeFixedWidthInteger<Base.Magnitude> {
     associatedtype X32 = Never // (UInt32, UInt32, UInt32, UInt32, ...)
     
     associatedtype Base: ANKLargeFixedWidthInteger where Base.Digit: ANKIntOrUInt, Digit == Base.Digit
+    
+    associatedtype BitPattern: ANKBitPattern = Magnitude
     
     typealias High = Base
     
@@ -129,6 +131,18 @@ extension _ANKLargeFixedWidthInteger {
     @usableFromInline var low:  Low  {
         @_transparent _read   { yield  self.body.low  }
         @_transparent _modify { yield &self.body.low  }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Bit Pattern
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public init(bitPattern source: Magnitude) {
+        self.init(bitPattern: Body(bitPattern: source.body))
+    }
+        
+    @_transparent public var bitPattern: Magnitude {
+        Magnitude(bitPattern: Magnitude.Body(bitPattern: self.body))
     }
 }
 

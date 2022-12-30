@@ -19,11 +19,11 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func +=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func +=(lhs: inout Self, rhs: Self) {
         precondition(!lhs.addReportingOverflow(rhs))
     }
     
-    @inlinable static func +(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func +(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
@@ -32,11 +32,11 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func &+=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func &+=(lhs: inout Self, rhs: Self) {
         _ = lhs.addReportingOverflow(rhs) as Bool
     }
     
-    @inlinable static func &+(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func &+(lhs: Self, rhs: Self) -> Self {
         lhs.addingReportingOverflow(rhs).partialValue
     }
     
@@ -44,14 +44,14 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func addReportingOverflow(_ amount: Self) -> Bool {
+    @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
         let a: Bool = self.low .addReportingOverflow(amount.low )
         let b: Bool = self.high.addReportingOverflow(amount.high)
         let c: Bool = a && self.high.addReportingOverflow(1 as Digit)
         return b || c
     }
     
-    @inlinable func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
+    @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
         var partialValue = self
         let overflow: Bool = partialValue.addReportingOverflow(amount)
         return PVO(partialValue, overflow)        
@@ -68,11 +68,11 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func +=(lhs: inout Self, rhs: Digit) {
+    @inlinable public static func +=(lhs: inout Self, rhs: Digit) {
         precondition(!lhs.addReportingOverflow(rhs))
     }
     
-    @inlinable static func +(lhs: Self, rhs: Digit) -> Self {
+    @inlinable public static func +(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
@@ -81,11 +81,11 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func &+=(lhs: inout Self, rhs: Digit) {
+    @inlinable public static func &+=(lhs: inout Self, rhs: Digit) {
         _ = lhs.addReportingOverflow(rhs) as Bool
     }
     
-    @inlinable static func &+(lhs: Self, rhs: Digit) -> Self {
+    @inlinable public static func &+(lhs: Self, rhs: Digit) -> Self {
         lhs.addingReportingOverflow(rhs).partialValue
     }
     
@@ -93,7 +93,7 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func addReportingOverflow(_ amount: Digit) -> Bool {
+    @inlinable public mutating func addReportingOverflow(_ amount: Digit) -> Bool {
         let lhsWasLessThanZero: Bool =   self.isLessThanZero
         let rhsWasLessThanZero: Bool = amount.isLessThanZero
         //=--------------------------------------=
@@ -118,7 +118,7 @@ extension _ANKFullWidth {
         return lhsWasLessThanZero != self.isLessThanZero
     }
     
-    @inlinable func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {
+    @inlinable public func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {
         var partialValue = self
         let overflow: Bool = partialValue.addReportingOverflow(amount)
         return PVO(partialValue, overflow)

@@ -32,12 +32,12 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
+    @inlinable public mutating func multiplyReportingOverflow(by  amount: Self) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
         self = pvo.partialValue; return pvo.overflow
     }
     
-    @inlinable func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
+    @inlinable public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
         let isLessThanOrEqualToZero: Bool = self.isLessThanZero != amount.isLessThanZero
         let product: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
         let overflow: Bool = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
@@ -48,12 +48,12 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self {
+    @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
         let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
         self = Self(bitPattern: hl.low); return hl.high
     }
     
-    @inlinable func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
+    @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
         let lhsIsLessThanZero: Bool =   self.isLessThanZero
         let rhsIsLessThanZero: Bool = amount.isLessThanZero
         //=--------------------------------------=
@@ -118,12 +118,12 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func multiplyReportingOverflow(by amount: Digit) -> Bool {
+    @inlinable public mutating func multiplyReportingOverflow(by amount: Digit) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
         self = pvo.partialValue; return pvo.overflow
     }
     
-    @inlinable func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
+    @inlinable public func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
         let isLessThanOrEqualToZero: Bool = self.isLessThanZero != amount.isLessThanZero
         let product: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
         let overflow: Bool = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
@@ -134,12 +134,12 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func multiplyFullWidth(by amount: Digit) -> Digit {
+    @inlinable public mutating func multiplyFullWidth(by amount: Digit) -> Digit {
         let hl: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
         self = Self(bitPattern: hl.low); return hl.high
     }
     
-    @inlinable func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
+    @inlinable public func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
         //=--------------------------------------=
         if amount.isZero { return HL(Digit(), Magnitude()) }
         //=--------------------------------------=

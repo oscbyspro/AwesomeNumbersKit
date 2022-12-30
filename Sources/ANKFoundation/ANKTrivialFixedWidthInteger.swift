@@ -24,7 +24,7 @@
 /// - `UInt32`
 /// - `UInt64`
 ///
-public protocol ANKTrivialFixedWidthInteger: ANKFixedWidthInteger { }
+public protocol ANKTrivialFixedWidthInteger: ANKFixedWidthInteger, ANKBitPattern where BitPattern == Magnitude { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -97,6 +97,18 @@ extension ANKTrivialFixedWidthInteger {
         let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
         self = Self(truncatingIfNeeded: hl.low); return hl.high
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Bit Pattern
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public init(bitPattern source: BitPattern) {
+        self = unsafeBitCast(source, to: Self.self)
+    }
+        
+    @_transparent public var bitPattern: BitPattern {
+        return unsafeBitCast(self, to: BitPattern.self)
+    }
 }
 
 //*============================================================================*
@@ -120,16 +132,45 @@ extension ANKTrivialFixedWidthInteger where Self: ANKSignedFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Small x Swift
+// MARK: * ANK x Fixed Width Integer x Trivial x Swift
 //*============================================================================*
 
-extension Int:    ANKTrivialFixedWidthInteger,   ANKSignedFixedWidthInteger { }
-extension Int8:   ANKTrivialFixedWidthInteger,   ANKSignedFixedWidthInteger { }
-extension Int16:  ANKTrivialFixedWidthInteger,   ANKSignedFixedWidthInteger { }
-extension Int32:  ANKTrivialFixedWidthInteger,   ANKSignedFixedWidthInteger { }
-extension Int64:  ANKTrivialFixedWidthInteger,   ANKSignedFixedWidthInteger { }
-extension UInt:   ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger { }
-extension UInt8:  ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger { }
-extension UInt16: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger { }
-extension UInt32: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger { }
-extension UInt64: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger { }
+extension Int: ANKTrivialFixedWidthInteger, ANKSignedFixedWidthInteger {
+    public typealias BitPattern = Magnitude
+}
+
+extension Int8: ANKTrivialFixedWidthInteger, ANKSignedFixedWidthInteger {
+    public typealias BitPattern = Magnitude
+}
+
+extension Int16: ANKTrivialFixedWidthInteger, ANKSignedFixedWidthInteger {
+    public typealias BitPattern = Magnitude
+}
+
+extension Int32: ANKTrivialFixedWidthInteger, ANKSignedFixedWidthInteger {
+    public typealias BitPattern = Magnitude
+}
+
+extension Int64: ANKTrivialFixedWidthInteger, ANKSignedFixedWidthInteger {
+    public typealias BitPattern = Magnitude
+}
+
+extension UInt: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger {
+    public typealias BitPattern = Magnitude
+}
+
+extension UInt8: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger {
+    public typealias BitPattern = Magnitude
+}
+
+extension UInt16: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger {
+    public typealias BitPattern = Magnitude
+}
+
+extension UInt32: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger {
+    public typealias BitPattern = Magnitude
+}
+
+extension UInt64: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger {
+    public typealias BitPattern = Magnitude
+}

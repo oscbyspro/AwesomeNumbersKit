@@ -11,7 +11,7 @@
 // MARK: * ANK x Int Or UInt
 //*============================================================================*
 
-public protocol ANKIntOrUInt: ANKLargeFixedWidthInteger<Self> where Magnitude == UInt { }
+public protocol ANKIntOrUInt: ANKLargeFixedWidthInteger<Self>, ANKBitPattern<UInt> where Magnitude == UInt { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -26,18 +26,7 @@ extension ANKIntOrUInt {
     @_transparent public init(repeating word: UInt) {
         self.init(_truncatingBits: word)
     }
-    
-    @_transparent public init(bitPattern: some ANKIntOrUInt) {
-        self = unsafeBitCast(bitPattern, to: Self.self)
-    }
 }
-
-//*============================================================================*
-// MARK: * ANK x Int Or UInt x Swift
-//*============================================================================*
-
-extension  Int: ANKIntOrUInt,   ANKSignedLargeFixedWidthInteger { }
-extension UInt: ANKIntOrUInt, ANKUnsignedLargeFixedWidthInteger { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Fixes Marked As Unavailable in /Integers.swift
@@ -57,3 +46,10 @@ extension Int {
         lhs.subtractingReportingOverflow(rhs).partialValue
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Int Or UInt x Swift
+//*============================================================================*
+
+extension  Int: ANKIntOrUInt,   ANKSignedLargeFixedWidthInteger { }
+extension UInt: ANKIntOrUInt, ANKUnsignedLargeFixedWidthInteger { }

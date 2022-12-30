@@ -19,11 +19,11 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func &<<=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func &<<=(lhs: inout Self, rhs: Self) {
         lhs._bitshiftLeft(by: rhs.absoluteValueModuloBitWidth)
     }
     
-    @_transparent @usableFromInline static func &<<(lhs: Self, rhs: Self) -> Self {
+    @_transparent public static func &<<(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs &<<= rhs; return lhs
     }
     
@@ -104,11 +104,11 @@ extension _ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable static func &>>=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func &>>=(lhs: inout Self, rhs: Self) {
         lhs._bitshiftRight(by: rhs.absoluteValueModuloBitWidth)
     }
     
-    @_transparent @usableFromInline static func &>>(lhs: Self, rhs: Self) -> Self {
+    @_transparent public static func &>>(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs &>>= rhs; return lhs
     }
     

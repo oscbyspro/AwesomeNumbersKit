@@ -19,6 +19,8 @@
     
     public typealias X32 = Magnitude.X32
     
+    public typealias BitPattern = Magnitude
+        
     public typealias Magnitude = ANKUInt128
     
     @usableFromInline typealias Base = ANKInt64
@@ -49,6 +51,10 @@
     public typealias X64 = (UInt64, UInt64)
     
     public typealias X32 = (UInt32, UInt32, UInt32, UInt32)
+    
+    public typealias BitPattern = Magnitude
+        
+    public typealias Magnitude = ANKUInt128
     
     @usableFromInline typealias Base = ANKUInt64
     

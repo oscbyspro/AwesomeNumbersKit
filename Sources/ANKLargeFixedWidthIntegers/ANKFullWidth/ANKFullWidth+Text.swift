@@ -19,7 +19,7 @@ extension _ANKFullWidth {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
+    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
         var bigEndianText = source[...]
         let sign: ANKSign = bigEndianText.removeSignPrefix() ?? .plus
         let radix: Int = radix ?? bigEndianText.removeRadixLiteralPrefix() ?? 10
@@ -36,7 +36,7 @@ extension _ANKFullWidth {
         return isLessThanZero != instance.isLessThanZero ? nil : instance
     }
     
-    @inlinable static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool = false) -> String {
+    @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool = false) -> String {
         var bigEndianText: String = source.isLessThanZero ? "-" : ""
         Magnitude._encode(source.magnitude, radix: radix, uppercase: uppercase, to: &bigEndianText)
         return bigEndianText

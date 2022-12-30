@@ -27,16 +27,18 @@ import ANKFoundation
 /// Self.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
-@frozen @usableFromInline struct _ANKFullWidth<High, Low>: WoRdS, ANKFullWidthCollection,
-ANKLargeFixedWidthInteger, ANKTextualizableInteger, CustomDebugStringConvertible where
-High: ANKLargeFixedWidthInteger, High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt,
-Low: ANKUnsignedLargeFixedWidthInteger<UInt>, Low == Low.Magnitude {
-    
-    public typealias Digit = High.Digit
-    
-    @usableFromInline typealias IntegerLiteralType = Int
+@frozen @usableFromInline struct _ANKFullWidth<High, Low>: WoRdS, ANKBitPattern,
+ANKFullWidthCollection, ANKLargeFixedWidthInteger, ANKTextualizableInteger where
+High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
+Low == Low.Magnitude, High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt {
         
-    @usableFromInline typealias Magnitude = _ANKFullWidth<High.Magnitude, Low>
+    public typealias Digit = High.Digit
+        
+    public typealias IntegerLiteralType = Int
+    
+    public typealias BitPattern = Magnitude
+        
+    public typealias Magnitude = _ANKFullWidth<High.Magnitude, Low>
     
     @usableFromInline typealias Plus1 = _ANKFullWidth<Digit, Magnitude>
     
@@ -46,11 +48,11 @@ Low: ANKUnsignedLargeFixedWidthInteger<UInt>, Low == Low.Magnitude {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable static var min: Self {
+    @inlinable public static var min: Self {
         Self(descending:(High.min, Low.min))
     }
     
-    @inlinable static var max: Self {
+    @inlinable public static var max: Self {
         Self(descending:(High.max, Low.max))
     }
     
@@ -82,28 +84,32 @@ Low: ANKUnsignedLargeFixedWidthInteger<UInt>, Low == Low.Magnitude {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init() {
+    @inlinable public init() {
         self.init(descending:(High(), Low()))
     }
     
-    @inlinable init(bit: Bool) {
+    @inlinable public init(bit: Bool) {
         self.init(descending:(High(), Low(bit: bit)))
     }
     
-    @inlinable init(repeating bit: Bool) {
+    @inlinable public init(repeating bit: Bool) {
         self.init(descending:(High(repeating:  bit), Low(repeating:  bit)))
     }
     
-    @inlinable init(repeating word: UInt) {
+    @inlinable public init(repeating word: UInt) {
         self.init(descending:(High(repeating: word), Low(repeating: word)))
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Initializers
+    // MARK: Details x Bit Pattern
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init<T>(bitPattern: _ANKFullWidth<T, Low>) where T.Magnitude == High.Magnitude {
-        self = unsafeBitCast(bitPattern, to: Self.self) // signitude or magnitude
+    @_transparent public init(bitPattern source: BitPattern) {
+        self = unsafeBitCast(source, to: Self.self)
+    }
+        
+    @_transparent public var bitPattern: BitPattern {
+        return unsafeBitCast(self, to: BitPattern.self)
     }
 }
 
