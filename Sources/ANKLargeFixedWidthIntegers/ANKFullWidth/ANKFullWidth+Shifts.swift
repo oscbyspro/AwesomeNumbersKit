@@ -13,7 +13,7 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Bitwise x Shifts x L
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -66,8 +66,8 @@ extension _ANKFullWidth {
         //=--------------------------------------=
         var next = Self()
         //=--------------------------------------=
-        next.withUnsafeMutableWords { NEXT in
-        self.withUnsafeWords { SELF in
+        next.withUnsafeMutableWordsPointer { NEXT in
+        self.withUnsafeWordsPointer { SELF in
             let a: Int = bits
             let b: Int = UInt.bitWidth &- bits
             
@@ -80,14 +80,14 @@ extension _ANKFullWidth {
                 SELF.formIndex(before: &j)
                 SELF.formIndex(before: &k)
                 
-                let p: UInt = /*-------*/ SELF[unchecked: j] &<< a
-                let q: UInt = !a.isZero ? SELF[unchecked: k] &>> b : UInt()
-                NEXT[unchecked: i] = p | q
+                let p: UInt = /*-------*/ SELF[j] &<< a
+                let q: UInt = !a.isZero ? SELF[k] &>> b : UInt()
+                NEXT[i] = p | q
             }
             
             SELF.formIndex(before: &i)
             SELF.formIndex(before: &j)
-            NEXT[unchecked: i] = SELF[unchecked: j] &<< a
+            NEXT[i] = SELF[j] &<< a
         }}
         //=--------------------------------------=
         return next
@@ -98,7 +98,7 @@ extension _ANKFullWidth {
 // MARK: * ANK x Full Width x Bitwise x Shifts x R
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -152,8 +152,8 @@ extension _ANKFullWidth {
         let isLessThanZero: Bool = (self.isLessThanZero)
         var next: Self = Self(repeating: isLessThanZero)
         //=--------------------------------------=
-        next.withUnsafeMutableWords { NEXT in
-        self.withUnsafeWords { SELF in
+        next.withUnsafeMutableWordsPointer { NEXT in
+        self.withUnsafeWordsPointer { SELF in
             let a: Int = bits
             let b: Int = UInt.bitWidth &- bits
             
@@ -162,18 +162,18 @@ extension _ANKFullWidth {
             var k: Int = SELF.index(after: j)
 
             while k != SELF.endIndex {
-                let p: UInt = /*-------*/ SELF[unchecked: j] &>> a
-                let q: UInt = !a.isZero ? SELF[unchecked: k] &<< b : UInt()
-                NEXT[unchecked: i] = p | q
+                let p: UInt = /*-------*/ SELF[j] &>> a
+                let q: UInt = !a.isZero ? SELF[k] &<< b : UInt()
+                NEXT[i] = p | q
                 
                 SELF.formIndex(after: &i)
                 SELF.formIndex(after: &j)
                 SELF.formIndex(after: &k)
             }
             
-            let p: UInt = SELF[unchecked: j] &>> a
+            let p: UInt = SELF[j] &>> a
             let q: UInt = !a.isZero && isLessThanZero ? ~UInt() &<< b : UInt()
-            NEXT[unchecked: i] = p | q
+            NEXT[i] = p | q
         }}
         //=--------------------------------------=
         return next

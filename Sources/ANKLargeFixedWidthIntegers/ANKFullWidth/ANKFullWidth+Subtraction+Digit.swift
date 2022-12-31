@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Subtraction
+// MARK: * ANK x Full Width x Subtraction x Digit
 //*============================================================================*
 
 extension ANKFullWidth {
@@ -19,11 +19,11 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func -=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func -=(lhs: inout Self, rhs: Digit) {
         precondition(!lhs.subtractReportingOverflow(rhs))
     }
     
-    @inlinable public static func -(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func -(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.subtractingReportingOverflow(rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
@@ -32,11 +32,11 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public static func &-=(lhs: inout Self, rhs: Self) {
+    @_transparent public static func &-=(lhs: inout Self, rhs: Digit) {
         _ = lhs.subtractReportingOverflow(rhs) as Bool
     }
     
-    @_transparent public static func &-(lhs: Self, rhs: Self) -> Self {
+    @_transparent public static func &-(lhs: Self, rhs: Digit) -> Self {
         lhs.subtractingReportingOverflow(rhs).partialValue
     }
     
@@ -44,16 +44,35 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
-        let a: Bool = self.low .subtractReportingOverflow(amount.low )
-        let b: Bool = self.high.subtractReportingOverflow(amount.high)
-        let c: Bool = a && self.high.subtractReportingOverflow(1 as Digit)
-        return b || c
+    @inlinable public mutating func subtractReportingOverflow(_ amount: Digit) -> Bool {
+        let lhsWasLessThanZero: Bool =   self.isLessThanZero
+        let rhsWasLessThanZero: Bool = amount.isLessThanZero
+        //=--------------------------------------=
+        let borrow: Bool = self.withUnsafeMutableWordsPointer { LHS in
+            var index = LHS.startIndex
+            var borrow: Bool = LHS[index].subtractReportingOverflow(UInt(bitPattern: amount))
+            LHS.formIndex(after: &index)
+            //=----------------------------------=
+            if borrow == rhsWasLessThanZero { return false }
+            //=----------------------------------=
+            let decrement = rhsWasLessThanZero ? ~0 : 1 as UInt
+            while borrow != rhsWasLessThanZero, index != LHS.endIndex {
+                borrow = LHS[index].subtractReportingOverflow(decrement)
+                LHS.formIndex(after: &index)
+            }
+            
+            return borrow as Bool
+        }
+        //=--------------------------------------=
+        if !Self.isSigned { return borrow }
+        if lhsWasLessThanZero == rhsWasLessThanZero { return false }
+        return lhsWasLessThanZero != self.isLessThanZero
     }
     
-    @inlinable public func subtractingReportingOverflow(_ amount: Self) -> PVO<Self> {
+    @inlinable public func subtractingReportingOverflow(_ amount: Digit) -> PVO<Self> {
         var partialValue = self
         let overflow: Bool = partialValue.subtractReportingOverflow(amount)
         return PVO(partialValue, overflow)
     }
 }
+

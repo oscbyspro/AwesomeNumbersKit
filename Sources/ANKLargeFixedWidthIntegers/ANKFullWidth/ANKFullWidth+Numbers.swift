@@ -13,7 +13,7 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Number x Integer
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -157,7 +157,7 @@ extension _ANKFullWidth {
 // MARK: * ANK x Full Width x Number x Integer x Digit
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -207,7 +207,7 @@ extension _ANKFullWidth {
 // MARK: * ANK x Full Width x Number x Integer x Magnitude
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -238,7 +238,7 @@ extension _ANKFullWidth {
 // MARK: * ANK x Full Width x Number x Integer x Generic
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -283,7 +283,7 @@ extension _ANKFullWidth {
         //=--------------------------------------=
         var index = words.startIndex
         //=--------------------------------------=
-        let value = Self.fromUnsafeTemporaryWords { VALUE in
+        let value = Self.fromUnsafeMutableWordsAllocation { VALUE in
             //=----------------------------------=
             var valueIndex = VALUE.startIndex
             var wordsIndex = words.startIndex
@@ -294,12 +294,12 @@ extension _ANKFullWidth {
                 
                 let word = words[wordsIndex]
                 words.formIndex(after: &wordsIndex)
-                VALUE[unchecked: valueIndex] = word
+                VALUE[valueIndex] = word
                 VALUE.formIndex(after: &valueIndex)
             }
             //=----------------------------------=
             while valueIndex != VALUE.endIndex {
-                VALUE[unchecked: valueIndex] = sign
+                VALUE[valueIndex] = sign
                 VALUE.formIndex(after: &valueIndex)
             }
         }

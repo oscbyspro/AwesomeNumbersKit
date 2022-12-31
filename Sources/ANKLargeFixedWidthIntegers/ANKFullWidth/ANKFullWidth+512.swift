@@ -10,35 +10,34 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Integer x Complements
+// MARK: * ANK x (U)Int512
 //*============================================================================*
 
-extension _ANKLargeFixedWidthInteger {
+public typealias  ANKInt512 = ANKFullWidth< ANKInt256, ANKUInt256>
+public typealias ANKUInt512 = ANKFullWidth<ANKUInt256, ANKUInt256>
+
+//*============================================================================*
+// MARK: * ANK x (U)Int512 x X(32/64)
+//*============================================================================*
+
+extension ANKFullWidth where BitPattern == ANKUInt512.BitPattern {
+    
+    public typealias X64_512 = (
+    UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64)
+    
+    public typealias X32_512 = (
+    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
+    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent public mutating func formTwosComplement() {
-        self.body.formTwosComplement()
+    @_transparent public init(x64: X64_512) {
+        self.init(ascending: unsafeBitCast(x64, to: LH<Low, High>.self))
     }
     
-    @_transparent public func twosComplement() -> Self {
-        Self(bitPattern: self.body.twosComplement())
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Integer x Signed x Complements
-//*============================================================================*
-
-extension _ANKSignedLargeFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public var magnitude: Magnitude {
-        Magnitude(bitPattern: self.body.magnitude)
+    @_transparent public init(x32: X32_512) {
+        self.init(ascending: unsafeBitCast(x32, to: LH<Low, High>.self))
     }
 }

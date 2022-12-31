@@ -40,21 +40,6 @@ final class Int256TestsOnComplements: XCTestCase {
         XCTAssertEqual(T.min.magnitude, M(x64:(0, 0, 0, w << (s - 1))))
         XCTAssertEqual(T.max.magnitude, M(x64:(w, w, w, w >> (0 + 1))))
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Signed
-    //=------------------------------------------------------------------------=
-    
-    func testNegated() {
-        XCTAssertEqual(-T( 0), T( 0))
-        XCTAssertEqual(-T( 1), T(-1))
-        XCTAssertEqual(-T(-1), T( 1))
-    }
-    
-    func testNegatedReportingOverflow() {
-        XCTAssert(T.min.negatedReportingOverflow() == (T(x64:(0, 0, 0, w << (s - 1))), true ) as (T, Bool))
-        XCTAssert(T.max.negatedReportingOverflow() == (T(x64:(1, 0, 0, w << (s - 1))), false) as (T, Bool))
-    }
 }
 
 //*============================================================================*

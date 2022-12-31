@@ -13,7 +13,7 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Text
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
@@ -47,7 +47,7 @@ extension _ANKFullWidth {
 // MARK: + Unsigned
 //=----------------------------------------------------------------------------=
 
-extension _ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
+extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -99,7 +99,7 @@ extension _ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
         //=--------------------------------------=
         var magnitude = Self()
         //=--------------------------------------=
-        let success = magnitude.withUnsafeMutableWords { MAGNITUDE in
+        let success = magnitude.withUnsafeMutableWordsPointer { MAGNITUDE in
             //=----------------------------------=
             var chunkEndIndex  = utf8.endIndex
             var magnitudeIndex = MAGNITUDE.startIndex
@@ -182,7 +182,7 @@ extension _ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
         //=--------------------------------------=
         text.reserveCapacity(text.utf8.count + _magnitude.minWordCount * root.exponent)
         //=--------------------------------------=
-        magnitude.withUnsafeWords { MAGNITUDE in
+        magnitude.withUnsafeWordsPointer { MAGNITUDE in
             //=----------------------------------=
             var index = MAGNITUDE.index(before: _magnitude.minWordCount)
             text += String(MAGNITUDE[index], radix: radix, uppercase: uppercase)
@@ -201,7 +201,7 @@ extension _ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
 // MARK: * ANK x Full Width x Text x Description
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

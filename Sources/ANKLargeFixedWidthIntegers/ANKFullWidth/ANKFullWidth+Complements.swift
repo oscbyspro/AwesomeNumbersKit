@@ -13,19 +13,19 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Complements
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
     @inlinable mutating func formTwosComplement() {
-        self.withUnsafeMutableWords { SELF in
+        self.withUnsafeMutableWordsPointer { SELF in
             var carry: Bool = true
             for index: Int in SELF.indices {
-                var word: UInt = ~SELF[unchecked: index]
+                var word: UInt = ~SELF[index]
                 carry = word.addReportingOverflow(UInt(bit: carry))
-                SELF[unchecked: index] = word
+                SELF[index] = word
             }
         }
     }
@@ -40,7 +40,7 @@ extension _ANKFullWidth {
     
     /// - Returns true when `Self.isSigned == true` and `self == min`.
     @inlinable mutating func formTwosComplementReportingOverflow() -> Bool {
-        let wasLessThanZero: Bool = self.isLessThanZero
+        let wasLessThanZero = self.isLessThanZero
         self.formTwosComplement() // ~self &+ 1
         return wasLessThanZero && self.isLessThanZero
     }
@@ -58,33 +58,5 @@ extension _ANKFullWidth {
     
     @inlinable public var magnitude: Magnitude {
         Magnitude(bitPattern: self.isLessThanZero ? self.twosComplement() : self)
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Full Width x Complements x Negation
-//*============================================================================*
-
-extension _ANKFullWidth where Self: SignedInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static prefix func -(x: Self) -> Self {
-        let pvo: PVO<Self> = x.negatedReportingOverflow()
-        precondition(!pvo.overflow); return pvo.partialValue
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable mutating func negateReportingOverflow() -> Bool {
-        self.formTwosComplementReportingOverflow()
-    }
-    
-    @inlinable func negatedReportingOverflow() -> PVO<Self> {
-        self.twosComplementReportingOverflow()
     }
 }

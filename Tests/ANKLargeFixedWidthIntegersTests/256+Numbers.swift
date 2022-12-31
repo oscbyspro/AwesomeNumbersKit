@@ -233,8 +233,8 @@ final class UInt256TestsOnConversionAsNumbers: XCTestCase {
         XCTAssertEqual(T(clamping: Int8.min),   0)
         XCTAssertEqual(T(clamping: Int8.max), 127)
         
-        XCTAssertEqual(T(truncatingIfNeeded: Int8.min), T.max - 127)
-        XCTAssertEqual(T(truncatingIfNeeded: Int8.max),         127)
+        XCTAssertEqual(T(truncatingIfNeeded: Int8.min), T.max - T(127))
+        XCTAssertEqual(T(truncatingIfNeeded: Int8.max),         T(127))
     }
     
     //=------------------------------------------------------------------------=

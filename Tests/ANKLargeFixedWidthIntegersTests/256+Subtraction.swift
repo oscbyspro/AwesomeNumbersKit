@@ -131,6 +131,21 @@ final class Int256TestsOnSubtraction: XCTestCase {
         XCTAssert(T.min.subtractingReportingOverflow(Int(-1)) == (T.min + 1, false) as (T, Bool))
         XCTAssert(T.max.subtractingReportingOverflow(Int(-1)) == (T.min,     true ) as (T, Bool))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Signed
+    //=------------------------------------------------------------------------=
+    
+    func testNegated() {
+        XCTAssertEqual(-T( 0), T( 0))
+        XCTAssertEqual(-T( 1), T(-1))
+        XCTAssertEqual(-T(-1), T( 1))
+    }
+    
+    func testNegatedReportingOverflow() {
+        XCTAssert(T.min.negatedReportingOverflow() == (T(x64:(0, 0, 0, w << (s - 1))), true ) as (T, Bool))
+        XCTAssert(T.max.negatedReportingOverflow() == (T(x64:(1, 0, 0, w << (s - 1))), false) as (T, Bool))
+    }
 }
 
 //*============================================================================*
@@ -165,13 +180,13 @@ final class UInt256TestsOnSubtraction: XCTestCase {
     }
     
     func testSubtractingWrappingAround() {
-        XCTAssertEqual(T.min &- T(1), T.max    )
-        XCTAssertEqual(T.max &- T(1), T.max - 1)
+        XCTAssertEqual(T.min &- T(1), T.max)
+        XCTAssertEqual(T.max &- T(1), T.max - T(1))
     }
     
     func testSubtractingReportingOverflow() {
-        XCTAssert(T.min.subtractingReportingOverflow(T(1)) == (T.max,     true ) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(T(1)) == (T.max - 1, false) as (T, Bool))
+        XCTAssert(T.min.subtractingReportingOverflow(T(1)) == (T.max,        true ) as (T, Bool))
+        XCTAssert(T.max.subtractingReportingOverflow(T(1)) == (T.max - T(1), false) as (T, Bool))
     }
     
     //=------------------------------------------------------------------------=
@@ -191,13 +206,13 @@ final class UInt256TestsOnSubtraction: XCTestCase {
     }
     
     func testSubtractingUIntWrappingAround() {
-        XCTAssertEqual(T.min &- UInt(1), T.max    )
-        XCTAssertEqual(T.max &- UInt(1), T.max - 1)
+        XCTAssertEqual(T.min &- UInt(1), T.max)
+        XCTAssertEqual(T.max &- UInt(1), T.max - T(1))
     }
     
     func testSubtractingUIntReportingOverflow() {
-        XCTAssert(T.min.subtractingReportingOverflow(UInt(1)) == (T.max,     true ) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(UInt(1)) == (T.max - 1, false) as (T, Bool))
+        XCTAssert(T.min.subtractingReportingOverflow(UInt(1)) == (T.max,        true ) as (T, Bool))
+        XCTAssert(T.max.subtractingReportingOverflow(UInt(1)) == (T.max - T(1), false) as (T, Bool))
     }
 }
 

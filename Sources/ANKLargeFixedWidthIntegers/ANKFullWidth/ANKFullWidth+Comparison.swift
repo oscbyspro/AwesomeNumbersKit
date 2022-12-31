@@ -13,7 +13,7 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Comparisons
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

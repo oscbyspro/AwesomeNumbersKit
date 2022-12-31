@@ -53,7 +53,7 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
-        
+    
     @inlinable mutating func negateReportingOverflow() -> Bool
     
     @inlinable func negatedReportingOverflow() -> PVO<Self>

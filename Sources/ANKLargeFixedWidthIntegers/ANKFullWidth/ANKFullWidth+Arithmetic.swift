@@ -11,7 +11,7 @@
 // MARK: * ANK x Full Width x Arithmetic
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities

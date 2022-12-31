@@ -27,8 +27,8 @@ import ANKFoundation
 /// Self.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
-@frozen @usableFromInline struct _ANKFullWidth<High, Low>: WoRdS, ANKBitPattern,
-ANKFullWidthCollection, ANKLargeFixedWidthInteger, ANKTextualizableInteger where
+@frozen public struct ANKFullWidth<High, Low>:
+WoRdS, ANKBitPattern, ANKLargeFixedWidthInteger, ANKTextualizableInteger where
 High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 Low == Low.Magnitude, High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt {
         
@@ -38,11 +38,11 @@ Low == Low.Magnitude, High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt {
     
     public typealias BitPattern = Magnitude
         
-    public typealias Magnitude = _ANKFullWidth<High.Magnitude, Low>
+    public typealias Magnitude = ANKFullWidth<High.Magnitude, Low>
     
-    @usableFromInline typealias Plus1 = _ANKFullWidth<Digit, Magnitude>
+    @usableFromInline typealias Plus1 = ANKFullWidth<Digit, Magnitude>
     
-    @usableFromInline typealias DoubleWidth = _ANKFullWidth<Self, Magnitude>
+    @usableFromInline typealias DoubleWidth = ANKFullWidth<Self, Magnitude>
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
@@ -117,18 +117,18 @@ Low == Low.Magnitude, High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt {
 // MARK: * ANK x Full Width x Conditional Conformances
 //*============================================================================*
 
-extension _ANKFullWidth:   SignedNumeric where High:   SignedNumeric { }
-extension _ANKFullWidth:   SignedInteger where High:   SignedInteger { }
-extension _ANKFullWidth: UnsignedInteger where High: UnsignedInteger { }
+extension ANKFullWidth:   SignedNumeric where High:   SignedNumeric { }
+extension ANKFullWidth:   SignedInteger where High:   SignedInteger { }
+extension ANKFullWidth: UnsignedInteger where High: UnsignedInteger { }
 
-extension _ANKFullWidth:   ANKSignedInteger where High:   ANKSignedInteger { }
-extension _ANKFullWidth: ANKUnsignedInteger where High: ANKUnsignedInteger { }
+extension ANKFullWidth:   ANKSignedInteger where High:   ANKSignedInteger { }
+extension ANKFullWidth: ANKUnsignedInteger where High: ANKUnsignedInteger { }
 
-extension _ANKFullWidth:   ANKSignedFixedWidthInteger where High:   ANKSignedFixedWidthInteger { }
-extension _ANKFullWidth: ANKUnsignedFixedWidthInteger where High: ANKUnsignedFixedWidthInteger { }
+extension ANKFullWidth:   ANKSignedFixedWidthInteger where High:   ANKSignedFixedWidthInteger { }
+extension ANKFullWidth: ANKUnsignedFixedWidthInteger where High: ANKUnsignedFixedWidthInteger { }
 
-extension _ANKFullWidth:   ANKSignedLargeBinaryInteger where High:   ANKSignedLargeBinaryInteger< Int> { }
-extension _ANKFullWidth: ANKUnsignedLargeBinaryInteger where High: ANKUnsignedLargeBinaryInteger<UInt> { }
+extension ANKFullWidth:   ANKSignedLargeBinaryInteger where High:   ANKSignedLargeBinaryInteger< Int> { }
+extension ANKFullWidth: ANKUnsignedLargeBinaryInteger where High: ANKUnsignedLargeBinaryInteger<UInt> { }
 
-extension _ANKFullWidth:   ANKSignedLargeFixedWidthInteger where High:   ANKSignedLargeFixedWidthInteger< Int> { }
-extension _ANKFullWidth: ANKUnsignedLargeFixedWidthInteger where High: ANKUnsignedLargeFixedWidthInteger<UInt> { }
+extension ANKFullWidth:   ANKSignedLargeFixedWidthInteger where High:   ANKSignedLargeFixedWidthInteger< Int> { }
+extension ANKFullWidth: ANKUnsignedLargeFixedWidthInteger where High: ANKUnsignedLargeFixedWidthInteger<UInt> { }

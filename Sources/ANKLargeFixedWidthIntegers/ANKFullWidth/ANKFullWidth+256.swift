@@ -7,51 +7,34 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if !DEBUG
-
-import ANKLargeFixedWidthIntegers
-import XCTest
+import ANKFoundation
 
 //*============================================================================*
-// MARK: * Int256 x Complements
+// MARK: * ANK x (U)Int256
 //*============================================================================*
 
-final class Int256BenchmarksOnComplements: XCTestCase {
+public typealias  ANKInt256 = ANKFullWidth< ANKInt128, ANKUInt128>
+public typealias ANKUInt256 = ANKFullWidth<ANKUInt128, ANKUInt128>
+
+//*============================================================================*
+// MARK: * ANK x (U)Int256 x X(32/64)
+//*============================================================================*
+
+extension ANKFullWidth where BitPattern == ANKUInt256.BitPattern {
     
-    typealias T = ANKInt256
+    public typealias X64_256 = (UInt64, UInt64, UInt64, UInt64)
+    
+    public typealias X32_256 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    func testMagnitude() {
-        let abc = T(x64:(~0, ~1, ~2, ~3))
-        
-        for _ in 0 ..< 1_000_000 {
-            _ = abc.magnitude
-        }
+    @_transparent public init(x64: X64_256) {
+        self.init(ascending: unsafeBitCast(x64, to: LH<Low, High>.self))
+    }
+    
+    @_transparent public init(x32: X32_256) {
+        self.init(ascending: unsafeBitCast(x32, to: LH<Low, High>.self))
     }
 }
-
-//*============================================================================*
-// MARK: * UInt256 x Complements
-//*============================================================================*
-
-final class UInt256BenchmarksOnComplements: XCTestCase {
-    
-    typealias T = ANKUInt256
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testMagnitude() {
-        let abc = T(x64:(~0, ~1, ~2, ~3))
-        
-        for _ in 0 ..< 1_000_000 {
-            _ = abc.magnitude
-        }
-    }
-}
-
-#endif

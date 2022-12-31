@@ -13,7 +13,7 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Bitwise
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -40,11 +40,11 @@ extension _ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public var byteSwapped: Self {
-        Self.fromUnsafeTemporaryWords { NEXT in
-        self.withUnsafeWords { SELF in
+        Self.fromUnsafeMutableWordsAllocation { NEXT in
+        self.withUnsafeWordsPointer { SELF in
             for index in  SELF.indices {
-                let word: UInt = SELF[unchecked: index].byteSwapped
-                NEXT[unchecked: SELF.lastIndex - index] = word
+                let word: UInt = SELF[index].byteSwapped
+                NEXT[SELF.lastIndex - index] = word
             }
         }}
     }

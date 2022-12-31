@@ -7,37 +7,32 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import ANKFoundation
+
 //*============================================================================*
-// MARK: * ANK x Integer x Bitwise x Operations
+// MARK: * ANK x Full Width x Subtraction x Negation
 //*============================================================================*
 
-extension _ANKLargeFixedWidthInteger {
+extension ANKFullWidth where Self: SignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public static prefix func ~(x: Self) -> Self {
-        Self(bitPattern: ~x.body)
-    }
-    
-    @_transparent public static func &=(lhs: inout Self, rhs: Self) {
-        lhs.body &= rhs.body
-    }
-    
-    @_transparent public static func |=(lhs: inout Self, rhs: Self) {
-        lhs.body |= rhs.body
-    }
-    
-    @_transparent public static func ^=(lhs: inout Self, rhs: Self) {
-        lhs.body ^= rhs.body
+    @inlinable public static prefix func -(x: Self) -> Self {
+        let pvo: PVO<Self> = x.negatedReportingOverflow()
+        precondition(!pvo.overflow); return pvo.partialValue
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public var byteSwapped: Self {
-        Self(bitPattern: self.body.byteSwapped)
+    @_transparent public mutating func negateReportingOverflow() -> Bool {
+        self.formTwosComplementReportingOverflow()
+    }
+    
+    @_transparent public func negatedReportingOverflow() -> PVO<Self> {
+        self.twosComplementReportingOverflow()
     }
 }

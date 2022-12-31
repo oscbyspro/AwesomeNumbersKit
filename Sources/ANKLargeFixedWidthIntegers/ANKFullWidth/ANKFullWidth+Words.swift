@@ -13,7 +13,7 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Words
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
@@ -63,7 +63,7 @@ extension _ANKFullWidth {
     /// Returns its last index in minimum two's complement form.
     @inlinable func minLastIndexReportingIsZeroOrMinusOne() -> (minLastIndex: Int, isZeroOrMinusOne: Bool) {
         let sign:  UInt = UInt(repeating: self.isLessThanZero)
-        let index: Int? = self.withUnsafeWords({ $0.lastIndex(where:{ word in word != sign }) })
+        let index: Int? = self.withUnsafeWordsPointer({ $0.lastIndex(where:{ word in word != sign }) })
         return index.map({($0, false)}) ?? (Int(), true)
     }
 }

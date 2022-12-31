@@ -11,9 +11,9 @@
 // MARK: * ANK x Aliases
 //*============================================================================*
 
-public typealias Int128  = ANKInt128
-public typealias Int256  = ANKInt256
-public typealias Int512  = ANKInt512
+public typealias  Int128 =  ANKInt128
+public typealias  Int256 =  ANKInt256
+public typealias  Int512 =  ANKInt512
 
 public typealias UInt128 = ANKUInt128
 public typealias UInt256 = ANKUInt256

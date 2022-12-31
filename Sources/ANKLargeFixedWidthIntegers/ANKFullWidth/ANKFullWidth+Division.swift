@@ -13,7 +13,7 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Division
 //*============================================================================*
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -107,7 +107,7 @@ extension _ANKFullWidth {
         let divisorIsLessThanZero: Bool = self.isLessThanZero
         let dividend = DoubleWidth(descending: dividend)
         let dividendIsLessThanZero: Bool = dividend.isLessThanZero
-        var qr: QR<Magnitude, Magnitude> = self.magnitude.dividingFullWidth(dividend.magnitude)
+        var qr: QR<Magnitude, Magnitude> = self.magnitude._dividingFullWidth(dividend.magnitude)
         //=--------------------------------------=
         if  dividendIsLessThanZero != divisorIsLessThanZero {
             qr.quotient .formTwosComplement() // truncates overflow scenario
@@ -125,7 +125,7 @@ extension _ANKFullWidth {
 // MARK: + Unsigned
 //=----------------------------------------------------------------------------=
 
-extension _ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
+extension ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -171,7 +171,7 @@ extension _ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
         //=--------------------------------------=
         // The Main Loop
         //=--------------------------------------=
-        var quotient = Self(); quotient.withUnsafeMutableWords { QUOTIENT in
+        var quotient = Self(); quotient.withUnsafeMutableWordsPointer { QUOTIENT in
             let divisorLast =  divisor.low[unchecked: divisorMinLastIndex]
             var remainderIndex = _remainder.minWordCount
             var  quotientIndex = _remainder.minWordCount &- divisorMinLastIndex
@@ -181,13 +181,13 @@ extension _ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
                 //=------------------------------=
                 // Approximate Quotient Digit
                 //=------------------------------=
-                var digit: UInt = remainder.withUnsafeWords { REMAINDER in
-                    let  remainderLast0 = REMAINDER[unchecked: remainderIndex]
+                var digit: UInt = remainder.withUnsafeWordsPointer { REMAINDER in
+                    let remainderLast0  = REMAINDER[remainderIndex]
                     REMAINDER.formIndex(before: &remainderIndex)
                     
                     if  remainderLast0 >= divisorLast { return UInt.max }
-                    let remainderLast1  = REMAINDER[unchecked: remainderIndex]
-                    let remainderLastX  = HL(remainderLast0,   remainderLast1)
+                    let remainderLast1  = REMAINDER[remainderIndex]
+                    let remainderLastX  = HL(remainderLast0, remainderLast1)
                     return divisorLast.dividingFullWidth(remainderLastX).quotient
                 }
                 //=------------------------------=
@@ -201,7 +201,7 @@ extension _ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
                 //=------------------------------=
                 assert(approximation <= remainder)
                 remainder &-= approximation
-                QUOTIENT[unchecked: quotientIndex] = digit
+                QUOTIENT[quotientIndex] = digit
             }
         }
         //=--------------------------------------=
@@ -215,134 +215,10 @@ extension _ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
     // MARK: Transformations x Full Width
     //=------------------------------------------------------------------------=
     
-    @inlinable func dividingFullWidth(_ dividend: DoubleWidth) -> QR<Self, Self> {
+    @inlinable func _dividingFullWidth(_ dividend: DoubleWidth) -> QR<Self, Self> {
         let dividend = DoubleWidth(descending:(dividend.high, dividend.low))
         let divisor  = DoubleWidth(descending:(Self(), Magnitude(bitPattern: self)))
         let qr: QR<DoubleWidth, DoubleWidth> = dividend.quotientAndRemainder(dividingBy: divisor)
         return  QR(Self(bitPattern: qr.quotient.low), Self(bitPattern: qr.remainder.low))
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Full Width x Division x Digit
-//*============================================================================*
-
-extension _ANKFullWidth {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static func /=(lhs: inout Self, rhs: Digit) {
-        precondition(!lhs.divideReportingOverflow(by: rhs))
-    }
-    
-    @inlinable public static func /(lhs: Self, rhs: Digit) -> Self {
-        let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow); return pvo.partialValue
-    }
-    
-    @inlinable public static func %=(lhs: inout Self, rhs: Digit) {
-         precondition(!lhs.formRemainderReportingOverflow(by: rhs))
-    }
-    
-    @inlinable public static func %(lhs: Self, rhs: Digit) -> Digit {
-        let pvo: PVO<Digit> = lhs.remainderReportingOverflow(dividingBy: rhs)
-        precondition(!pvo.overflow); return pvo.partialValue
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public mutating func divideReportingOverflow(by divisor: Digit) -> Bool {
-        let pvo: PVO<Self> = self.dividedReportingOverflow(by: divisor)
-        self = pvo.partialValue; return pvo.overflow
-    }
-    
-    @inlinable public func dividedReportingOverflow(by divisor: Digit) -> PVO<Self> {
-        //=--------------------------------------=
-        if  divisor.isZero {
-            return PVO(self, true)
-        }
-        //=--------------------------------------=
-        if  Self.isSigned, divisor == -1, self == Self.min {
-            return PVO(self, true)
-        }
-        //=--------------------------------------=
-        let qr: QR<Self, Digit> = self.quotientAndRemainder(dividingBy: divisor)
-        return PVO(qr.quotient, false)
-    }
-    
-    @inlinable public mutating func formRemainderReportingOverflow(by divisor: Digit) -> Bool {
-        let pvo: PVO<Digit> = self.remainderReportingOverflow(dividingBy: divisor)
-        self = Self(digit: pvo.partialValue); return pvo.overflow
-    }
-    
-    // TODO: decide appropriate digit division overflow semantics
-    @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
-        //=--------------------------------------=
-        if  divisor.isZero {
-            return PVO(0, true)
-        }
-        //=--------------------------------------=
-        if  Self.isSigned, divisor == -1, self == Self.min {
-            return PVO(0, true)
-        }
-        //=--------------------------------------=
-        let qr: QR<Self, Digit> = self.quotientAndRemainder(dividingBy: divisor)
-        return PVO(qr.remainder, false)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
-        let  divisorIsLessThanZero: Bool = divisor.isLessThanZero
-        let dividendIsLessThanZero: Bool =    self.isLessThanZero
-        //=--------------------------------------=
-        var qr: QR<Magnitude, UInt> = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
-        //=--------------------------------------=
-        if  dividendIsLessThanZero != divisorIsLessThanZero {
-            let overflow: Bool = qr.quotient.formTwosComplementReportingOverflow()
-            precondition(!overflow, "quotient overflow during division")
-        }
-        
-        if  dividendIsLessThanZero {
-            qr.remainder = ~qr.remainder &+ 1 // cannot overflow: abs <= max
-        }
-        //=--------------------------------------=
-        return QR(Self(bitPattern: qr.quotient), Digit(bitPattern: qr.remainder))
-    }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Unsigned
-//=----------------------------------------------------------------------------=
-
-extension _ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
- 
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
-        precondition(!divisor.isZero)
-        //=--------------------------------------=
-        var quotient  = self
-        var remainder = UInt()
-        //=--------------------------------------=
-        quotient.withUnsafeMutableWords { QUOTIENT in
-            var quotientIndex: Int = QUOTIENT.endIndex
-            //=----------------------------------=
-            backwards: while quotientIndex != QUOTIENT.startIndex {
-                QUOTIENT.formIndex(before: &quotientIndex)
-                let dividend: (UInt, UInt) = (remainder, QUOTIENT[unchecked: quotientIndex])
-                (QUOTIENT[unchecked: quotientIndex], remainder) = divisor.dividingFullWidth(dividend)
-            }
-        }
-        //=--------------------------------------=
-        return QR(quotient, remainder)
     }
 }

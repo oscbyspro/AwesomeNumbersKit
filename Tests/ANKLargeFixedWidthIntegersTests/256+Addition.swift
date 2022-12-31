@@ -173,8 +173,8 @@ final class UInt256TestsOnAddition: XCTestCase {
     }
 
     func testAddingReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow(T(1)) == (T.min + 1, false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(T(1)) == (T.min,     true ) as (T, Bool))
+        XCTAssert(T.min.addingReportingOverflow(T(1)) == (T.min + (1 as UInt), false) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(T(1)) == (T.min,               true ) as (T, Bool))
     }
     
     //=------------------------------------------------------------------------=
@@ -202,8 +202,8 @@ final class UInt256TestsOnAddition: XCTestCase {
     }
 
     func testAddingUIntReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow(UInt(1)) == (T.min + 1, false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(UInt(1)) == (T.min,     true ) as (T, Bool))
+        XCTAssert(T.min.addingReportingOverflow(UInt(1)) == (T.min + (1 as UInt), false) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(UInt(1)) == (T.min,               true ) as (T, Bool))
     }
 }
 

@@ -62,16 +62,16 @@ final class UInt256TestsOnArithmetic: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIdentities() {
-        let x =  T(x64:(1, 2, 3, 4))
-        XCTAssertEqual(x + 0, x)
-        XCTAssertEqual(x - x, 0)
-        XCTAssertEqual(x * 1, x)
-        XCTAssertEqual(x / x, 1)
-        XCTAssertEqual(x % x, 0)
-        XCTAssertEqual(x & x, x)
-        XCTAssertEqual(x | x, x)
-        XCTAssertEqual(x ^ x, 0)
-        XCTAssertEqual(~(~x), x)
+        let x = T(x64:(1,  2, 3, 4))
+        XCTAssertEqual(x + (0 as T), x)
+        XCTAssertEqual(x - (x as T), 0)
+        XCTAssertEqual(x * (1 as T), x)
+        XCTAssertEqual(x / (x as T), 1)
+        XCTAssertEqual(x % (x as T), 0)
+        XCTAssertEqual(x & (x as T), x)
+        XCTAssertEqual(x | (x as T), x)
+        XCTAssertEqual(x ^ (x as T), 0)
+        XCTAssertEqual(  ~(~x as T), x)
     }
     
     func testStride() {

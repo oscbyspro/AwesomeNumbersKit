@@ -13,29 +13,14 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Collection
 //*============================================================================*
 
-@usableFromInline protocol ANKFullWidthCollection: WoRdS {
-    
-    associatedtype Layout: ANKFullWidthCollection where Layout.Layout == Layout
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable subscript(unchecked index: Int) -> UInt { get }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details
-//=----------------------------------------------------------------------------=
-
-extension ANKFullWidthCollection {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
     @inlinable static var count: Int {
-        MemoryLayout<Layout>.stride / MemoryLayout<UInt>.stride
+        MemoryLayout<Self>.stride / MemoryLayout<UInt>.stride
     }
     
     @inlinable static var startIndex: Int {
@@ -58,221 +43,49 @@ extension ANKFullWidthCollection {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public var count: Int {
-        Layout.count
+    @_transparent public var count: Int {
+        Self.count
     }
     
-    @inlinable public var startIndex: Int {
-        Layout.startIndex
+    @_transparent public var startIndex: Int {
+        Self.startIndex
     }
     
-    @inlinable public var endIndex: Int {
-        Layout.endIndex
+    @_transparent public var endIndex: Int {
+        Self.endIndex
     }
     
-    @inlinable public var lastIndex: Int {
-        Layout.lastIndex
+    @_transparent public var lastIndex: Int {
+        Self.lastIndex
     }
     
-    @inlinable public var indices: Range<Int> {
-        Layout.indices
+    @_transparent public var indices: Range<Int> {
+        Self.indices
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable var first: UInt {
+    @_transparent public var first: UInt {
         self[unchecked: self.startIndex]
     }
     
-    @inlinable var last: UInt {
+    @_transparent public var last: UInt {
         self[unchecked: self.lastIndex]
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public func index(after index: Int) -> Int {
-        assert((/*-----------*/     self.endIndex) > index)
-        assert((self.startIndex ... self.endIndex).contains(index))
-        return index &+ 1
-    }
-    
-    @inlinable public func index(before index: Int) -> Int {
-        assert((self.startIndex     /*---------*/) < index)
-        assert((self.startIndex ... self.endIndex).contains(index))
-        return index &- 1
-    }
-    
-    @inlinable public func index(_ index: Int, offsetBy distance: Int) -> Int {
-        let next = index &+ distance
-        assert((self.startIndex ... self.endIndex).contains(index))
-        assert((self.startIndex ... self.endIndex).contains(next ))
-        return next
-    }
-    
-    @inlinable public func distance(from start: Int, to end: Int) -> Int {
-        assert((self.startIndex ... self.endIndex).contains(start))
-        assert((self.startIndex ... self.endIndex).contains(end  ))
-        return end &- start
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Full Width x Digits x Pointers
-//*============================================================================*
-
-extension _ANKFullWidth {
-    
-    @usableFromInline typealias Layout = Self
-    
-    //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    public subscript(index: Int) -> UInt {
-        @_transparent _read { yield  self.withUnsafeWords({ $0[index] /*------*/ }) }
-        @_transparent  set  { self.withUnsafeMutableWords({ $0[index] = newValue }) }
-    }
-    
     @usableFromInline subscript(unchecked index: Int) -> UInt {
-        @_transparent _read { yield  self.withUnsafeWords({ $0[unchecked: index] /*------*/ }) }
-        @_transparent  set  { self.withUnsafeMutableWords({ $0[unchecked: index] = newValue }) }
+        @_transparent _read { yield  self.withUnsafeWordsPointer({ $0[index] /*------*/ }) }
+        @_transparent  set  { self.withUnsafeMutableWordsPointer({ $0[index] = newValue }) }
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    /// Unsafe access to the integer's words, in order from least significant to most.
-    @_transparent @usableFromInline func withUnsafeWords<T>(
-    _ body: (UnsafeWordsBufferPointer) throws -> T) rethrows -> T {
-        try withUnsafePointer(to: self) { SELF in
-            try body(UnsafeWordsBufferPointer(SELF))
-        }
-    }
-    
-    /// Unsafe access to the integer's words, in order from least significant to most.
-    @_transparent @usableFromInline mutating func withUnsafeMutableWords<T>(
-    _ body: (UnsafeMutableWordsBufferPointer) throws -> T) rethrows -> T {
-        try withUnsafeMutablePointer(to: &self) { SELF in
-            try body(UnsafeMutableWordsBufferPointer(SELF))
-        }
-    }
-    
-    /// Unsafe access to the integer's words, in order from least significant to most.
-    @_transparent @usableFromInline static func fromUnsafeTemporaryWords(
-    _ body: (UnsafeMutableWordsBufferPointer) throws -> Void) rethrows -> Self {
-        try withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
-            let SELF = BUFFER.baseAddress.unsafelyUnwrapped
-            try body(UnsafeMutableWordsBufferPointer(SELF))
-            return SELF.pointee
-        }
-    }
-    
-    //*========================================================================*
-    // MARK: * Unsafe Words Buffer Pointer
-    //*========================================================================*
-    
-    @frozen @usableFromInline struct UnsafeWordsBufferPointer: ANKFullWidthCollection {
-        
-        @usableFromInline typealias Layout = _ANKFullWidth
-        
-        //=--------------------------------------------------------------------=
-        // MARK: State
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline let base: UnsafePointer<UInt>
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Initializers
-        //=--------------------------------------------------------------------=
-        
-        @inlinable init(_ LAYOUT: UnsafePointer<Layout>) {
-            self.base = UnsafeRawPointer(LAYOUT).assumingMemoryBound(to: UInt.self)
-        }
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Accessors
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline subscript(index: Int) -> UInt {
-            @_transparent _read {
-                precondition(self.indices.contains(index))
-                yield self[unchecked: index]
-            }
-        }
-        
-        @usableFromInline subscript(unchecked index: Int) -> UInt {
-            @_transparent _read {
-                assert(self.indices.contains(index))
-                #if _endian(big)
-                yield self.base[self.lastIndex &- index]
-                #else
-                yield self.base[index]
-                #endif
-            }
-        }
-    }
-    
-    //*========================================================================*
-    // MARK: * Unsafe Words Buffer Pointer x Mutable
-    //*========================================================================*
- 
-    @frozen @usableFromInline struct UnsafeMutableWordsBufferPointer: ANKFullWidthCollection {
-        
-        @usableFromInline typealias Layout = _ANKFullWidth
-
-        //=--------------------------------------------------------------------=
-        // MARK: State
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline let base: UnsafeMutablePointer<UInt>
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Initializers
-        //=--------------------------------------------------------------------=
-        
-        @inlinable init(_ LAYOUT: UnsafeMutablePointer<Layout>) {
-            self.base = UnsafeMutableRawPointer(LAYOUT).assumingMemoryBound(to: UInt.self)
-        }
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Accessors
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline subscript(index: Int) -> UInt {
-            @_transparent _read {
-                precondition(self.indices.contains(index))
-                yield  self[unchecked: index]
-            }
-            
-            @_transparent nonmutating _modify {
-                precondition(self.indices.contains(index))
-                yield &self[unchecked: index]
-            }
-        }
-        
-        @usableFromInline subscript(unchecked index: Int) -> UInt {
-            @_transparent _read {
-                assert(self.indices.contains(index))
-                #if _endian(big)
-                yield self.base[self.lastIndex &- index]
-                #else
-                yield self.base[index]
-                #endif
-            }
-            
-            @_transparent nonmutating _modify {
-                assert(self.indices.contains(index))
-                #if _endian(big)
-                yield &self.base[self.lastIndex &- index]
-                #else
-                yield &self.base[index]
-                #endif
-            }
-        }
+    public subscript(index: Int) -> UInt {
+        @_transparent _read { precondition(self.indices.contains(index)); yield self[unchecked: index] /*------*/ }
+        @_transparent  set  { precondition(self.indices.contains(index)); /*-*/ self[unchecked: index] = newValue }
     }
 }

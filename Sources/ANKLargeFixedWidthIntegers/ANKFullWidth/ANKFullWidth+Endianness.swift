@@ -14,7 +14,7 @@
 // the implementation is platform dependent and identical to /Integers.swift
 //=----------------------------------------------------------------------------=
 
-extension _ANKFullWidth {
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
