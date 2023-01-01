@@ -47,6 +47,10 @@ extension ANKFullWidth {
         self.high.isLessThanZero
     }
     
+    @inlinable public var isMoreThanZero: Bool {
+        !self.isLessThanZero && !self.isZero
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=

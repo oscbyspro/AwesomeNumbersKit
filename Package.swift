@@ -29,7 +29,7 @@ let package = Package(
     ],
     products: [
         //=--------------------------------------=
-        // Awesome Numbers Kit
+        // ANK
         //=--------------------------------------=
         .library(
         name: "AwesomeNumbersKit",
@@ -41,15 +41,21 @@ let package = Package(
         name: "ANKFoundation",
         targets: ["ANKFoundation"]),
         //=--------------------------------------=
-        // ANK x Large Fixed Width Integers
+        // ANK x Full Width Kit
         //=--------------------------------------=
         .library(
         name: "ANKFullWidthKit",
         targets: ["ANKFullWidthKit"]),
+        //=--------------------------------------=
+        // ANK x Signed Kit
+        //=--------------------------------------=
+        .library(
+        name: "ANKSignedKit",
+        targets: ["ANKSignedKit"]),
     ],
     targets: [
         //=--------------------------------------=
-        // Awesome Numbers Kit
+        // ANK
         //=--------------------------------------=
         .target(
         name: "AwesomeNumbersKit",

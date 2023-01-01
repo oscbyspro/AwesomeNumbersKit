@@ -46,7 +46,6 @@ extension ANKSigned {
         self.sign == .minus && !self.magnitude.isZero
     }
     
-    // TODO: add this to protocol, maybe
     @inlinable public var isMoreThanZero: Bool {
         self.sign == .plus  && !self.magnitude.isZero
     }

@@ -13,10 +13,10 @@ import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Signed x UInt x Comparison
+// MARK: * ANK x Signed x Comparison
 //*============================================================================*
 
-final class SignedUIntBenchmarksOnComparison: XCTestCase {
+final class SignedBenchmarksOnComparison: XCTestCase {
     
     typealias T = ANKSigned<UInt>
     
@@ -30,7 +30,21 @@ final class SignedUIntBenchmarksOnComparison: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs < rhs
-            _ = lhs > rhs
+            _ = rhs < lhs
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Zero
+    //=------------------------------------------------------------------------=
+    
+    func testIsZero() {
+        let abc = T(1, as: .plus )
+        let xyz = T(1, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.isZero
+            _ = xyz.isZero
         }
     }
     

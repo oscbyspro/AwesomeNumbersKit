@@ -56,6 +56,10 @@ extension ANKTrivialFixedWidthInteger {
         Self.isSigned && self < (0 as Self)
     }
     
+    @_transparent public var isMoreThanZero: Bool {
+        self > (0 as Self)
+    }
+    
     @_transparent public var mostSignificantBit: Bool {
         self & (1 as Self) << (Self.bitWidth - 1) != (0 as Self)
     }

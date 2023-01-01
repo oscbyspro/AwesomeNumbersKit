@@ -31,6 +31,8 @@ public protocol ANKBinaryInteger: BinaryInteger where Magnitude: ANKUnsignedInte
     
     @inlinable var isLessThanZero: Bool { get }
     
+    @inlinable var isMoreThanZero: Bool { get }
+    
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=

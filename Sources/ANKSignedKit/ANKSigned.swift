@@ -24,7 +24,7 @@ import ANKFoundation
 /// such as `sign.toggle()` when `magnitude.isZero`.
 ///
 /// - use `isLessThanZero` to check if the integer is negative
-/// - use `isMoreThanZero` to check if the integer is positive (TODO)
+/// - use `isMoreThanZero` to check if the integer is positive
 /// - the `-0` integer literal creates a positive zero value because `Swift`
 ///
 @frozen public struct ANKSigned<Magnitude>: Comparable, Hashable where Magnitude: ANKUnsignedInteger {
@@ -54,7 +54,7 @@ import ANKFoundation
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    /// Always returns `.plus` when `magnitude.isZero`, otherwise returns `sign`.
+    /// Always returns `.plus` when `magnitude.isZero` and `sign` otherwise.
     @inlinable public var normalizedSign: ANKSign {
         self.magnitude.isZero ? .plus : self.sign
     }

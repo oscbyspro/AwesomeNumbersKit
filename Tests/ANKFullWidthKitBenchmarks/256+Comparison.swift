@@ -33,11 +33,31 @@ final class Int256BenchmarksOnComparison: XCTestCase {
         }
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Zero
+    //=------------------------------------------------------------------------=
+    
+    func testIsZero() {
+        let abc = T(x64:(0, 1, 2, 3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.isZero
+        }
+    }
+    
     func testIsLessThanZero() {
         let abc = T(x64:(0, 1, 2, 3))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.isLessThanZero
+        }
+    }
+    
+    func testIsMoreThanZero() {
+        let abc = T(x64:(0, 1, 2, 3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.isMoreThanZero
         }
     }
 }
@@ -63,11 +83,31 @@ final class UInt256BenchmarksOnComparison: XCTestCase {
         }
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Zero
+    //=------------------------------------------------------------------------=
+    
+    func testIsZero() {
+        let abc = T(x64:(0, 1, 2, 3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.isZero
+        }
+    }
+    
     func testIsLessThanZero() {
         let abc = T(x64:(0, 1, 2, 3))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.isLessThanZero
+        }
+    }
+    
+    func testIsMoreThanZero() {
+        let abc = T(x64:(0, 1, 2, 3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.isMoreThanZero
         }
     }
 }

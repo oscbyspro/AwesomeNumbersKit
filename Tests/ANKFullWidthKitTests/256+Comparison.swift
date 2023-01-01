@@ -31,30 +31,6 @@ final class Int256TestsOnComparison: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testIsZero() {
-        XCTAssertTrue (T( 0).isZero)
-        XCTAssertFalse(T( 1).isZero)
-        XCTAssertFalse(T( 2).isZero)
-        
-        XCTAssertFalse(T(-1).isZero)
-        XCTAssertFalse(T(-2).isZero)
-        XCTAssertFalse(T(-3).isZero)
-    }
-    
-    func testIsLessThanZero() {
-        XCTAssertFalse(T( 0).isLessThanZero)
-        XCTAssertFalse(T( 1).isLessThanZero)
-        XCTAssertFalse(T( 2).isLessThanZero)
-        
-        XCTAssertTrue (T(-1).isLessThanZero)
-        XCTAssertTrue (T(-2).isLessThanZero)
-        XCTAssertTrue (T(-3).isLessThanZero)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
     func testEquatable() {
         XCTAssert(T(-1) == T(-1))
         XCTAssert(T( 0) == T( 0))
@@ -114,6 +90,40 @@ final class Int256TestsOnComparison: XCTestCase {
         set.insert(T(x64:(0, 0, 0, 0)))
         XCTAssertEqual(set.count,  5)
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Zero
+    //=------------------------------------------------------------------------=
+    
+    func testIsZero() {
+        XCTAssertTrue (T( 0).isZero)
+        XCTAssertFalse(T( 1).isZero)
+        XCTAssertFalse(T( 2).isZero)
+        
+        XCTAssertFalse(T(-1).isZero)
+        XCTAssertFalse(T(-2).isZero)
+        XCTAssertFalse(T(-3).isZero)
+    }
+    
+    func testIsLessThanZero() {
+        XCTAssertFalse(T( 0).isLessThanZero)
+        XCTAssertFalse(T( 1).isLessThanZero)
+        XCTAssertFalse(T( 2).isLessThanZero)
+        
+        XCTAssertTrue (T(-1).isLessThanZero)
+        XCTAssertTrue (T(-2).isLessThanZero)
+        XCTAssertTrue (T(-3).isLessThanZero)
+    }
+    
+    func testIsMoreThanZero() {
+        XCTAssertFalse(T( 0).isMoreThanZero)
+        XCTAssertTrue (T( 1).isMoreThanZero)
+        XCTAssertTrue (T( 2).isMoreThanZero)
+        
+        XCTAssertFalse(T(-1).isMoreThanZero)
+        XCTAssertFalse(T(-2).isMoreThanZero)
+        XCTAssertFalse(T(-3).isMoreThanZero)
+    }
 }
 
 //*============================================================================*
@@ -130,22 +140,6 @@ final class UInt256TestsOnComparison: XCTestCase {
     
     let w = UInt64.max
     let s = UInt64.bitWidth
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testIsZero() {
-        XCTAssertTrue (T(0).isZero)
-        XCTAssertFalse(T(1).isZero)
-        XCTAssertFalse(T(2).isZero)
-    }
-    
-    func testIsLessThanZero() {
-        XCTAssertFalse(T(0).isLessThanZero)
-        XCTAssertFalse(T(1).isLessThanZero)
-        XCTAssertFalse(T(2).isLessThanZero)
-    }
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -196,6 +190,28 @@ final class UInt256TestsOnComparison: XCTestCase {
         set.insert(T(x64:(0, 0, 0, 1)))
         set.insert(T(x64:(0, 0, 0, 0)))
         XCTAssertEqual(set.count,  5)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Zero
+    //=------------------------------------------------------------------------=
+    
+    func testIsZero() {
+        XCTAssertTrue (T(0).isZero)
+        XCTAssertFalse(T(1).isZero)
+        XCTAssertFalse(T(2).isZero)
+    }
+    
+    func testIsLessThanZero() {
+        XCTAssertFalse(T(0).isLessThanZero)
+        XCTAssertFalse(T(1).isLessThanZero)
+        XCTAssertFalse(T(2).isLessThanZero)
+    }
+    
+    func testIsMoreThanZero() {
+        XCTAssertFalse(T( 0).isMoreThanZero)
+        XCTAssertTrue (T( 1).isMoreThanZero)
+        XCTAssertTrue (T( 2).isMoreThanZero)
     }
 }
 
