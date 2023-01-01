@@ -19,9 +19,18 @@ enum Trivial {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    static let allFixedWidthIntegerTypes: [any ANKFixedWidthInteger.Type] =
+    static let allBinaryIntegerTypes: [any ANKBinaryInteger.Type] =
     [Int.self,  Int8.self,  Int16.self,  Int32.self,  Int64.self,
     UInt.self, UInt8.self, UInt16.self, UInt32.self, UInt64.self]
+    
+    static let allSignedIntegerTypes =
+    allBinaryIntegerTypes.compactMap({ $0 as? any /*----*/ANKSignedInteger.Type })
+    
+    static let allUnsignedIntegerTypes =
+    allBinaryIntegerTypes.compactMap({ $0 as? any /*--*/ANKUnsignedInteger.Type })
+    
+    static let allFixedWidthIntegerTypes =
+    allBinaryIntegerTypes.compactMap({ $0 as? any /**/ANKFixedWidthInteger.Type })
     
     static let allSignedFixedWidthIntegerTypes =
     allFixedWidthIntegerTypes.compactMap({ $0 as? any /*---*/ANKSignedFixedWidthInteger.Type })

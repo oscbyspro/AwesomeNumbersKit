@@ -28,6 +28,14 @@ final class TypesTestsOnANKIntOrUInt: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testTrivialTypesCount() {
+        XCTAssertEqual(types.count, 2)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests
+    //=------------------------------------------------------------------------=
+    
     func testIsEitherIntOrUInt() {
         for type: any ANKIntOrUInt.Type in types {
             if let _ = type as?  Int.Type { continue }

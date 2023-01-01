@@ -29,7 +29,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public static func %=(lhs: inout Self, rhs: Digit) {
-         precondition(!lhs.formRemainderReportingOverflow(by: rhs))
+        precondition(!lhs.formRemainderReportingOverflow(by: rhs))
     }
     
     @inlinable public static func %(lhs: Self, rhs: Digit) -> Digit {
@@ -88,7 +88,7 @@ extension ANKFullWidth {
         let  divisorIsLessThanZero: Bool = divisor.isLessThanZero
         let dividendIsLessThanZero: Bool =    self.isLessThanZero
         //=--------------------------------------=
-        var qr: QR<Magnitude, UInt> = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
+        var qr: QR<Magnitude, UInt> = self.magnitude._quotientAndRemainderAsUnsigned(dividingBy: divisor.magnitude)
         //=--------------------------------------=
         if  dividendIsLessThanZero != divisorIsLessThanZero {
             let quotientWasLessThanZero = qr.quotient.mostSignificantBit
@@ -115,7 +115,7 @@ extension ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
+    @inlinable func _quotientAndRemainderAsUnsigned(dividingBy divisor: Digit) -> QR<Self, Digit> {
         precondition(!divisor.isZero)
         //=--------------------------------------=
         var quotient  = self

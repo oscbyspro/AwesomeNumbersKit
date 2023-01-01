@@ -35,7 +35,6 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @_transparent public init(_ source: some BinaryInteger) {
         guard let value = Self(exactly: source) else {
             preconditionFailure("\(source) is not in \(Self.self)'s representable range")
@@ -44,7 +43,6 @@ extension ANKFullWidth {
         self = value
     }
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @_transparent public init?(exactly source: some BinaryInteger) {
         //=--------------------------------------=
         // Self
@@ -80,7 +78,6 @@ extension ANKFullWidth {
         self.init(_exactlyAsGeneric: source)
     }
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @_transparent public init(clamping source: some BinaryInteger) {
         //=--------------------------------------=
         // Self
@@ -116,7 +113,6 @@ extension ANKFullWidth {
         self.init(_clampingAsGeneric: source)
     }
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @_transparent public init(truncatingIfNeeded source: some BinaryInteger) {
         //=--------------------------------------=
         // Self
@@ -163,7 +159,6 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @inlinable init?(_exactlyAsDigit source: some ANKIntOrUInt) {
         //=--------------------------------------=
         // Int
@@ -177,12 +172,10 @@ extension ANKFullWidth {
         self.init(_truncatingIfNeededAsDigit: source)
     }
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @inlinable init(_clampingAsDigit source: some ANKIntOrUInt) {
         self = Self(_exactlyAsDigit: source) ?? Self()
     }
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @inlinable init(_truncatingIfNeededAsDigit source: some ANKIntOrUInt) {
         assert(Low.bitWidth >= source.bitWidth)
         //=--------------------------------------=
@@ -213,7 +206,6 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @inlinable init?(_exactlyAsMagnitude source: Magnitude) {
         //=--------------------------------------=
         if  Self.isSigned, source.mostSignificantBit {
@@ -223,12 +215,10 @@ extension ANKFullWidth {
         self.init(_truncatingIfNeededAsMagnitude: source)
     }
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @_transparent @usableFromInline init(_clampingAsMagnitude source: Magnitude) {
         self = Self(_exactlyAsMagnitude: source) ?? Self.max
     }
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @_transparent @usableFromInline init(_truncatingIfNeededAsMagnitude source: Magnitude) {
         self.init(bitPattern: source)
     }

@@ -28,7 +28,15 @@ final class TypesTestsOnANKLargeFixedWidthInteger: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitRepeatingWord() {
+    func testTrivialTypesCount() {
+        XCTAssertEqual(types.count, 2)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Words
+    //=------------------------------------------------------------------------=
+    
+    func testRepeatingWord() {
         let word = UInt.random(in: UInt.min ... UInt.max)
         for type: any ANKLargeFixedWidthInteger.Type in types {
             let words = type.init(repeating: word).words

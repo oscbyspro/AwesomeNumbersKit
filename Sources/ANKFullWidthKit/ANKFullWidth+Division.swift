@@ -85,7 +85,7 @@ extension ANKFullWidth {
     
     @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
         let dividendIsLessThanZero: Bool = self.isLessThanZero
-        var qr: QR<Magnitude, Magnitude> = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
+        var qr: QR<Magnitude, Magnitude> = self.magnitude._quotientAndRemainderAsUnsigned(dividingBy: divisor.magnitude)
         //=--------------------------------------=
         if  dividendIsLessThanZero != divisor.isLessThanZero {
             let quotientWasLessThanZero = qr.quotient.mostSignificantBit
@@ -109,7 +109,7 @@ extension ANKFullWidth {
         let divisorIsLessThanZero: Bool = self.isLessThanZero
         let dividend = DoubleWidth(descending: dividend)
         let dividendIsLessThanZero: Bool = dividend.isLessThanZero
-        var qr: QR<Magnitude, Magnitude> = self.magnitude._dividingFullWidth(dividend.magnitude)
+        var qr: QR<Magnitude, Magnitude> = self.magnitude._dividingFullWidthAsUnsigned(dividend.magnitude)
         //=--------------------------------------=
         if  dividendIsLessThanZero != divisorIsLessThanZero {
             qr.quotient .formTwosComplement() // truncates overflow scenario
@@ -135,11 +135,13 @@ extension ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
     
     /// Returns the quotient and remainder of dividing the dividend by the divisor.
     ///
-    /// It is basically long division but with large digits.
+    /// Performs long division but with word-sized digits.
     ///
-    @inlinable func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
-        let _divisor = divisor.minWordCountReportingIsZeroOrMinusOne()
-        let divisorMinLastIndex = divisor.index(before: _divisor.minWordCount)
+    @_specialize(where Self == ANKUInt128)
+    @_specialize(where Self == ANKUInt256)
+    @_specialize(where Self == ANKUInt512)
+    @inlinable func _quotientAndRemainderAsUnsigned(dividingBy divisor: Self) -> QR<Self, Self> {
+        let _divisor = divisor.minLastIndexReportingIsZeroOrMinusOne()
         precondition(!_divisor.isZeroOrMinusOne, "division by zero")
         //=--------------------------------------=
         // Fast x Dividend <= Divisor
@@ -150,33 +152,33 @@ extension ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
         //=--------------------------------------=
         // Fast x Divisor Is One Word
         //=--------------------------------------=
-        if  divisorMinLastIndex.isZero {
+        if  _divisor.minLastIndex.isZero {
             let qr: QR<Self, Digit> = self.quotientAndRemainder(dividingBy: divisor.first)
             return  QR(qr.quotient, Self(digit: qr.remainder))
         }
         //=--------------------------------------=
         // << To Clamp Digit Approximation Range
         //=--------------------------------------=
-        let shift = divisor[unchecked: divisorMinLastIndex].leadingZeroBitCount
+        let shift = divisor[unchecked: _divisor.minLastIndex].leadingZeroBitCount
         var divisor = Plus1(descending:(UInt(), Magnitude(bitPattern: divisor)))
         //=--------------------------------------=
         var  remainder = Plus1(descending:(UInt(), Magnitude(bitPattern: self)))
-        let _remainder = remainder.low.minWordCountReportingIsZeroOrMinusOne() // hm
-        let  remainderMinLastIndex = remainder.index(before: _remainder.minWordCount)
+        let _remainder = remainder.low.minLastIndexReportingIsZeroOrMinusOne() // hm
+        let  remainderMinWordCount = remainder.index(after: _remainder.minLastIndex)
         //=--------------------------------------=
         divisor.low._bitshiftLeft(words: Int(), bits: shift)
         remainder  ._bitshiftLeft(words: Int(), bits: shift)
         //=--------------------------------------=
-        assert(  divisorMinLastIndex as Int >= 1)
-        assert(remainderMinLastIndex as Int >= 1)
-        assert(remainderMinLastIndex as Int >= divisorMinLastIndex)
+        assert(  _divisor.minLastIndex as Int >= 1)
+        assert(_remainder.minLastIndex as Int >= 1)
+        assert(_remainder.minLastIndex as Int >= _remainder.minLastIndex)
         //=--------------------------------------=
-        // The Main Loop
+        // Division Loop
         //=--------------------------------------=
         var quotient = Self(); quotient.withUnsafeMutableWordsPointer { QUOTIENT in
-            let divisorLast =  divisor.low[unchecked: divisorMinLastIndex]
-            var remainderIndex = _remainder.minWordCount
-            var  quotientIndex = _remainder.minWordCount &- divisorMinLastIndex
+            let divisorLast =  divisor.low[unchecked: _divisor.minLastIndex]
+            var remainderIndex = remainderMinWordCount
+            var  quotientIndex = remainderMinWordCount &- _divisor.minLastIndex
             //=----------------------------------=
             backwards: while quotientIndex != QUOTIENT.startIndex {
                 QUOTIENT.formIndex(before: &quotientIndex)
@@ -207,7 +209,7 @@ extension ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
             }
         }
         //=--------------------------------------=
-        // >> To Undo Shift From Before Main Loop
+        // >> To Undo Shift Before Division Loop
         //=--------------------------------------=
         remainder._bitshiftRight(words: Int(), bits: shift)
         return QR(quotient, Self(bitPattern: remainder.low))
@@ -217,10 +219,10 @@ extension ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
     // MARK: Transformations x Full Width
     //=------------------------------------------------------------------------=
     
-    @inlinable func _dividingFullWidth(_ dividend: DoubleWidth) -> QR<Self, Self> {
+    @inlinable func _dividingFullWidthAsUnsigned(_ dividend: DoubleWidth) -> QR<Self, Self> {
         let dividend = DoubleWidth(descending:(dividend.high, dividend.low))
         let divisor  = DoubleWidth(descending:(Self(), Magnitude(bitPattern: self)))
-        let qr: QR<DoubleWidth, DoubleWidth> = dividend.quotientAndRemainder(dividingBy: divisor)
+        let qr: QR<DoubleWidth, DoubleWidth> = dividend._quotientAndRemainderAsUnsigned(dividingBy: divisor)
         return  QR(Self(bitPattern: qr.quotient.low), Self(bitPattern: qr.remainder.low))
     }
 }

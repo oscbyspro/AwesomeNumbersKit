@@ -58,7 +58,6 @@ extension ANKFullWidth {
         return HL(hl.high, hl.low)
     }
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @_transparent @usableFromInline func _multipliedFullWidth(by amount: Self) -> DoubleWidth {
         //=--------------------------------------=
         if  High.Magnitude.self == Low.self {
@@ -135,7 +134,6 @@ extension ANKFullWidth {
         self._multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by: amount)
     }
     
-    @_semantics("optimize.sil.specialize.generic.partial.never")
     @inlinable func _multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by amount: Self) -> DoubleWidth {
         //  guard High.Magnitude == Low else { preconditionFailure() }
         let negate = self.isLessThanZero != amount.isLessThanZero as Bool

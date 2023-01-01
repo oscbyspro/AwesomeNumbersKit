@@ -13,7 +13,7 @@ import ANKFoundation
 // MARK: * ANK x (U)Int64
 //*============================================================================*
 //=----------------------------------------------------------------------------=
-// await compiler condition akin to #if MemoryLayout<UInt>.size == 8
+// await build condition akin to #if MemoryLayout<UInt>.size == 8
 //=----------------------------------------------------------------------------=
 
 #if arch(i386) || arch(arm) || arch(arm64_32) || arch(wasm32) || arch(powerpc)

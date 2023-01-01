@@ -13,10 +13,10 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x Fixed Width Integer x Signed
+// MARK: * Types x Binary Integer x Signed
 //*============================================================================*
 
-final class TypesTestsOnANKSignedFixedWidthInteger: XCTestCase {
+final class TypesTestsOnANKSignedInteger: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -33,48 +33,45 @@ final class TypesTestsOnANKSignedFixedWidthInteger: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Words
+    // MARK: Tests x Zero
     //=------------------------------------------------------------------------=
     
-    func testMostSignificantBit() {
-        for type: any ANKSignedFixedWidthInteger.Type in types {
-            XCTAssertEqual(type.min .mostSignificantBit, true )
-            XCTAssertEqual(type.zero.mostSignificantBit, false)
-            XCTAssertEqual(type.max .mostSignificantBit, false)
+    func testIsZero() {
+        for type: any ANKSignedInteger.Type in types {
+            XCTAssertFalse(type.init(-1).isZero)
+            XCTAssertTrue (type.init( 0).isZero)
+            XCTAssertFalse(type.init( 1).isZero)
         }
     }
     
-    func testLeastSignificantBit() {
-        for type: any ANKSignedFixedWidthInteger.Type in types {
-            XCTAssertEqual(type.min .leastSignificantBit, false)
-            XCTAssertEqual(type.zero.leastSignificantBit, false)
-            XCTAssertEqual(type.max .leastSignificantBit, true )
+    func testIsLessThanZero() {
+        for type: any ANKSignedInteger.Type in types {
+            XCTAssertTrue (type.init(-1).isLessThanZero)
+            XCTAssertFalse(type.init( 0).isLessThanZero)
+            XCTAssertFalse(type.init( 1).isLessThanZero)
         }
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Subtraction x Negation
-    //=------------------------------------------------------------------------=
-    
-    func testNegatedReportingOverflow() {
-        for type in types {
-            XCTAssertEqual(type.min.negatedReportingOverflow().overflow, true )
-            XCTAssertEqual(type.max.negatedReportingOverflow().overflow, false)
+    func testIsMoreThanZero() {
+        for type: any ANKSignedInteger.Type in types {
+            XCTAssertFalse(type.init(-1).isMoreThanZero)
+            XCTAssertFalse(type.init( 0).isMoreThanZero)
+            XCTAssertTrue (type.init( 1).isMoreThanZero)
         }
     }
 }
 
 //*============================================================================*
-// MARK: * Types x Fixed Width Integers x Unigned
+// MARK: * Types x Binary Integers x Unigned
 //*============================================================================*
 
-final class TypesTestsOnANKUnsignedFixedWidthInteger: XCTestCase {
+final class TypesTestsOnANKUnsignedInteger: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allUnsignedFixedWidthIntegerTypes
+    let types = Trivial.allUnsignedIntegerTypes
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -85,22 +82,27 @@ final class TypesTestsOnANKUnsignedFixedWidthInteger: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Words
+    // MARK: Tests x Zero
     //=------------------------------------------------------------------------=
     
-    func testMostSignificantBit() {
-        for type: any ANKUnsignedFixedWidthInteger.Type in types {
-            XCTAssertEqual(type.min .mostSignificantBit, false)
-            XCTAssertEqual(type.zero.mostSignificantBit, false)
-            XCTAssertEqual(type.max .mostSignificantBit, true )
+    func testIsZero() {
+        for type: any ANKUnsignedInteger.Type in types {
+            XCTAssertTrue (type.init(0).isZero)
+            XCTAssertFalse(type.init(1).isZero)
         }
     }
     
-    func testLeastSignificantBit() {
-        for type: any ANKUnsignedFixedWidthInteger.Type in types {
-            XCTAssertEqual(type.min .leastSignificantBit, false)
-            XCTAssertEqual(type.zero.leastSignificantBit, false)
-            XCTAssertEqual(type.max .leastSignificantBit, true )
+    func testIsLessThanZero() {
+        for type: any ANKUnsignedInteger.Type in types {
+            XCTAssertFalse(type.init(0).isLessThanZero)
+            XCTAssertFalse(type.init(1).isLessThanZero)
+        }
+    }
+    
+    func testIsMoreThanZero() {
+        for type: any ANKUnsignedInteger.Type in types {
+            XCTAssertFalse(type.init(0).isMoreThanZero)
+            XCTAssertTrue (type.init(1).isMoreThanZero)
         }
     }
 }
