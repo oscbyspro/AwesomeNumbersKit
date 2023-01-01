@@ -7,10 +7,10 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import ANKFoundation
+
 //*============================================================================*
-// MARK: * Awesome Numbers Kit x Exports
+// MARK: * ANK x Aliases
 //*============================================================================*
 
-@_exported import ANKFoundation
-@_exported import ANKFullWidthKit
-@_exported import ANKSignedKit
+public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger
