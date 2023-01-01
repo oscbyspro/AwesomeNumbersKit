@@ -16,15 +16,39 @@ import ANKFoundation
 extension ANKSigned {
     
     //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
+        if lhs.magnitude != rhs.magnitude { return false }
+        if lhs.sign/*-*/ == rhs.sign/*-*/ { return true  }
+        return lhs.magnitude.isZero && rhs.magnitude.isZero
+    }
+    
+    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
+        //=--------------------------------------=
+        if  lhs.sign != rhs.sign {
+            return (lhs.sign != .plus) && !(lhs.isZero && rhs.isZero)
+        }
+        //=--------------------------------------=
+        return (lhs.sign == .plus) == (lhs.magnitude < rhs.magnitude)
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public var isZero: Bool {
+    @_transparent public var isZero: Bool {
         self.magnitude.isZero
     }
     
-    @_transparent public var isLessThanZero: Bool {
+    @inlinable public var isLessThanZero: Bool {
         self.sign == .minus && !self.magnitude.isZero
+    }
+    
+    // TODO: add this to protocol, maybe
+    @inlinable public var isMoreThanZero: Bool {
+        self.sign == .plus  && !self.magnitude.isZero
     }
     
     //=------------------------------------------------------------------------=
@@ -32,7 +56,6 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @inlinable public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.sign)
-        hasher.combine(self.magnitude)
+        hasher.combine(self.normalizedSign); hasher.combine(self.magnitude)
     }
 }

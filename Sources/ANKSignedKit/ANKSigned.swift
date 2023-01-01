@@ -27,7 +27,7 @@ import ANKFoundation
 /// - use `isMoreThanZero` to check if the integer is positive (TODO)
 /// - the `-0` integer literal creates a positive zero value because `Swift`
 ///
-@frozen public struct ANKSigned<Magnitude> where Magnitude: ANKUnsignedInteger {
+@frozen public struct ANKSigned<Magnitude>: Comparable, Hashable where Magnitude: ANKUnsignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -41,12 +41,21 @@ import ANKFoundation
     //=------------------------------------------------------------------------=
     
     @inlinable public init() {
-        self.sign = ANKSign.plus
+        self.sign = .plus
         self.magnitude = Magnitude()
     }
     
     @inlinable public init(_ magnitude: Magnitude, as sign: ANKSign) {
         self.sign = sign
         self.magnitude = magnitude
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    /// Always returns `.plus` when `magnitude.isZero`, otherwise returns `sign`.
+    @inlinable public var normalizedSign: ANKSign {
+        self.magnitude.isZero ? .plus : self.sign
     }
 }
