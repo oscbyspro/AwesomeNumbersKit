@@ -73,7 +73,7 @@ extension ANKFullWidth {
                 if rhsIsLessThanZero { rhsSignCarry = high.addReportingOverflow(~lhsWord, rhsSignCarry) }
             }
             //=----------------------------------=
-            high = lhsIsLessThanZero ? high &+ ~rhsWord &+ 1 : high
+            high = lhsIsLessThanZero ? high &+ rhsWord.twosComplement() : high
         }}
         //=--------------------------------------=
         return HL(Digit(bitPattern: high), low)

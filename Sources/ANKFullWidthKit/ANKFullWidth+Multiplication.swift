@@ -135,7 +135,7 @@ extension ANKFullWidth {
     }
     
     @inlinable func _multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by amount: Self) -> DoubleWidth {
-        //  guard High.Magnitude == Low else { preconditionFailure() }
+        /// type casting equates to `where High.Magnitude == Low { ... }`
         let negate = self.isLessThanZero != amount.isLessThanZero as Bool
         guard let lhs =   self.magnitude as? ANKFullWidth<Low, Low> else { preconditionFailure() }
         guard let rhs = amount.magnitude as? ANKFullWidth<Low, Low> else { preconditionFailure() }

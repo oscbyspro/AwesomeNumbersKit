@@ -98,7 +98,7 @@ extension ANKFullWidth {
         }
         
         if  dividendIsLessThanZero {
-            qr.remainder = ~qr.remainder &+ 1 // cannot overflow: abs <= max
+            qr.remainder.formTwosComplement() // cannot overflow: abs <= max
         }
         //=--------------------------------------=
         return QR(Self(bitPattern: qr.quotient), Digit(bitPattern: qr.remainder))

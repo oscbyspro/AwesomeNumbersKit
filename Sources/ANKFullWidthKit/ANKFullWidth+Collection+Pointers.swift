@@ -14,12 +14,11 @@ import ANKFoundation
 //*============================================================================*
 
 @usableFromInline protocol _ANKFullWidthUnsafeWordsPointer: WoRdS where
-High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 Low == Low.Magnitude, High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt {
     
-    associatedtype High
+    associatedtype High: ANKLargeFixedWidthInteger & ANKTwosComplement
     
-    associatedtype Low
+    associatedtype Low:  ANKUnsignedLargeFixedWidthInteger<UInt> & ANKTwosComplement
     
     typealias Layout = ANKFullWidth<High, Low>
 }

@@ -11,7 +11,7 @@
 // MARK: * ANK x Int Or UInt
 //*============================================================================*
 
-public protocol ANKIntOrUInt: ANKLargeFixedWidthInteger<Self>, ANKBitPattern<UInt> where Magnitude == UInt { }
+public protocol ANKIntOrUInt: ANKLargeFixedWidthInteger<Self>, ANKBitPattern<UInt>, ANKTwosComplement where Magnitude == UInt { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details

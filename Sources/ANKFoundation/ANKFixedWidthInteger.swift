@@ -15,7 +15,7 @@
 ///
 /// All fixed width integers in `AwesomeNumbersKit` conform to `ANKFixedWidthInteger`.
 ///
-public protocol ANKFixedWidthInteger: ANKBinaryInteger, FixedWidthInteger where Magnitude: ANKUnsignedFixedWidthInteger {
+public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where Magnitude: ANKUnsignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers

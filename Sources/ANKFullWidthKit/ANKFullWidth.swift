@@ -21,7 +21,7 @@ import ANKFoundation
 /// ANK(U)Int512
 /// ```
 ///
-/// **Requirements: UInt Digit Collection**
+/// **Requirements**
 ///
 /// It models a `UInt` digit collection. In practice this means:
 ///
@@ -33,18 +33,10 @@ import ANKFoundation
 /// High.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
-/// **Requirements: Fixed-Width & Two's Complement**
-///
-/// It models a fixed-width, two's complement, integer. In practice this means:
-///
-/// ```
-/// Low  must be a fixed-width, two's complement, integer.
-/// High must be a fixed-width, two's complement, integer.
-/// ```
-///
-@frozen public struct ANKFullWidth<High, Low>:
-WoRdS, ANKBitPattern, ANKLargeFixedWidthInteger, ANKTextualizableInteger where
-High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
+@frozen public struct ANKFullWidth<High, Low>: WoRdS, ANKBitPattern,
+ANKLargeFixedWidthInteger, ANKTwosComplement, ANKTextualizableInteger where
+High: ANKLargeFixedWidthInteger & ANKTwosComplement,
+Low:  ANKUnsignedLargeFixedWidthInteger<UInt> & ANKTwosComplement,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
         
     public typealias Digit = High.Digit

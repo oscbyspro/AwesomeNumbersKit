@@ -11,9 +11,9 @@
 // MARK: * ANK x Bit Pattern
 //*============================================================================*
 
-public protocol ANKBitPattern<BitPattern> where BitPattern.BitPattern == BitPattern {
+public protocol ANKBitPattern<BitPattern> {
         
-    associatedtype BitPattern: ANKBitPattern
+    associatedtype BitPattern: ANKBitPattern<BitPattern>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers

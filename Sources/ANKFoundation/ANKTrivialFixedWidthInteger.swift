@@ -24,7 +24,7 @@
 /// - `UInt32`
 /// - `UInt64`
 ///
-public protocol ANKTrivialFixedWidthInteger: ANKFixedWidthInteger, ANKBitPattern where BitPattern == Magnitude { }
+public protocol ANKTrivialFixedWidthInteger: ANKFixedWidthInteger, ANKBitPattern, ANKTwosComplement where BitPattern == Magnitude { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -113,6 +113,18 @@ extension ANKTrivialFixedWidthInteger {
     @_transparent public var bitPattern: BitPattern {
         return unsafeBitCast(self, to: BitPattern.self)
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Two's Complement
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public mutating func formTwosComplement() {
+        self = self.twosComplement()
+    }
+    
+    @_transparent public func twosComplement() -> Self {
+        ~self &+ 1
+    }
 }
 
 //*============================================================================*
@@ -131,7 +143,7 @@ extension ANKTrivialFixedWidthInteger where Self: ANKSignedFixedWidthInteger {
     }
     
     @_transparent public func negatedReportingOverflow() -> PVO<Self> {
-        PVO(~self &+ 1, self == Self.min)
+        PVO(self.twosComplement(), self == Self.min)
     }
 }
 
