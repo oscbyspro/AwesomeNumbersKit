@@ -13,10 +13,10 @@ import ANKFullWidthKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Int256 x Conversion x Numbers
+// MARK: * Int256 x Numbers
 //*============================================================================*
 
-final class Int256BenchmarksOnConversionAsNumbers: XCTestCase {
+final class Int256BenchmarksOnNumbers: XCTestCase {
     
     typealias T = ANKInt256
     typealias S = ANKInt256
@@ -119,10 +119,10 @@ final class Int256BenchmarksOnConversionAsNumbers: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Conversion x Numbers
+// MARK: * UInt256 x Numbers
 //*============================================================================*
 
-final class UInt256BenchmarksOnConversionAsNumbers: XCTestCase {
+final class UInt256BenchmarksOnNumbers: XCTestCase {
     
     typealias T = ANKUInt256
     typealias S =  ANKInt256

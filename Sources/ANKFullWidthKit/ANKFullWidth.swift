@@ -13,24 +13,39 @@ import ANKFoundation
 // MARK: * ANK x Full Width
 //*============================================================================*
 
-/// The internal storage model for `ANK(U)Int(128/256/512)`.
+/// A composable, large, fixed-width, two's complement, integer.
 ///
 /// ```
-/// High.bitWidth / UInt.bitWidth >= 1
+/// ANK(U)Int128
+/// ANK(U)Int256
+/// ANK(U)Int512
+/// ```
+///
+/// **Requirements: UInt Digit Collection**
+///
+/// It models a `UInt` digit collection. In practice this means:
+///
+/// ```
 /// Low .bitWidth / UInt.bitWidth >= 1
-/// Self.bitWidth / UInt.bitWidth >= 2
+/// High.bitWidth / UInt.bitWidth >= 1
+///
+/// Low .bitWidth % UInt.bitWidth == 0
+/// High.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
+/// **Requirements: Fixed-Width & Two's Complement**
+///
+/// It models a fixed-width, two's complement, integer. In practice this means:
+///
 /// ```
-/// High.bitWidth % UInt.bitWidth == 0
-/// Low .bitWidth % UInt.bitWidth == 0
-/// Self.bitWidth % UInt.bitWidth == 0
+/// Low  must be a fixed-width, two's complement, integer.
+/// High must be a fixed-width, two's complement, integer.
 /// ```
 ///
 @frozen public struct ANKFullWidth<High, Low>:
 WoRdS, ANKBitPattern, ANKLargeFixedWidthInteger, ANKTextualizableInteger where
 High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
-Low == Low.Magnitude, High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt {
+High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
         
     public typealias Digit = High.Digit
         

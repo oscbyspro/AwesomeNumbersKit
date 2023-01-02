@@ -53,7 +53,7 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: Int) -> Self? {
+    @_transparent @usableFromInline static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: Int) -> Self? {
         switch radix.nonzeroBitCount == 1 {
         case  true: return self._decodeBigEndianDigitsWhereRadixIsPowerOf2(source, radix: radix)
         case false: return self._decodeBigEndianDigitsWhereRadixIsWhatever(source, radix: radix) }
@@ -128,7 +128,7 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _encode(_ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
+    @_transparent @usableFromInline static func _encode(_ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
         switch radix.nonzeroBitCount == 1 {
         case  true: _encodeWhereRadixIsPowerOf2(magnitude, radix: radix, uppercase: uppercase, to: &text)
         case false: _encodeWhereRadixIsWhatever(magnitude, radix: radix, uppercase: uppercase, to: &text) }

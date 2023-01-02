@@ -14,7 +14,7 @@ import ANKFoundation
 // MARK: * ANK x Signed
 //*============================================================================*
 
-/// A sign-magnitude add-on integer model.
+/// A decorative, size agnostic, width agnostic, sign-magnitude, integer.
 ///
 /// **Positive & Negative Zero**
 ///
@@ -54,7 +54,7 @@ import ANKFoundation
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    /// Always returns `.plus` when `magnitude.isZero` and `sign` otherwise.
+    /// Returns `.plus` when `magnitude.isZero` and `sign` otherwise.
     @inlinable public var normalizedSign: ANKSign {
         self.magnitude.isZero ? .plus : self.sign
     }

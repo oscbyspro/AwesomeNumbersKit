@@ -31,7 +31,7 @@ extension ANKFullWidth {
     }
     
     @_transparent public func twosComplement() -> Self {
-        var x = self; x.formTwosComplement(); return x
+        var next = self; next.formTwosComplement(); return next
     }
     
     //=------------------------------------------------------------------------=

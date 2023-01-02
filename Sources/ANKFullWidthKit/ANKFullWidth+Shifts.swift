@@ -160,7 +160,7 @@ extension ANKFullWidth {
             var i: Int = SELF.startIndex
             var j: Int = SELF.index(i, offsetBy: words)
             var k: Int = SELF.index(after: j)
-
+            
             while k != SELF.endIndex {
                 let p: UInt = /*-------*/ SELF[j] &>> a
                 let q: UInt = !a.isZero ? SELF[k] &<< b : UInt()

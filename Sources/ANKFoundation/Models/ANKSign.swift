@@ -31,4 +31,16 @@
     @inlinable public init(_ sign: FloatingPointSign) {
         self = sign == .plus ? .plus : .minus
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func toggle() {
+        self = self.toggled()
+    }
+    
+    @inlinable public func toggled() -> Self {
+        self == .plus ? .minus : .plus
+    }
 }
