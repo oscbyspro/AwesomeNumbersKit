@@ -39,7 +39,11 @@ public protocol ANKBinaryInteger: BinaryInteger where Magnitude: ANKUnsignedInte
     
     @inlinable mutating func divideReportingOverflow(by divisor: Self) -> Bool
     
+    @inlinable func dividedReportingOverflow(by divisor: Self) -> PVO<Self>
+    
     @inlinable mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool
+    
+    @inlinable func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self>
 }
 
 //*============================================================================*

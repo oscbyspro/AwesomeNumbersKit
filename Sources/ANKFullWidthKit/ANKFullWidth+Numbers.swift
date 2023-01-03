@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Number x Integer
+// MARK: * ANK x Full Width x Numbers x Integer
 //*============================================================================*
 
 extension ANKFullWidth {
@@ -150,7 +150,7 @@ extension ANKFullWidth {
 }
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Number x Integer x Digit
+// MARK: * ANK x Full Width x Numbers x Integer x Digit
 //*============================================================================*
 
 extension ANKFullWidth {
@@ -225,7 +225,7 @@ extension ANKFullWidth {
 }
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Number x Integer x Generic
+// MARK: * ANK x Full Width x Numbers x Integer x Generic
 //*============================================================================*
 
 extension ANKFullWidth {

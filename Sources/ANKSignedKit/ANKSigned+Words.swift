@@ -7,10 +7,25 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import ANKFoundation
-
 //*============================================================================*
-// MARK: * ANK x Aliases
+// MARK: * ANK x Signed x Words
 //*============================================================================*
 
-public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude
+extension ANKSigned {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var words: [UInt] {
+        fatalError("TODO")
+    }
+    
+    @inlinable public var bitWidth: Int {
+        fatalError("TODO")
+    }
+    
+    @inlinable public var trailingZeroBitCount: Int {
+        fatalError("TODO")
+    }
+}

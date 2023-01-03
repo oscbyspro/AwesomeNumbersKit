@@ -7,10 +7,21 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import ANKFoundation
-
 //*============================================================================*
-// MARK: * ANK x Aliases
+// MARK: * ANK x Signed x Subtraction
 //*============================================================================*
 
-public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude
+extension ANKSigned {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func -=(lhs: inout Self, rhs: Self) {
+        fatalError("TODO")
+    }
+    
+    @inlinable public static func -(lhs: Self, rhs: Self) -> Self {
+        fatalError("TODO")
+    }
+}

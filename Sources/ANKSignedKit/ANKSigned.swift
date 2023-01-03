@@ -27,7 +27,9 @@ import ANKFoundation
 /// - use `isMoreThanZero` to check if the integer is positive
 /// - the `-0` integer literal creates a positive zero value because `Swift`
 ///
-@frozen public struct ANKSigned<Magnitude>: Comparable, Hashable where Magnitude: ANKUnsignedInteger {
+@frozen public struct ANKSigned<Magnitude>: ANKSignedInteger where Magnitude: ANKUnsignedInteger, Magnitude.Magnitude == Magnitude {
+    
+    public typealias IntegerLiteralType = Int
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -48,6 +50,10 @@ import ANKFoundation
     @inlinable public init(_ magnitude: Magnitude, as sign: ANKSign) {
         self.sign = sign
         self.magnitude = magnitude
+    }
+    
+    @inlinable public init(bit: Bool) {
+        fatalError("TODO")
     }
     
     //=------------------------------------------------------------------------=
