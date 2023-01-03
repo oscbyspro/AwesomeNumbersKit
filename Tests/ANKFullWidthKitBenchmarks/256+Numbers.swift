@@ -23,7 +23,7 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     typealias M = T.Magnitude
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Int
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testInt() {
@@ -37,10 +37,6 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
         }
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x UInt
-    //=------------------------------------------------------------------------=
-    
     func testUInt() {
         let abc = UInt.max
         
@@ -51,10 +47,6 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
             _ = T(truncatingIfNeeded: abc)
         }
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Signitude
-    //=------------------------------------------------------------------------=
     
     func testSignitude() {
         let abc = S(x64:(0, 1, 2, 3))
@@ -67,10 +59,6 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
         }
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Magnitude
-    //=------------------------------------------------------------------------=
-    
     func testMagnitude() {
         let abc = M(x64:(0, 1, 2, 3))
         
@@ -81,10 +69,6 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
             _ = T(truncatingIfNeeded: abc)
         }
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x (U)Int64, Int64
-    //=------------------------------------------------------------------------=
     
     func testInt64() {
         let abc = Int64.max
@@ -129,7 +113,7 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     typealias M = T.Magnitude
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Int
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testInt() {
@@ -143,10 +127,6 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
         }
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x UInt
-    //=------------------------------------------------------------------------=
-    
     func testUInt() {
         let abc = UInt.max
         
@@ -157,10 +137,6 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
             _ = T(truncatingIfNeeded: abc)
         }
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Signitude
-    //=------------------------------------------------------------------------=
     
     func testSignitude() {
         let abc = S(x64:(0, 1, 2, 3))
@@ -173,10 +149,6 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
         }
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Magnitude
-    //=------------------------------------------------------------------------=
-    
     func testMagnitude() {
         let abc = M(x64:(0, 1, 2, 3))
         
@@ -187,10 +159,6 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
             _ = T(truncatingIfNeeded: abc)
         }
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x (U)Int64, Int64
-    //=------------------------------------------------------------------------=
     
     func testInt64() {
         let abc = Int64.max

@@ -43,11 +43,11 @@ extension ANKSigned {
     }
     
     @inlinable public var isLessThanZero: Bool {
-        self.sign == .minus && !self.magnitude.isZero
+        self.sign != .plus && !self.magnitude.isZero
     }
     
     @inlinable public var isMoreThanZero: Bool {
-        self.sign == .plus  && !self.magnitude.isZero
+        self.sign == .plus && !self.magnitude.isZero
     }
     
     //=------------------------------------------------------------------------=
@@ -55,6 +55,7 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @inlinable public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.normalizedSign); hasher.combine(self.magnitude)
+        hasher.combine(self.normalizedSign)
+        hasher.combine(self.magnitude/*-*/)
     }
 }

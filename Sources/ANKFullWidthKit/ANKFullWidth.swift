@@ -34,7 +34,7 @@ import ANKFoundation
 /// ```
 ///
 @frozen public struct ANKFullWidth<High, Low>: WoRdS, ANKBitPattern,
-ANKLargeFixedWidthInteger, ANKTwosComplement, ANKTextualizableInteger where
+ANKLargeFixedWidthInteger, ANKTwosComplement, ANKBigEndianTextCodable where
 High: ANKLargeFixedWidthInteger & ANKTwosComplement,
 Low:  ANKUnsignedLargeFixedWidthInteger<UInt> & ANKTwosComplement,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
@@ -47,9 +47,9 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
         
     public typealias Magnitude = ANKFullWidth<High.Magnitude, Low>
     
-    @usableFromInline typealias Plus1 = ANKFullWidth<Digit, Magnitude>
+    public typealias Plus1 = ANKFullWidth<Digit, Magnitude>
     
-    @usableFromInline typealias DoubleWidth = ANKFullWidth<Self, Magnitude>
+    public typealias DoubleWidth = ANKFullWidth<Self, Magnitude>
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

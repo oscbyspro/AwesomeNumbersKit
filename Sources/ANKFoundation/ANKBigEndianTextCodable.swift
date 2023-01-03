@@ -8,16 +8,16 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * ANK x Binary Integer x Textualizable
+// MARK: * ANK x Binary Integer x Big Endian Text Codable
 //*============================================================================*
 
-public protocol ANKTextualizableInteger: BinaryInteger, ExpressibleByStringLiteral {
+public protocol ANKBigEndianTextCodable: BinaryInteger, ExpressibleByStringLiteral {
 
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self?
+    @inlinable static func decodeBigEndianText(_ source: some StringProtocol,  radix: Int?) -> Self?
     
     @inlinable static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String
 }
@@ -26,7 +26,7 @@ public protocol ANKTextualizableInteger: BinaryInteger, ExpressibleByStringLiter
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension ANKTextualizableInteger {
+extension ANKBigEndianTextCodable {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -59,7 +59,7 @@ extension String {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(encoding source: some ANKTextualizableInteger, radix: Int = 10, uppercase: Bool = false) {
+    @_transparent public init(encoding source: some ANKBigEndianTextCodable, radix: Int = 10, uppercase: Bool = false) {
         self = type(of: source).encodeBigEndianText(source, radix: radix, uppercase: uppercase)
     }
 }
