@@ -31,7 +31,7 @@ final class Int256TestsOnComparison: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testEquatable() {
+    func testEquating() {
         XCTAssert(T(-1) == T(-1))
         XCTAssert(T( 0) == T( 0))
         XCTAssert(T( 1) == T( 1))
@@ -54,7 +54,7 @@ final class Int256TestsOnComparison: XCTestCase {
         XCTAssertEqual(T(x64:(w, w, w, w)), T(x64:(w, w, w, w)))
     }
     
-    func testComparable() {
+    func testComparing() {
         XCTAssertFalse(T( 0) < T( 0))
         XCTAssertFalse(T( 0) > T( 0))
         XCTAssertFalse(T( 1) < T( 1))
@@ -80,7 +80,7 @@ final class Int256TestsOnComparison: XCTestCase {
         XCTAssert(T(x64:(w, w, w, w)) < T(x64:(w, w, w, 0)))
     }
     
-    func testHashable() {
+    func testHashing() {
         var set = Set<T>()
         set.insert(T(x64:(0, 0, 0, 0)))
         set.insert(T(x64:(1, 0, 0, 0)))
@@ -145,7 +145,7 @@ final class UInt256TestsOnComparison: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testEquatable() {
+    func testEquating() {
         XCTAssert(T(0) == T(0))
         XCTAssert(T(1) == T(1))
         
@@ -161,7 +161,7 @@ final class UInt256TestsOnComparison: XCTestCase {
         XCTAssertEqual(T(x64:(w, w, w, w)), T(x64:(w, w, w, w)))
     }
     
-    func testComparable() {
+    func testComparing() {
         XCTAssert(T(0) < T(1))
         XCTAssert(T(1) > T(0))
         XCTAssert(T(1) < T(2))
@@ -181,7 +181,7 @@ final class UInt256TestsOnComparison: XCTestCase {
         XCTAssert(T(x64:(w, w, w, w)) > T(x64:(w, w, w, 0)))
     }
     
-    func testHashable() {
+    func testHashing() {
         var set = Set<T>()
         set.insert(T(x64:(0, 0, 0, 0)))
         set.insert(T(x64:(1, 0, 0, 0)))

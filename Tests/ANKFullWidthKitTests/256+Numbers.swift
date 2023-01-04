@@ -347,4 +347,5 @@ final class UInt256TestsOnNumbers: XCTestCase {
         XCTAssertNil(T(exactly: Float64.greatestFiniteMagnitude))
     }
 }
+
 #endif

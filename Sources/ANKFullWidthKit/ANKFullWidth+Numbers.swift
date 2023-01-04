@@ -75,7 +75,7 @@ extension ANKFullWidth {
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(_exactlyAsGeneric: source)
+        self.init(_exactlyAsBinaryInteger: source)
     }
     
     @inlinable public init(clamping source: some BinaryInteger) {
@@ -110,7 +110,7 @@ extension ANKFullWidth {
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(_clampingAsGeneric: source)
+        self.init(_clampingAsBinaryInteger: source)
     }
     
     @inlinable public init(truncatingIfNeeded source: some BinaryInteger) {
@@ -145,7 +145,7 @@ extension ANKFullWidth {
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(_truncatingIfNeededAsGeneric: source)
+        self.init(_truncatingIfNeededAsBinaryInteger: source)
     }
 }
 
@@ -234,7 +234,7 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init?<T>(_exactlyAsGeneric source: T) where T: BinaryInteger {
+    @inlinable init?(_exactlyAsBinaryInteger source: some BinaryInteger) {
         let (value, words, index, sign, isLessThanZero) = Self._copy(source)
         //=--------------------------------------=
         if value.isLessThanZero == isLessThanZero && words[index...].allSatisfy({ $0 == sign }) { self = value; return }
@@ -242,7 +242,7 @@ extension ANKFullWidth {
         return nil
     }
     
-    @inlinable init<T>(_clampingAsGeneric source: T) where T: BinaryInteger {
+    @inlinable init(_clampingAsBinaryInteger source: some BinaryInteger) {
         let (value, words, index, sign, isLessThanZero) = Self._copy(source)
         //=--------------------------------------=
         if value.isLessThanZero == isLessThanZero && words[index...].allSatisfy({ $0 == sign }) { self = value; return }
@@ -250,7 +250,7 @@ extension ANKFullWidth {
         self = isLessThanZero ? Self.min : Self.max
     }
     
-    @inlinable init<T>(_truncatingIfNeededAsGeneric source: T) where T: BinaryInteger {
+    @inlinable init(_truncatingIfNeededAsBinaryInteger source: some BinaryInteger) {
         (self, _, _, _, _) = Self._copy(source)
     }
     

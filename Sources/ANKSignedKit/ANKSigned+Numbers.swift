@@ -53,7 +53,7 @@ extension ANKSigned {
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(_exactlyAsGeneric: source)
+        self.init(_exactlyAsBinaryInteger: source)
     }
     
     @inlinable public init(clamping source: some BinaryInteger) {
@@ -74,7 +74,7 @@ extension ANKSigned {
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(_clampingAsGeneric: source)
+        self.init(_clampingAsBinaryInteger: source)
     }
     
     @inlinable public init(truncatingIfNeeded source: some BinaryInteger) {
@@ -95,7 +95,7 @@ extension ANKSigned {
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(_truncatingIfNeededAsGeneric: source)
+        self.init(_truncatingIfNeededAsBinaryInteger: source)
     }
 }
 
@@ -132,19 +132,19 @@ extension ANKSigned {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init?<T>(_exactlyAsGeneric source: T) where T: BinaryInteger {
+    @inlinable init?<T>(_exactlyAsBinaryInteger source: T) where T: BinaryInteger {
         let sign = ANKSign(source < 0)
         guard let magnitude = Magnitude(exactly: source.magnitude) else { return nil }
         self.init(magnitude, as: sign)
     }
     
-    @inlinable init<T>(_clampingAsGeneric source: T) where T: BinaryInteger {
+    @inlinable init<T>(_clampingAsBinaryInteger source: T) where T: BinaryInteger {
         let sign = ANKSign(source < 0)
         let magnitude = Magnitude(clamping: source.magnitude)
         self.init(magnitude, as: sign)
     }
     
-    @inlinable init<T>(_truncatingIfNeededAsGeneric source: T) where T: BinaryInteger {
+    @inlinable init<T>(_truncatingIfNeededAsBinaryInteger source: T) where T: BinaryInteger {
         fatalError("TODO")
     }
 }

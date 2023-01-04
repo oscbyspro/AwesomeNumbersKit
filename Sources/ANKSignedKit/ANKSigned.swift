@@ -9,7 +9,6 @@
 
 import ANKFoundation
 
-#warning("TODO")
 //*============================================================================*
 // MARK: * ANK x Signed
 //*============================================================================*
@@ -35,8 +34,13 @@ import ANKFoundation
     // MARK: State
     //=------------------------------------------------------------------------=
     
+    #if _endian(big)
     public var sign: ANKSign
     public var magnitude: Magnitude
+    #else
+    public var magnitude: Magnitude
+    public var sign: ANKSign
+    #endif
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -53,14 +57,15 @@ import ANKFoundation
     }
     
     @inlinable public init(bit: Bool) {
-        fatalError("TODO")
+        self.sign = .plus
+        self.magnitude = Magnitude(bit: bit)
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    /// Returns `.plus` when `magnitude.isZero` and `sign` otherwise.
+    /// Returns `.plus` when `magnitude.isZero` and returns `sign` otherwise.
     @inlinable public var normalizedSign: ANKSign {
         self.magnitude.isZero ? .plus : self.sign
     }

@@ -61,9 +61,29 @@ final class SignedTestsOnComparison: XCTestCase {
         XCTAssert(T(1, as: .minus) < T(0, as: .minus))
     }
     
+    func testHashing() {
+        var set = Set<T>()
+        set.insert(T(0, as: .plus ))
+        set.insert(T(0, as: .plus ))
+        set.insert(T(0, as: .minus))
+        set.insert(T(0, as: .minus))
+        set.insert(T(1, as: .plus ))
+        set.insert(T(1, as: .plus ))
+        set.insert(T(1, as: .minus))
+        set.insert(T(1, as: .minus))
+        XCTAssertEqual(set.count, 3)
+    }
+    
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Zero
     //=------------------------------------------------------------------------=
+    
+    func testIsZero() {
+        XCTAssertEqual(T(0, as: .plus ).isZero, true )
+        XCTAssertEqual(T(0, as: .minus).isZero, true )
+        XCTAssertEqual(T(1, as: .plus ).isZero, false)
+        XCTAssertEqual(T(1, as: .minus).isZero, false)
+    }
     
     func testIsLessThanZero() {
         XCTAssertEqual(T(0, as: .plus ).isLessThanZero, false)
@@ -79,22 +99,6 @@ final class SignedTestsOnComparison: XCTestCase {
         
         XCTAssertEqual(T(1, as: .plus ).isMoreThanZero, true )
         XCTAssertEqual(T(1, as: .minus).isMoreThanZero, false)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testHashValue()  {
-        XCTAssert(T(0, as: .plus ).hashValue == T(0, as: .plus ).hashValue)
-        XCTAssert(T(0, as: .plus ).hashValue == T(0, as: .minus).hashValue)
-        XCTAssert(T(0, as: .minus).hashValue == T(0, as: .plus ).hashValue)
-        XCTAssert(T(0, as: .minus).hashValue == T(0, as: .minus).hashValue)
-        
-        XCTAssert(T(1, as: .plus ).hashValue == T(1, as: .plus ).hashValue)
-        XCTAssert(T(1, as: .plus ).hashValue != T(1, as: .minus).hashValue)
-        XCTAssert(T(1, as: .minus).hashValue != T(1, as: .plus ).hashValue)
-        XCTAssert(T(1, as: .minus).hashValue == T(1, as: .minus).hashValue)
     }
 }
 
