@@ -43,4 +43,32 @@
     @inlinable public func toggled() -> Self {
         self == .plus ? .minus : .plus
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func &=(lhs: inout Self, rhs: Self) {
+        lhs = lhs & rhs
+    }
+    
+    @inlinable public static func &(lhs: Self, rhs: Self) -> Self {
+        lhs == rhs ? lhs : .plus
+    }
+    
+    @inlinable public static func |=(lhs: inout Self, rhs: Self) {
+        lhs = lhs | rhs
+    }
+    
+    @inlinable public static func |(lhs: Self, rhs: Self) -> Self {
+        lhs == rhs ? lhs : .minus
+    }
+    
+    @inlinable public static func ^=(lhs: inout Self, rhs: Self) {
+        lhs = lhs ^ rhs
+    }
+    
+    @inlinable public static func ^(lhs: Self, rhs: Self) -> Self {
+        lhs == rhs ? .plus : .minus
+    }
 }

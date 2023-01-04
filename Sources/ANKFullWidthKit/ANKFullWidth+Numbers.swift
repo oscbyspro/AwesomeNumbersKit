@@ -8,6 +8,7 @@
 //=----------------------------------------------------------------------------=
 
 import ANKFoundation
+import ANKSignedKit
 
 //*============================================================================*
 // MARK: * ANK x Full Width x Numbers x Integer
@@ -73,6 +74,13 @@ extension ANKFullWidth {
             return
         }
         //=--------------------------------------=
+        // Signed<Magnitude>
+        //=--------------------------------------=
+        if  let source = source as? ANKSigned<Magnitude> {
+            self.init(_exactlyAsSignedMagnitude: source)
+            return
+        }
+        //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
         self.init(_exactlyAsBinaryInteger: source)
@@ -108,6 +116,13 @@ extension ANKFullWidth {
             return
         }
         //=--------------------------------------=
+        // Signed<Magnitude>
+        //=--------------------------------------=
+        if  let source = source as? ANKSigned<Magnitude> {
+            self.init(_clampingAsSignedMagnitude: source)
+            return
+        }
+        //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
         self.init(_clampingAsBinaryInteger: source)
@@ -140,6 +155,13 @@ extension ANKFullWidth {
         //=--------------------------------------=
         if  let source = source as? Magnitude {
             self.init(_truncatingIfNeededAsMagnitude: source)
+            return
+        }
+        //=--------------------------------------=
+        // Signed<Magnitude>
+        //=--------------------------------------=
+        if  let source = source as? ANKSigned<Magnitude> {
+            self.init(_truncatingIfNeededAsSignedMagnitude: source)
             return
         }
         //=--------------------------------------=
@@ -221,6 +243,47 @@ extension ANKFullWidth {
     
     @_transparent @usableFromInline init(_truncatingIfNeededAsMagnitude source: Magnitude) {
         self.init(bitPattern: source)
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Full Width x Numbers x Integer x Signed<Magnitude>
+//*============================================================================*
+
+extension ANKFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init?(_exactlyAsSignedMagnitude source: ANKSigned<Magnitude>) {
+        let sourceIsLessThanZero = source.isLessThanZero
+        //=--------------------------------------=
+        if  Self.isSigned {
+            self.init(bitPattern: source.magnitude)
+            if sourceIsLessThanZero {  self.formTwosComplement()  }
+            if sourceIsLessThanZero != self.isLessThanZero { return nil }
+        }   else {
+            if sourceIsLessThanZero { return nil }
+            self.init(bitPattern: source.magnitude)
+        }
+    }
+    
+    @inlinable init(_clampingAsSignedMagnitude source: ANKSigned<Magnitude>) {
+        let sourceIsLessThanZero = source.isLessThanZero
+        //=--------------------------------------=
+        if  Self.isSigned {
+            self.init(bitPattern: source.magnitude)
+            if sourceIsLessThanZero {  self.formTwosComplement()  }
+            if sourceIsLessThanZero != self.isLessThanZero { self = sourceIsLessThanZero ? .min : .max }
+        }   else {
+            if sourceIsLessThanZero {  self.init(); return }
+            self.init(bitPattern: source.magnitude)
+        }
+    }
+    
+    @inlinable init(_truncatingIfNeededAsSignedMagnitude source: ANKSigned<Magnitude>) {
+        self.init(bitPattern: source.sign == .plus ? source.magnitude : source.magnitude.twosComplement())
     }
 }
 

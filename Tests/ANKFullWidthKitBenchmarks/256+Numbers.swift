@@ -10,6 +10,7 @@
 #if !DEBUG
 
 import ANKFullWidthKit
+import ANKSignedKit
 import XCTest
 
 //*============================================================================*
@@ -100,6 +101,29 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
             _ = T(exactly:  abc)
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x ANKSignedKit
+    //=------------------------------------------------------------------------=
+    
+    func testSignedMagnitude() {
+        let abc = Signed(M(x64:(0, 1, 2, 3)), as: .plus )
+        let xyz = Signed(M(x64:(0, 1, 2, 3)), as: .minus)
+        
+        for _ in 0 ..< 1_000 {
+            _ = T(abc)
+            _ = T(xyz)
+
+            _ = T(exactly:  abc)
+            _ = T(exactly:  xyz)
+
+            _ = T(clamping: abc)
+            _ = T(clamping: xyz)
+            
+            _ = T(truncatingIfNeeded: abc)
+            _ = T(truncatingIfNeeded: xyz)
+        }
+    }
 }
 
 //*============================================================================*
@@ -188,6 +212,29 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
             _ = T(exactly:  abc)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x ANKSignedKit
+    //=------------------------------------------------------------------------=
+    
+    func testSignedMagnitude() {
+        let abc = Signed(M(x64:(0, 1, 2, 3)), as: .plus )
+        let xyz = Signed(M(x64:(0, 1, 2, 3)), as: .minus)
+        
+        for _ in 0 ..< 1_000 {
+            _ = T(abc)
+            /*------*/
+            
+            _ = T(exactly:  abc)
+            _ = T(exactly:  xyz)
+
+            _ = T(clamping: abc)
+            _ = T(clamping: xyz)
+            
+            _ = T(truncatingIfNeeded: abc)
+            _ = T(truncatingIfNeeded: xyz)
         }
     }
 }
