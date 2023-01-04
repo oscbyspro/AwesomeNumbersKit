@@ -7,16 +7,16 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if DEBUG
+#if !DEBUG
 
 import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * ANK x Signed
+// MARK: * Signed x Subtraction
 //*============================================================================*
 
-final class SignedTests: XCTestCase {
+final class SignedBenchmarksOnSubtraction: XCTestCase {
     
     typealias T = ANKSigned<UInt>
     
@@ -24,17 +24,13 @@ final class SignedTests: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInit() {
-        XCTAssertEqual(T().sign,  .plus)
-        XCTAssertEqual(T().magnitude, 0)
-    }
-    
-    func testInitWithSignMagnitude() {
-        XCTAssertEqual(T(0, as: .plus ).sign, .plus )
-        XCTAssertEqual(T(0, as: .minus).sign, .minus)
+    func testAdding() {
+        let lhs = T(UInt.max, as: .plus)
+        let rhs = T(UInt.max, as: .plus)
         
-        XCTAssertEqual(T(1, as: .plus ).sign, .plus )
-        XCTAssertEqual(T(1, as: .minus).sign, .minus)
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs - rhs
+        }
     }
 }
 

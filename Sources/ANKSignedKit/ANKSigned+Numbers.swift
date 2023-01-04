@@ -27,7 +27,7 @@ extension ANKSigned {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(_ source: some BinaryInteger) {
+    @inlinable public init(_ source: some BinaryInteger) {
         guard let value = Self(exactly: source) else {
             preconditionFailure("\(source) is not in \(Self.self)'s representable range")
         }
@@ -35,7 +35,7 @@ extension ANKSigned {
         self = value
     }
     
-    @_transparent public init?(exactly source: some BinaryInteger) {
+    @inlinable public init?(exactly source: some BinaryInteger) {
         //=--------------------------------------=
         // Self
         //=--------------------------------------=
@@ -43,12 +43,6 @@ extension ANKSigned {
             self = source
             return
         }
-        //=--------------------------------------=
-        // TODO: Int
-        //=--------------------------------------=
-        //=--------------------------------------=
-        // TODO: UInt
-        //=--------------------------------------=
         //=--------------------------------------=
         // Magnitude
         //=--------------------------------------=
@@ -62,7 +56,7 @@ extension ANKSigned {
         self.init(_exactlyAsGeneric: source)
     }
     
-    @_transparent public init(clamping source: some BinaryInteger) {
+    @inlinable public init(clamping source: some BinaryInteger) {
         //=--------------------------------------=
         // Self
         //=--------------------------------------=
@@ -70,12 +64,6 @@ extension ANKSigned {
             self = source
             return
         }
-        //=--------------------------------------=
-        // TODO: Int
-        //=--------------------------------------=
-        //=--------------------------------------=
-        // TODO: UInt
-        //=--------------------------------------=
         //=--------------------------------------=
         // Magnitude
         //=--------------------------------------=
@@ -89,7 +77,7 @@ extension ANKSigned {
         self.init(_clampingAsGeneric: source)
     }
     
-    @_transparent public init(truncatingIfNeeded source: some BinaryInteger) {
+    @inlinable public init(truncatingIfNeeded source: some BinaryInteger) {
         //=--------------------------------------=
         // Self
         //=--------------------------------------=
@@ -97,12 +85,6 @@ extension ANKSigned {
             self = source
             return
         }
-        //=--------------------------------------=
-        // TODO: Int
-        //=--------------------------------------=
-        //=--------------------------------------=
-        // TODO: UInt
-        //=--------------------------------------=
         //=--------------------------------------=
         // Magnitude
         //=--------------------------------------=
@@ -151,11 +133,15 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @inlinable init?<T>(_exactlyAsGeneric source: T) where T: BinaryInteger {
-        fatalError("TODO")
+        let sign = ANKSign(source < 0)
+        guard let magnitude = Magnitude(exactly: source.magnitude) else { return nil }
+        self.init(magnitude, as: sign)
     }
     
     @inlinable init<T>(_clampingAsGeneric source: T) where T: BinaryInteger {
-        fatalError("TODO")
+        let sign = ANKSign(source < 0)
+        let magnitude = Magnitude(clamping: source.magnitude)
+        self.init(magnitude, as: sign)
     }
     
     @inlinable init<T>(_truncatingIfNeededAsGeneric source: T) where T: BinaryInteger {

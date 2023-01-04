@@ -35,7 +35,7 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(_ source: some BinaryInteger) {
+    @inlinable public init(_ source: some BinaryInteger) {
         guard let value = Self(exactly: source) else {
             preconditionFailure("\(source) is not in \(Self.self)'s representable range")
         }
@@ -43,7 +43,7 @@ extension ANKFullWidth {
         self = value
     }
     
-    @_transparent public init?(exactly source: some BinaryInteger) {
+    @inlinable public init?(exactly source: some BinaryInteger) {
         //=--------------------------------------=
         // Self
         //=--------------------------------------=
@@ -78,7 +78,7 @@ extension ANKFullWidth {
         self.init(_exactlyAsGeneric: source)
     }
     
-    @_transparent public init(clamping source: some BinaryInteger) {
+    @inlinable public init(clamping source: some BinaryInteger) {
         //=--------------------------------------=
         // Self
         //=--------------------------------------=
@@ -113,7 +113,7 @@ extension ANKFullWidth {
         self.init(_clampingAsGeneric: source)
     }
     
-    @_transparent public init(truncatingIfNeeded source: some BinaryInteger) {
+    @inlinable public init(truncatingIfNeeded source: some BinaryInteger) {
         //=--------------------------------------=
         // Self
         //=--------------------------------------=

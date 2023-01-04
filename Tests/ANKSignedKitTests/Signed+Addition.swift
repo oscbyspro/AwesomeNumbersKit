@@ -13,10 +13,10 @@ import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * ANK x Signed
+// MARK: * Signed x Addition
 //*============================================================================*
 
-final class SignedTests: XCTestCase {
+final class SignedTestsOnAddition: XCTestCase {
     
     typealias T = ANKSigned<UInt>
     
@@ -24,17 +24,24 @@ final class SignedTests: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInit() {
-        XCTAssertEqual(T().sign,  .plus)
-        XCTAssertEqual(T().magnitude, 0)
-    }
-    
-    func testInitWithSignMagnitude() {
-        XCTAssertEqual(T(0, as: .plus ).sign, .plus )
-        XCTAssertEqual(T(0, as: .minus).sign, .minus)
+    func testAdding() {
+        XCTAssertEqual(T( 1) + T(-2), T(-1))
+        XCTAssertEqual(T( 1) + T(-1), T( 0))
+        XCTAssertEqual(T( 1) + T( 0), T( 1))
+        XCTAssertEqual(T( 1) + T( 1), T( 2))
+        XCTAssertEqual(T( 1) + T( 2), T( 3))
         
-        XCTAssertEqual(T(1, as: .plus ).sign, .plus )
-        XCTAssertEqual(T(1, as: .minus).sign, .minus)
+        XCTAssertEqual(T( 0) + T(-2), T(-2))
+        XCTAssertEqual(T( 0) + T(-1), T(-1))
+        XCTAssertEqual(T( 0) + T( 0), T( 0))
+        XCTAssertEqual(T( 0) + T( 1), T( 1))
+        XCTAssertEqual(T( 0) + T( 2), T( 2))
+
+        XCTAssertEqual(T(-1) + T(-2), T(-3))
+        XCTAssertEqual(T(-1) + T(-1), T(-2))
+        XCTAssertEqual(T(-1) + T( 0), T(-1))
+        XCTAssertEqual(T(-1) + T( 1), T( 0))
+        XCTAssertEqual(T(-1) + T( 2), T( 1))
     }
 }
 

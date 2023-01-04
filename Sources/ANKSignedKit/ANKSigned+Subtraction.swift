@@ -18,10 +18,20 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func -=(lhs: inout Self, rhs: Self) {
-        fatalError("TODO")
+        //=--------------------------------------=
+        if  lhs.sign != rhs.sign {
+            lhs.magnitude += rhs.magnitude
+        //=--------------------------------------=
+        }   else if lhs.magnitude >= rhs.magnitude {
+            lhs.magnitude -= rhs.magnitude
+        //=--------------------------------------=
+        }   else {
+            lhs.sign  = rhs.sign.toggled()
+            lhs.magnitude  = rhs.magnitude - lhs.magnitude
+        }
     }
     
-    @inlinable public static func -(lhs: Self, rhs: Self) -> Self {
-        fatalError("TODO")
+    @_transparent public static func -(lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs -= rhs; return lhs
     }
 }
