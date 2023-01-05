@@ -38,10 +38,10 @@ ANKLargeFixedWidthInteger, ANKTwosComplement, ANKBigEndianTextCodable where
 High: ANKLargeFixedWidthInteger & ANKTwosComplement,
 Low:  ANKUnsignedLargeFixedWidthInteger<UInt> & ANKTwosComplement,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
-        
-    public typealias Digit = High.Digit
-        
+    
     public typealias IntegerLiteralType = Int
+    
+    public typealias Digit = High.Digit
     
     public typealias BitPattern = Magnitude
         

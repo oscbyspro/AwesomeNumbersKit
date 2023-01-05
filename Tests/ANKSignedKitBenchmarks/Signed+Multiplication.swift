@@ -7,23 +7,31 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import ANKFoundation
+#if !DEBUG
+
+import ANKSignedKit
+import XCTest
 
 //*============================================================================*
-// MARK: * ANK x Signed x Multiplication
+// MARK: * Signed x Multiplication
 //*============================================================================*
 
-extension ANKSigned {
+final class SignedBenchmarksOnMultiplication: XCTestCase {
+    
+    typealias T = Signed<UInt>
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Tests
     //=------------------------------------------------------------------------=
+    
+    func testMultiplying() {
+        let lhs = T(4, as: .plus )
+        let rhs = T(4, as: .minus)
         
-    @inlinable public static func *=(lhs: inout Self, rhs: Self) {
-        lhs = lhs * rhs
-    }
-    
-    @inlinable public static func *(lhs: Self, rhs: Self) -> Self {
-        Self(lhs.magnitude * rhs.magnitude, as: lhs.sign ^ rhs.sign)
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs * rhs
+        }
     }
 }
+
+#endif

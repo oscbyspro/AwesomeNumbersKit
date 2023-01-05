@@ -130,7 +130,7 @@ extension ANKFullWidth {
 // MARK: + Unsigned
 //=----------------------------------------------------------------------------=
 
-extension ANKFullWidth where Magnitude == Self {
+extension ANKFullWidth where Self == Magnitude {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -147,13 +147,9 @@ extension ANKFullWidth where Magnitude == Self {
         let divisor_ = divisor.minLastIndexReportingIsZeroOrMinusOne()
         precondition(!divisor_.isZeroOrMinusOne, "division by zero")
         //=--------------------------------------=
-        // Fast, Dividend <= Divisor
-        //=--------------------------------------=
         if  self <= divisor {
             return (self == divisor) ? QR(1, Self()) : QR(Self(), self)
         }
-        //=--------------------------------------=
-        // Fast, Divisor Is One Word
         //=--------------------------------------=
         if  divisor_.minLastIndex.isZero {
             let qr: QR<Self, Digit> = self.quotientAndRemainder(dividingBy: divisor.first)
