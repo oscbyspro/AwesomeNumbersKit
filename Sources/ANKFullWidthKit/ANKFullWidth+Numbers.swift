@@ -264,7 +264,7 @@ extension ANKFullWidth {
             if sourceIsLessThanZero {  self.formTwosComplement()  }
             if sourceIsLessThanZero != self.isLessThanZero { return nil }
         }   else {
-            if sourceIsLessThanZero { return nil }
+            if sourceIsLessThanZero {  return nil }
             self.init(bitPattern: source.magnitude)
         }
     }
@@ -283,7 +283,7 @@ extension ANKFullWidth {
     }
     
     @inlinable init(_truncatingIfNeededAsSignedMagnitude source: ANKSigned<Magnitude>) {
-        self.init(bitPattern: source.sign == .plus ? source.magnitude : source.magnitude.twosComplement())
+        self.init(bitPattern: source.sign != .plus ? source.magnitude.twosComplement() : source.magnitude)
     }
 }
 
