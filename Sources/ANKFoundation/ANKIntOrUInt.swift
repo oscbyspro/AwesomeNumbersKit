@@ -14,21 +14,6 @@
 public protocol ANKIntOrUInt: ANKLargeFixedWidthInteger<Self>, ANKBitPattern<UInt>, ANKTwosComplement where Magnitude == UInt { }
 
 //=----------------------------------------------------------------------------=
-// MARK: + Details
-//=----------------------------------------------------------------------------=
-
-extension ANKIntOrUInt {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public init(repeating word: UInt) {
-        self.init(_truncatingBits: word)
-    }
-}
-
-//=----------------------------------------------------------------------------=
 // MARK: + Fixes Marked As Unavailable in /Integers.swift
 //=----------------------------------------------------------------------------=
 

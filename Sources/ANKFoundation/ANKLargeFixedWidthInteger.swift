@@ -12,20 +12,8 @@
 //*============================================================================*
 
 /// A large fixed-width integer with additional requirements and capabilities.
-///
-/// ```
-/// self.bitWidth / UInt.bitWidth >= 1
-/// self.bitWidth % UInt.bitWidth == 0
-/// ```
-/// 
 public protocol ANKLargeFixedWidthInteger<Digit>: ANKFixedWidthInteger, ANKLargeBinaryInteger where
 Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @inlinable init(repeating word: UInt)
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations x Addition

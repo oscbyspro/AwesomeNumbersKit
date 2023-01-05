@@ -103,10 +103,6 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
         self.init(descending:(High(repeating:  bit), Low(repeating:  bit)))
     }
     
-    @inlinable public init(repeating word: UInt) {
-        self.init(descending:(High(repeating: word), Low(repeating: word)))
-    }
-    
     //=------------------------------------------------------------------------=
     // MARK: Details x Bit Pattern
     //=------------------------------------------------------------------------=

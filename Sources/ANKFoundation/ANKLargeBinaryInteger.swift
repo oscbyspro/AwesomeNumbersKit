@@ -12,12 +12,6 @@
 //*============================================================================*
 
 /// A large binary integer with additional requirements and capabilities.
-///
-/// ```
-/// self.bitWidth / UInt.bitWidth >= 1
-/// self.bitWidth % UInt.bitWidth == 0
-/// ```
-/// 
 public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: ANKUnsignedLargeBinaryInteger {
     
     associatedtype Digit: ANKBinaryInteger

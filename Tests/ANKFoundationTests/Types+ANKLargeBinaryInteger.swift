@@ -13,16 +13,16 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x Fixed Width Integer x Large
+// MARK: * Types x Binary Integer x Large
 //*============================================================================*
 
-final class TypesTestsOnANKLargeFixedWidthInteger: XCTestCase {
+final class TypesTestsOnANKLargeBinaryInteger: XCTestCase {
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allLargeFixedWidthIntegerTypes
+    let types = Trivial.allLargeBinaryIntegerTypes
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
