@@ -106,8 +106,8 @@ extension ANKTrivialFixedWidthInteger {
     // MARK: Details x Bit Pattern
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(bitPattern source: BitPattern) {
-        self = unsafeBitCast(source, to: Self.self)
+    @_transparent public init(bitPattern: BitPattern) {
+        self = unsafeBitCast(bitPattern, to: Self.self)
     }
         
     @_transparent public var bitPattern: BitPattern {

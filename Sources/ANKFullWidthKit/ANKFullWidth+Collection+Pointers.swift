@@ -13,44 +13,71 @@ import ANKFoundation
 // MARK: * ANK x Full Width x Collection x Pointers
 //*============================================================================*
 
-@usableFromInline protocol _ANKFullWidthUnsafeWordsPointer: WoRdS where
-Low == Low.Magnitude, High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt {
+/// An internal, full width, unsafe words pointer protocol.
+///
+/// **Requirements**
+///
+/// ```
+/// MemoryLayout<T>.size / MemoryLayout<UInt>.size >= 1
+/// MemoryLayout<T>.size % MemoryLayout<UInt>.size == 0
+/// ```
+@usableFromInline protocol ANKFullWidthUnsafeWordsPointer: WoRdS {
     
-    associatedtype High: ANKLargeFixedWidthInteger & ANKTwosComplement
-    
-    associatedtype Low:  ANKUnsignedLargeFixedWidthInteger<UInt> & ANKTwosComplement
-    
-    typealias Layout = ANKFullWidth<High, Low>
+    associatedtype Layout: ANKBitPattern<Layout>
 }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension _ANKFullWidthUnsafeWordsPointer {
+extension ANKFullWidthUnsafeWordsPointer {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static var count: Int {
+        MemoryLayout<Layout>.stride / MemoryLayout<UInt>.stride
+    }
+    
+    @inlinable static var startIndex: Int {
+        0
+    }
+    
+    @inlinable static var endIndex: Int {
+        self.count
+    }
+    
+    @inlinable static var lastIndex: Int {
+        self.count - 1
+    }
+    
+    @inlinable static var indices: Range<Int> {
+        0 ..< self.count
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
     @_transparent public var count: Int {
-        Layout.count
+        Self.count
     }
     
     @_transparent public var startIndex: Int {
-        Layout.startIndex
+        Self.startIndex
     }
     
     @_transparent public var endIndex: Int {
-        Layout.endIndex
+        Self.endIndex
     }
     
     @_transparent public var lastIndex: Int {
-        Layout.lastIndex
+        Self.lastIndex
     }
     
     @_transparent public var indices: Range<Int> {
-        Layout.indices
+        Self.indices
     }
     
     //=------------------------------------------------------------------------=
@@ -84,7 +111,96 @@ extension _ANKFullWidthUnsafeWordsPointer {
 }
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Collection x Unsafe Buffer Pointers
+// MARK: * ANK x Full Width x Collection x Pointers x Words
+//*============================================================================*
+
+@frozen @usableFromInline struct UnsafeWordsPointer<Layout>: ANKFullWidthUnsafeWordsPointer where Layout: ANKBitPattern<Layout> {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: State
+    //=------------------------------------------------------------------------=
+    
+    @usableFromInline let base: UnsafePointer<UInt>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafePointer<T>) where T: ANKBitPattern<Layout> {
+        //=--------------------------------------=
+        assert(MemoryLayout<T>.size / MemoryLayout<UInt>.size >= 1)
+        assert(MemoryLayout<T>.size % MemoryLayout<UInt>.size == 0)
+        //=--------------------------------------=
+        self.base = UnsafeRawPointer(BIT_PATTERN).assumingMemoryBound(to: UInt.self)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @usableFromInline subscript(index: Int) -> UInt {
+        @_transparent _read {
+            assert(self.indices.contains(index))
+            #if _endian(big)
+            yield self.base[self.lastIndex &- index]
+            #else
+            yield self.base[index]
+            #endif
+        }
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Full Width x Collection x Pointers x Words x Mutable
+//*============================================================================*
+
+@frozen @usableFromInline struct UnsafeMutableWordsPointer<Layout>: ANKFullWidthUnsafeWordsPointer where Layout: ANKBitPattern<Layout> {
+        
+    //=------------------------------------------------------------------------=
+    // MARK: State
+    //=------------------------------------------------------------------------=
+    
+    @usableFromInline let base: UnsafeMutablePointer<UInt>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafeMutablePointer<T>) where T: ANKBitPattern<Layout> {
+        //=--------------------------------------=
+        assert(MemoryLayout<T>.size / MemoryLayout<UInt>.size >= 1)
+        assert(MemoryLayout<T>.size % MemoryLayout<UInt>.size == 0)
+        //=--------------------------------------=
+        self.base = UnsafeMutableRawPointer(BIT_PATTERN).assumingMemoryBound(to: UInt.self)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @usableFromInline subscript(index: Int) -> UInt {
+        @_transparent _read {
+            assert(self.indices.contains(index))
+            #if _endian(big)
+            yield self.base[self.lastIndex &- index]
+            #else
+            yield self.base[index]
+            #endif
+        }
+        
+        @_transparent nonmutating _modify {
+            assert(self.indices.contains(index))
+            #if _endian(big)
+            yield &self.base[self.lastIndex &- index]
+            #else
+            yield &self.base[index]
+            #endif
+        }
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Full Width x Collection x Pointers
 //*============================================================================*
 
 extension ANKFullWidth {
@@ -95,108 +211,27 @@ extension ANKFullWidth {
     
     /// Unsafe access to the integer's words, in order from least significant to most.
     @_transparent @usableFromInline func withUnsafeWordsPointer<T>(
-    _ body: (UnsafeWordsPointer) throws -> T) rethrows -> T {
+    _ body: (UnsafeWordsPointer<BitPattern>) throws -> T) rethrows -> T {
         try withUnsafePointer(to: self) { SELF in
-            try body(UnsafeWordsPointer(SELF))
+            try body(UnsafeWordsPointer(BIT_PATTERN: SELF))
         }
     }
     
     /// Unsafe access to the integer's words, in order from least significant to most.
     @_transparent @usableFromInline mutating func withUnsafeMutableWordsPointer<T>(
-    _ body: (UnsafeMutableWordsPointer) throws -> T) rethrows -> T {
+    _ body: (UnsafeMutableWordsPointer<BitPattern>) throws -> T) rethrows -> T {
         try withUnsafeMutablePointer(to: &self) { SELF in
-            try body(UnsafeMutableWordsPointer(SELF))
+            try body(UnsafeMutableWordsPointer(BIT_PATTERN: SELF))
         }
     }
     
     /// Unsafe access to the integer's words, in order from least significant to most.
     @_transparent @usableFromInline static func fromUnsafeMutableWordsAllocation(
-    _ body: (UnsafeMutableWordsPointer) throws -> Void) rethrows -> Self {
+    _ body: (UnsafeMutableWordsPointer<BitPattern>) throws -> Void) rethrows -> Self {
         try withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
             let SELF = BUFFER.baseAddress.unsafelyUnwrapped
-            try body(UnsafeMutableWordsPointer(SELF))
+            try body(UnsafeMutableWordsPointer(BIT_PATTERN: SELF))
             return SELF.pointee
-        }
-    }
-    
-    //*========================================================================*
-    // MARK: * Unsafe Words Buffer Pointer
-    //*========================================================================*
-    
-    @frozen @usableFromInline struct UnsafeWordsPointer: _ANKFullWidthUnsafeWordsPointer {
-                
-        //=--------------------------------------------------------------------=
-        // MARK: State
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline let base: UnsafePointer<UInt>
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Initializers
-        //=--------------------------------------------------------------------=
-        
-        @inlinable init(_ LAYOUT: UnsafePointer<Layout>) {
-            self.base = UnsafeRawPointer(LAYOUT).assumingMemoryBound(to: UInt.self)
-        }
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Accessors
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline subscript(index: Int) -> UInt {
-            @_transparent _read {
-                assert(self.indices.contains(index))
-                #if _endian(big)
-                yield self.base[self.lastIndex &- index]
-                #else
-                yield self.base[index]
-                #endif
-            }
-        }
-    }
-    
-    //*========================================================================*
-    // MARK: * Unsafe Words Buffer Pointer x Mutable
-    //*========================================================================*
- 
-    @frozen @usableFromInline struct UnsafeMutableWordsPointer: _ANKFullWidthUnsafeWordsPointer {
-        
-        //=--------------------------------------------------------------------=
-        // MARK: State
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline let base: UnsafeMutablePointer<UInt>
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Initializers
-        //=--------------------------------------------------------------------=
-        
-        @inlinable init(_ LAYOUT: UnsafeMutablePointer<Layout>) {
-            self.base = UnsafeMutableRawPointer(LAYOUT).assumingMemoryBound(to: UInt.self)
-        }
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Accessors
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline subscript(index: Int) -> UInt {
-            @_transparent _read {
-                assert(self.indices.contains(index))
-                #if _endian(big)
-                yield self.base[self.lastIndex &- index]
-                #else
-                yield self.base[index]
-                #endif
-            }
-            
-            @_transparent nonmutating _modify {
-                assert(self.indices.contains(index))
-                #if _endian(big)
-                yield &self.base[self.lastIndex &- index]
-                #else
-                yield &self.base[index]
-                #endif
-            }
         }
     }
 }
