@@ -18,9 +18,10 @@ import ANKFoundation
 /// **Requirements**
 ///
 /// ```
-/// MemoryLayout<T>.size / MemoryLayout<UInt>.size >= 1
-/// MemoryLayout<T>.size % MemoryLayout<UInt>.size == 0
+/// MemoryLayout<Layout>.size / MemoryLayout<UInt>.size >= 1
+/// MemoryLayout<Layout>.size % MemoryLayout<UInt>.size == 0
 /// ```
+///
 @usableFromInline protocol ANKFullWidthUnsafeWordsPointer: WoRdS {
     
     associatedtype Layout: ANKBitPattern<Layout>
