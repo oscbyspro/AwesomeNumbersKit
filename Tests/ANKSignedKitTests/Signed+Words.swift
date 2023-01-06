@@ -7,30 +7,53 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if !DEBUG
+#if DEBUG
 
 import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Signed x Subtraction
+// MARK: * Signed x Words
 //*============================================================================*
 
-final class SignedBenchmarksOnSubtraction: XCTestCase {
+final class SignedTestsOnWords: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
+    typealias T = Signed<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testSubtracting() {
-        let lhs = T(UInt.max, as: .plus)
-        let rhs = T(UInt.max, as: .plus)
+    func testBitWidth() {
+        XCTAssertEqual(T/**/.bitWidth, UInt.bitWidth + 1)
+        XCTAssertEqual(T(  ).bitWidth, UInt.bitWidth + 1)
+        XCTAssertEqual(T.min.bitWidth, UInt.bitWidth + 1)
+        XCTAssertEqual(T.max.bitWidth, UInt.bitWidth + 1)
+    }
+    
+    #warning("TODO")
+    func testNonzeroBitCount() {
         
-        for _ in 0 ..< 1_000_000 {
-            _ = lhs - rhs
-        }
+    }
+    
+    #warning("TODO")
+    func testLeadingZeroBitCount() {
+        
+    }
+    
+    #warning("TODO")
+    func testTrailingZeroBitCount() {
+        
+    }
+    
+    #warning("TODO")
+    func testMostSignificantBit() {
+        
+    }
+    
+    #warning("TODO")
+    func testLeastSignificantBit() {
+        
     }
 }
 

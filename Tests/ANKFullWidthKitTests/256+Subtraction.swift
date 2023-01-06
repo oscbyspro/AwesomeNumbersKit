@@ -131,21 +131,6 @@ final class Int256TestsOnSubtraction: XCTestCase {
         XCTAssert(T.min.subtractingReportingOverflow(Int(-1)) == (T.min + 1, false) as (T, Bool))
         XCTAssert(T.max.subtractingReportingOverflow(Int(-1)) == (T.min,     true ) as (T, Bool))
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Signed
-    //=------------------------------------------------------------------------=
-    
-    func testNegated() {
-        XCTAssertEqual(-T( 0), T( 0))
-        XCTAssertEqual(-T( 1), T(-1))
-        XCTAssertEqual(-T(-1), T( 1))
-    }
-    
-    func testNegatedReportingOverflow() {
-        XCTAssert(T.min.negatedReportingOverflow() == (T(x64:(0, 0, 0, w << (s - 1))), true ) as (T, Bool))
-        XCTAssert(T.max.negatedReportingOverflow() == (T(x64:(1, 0, 0, w << (s - 1))), false) as (T, Bool))
-    }
 }
 
 //*============================================================================*

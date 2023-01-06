@@ -7,6 +7,8 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import ANKFoundation
+
 //*============================================================================*
 // MARK: * ANK x Signed x Words
 //*============================================================================*
@@ -22,7 +24,7 @@ extension ANKSigned {
     }
     
     @inlinable public var bitWidth: Int {
-        fatalError("TODO")
+        self.magnitude.bitWidth + 1
     }
     
     @inlinable public var trailingZeroBitCount: Int {
@@ -41,7 +43,7 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static var bitWidth: Int {
-        fatalError("TODO")
+        Magnitude.bitWidth + 1
     }
     
     //=------------------------------------------------------------------------=
@@ -53,6 +55,25 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     }
     
     @inlinable public var leadingZeroBitCount: Int {
+        fatalError("TODO")
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Signed x ANK Fixed Width x Words
+//*============================================================================*
+
+extension ANKSigned where Magnitude: ANKFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+        
+    @inlinable public var mostSignificantBit: Bool {
+        fatalError("TODO")
+    }
+    
+    @inlinable public var leastSignificantBit: Bool {
         fatalError("TODO")
     }
 }

@@ -7,31 +7,25 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if !DEBUG
-
-import ANKSignedKit
-import XCTest
-
 //*============================================================================*
-// MARK: * Signed x Subtraction
+// MARK: * ANK x Signed x Negation
 //*============================================================================*
 
-final class SignedBenchmarksOnSubtraction: XCTestCase {
-    
-    typealias T = ANKSigned<UInt>
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testSubtracting() {
-        let lhs = T(UInt.max, as: .plus)
-        let rhs = T(UInt.max, as: .plus)
+extension ANKSigned {
         
-        for _ in 0 ..< 1_000_000 {
-            _ = lhs - rhs
-        }
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static prefix func -(x: Self) -> Self {
+        Self(x.magnitude, as: x.sign.toggled())
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func negate() {
+        self.sign.toggle()
     }
 }
-
-#endif

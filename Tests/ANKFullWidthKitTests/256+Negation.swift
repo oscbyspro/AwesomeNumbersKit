@@ -7,30 +7,39 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if !DEBUG
+#if DEBUG
 
-import ANKSignedKit
+import ANKFullWidthKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Signed x Subtraction
+// MARK: * Int256 x Negation
 //*============================================================================*
 
-final class SignedBenchmarksOnSubtraction: XCTestCase {
+final class Int256TestsOnNegation: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
+    typealias T = ANKInt256
+    
+    //=------------------------------------------------------------------------=
+    // MARK: State
+    //=------------------------------------------------------------------------=
+    
+    let w = UInt64.max
+    let s = UInt64.bitWidth
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testSubtracting() {
-        let lhs = T(UInt.max, as: .plus)
-        let rhs = T(UInt.max, as: .plus)
-        
-        for _ in 0 ..< 1_000_000 {
-            _ = lhs - rhs
-        }
+    func testNegated() {
+        XCTAssertEqual(-T( 0), T( 0))
+        XCTAssertEqual(-T( 1), T(-1))
+        XCTAssertEqual(-T(-1), T( 1))
+    }
+    
+    func testNegatedReportingOverflow() {
+        XCTAssert(T.min.negatedReportingOverflow() == (T(x64:(0, 0, 0, w << (s - 1))), true ) as (T, Bool))
+        XCTAssert(T.max.negatedReportingOverflow() == (T(x64:(1, 0, 0, w << (s - 1))), false) as (T, Bool))
     }
 }
 

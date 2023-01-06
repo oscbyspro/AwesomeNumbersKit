@@ -38,11 +38,11 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyReportingOverflow(by rhs: Self) -> Bool {
+    @inlinable public mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
         fatalError("TODO")
     }
     
-    @inlinable public func multipliedReportingOverflow(by rhs: Self) -> PVO<Self> {
+    @inlinable public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
         fatalError("TODO")
     }
     
@@ -50,11 +50,11 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyFullWidth(by other: Self) -> Self {
+    @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
         fatalError("TODO")
     }
     
-    @inlinable public func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {
+    @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
         fatalError("TODO")
     }
 }

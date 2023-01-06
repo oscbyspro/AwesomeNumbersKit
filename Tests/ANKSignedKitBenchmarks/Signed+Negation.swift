@@ -13,23 +13,22 @@ import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Signed x Subtraction
+// MARK: * Signed x Negation
 //*============================================================================*
 
-final class SignedBenchmarksOnSubtraction: XCTestCase {
+final class SignedBenchmarksOnNegation: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
+    typealias T = Signed<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testSubtracting() {
-        let lhs = T(UInt.max, as: .plus)
-        let rhs = T(UInt.max, as: .plus)
+    func testNegated() {
+        let abc = T.max
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs - rhs
+            _ = -abc
         }
     }
 }

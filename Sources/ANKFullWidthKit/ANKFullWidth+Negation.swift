@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Subtraction x Negation
+// MARK: * ANK x Full Width x Negation
 //*============================================================================*
 
 extension ANKFullWidth where Self: SignedInteger {

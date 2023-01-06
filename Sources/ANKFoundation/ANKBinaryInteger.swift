@@ -11,9 +11,13 @@
 // MARK: * ANK x Binary Integer
 //*============================================================================*
 
-/// A BinaryInteger with additional requirements and capabilities.
+/// A `BinaryInteger` with additional requirements and capabilities.
 ///
 /// All binary integers in `AwesomeNumbersKit` conform to `ANKBinaryInteger`.
+///
+/// **Two's Complement Semantics**
+///
+/// Like `BinaryInteger` all bitwise operations have two's complement semantics.
 ///
 public protocol ANKBinaryInteger: BinaryInteger where Magnitude: ANKUnsignedInteger {
     

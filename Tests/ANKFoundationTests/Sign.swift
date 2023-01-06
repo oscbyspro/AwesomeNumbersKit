@@ -24,14 +24,23 @@ final class SignTests: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testBit() {
+    func testInitWithBit() {
         XCTAssertEqual(T(false), T.plus )
         XCTAssertEqual(T(true ), T.minus)
     }
     
-    func testFloatingPointSign() {
+    func testInitWithFloatingPointSign() {
         XCTAssertEqual(T(FloatingPointSign.plus ), T.plus )
         XCTAssertEqual(T(FloatingPointSign.minus), T.minus)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests
+    //=------------------------------------------------------------------------=
+    
+    func testBit() {
+        XCTAssertEqual(T.plus .bit, false)
+        XCTAssertEqual(T.minus.bit, true )
     }
     
     //=------------------------------------------------------------------------=

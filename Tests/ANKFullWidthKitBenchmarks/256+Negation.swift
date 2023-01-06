@@ -9,27 +9,26 @@
 
 #if !DEBUG
 
-import ANKSignedKit
+import ANKFullWidthKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Signed x Subtraction
+// MARK: * Int256 x Negation
 //*============================================================================*
 
-final class SignedBenchmarksOnSubtraction: XCTestCase {
+final class Int256BenchmarksOnNegation: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
+    typealias T = ANKInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testSubtracting() {
-        let lhs = T(UInt.max, as: .plus)
-        let rhs = T(UInt.max, as: .plus)
+    func testNegated() {
+        let abc = T(x64:(0, 1, 2, 3))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs - rhs
+            _ = -abc
         }
     }
 }

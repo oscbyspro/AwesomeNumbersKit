@@ -7,10 +7,8 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import ANKFoundation
-
 //*============================================================================*
-// MARK: * ANK x Full Width x Comparison
+// MARK: * ANK x Signed x Comparison
 //*============================================================================*
 
 extension ANKSigned {
@@ -48,6 +46,10 @@ extension ANKSigned {
     
     @inlinable public var isMoreThanZero: Bool {
         self.sign == .plus && !self.magnitude.isZero
+    }
+    
+    @inlinable public func signum() -> Int {
+        self.isZero ? 0 : self.sign == .plus ? 1 : -1
     }
     
     //=------------------------------------------------------------------------=

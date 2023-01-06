@@ -11,9 +11,13 @@
 // MARK: * ANK x Fixed Width Integer
 //*============================================================================*
 
-/// A fixed-width integer with additional requirements and capabilities.
+/// A `FixedWidthInteger` with additional requirements and capabilities.
 ///
 /// All fixed width integers in `AwesomeNumbersKit` conform to `ANKFixedWidthInteger`.
+///
+/// **Two's Complement Semantics**
+///
+/// Like `FixedWidthInteger` all bitwise operations have two's complement semantics.
 ///
 public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where Magnitude: ANKUnsignedFixedWidthInteger {
     
@@ -27,7 +31,7 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable var  mostSignificantBit: Bool { get }
+    @inlinable var mostSignificantBit:  Bool { get }
         
     @inlinable var leastSignificantBit: Bool { get }
     

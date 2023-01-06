@@ -51,6 +51,10 @@ extension ANKFullWidth {
         !self.isLessThanZero && !self.isZero
     }
     
+    @inlinable public func signum() -> Int {
+        self.isLessThanZero ? -1 : self.isZero ? 0 : 1
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=

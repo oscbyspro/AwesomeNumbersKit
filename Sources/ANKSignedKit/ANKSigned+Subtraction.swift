@@ -48,11 +48,11 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func subtractReportingOverflow(_ rhs: Self) -> Bool {
+    @inlinable public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
         fatalError("TODO")
     }
     
-    @inlinable public func subtractingReportingOverflow(_ rhs: Self) -> PVO<Self> {
+    @inlinable public func subtractingReportingOverflow(_ amount: Self) -> PVO<Self> {
         fatalError("TODO")
     }
 }

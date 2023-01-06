@@ -7,30 +7,39 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if !DEBUG
+#if DEBUG
 
 import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Signed x Subtraction
+// MARK: * Signed x Negation
 //*============================================================================*
 
-final class SignedBenchmarksOnSubtraction: XCTestCase {
+final class SignedTestsOnNegation: XCTestCase {
     
     typealias T = ANKSigned<UInt>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: State
+    //=------------------------------------------------------------------------=
+    
+    let w = UInt.max
+    let s = UInt.bitWidth
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testSubtracting() {
-        let lhs = T(UInt.max, as: .plus)
-        let rhs = T(UInt.max, as: .plus)
-        
-        for _ in 0 ..< 1_000_000 {
-            _ = lhs - rhs
-        }
+    func testNegated() {
+        XCTAssertEqual(-T( 0), T( 0))
+        XCTAssertEqual(-T( 1), T(-1))
+        XCTAssertEqual(-T(-1), T( 1))
+    }
+    
+    func testNegatedSignIsAlwaysToggled() {
+        XCTAssertEqual((-T(0, as: .plus )).sign, .minus)
+        XCTAssertEqual((-T(0, as: .minus)).sign, .plus )
     }
 }
 

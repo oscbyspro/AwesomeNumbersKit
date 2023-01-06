@@ -75,7 +75,7 @@ final class SignedTestsOnComparison: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Zero
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testIsZero() {
@@ -88,7 +88,6 @@ final class SignedTestsOnComparison: XCTestCase {
     func testIsLessThanZero() {
         XCTAssertEqual(T(0, as: .plus ).isLessThanZero, false)
         XCTAssertEqual(T(0, as: .minus).isLessThanZero, false)
-        
         XCTAssertEqual(T(1, as: .plus ).isLessThanZero, false)
         XCTAssertEqual(T(1, as: .minus).isLessThanZero, true )
     }
@@ -96,9 +95,15 @@ final class SignedTestsOnComparison: XCTestCase {
     func testIsMoreThanZero() {
         XCTAssertEqual(T(0, as: .plus ).isMoreThanZero, false)
         XCTAssertEqual(T(0, as: .minus).isMoreThanZero, false)
-        
         XCTAssertEqual(T(1, as: .plus ).isMoreThanZero, true )
         XCTAssertEqual(T(1, as: .minus).isMoreThanZero, false)
+    }
+    
+    func testSignum() {
+        XCTAssertEqual(T(0, as: .plus ).signum(),  0)
+        XCTAssertEqual(T(0, as: .minus).signum(),  0)
+        XCTAssertEqual(T(1, as: .plus ).signum(),  1)
+        XCTAssertEqual(T(1, as: .minus).signum(), -1)
     }
 }
 
