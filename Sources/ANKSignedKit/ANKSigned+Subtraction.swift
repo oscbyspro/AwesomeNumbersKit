@@ -7,6 +7,8 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import ANKFoundation
+
 //*============================================================================*
 // MARK: * ANK x Signed x Subtraction
 //*============================================================================*
@@ -33,5 +35,24 @@ extension ANKSigned {
     
     @_transparent public static func -(lhs: Self, rhs: Self) -> Self {
         var lhs = lhs; lhs -= rhs; return lhs
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width x Subtraction
+//*============================================================================*
+
+extension ANKSigned where Magnitude: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func subtractReportingOverflow(_ rhs: Self) -> Bool {
+        fatalError("TODO")
+    }
+    
+    @inlinable public func subtractingReportingOverflow(_ rhs: Self) -> PVO<Self> {
+        fatalError("TODO")
     }
 }

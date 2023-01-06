@@ -37,3 +37,22 @@ extension ANKSigned {
         var lhs = lhs; lhs += rhs; return lhs
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width x Addition
+//*============================================================================*
+
+extension ANKSigned where Magnitude: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func addReportingOverflow(_ rhs: Self) -> Bool {
+        fatalError("TODO")
+    }
+    
+    @inlinable public func addingReportingOverflow(_ rhs: Self) -> PVO<Self> {
+        fatalError("TODO")
+    }
+}

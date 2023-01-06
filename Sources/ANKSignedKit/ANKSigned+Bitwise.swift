@@ -33,3 +33,18 @@ extension ANKSigned {
         fatalError("TODO")
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width x Bitwise
+//*============================================================================*
+
+extension ANKSigned where Magnitude: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var byteSwapped: Self {
+        fatalError("TODO")
+    }
+}

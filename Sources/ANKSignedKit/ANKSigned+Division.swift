@@ -80,3 +80,18 @@ extension ANKSigned {
         return QR(quotient, remainder)
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width x Division
+//*============================================================================*
+
+extension ANKSigned where Magnitude: FixedWidthInteger {
+    
+    //=----------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=----------------------------------------------------------------------------=
+    
+    @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
+        fatalError("TODO")
+    }
+}

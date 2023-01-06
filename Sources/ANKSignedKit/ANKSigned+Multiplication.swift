@@ -27,3 +27,34 @@ extension ANKSigned {
         Self(lhs.magnitude * rhs.magnitude, as: lhs.sign ^ rhs.sign)
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width x Multiplication
+//*============================================================================*
+
+extension ANKSigned where Magnitude: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func multiplyReportingOverflow(by rhs: Self) -> Bool {
+        fatalError("TODO")
+    }
+    
+    @inlinable public func multipliedReportingOverflow(by rhs: Self) -> PVO<Self> {
+        fatalError("TODO")
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func multiplyFullWidth(by other: Self) -> Self {
+        fatalError("TODO")
+    }
+    
+    @inlinable public func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {
+        fatalError("TODO")
+    }
+}

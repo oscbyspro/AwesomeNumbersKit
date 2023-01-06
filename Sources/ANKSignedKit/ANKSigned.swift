@@ -47,7 +47,7 @@ import ANKFoundation
     //=------------------------------------------------------------------------=
     
     @inlinable public init() {
-        self.sign = .plus
+        self.sign = ANKSign.plus
         self.magnitude = Magnitude()
     }
     
@@ -57,7 +57,7 @@ import ANKFoundation
     }
     
     @inlinable public init(bit: Bool) {
-        self.sign = .plus
+        self.sign = ANKSign.plus
         self.magnitude = Magnitude(bit: bit)
     }
     
@@ -67,6 +67,31 @@ import ANKFoundation
     
     /// Returns `.plus` when `magnitude.isZero` and returns `sign` otherwise.
     @inlinable public var normalizedSign: ANKSign {
-        self.magnitude.isZero ? .plus : self.sign
+        self.magnitude.isZero ? ANKSign.plus : self.sign
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width
+//*============================================================================*
+
+extension ANKSigned where Magnitude: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static var min: Self {
+        Self(Magnitude.max, as: ANKSign.minus)
+    }
+    
+    @inlinable public static var max: Self {
+        Self(Magnitude.max, as: ANKSign.plus)
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Signed x Conditional Conformances
+//*============================================================================*
+
+extension ANKSigned: FixedWidthInteger, LosslessStringConvertible where Magnitude: FixedWidthInteger { }

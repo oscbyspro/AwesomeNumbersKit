@@ -22,46 +22,39 @@ final class SignedTestsOnDivision: XCTestCase {
     typealias M = UInt
     
     //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let min = T(UInt.max, as: .minus)
-    let max = T(UInt.max, as: .plus )
-    
-    //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testDividing() {
-        XCTAssertEqual(T( 0) / T( 1),  0)
-        XCTAssertEqual(T( 0) / T( 2),  0)
-        XCTAssertEqual(T( 0) % T( 1),  0)
-        XCTAssertEqual(T( 0) % T( 2),  0)
+        XCTAssertEqual(T( 0) / T( 1),  0 as T)
+        XCTAssertEqual(T( 0) / T( 2),  0 as T)
+        XCTAssertEqual(T( 0) % T( 1),  0 as T)
+        XCTAssertEqual(T( 0) % T( 2),  0 as T)
 
-        XCTAssertEqual(T( 7) / T( 1),  7)
-        XCTAssertEqual(T( 7) / T( 2),  3)
-        XCTAssertEqual(T( 7) % T( 1),  0)
-        XCTAssertEqual(T( 7) % T( 2),  1)
+        XCTAssertEqual(T( 7) / T( 1),  7 as T)
+        XCTAssertEqual(T( 7) / T( 2),  3 as T)
+        XCTAssertEqual(T( 7) % T( 1),  0 as T)
+        XCTAssertEqual(T( 7) % T( 2),  1 as T)
                 
-        XCTAssertEqual(T( 7) / T( 3),  2)
-        XCTAssertEqual(T( 7) / T(-3), -2)
-        XCTAssertEqual(T(-7) / T( 3), -2)
-        XCTAssertEqual(T(-7) / T(-3),  2)
+        XCTAssertEqual(T( 7) / T( 3),  2 as T)
+        XCTAssertEqual(T( 7) / T(-3), -2 as T)
+        XCTAssertEqual(T(-7) / T( 3), -2 as T)
+        XCTAssertEqual(T(-7) / T(-3),  2 as T)
         
-        XCTAssertEqual(T( 7) % T( 3),  1)
-        XCTAssertEqual(T( 7) % T(-3),  1)
-        XCTAssertEqual(T(-7) % T( 3), -1)
-        XCTAssertEqual(T(-7) % T(-3), -1)
+        XCTAssertEqual(T( 7) % T( 3),  1 as T)
+        XCTAssertEqual(T( 7) % T(-3),  1 as T)
+        XCTAssertEqual(T(-7) % T( 3), -1 as T)
+        XCTAssertEqual(T(-7) % T(-3), -1 as T)
     }
     
     func testQuotientReportingOverflow() {
-        XCTAssert(min.dividedReportingOverflow(by:  T(0)) == (min,  true) as (T, Bool))
-        XCTAssert(min.dividedReportingOverflow(by: -T(1)) == (max, false) as (T, Bool))
+        XCTAssert(T.min.dividedReportingOverflow(by:  T(0)) == (T.min,  true) as (T, Bool))
+        XCTAssert(T.min.dividedReportingOverflow(by: -T(1)) == (T.max, false) as (T, Bool))
     }
 
     func testRemainderReportingOverflow() {
-        XCTAssert(min.remainderReportingOverflow(dividingBy:  T(0)) == (min,  true) as (T, Bool))
-        XCTAssert(min.remainderReportingOverflow(dividingBy: -T(1)) == (T(), false) as (T, Bool))
+        XCTAssert(T.min.remainderReportingOverflow(dividingBy:  T(0)) == (T.min,  true) as (T, Bool))
+        XCTAssert(T.min.remainderReportingOverflow(dividingBy: -T(1)) == (T(  ), false) as (T, Bool))
     }
 }
 

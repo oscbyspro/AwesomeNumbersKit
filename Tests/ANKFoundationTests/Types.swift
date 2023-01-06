@@ -16,7 +16,7 @@ import ANKFoundation
 enum Trivial {
     
     //=------------------------------------------------------------------------=
-    // MARK: State x Binary Integer
+    // MARK: State
     //=------------------------------------------------------------------------=
     
     static let allBinaryIntegerTypes: [any ANKBinaryInteger.Type] =
@@ -24,19 +24,19 @@ enum Trivial {
     UInt.self, UInt8.self, UInt16.self, UInt32.self, UInt64.self]
     
     static let allSignedIntegerTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /*-------------*/ANKSignedInteger.Type })
+    allBinaryIntegerTypes.compactMap({ $0 as? any /*-----------------*/ANKSignedInteger.Type })
     
     static let allUnsignedIntegerTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /*-----------*/ANKUnsignedInteger.Type })
+    allBinaryIntegerTypes.compactMap({ $0 as? any /*---------------*/ANKUnsignedInteger.Type })
     
     static let allLargeBinaryIntegerTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /*--------*/ANKLargeBinaryInteger.Type })
+    allBinaryIntegerTypes.compactMap({ $0 as? any /*------------*/ANKLargeBinaryInteger.Type })
     
     static let allSignedLargeBinaryIntegerTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /*--*/ANKSignedLargeBinaryInteger.Type })
+    allBinaryIntegerTypes.compactMap({ $0 as? any /*------*/ANKSignedLargeBinaryInteger.Type })
     
     static let allUnsignedLargeBinaryIntegerTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /**/ANKUnsignedLargeBinaryInteger.Type })
+    allBinaryIntegerTypes.compactMap({ $0 as? any /*----*/ANKUnsignedLargeBinaryInteger.Type })
     
     static let allFixedWidthIntegerTypes =
     allBinaryIntegerTypes.compactMap({ $0 as? any /*-------------*/ANKFixedWidthInteger.Type })
@@ -57,5 +57,5 @@ enum Trivial {
     allFixedWidthIntegerTypes.compactMap({ $0 as? any ANKUnsignedLargeFixedWidthInteger.Type })
     
     static let allEitherIntOrUIntTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any ANKIntOrUInt.Type })
+    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*-----------------*/ANKIntOrUInt.Type })
 }

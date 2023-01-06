@@ -29,3 +29,30 @@ extension ANKSigned {
         fatalError("TODO")
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width x Words
+//*============================================================================*
+
+extension ANKSigned where Magnitude: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static var bitWidth: Int {
+        fatalError("TODO")
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var nonzeroBitCount: Int {
+        fatalError("TODO")
+    }
+    
+    @inlinable public var leadingZeroBitCount: Int {
+        fatalError("TODO")
+    }
+}

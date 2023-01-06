@@ -33,25 +33,25 @@ final class Int256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividing() {
-        XCTAssertEqual(T( 0) / T( 1),  0)
-        XCTAssertEqual(T( 0) / T( 2),  0)
-        XCTAssertEqual(T( 0) % T( 1),  0)
-        XCTAssertEqual(T( 0) % T( 2),  0)
+        XCTAssertEqual(T( 0) / T( 1),  0 as T)
+        XCTAssertEqual(T( 0) / T( 2),  0 as T)
+        XCTAssertEqual(T( 0) % T( 1),  0 as T)
+        XCTAssertEqual(T( 0) % T( 2),  0 as T)
 
-        XCTAssertEqual(T( 7) / T( 1),  7)
-        XCTAssertEqual(T( 7) / T( 2),  3)
-        XCTAssertEqual(T( 7) % T( 1),  0)
-        XCTAssertEqual(T( 7) % T( 2),  1)
+        XCTAssertEqual(T( 7) / T( 1),  7 as T)
+        XCTAssertEqual(T( 7) / T( 2),  3 as T)
+        XCTAssertEqual(T( 7) % T( 1),  0 as T)
+        XCTAssertEqual(T( 7) % T( 2),  1 as T)
                 
-        XCTAssertEqual(T( 7) / T( 3),  2)
-        XCTAssertEqual(T( 7) / T(-3), -2)
-        XCTAssertEqual(T(-7) / T( 3), -2)
-        XCTAssertEqual(T(-7) / T(-3),  2)
+        XCTAssertEqual(T( 7) / T( 3),  2 as T)
+        XCTAssertEqual(T( 7) / T(-3), -2 as T)
+        XCTAssertEqual(T(-7) / T( 3), -2 as T)
+        XCTAssertEqual(T(-7) / T(-3),  2 as T)
         
-        XCTAssertEqual(T( 7) % T( 3),  1)
-        XCTAssertEqual(T( 7) % T(-3),  1)
-        XCTAssertEqual(T(-7) % T( 3), -1)
-        XCTAssertEqual(T(-7) % T(-3), -1)
+        XCTAssertEqual(T( 7) % T( 3),  1 as T)
+        XCTAssertEqual(T( 7) % T(-3),  1 as T)
+        XCTAssertEqual(T(-7) % T( 3), -1 as T)
+        XCTAssertEqual(T(-7) % T(-3), -1 as T)
         
         XCTAssertEqual(T(x64:(~2, ~0, ~0, 2)) / T(3), T(x64:(~0, ~0, ~0, 0)))
         XCTAssertEqual(T(x64:(~5, ~6, ~9, 2)) / T(3), T(x64:(~1, ~2, ~3, 0)))
@@ -82,25 +82,25 @@ final class Int256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingByInt() {
-        XCTAssertEqual(T( 0) / Int( 1),  0)
-        XCTAssertEqual(T( 0) / Int( 2),  0)
-        XCTAssertEqual(T( 0) % Int( 1),  0)
-        XCTAssertEqual(T( 0) % Int( 2),  0)
+        XCTAssertEqual(T( 0) / Int( 1),  0 as T)
+        XCTAssertEqual(T( 0) / Int( 2),  0 as T)
+        XCTAssertEqual(T( 0) % Int( 1),  0 as Int)
+        XCTAssertEqual(T( 0) % Int( 2),  0 as Int)
 
-        XCTAssertEqual(T( 7) / Int( 1),  7)
-        XCTAssertEqual(T( 7) / Int( 2),  3)
-        XCTAssertEqual(T( 7) % Int( 1),  0)
-        XCTAssertEqual(T( 7) % Int( 2),  1)
+        XCTAssertEqual(T( 7) / Int( 1),  7 as T)
+        XCTAssertEqual(T( 7) / Int( 2),  3 as T)
+        XCTAssertEqual(T( 7) % Int( 1),  0 as Int)
+        XCTAssertEqual(T( 7) % Int( 2),  1 as Int)
                 
-        XCTAssertEqual(T( 7) / Int( 3),  2)
-        XCTAssertEqual(T( 7) / Int(-3), -2)
-        XCTAssertEqual(T(-7) / Int( 3), -2)
-        XCTAssertEqual(T(-7) / Int(-3),  2)
+        XCTAssertEqual(T( 7) / Int( 3),  2 as T)
+        XCTAssertEqual(T( 7) / Int(-3), -2 as T)
+        XCTAssertEqual(T(-7) / Int( 3), -2 as T)
+        XCTAssertEqual(T(-7) / Int(-3),  2 as T)
         
-        XCTAssertEqual(T( 7) % Int( 3),  1)
-        XCTAssertEqual(T( 7) % Int(-3),  1)
-        XCTAssertEqual(T(-7) % Int( 3), -1)
-        XCTAssertEqual(T(-7) % Int(-3), -1)
+        XCTAssertEqual(T( 7) % Int( 3),  1 as Int)
+        XCTAssertEqual(T( 7) % Int(-3),  1 as Int)
+        XCTAssertEqual(T(-7) % Int( 3), -1 as Int)
+        XCTAssertEqual(T(-7) % Int(-3), -1 as Int)
         
         XCTAssertEqual(T(x64:(~2, ~0, ~0, 2)) / Int(3), T(x64:(~0, ~0, ~0, 0)))
         XCTAssertEqual(T(x64:(~5, ~6, ~9, 2)) / Int(3), T(x64:(~1, ~2, ~3, 0)))
@@ -185,15 +185,15 @@ final class UInt256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividing() {
-        XCTAssertEqual(T(0) / T(1), T(0))
-        XCTAssertEqual(T(0) / T(2), T(0))
-        XCTAssertEqual(T(0) % T(1), T(0))
-        XCTAssertEqual(T(0) % T(2), T(0))
+        XCTAssertEqual(T(0) / T(1), 0 as T)
+        XCTAssertEqual(T(0) / T(2), 0 as T)
+        XCTAssertEqual(T(0) % T(1), 0 as T)
+        XCTAssertEqual(T(0) % T(2), 0 as T)
 
-        XCTAssertEqual(T(7) / T(1), T(7))
-        XCTAssertEqual(T(7) / T(2), T(3))
-        XCTAssertEqual(T(7) % T(1), T(0))
-        XCTAssertEqual(T(7) % T(2), T(1))
+        XCTAssertEqual(T(7) / T(1), 7 as T)
+        XCTAssertEqual(T(7) / T(2), 3 as T)
+        XCTAssertEqual(T(7) % T(1), 0 as T)
+        XCTAssertEqual(T(7) % T(2), 1 as T)
                 
         XCTAssertEqual(T(x64:(~2, ~0, ~0, 2)) / T(3), T(x64:(~0, ~0, ~0, 0)))
         XCTAssertEqual(T(x64:(~5, ~6, ~9, 2)) / T(3), T(x64:(~1, ~2, ~3, 0)))
@@ -216,15 +216,15 @@ final class UInt256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingByUInt() {
-        XCTAssertEqual(T(0) / UInt(1), 0)
-        XCTAssertEqual(T(0) / UInt(2), 0)
-        XCTAssertEqual(T(0) % UInt(1), 0)
-        XCTAssertEqual(T(0) % UInt(2), 0)
+        XCTAssertEqual(T(0) / UInt(1), 0 as T)
+        XCTAssertEqual(T(0) / UInt(2), 0 as T)
+        XCTAssertEqual(T(0) % UInt(1), 0 as UInt)
+        XCTAssertEqual(T(0) % UInt(2), 0 as UInt)
 
-        XCTAssertEqual(T(7) / UInt(1), 7)
-        XCTAssertEqual(T(7) / UInt(2), 3)
-        XCTAssertEqual(T(7) % UInt(1), 0)
-        XCTAssertEqual(T(7) % UInt(2), 1)
+        XCTAssertEqual(T(7) / UInt(1), 7 as T)
+        XCTAssertEqual(T(7) / UInt(2), 3 as T)
+        XCTAssertEqual(T(7) % UInt(1), 0 as UInt)
+        XCTAssertEqual(T(7) % UInt(2), 1 as UInt)
                 
         XCTAssertEqual(T(x64:(~2, ~0, ~0, 2)) / UInt(3), T(x64:(~0, ~0, ~0, 0)))
         XCTAssertEqual(T(x64:(~5, ~6, ~9, 2)) / UInt(3), T(x64:(~1, ~2, ~3, 0)))
