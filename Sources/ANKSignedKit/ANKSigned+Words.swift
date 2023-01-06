@@ -29,7 +29,7 @@ extension ANKSigned {
     
     @inlinable public var trailingZeroBitCount: Int {
         let count = self.magnitude.trailingZeroBitCount
-        let extra = Int(bit: !self.sign.bit && count == self.magnitude.bitWidth)
+        let extra = Int(bit: count == self.magnitude.bitWidth)
         return count + extra
     }
     

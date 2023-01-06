@@ -65,12 +65,22 @@ import ANKFoundation
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
+    // MARK: Details x Normalization
     //=------------------------------------------------------------------------=
     
-    /// Returns `.plus` when `magnitude.isZero` and returns `sign` otherwise.
-    @inlinable public var normalizedSign: ANKSign {
-        self.magnitude.isZero ? ANKSign.plus : self.sign
+    /// - Returns: `true` for all values except negative zero.
+    @inlinable public var isNormal: Bool {
+        self.sign == .plus || !self.isZero
+    }
+    
+    /// - Returns: Positive `0` when `!isNormal` and `self` otherwise.
+    @inlinable public mutating func normalize() {
+        self = self.normalized
+    }
+    
+    /// - Returns: Positive `0` when `!isNormal` and `self` otherwise.
+    @inlinable public var normalized: Self {
+        Self(self.magnitude, as: self.isNormal ? self.sign : ANKSign.plus)
     }
 }
 

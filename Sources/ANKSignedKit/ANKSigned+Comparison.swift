@@ -7,6 +7,8 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import ANKFoundation
+
 //*============================================================================*
 // MARK: * ANK x Signed x Comparison
 //*============================================================================*
@@ -41,15 +43,15 @@ extension ANKSigned {
     }
     
     @inlinable public var isLessThanZero: Bool {
-        self.sign != .plus && !self.magnitude.isZero
+        self.sign != ANKSign.plus && !self.magnitude.isZero
     }
     
     @inlinable public var isMoreThanZero: Bool {
-        self.sign == .plus && !self.magnitude.isZero
+        self.sign == ANKSign.plus && !self.magnitude.isZero
     }
     
     @inlinable public func signum() -> Int {
-        self.isZero ? 0 : self.sign == .plus ? 1 : -1
+        self.isZero ? 0 : self.sign == ANKSign.plus ? 1 : -1
     }
     
     //=------------------------------------------------------------------------=
@@ -57,7 +59,7 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @inlinable public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.normalizedSign)
-        hasher.combine(self.magnitude/*-*/)
+        hasher.combine(self.magnitude)
+        hasher.combine(self.normalized.sign)
     }
 }

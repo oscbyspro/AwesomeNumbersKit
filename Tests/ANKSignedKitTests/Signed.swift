@@ -39,10 +39,6 @@ final class SignedTests: XCTestCase {
         XCTAssertEqual(T(repeating: true ), -1 as T)
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
     func testSign() {
         XCTAssertEqual(T(0, as: .plus ).sign, .plus )
         XCTAssertEqual(T(0, as: .minus).sign, .minus)
@@ -50,11 +46,22 @@ final class SignedTests: XCTestCase {
         XCTAssertEqual(T(1, as: .minus).sign, .minus)
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Normalization
+    //=------------------------------------------------------------------------=
+    
+    func testIsNormal() {
+        XCTAssertEqual(T(0, as: .plus ).isNormal, true )
+        XCTAssertEqual(T(0, as: .minus).isNormal, false)
+        XCTAssertEqual(T(1, as: .plus ).isNormal, true )
+        XCTAssertEqual(T(1, as: .minus).isNormal, true )
+    }
+    
     func testNormalizedSign() {
-        XCTAssertEqual(T(0, as: .plus ).normalizedSign, .plus )
-        XCTAssertEqual(T(0, as: .minus).normalizedSign, .plus )
-        XCTAssertEqual(T(1, as: .plus ).normalizedSign, .plus )
-        XCTAssertEqual(T(1, as: .minus).normalizedSign, .minus)
+        XCTAssertEqual(T(0, as: .plus ).normalized.sign, .plus )
+        XCTAssertEqual(T(0, as: .minus).normalized.sign, .plus )
+        XCTAssertEqual(T(1, as: .plus ).normalized.sign, .plus )
+        XCTAssertEqual(T(1, as: .minus).normalized.sign, .minus)
     }
 }
 

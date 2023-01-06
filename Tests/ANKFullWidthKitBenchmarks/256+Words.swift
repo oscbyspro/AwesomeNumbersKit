@@ -86,5 +86,4 @@ final class UInt256BenchmarksOnWords: XCTestCase {
     }
 }
 
-
 #endif
