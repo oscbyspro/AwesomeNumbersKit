@@ -41,19 +41,28 @@ final class SignedTestsOnWords: XCTestCase {
         
     }
     
-    #warning("TODO")
     func testTrailingZeroBitCount() {
-        
+        XCTAssertEqual(T(-2).trailingZeroBitCount, 1)
+        XCTAssertEqual(T(-1).trailingZeroBitCount, 0)
+        XCTAssertEqual(T( 0).trailingZeroBitCount, T.bitWidth)
+        XCTAssertEqual(T( 1).trailingZeroBitCount, 0)
+        XCTAssertEqual(T( 2).trailingZeroBitCount, 1)
     }
     
-    #warning("TODO")
     func testMostSignificantBit() {
-        
+        XCTAssertEqual(T(-2).mostSignificantBit, true )
+        XCTAssertEqual(T(-1).mostSignificantBit, true )
+        XCTAssertEqual(T( 0).mostSignificantBit, false)
+        XCTAssertEqual(T( 1).mostSignificantBit, false)
+        XCTAssertEqual(T( 2).mostSignificantBit, false)
     }
     
-    #warning("TODO")
     func testLeastSignificantBit() {
-        
+        XCTAssertEqual(T(-2).leastSignificantBit, false)
+        XCTAssertEqual(T(-1).leastSignificantBit, true )
+        XCTAssertEqual(T( 0).leastSignificantBit, false)
+        XCTAssertEqual(T( 1).leastSignificantBit, true )
+        XCTAssertEqual(T( 2).leastSignificantBit, false)
     }
 }
 

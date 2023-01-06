@@ -97,7 +97,7 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public init(repeating bit: Bool) where Magnitude: ANKFixedWidthInteger {
-        self.init(bit ? 1 : 0, as: ANKSign(bit))
+        self.init(Magnitude(bit: bit), as: ANKSign(bit))
     }
 }
 

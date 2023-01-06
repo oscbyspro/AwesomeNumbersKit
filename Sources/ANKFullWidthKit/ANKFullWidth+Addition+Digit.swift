@@ -64,8 +64,7 @@ extension ANKFullWidth {
         }
         //=--------------------------------------=
         if !Self.isSigned { return carry }
-        if lhsWasLessThanZero != rhsWasLessThanZero { return false }
-        return lhsWasLessThanZero != self.isLessThanZero
+        return lhsWasLessThanZero == rhsWasLessThanZero && lhsWasLessThanZero != self.isLessThanZero
     }
     
     @inlinable public func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {

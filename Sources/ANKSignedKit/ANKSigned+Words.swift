@@ -28,7 +28,17 @@ extension ANKSigned {
     }
     
     @inlinable public var trailingZeroBitCount: Int {
-        fatalError("TODO")
+        let count = self.magnitude.trailingZeroBitCount
+        let extra = Int(bit: !self.sign.bit && count == self.magnitude.bitWidth)
+        return count + extra
+    }
+    
+    @inlinable public var mostSignificantBit: Bool {
+        self.isLessThanZero
+    }
+    
+    @inlinable public var leastSignificantBit: Bool {
+        self.magnitude.leastSignificantBit
     }
 }
 
@@ -55,25 +65,6 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     }
     
     @inlinable public var leadingZeroBitCount: Int {
-        fatalError("TODO")
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Signed x ANK Fixed Width x Words
-//*============================================================================*
-
-extension ANKSigned where Magnitude: ANKFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-        
-    @inlinable public var mostSignificantBit: Bool {
-        fatalError("TODO")
-    }
-    
-    @inlinable public var leastSignificantBit: Bool {
         fatalError("TODO")
     }
 }

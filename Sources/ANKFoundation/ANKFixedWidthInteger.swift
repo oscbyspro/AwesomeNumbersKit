@@ -28,14 +28,6 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     @inlinable init(repeating bit: Bool)
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable var mostSignificantBit:  Bool { get }
-        
-    @inlinable var leastSignificantBit: Bool { get }
-    
-    //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
