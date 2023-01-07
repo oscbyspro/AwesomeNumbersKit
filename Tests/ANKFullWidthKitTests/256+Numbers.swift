@@ -141,24 +141,6 @@ final class Int256TestsOnNumbers: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Signed<Magnitude>
-    //=------------------------------------------------------------------------=
-    
-    func testsFromSignedMagnitude() {
-        /*--------------------------------------------------*/
-        /*--------------------------------------------------*/
-        
-        XCTAssertEqual(T(exactly:  Signed(M.max, as: .minus)), nil)
-        XCTAssertEqual(T(exactly:  Signed(M.max, as: .plus )), nil)
-        
-        XCTAssertEqual(T(clamping: Signed(M.max, as: .minus)), T.min)
-        XCTAssertEqual(T(clamping: Signed(M.max, as: .plus )), T.max)
-
-        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .minus)), T(x64:(1, 0, 0, 0)))
-        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .plus )), T(x64:(w, w, w, w)))
-    }
-    
-    //=------------------------------------------------------------------------=
     // MARK: Tests x Floats
     //=------------------------------------------------------------------------=
     
@@ -326,24 +308,6 @@ final class UInt256TestsOnNumbers: XCTestCase {
 
         XCTAssertEqual(T(truncatingIfNeeded: M.min), T.min)
         XCTAssertEqual(T(truncatingIfNeeded: M.max), T.max)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Signed<Magnitude>
-    //=------------------------------------------------------------------------=
-    
-    func testsFromSignedMagnitude() {
-        /*--------------------------------------------------*/
-        XCTAssertEqual(T(ANKSigned(M.max, as: .plus )), T.max)
-        
-        XCTAssertEqual(T(exactly:  ANKSigned(M.max, as: .minus)),   nil)
-        XCTAssertEqual(T(exactly:  ANKSigned(M.max, as: .plus )), T.max)
-        
-        XCTAssertEqual(T(clamping: ANKSigned(M.max, as: .minus)), T.min)
-        XCTAssertEqual(T(clamping: ANKSigned(M.max, as: .plus )), T.max)
-
-        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .minus)), T(x64:(1, 0, 0, 0)))
-        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .plus )), T(x64:(w, w, w, w)))
     }
     
     //=------------------------------------------------------------------------=

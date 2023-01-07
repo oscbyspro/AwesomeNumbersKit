@@ -9,7 +9,7 @@
 
 #if DEBUG
 
-import ANKFoundation
+import ANKSignedKit
 import XCTest
 
 //*============================================================================*
@@ -32,15 +32,6 @@ final class SignTests: XCTestCase {
     func testInitWithFloatingPointSign() {
         XCTAssertEqual(T(FloatingPointSign.plus ), T.plus )
         XCTAssertEqual(T(FloatingPointSign.minus), T.minus)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testBit() {
-        XCTAssertEqual(T.plus .bit, false)
-        XCTAssertEqual(T.minus.bit, true )
     }
     
     //=------------------------------------------------------------------------=

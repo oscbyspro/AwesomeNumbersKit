@@ -58,10 +58,10 @@ final class SignedTests: XCTestCase {
     }
     
     func testNormalizedSign() {
-        XCTAssertEqual(T(0, as: .plus ).normalized.sign, .plus )
-        XCTAssertEqual(T(0, as: .minus).normalized.sign, .plus )
-        XCTAssertEqual(T(1, as: .plus ).normalized.sign, .plus )
-        XCTAssertEqual(T(1, as: .minus).normalized.sign, .minus)
+        XCTAssertEqual(T(0, as: .plus ).normalizedSign, .plus )
+        XCTAssertEqual(T(0, as: .minus).normalizedSign, .plus )
+        XCTAssertEqual(T(1, as: .plus ).normalizedSign, .plus )
+        XCTAssertEqual(T(1, as: .minus).normalizedSign, .minus)
     }
 }
 

@@ -52,6 +52,26 @@ public protocol ANKBinaryInteger: BinaryInteger where Magnitude: ANKUnsignedInte
     @inlinable mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool
     
     @inlinable func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Two's Complement
+    //=------------------------------------------------------------------------=
+    
+    @inlinable mutating func formTwosComplement()
+    
+    @inlinable func twosComplement() -> Self
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Sign & Magnitude
+    //=------------------------------------------------------------------------=
+    
+    init(asSignMagnitude  source: Magnitude, uncheckedIsLessThanZero: Bool)
+    
+    init?(exactlyAsSignMagnitude: Magnitude, uncheckedIsLessThanZero: Bool)
+    
+    init(clampingAsSignMagnitude: Magnitude, uncheckedIsLessThanZero: Bool)
+    
+    init(truncatingIfNeededAsSignMagnitude: Magnitude, uncheckedIsLessThanZero: Bool)
 }
 
 //*============================================================================*

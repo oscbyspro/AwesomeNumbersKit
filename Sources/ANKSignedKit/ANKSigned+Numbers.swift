@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Signed x Numbers x Integer
+// MARK: * ANK x Signed x Numbers x Integer x Decode
 //*============================================================================*
 
 extension ANKSigned {
@@ -47,7 +47,7 @@ extension ANKSigned {
         // Magnitude
         //=--------------------------------------=
         if  let source = source as? Magnitude {
-            self.init(_exactlyAsMagnitude: source)
+            self.init(_exactlyAsSignMagnitude: source)
             return
         }
         //=--------------------------------------=
@@ -68,7 +68,7 @@ extension ANKSigned {
         // Magnitude
         //=--------------------------------------=
         if  let source = source as? Magnitude {
-            self.init(_clampingAsMagnitude: source)
+            self.init(_clampingAsSignMagnitude: source)
             return
         }
         //=--------------------------------------=
@@ -89,7 +89,7 @@ extension ANKSigned {
         // Magnitude
         //=--------------------------------------=
         if  let source = source as? Magnitude {
-            self.init(_truncatingIfNeededAsMagnitude: source)
+            self.init(_truncatingIfNeededAsSignMagnitude: source)
             return
         }
         //=--------------------------------------=
@@ -109,15 +109,15 @@ extension ANKSigned {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init?(_exactlyAsMagnitude source: Magnitude) {
+    @_transparent @usableFromInline init?(_exactlyAsSignMagnitude source: Magnitude) {
         self.init(source, as: .plus)
     }
     
-    @_transparent @usableFromInline init(_clampingAsMagnitude source: Magnitude) {
+    @_transparent @usableFromInline init(_clampingAsSignMagnitude source: Magnitude) {
         self.init(source, as: .plus)
     }
     
-    @_transparent @usableFromInline init(_truncatingIfNeededAsMagnitude source: Magnitude) {
+    @_transparent @usableFromInline init(_truncatingIfNeededAsSignMagnitude source: Magnitude) {
         self.init(source, as: .plus)
     }
 }
@@ -150,35 +150,28 @@ extension ANKSigned {
 }
 
 //*============================================================================*
-// MARK: * ANK x Signed x Numbers x Floating Point
+// MARK: * ANK x Signed x Numbers x Integer x Encode
 //*============================================================================*
 
-extension ANKSigned {
+extension ANKBinaryInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(_ source: some BinaryFloatingPoint) {
-        self.init(exactly: source.rounded(.towardZero))!
+    @inlinable init(_ source: ANKSigned<Magnitude>) {
+        self.init(asSignMagnitude: source.magnitude, uncheckedIsLessThanZero: source.isLessThanZero)
     }
     
-    @inlinable public init?(exactly source: some BinaryFloatingPoint) {
-        fatalError("TODO")
+    @inlinable init?(exactly source: ANKSigned<Magnitude>) {
+        self.init(exactlyAsSignMagnitude: source.magnitude, uncheckedIsLessThanZero: source.isLessThanZero)
     }
-}
-
-//*============================================================================*
-// MARK: * ANK x Signed x Fixed Width x Numbers x Integer
-//*============================================================================*
-
-extension ANKSigned where Magnitude: FixedWidthInteger {
     
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
+    @inlinable init(clamping source: ANKSigned<Magnitude>) {
+        self.init(clampingAsSignMagnitude: source.magnitude, uncheckedIsLessThanZero: source.isLessThanZero)
+    }
     
-    @inlinable public init(_truncatingBits: UInt) {
-        fatalError("TODO")
+    @inlinable init(truncatingIfNeeded source: ANKSigned<Magnitude>) {
+        self.init(truncatingIfNeededAsSignMagnitude: source.magnitude, uncheckedIsLessThanZero: source.isLessThanZero)
     }
 }

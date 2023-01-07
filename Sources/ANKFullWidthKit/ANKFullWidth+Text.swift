@@ -8,7 +8,6 @@
 //=----------------------------------------------------------------------------=
 
 import ANKFoundation
-import ANKSignedKit
 
 //*============================================================================*
 // MARK: * ANK x Full Width x Text
@@ -22,11 +21,12 @@ extension ANKFullWidth {
     
     @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
         var bigEndianText = source[...]
-        let sign  = bigEndianText.removeSignPrefix() ?? ANKSign.plus
+        let sign  = bigEndianText.removeSignPrefix() ?? false
         let radix = radix ?? bigEndianText.removeRadixLiteralPrefix() ?? 10
         let magnitude = Magnitude._decodeBigEndianDigits(bigEndianText, radix: radix)
         guard  let magnitude else { return nil }
-        return Self(exactly: ANKSigned(magnitude, as: sign))
+        let isLessThanZero = sign && !magnitude.isZero
+        return Self(exactlyAsSignMagnitude: magnitude, uncheckedIsLessThanZero: isLessThanZero)
     }
     
     @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool = false) -> String {

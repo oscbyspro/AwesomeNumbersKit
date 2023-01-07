@@ -76,7 +76,7 @@ extension ANKSigned {
     @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
         let division  = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
         let quotient  = Self(division.quotient,  as: self.sign ^ divisor.sign)
-        let remainder = Self(division.remainder, as: self.sign /*----------*/)
+        let remainder = Self(division.remainder, as: self.sign   /*--------*/)
         return QR(quotient, remainder)
     }
 }
@@ -87,9 +87,9 @@ extension ANKSigned {
 
 extension ANKSigned where Magnitude: FixedWidthInteger {
     
-    //=----------------------------------------------------------------------------=
+    //=------------------------------------------------------------------------=
     // MARK: Transformations
-    //=----------------------------------------------------------------------------=
+    //=------------------------------------------------------------------------=
     
     @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
         fatalError("TODO")

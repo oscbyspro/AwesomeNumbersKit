@@ -19,10 +19,10 @@ extension StringProtocol where Self == SubSequence {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func removeSignPrefix() -> ANKSign? {
+    @inlinable mutating func removeSignPrefix() -> Bool? {
         switch true {
-        case hasPrefix("+"): removeFirst(); return .plus
-        case hasPrefix("-"): removeFirst(); return .minus
+        case hasPrefix("+"): removeFirst(); return false
+        case hasPrefix("-"): removeFirst(); return  true
         default: return nil }
     }
     

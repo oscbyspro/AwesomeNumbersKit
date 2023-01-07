@@ -13,4 +13,5 @@ import ANKFoundation
 // MARK: * ANK x Aliases
 //*============================================================================*
 
+public typealias Sign/*-*/ = ANKSign
 public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude

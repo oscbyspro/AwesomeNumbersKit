@@ -83,17 +83,17 @@ let package = Package(
         //=--------------------------------------=
         .target(
         name: "ANKFullWidthKit",
-        dependencies: ["ANKFoundation", "ANKSignedKit"],
+        dependencies: ["ANKFoundation"],
         swiftSettings: withSlowBuildAlerts),
         
         .testTarget(
         name: "ANKFullWidthKitTests",
-        dependencies: ["ANKFullWidthKit", "ANKSignedKit"],
+        dependencies: ["ANKFullWidthKit"],
         swiftSettings: withSlowBuildAlerts),
         
         .testTarget(
         name: "ANKFullWidthKitBenchmarks",
-        dependencies: ["ANKFullWidthKit", "ANKSignedKit"],
+        dependencies: ["ANKFullWidthKit"],
         swiftSettings: withSlowBuildAlerts),
         //=--------------------------------------=
         // ANK x Signed Kit

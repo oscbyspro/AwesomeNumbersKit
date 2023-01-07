@@ -60,6 +60,6 @@ extension ANKSigned {
     
     @inlinable public func hash(into hasher: inout Hasher) {
         hasher.combine(self.magnitude)
-        hasher.combine(self.normalized.sign)
+        hasher.combine(self.normalizedSign)
     }
 }

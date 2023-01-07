@@ -26,13 +26,11 @@ import ANKFoundation
 /// - use `isMoreThanZero` to check if the integer is positive
 /// - the integer literal `-0` creates a positive zero because: `Swift`
 ///
-/// **Two's Complement Semantics**
+/// **Sign & Magnitude Semantics**
 ///
-/// Since it conforms to `(ANK)BinaryInteger`, all its related bitwise operations
-/// have two's complement semantics. All operations with sign-magnitude semantics
-/// are distinct from those provided by `(ANK)BinaryInteger`.
+/// It models a sign decorated magnitude and has sign-magnitude semantics.
 ///
-@frozen public struct ANKSigned<Magnitude>: ANKSignedInteger where Magnitude: ANKUnsignedInteger, Magnitude.Magnitude == Magnitude {
+@frozen public struct ANKSigned<Magnitude>: Comparable, Hashable, SignedNumeric where Magnitude: ANKUnsignedInteger {
     
     public typealias IntegerLiteralType = Int
     
@@ -40,18 +38,17 @@ import ANKFoundation
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    #if _endian(big)
     public var sign: ANKSign
     public var magnitude: Magnitude
-    #else
-    public var magnitude: Magnitude
-    public var sign: ANKSign
-    #endif
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    @inlinable public init(_ magnitude: Magnitude, as sign: ANKSign) {
+        self.sign = sign; self.magnitude = magnitude
+    }
+        
     @inlinable public init() {
         self.init(Magnitude(), as: ANKSign.plus)
     }
@@ -60,12 +57,8 @@ import ANKFoundation
         self.init(Magnitude(bit: bit), as: ANKSign.plus)
     }
     
-    @inlinable public init(_ magnitude: Magnitude, as sign: ANKSign) {
-        self.sign = sign; self.magnitude = magnitude
-    }
-    
     //=------------------------------------------------------------------------=
-    // MARK: Details x Normalization
+    // MARK: Details
     //=------------------------------------------------------------------------=
     
     /// - Returns: `true` for all values except negative zero.
@@ -73,14 +66,8 @@ import ANKFoundation
         self.sign == .plus || !self.isZero
     }
     
-    /// - Returns: Positive `0` when `!isNormal` and `self` otherwise.
-    @inlinable public mutating func normalize() {
-        self = self.normalized
-    }
-    
-    /// - Returns: Positive `0` when `!isNormal` and `self` otherwise.
-    @inlinable public var normalized: Self {
-        Self(self.magnitude, as: self.isNormal ? self.sign : ANKSign.plus)
+    @inlinable public var normalizedSign: ANKSign {
+        self.isNormal ? self.sign : ANKSign.plus
     }
 }
 
@@ -110,11 +97,3 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
         self.init(Magnitude(bit: bit), as: ANKSign(bit))
     }
 }
-
-//*============================================================================*
-// MARK: * ANK x Signed x Conditional Conformances
-//*============================================================================*
-
-extension ANKSigned: FixedWidthInteger where Magnitude: FixedWidthInteger { }
-extension ANKSigned: LosslessStringConvertible where Magnitude: FixedWidthInteger { }
-extension ANKSigned: ANKFixedWidthInteger where Magnitude: ANKFixedWidthInteger { }
