@@ -13,26 +13,7 @@ import ANKFoundation
 // MARK: * ANK x Signed
 //*============================================================================*
 
-extension ANKSigned: Comparable, Hashable, SignedNumeric {
+extension ANKSigned: SignedNumeric {
     
     public typealias IntegerLiteralType = Int
-}
-
-//*============================================================================*
-// MARK: * ANK x Signed x Fixed Width Integer
-//*============================================================================*
-
-extension ANKSigned where Magnitude: FixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static var min: Self {
-        Self(Magnitude.max, as: ANKSign.minus)
-    }
-    
-    @inlinable public static var max: Self {
-        Self(Magnitude.max, as: ANKSign.plus)
-    }
 }

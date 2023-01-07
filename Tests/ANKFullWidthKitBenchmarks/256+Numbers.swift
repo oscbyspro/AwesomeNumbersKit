@@ -9,8 +9,8 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
-import ANKSignedKit
 import XCTest
 
 //*============================================================================*
@@ -105,22 +105,23 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     // MARK: Tests x Sign & Magnitude
     //=------------------------------------------------------------------------=
-    
-    func testSignedMagnitude() {
-        let abc = M(x64:(0, 1, 2, 3))
         
-        for _ in 0 ..< 1_000_000 {
-            _ = T(asSignMagnitude: abc, uncheckedIsLessThanZero: false)
-            _ = T(asSignMagnitude: abc, uncheckedIsLessThanZero: true )
+    func testSignedMagnitude() {
+        let abc = ANKSigned(M(x64:(0, 1, 2, 3)), as: .plus )
+        let xyz = ANKSigned(M(x64:(0, 1, 2, 3)), as: .minus)
+        
+        for _ in 0 ..< 1_000 {
+            _ = T(abc)
+            _ = T(xyz)
 
-            _ = T(exactlyAsSignMagnitude:  abc, uncheckedIsLessThanZero: false)
-            _ = T(exactlyAsSignMagnitude:  abc, uncheckedIsLessThanZero: true )
+            _ = T(exactly:  abc)
+            _ = T(exactly:  xyz)
 
-            _ = T(clampingAsSignMagnitude: abc, uncheckedIsLessThanZero: false)
-            _ = T(clampingAsSignMagnitude: abc, uncheckedIsLessThanZero: true )
+            _ = T(clamping: abc)
+            _ = T(clamping: xyz)
             
-            _ = T(truncatingIfNeededAsSignMagnitude: abc, uncheckedIsLessThanZero: false)
-            _ = T(truncatingIfNeededAsSignMagnitude: abc, uncheckedIsLessThanZero: true )
+            _ = T(truncatingIfNeeded: abc)
+            _ = T(truncatingIfNeeded: xyz)
         }
     }
 }
@@ -219,20 +220,21 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSignedMagnitude() {
-        let abc = M(x64:(0, 1, 2, 3))
+        let abc = ANKSigned(M(x64:(0, 1, 2, 3)), as: .plus )
+        let xyz = ANKSigned(M(x64:(0, 1, 2, 3)), as: .minus)
         
-        for _ in 0 ..< 1_000_000 {
-            _ = T(asSignMagnitude: abc, uncheckedIsLessThanZero: false)
-            /*-------------------------------------------------------*/
+        for _ in 0 ..< 1_000 {
+            _ = T(abc)
+            _ = /*-*/
 
-            _ = T(exactlyAsSignMagnitude:  abc, uncheckedIsLessThanZero: false)
-            _ = T(exactlyAsSignMagnitude:  abc, uncheckedIsLessThanZero: true )
+            _ = T(exactly:  abc)
+            _ = T(exactly:  xyz)
 
-            _ = T(clampingAsSignMagnitude: abc, uncheckedIsLessThanZero: false)
-            _ = T(clampingAsSignMagnitude: abc, uncheckedIsLessThanZero: true )
+            _ = T(clamping: abc)
+            _ = T(clamping: xyz)
             
-            _ = T(truncatingIfNeededAsSignMagnitude: abc, uncheckedIsLessThanZero: false)
-            _ = T(truncatingIfNeededAsSignMagnitude: abc, uncheckedIsLessThanZero: true )
+            _ = T(truncatingIfNeeded: abc)
+            _ = T(truncatingIfNeeded: xyz)
         }
     }
 }

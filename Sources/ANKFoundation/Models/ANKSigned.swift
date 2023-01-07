@@ -33,7 +33,7 @@
 ///
 /// It models a sign decorated magnitude and has sign-magnitude semantics.
 ///
-@frozen public struct ANKSigned<Magnitude> where Magnitude: ANKUnsignedInteger {
+@frozen public struct ANKSigned<Magnitude>: Comparable, Hashable where Magnitude: ANKUnsignedInteger {
         
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -55,22 +55,6 @@
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public var isZero: Bool {
-        self.magnitude.isZero
-    }
-    
-    @inlinable public var isLessThanZero: Bool {
-        self.sign != ANKSign.plus && !self.magnitude.isZero
-    }
-    
-    @inlinable public var isMoreThanZero: Bool {
-        self.sign == ANKSign.plus && !self.magnitude.isZero
-    }
-    
-    //=------------------------------------------------------------------------=
     // MARK: Details x Normalization
     //=------------------------------------------------------------------------=
     
@@ -82,5 +66,79 @@
     /// - Returns: `sign` for all values except negative zero where it returns `plus`
     @inlinable public var normalizedSign: ANKSign {
         self.isNormal ? self.sign : ANKSign.plus
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width
+//*============================================================================*
+
+extension ANKSigned where Magnitude: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static var min: Self {
+        Self(Magnitude.max, as: ANKSign.minus)
+    }
+    
+    @inlinable public static var max: Self {
+        Self(Magnitude.max, as: ANKSign.plus)
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Signed x Comparison
+//*============================================================================*
+
+extension ANKSigned {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
+        if lhs.magnitude != rhs.magnitude { return false }
+        if lhs.sign/*-*/ == rhs.sign/*-*/ { return true  }
+        return lhs.magnitude.isZero && rhs.magnitude.isZero
+    }
+    
+    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
+        //=--------------------------------------=
+        if  lhs.sign != rhs.sign {
+            return (lhs.sign != ANKSign.plus) && !(lhs.isZero && rhs.isZero)
+        }
+        //=--------------------------------------=
+        return (lhs.sign == ANKSign.plus) == (lhs.magnitude < rhs.magnitude)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public var isZero: Bool {
+        self.magnitude.isZero
+    }
+    
+    @inlinable public var isLessThanZero: Bool {
+        self.sign != ANKSign.plus && !self.isZero
+    }
+    
+    @inlinable public var isMoreThanZero: Bool {
+        self.sign == ANKSign.plus && !self.isZero
+    }
+    
+    @inlinable public func signum() -> Int {
+        self.isZero ? 0 : self.sign == ANKSign.plus ? 1 : -1
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.magnitude)
+        hasher.combine(self.normalizedSign)
     }
 }

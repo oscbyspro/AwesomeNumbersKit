@@ -18,7 +18,7 @@ import XCTest
 
 final class SignedBenchmarksOnMultiplication: XCTestCase {
     
-    typealias T = Signed<UInt>
+    typealias T = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
