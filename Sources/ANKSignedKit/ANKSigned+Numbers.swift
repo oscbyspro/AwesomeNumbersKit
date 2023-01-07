@@ -47,13 +47,14 @@ extension ANKSigned {
         // Magnitude
         //=--------------------------------------=
         if  let source = source as? Magnitude {
-            self.init(_exactlyAsSignMagnitude: source)
+            self.init(source, as: ANKSign.plus)
             return
         }
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(_exactlyAsBinaryInteger: source)
+        guard let magnitude  = Magnitude(exactly: source.magnitude) else { return nil }
+        self.init(magnitude, as: ANKSign(source < 0))
     }
     
     @inlinable public init(clamping source: some BinaryInteger) {
@@ -68,110 +69,12 @@ extension ANKSigned {
         // Magnitude
         //=--------------------------------------=
         if  let source = source as? Magnitude {
-            self.init(_clampingAsSignMagnitude: source)
+            self.init(source, as: ANKSign.plus)
             return
         }
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(_clampingAsBinaryInteger: source)
-    }
-    
-    @inlinable public init(truncatingIfNeeded source: some BinaryInteger) {
-        //=--------------------------------------=
-        // Self
-        //=--------------------------------------=
-        if  let source = source as? Self {
-            self = source
-            return
-        }
-        //=--------------------------------------=
-        // Magnitude
-        //=--------------------------------------=
-        if  let source = source as? Magnitude {
-            self.init(_truncatingIfNeededAsSignMagnitude: source)
-            return
-        }
-        //=--------------------------------------=
-        // some BinaryInteger
-        //=--------------------------------------=
-        self.init(_truncatingIfNeededAsBinaryInteger: source)
-    }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Magnitude
-//=----------------------------------------------------------------------------=
-
-extension ANKSigned {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @_transparent @usableFromInline init?(_exactlyAsSignMagnitude source: Magnitude) {
-        self.init(source, as: .plus)
-    }
-    
-    @_transparent @usableFromInline init(_clampingAsSignMagnitude source: Magnitude) {
-        self.init(source, as: .plus)
-    }
-    
-    @_transparent @usableFromInline init(_truncatingIfNeededAsSignMagnitude source: Magnitude) {
-        self.init(source, as: .plus)
-    }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Binary Integer
-//=----------------------------------------------------------------------------=
-
-extension ANKSigned {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @inlinable init?<T>(_exactlyAsBinaryInteger source: T) where T: BinaryInteger {
-        let sign = ANKSign(source < 0)
-        guard let magnitude = Magnitude(exactly: source.magnitude) else { return nil }
-        self.init(magnitude, as: sign)
-    }
-    
-    @inlinable init<T>(_clampingAsBinaryInteger source: T) where T: BinaryInteger {
-        let sign = ANKSign(source < 0)
-        let magnitude = Magnitude(clamping: source.magnitude)
-        self.init(magnitude, as: sign)
-    }
-    
-    @inlinable init<T>(_truncatingIfNeededAsBinaryInteger source: T) where T: BinaryInteger {
-        fatalError("TODO")
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Signed x Numbers x Integer x Encode
-//*============================================================================*
-
-extension ANKBinaryInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @inlinable init(_ source: ANKSigned<Magnitude>) {
-        self.init(asSignMagnitude: source.magnitude, uncheckedIsLessThanZero: source.isLessThanZero)
-    }
-    
-    @inlinable init?(exactly source: ANKSigned<Magnitude>) {
-        self.init(exactlyAsSignMagnitude: source.magnitude, uncheckedIsLessThanZero: source.isLessThanZero)
-    }
-    
-    @inlinable init(clamping source: ANKSigned<Magnitude>) {
-        self.init(clampingAsSignMagnitude: source.magnitude, uncheckedIsLessThanZero: source.isLessThanZero)
-    }
-    
-    @inlinable init(truncatingIfNeeded source: ANKSigned<Magnitude>) {
-        self.init(truncatingIfNeededAsSignMagnitude: source.magnitude, uncheckedIsLessThanZero: source.isLessThanZero)
+        self.init(Magnitude(clamping: source.magnitude), as: ANKSign(source < 0))
     }
 }

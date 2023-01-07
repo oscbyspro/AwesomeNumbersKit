@@ -38,18 +38,6 @@ extension ANKSigned {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent public var isZero: Bool {
-        self.magnitude.isZero
-    }
-    
-    @inlinable public var isLessThanZero: Bool {
-        self.sign != ANKSign.plus && !self.magnitude.isZero
-    }
-    
-    @inlinable public var isMoreThanZero: Bool {
-        self.sign == ANKSign.plus && !self.magnitude.isZero
-    }
-    
     @inlinable public func signum() -> Int {
         self.isZero ? 0 : self.sign == ANKSign.plus ? 1 : -1
     }

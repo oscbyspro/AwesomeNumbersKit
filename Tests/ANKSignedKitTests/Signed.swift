@@ -29,16 +29,6 @@ final class SignedTests: XCTestCase {
         XCTAssertEqual(T().magnitude, 0 as UInt)
     }
     
-    func testInitWithBit() {
-        XCTAssertEqual(T(bit: false), 0 as T)
-        XCTAssertEqual(T(bit: true ), 1 as T)
-    }
-    
-    func testInitWithRepeatingBit() {
-        XCTAssertEqual(T(repeating: false),  0 as T)
-        XCTAssertEqual(T(repeating: true ), -1 as T)
-    }
-    
     func testSign() {
         XCTAssertEqual(T(0, as: .plus ).sign, .plus )
         XCTAssertEqual(T(0, as: .minus).sign, .minus)

@@ -6,7 +6,7 @@ Large number arithmetic, and more, in Swift.
 
 👨‍💻🛠️🚧🧱🧱🏗️🧱🧱🚧⏳
 
-A composable, large, fixed-width, two's complement, integer.
+A composable, large, fixed-width, two's complement, binary integer.
 
 <table>
 <tr>
@@ -30,4 +30,4 @@ A composable, large, fixed-width, two's complement, integer.
 
 👨‍💻🛠️🚧🧱🧱🏗️🧱🧱🚧⏳
 
-A decorative, size agnostic, width agnostic, sign-magnitude, integer.
+A decorative, size agnostic, width agnostic, sign-magnitude, numeric integer.

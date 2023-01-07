@@ -21,15 +21,14 @@ extension ANKFullWidth {
     
     @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
         var bigEndianText = source[...]
-        let sign  = bigEndianText.removeSignPrefix() ?? false
+        let sign  = bigEndianText.removeSignPrefix() ?? ANKSign.plus
         let radix = radix ?? bigEndianText.removeRadixLiteralPrefix() ?? 10
         let magnitude = Magnitude._decodeBigEndianDigits(bigEndianText, radix: radix)
         guard  let magnitude else { return nil }
-        let isLessThanZero = sign && !magnitude.isZero
-        return Self(exactlyAsSignMagnitude: magnitude, uncheckedIsLessThanZero: isLessThanZero)
+        return Self(exactly: ANKSigned(magnitude, as: sign))
     }
     
-    @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool = false) -> String {
+    @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
         var bigEndianText: String = source.isLessThanZero ? "-" : ""
         Magnitude._encode(source.magnitude, radix: radix, uppercase: uppercase, to: &bigEndianText)
         return bigEndianText

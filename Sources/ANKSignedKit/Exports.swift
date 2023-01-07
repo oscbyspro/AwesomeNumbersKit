@@ -7,11 +7,9 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import ANKFoundation
-
 //*============================================================================*
-// MARK: * ANK x Aliases
+// MARK: * ANK x Exports
 //*============================================================================*
 
-public typealias Sign/*-*/ = ANKSign
-public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude
+@_exported import enum   ANKFoundation.ANKSign
+@_exported import struct ANKFoundation.ANKSigned

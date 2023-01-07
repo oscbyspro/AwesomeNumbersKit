@@ -11,6 +11,7 @@
 // MARK: * ANK x Two's Complement
 //*============================================================================*
 
+/// A binary integer with two's complement in-memory representation.
 public protocol ANKTwosComplement<BitPattern>: ANKBinaryInteger & ANKBitPattern where Magnitude: ANKTwosComplement { }
 
 //=----------------------------------------------------------------------------=
@@ -23,41 +24,45 @@ extension ANKTwosComplement where Magnitude.BitPattern == BitPattern {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(asSignMagnitude  magnitude: Magnitude, uncheckedIsLessThanZero: Bool) {
-        guard let value = Self(exactlyAsSignMagnitude: magnitude, uncheckedIsLessThanZero: uncheckedIsLessThanZero) else {
-            let source = (sign: uncheckedIsLessThanZero, magnitude: magnitude)
+    @inlinable public init(_ source: ANKSigned<Magnitude>) {
+        guard let value = Self(exactly: source) else {
             preconditionFailure("\(source) is not in \(Self.self)'s representable range")
         }
         
         self = value
     }
     
-    @inlinable public init?(exactlyAsSignMagnitude magnitude: Magnitude, uncheckedIsLessThanZero: Bool) {
-        assert(!uncheckedIsLessThanZero || !magnitude.isZero, "negative zero is not less than zero")
+    @inlinable public init?(exactly source: ANKSigned<Magnitude>) {
+        let sourceIsLessThanZero = source.isLessThanZero
         //=--------------------------------------=
         if  Self.isSigned {
-            self.init(truncatingIfNeededAsSignMagnitude: magnitude, uncheckedIsLessThanZero: uncheckedIsLessThanZero)
-            if uncheckedIsLessThanZero != self.isLessThanZero { return nil }
+            self.init(bitPattern: source.magnitude)
+            if sourceIsLessThanZero {  self.formTwosComplement() }
+            if sourceIsLessThanZero != self.isLessThanZero { return nil }
         //=--------------------------------------=
         }   else {
-            if uncheckedIsLessThanZero { return nil }; self.init(bitPattern: magnitude)
+            if sourceIsLessThanZero {  return nil }
+            self.init(bitPattern: source.magnitude)
         }
     }
     
-    @inlinable public init(clampingAsSignMagnitude magnitude: Magnitude, uncheckedIsLessThanZero: Bool) where Self: FixedWidthInteger {
-        assert(!uncheckedIsLessThanZero || !magnitude.isZero, "negative zero is not less than zero")
+    @inlinable public init(clamping source: ANKSigned<Magnitude>) where Self: FixedWidthInteger {
+        let sourceIsLessThanZero = source.isLessThanZero
         //=--------------------------------------=
         if  Self.isSigned {
-            self.init(truncatingIfNeededAsSignMagnitude: magnitude, uncheckedIsLessThanZero: uncheckedIsLessThanZero)
-            if uncheckedIsLessThanZero != self.isLessThanZero { self = uncheckedIsLessThanZero ? .min : .max }
+            self.init(bitPattern: source.magnitude)
+            if sourceIsLessThanZero {  self.formTwosComplement()  }
+            if sourceIsLessThanZero != self.isLessThanZero { self = sourceIsLessThanZero ? .min : .max }
         //=--------------------------------------=
         }   else {
-            if uncheckedIsLessThanZero { self.init(); return }; self.init(bitPattern: magnitude)
+            if sourceIsLessThanZero {  self.init(); return }
+            self.init(bitPattern: source.magnitude)
         }
     }
     
-    @inlinable public init(truncatingIfNeededAsSignMagnitude magnitude: Magnitude, uncheckedIsLessThanZero: Bool) {
-        assert(!uncheckedIsLessThanZero || !magnitude.isZero, "negative zero is not less than zero")
-        self.init(bitPattern:  magnitude);  if uncheckedIsLessThanZero { self.formTwosComplement() }
+    @inlinable public init(truncatingIfNeeded source: ANKSigned<Magnitude>) {
+        let sourceIsLessThanZero = source.isLessThanZero
+        self.init(bitPattern: source.magnitude)
+        if  sourceIsLessThanZero { self.formTwosComplement() }
     }
 }

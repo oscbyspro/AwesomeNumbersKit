@@ -65,13 +65,13 @@ public protocol ANKBinaryInteger: BinaryInteger where Magnitude: ANKUnsignedInte
     // MARK: Details x Sign & Magnitude
     //=------------------------------------------------------------------------=
     
-    init(asSignMagnitude  source: Magnitude, uncheckedIsLessThanZero: Bool)
+    init(_ source: ANKSigned<Magnitude>)
     
-    init?(exactlyAsSignMagnitude: Magnitude, uncheckedIsLessThanZero: Bool)
+    init?(exactly source: ANKSigned<Magnitude>)
     
-    init(clampingAsSignMagnitude: Magnitude, uncheckedIsLessThanZero: Bool)
+    init(clamping source: ANKSigned<Magnitude>)
     
-    init(truncatingIfNeededAsSignMagnitude: Magnitude, uncheckedIsLessThanZero: Bool)
+    init(truncatingIfNeeded source: ANKSigned<Magnitude>)
 }
 
 //*============================================================================*

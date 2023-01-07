@@ -9,6 +9,7 @@
 
 #if DEBUG
 
+import ANKFoundation
 import ANKSignedKit
 import XCTest
 

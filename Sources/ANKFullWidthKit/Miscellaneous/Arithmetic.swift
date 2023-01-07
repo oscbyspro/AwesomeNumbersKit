@@ -97,8 +97,7 @@ extension UInt {
             power = product.low
         }
         //=--------------------------------------=
-        assert(exponent.mostSignificantBit == false)
-        //=--------------------------------------=
+        assert(!exponent.mostSignificantBit)
         return (Int(bitPattern: exponent), power)
     }
 }
