@@ -37,6 +37,14 @@
 @frozen public struct ANKSigned<Magnitude>: Comparable, Hashable where Magnitude: ANKUnsignedInteger, Magnitude == Magnitude.Magnitude {
     
     //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static var zero: Self {
+        Self()
+    }
+        
+    //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     

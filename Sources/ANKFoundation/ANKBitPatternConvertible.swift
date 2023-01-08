@@ -8,12 +8,12 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * ANK x Bit Pattern
+// MARK: * ANK x Bit Pattern Convertible
 //*============================================================================*
 
-public protocol ANKBitPattern<BitPattern> {
+public protocol ANKBitPatternConvertible<BitPattern> {
         
-    associatedtype BitPattern: ANKBitPattern<BitPattern>
+    associatedtype BitPattern: ANKBitPatternConvertible<BitPattern>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -32,13 +32,13 @@ public protocol ANKBitPattern<BitPattern> {
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension ANKBitPattern {
+extension ANKBitPatternConvertible {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(bitPattern source: some ANKBitPattern<BitPattern>) {
+    @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
         self.init(bitPattern: source.bitPattern)
     }
 }

@@ -24,7 +24,7 @@ import ANKFoundation
 ///
 @usableFromInline protocol ANKFullWidthUnsafeWordsPointer: WoRdS {
     
-    associatedtype Layout: ANKBitPattern<Layout>
+    associatedtype Layout: ANKBitPatternConvertible<Layout>
 }
 
 //=----------------------------------------------------------------------------=
@@ -115,7 +115,7 @@ extension ANKFullWidthUnsafeWordsPointer {
 // MARK: * ANK x Full Width x Collection x Pointers x Words
 //*============================================================================*
 
-@frozen @usableFromInline struct UnsafeWordsPointer<Layout>: ANKFullWidthUnsafeWordsPointer where Layout: ANKBitPattern<Layout> {
+@frozen @usableFromInline struct UnsafeWordsPointer<Layout>: ANKFullWidthUnsafeWordsPointer where Layout: ANKBitPatternConvertible<Layout> {
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -127,7 +127,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafePointer<T>) where T: ANKBitPattern<Layout> {
+    @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafePointer<T>) where T: ANKBitPatternConvertible<Layout> {
         //=--------------------------------------=
         assert(MemoryLayout<T>.size / MemoryLayout<UInt>.size >= 1)
         assert(MemoryLayout<T>.size % MemoryLayout<UInt>.size == 0)
@@ -155,7 +155,7 @@ extension ANKFullWidthUnsafeWordsPointer {
 // MARK: * ANK x Full Width x Collection x Pointers x Words x Mutable
 //*============================================================================*
 
-@frozen @usableFromInline struct UnsafeMutableWordsPointer<Layout>: ANKFullWidthUnsafeWordsPointer where Layout: ANKBitPattern<Layout> {
+@frozen @usableFromInline struct UnsafeMutableWordsPointer<Layout>: ANKFullWidthUnsafeWordsPointer where Layout: ANKBitPatternConvertible<Layout> {
         
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -167,7 +167,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafeMutablePointer<T>) where T: ANKBitPattern<Layout> {
+    @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafeMutablePointer<T>) where T: ANKBitPatternConvertible<Layout> {
         //=--------------------------------------=
         assert(MemoryLayout<T>.size / MemoryLayout<UInt>.size >= 1)
         assert(MemoryLayout<T>.size % MemoryLayout<UInt>.size == 0)

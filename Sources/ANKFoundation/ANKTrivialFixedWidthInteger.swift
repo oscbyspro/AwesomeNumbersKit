@@ -24,7 +24,7 @@
 /// - `UInt32`
 /// - `UInt64`
 ///
-public protocol ANKTrivialFixedWidthInteger: ANKFixedWidthInteger, ANKBitPattern, ANKTwosComplement where BitPattern == Magnitude { }
+public protocol ANKTrivialFixedWidthInteger: ANKFixedWidthInteger, ANKTwosComplement where BitPattern == Magnitude { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details

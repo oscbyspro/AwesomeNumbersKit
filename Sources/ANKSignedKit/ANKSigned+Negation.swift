@@ -31,3 +31,23 @@ extension ANKSigned {
         self.sign.toggle()
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width x Negation
+//*============================================================================*
+
+extension ANKSigned where Magnitude: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public mutating func negateReportingOverflow() -> Bool {
+        self.negate()
+        return false
+    }
+    
+    @_transparent public func negatedReportingOverflow() -> PVO<Self> {
+        PVO(-self, false)
+    }
+}

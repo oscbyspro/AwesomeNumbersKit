@@ -33,8 +33,8 @@ import ANKFoundation
 /// High.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
-@frozen public struct ANKFullWidth<High, Low>: WoRdS, ANKBitPattern,
-ANKLargeFixedWidthInteger, ANKTwosComplement, ANKBigEndianTextCodable where
+@frozen public struct ANKFullWidth<High, Low>: WoRdS,
+ANKBigEndianTextCodable, ANKLargeFixedWidthInteger, ANKTwosComplement where
 High: ANKLargeFixedWidthInteger & ANKTwosComplement,
 Low:  ANKUnsignedLargeFixedWidthInteger<UInt> & ANKTwosComplement,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
@@ -54,6 +54,10 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
+    
+    @inlinable public static var zero: Self {
+        Self()
+    }
     
     @inlinable public static var min: Self {
         Self(descending:(High.min, Low.min))

@@ -21,13 +21,6 @@ final class SignedTestsOnNegation: XCTestCase {
     typealias T = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let w = UInt.max
-    let s = UInt.bitWidth
-    
-    //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
@@ -40,6 +33,11 @@ final class SignedTestsOnNegation: XCTestCase {
     func testNegatedSignIsAlwaysToggled() {
         XCTAssertEqual((-T(0, as: .plus )).sign, .minus)
         XCTAssertEqual((-T(0, as: .minus)).sign, .plus )
+    }
+    
+    func testNegatedReportingOverflow() {
+        XCTAssert(T.min.negatedReportingOverflow() == (T.max, false) as (T, Bool))
+        XCTAssert(T.max.negatedReportingOverflow() == (T.min, false) as (T, Bool))
     }
 }
 
