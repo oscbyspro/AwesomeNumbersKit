@@ -39,9 +39,9 @@ final class SignTests: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testToggle() {
-        XCTAssertEqual(T.plus .toggled(), T.minus)
-        XCTAssertEqual(T.minus.toggled(), T.plus )
+    func testNot() {
+        XCTAssertEqual(~T.plus,  T.minus)
+        XCTAssertEqual(~T.minus, T.plus )
     }
     
     func testAnd() {

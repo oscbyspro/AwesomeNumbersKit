@@ -20,14 +20,14 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @inlinable public static prefix func -(x: Self) -> Self {
-        Self(x.magnitude, as: x.sign.toggled())
+        Self(x.magnitude, as: ~x.sign)
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func negate() {
+    @_transparent public mutating func negate() {
         self.sign.toggle()
     }
 }

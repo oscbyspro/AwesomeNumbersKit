@@ -19,19 +19,19 @@ extension ANKSigned {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func /=(lhs: inout Self, rhs: Self) {
+    @_transparent public static func /=(lhs: inout Self, rhs: Self) {
         lhs = lhs / rhs
     }
     
-    @inlinable public static func /(lhs: Self, rhs: Self) -> Self {
+    @_transparent public static func /(lhs: Self, rhs: Self) -> Self {
         lhs.quotientAndRemainder(dividingBy: rhs).quotient
     }
     
-    @inlinable public static func %=(lhs: inout Self, rhs: Self) {
+    @_transparent public static func %=(lhs: inout Self, rhs: Self) {
         lhs = lhs % rhs
     }
     
-    @inlinable public static func %(lhs: Self, rhs: Self) -> Self {
+    @_transparent public static func %(lhs: Self, rhs: Self) -> Self {
         lhs.quotientAndRemainder(dividingBy: rhs).remainder
     }
     
@@ -45,13 +45,7 @@ extension ANKSigned {
     }
     
     @inlinable public func dividedReportingOverflow(by divisor: Self) -> PVO<Self> {
-        //=--------------------------------------=
-        if  divisor.isZero {
-            return PVO(self, true)
-        }
-        //=--------------------------------------=
-        let qr: QR<Self, Self> = self.quotientAndRemainder(dividingBy: divisor)
-        return PVO(qr.quotient, false)
+        divisor.isZero ? PVO(self, true) : PVO(self / divisor, false)
     }
     
     @inlinable public mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool {
@@ -60,13 +54,7 @@ extension ANKSigned {
     }
     
     @inlinable public func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self> {
-        //=--------------------------------------=
-        if  divisor.isZero {
-            return PVO(self, true)
-        }
-        //=--------------------------------------=
-        let qr: QR<Self, Self> = self.quotientAndRemainder(dividingBy: divisor)
-        return  PVO(qr.remainder, false)
+        divisor.isZero ? PVO(self, true) : PVO(self % divisor, false)
     }
     
     //=------------------------------------------------------------------------=
@@ -74,24 +62,7 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
-        let division  = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
-        let quotient  = Self(division.quotient,  as: self.sign ^ divisor.sign)
-        let remainder = Self(division.remainder, as: self.sign   /*--------*/)
-        return QR(quotient, remainder)
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Signed x Fixed Width x Division
-//*============================================================================*
-
-extension ANKSigned where Magnitude: FixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
-        fatalError("TODO")
+        let qr: QR<Magnitude, Magnitude> = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
+        return  QR(Self(qr.quotient, as: self.sign ^ divisor.sign), Self(qr.remainder, as: self.sign))
     }
 }

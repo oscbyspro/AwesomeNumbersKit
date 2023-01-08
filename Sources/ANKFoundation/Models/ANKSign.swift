@@ -25,11 +25,11 @@
     //=------------------------------------------------------------------------=
     
     @inlinable public init(_ bit: Bool) {
-        self = bit ? .minus : .plus
+        self = bit ? Self.minus : Self.plus
     }
     
     @inlinable public init(_ sign: FloatingPointSign) {
-        self = sign == .plus ? .plus : .minus
+        self = sign == FloatingPointSign.plus ? Self.plus : Self.minus
     }
     
     //=------------------------------------------------------------------------=
@@ -37,23 +37,23 @@
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func toggle() {
-        self = self.toggled()
-    }
-    
-    @inlinable public func toggled() -> Self {
-        self == .plus ? .minus : .plus
+        self = ~self
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    @inlinable public static prefix func ~(x: Self) -> Self {
+        x == self.plus ? self.minus : self.plus
+    }
+    
     @inlinable public static func &=(lhs: inout Self, rhs: Self) {
         lhs = lhs & rhs
     }
     
     @inlinable public static func &(lhs: Self, rhs: Self) -> Self {
-        lhs == rhs ? lhs : .plus
+        lhs == rhs ? lhs : self.plus
     }
     
     @inlinable public static func |=(lhs: inout Self, rhs: Self) {
@@ -61,7 +61,7 @@
     }
     
     @inlinable public static func |(lhs: Self, rhs: Self) -> Self {
-        lhs == rhs ? lhs : .minus
+        lhs == rhs ? lhs : self.minus
     }
     
     @inlinable public static func ^=(lhs: inout Self, rhs: Self) {
@@ -69,6 +69,6 @@
     }
     
     @inlinable public static func ^(lhs: Self, rhs: Self) -> Self {
-        lhs == rhs ? .plus : .minus
+        lhs == rhs ? self.plus : self.minus
     }
 }

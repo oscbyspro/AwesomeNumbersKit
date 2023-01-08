@@ -33,8 +33,8 @@
 ///
 /// It models a sign decorated magnitude and has sign-magnitude semantics.
 ///
-@frozen public struct ANKSigned<Magnitude>: Comparable, Hashable where Magnitude: ANKUnsignedInteger {
-        
+@frozen public struct ANKSigned<Magnitude>: Comparable, Hashable where Magnitude: ANKUnsignedInteger, Magnitude == Magnitude.Magnitude {
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
@@ -99,9 +99,9 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
-        if lhs.magnitude != rhs.magnitude { return false }
-        if lhs.sign/*-*/ == rhs.sign/*-*/ { return true  }
-        return lhs.magnitude.isZero && rhs.magnitude.isZero
+        if  lhs.magnitude != rhs.magnitude { return false }
+        if  lhs.sign/*-*/ == rhs.sign/*-*/ { return true  }
+        return lhs.isZero && rhs.isZero
     }
     
     @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {

@@ -19,42 +19,11 @@ extension ANKSigned {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
         
-    @inlinable public static func *=(lhs: inout Self, rhs: Self) {
+    @_transparent public static func *=(lhs: inout Self, rhs: Self) {
         lhs = lhs * rhs
     }
     
     @inlinable public static func *(lhs: Self, rhs: Self) -> Self {
         Self(lhs.magnitude * rhs.magnitude, as: lhs.sign ^ rhs.sign)
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Signed x Fixed Width x Multiplication
-//*============================================================================*
-
-extension ANKSigned where Magnitude: FixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
-        fatalError("TODO")
-    }
-    
-    @inlinable public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
-        fatalError("TODO")
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        fatalError("TODO")
-    }
-    
-    @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        fatalError("TODO")
     }
 }

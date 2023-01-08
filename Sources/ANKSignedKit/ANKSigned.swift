@@ -13,7 +13,4 @@ import ANKFoundation
 // MARK: * ANK x Signed
 //*============================================================================*
 
-extension ANKSigned: SignedNumeric {
-    
-    public typealias IntegerLiteralType = Int
-}
+extension ANKSigned: SignedNumeric { public typealias IntegerLiteralType = Int }
