@@ -43,6 +43,22 @@ final class SignedTestsOnAddition: XCTestCase {
         XCTAssertEqual(T(-1) + T( 1), T( 0))
         XCTAssertEqual(T(-1) + T( 2), T( 1))
     }
+    
+    func testAddingWrappingAround() {
+        XCTAssertEqual(T.min &+ T( 2), T.min + T(2))
+        XCTAssertEqual(T.max &+ T( 2), T( 1))
+
+        XCTAssertEqual(T.min &+ T(-2), T(-1))
+        XCTAssertEqual(T.max &+ T(-2), T.max - T(2))
+    }
+    
+    func testAddingReportingOverflow() {
+        XCTAssert(T.min.addingReportingOverflow(T( 2)) == (T.min + 2, false) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(T( 2)) == (T( 1),     true ) as (T, Bool))
+
+        XCTAssert(T.min.addingReportingOverflow(T(-2)) == (T(-1),     true ) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(T(-2)) == (T.max - 2, false) as (T, Bool))
+    }
 }
 
 #endif

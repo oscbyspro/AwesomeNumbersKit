@@ -32,6 +32,15 @@ final class SignedBenchmarksOnSubtraction: XCTestCase {
             _ = lhs - rhs
         }
     }
+    
+    func testSubtractingWrappingAround() {
+        let lhs = T(UInt.max, as: .plus)
+        let rhs = T(UInt.max, as: .plus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs &- rhs
+        }
+    }
 }
 
 #endif

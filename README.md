@@ -1,12 +1,12 @@
 # AwesomeNumbersKit
 
-Large number arithmetic, and more, in Swift.
+Large number arithmetic in Swift.
 
 ## ANKFullWidth
 
 👨‍💻🛠️🚧🧱🧱🏗️🧱🧱🚧⏳
 
-A composable, large, fixed-width, two's complement, binary integer.
+A composable, large-fixed-width, two's complement, binary integer.
 
 <table>
 <tr>
@@ -30,4 +30,4 @@ A composable, large, fixed-width, two's complement, binary integer.
 
 👨‍💻🛠️🚧🧱🧱🏗️🧱🧱🚧⏳
 
-A decorative, size agnostic, width agnostic, sign-magnitude, numeric integer.
+A decorative, width agnostic, pen-and-paper-sign-magnitude, numeric integer.

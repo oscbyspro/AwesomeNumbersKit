@@ -37,3 +37,43 @@ extension ANKSigned {
         var lhs = lhs; lhs += rhs; return lhs
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width x Addition
+//*============================================================================*
+
+extension ANKSigned where Magnitude: ANKFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public static func &+=(lhs: inout Self, rhs: Self) {
+        _ = lhs.addReportingOverflow(rhs)
+    }
+    
+    @_transparent public static func &+(lhs: Self, rhs: Self) -> Self {
+        lhs.addingReportingOverflow(rhs).partialValue
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
+        //=--------------------------------------=
+        if  self.sign == amount.sign {
+            return self.magnitude.addReportingOverflow(amount.magnitude)
+        }
+        //=--------------------------------------=
+        let overflow = self.magnitude.subtractReportingOverflow(amount.magnitude)
+        if  overflow { self.sign = amount.sign } // self.sign.toggle()
+        return overflow
+    }
+    
+    @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
+        var partialValue = self
+        let overflow: Bool = partialValue.addReportingOverflow(amount)
+        return PVO(partialValue, overflow)
+    }
+}

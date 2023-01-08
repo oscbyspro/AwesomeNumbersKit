@@ -32,6 +32,15 @@ final class SignedBenchmarksOnAddition: XCTestCase {
             _ = lhs + rhs
         }
     }
+    
+    func testAddingWrappingAround() {
+        let lhs = T(UInt.max, as: .plus )
+        let rhs = T(UInt.max, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs &+ rhs
+        }
+    }
 }
 
 #endif

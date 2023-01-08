@@ -13,7 +13,7 @@ import ANKFoundation
 // MARK: * ANK x Full Width
 //*============================================================================*
 
-/// A composable, large, fixed-width, two's complement, integer.
+/// A composable, large-fixed-width, two's complement, binary integer.
 ///
 /// ```
 /// ANK(U)Int128

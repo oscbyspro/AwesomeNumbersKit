@@ -11,7 +11,7 @@
 // MARK: * ANK x Signed
 //*============================================================================*
 
-/// A decorative, size agnostic, width agnostic, sign-magnitude, integer.
+/// A decorative, width agnostic, pen-and-paper-sign-magnitude, numeric integer.
 ///
 /// ```
 /// import ANKFoundation
@@ -27,11 +27,12 @@
 ///
 /// - use `isLessThanZero` to check if the integer is negative
 /// - use `isMoreThanZero` to check if the integer is positive
-/// - the integer literal `-0` creates a positive zero because: `Swift`
 ///
 /// **Sign & Magnitude Semantics**
 ///
-/// It models a sign decorated magnitude and has sign-magnitude semantics.
+/// It models a sign-decorated magnitude and has pen-and-paper-sign-magnitude
+/// semantics. In other words, the sign bit is treated as separate, such that
+/// overflow does not affect it.
 ///
 @frozen public struct ANKSigned<Magnitude>: Comparable, Hashable where Magnitude: ANKUnsignedInteger, Magnitude == Magnitude.Magnitude {
     
