@@ -19,6 +19,7 @@ import XCTest
 final class SignedBenchmarksOnDivision: XCTestCase {
     
     typealias T = ANKSigned<UInt>
+    typealias M = UInt
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -30,6 +31,19 @@ final class SignedBenchmarksOnDivision: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs.quotientAndRemainder(dividingBy: rhs)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Full Width
+    //=------------------------------------------------------------------------=
+    
+    func testDividingFullWidth() {
+        let lhs = (T.max)
+        let rhs = (T.max, M.max)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.dividingFullWidth(rhs)
         }
     }
 }

@@ -19,6 +19,7 @@ import XCTest
 final class Int256BenchmarksOnDivision: XCTestCase {
     
     typealias T = ANKInt256
+    typealias M = T.Magnitude
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -41,6 +42,19 @@ final class Int256BenchmarksOnDivision: XCTestCase {
             _ = lhs.quotientAndRemainder(dividingBy: rhs)
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Full Width
+    //=------------------------------------------------------------------------=
+    
+    func testDividingFullWidth() {
+        let lhs = (T.max)
+        let rhs = (T.max, M.max)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.dividingFullWidth(rhs)
+        }
+    }
 }
 
 //*============================================================================*
@@ -50,6 +64,7 @@ final class Int256BenchmarksOnDivision: XCTestCase {
 final class UInt256BenchmarksOnDivision: XCTestCase {
     
     typealias T = ANKUInt256
+    typealias M = T.Magnitude
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -70,6 +85,19 @@ final class UInt256BenchmarksOnDivision: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs.quotientAndRemainder(dividingBy: rhs)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Full Width
+    //=------------------------------------------------------------------------=
+    
+    func testDividingFullWidth() {
+        let lhs = (T.max)
+        let rhs = (T.max, M.max)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.dividingFullWidth(rhs)
         }
     }
 }

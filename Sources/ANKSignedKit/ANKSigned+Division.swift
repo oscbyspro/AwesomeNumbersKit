@@ -66,3 +66,19 @@ extension ANKSigned {
         return  QR(Self(qr.quotient, as: self.sign ^ divisor.sign), Self(qr.remainder, as: self.sign))
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width x Division
+//*============================================================================*
+
+extension ANKSigned where Magnitude: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
+        let qr: QR<Magnitude, Magnitude> = self.magnitude.dividingFullWidth((dividend.high.magnitude,  dividend.low))
+        return  QR(Self(qr.quotient, as: dividend.high.sign ^ self.sign), Self(qr.remainder, as: dividend.high.sign))
+    }
+}

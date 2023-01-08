@@ -24,7 +24,7 @@ final class SignedBenchmarksOnMultiplication: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testMultiplied() {
+    func testMultiplying() {
         let lhs = T(4, as: .plus )
         let rhs = T(4, as: .minus)
         
