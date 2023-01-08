@@ -25,39 +25,71 @@ final class SignedTestsOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtracting() {
-        XCTAssertEqual(T( 1) - T(-2), T( 3))
-        XCTAssertEqual(T( 1) - T(-1), T( 2))
-        XCTAssertEqual(T( 1) - T( 0), T( 1))
-        XCTAssertEqual(T( 1) - T( 1), T( 0))
-        XCTAssertEqual(T( 1) - T( 2), T(-1))
+        XCTAssertEqual( T(1)  - -T(2),  T(3))
+        XCTAssertEqual( T(1)  - -T(1),  T(2))
+        XCTAssertEqual( T(1)  - -T(0),  T(1))
+        XCTAssertEqual( T(1)  -  T(0),  T(1))
+        XCTAssertEqual( T(1)  -  T(1),  T(0))
+        XCTAssertEqual( T(1)  -  T(2), -T(1))
         
-        XCTAssertEqual(T( 0) - T(-2), T( 2))
-        XCTAssertEqual(T( 0) - T(-1), T( 1))
-        XCTAssertEqual(T( 0) - T( 0), T( 0))
-        XCTAssertEqual(T( 0) - T( 1), T(-1))
-        XCTAssertEqual(T( 0) - T( 2), T(-2))
+        XCTAssertEqual( T(0)  - -T(2),  T(2))
+        XCTAssertEqual( T(0)  - -T(1),  T(1))
+        XCTAssertEqual( T(0)  - -T(0),  T(0))
+        XCTAssertEqual( T(0)  -  T(0),  T(0))
+        XCTAssertEqual( T(0)  -  T(1), -T(1))
+        XCTAssertEqual( T(0)  -  T(2), -T(2))
         
-        XCTAssertEqual(T(-1) - T(-2), T( 1))
-        XCTAssertEqual(T(-1) - T(-1), T( 0))
-        XCTAssertEqual(T(-1) - T( 0), T(-1))
-        XCTAssertEqual(T(-1) - T( 1), T(-2))
-        XCTAssertEqual(T(-1) - T( 2), T(-3))
+        XCTAssertEqual(-T(0)  - -T(2),  T(2))
+        XCTAssertEqual(-T(0)  - -T(1),  T(1))
+        XCTAssertEqual(-T(0)  - -T(0),  T(0))
+        XCTAssertEqual(-T(0)  -  T(0),  T(0))
+        XCTAssertEqual(-T(0)  -  T(1), -T(1))
+        XCTAssertEqual(-T(0)  -  T(2), -T(2))
+        
+        XCTAssertEqual(-T(1)  - -T(2),  T(1))
+        XCTAssertEqual(-T(1)  - -T(1),  T(0))
+        XCTAssertEqual(-T(1)  - -T(0), -T(1))
+        XCTAssertEqual(-T(1)  -  T(0), -T(1))
+        XCTAssertEqual(-T(1)  -  T(1), -T(2))
+        XCTAssertEqual(-T(1)  -  T(2), -T(3))
     }
     
     func testSubtractingWrappingAround() {
-        XCTAssertEqual(T.min &- T( 2), T(-1))
-        XCTAssertEqual(T.max &- T( 2), T.max - T(2))
+        XCTAssertEqual( T(1) &- -T(2),  T(3))
+        XCTAssertEqual( T(1) &- -T(1),  T(2))
+        XCTAssertEqual( T(1) &- -T(0),  T(1))
+        XCTAssertEqual( T(1) &-  T(0),  T(1))
+        XCTAssertEqual( T(1) &-  T(1),  T(0))
+        XCTAssertEqual( T(1) &-  T(2), -T(1))
         
-        XCTAssertEqual(T.min &- T(-2), T.min + T(2))
-        XCTAssertEqual(T.max &- T(-2), T( 1))
+        XCTAssertEqual( T(0) &- -T(2),  T(2))
+        XCTAssertEqual( T(0) &- -T(1),  T(1))
+        XCTAssertEqual( T(0) &- -T(0),  T(0))
+        XCTAssertEqual( T(0) &-  T(0),  T(0))
+        XCTAssertEqual( T(0) &-  T(1), -T(1))
+        XCTAssertEqual( T(0) &-  T(2), -T(2))
+        
+        XCTAssertEqual(-T(0) &- -T(2),  T(2))
+        XCTAssertEqual(-T(0) &- -T(1),  T(1))
+        XCTAssertEqual(-T(0) &- -T(0),  T(0))
+        XCTAssertEqual(-T(0) &-  T(0),  T(0))
+        XCTAssertEqual(-T(0) &-  T(1), -T(1))
+        XCTAssertEqual(-T(0) &-  T(2), -T(2))
+        
+        XCTAssertEqual(-T(1) &- -T(2),  T(1))
+        XCTAssertEqual(-T(1) &- -T(1),  T(0))
+        XCTAssertEqual(-T(1) &- -T(0), -T(1))
+        XCTAssertEqual(-T(1) &-  T(0), -T(1))
+        XCTAssertEqual(-T(1) &-  T(1), -T(2))
+        XCTAssertEqual(-T(1) &-  T(2), -T(3))
     }
     
     func testSubtractingReportingOverflow() {
-        XCTAssert(T.min.subtractingReportingOverflow(T( 2)) == (T(-1),        true ) as (T, Bool))
+        XCTAssert(T.min.subtractingReportingOverflow(T( 2)) == (T(  ) - T(1), true ) as (T, Bool))
         XCTAssert(T.max.subtractingReportingOverflow(T( 2)) == (T.max - T(2), false) as (T, Bool))
         
         XCTAssert(T.min.subtractingReportingOverflow(T(-2)) == (T.min + T(2), false) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(T(-2)) == (T( 1),        true ) as (T, Bool))
+        XCTAssert(T.max.subtractingReportingOverflow(T(-2)) == (T(  ) + T(1), true ) as (T, Bool))
     }
 }
 
