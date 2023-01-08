@@ -10,7 +10,6 @@
 #if DEBUG
 
 import ANKFullWidthKit
-import ANKSignedKit
 import XCTest
 
 //*============================================================================*

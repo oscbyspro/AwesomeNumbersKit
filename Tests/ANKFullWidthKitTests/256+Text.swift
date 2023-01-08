@@ -21,7 +21,7 @@ final class Int256TestsOnText: XCTestCase {
     typealias T = ANKInt256
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Decode
     //=------------------------------------------------------------------------=
     
     func testDecodingRadix16() {
@@ -36,10 +36,24 @@ final class Int256TestsOnText: XCTestCase {
         XCTAssertEqual(T(decoding: "-18446744073709551615", radix: 10), -T(UInt64.max))
     }
     
+    func testDecodingRadix16ValueOutsideOfRepresentableRangeReturnsNil() {
+        XCTAssertEqual(T(decoding: "+" + String(repeating: "f", count: 99), radix: 16), nil)
+        XCTAssertEqual(T(decoding: "-" + String(repeating: "f", count: 99), radix: 16), nil)
+    }
+    
+    func testDecodingRadix10ValueOutsideOfRepresentableRangeReturnsNil() {
+        XCTAssertEqual(T(decoding: "+" + String(repeating: "9", count: 99), radix: 10), nil)
+        XCTAssertEqual(T(decoding: "-" + String(repeating: "9", count: 99), radix: 10), nil)
+    }
+    
     func testDecodingLotsOfZeros() {
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0"), T(0))
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1"), T(1))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Encode
+    //=------------------------------------------------------------------------=
     
     func testEncodingRadix16() {
         XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: false),  "7" + String(repeating: "f", count: 63))
@@ -54,7 +68,7 @@ final class Int256TestsOnText: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
     
     func testRadixLiteralAsNumber() {
@@ -109,7 +123,7 @@ final class UInt256TestsOnText: XCTestCase {
     typealias T = ANKUInt256
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Decode
     //=------------------------------------------------------------------------=
     
     func testDecodingRadix16() {
@@ -125,10 +139,22 @@ final class UInt256TestsOnText: XCTestCase {
         XCTAssertEqual(T(decoding: "+18446744073709551615", radix: 10),  T(UInt64.max))
     }
     
+    func testDecodingRadix16ValueOutsideOfRepresentableRangeReturnsNil() {
+        XCTAssertEqual(T(decoding: String(repeating: "f", count: 99), radix: 16), nil)
+    }
+    
+    func testDecodingRadix10ValueOutsideOfRepresentableRangeReturnsNil() {
+        XCTAssertEqual(T(decoding: String(repeating: "9", count: 99), radix: 10), nil)
+    }
+    
     func testDecodingLotsOfZeros() {
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0"), T(0))
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1"), T(1))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Encode
+    //=------------------------------------------------------------------------=
     
     func testEncodingRadix16() {
         XCTAssertEqual(String(encoding: T.min, radix: 16, uppercase: false), "0")
@@ -143,7 +169,7 @@ final class UInt256TestsOnText: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
     
     func testRadixLiteralAsNumber() {

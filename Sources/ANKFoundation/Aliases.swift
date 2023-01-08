@@ -16,13 +16,12 @@ public typealias LH<L,H> = (low:  L, high: H)
 public typealias PVO<PV> = (partialValue: PV, overflow: Bool)
 public typealias QR<Q,R> = (quotient: Q,  remainder: R)
 
-
 //*============================================================================*
 // MARK: * Aliases x Models
 //*============================================================================*
 
 public typealias Sign/*-*/ = ANKSign
-public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude
+public typealias Signed<T> = ANKSigned<T> where T: ANKBinaryInteger, T == T.Magnitude
 
 //*============================================================================*
 // MARK: * Aliases x Protocols

@@ -67,7 +67,7 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
             guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix) else { return nil }
             chunkStartIndex = chunkEndIndex
             //=----------------------------------=
-            magnitude += digit as UInt
+            guard !magnitude.addReportingOverflow(digit as UInt) else { return nil }
         }
         //=--------------------------------------=
         forwards: while chunkStartIndex != utf8.endIndex {
@@ -76,8 +76,8 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
             guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix) else { return nil }
             chunkStartIndex = chunkEndIndex
             //=----------------------------------=
-            magnitude *= root.power as UInt
-            magnitude += digit as UInt
+            guard !magnitude.multiplyReportingOverflow(by: root.power as UInt) else { return nil }
+            guard !magnitude.addReportingOverflow(digit as UInt) else { return nil }
         }
         //=--------------------------------------=
         return magnitude

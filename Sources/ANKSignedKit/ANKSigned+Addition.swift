@@ -68,7 +68,6 @@ extension ANKSigned where Magnitude: ANKFixedWidthInteger {
         //=--------------------------------------=
         let overflow = self.magnitude.subtractReportingOverflow(amount.magnitude)
         if  overflow { self.sign = amount.sign; self.magnitude.formTwosComplement() }
-        //=--------------------------------------=
         return false
     }
     
