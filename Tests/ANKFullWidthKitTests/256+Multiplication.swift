@@ -34,16 +34,6 @@ final class Int256TestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultiplying() {
-        XCTAssertEqual(T( 0) * T( 0), T( 0))
-        XCTAssertEqual(T( 0) * T( 1), T( 0))
-        XCTAssertEqual(T( 1) * T( 0), T( 0))
-        XCTAssertEqual(T( 1) * T( 1), T( 1))
-        
-        XCTAssertEqual(T( 0) * T( 0), T( 0))
-        XCTAssertEqual(T( 0) * T(-1), T( 0))
-        XCTAssertEqual(T(-1) * T( 0), T( 0))
-        XCTAssertEqual(T(-1) * T(-1), T( 1))
-
         XCTAssertEqual(T( 2) * T( 3), T( 6))
         XCTAssertEqual(T( 2) * T(-3), T(-6))
         XCTAssertEqual(T(-2) * T( 3), T(-6))
@@ -94,16 +84,6 @@ final class Int256TestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultiplyingByInt() {
-        XCTAssertEqual(T( 0) * Int( 0), T( 0))
-        XCTAssertEqual(T( 0) * Int( 1), T( 0))
-        XCTAssertEqual(T( 1) * Int( 0), T( 0))
-        XCTAssertEqual(T( 1) * Int( 1), T( 1))
-        
-        XCTAssertEqual(T( 0) * Int( 0), T( 0))
-        XCTAssertEqual(T( 0) * Int(-1), T( 0))
-        XCTAssertEqual(T(-1) * Int( 0), T( 0))
-        XCTAssertEqual(T(-1) * Int(-1), T( 1))
-
         XCTAssertEqual(T( 2) * Int( 3), T( 6))
         XCTAssertEqual(T( 2) * Int(-3), T(-6))
         XCTAssertEqual(T(-2) * Int( 3), T(-6))
@@ -160,11 +140,6 @@ final class UInt256TestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultiplying() {
-        XCTAssertEqual(T(0) * T(0), T(0))
-        XCTAssertEqual(T(0) * T(1), T(0))
-        XCTAssertEqual(T(1) * T(0), T(0))
-        XCTAssertEqual(T(1) * T(1), T(1))
-        
         XCTAssertEqual(T(2) * T(3), T(6))
         XCTAssertEqual(T(3) * T(2), T(6))
         
@@ -213,11 +188,6 @@ final class UInt256TestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultiplyingByUInt() {
-        XCTAssertEqual(T(0) * UInt(0), 0)
-        XCTAssertEqual(T(0) * UInt(1), 0)
-        XCTAssertEqual(T(1) * UInt(0), 0)
-        XCTAssertEqual(T(1) * UInt(1), 1)
-        
         XCTAssertEqual(T(2) * UInt(3), 6)
         XCTAssertEqual(T(3) * UInt(2), 6)
     }

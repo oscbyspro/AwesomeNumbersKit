@@ -56,7 +56,7 @@
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Details x Normalization
+    // MARK: Details x Normal
     //=------------------------------------------------------------------------=
     
     /// - Returns: `true` for all values except negative zero where it returns `false`
@@ -100,9 +100,12 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
-        if  lhs.magnitude != rhs.magnitude { return false }
-        if  lhs.sign/*-*/ == rhs.sign/*-*/ { return true  }
-        return lhs.isZero && rhs.isZero
+        //=--------------------------------------=
+        if  lhs.sign != rhs.sign {
+            return lhs.isZero && rhs.isZero
+        }
+        //=--------------------------------------=
+        return lhs.magnitude == rhs.magnitude
     }
     
     @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {

@@ -24,12 +24,21 @@ final class SignedBenchmarksOnMultiplication: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testMultiplying() {
+    func testMultiplied() {
         let lhs = T(4, as: .plus )
         let rhs = T(4, as: .minus)
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs * rhs
+        }
+    }
+    
+    func testMultipliedFullWidth() {
+        let lhs = T(4, as: .plus )
+        let rhs = T(4, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.multipliedFullWidth(by: rhs)
         }
     }
 }

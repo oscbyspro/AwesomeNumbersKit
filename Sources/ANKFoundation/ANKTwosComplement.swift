@@ -37,7 +37,7 @@ extension ANKTwosComplement where Magnitude.BitPattern == BitPattern {
         //=--------------------------------------=
         if  Self.isSigned {
             self.init(bitPattern: source.magnitude)
-            if sourceIsLessThanZero {  self.formTwosComplement() }
+            if sourceIsLessThanZero {  self.formTwosComplement()  }
             if sourceIsLessThanZero != self.isLessThanZero { return nil }
         //=--------------------------------------=
         }   else {

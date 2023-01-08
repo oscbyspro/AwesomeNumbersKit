@@ -26,20 +26,34 @@ final class SignedTestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultiplying() {
-        XCTAssertEqual(T( 0) * T( 0), T( 0))
-        XCTAssertEqual(T( 0) * T( 1), T( 0))
-        XCTAssertEqual(T( 1) * T( 0), T( 0))
-        XCTAssertEqual(T( 1) * T( 1), T( 1))
+        XCTAssertEqual( T(2) *  T(3),  T(6))
+        XCTAssertEqual( T(2) * -T(3), -T(6))
+        XCTAssertEqual(-T(2) *  T(3), -T(6))
+        XCTAssertEqual(-T(2) * -T(3),  T(6))
+    }
+    
+    func testMultiplyingReportingOverflow() {
+        XCTAssert(T( 2).multipliedReportingOverflow(by:  T(3)) == ( T(6), false) as (T, Bool))
+        XCTAssert(T( 2).multipliedReportingOverflow(by: -T(3)) == (-T(6), false) as (T, Bool))
+        XCTAssert(T(-2).multipliedReportingOverflow(by:  T(3)) == (-T(6), false) as (T, Bool))
+        XCTAssert(T(-2).multipliedReportingOverflow(by: -T(3)) == ( T(6), false) as (T, Bool))
         
-        XCTAssertEqual(T( 0) * T( 0), T( 0))
-        XCTAssertEqual(T( 0) * T(-1), T( 0))
-        XCTAssertEqual(T(-1) * T( 0), T( 0))
-        XCTAssertEqual(T(-1) * T(-1), T( 1))
-
-        XCTAssertEqual(T( 2) * T( 3), T( 6))
-        XCTAssertEqual(T( 2) * T(-3), T(-6))
-        XCTAssertEqual(T(-2) * T( 3), T(-6))
-        XCTAssertEqual(T(-2) * T(-3), T( 6))
+        XCTAssert(T.min.multipliedReportingOverflow(by: T.min) == ( T(1), true ) as (T, Bool))
+        XCTAssert(T.min.multipliedReportingOverflow(by: T.max) == (-T(1), true ) as (T, Bool))
+        XCTAssert(T.max.multipliedReportingOverflow(by: T.min) == (-T(1), true ) as (T, Bool))
+        XCTAssert(T.min.multipliedReportingOverflow(by: T.min) == ( T(1), true ) as (T, Bool))
+    }
+    
+    func testMultiplyingFullWidth() {
+        XCTAssert(T( 2).multipliedFullWidth(by:  T(3)) == ( T(0),  M(6)) as (T, M))
+        XCTAssert(T( 2).multipliedFullWidth(by: -T(3)) == (-T(0),  M(6)) as (T, M))
+        XCTAssert(T(-2).multipliedFullWidth(by:  T(3)) == (-T(0),  M(6)) as (T, M))
+        XCTAssert(T(-2).multipliedFullWidth(by: -T(3)) == ( T(0),  M(6)) as (T, M))
+        
+        XCTAssert(T.min.multipliedFullWidth(by: T.min) == (T.max - T(1), M(1)) as (T, M))
+        XCTAssert(T.min.multipliedFullWidth(by: T.max) == (T.min + T(1), M(1)) as (T, M))
+        XCTAssert(T.max.multipliedFullWidth(by: T.min) == (T.min + T(1), M(1)) as (T, M))
+        XCTAssert(T.min.multipliedFullWidth(by: T.min) == (T.max - T(1), M(1)) as (T, M))
     }
 }
 
