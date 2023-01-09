@@ -11,7 +11,7 @@
 // MARK: * ANK x Binary Integer x Big Endian Text Codable
 //*============================================================================*
 
-public protocol ANKBigEndianTextCodable: BinaryInteger, ExpressibleByStringLiteral {
+public protocol ANKBigEndianTextCodable {
 
     //=------------------------------------------------------------------------=
     // MARK: Utilities
@@ -31,21 +31,9 @@ extension ANKBigEndianTextCodable {
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
-        
-    @_transparent public init(stringLiteral source: String) {
-        self.init(decoding: source, radix: nil)!
-    }
     
     @_transparent public init?(decoding source: some StringProtocol, radix: Int? = nil) {
         guard let value = Self.decodeBigEndianText(source, radix: radix) else { return nil }; self = value
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public var description: String {
-        Self.encodeBigEndianText(self, radix: 10, uppercase: false)
     }
 }
 

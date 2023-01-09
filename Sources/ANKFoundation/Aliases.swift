@@ -28,4 +28,3 @@ public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Ma
 //*============================================================================*
 
 public protocol WoRdS: RandomAccessCollection<UInt> where Index == Int { }
-

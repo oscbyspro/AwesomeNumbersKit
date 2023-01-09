@@ -56,6 +56,13 @@ enum Trivial {
     static let allUnsignedLargeFixedWidthIntegerTypes =
     allFixedWidthIntegerTypes.compactMap({ $0 as? any ANKUnsignedLargeFixedWidthInteger.Type })
     
+    //=------------------------------------------------------------------------=
+    // MARK: State
+    //=------------------------------------------------------------------------=
+    
+    static let allBigEndianTextCodableTypes =
+    allBinaryIntegerTypes.compactMap({ $0 as? any (ANKBigEndianTextCodable & ANKBinaryInteger).Type })
+    
     static let allEitherIntOrUIntTypes =
     allFixedWidthIntegerTypes.compactMap({ $0 as? any /*-----------------*/ANKIntOrUInt.Type })
 }

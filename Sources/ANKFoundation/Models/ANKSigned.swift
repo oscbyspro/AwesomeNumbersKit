@@ -34,6 +34,12 @@
 /// semantics. In other words, the sign bit is treated as separate, such that
 /// overflow does not affect it.
 ///
+/// **ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral**
+///
+/// ```
+/// await .biggerIntegerLiterals()
+/// ```
+///
 @frozen public struct ANKSigned<Magnitude>: Comparable, Hashable where Magnitude: ANKUnsignedInteger, Magnitude == Magnitude.Magnitude {
     
     //=------------------------------------------------------------------------=

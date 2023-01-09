@@ -7,11 +7,12 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import ANKFoundation
-
 //*============================================================================*
 // MARK: * ANK x Text
 //*============================================================================*
+//=----------------------------------------------------------------------------=
+// TODO: make these methods private to this package
+//=----------------------------------------------------------------------------=
 
 extension StringProtocol where Self == SubSequence {
     
@@ -19,14 +20,14 @@ extension StringProtocol where Self == SubSequence {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable mutating func removeSignPrefix() -> ANKSign? {
+    @inlinable public mutating func _removeSignPrefix() -> ANKSign? {
         switch true {
         case hasPrefix("+"): removeFirst(); return .plus
         case hasPrefix("-"): removeFirst(); return .minus
         default: return nil }
     }
     
-    @inlinable mutating func removeRadixLiteralPrefix() -> Int? {
+    @inlinable public mutating func _removeRadixLiteralPrefix() -> Int? {
         switch true {
         case hasPrefix("0x"): removeFirst(2); return 16
         case hasPrefix("0o"): removeFirst(2); return 08

@@ -24,37 +24,14 @@
 /// - `UInt32`
 /// - `UInt64`
 ///
-public protocol ANKTrivialFixedWidthInteger: ANKFixedWidthInteger, ANKTwosComplement where BitPattern == Magnitude { }
+public protocol ANKTrivialFixedWidthInteger: ANKBigEndianTextCodable,
+ANKFixedWidthInteger, ANKTwosComplement where BitPattern == Magnitude { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
 extension ANKTrivialFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Details x Bit Pattern
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public init(bitPattern: BitPattern) {
-        self = unsafeBitCast(bitPattern, to: Self.self)
-    }
-        
-    @_transparent public var bitPattern: BitPattern {
-        return unsafeBitCast(self, to: BitPattern.self)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Details x Two's Complement
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public mutating func formTwosComplement() {
-        self = self.twosComplement()
-    }
-    
-    @_transparent public func twosComplement() -> Self {
-        ~self &+ 1
-    }
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -124,6 +101,68 @@ extension ANKTrivialFixedWidthInteger {
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
         let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
         self = Self(truncatingIfNeeded: hl.low); return hl.high
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details x Bit Pattern
+//=----------------------------------------------------------------------------=
+
+extension ANKTrivialFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public init(bitPattern: BitPattern) {
+        self = unsafeBitCast(bitPattern, to: Self.self)
+    }
+        
+    @_transparent public var bitPattern: BitPattern {
+        return unsafeBitCast(self, to: BitPattern.self)
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details x Two's Complement
+//=----------------------------------------------------------------------------=
+
+extension ANKTrivialFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public mutating func formTwosComplement() {
+        self = self.twosComplement()
+    }
+    
+    @_transparent public func twosComplement() -> Self {
+        ~self &+ 1
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details x Big Endian Text Codable
+//=----------------------------------------------------------------------------=
+
+extension ANKTrivialFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
+        var bigEndianText = source[...]
+        let sign  = bigEndianText._removeSignPrefix() ?? ANKSign.plus
+        let radix = radix ?? bigEndianText._removeRadixLiteralPrefix() ?? 10
+        let magnitude = Magnitude(bigEndianText, radix: radix)
+        guard  let magnitude else { return nil }
+        return Self(exactly: ANKSigned(magnitude, as: sign))
+    }
+    
+    @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
+        String(source, radix: radix, uppercase: uppercase)
     }
 }
 

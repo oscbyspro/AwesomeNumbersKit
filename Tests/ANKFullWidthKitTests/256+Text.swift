@@ -36,6 +36,32 @@ final class Int256TestsOnText: XCTestCase {
         XCTAssertEqual(T(decoding: "-18446744073709551615", radix: 10), -T(UInt64.max))
     }
     
+    func testDecodingRadixLiteralAsNumber() {
+        XCTAssertEqual(T(decoding:  "0x", radix: 36),  33)
+        XCTAssertEqual(T(decoding:  "0o", radix: 36),  24)
+        XCTAssertEqual(T(decoding:  "0b", radix: 36),  11)
+        XCTAssertEqual(T(decoding: "-0x", radix: 36), -33)
+        XCTAssertEqual(T(decoding: "-0o", radix: 36), -24)
+        XCTAssertEqual(T(decoding: "-0b", radix: 36), -11)
+    }
+    
+    func testDecodingStringsWithSignAndRadixLiteral() {
+        XCTAssertEqual( "1234567890",         T(1234567890))
+        XCTAssertEqual( "0x123456789abcdef0", T(0x123456789abcdef0))
+        XCTAssertEqual( "0o1234567012345670", T(0o1234567012345670))
+        XCTAssertEqual( "0b1010101010101010", T(0b1010101010101010))
+        
+        XCTAssertEqual("+1234567890",         T(1234567890))
+        XCTAssertEqual("+0x123456789abcdef0", T(0x123456789abcdef0))
+        XCTAssertEqual("+0o1234567012345670", T(0o1234567012345670))
+        XCTAssertEqual("+0b1010101010101010", T(0b1010101010101010))
+
+        XCTAssertEqual("-9876543210",         T(-9876543210))
+        XCTAssertEqual("-0x123456789abcdef0", T(-0x123456789abcdef0))
+        XCTAssertEqual("-0o1234567012345670", T(-0o1234567012345670))
+        XCTAssertEqual("-0b1010101010101010", T(-0b1010101010101010))
+    }
+    
     func testDecodingPrefixingZerosHasNoEffect() {
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0"), T(0))
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1"), T(1))
@@ -65,31 +91,6 @@ final class Int256TestsOnText: XCTestCase {
     func testEncodingRadix10() {
         XCTAssertEqual(String(encoding: T.min, radix: 10), "-57896044618658097711785492504343953926634992332820282019728792003956564819968")
         XCTAssertEqual(String(encoding: T.max, radix: 10),  "57896044618658097711785492504343953926634992332820282019728792003956564819967")
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Miscellaneous
-    //=------------------------------------------------------------------------=
-    
-    func testRadixLiteralAsNumber() {
-        XCTAssertEqual(T(decoding:  "0x", radix: 36),  33)
-        XCTAssertEqual(T(decoding:  "0o", radix: 36),  24)
-        XCTAssertEqual(T(decoding:  "0b", radix: 36),  11)
-        XCTAssertEqual(T(decoding: "-0x", radix: 36), -33)
-        XCTAssertEqual(T(decoding: "-0o", radix: 36), -24)
-        XCTAssertEqual(T(decoding: "-0b", radix: 36), -11)
-    }
-    
-    func testStringLiterals() {
-        XCTAssertEqual("1234567890",          T(1234567890))
-        XCTAssertEqual("0x123456789abcdef0",  T(0x123456789abcdef0))
-        XCTAssertEqual("0o1234567012345670",  T(0o1234567012345670))
-        XCTAssertEqual("0b1010101010101010",  T(0b1010101010101010))
-
-        XCTAssertEqual("-9876543210",         T(-9876543210))
-        XCTAssertEqual("-0x123456789abcdef0", T(-0x123456789abcdef0))
-        XCTAssertEqual("-0o1234567012345670", T(-0o1234567012345670))
-        XCTAssertEqual("-0b1010101010101010", T(-0b1010101010101010))
     }
     
     //=------------------------------------------------------------------------=
@@ -138,6 +139,27 @@ final class UInt256TestsOnText: XCTestCase {
         XCTAssertEqual(T(decoding: "+18446744073709551615", radix: 10),  T(UInt64.max))
     }
     
+    func testDecodingRadixLiteralAsNumber() {
+        XCTAssertEqual(T(decoding:  "0x", radix: 36), 33)
+        XCTAssertEqual(T(decoding:  "0o", radix: 36), 24)
+        XCTAssertEqual(T(decoding:  "0b", radix: 36), 11)
+        XCTAssertEqual(T(decoding: "+0x", radix: 36), 33)
+        XCTAssertEqual(T(decoding: "+0o", radix: 36), 24)
+        XCTAssertEqual(T(decoding: "+0b", radix: 36), 11)
+    }
+    
+    func testDecodingStringsWithSignAndRadixLiteral() {
+        XCTAssertEqual( "1234567890",         T(1234567890))
+        XCTAssertEqual( "0x123456789abcdef0", T(0x123456789abcdef0))
+        XCTAssertEqual( "0o1234567012345670", T(0o1234567012345670))
+        XCTAssertEqual( "0b1010101010101010", T(0b1010101010101010))
+        
+        XCTAssertEqual("+1234567890",         T(1234567890))
+        XCTAssertEqual("+0x123456789abcdef0", T(0x123456789abcdef0))
+        XCTAssertEqual("+0o1234567012345670", T(0o1234567012345670))
+        XCTAssertEqual("+0b1010101010101010", T(0b1010101010101010))
+    }
+    
     func testDecodingPrefixingZerosHasNoEffect() {
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0"), T(0))
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1"), T(1))
@@ -167,26 +189,6 @@ final class UInt256TestsOnText: XCTestCase {
     func testEncodingRadix10() {
         XCTAssertEqual(String(encoding: T.min, radix: 10), "0")
         XCTAssertEqual(String(encoding: T.max, radix: 10), "115792089237316195423570985008687907853269984665640564039457584007913129639935")
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Miscellaneous
-    //=------------------------------------------------------------------------=
-    
-    func testRadixLiteralAsNumber() {
-        XCTAssertEqual(T(decoding:  "0x", radix: 36), 33)
-        XCTAssertEqual(T(decoding:  "0o", radix: 36), 24)
-        XCTAssertEqual(T(decoding:  "0b", radix: 36), 11)
-        XCTAssertEqual(T(decoding: "+0x", radix: 36), 33)
-        XCTAssertEqual(T(decoding: "+0o", radix: 36), 24)
-        XCTAssertEqual(T(decoding: "+0b", radix: 36), 11)
-    }
-    
-    func testStringLiterals() {
-        XCTAssertEqual("1234567890",          T(1234567890))
-        XCTAssertEqual("0x123456789abcdef0",  T(0x123456789abcdef0))
-        XCTAssertEqual("0o1234567012345670",  T(0o1234567012345670))
-        XCTAssertEqual("0b1010101010101010",  T(0b1010101010101010))
     }
     
     //=------------------------------------------------------------------------=

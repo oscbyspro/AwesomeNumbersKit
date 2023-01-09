@@ -12,7 +12,7 @@
 //*============================================================================*
 
 /// A binary integer with two's complement in-memory representation.
-public protocol ANKTwosComplement<BitPattern>: ANKBinaryInteger & ANKBitPatternConvertible where Magnitude: ANKTwosComplement { }
+public protocol ANKTwosComplement<BitPattern>: ANKBinaryInteger, ANKBitPatternConvertible where Magnitude: ANKTwosComplement { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details x Sign & Magnitude

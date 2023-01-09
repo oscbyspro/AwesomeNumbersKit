@@ -21,8 +21,8 @@ extension ANKFullWidth {
     
     @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
         var bigEndianText = source[...]
-        let sign  = bigEndianText.removeSignPrefix() ?? ANKSign.plus
-        let radix = radix ?? bigEndianText.removeRadixLiteralPrefix() ?? 10
+        let sign  = bigEndianText._removeSignPrefix() ?? ANKSign.plus
+        let radix = radix ?? bigEndianText._removeRadixLiteralPrefix() ?? 10
         let magnitude = Magnitude._decodeBigEndianDigits(bigEndianText, radix: radix)
         guard  let magnitude else { return nil }
         return Self(exactly: ANKSigned(magnitude, as: sign))
@@ -42,10 +42,11 @@ extension ANKFullWidth {
 extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
     
     //=------------------------------------------------------------------------=
-    // MARK: Initializers
+    // MARK: Decode
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: Int) -> Self? {
+    @_transparent @usableFromInline static func _decodeBigEndianDigits(
+    _ source: some StringProtocol, radix: Int) -> Self? {
         precondition(2 <= radix && radix <= 36)
         //=--------------------------------------=
         // Fast, Radix Is Power Of 2
@@ -127,10 +128,11 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
+    // MARK: Encode
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline static func _encode(_ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
+    @_transparent @usableFromInline static func _encode(
+    _ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
         precondition(2 <= radix && radix <= 36)
         //=--------------------------------------=
         // Fast, Radix Is Power Of 2
@@ -142,6 +144,32 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
         // Slow, Radix Is * Not * Power Of 2
         //=--------------------------------------=
         return  self._encodeWhereRadixIsIn2Through36AndRadixIsNotPowerOf2(magnitude, radix: radix, uppercase: uppercase, to: &text)
+    }
+    
+    
+    @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsPowerOf2(
+    _ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
+        //=--------------------------------------=
+        let magnitude_ = magnitude.minWordCountReportingIsZeroOrMinusOne()
+        if  magnitude_.isZeroOrMinusOne { text += "0"; return }
+        //=--------------------------------------=
+        let root = UInt.maxValueRootReportingUnderestimatedPowerOrZero(radix)
+        assert(root.power.isZero, "radix must be power of 2")
+        //=--------------------------------------=
+        text.reserveCapacity(text.utf8.count + magnitude_.minWordCount * root.exponent)
+        //=--------------------------------------=
+        magnitude.withUnsafeWordsPointer { MAGNITUDE in
+            //=----------------------------------=
+            var index = MAGNITUDE.index(before: magnitude_.minWordCount)
+            text += String(MAGNITUDE[index], radix: radix, uppercase: uppercase)
+            //=----------------------------------=
+            backwards: while index != MAGNITUDE.startIndex {
+                MAGNITUDE.formIndex(before: &index)
+                let digits = String(MAGNITUDE[index], radix: radix, uppercase: uppercase)
+                text += repeatElement("0", count: root.exponent - digits.utf8.count)
+                text += digits
+            }
+        }
     }
     
     @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsNotPowerOf2(
@@ -182,30 +210,20 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
             }
         }
     }
+}
+
+//*============================================================================*
+// MARK: * ANK x Full Width x Text x Literal
+//*============================================================================*
+
+extension ANKFullWidth {
     
-    @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsPowerOf2(
-    _ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
-        //=--------------------------------------=
-        let magnitude_ = magnitude.minWordCountReportingIsZeroOrMinusOne()
-        if  magnitude_.isZeroOrMinusOne { text += "0"; return }
-        //=--------------------------------------=
-        let root = UInt.maxValueRootReportingUnderestimatedPowerOrZero(radix)
-        assert(root.power.isZero, "radix must be power of 2")
-        //=--------------------------------------=
-        text.reserveCapacity(text.utf8.count + magnitude_.minWordCount * root.exponent)
-        //=--------------------------------------=
-        magnitude.withUnsafeWordsPointer { MAGNITUDE in
-            //=----------------------------------=
-            var index = MAGNITUDE.index(before: magnitude_.minWordCount)
-            text += String(MAGNITUDE[index], radix: radix, uppercase: uppercase)
-            //=----------------------------------=
-            backwards: while index != MAGNITUDE.startIndex {
-                MAGNITUDE.formIndex(before: &index)
-                let digits = String(MAGNITUDE[index], radix: radix, uppercase: uppercase)
-                text += repeatElement("0", count: root.exponent - digits.utf8.count)
-                text += digits
-            }
-        }
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public init(stringLiteral source: String) {
+        self.init(decoding: source, radix: nil)!
     }
 }
 
@@ -218,6 +236,10 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
+    
+    @_transparent public var description: String {
+        String(encoding: self)
+    }
     
     @inlinable public var debugDescription: String {
         "\(Self.self)(\(self.lazy.map(String.init).joined(separator: ", ")))"

@@ -33,8 +33,15 @@ import ANKFoundation
 /// High.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
-@frozen public struct ANKFullWidth<High, Low>: WoRdS,
-ANKBigEndianTextCodable, ANKLargeFixedWidthInteger, ANKTwosComplement where
+/// **ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral**
+///
+/// ```
+/// await .biggerIntegerLiterals()
+/// ```
+///
+@frozen public struct ANKFullWidth<High, Low>:
+WoRdS, ANKBigEndianTextCodable, ANKLargeFixedWidthInteger, ANKTwosComplement,
+CustomStringConvertible, CustomDebugStringConvertible, ExpressibleByStringLiteral where
 High: ANKLargeFixedWidthInteger & ANKTwosComplement,
 Low:  ANKUnsignedLargeFixedWidthInteger<UInt> & ANKTwosComplement,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {

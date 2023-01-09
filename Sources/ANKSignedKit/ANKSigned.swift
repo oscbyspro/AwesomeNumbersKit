@@ -14,3 +14,14 @@ import ANKFoundation
 //*============================================================================*
 
 extension ANKSigned: SignedNumeric { public typealias IntegerLiteralType = Int }
+
+//*============================================================================*
+// MARK: * ANK x Signed x Conditional Conformances
+//*============================================================================*
+
+extension ANKSigned: CustomDebugStringConvertible where Magnitude: ANKBigEndianTextCodable { }
+extension ANKSigned: CustomStringConvertible where Magnitude: ANKBigEndianTextCodable { }
+extension ANKSigned: ExpressibleByUnicodeScalarLiteral where Magnitude: ANKBigEndianTextCodable { }
+extension ANKSigned: ExpressibleByExtendedGraphemeClusterLiteral where Magnitude: ANKBigEndianTextCodable { }
+extension ANKSigned: ExpressibleByStringLiteral where Magnitude: ANKBigEndianTextCodable { }
+extension ANKSigned: ANKBigEndianTextCodable where Magnitude: ANKBigEndianTextCodable { }
