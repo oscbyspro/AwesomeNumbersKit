@@ -9,6 +9,7 @@
 
 #if DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
@@ -57,8 +58,8 @@ final class Int256TestsOnNumbers: XCTestCase {
         XCTAssertEqual(T(Int8.min), -128)
         XCTAssertEqual(T(Int8.max),  127)
         
-        XCTAssertEqual(T(exactly: Int8.min), -128)
-        XCTAssertEqual(T(exactly: Int8.max),  127)
+        XCTAssertEqual(T(exactly:  Int8.min), -128)
+        XCTAssertEqual(T(exactly:  Int8.max),  127)
         
         XCTAssertEqual(T(clamping: Int8.min), -128)
         XCTAssertEqual(T(clamping: Int8.max),  127)
@@ -126,8 +127,8 @@ final class Int256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testFromMagnitude() {
-        XCTAssertEqual(T(M.min), T())
-        /*-------------------------*/
+        XCTAssertEqual(T(M.min), T(  ))
+        XCTAssertEqual(T(M(44)), T(44)) // some value that does not crash
         
         XCTAssertEqual(T(exactly:  M.min), T())
         XCTAssertEqual(T(exactly:  M.max), nil)
@@ -140,10 +141,28 @@ final class Int256TestsOnNumbers: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Floats
+    // MARK: Tests x Signed<Magnitude>
     //=------------------------------------------------------------------------=
     
-    func testToFloats() {
+    func testsFromSignedMagnitude() {
+        XCTAssertEqual(T(Signed(M(44), as: .minus)), -T(44)) // some value that does not crash
+        XCTAssertEqual(T(Signed(M(44), as: .plus )),  T(44)) // some value that does not crash
+        
+        XCTAssertEqual(T(exactly:  Signed(M.max, as: .minus)), nil)
+        XCTAssertEqual(T(exactly:  Signed(M.max, as: .plus )), nil)
+
+        XCTAssertEqual(T(clamping: Signed(M.max, as: .minus)), T.min)
+        XCTAssertEqual(T(clamping: Signed(M.max, as: .plus )), T.max)
+
+        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .minus)), T(x64:(1, 0, 0, 0)))
+        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .plus )), T(x64:(w, w, w, w)))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Float(32/64)
+    //=------------------------------------------------------------------------=
+    
+    func testToFloatingPoints() {
         XCTAssertEqual(Float32(T(-1)), -1.0)
         XCTAssertEqual(Float32(T( 0)),  0.0)
         XCTAssertEqual(Float32(T( 1)),  1.0)
@@ -155,7 +174,7 @@ final class Int256TestsOnNumbers: XCTestCase {
         XCTAssertEqual(Float64(T(UInt.max)), 18446744073709551615.0)
     }
     
-    func testFromFloats() {
+    func testFromFloatingPoints() {
         XCTAssertEqual(T( 22.0),  22)
         XCTAssertEqual(T(-22.0), -22)
         XCTAssertEqual(T( 22.5),  22)
@@ -167,7 +186,7 @@ final class Int256TestsOnNumbers: XCTestCase {
         XCTAssertEqual(T(exactly: 3.0 * pow(2, Float64(3 * s - 2))), T(x64:(0, 0, 3 << (s - 2), 0)))
     }
     
-    func testFromFloatsAsNil() {
+    func testFromFloatingPointsAsNil() {
         XCTAssertNil(T(exactly:  22.5))
         XCTAssertNil(T(exactly: -22.5))
         XCTAssertNil(T(exactly:  pow(Float64(2), Float64(T.bitWidth))))
@@ -242,7 +261,7 @@ final class UInt256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testFromInt() {
-        /*-----------------------------------------------------------------------------*/
+        XCTAssertEqual(T(Int(  )), T()) // some value that does not crash
         XCTAssertEqual(T(Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max), 0, 0, 0)))
         
         XCTAssertEqual(T(exactly:  Int.min), nil)
@@ -278,7 +297,7 @@ final class UInt256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testFromSignitude() {
-        /*---------------------------------------------------------------------*/
+        XCTAssertEqual(T(S(  )), T()) // some value that does not crash
         XCTAssertEqual(T(S.max), T(x64:(w, w, w, UInt64(bitPattern: Int64.max))))
         
         XCTAssertEqual(T(exactly:  S.min), nil)
@@ -310,10 +329,28 @@ final class UInt256TestsOnNumbers: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Floats
+    // MARK: Tests x Signed<Magnitude>
+    //=------------------------------------------------------------------------=
+
+    func testsFromSignedMagnitude() {
+        XCTAssertEqual(T(ANKSigned(M(  ), as: .minus)),  T(  )) // some value that does not crash
+        XCTAssertEqual(T(ANKSigned(M.max, as: .plus )),  T.max)
+
+        XCTAssertEqual(T(exactly:  ANKSigned(M.max, as: .minus)),   nil)
+        XCTAssertEqual(T(exactly:  ANKSigned(M.max, as: .plus )), T.max)
+        
+        XCTAssertEqual(T(clamping: ANKSigned(M.max, as: .minus)), T.min)
+        XCTAssertEqual(T(clamping: ANKSigned(M.max, as: .plus )), T.max)
+
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .minus)), T(x64:(1, 0, 0, 0)))
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .plus )), T(x64:(w, w, w, w)))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Float(32/64)
     //=------------------------------------------------------------------------=
     
-    func testToFloats() {
+    func testToFloatingPoints() {
         XCTAssertEqual(Float32(T(x64:(0, 0, 0, 0))), 0.0)
         XCTAssertEqual(Float32(T(x64:(1, 0, 0, 0))), 1.0)
 
@@ -321,7 +358,7 @@ final class UInt256TestsOnNumbers: XCTestCase {
         XCTAssertEqual(Float64(T(x64:(w, 0, 0, 0))), 18446744073709551615.0)
     }
     
-    func testFromFloats() {
+    func testFromFloatingPoints() {
         XCTAssertEqual(T(22.0), 22)
         XCTAssertEqual(T(22.5), 22)
                 
@@ -333,7 +370,7 @@ final class UInt256TestsOnNumbers: XCTestCase {
         XCTAssertEqual(T(exactly: 3.0 * pow(2, 255)), nil)
     }
     
-    func testFromFloatsAsNil() {
+    func testFromFloatingPointsAsNil() {
         XCTAssertNil(T(exactly:  22.5))
         XCTAssertNil(T(exactly: -22.5))
         XCTAssertNil(T(exactly:  pow(Float64(2), Float64(T.bitWidth))))

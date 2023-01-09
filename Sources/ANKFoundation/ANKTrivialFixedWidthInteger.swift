@@ -33,6 +33,30 @@ public protocol ANKTrivialFixedWidthInteger: ANKFixedWidthInteger, ANKTwosComple
 extension ANKTrivialFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
+    // MARK: Details x Bit Pattern
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public init(bitPattern: BitPattern) {
+        self = unsafeBitCast(bitPattern, to: Self.self)
+    }
+        
+    @_transparent public var bitPattern: BitPattern {
+        return unsafeBitCast(self, to: BitPattern.self)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Two's Complement
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public mutating func formTwosComplement() {
+        self = self.twosComplement()
+    }
+    
+    @_transparent public func twosComplement() -> Self {
+        ~self &+ 1
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
@@ -100,30 +124,6 @@ extension ANKTrivialFixedWidthInteger {
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
         let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
         self = Self(truncatingIfNeeded: hl.low); return hl.high
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Details x Bit Pattern
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public init(bitPattern: BitPattern) {
-        self = unsafeBitCast(bitPattern, to: Self.self)
-    }
-        
-    @_transparent public var bitPattern: BitPattern {
-        return unsafeBitCast(self, to: BitPattern.self)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Details x Two's Complement
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public mutating func formTwosComplement() {
-        self = self.twosComplement()
-    }
-    
-    @_transparent public func twosComplement() -> Self {
-        ~self &+ 1
     }
 }
 

@@ -21,7 +21,7 @@ public typealias QR<Q,R> = (quotient: Q,  remainder: R)
 //*============================================================================*
 
 public typealias Sign/*-*/ = ANKSign
-public typealias Signed<T> = ANKSigned<T> where T: ANKBinaryInteger, T == T.Magnitude
+public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude
 
 //*============================================================================*
 // MARK: * Aliases x Protocols

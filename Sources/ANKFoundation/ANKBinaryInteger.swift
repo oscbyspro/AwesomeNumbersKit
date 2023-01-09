@@ -41,6 +41,8 @@ public protocol ANKBinaryInteger: BinaryInteger where Magnitude: ANKUnsignedInte
         
     @inlinable var leastSignificantBit: Bool { get }
     
+    @inlinable var isPowerOf2: Bool { get }
+    
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
@@ -72,6 +74,21 @@ public protocol ANKBinaryInteger: BinaryInteger where Magnitude: ANKUnsignedInte
     init(clamping source: ANKSigned<Magnitude>)
     
     init(truncatingIfNeeded source: ANKSigned<Magnitude>)
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details where Self: Fixed Width Integer
+//=----------------------------------------------------------------------------=
+
+extension ANKBinaryInteger where Self: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public var isPowerOf2: Bool {
+        self.nonzeroBitCount == 1
+    }
 }
 
 //*============================================================================*

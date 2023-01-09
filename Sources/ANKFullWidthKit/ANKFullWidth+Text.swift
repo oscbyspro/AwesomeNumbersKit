@@ -46,20 +46,21 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
     //=------------------------------------------------------------------------=
     
     @_transparent @usableFromInline static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: Int) -> Self? {
+        precondition(2 <= radix && radix <= 36)
         //=--------------------------------------=
         // Fast, Radix Is Power Of 2
         //=--------------------------------------=
-        if  radix.nonzeroBitCount == 1 {
-            return self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndIsPowerOf2(source, radix: radix)
+        if  radix.isPowerOf2 {
+            return self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsPowerOf2(source, radix: radix)
         }
         //=--------------------------------------=
         // Slow, Radix Is * Not * Power Of 2
         //=--------------------------------------=
-        return  self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndIsNotPowerOf2(source, radix: radix)
+        return  self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsNotPowerOf2(source, radix: radix)
     }
     
-    @inlinable static func _decodeBigEndianDigitsWhereRadixIsIn2Through36AndIsNotPowerOf2(_ source: some StringProtocol, radix: Int) -> Self? {
-        precondition(2 <= radix && radix <= 36)
+    @inlinable static func _decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsNotPowerOf2(
+    _ source: some StringProtocol, radix: Int) -> Self? {
         //=--------------------------------------=
         let utf8 = source.utf8
         let root = UInt.maxValueRootReportingUnderestimatedPowerOrZero(radix)
@@ -91,8 +92,8 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
         return magnitude
     }
     
-    @inlinable static func _decodeBigEndianDigitsWhereRadixIsIn2Through36AndIsPowerOf2(_ source: some StringProtocol, radix: Int) -> Self? {
-        precondition(2 <= radix && radix <= 36)
+    @inlinable static func _decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsPowerOf2(
+    _ source: some StringProtocol, radix: Int) -> Self? {
         //=--------------------------------------=
         let utf8 = source.utf8
         let root = UInt.maxValueRootReportingUnderestimatedPowerOrZero(radix)
@@ -130,20 +131,21 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
     //=------------------------------------------------------------------------=
     
     @_transparent @usableFromInline static func _encode(_ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
+        precondition(2 <= radix && radix <= 36)
         //=--------------------------------------=
         // Fast, Radix Is Power Of 2
         //=--------------------------------------=
-        if  radix.nonzeroBitCount == 1 {
-            return self._encodeWhereRadixIsIn2Through36AndIsPowerOf2(magnitude, radix: radix, uppercase: uppercase, to: &text)
+        if  radix.isPowerOf2 {
+            return self._encodeWhereRadixIsIn2Through36AndRadixIsPowerOf2(magnitude, radix: radix, uppercase: uppercase, to: &text)
         }
         //=--------------------------------------=
         // Slow, Radix Is * Not * Power Of 2
         //=--------------------------------------=
-        return  self._encodeWhereRadixIsIn2Through36AndIsNotPowerOf2(magnitude, radix: radix, uppercase: uppercase, to: &text)
+        return  self._encodeWhereRadixIsIn2Through36AndRadixIsNotPowerOf2(magnitude, radix: radix, uppercase: uppercase, to: &text)
     }
     
-    @inlinable static func _encodeWhereRadixIsIn2Through36AndIsNotPowerOf2(_ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
-        precondition(02 <= radix && radix <= 36)
+    @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsNotPowerOf2(
+    _ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
         //=--------------------------------------=
         let magnitudeLeadingZeroBitCount = magnitude.leadingZeroBitCount
         if  magnitudeLeadingZeroBitCount == Self.bitWidth { return text += "0" }
@@ -181,8 +183,8 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
         }
     }
     
-    @inlinable static func _encodeWhereRadixIsIn2Through36AndIsPowerOf2(_ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
-        precondition(02 <= radix && radix <= 36)
+    @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsPowerOf2(
+    _ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
         //=--------------------------------------=
         let magnitude_ = magnitude.minWordCountReportingIsZeroOrMinusOne()
         if  magnitude_.isZeroOrMinusOne { text += "0"; return }
