@@ -36,19 +36,19 @@ final class Int256TestsOnText: XCTestCase {
         XCTAssertEqual(T(decoding: "-18446744073709551615", radix: 10), -T(UInt64.max))
     }
     
-    func testDecodingRadix16ValueOutsideOfRepresentableRangeReturnsNil() {
-        XCTAssertEqual(T(decoding: "+" + String(repeating: "f", count: 99), radix: 16), nil)
-        XCTAssertEqual(T(decoding: "-" + String(repeating: "f", count: 99), radix: 16), nil)
-    }
-    
-    func testDecodingRadix10ValueOutsideOfRepresentableRangeReturnsNil() {
-        XCTAssertEqual(T(decoding: "+" + String(repeating: "9", count: 99), radix: 10), nil)
-        XCTAssertEqual(T(decoding: "-" + String(repeating: "9", count: 99), radix: 10), nil)
-    }
-    
-    func testDecodingLotsOfZeros() {
+    func testDecodingPrefixingZerosHasNoEffect() {
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0"), T(0))
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1"), T(1))
+    }
+    
+    func testDecodingValueOutsideOfRepresentableRangeReturnsNil() {
+        let positive = "+" + String(repeating: "1", count: T.bitWidth)
+        let negative = "-" + String(repeating: "1", count: T.bitWidth)
+        
+        for radix in 2 ... 36 {
+            XCTAssertNil(T(decoding: positive, radix: radix))
+            XCTAssertNil(T(decoding: negative, radix: radix))
+        }
     }
     
     //=------------------------------------------------------------------------=
@@ -129,7 +129,6 @@ final class UInt256TestsOnText: XCTestCase {
     func testDecodingRadix16() {
         XCTAssertEqual(T(decoding:  "ffffffffffffffff", radix: 16),  T(UInt64.max))
         XCTAssertEqual(T(decoding: "+ffffffffffffffff", radix: 16),  T(UInt64.max))
-        
         XCTAssertEqual(T(decoding:  "FFFFFFFFFFFFFFFF", radix: 16),  T(UInt64.max))
         XCTAssertEqual(T(decoding: "+FFFFFFFFFFFFFFFF", radix: 16),  T(UInt64.max))
     }
@@ -139,17 +138,19 @@ final class UInt256TestsOnText: XCTestCase {
         XCTAssertEqual(T(decoding: "+18446744073709551615", radix: 10),  T(UInt64.max))
     }
     
-    func testDecodingRadix16ValueOutsideOfRepresentableRangeReturnsNil() {
-        XCTAssertEqual(T(decoding: String(repeating: "f", count: 99), radix: 16), nil)
-    }
-    
-    func testDecodingRadix10ValueOutsideOfRepresentableRangeReturnsNil() {
-        XCTAssertEqual(T(decoding: String(repeating: "9", count: 99), radix: 10), nil)
-    }
-    
-    func testDecodingLotsOfZeros() {
+    func testDecodingPrefixingZerosHasNoEffect() {
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0"), T(0))
         XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1"), T(1))
+    }
+    
+    func testDecodingValueOutsideOfRepresentableRangeReturnsNil() {
+        let positive = "+" + String(repeating: "1", count: T.bitWidth + 1)
+        let negative = "-" + String(repeating: "1", count: 1)
+        
+        for radix in 2 ... 36 {
+            XCTAssertNil(T(decoding: positive, radix: radix))
+            XCTAssertNil(T(decoding: negative, radix: radix))
+        }
     }
     
     //=------------------------------------------------------------------------=

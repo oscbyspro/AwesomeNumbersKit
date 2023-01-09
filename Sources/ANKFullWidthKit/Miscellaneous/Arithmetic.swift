@@ -72,32 +72,24 @@ extension UInt {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// - Returns: Largest pair such that: `pow(radix, exponent) <= pow(2, T.bitWidth)`.
-    @usableFromInline static func root(_ radix: Int) -> (exponent: Int, power: Self) {
+    /// - Returns: `0 <= power == radix ** exponent < Self.max`
+    @usableFromInline static func maxValueRootReportingUnderestimatedPowerOrZero(_ radix: Int) -> (exponent: Int, power: Self) {
         precondition(radix >= 2)
         //=--------------------------------------=
         var power = Self(1)
         let radix = Self(radix)
-        var exponent = Self(0)
+        var exponent = Int()
         //=--------------------------------------=
-        loop: while true {
+        while true {
             //=----------------------------------=
             let product = power.multipliedFullWidth(by: radix)
             //=----------------------------------=
-            if !product.high.isZero {
-                if  product.low.isZero {
-                    exponent &+= 1
-                    power = product.low
-                }
-                
-                break loop
+            guard  product.high.isZero else {
+                if product.low .isZero { exponent &+= 1; power = product.low }
+                return (exponent, power)
             }
             //=----------------------------------=
-            exponent &+= 1
-            power = product.low
+            exponent &+= 1; power = product.low
         }
-        //=--------------------------------------=
-        assert(!exponent.mostSignificantBit)
-        return (Int(bitPattern: exponent), power)
     }
 }
