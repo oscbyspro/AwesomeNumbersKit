@@ -16,93 +16,59 @@ import XCTest
 // MARK: * Types x Binary Integer x Signed
 //*============================================================================*
 
-final class TypesTestsOnANKSignedInteger: XCTestCase {
+final class TypesTestsOnANKBinaryInteger: XCTestCase {
+    
+    typealias T = any ANKBinaryInteger.Type
+    typealias S = any ANKSignedInteger.Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allSignedFixedWidthIntegerTypes
+    let types = Trivial.allBinaryIntegerTypes
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testTrivialTypesCount() {
-        XCTAssertEqual(types.count, 5)
+        XCTAssertEqual(types.count, 10)
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Zero
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testIsZero() {
-        for type: any ANKSignedInteger.Type in types {
-            XCTAssertFalse(type.init(-1).isZero)
-            XCTAssertTrue (type.init( 0).isZero)
+        for type: T in types {
             XCTAssertFalse(type.init( 1).isZero)
+            XCTAssertTrue (type.init( 0).isZero)
+            
+            guard type is S else { continue }
+            
+            XCTAssertFalse(type.init(-1).isZero)
         }
     }
     
     func testIsLessThanZero() {
-        for type: any ANKSignedInteger.Type in types {
-            XCTAssertTrue (type.init(-1).isLessThanZero)
-            XCTAssertFalse(type.init( 0).isLessThanZero)
+        for type: T in types {
             XCTAssertFalse(type.init( 1).isLessThanZero)
+            XCTAssertFalse(type.init( 0).isLessThanZero)
+            
+            guard type is S else { continue }
+            
+            XCTAssertTrue (type.init(-1).isLessThanZero)
         }
     }
     
     func testIsMoreThanZero() {
-        for type: any ANKSignedInteger.Type in types {
-            XCTAssertFalse(type.init(-1).isMoreThanZero)
-            XCTAssertFalse(type.init( 0).isMoreThanZero)
+        for type: T in types {
             XCTAssertTrue (type.init( 1).isMoreThanZero)
-        }
-    }
-}
-
-//*============================================================================*
-// MARK: * Types x Binary Integers x Unigned
-//*============================================================================*
-
-final class TypesTestsOnANKUnsignedInteger: XCTestCase {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let types = Trivial.allUnsignedIntegerTypes
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testTrivialTypesCount() {
-        XCTAssertEqual(types.count, 5)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Zero
-    //=------------------------------------------------------------------------=
-    
-    func testIsZero() {
-        for type: any ANKUnsignedInteger.Type in types {
-            XCTAssertTrue (type.init(0).isZero)
-            XCTAssertFalse(type.init(1).isZero)
-        }
-    }
-    
-    func testIsLessThanZero() {
-        for type: any ANKUnsignedInteger.Type in types {
-            XCTAssertFalse(type.init(0).isLessThanZero)
-            XCTAssertFalse(type.init(1).isLessThanZero)
-        }
-    }
-    
-    func testIsMoreThanZero() {
-        for type: any ANKUnsignedInteger.Type in types {
-            XCTAssertFalse(type.init(0).isMoreThanZero)
-            XCTAssertTrue (type.init(1).isMoreThanZero)
+            XCTAssertFalse(type.init( 0).isMoreThanZero)
+            
+            guard type is S else { continue }
+            
+            XCTAssertFalse(type.init(-1).isMoreThanZero)
         }
     }
 }

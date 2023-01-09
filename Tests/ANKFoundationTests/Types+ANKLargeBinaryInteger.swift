@@ -18,6 +18,9 @@ import XCTest
 
 final class TypesTestsOnANKLargeBinaryInteger: XCTestCase {
     
+    typealias T = any ANKLargeBinaryInteger.Type
+    typealias S = any ANKSignedLargeBinaryInteger.Type
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=

@@ -18,6 +18,9 @@ import XCTest
 
 final class TypesTestsOnANKLargeFixedWidthInteger: XCTestCase {
     
+    typealias T = any ANKLargeFixedWidthInteger.Type
+    typealias S = any ANKSignedLargeFixedWidthInteger.Type
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=

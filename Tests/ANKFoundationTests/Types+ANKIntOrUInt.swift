@@ -18,6 +18,9 @@ import XCTest
 
 final class TypesTestsOnANKIntOrUInt: XCTestCase {
     
+    typealias T = any ANKIntOrUInt.Type
+    typealias S = Int
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
@@ -32,14 +35,10 @@ final class TypesTestsOnANKIntOrUInt: XCTestCase {
         XCTAssertEqual(types.count, 2)
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
     func testIsEitherIntOrUInt() {
-        for type: any ANKIntOrUInt.Type in types {
-            if let _ = type as?  Int.Type { continue }
-            if let _ = type as? UInt.Type { continue }
+        for type: T in types {
+            if type is  Int.Type { continue }
+            if type is UInt.Type { continue }
             XCTFail("\(type) is neither Int nor UInt")
         }
     }
