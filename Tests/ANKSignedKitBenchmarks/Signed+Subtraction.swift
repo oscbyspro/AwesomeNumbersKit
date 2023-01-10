@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
 
@@ -18,15 +19,16 @@ import XCTest
 
 final class SignedBenchmarksOnSubtraction: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
+    typealias T = ANKSigned<ANKUInt256>
+    typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testSubtracting() {
-        let lhs = T(UInt.max, as: .plus)
-        let rhs = T(UInt.max, as: .plus)
+        let lhs = T.max
+        let rhs = T.max
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs - rhs
@@ -34,8 +36,30 @@ final class SignedBenchmarksOnSubtraction: XCTestCase {
     }
     
     func testSubtractingWrappingAround() {
-        let lhs = T(UInt.max, as: .plus)
-        let rhs = T(UInt.max, as: .plus)
+        let lhs = T.max
+        let rhs = T.max
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs &- rhs
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Digit
+    //=------------------------------------------------------------------------=
+    
+    func testSubtractingDigit() {
+        let lhs = T.max
+        let rhs = D.max
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs - rhs
+        }
+    }
+    
+    func testSubtractingDigitWrappingAround() {
+        let lhs = T.max
+        let rhs = D.max
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs &- rhs

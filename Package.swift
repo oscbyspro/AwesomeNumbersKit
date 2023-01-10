@@ -105,12 +105,12 @@ let package = Package(
         
         .testTarget(
         name: "ANKSignedKitTests",
-        dependencies: ["ANKSignedKit"],
+        dependencies: ["ANKFullWidthKit", "ANKSignedKit"],
         swiftSettings: withSlowBuildAlerts),
         
         .testTarget(
         name: "ANKSignedKitBenchmarks",
-        dependencies: ["ANKSignedKit"],
+        dependencies: ["ANKFullWidthKit", "ANKSignedKit"],
         swiftSettings: withSlowBuildAlerts),
     ]
 )

@@ -81,15 +81,21 @@ extension ANKLargeBinaryInteger where Digit == Self {
 }
 
 //*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Large x Signed
+// MARK: * ANK x Binary Integer x Large x Signed
 //*============================================================================*
 
 public protocol ANKSignedLargeBinaryInteger<Digit>: ANKLargeBinaryInteger,
 ANKSignedInteger where Digit: ANKSignedInteger { }
 
 //*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Large x Unsigned
+// MARK: * ANK x Binary Integer x Large x Unsigned
 //*============================================================================*
 
 public protocol ANKUnsignedLargeBinaryInteger<Digit>: ANKLargeBinaryInteger,
-ANKUnsignedInteger where Digit: ANKUnsignedInteger { }
+ANKUnsignedInteger where Digit: ANKUnsignedInteger, Digit.Magnitude == Digit { }
+
+//*============================================================================*
+// MARK: * ANK x Binary Integer x Large x where Digit != Self
+//*============================================================================*
+
+public protocol ANKLargeBinaryIntegerWhereDigitIsNotSelf<Digit>: ANKLargeBinaryInteger { }

@@ -45,7 +45,7 @@ final class Int256TestsOnText: XCTestCase {
         XCTAssertEqual(T(decoding: "-0b", radix: 36), -11)
     }
     
-    func testDecodingStringsWithSignAndRadixLiteral() {
+    func testDecodingStringsWithOrWithoutSignAndRadixLiteral() {
         XCTAssertEqual( "1234567890",         T(1234567890))
         XCTAssertEqual( "0x123456789abcdef0", T(0x123456789abcdef0))
         XCTAssertEqual( "0o1234567012345670", T(0o1234567012345670))
@@ -148,7 +148,7 @@ final class UInt256TestsOnText: XCTestCase {
         XCTAssertEqual(T(decoding: "+0b", radix: 36), 11)
     }
     
-    func testDecodingStringsWithSignAndRadixLiteral() {
+    func testDecodingStringsWithOrWithoutSignAndRadixLiteral() {
         XCTAssertEqual( "1234567890",         T(1234567890))
         XCTAssertEqual( "0x123456789abcdef0", T(0x123456789abcdef0))
         XCTAssertEqual( "0o1234567012345670", T(0o1234567012345670))

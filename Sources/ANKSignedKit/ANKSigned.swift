@@ -16,6 +16,15 @@ import ANKFoundation
 extension ANKSigned: SignedNumeric { public typealias IntegerLiteralType = Int }
 
 //*============================================================================*
+// MARK: * ANK x Signed x Large
+//*============================================================================*
+
+@usableFromInline typealias ANKLargeSigned<T> = ANKSigned<T> where
+T: ANKLargeBinaryIntegerWhereDigitIsNotSelf & ANKUnsignedLargeBinaryInteger, T == T.Magnitude
+
+extension ANKLargeSigned { public typealias Digit = ANKSigned<Magnitude.Digit> }
+
+//*============================================================================*
 // MARK: * ANK x Signed x Conditional Conformances
 //*============================================================================*
 

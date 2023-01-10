@@ -75,7 +75,7 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
         }
     }
     
-    func testDecodingStringsWithSignAndRadixLiteral() {
+    func testDecodingStringsWithOrWithoutSignAndRadixLiteral() {
         for type: T in types {
             XCTAssertEqual(Int(type.init(decoding:    "10", radix: nil)!),    10)
             XCTAssertEqual(Int(type.init(decoding:  "0b10", radix: nil)!),  0b10)

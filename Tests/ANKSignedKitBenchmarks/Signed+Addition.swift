@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
 
@@ -18,15 +19,16 @@ import XCTest
 
 final class SignedBenchmarksOnAddition: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
+    typealias T = ANKSigned<ANKUInt256>
+    typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testAdding() {
-        let lhs = T(UInt.max, as: .plus )
-        let rhs = T(UInt.max, as: .minus)
+        let lhs = T.max
+        let rhs = T.min
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs + rhs
@@ -34,8 +36,30 @@ final class SignedBenchmarksOnAddition: XCTestCase {
     }
     
     func testAddingWrappingAround() {
-        let lhs = T(UInt.max, as: .plus )
-        let rhs = T(UInt.max, as: .minus)
+        let lhs = T.max
+        let rhs = T.min
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs &+ rhs
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Digit
+    //=------------------------------------------------------------------------=
+    
+    func testAddingDigit() {
+        let lhs = T.max
+        let rhs = D.min
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs + rhs
+        }
+    }
+    
+    func testAddingDigitWrappingAround() {
+        let lhs = T.max
+        let rhs = T.min
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs &+ rhs

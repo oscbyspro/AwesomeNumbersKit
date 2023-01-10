@@ -9,6 +9,7 @@
 
 #if DEBUG
 
+import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
 
@@ -18,7 +19,8 @@ import XCTest
 
 final class SignedTestsOnAddition: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
+    typealias T = ANKSigned<ANKUInt256>
+    typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -90,6 +92,78 @@ final class SignedTestsOnAddition: XCTestCase {
         
         XCTAssert(T.min.addingReportingOverflow(T(-2)) == (T(  ) - T(1), true ) as (T, Bool))
         XCTAssert(T.max.addingReportingOverflow(T(-2)) == (T.max - T(2), false) as (T, Bool))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Digit
+    //=------------------------------------------------------------------------=
+    
+    func testAddingDigit() {
+        XCTAssertEqual( T(1)  +  D(2),  T(3))
+        XCTAssertEqual( T(1)  +  D(1),  T(2))
+        XCTAssertEqual( T(1)  +  D(0),  T(1))
+        XCTAssertEqual( T(1)  + -D(0),  T(1))
+        XCTAssertEqual( T(1)  + -D(1),  T(0))
+        XCTAssertEqual( T(1)  + -D(2), -T(1))
+        
+        XCTAssertEqual( T(0)  +  D(2),  T(2))
+        XCTAssertEqual( T(0)  +  D(1),  T(1))
+        XCTAssertEqual( T(0)  +  D(0),  T(0))
+        XCTAssertEqual( T(0)  + -D(0),  T(0))
+        XCTAssertEqual( T(0)  + -D(1), -T(1))
+        XCTAssertEqual( T(0)  + -D(2), -T(2))
+        
+        XCTAssertEqual(-T(0)  +  D(2),  T(2))
+        XCTAssertEqual(-T(0)  +  D(1),  T(1))
+        XCTAssertEqual(-T(0)  +  D(0),  T(0))
+        XCTAssertEqual(-T(0)  + -D(0),  T(0))
+        XCTAssertEqual(-T(0)  + -D(1), -T(1))
+        XCTAssertEqual(-T(0)  + -D(2), -T(2))
+
+        XCTAssertEqual(-T(1)  +  D(2),  T(1))
+        XCTAssertEqual(-T(1)  +  D(1),  T(0))
+        XCTAssertEqual(-T(1)  +  D(0), -T(1))
+        XCTAssertEqual(-T(1)  + -D(0), -T(1))
+        XCTAssertEqual(-T(1)  + -D(1), -T(2))
+        XCTAssertEqual(-T(1)  + -D(2), -T(3))
+    }
+    
+    func testAddingDigitWrappingAround() {
+        XCTAssertEqual( T(1) &+  D(2),  T(3))
+        XCTAssertEqual( T(1) &+  D(1),  T(2))
+        XCTAssertEqual( T(1) &+  D(0),  T(1))
+        XCTAssertEqual( T(1) &+ -D(0),  T(1))
+        XCTAssertEqual( T(1) &+ -D(1),  T(0))
+        XCTAssertEqual( T(1) &+ -D(2), -T(1))
+
+        XCTAssertEqual( T(0) &+  D(2),  T(2))
+        XCTAssertEqual( T(0) &+  D(1),  T(1))
+        XCTAssertEqual( T(0) &+  D(0),  T(0))
+        XCTAssertEqual( T(0) &+ -D(0),  T(0))
+        XCTAssertEqual( T(0) &+ -D(1), -T(1))
+        XCTAssertEqual( T(0) &+ -D(2), -T(2))
+
+        XCTAssertEqual(-T(0) &+  D(2),  T(2))
+        XCTAssertEqual(-T(0) &+  D(1),  T(1))
+        XCTAssertEqual(-T(0) &+  D(0),  T(0))
+        XCTAssertEqual(-T(0) &+ -D(0),  T(0))
+        XCTAssertEqual(-T(0) &+ -D(1), -T(1))
+        XCTAssertEqual(-T(0) &+ -D(2), -T(2))
+
+        XCTAssertEqual(-T(1) &+  D(2),  T(1))
+        XCTAssertEqual(-T(1) &+  D(1),  T(0))
+        XCTAssertEqual(-T(1) &+  D(0), -T(1))
+        XCTAssertEqual(-T(1) &+ -D(0), -T(1))
+        XCTAssertEqual(-T(1) &+ -D(1), -T(2))
+        XCTAssertEqual(-T(1) &+ -D(2), -T(3))
+    }
+    
+    func testAddingDigitReportingOverflow() {
+        XCTAssert(T.min.addingReportingOverflow(D( 2)) == (T.min + D(2), false) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(D( 2)) == (T(  ) + D(1), true ) as (T, Bool))
+
+        XCTAssert(T.min.addingReportingOverflow(D(-2)) == (T(  ) - D(1), true ) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(D(-2)) == (T.max - D(2), false) as (T, Bool))
     }
 }
 
