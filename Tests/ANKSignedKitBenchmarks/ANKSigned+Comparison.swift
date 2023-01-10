@@ -7,16 +7,16 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if DEBUG
+#if !DEBUG
 
 import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * ANK x Signed
+// MARK: * ANK x Signed x Comparison
 //*============================================================================*
 
-final class SignedTests: XCTestCase {
+final class ANKSignedBenchmarksOnComparison: XCTestCase {
     
     typealias T = ANKSigned<UInt>
     
@@ -24,34 +24,48 @@ final class SignedTests: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInit() {
-        XCTAssertEqual(T().sign, .plus)
-        XCTAssertEqual(T().magnitude, 0 as UInt)
-    }
-    
-    func testSign() {
-        XCTAssertEqual(T(0, as: .plus ).sign, .plus )
-        XCTAssertEqual(T(0, as: .minus).sign, .minus)
-        XCTAssertEqual(T(1, as: .plus ).sign, .plus )
-        XCTAssertEqual(T(1, as: .minus).sign, .minus)
+    func testIsLessThan() {
+        let lhs = T(1, as: .plus )
+        let rhs = T(1, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs < rhs
+            _ = rhs < lhs
+        }
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Normalization
+    // MARK: Tests x Zero
     //=------------------------------------------------------------------------=
     
-    func testIsNormal() {
-        XCTAssertEqual(T(0, as: .plus ).isNormal, true )
-        XCTAssertEqual(T(0, as: .minus).isNormal, false)
-        XCTAssertEqual(T(1, as: .plus ).isNormal, true )
-        XCTAssertEqual(T(1, as: .minus).isNormal, true )
+    func testIsZero() {
+        let abc = T(1, as: .plus )
+        let xyz = T(1, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.isZero
+            _ = xyz.isZero
+        }
     }
     
-    func testNormalizedSign() {
-        XCTAssertEqual(T(0, as: .plus ).normalizedSign, .plus )
-        XCTAssertEqual(T(0, as: .minus).normalizedSign, .plus )
-        XCTAssertEqual(T(1, as: .plus ).normalizedSign, .plus )
-        XCTAssertEqual(T(1, as: .minus).normalizedSign, .minus)
+    func testIsLessThanZero() {
+        let abc = T(1, as: .plus )
+        let xyz = T(1, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.isLessThanZero
+            _ = xyz.isLessThanZero
+        }
+    }
+    
+    func testIsMoreThanZero() {
+        let abc = T(1, as: .plus )
+        let xyz = T(1, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.isMoreThanZero
+            _ = xyz.isMoreThanZero
+        }
     }
 }
 

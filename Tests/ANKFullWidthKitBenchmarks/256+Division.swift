@@ -34,6 +34,10 @@ final class Int256BenchmarksOnDivision: XCTestCase {
         }
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Int
+    //=------------------------------------------------------------------------=
+    
     func testQuotientAndRemainderDividingByInt() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = Int.max
@@ -55,6 +59,10 @@ final class Int256BenchmarksOnDivision: XCTestCase {
             _ = lhs.dividingFullWidth(rhs)
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Digit
+    //=------------------------------------------------------------------------=
 }
 
 //*============================================================================*
@@ -78,6 +86,10 @@ final class UInt256BenchmarksOnDivision: XCTestCase {
             _ = lhs.quotientAndRemainder(dividingBy: rhs)
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x UInt
+    //=------------------------------------------------------------------------=
     
     func testQuotientAndRemainderDividingByUInt() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))

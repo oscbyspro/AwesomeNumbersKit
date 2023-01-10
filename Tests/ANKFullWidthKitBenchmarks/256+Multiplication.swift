@@ -33,7 +33,11 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
         }
     }
     
-    func testMultipliedFullWidthByInt() {
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Int
+    //=------------------------------------------------------------------------=
+    
+    func testMultipliedByIntFullWidth() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = Int.max
         
@@ -64,7 +68,11 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
         }
     }
     
-    func testMultipliedFullWidthByUInt() {
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x UInt
+    //=------------------------------------------------------------------------=
+    
+    func testMultipliedByUIntFullWidth() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = UInt.max
         

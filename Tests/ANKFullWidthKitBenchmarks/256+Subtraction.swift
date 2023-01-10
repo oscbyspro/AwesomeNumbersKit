@@ -33,6 +33,10 @@ final class Int256BenchmarksOnSubtraction: XCTestCase {
         }
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Int
+    //=------------------------------------------------------------------------=
+    
     func testSubtractingInt() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = Int.max
@@ -63,6 +67,10 @@ final class UInt256BenchmarksOnSubtraction: XCTestCase {
             _ = lhs - rhs
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x UInt
+    //=------------------------------------------------------------------------=
     
     func testSubtractingUInt() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))

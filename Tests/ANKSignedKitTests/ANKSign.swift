@@ -14,10 +14,10 @@ import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Sign x Tests
+// MARK: * ANK x Sign x Tests
 //*============================================================================*
 
-final class SignTests: XCTestCase {
+final class ANKSignTests: XCTestCase {
     
     typealias T = ANKSign
     

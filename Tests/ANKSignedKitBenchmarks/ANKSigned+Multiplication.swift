@@ -9,62 +9,60 @@
 
 #if !DEBUG
 
+import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * ANK x Signed x Comparison
+// MARK: * ANK x Signed x Multiplication
 //*============================================================================*
 
-final class SignedBenchmarksOnComparison: XCTestCase {
+final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
+    typealias T = ANKSigned<UInt256>
+    typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testIsLessThan() {
-        let lhs = T(1, as: .plus )
-        let rhs = T(1, as: .minus)
+    func testMultiplied() {
+        let lhs = T(4, as: .plus )
+        let rhs = T(4, as: .minus)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs < rhs
-            _ = rhs < lhs
+            _ = lhs * rhs
+        }
+    }
+    
+    func testMultipliedFullWidth() {
+        let lhs = T(4, as: .plus )
+        let rhs = T(4, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.multipliedFullWidth(by: rhs)
         }
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Zero
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testIsZero() {
-        let abc = T(1, as: .plus )
-        let xyz = T(1, as: .minus)
+    func testMultipliedByDigit() {
+        let lhs = T(4, as: .plus )
+        let rhs = D(4, as: .minus)
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.isZero
-            _ = xyz.isZero
+            _ = lhs * rhs
         }
     }
     
-    func testIsLessThanZero() {
-        let abc = T(1, as: .plus )
-        let xyz = T(1, as: .minus)
+    func testMultipliedByDigitFullWidth() {
+        let lhs = T(4, as: .plus )
+        let rhs = D(4, as: .minus)
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.isLessThanZero
-            _ = xyz.isLessThanZero
-        }
-    }
-    
-    func testIsMoreThanZero() {
-        let abc = T(1, as: .plus )
-        let xyz = T(1, as: .minus)
-        
-        for _ in 0 ..< 1_000_000 {
-            _ = abc.isMoreThanZero
-            _ = xyz.isMoreThanZero
+            _ = lhs.multipliedFullWidth(by: rhs)
         }
     }
 }

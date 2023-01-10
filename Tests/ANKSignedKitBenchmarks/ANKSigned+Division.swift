@@ -7,16 +7,16 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if DEBUG
+#if !DEBUG
 
 import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Signed x Complements
+// MARK: * ANK x Signed x Division
 //*============================================================================*
 
-final class SignedTestsOnComplements: XCTestCase {
+final class ANKSignedBenchmarksOnDivision: XCTestCase {
     
     typealias T = ANKSigned<UInt>
     typealias M = UInt
@@ -25,10 +25,26 @@ final class SignedTestsOnComplements: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testMagnitude() {
-        XCTAssertEqual(T( 3).magnitude, M(3))
-        XCTAssertEqual(T( 0).magnitude, M(0))
-        XCTAssertEqual(T(-3).magnitude, M(3))
+    func testQuotientAndRemainder() {
+        let lhs = T(7, as: .plus )
+        let rhs = T(3, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.quotientAndRemainder(dividingBy: rhs)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Full Width
+    //=------------------------------------------------------------------------=
+    
+    func testDividingFullWidth() {
+        let lhs = (T.max)
+        let rhs = (T.max, M.max)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.dividingFullWidth(rhs)
+        }
     }
 }
 

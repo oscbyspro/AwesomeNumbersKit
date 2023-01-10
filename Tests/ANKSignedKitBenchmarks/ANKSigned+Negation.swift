@@ -13,10 +13,10 @@ import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Signed x Negation
+// MARK: * ANK x Signed x Negation
 //*============================================================================*
 
-final class SignedBenchmarksOnNegation: XCTestCase {
+final class ANKSignedBenchmarksOnNegation: XCTestCase {
     
     typealias T = ANKSigned<UInt>
     

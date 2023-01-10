@@ -33,7 +33,7 @@ final class Int256TestsOnMultiplication: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testMultiplying() {
+    func testMultiplied() {
         XCTAssertEqual(T( 2) * T( 3), T( 6))
         XCTAssertEqual(T( 2) * T(-3), T(-6))
         XCTAssertEqual(T(-2) * T( 3), T(-6))
@@ -53,7 +53,7 @@ final class Int256TestsOnMultiplication: XCTestCase {
         XCTAssertEqual(T(x64:(w, w, 0, 0)) * T(x64:(w, w, 0, 0)), T(x64:(1,  0, ~1, ~0)))
     }
     
-    func testMultiplyingReportingOverflow() {
+    func testMultipliedReportingOverflow() {
         XCTAssert(T.min.multipliedReportingOverflow(by: T.min) == (T(x64:( 0,  0,  0,  0)),            true) as (T, Bool))
         XCTAssert(T.min.multipliedReportingOverflow(by: T.max) == (T(x64:( 0,  0,  0,  1 << (s - 1))), true) as (T, Bool))
         XCTAssert(T.max.multipliedReportingOverflow(by: T.max) == (T(x64:( 1,  0,  0,  0)),            true) as (T, Bool))
@@ -62,7 +62,7 @@ final class Int256TestsOnMultiplication: XCTestCase {
         XCTAssert(T(x64:(4, 3, 2, 1)).multipliedReportingOverflow(by: T(x64:(w, w, w, w))) == (T(x64:(~3, ~3, ~2, ~1)), false))
     }
     
-    func testMultiplyingFullWidth() {
+    func testMultipliedFullWidth() {
         XCTAssertEqual(T.min.multipliedFullWidth(by: T.min).low,   M(x64:( 0,  0,  0,  0)))
         XCTAssertEqual(T.min.multipliedFullWidth(by: T.min).high,  T(x64:( 0,  0,  0,  1 << (s - 2))))
 
@@ -83,14 +83,14 @@ final class Int256TestsOnMultiplication: XCTestCase {
     // MARK: Tests x Int
     //=------------------------------------------------------------------------=
     
-    func testMultiplyingByInt() {
+    func testMultipliedByInt() {
         XCTAssertEqual(T( 2) * Int( 3), T( 6))
         XCTAssertEqual(T( 2) * Int(-3), T(-6))
         XCTAssertEqual(T(-2) * Int( 3), T(-6))
         XCTAssertEqual(T(-2) * Int(-3), T( 6))
     }
 
-    func testMultiplyingByUIntReportingOverflow() throws {
+    func testMultipliedByUIntReportingOverflow() throws {
         guard MemoryLayout<UInt>.size == 8 else { throw XCTSkip() }
         
         XCTAssert(T.min.multipliedReportingOverflow(by: Int.min) == (T(x64:(      0,  0,  0,          (0))), true))
@@ -98,7 +98,7 @@ final class Int256TestsOnMultiplication: XCTestCase {
         XCTAssert(T.max.multipliedReportingOverflow(by: Int.max) == (T(x64:(2 + w/2,  w,  w,      (w / 2))), true))
     }
     
-    func testMultiplyingFullWidthByUInt() throws {
+    func testMultipliedFullWidthByUInt() throws {
         guard MemoryLayout<UInt>.size == 8 else { throw XCTSkip() }
         
         XCTAssertEqual(T.min.multipliedFullWidth(by: Int.min).low,   M(x64:(0, 0, 0, 0)))
@@ -139,7 +139,7 @@ final class UInt256TestsOnMultiplication: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testMultiplying() {
+    func testMultiplied() {
         XCTAssertEqual(T(2) * T(3), T(6))
         XCTAssertEqual(T(3) * T(2), T(6))
         
@@ -157,7 +157,7 @@ final class UInt256TestsOnMultiplication: XCTestCase {
         XCTAssertEqual(T(x64:(w, w, 0, 0)) * T(x64:(w, w, 0, 0)), T(x64:(1,  0, ~1, ~0)))
     }
     
-    func testMultiplyingReportingOverflow() {
+    func testMultipliedReportingOverflow() {
         XCTAssert(T.min.multipliedReportingOverflow(by: T.min) == (T(x64:(0, 0, 0, 0)), false) as (T, Bool))
         XCTAssert(T.min.multipliedReportingOverflow(by: T.max) == (T(x64:(0, 0, 0, 0)), false) as (T, Bool))
         XCTAssert(T.max.multipliedReportingOverflow(by: T.max) == (T(x64:(1, 0, 0, 0)), true ) as (T, Bool))
@@ -166,7 +166,7 @@ final class UInt256TestsOnMultiplication: XCTestCase {
         XCTAssert(T(x64:(4, 3, 2, 1)).multipliedReportingOverflow(by: T(x64:(w, w, w, w))) == (T(x64:(~3, ~3, ~2, ~1)), true))
     }
     
-    func testMultiplyingFullWidth() {
+    func testMultipliedFullWidth() {
         XCTAssertEqual(T.min.multipliedFullWidth(by: T.min).low,   M(x64:( 0, 0, 0, 0)))
         XCTAssertEqual(T.min.multipliedFullWidth(by: T.min).high,  T(x64:( 0, 0, 0, 0)))
 
@@ -187,12 +187,12 @@ final class UInt256TestsOnMultiplication: XCTestCase {
     // MARK: Tests x UInt
     //=------------------------------------------------------------------------=
     
-    func testMultiplyingByUInt() {
+    func testMultipliedByUInt() {
         XCTAssertEqual(T(2) * UInt(3), 6)
         XCTAssertEqual(T(3) * UInt(2), 6)
     }
     
-    func testMultiplyingByUIntReportingOverflow() throws {
+    func testMultipliedByUIntReportingOverflow() throws {
         guard MemoryLayout<UInt>.size == 8 else { throw XCTSkip() }
         
         XCTAssert(T.min.multipliedReportingOverflow(by: UInt.min) == (T(x64:(0, 0, 0, 0)), false) as (T, Bool))
@@ -203,7 +203,7 @@ final class UInt256TestsOnMultiplication: XCTestCase {
         XCTAssert(T(x64:(w, w, w, w)).multipliedReportingOverflow(by: UInt(5)) == (T(x64:(~4,  w,  w,  w)),  true) as (T, Bool))
     }
     
-    func testMultiplyingByUIntFullWidth() throws {
+    func testMultipliedByUIntFullWidth() throws {
         guard MemoryLayout<UInt>.size == 8 else { throw XCTSkip() }
         
         XCTAssertEqual(T.min.multipliedFullWidth(by: UInt.min).low,   M(x64:( 0, 0, 0, 0)))

@@ -7,16 +7,16 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if !DEBUG
+#if DEBUG
 
 import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Signed x Complements
+// MARK: * ANK x Signed x Negation
 //*============================================================================*
 
-final class SignedBenchmarksOnComplements: XCTestCase {
+final class ANKSignedTestsOnNegation: XCTestCase {
     
     typealias T = ANKSigned<UInt>
     
@@ -24,14 +24,20 @@ final class SignedBenchmarksOnComplements: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testMagnitude() {
-        let abc = T(UInt.max, as: .plus )
-        let xyz = T(UInt.max, as: .minus)
-
-        for _ in 0 ..< 1_000_000 {
-            _ = abc.magnitude
-            _ = xyz.magnitude
-        }
+    func testNegated() {
+        XCTAssertEqual(-T( 0), T( 0))
+        XCTAssertEqual(-T( 1), T(-1))
+        XCTAssertEqual(-T(-1), T( 1))
+    }
+    
+    func testNegatedSignIsAlwaysToggled() {
+        XCTAssertEqual((-T(0, as: .plus )).sign, .minus)
+        XCTAssertEqual((-T(0, as: .minus)).sign, .plus )
+    }
+    
+    func testNegatedReportingOverflow() {
+        XCTAssert(T.min.negatedReportingOverflow() == (T.max, false) as (T, Bool))
+        XCTAssert(T.max.negatedReportingOverflow() == (T.min, false) as (T, Bool))
     }
 }
 

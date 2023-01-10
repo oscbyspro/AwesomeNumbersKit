@@ -20,9 +20,24 @@ extension ANKSigned: SignedNumeric { public typealias IntegerLiteralType = Int }
 //*============================================================================*
 
 @usableFromInline typealias ANKLargeSigned<T> = ANKSigned<T> where
-T: ANKLargeBinaryIntegerWhereDigitIsNotSelf & ANKUnsignedLargeBinaryInteger, T == T.Magnitude
+T: ANKLargeBinaryIntegerWhereDigitIsNotSelf, T: ANKUnsignedLargeBinaryInteger, T == T.Magnitude
 
-extension ANKLargeSigned { public typealias Digit = ANKSigned<Magnitude.Digit> }
+//=----------------------------------------------------------------------------=
+// MARK: + Details
+//=----------------------------------------------------------------------------=
+
+extension ANKLargeSigned {
+    
+    public typealias Digit = ANKSigned<Magnitude.Digit>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public init(digit: Digit) {
+        self.init(Magnitude(digit: digit.magnitude), as: digit.sign)
+    }
+}
 
 //*============================================================================*
 // MARK: * ANK x Signed x Conditional Conformances

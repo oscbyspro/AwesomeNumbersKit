@@ -16,7 +16,7 @@ import XCTest
 // MARK: * ANK x Signed x Comparison
 //*============================================================================*
 
-final class SignedTestsOnComparison: XCTestCase {
+final class ANKSignedTestsOnComparison: XCTestCase {
     
     typealias T = ANKSigned<UInt>
     

@@ -33,6 +33,10 @@ final class Int256BenchmarksOnAddition: XCTestCase {
         }
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Int
+    //=------------------------------------------------------------------------=
+    
     func testAddingInt() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = Int.max
@@ -63,6 +67,10 @@ final class UInt256BenchmarksOnAddition: XCTestCase {
             _ = lhs + rhs
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x UInt
+    //=------------------------------------------------------------------------=
     
     func testAddingUInt() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))

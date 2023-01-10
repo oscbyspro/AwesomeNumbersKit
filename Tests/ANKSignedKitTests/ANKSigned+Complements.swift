@@ -7,39 +7,28 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if !DEBUG
+#if DEBUG
 
 import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Signed x Multiplication
+// MARK: * ANK x Signed x Complements
 //*============================================================================*
 
-final class SignedBenchmarksOnMultiplication: XCTestCase {
+final class ANKSignedTestsOnComplements: XCTestCase {
     
     typealias T = ANKSigned<UInt>
+    typealias M = UInt
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testMultiplying() {
-        let lhs = T(4, as: .plus )
-        let rhs = T(4, as: .minus)
-        
-        for _ in 0 ..< 1_000_000 {
-            _ = lhs * rhs
-        }
-    }
-    
-    func testMultipliedFullWidth() {
-        let lhs = T(4, as: .plus )
-        let rhs = T(4, as: .minus)
-        
-        for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedFullWidth(by: rhs)
-        }
+    func testMagnitude() {
+        XCTAssertEqual(T( 3).magnitude, M(3))
+        XCTAssertEqual(T( 0).magnitude, M(0))
+        XCTAssertEqual(T(-3).magnitude, M(3))
     }
 }
 

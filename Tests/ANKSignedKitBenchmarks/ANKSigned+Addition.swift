@@ -14,10 +14,10 @@ import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Signed x Subtraction
+// MARK: * ANK x Signed x Addition
 //*============================================================================*
 
-final class SignedBenchmarksOnSubtraction: XCTestCase {
+final class ANKSignedBenchmarksOnAddition: XCTestCase {
     
     typealias T = ANKSigned<ANKUInt256>
     typealias D = ANKSigned<UInt>
@@ -26,21 +26,21 @@ final class SignedBenchmarksOnSubtraction: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testSubtracting() {
+    func testAdding() {
         let lhs = T.max
-        let rhs = T.max
+        let rhs = T.min
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs - rhs
+            _ = lhs + rhs
         }
     }
     
-    func testSubtractingWrappingAround() {
+    func testAddingWrappingAround() {
         let lhs = T.max
-        let rhs = T.max
+        let rhs = T.min
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs &- rhs
+            _ = lhs &+ rhs
         }
     }
     
@@ -48,21 +48,21 @@ final class SignedBenchmarksOnSubtraction: XCTestCase {
     // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testSubtractingDigit() {
+    func testAddingDigit() {
         let lhs = T.max
-        let rhs = D.max
+        let rhs = D.min
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs - rhs
+            _ = lhs + rhs
         }
     }
     
-    func testSubtractingDigitWrappingAround() {
+    func testAddingDigitWrappingAround() {
         let lhs = T.max
-        let rhs = D.max
+        let rhs = T.min
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs &- rhs
+            _ = lhs &+ rhs
         }
     }
 }
