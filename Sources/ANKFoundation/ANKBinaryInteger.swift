@@ -55,6 +55,8 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     
     @inlinable func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self>
     
+    @inlinable func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self>
+    
     //=------------------------------------------------------------------------=
     // MARK: Details x Two's Complement
     //=------------------------------------------------------------------------=
@@ -76,21 +78,6 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     init(truncatingIfNeeded source: ANKSigned<Magnitude>)
 }
 
-//=----------------------------------------------------------------------------=
-// MARK: + Details where Self: Fixed Width Integer
-//=----------------------------------------------------------------------------=
-
-extension ANKBinaryInteger where Self: FixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public var isPowerOf2: Bool {
-        self.nonzeroBitCount == 1
-    }
-}
-
 //*============================================================================*
 // MARK: * ANK x Binary Integer x Signed
 //*============================================================================*
@@ -106,6 +93,24 @@ public protocol ANKUnsignedInteger: ANKBinaryInteger, UnsignedInteger { }
 //*============================================================================*
 // MARK: * ANK x Binary Integer x Defaults
 //*============================================================================*
+//=----------------------------------------------------------------------------=
+// MARK: + Details
+//=----------------------------------------------------------------------------=
+
+extension ANKBinaryInteger where Self: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public var isPowerOf2: Bool {
+        self.nonzeroBitCount == 1
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: Details x Sign & Magnitude
+//=----------------------------------------------------------------------------=
 
 extension ANKBinaryInteger where Magnitude.BitPattern == BitPattern {
     

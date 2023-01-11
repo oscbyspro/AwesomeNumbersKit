@@ -23,13 +23,16 @@ extension ANKLargeSigned {
         //=--------------------------------------=
         if  lhs.sign == rhs.sign {
             lhs.magnitude += rhs.magnitude
+            return
+        }
         //=--------------------------------------=
-        }   else if lhs.magnitude >= rhs.magnitude {
+        let extended = Magnitude(digit: rhs.magnitude)
+        if  lhs.magnitude >= extended {
             lhs.magnitude -= rhs.magnitude
         //=--------------------------------------=
         }   else {
             lhs.sign  = rhs.sign // lhs.sign.toggle()
-            lhs.magnitude  = Magnitude(digit: rhs.magnitude) - lhs.magnitude
+            lhs.magnitude  = extended - lhs.magnitude
         }
     }
     
