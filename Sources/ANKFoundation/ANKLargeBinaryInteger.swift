@@ -50,6 +50,8 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     
     @inlinable func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit>
     
+    @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>
+    
     //=------------------------------------------------------------------------=
     // MARK: Transformations x Multiplication
     //=------------------------------------------------------------------------=

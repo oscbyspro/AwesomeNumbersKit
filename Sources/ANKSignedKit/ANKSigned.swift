@@ -13,18 +13,14 @@ import ANKFoundation
 // MARK: * ANK x Signed
 //*============================================================================*
 
-extension ANKSigned: SignedNumeric { public typealias IntegerLiteralType = Int }
+extension ANKSigned: SignedNumeric {
+    
+    public typealias IntegerLiteralType = Int
+}
 
 //*============================================================================*
 // MARK: * ANK x Signed x Large
 //*============================================================================*
-
-@usableFromInline typealias ANKLargeSigned<T> = ANKSigned<T> where
-T: ANKLargeBinaryIntegerWhereDigitIsNotSelf, T: ANKUnsignedLargeBinaryInteger, T == T.Magnitude
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details
-//=----------------------------------------------------------------------------=
 
 extension ANKLargeSigned {
     

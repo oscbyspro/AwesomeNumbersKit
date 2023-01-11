@@ -9,6 +9,7 @@
 
 #if DEBUG
 
+import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
 
@@ -18,8 +19,9 @@ import XCTest
 
 final class ANKSignedTestsOnDivision: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
-    typealias M = UInt
+    typealias T = ANKSigned<UInt256>
+    typealias D = ANKSigned<UInt>
+    typealias M = UInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -58,6 +60,42 @@ final class ANKSignedTestsOnDivision: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
+    // MARK: Tests x Digit
+    //=------------------------------------------------------------------------=
+    
+    func testDividingByDigit() {
+        XCTAssertEqual(T( 0) / D( 1),  0 as T)
+        XCTAssertEqual(T( 0) / D( 2),  0 as T)
+        XCTAssertEqual(T( 0) % D( 1),  0 as D)
+        XCTAssertEqual(T( 0) % D( 2),  0 as D)
+
+        XCTAssertEqual(T( 7) / D( 1),  7 as T)
+        XCTAssertEqual(T( 7) / D( 2),  3 as T)
+        XCTAssertEqual(T( 7) % D( 1),  0 as D)
+        XCTAssertEqual(T( 7) % D( 2),  1 as D)
+                
+        XCTAssertEqual(T( 7) / D( 3),  2 as T)
+        XCTAssertEqual(T( 7) / D(-3), -2 as T)
+        XCTAssertEqual(T(-7) / D( 3), -2 as T)
+        XCTAssertEqual(T(-7) / D(-3),  2 as T)
+        
+        XCTAssertEqual(T( 7) % D( 3),  1 as D)
+        XCTAssertEqual(T( 7) % D(-3),  1 as D)
+        XCTAssertEqual(T(-7) % D( 3), -1 as D)
+        XCTAssertEqual(T(-7) % D(-3), -1 as D)
+    }
+    
+    func testQuotientReportingOverflowDividingByDigit() {
+        XCTAssert(T.min.dividedReportingOverflow(by:  D(0)) == (T.min,  true) as (T, Bool))
+        XCTAssert(T.min.dividedReportingOverflow(by: -D(1)) == (T.max, false) as (T, Bool))
+    }
+
+    func testRemainderReportingOverflowDividingByDigit() {
+        XCTAssert(T.min.remainderReportingOverflow(dividingBy:  D(0)) == (D(),  true) as (D, Bool))
+        XCTAssert(T.min.remainderReportingOverflow(dividingBy: -D(1)) == (D(), false) as (D, Bool))
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Tests x Full Width
     //=------------------------------------------------------------------------=
     
@@ -67,10 +105,10 @@ final class ANKSignedTestsOnDivision: XCTestCase {
         XCTAssert(T.min.dividingFullWidth(( T(1), M( 1))) == (-T(1),  T(2)) as (T, T))
         XCTAssert(T.min.dividingFullWidth((-T(1), M( 1))) == ( T(1), -T(2)) as (T, T))
         
-        XCTAssert(T( 2).dividingFullWidth(( T(1), M( 1))) == (T.max/2 + 1,  T(1)) as (T, T))
-        XCTAssert(T( 2).dividingFullWidth((-T(1), M( 1))) == (T.min/2 - 1, -T(1)) as (T, T))
-        XCTAssert(T(-2).dividingFullWidth(( T(1), M( 1))) == (T.min/2 - 1,  T(1)) as (T, T))
-        XCTAssert(T(-2).dividingFullWidth((-T(1), M( 1))) == (T.max/2 + 1, -T(1)) as (T, T))
+        XCTAssert(T( 2).dividingFullWidth(( T(1), M( 1))) == (T.max/T(2) + T(1),  T(1)) as (T, T))
+        XCTAssert(T( 2).dividingFullWidth((-T(1), M( 1))) == (T.min/T(2) - T(1), -T(1)) as (T, T))
+        XCTAssert(T(-2).dividingFullWidth(( T(1), M( 1))) == (T.min/T(2) - T(1),  T(1)) as (T, T))
+        XCTAssert(T(-2).dividingFullWidth((-T(1), M( 1))) == (T.max/T(2) + T(1), -T(1)) as (T, T))
     }
     
     func testDividingFullWidthTruncatesQuotient() {

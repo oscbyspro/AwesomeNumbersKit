@@ -28,12 +28,6 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     @inlinable func addingReportingOverflow(_ amount: Digit) -> PVO<Self>
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Division
-    //=------------------------------------------------------------------------=
-    
-    @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>
-    
-    //=------------------------------------------------------------------------=
     // MARK: Transformations x Multiplication
     //=------------------------------------------------------------------------=
     

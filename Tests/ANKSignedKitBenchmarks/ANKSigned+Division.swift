@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
 
@@ -18,8 +19,9 @@ import XCTest
 
 final class ANKSignedBenchmarksOnDivision: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
-    typealias M = UInt
+    typealias T = ANKSigned<UInt256>
+    typealias D = ANKSigned<UInt>
+    typealias M = UInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -28,6 +30,19 @@ final class ANKSignedBenchmarksOnDivision: XCTestCase {
     func testQuotientAndRemainder() {
         let lhs = T(7, as: .plus )
         let rhs = T(3, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.quotientAndRemainder(dividingBy: rhs)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Digit
+    //=------------------------------------------------------------------------=
+    
+    func testQuotientAndRemainderDividingByDigit() {
+        let lhs = T(7, as: .plus )
+        let rhs = D(3, as: .minus)
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs.quotientAndRemainder(dividingBy: rhs)
