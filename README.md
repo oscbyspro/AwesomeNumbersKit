@@ -2,32 +2,44 @@
 
 Large number arithmetic in Swift.
 
-## ANKFullWidth
+## ANKFullWidth ([Sources](Sources/ANKFullWidthKit), [Tests](Tests/ANKFullWidthKitTests), [Benchmarks](Tests/ANKFullWidthKitBenchmarks))
 
 👨‍💻🛠️🚧🧱🧱🏗️🧱🧱🚧⏳
 
-A composable, large-fixed-width, two's complement, binary integer.
+A composable, large, fixed-width, two's complement, binary integer.
 
 <table>
 <tr>
-    <td><a href="/Sources/ANKFullWidthKit/">(U)Int128</a></td>
-    <td><a href="/Tests/ANKFullWidthKitTests/">Tests</a></td>
-    <td><a href="/Tests/ANKFullWidthKitBenchmarks/">Benchmarks</a></td>
+    <td>:jigsaw:</td>
+    <td>Composable</a></td>
 </tr>
 <tr>
-    <td><a href="/Sources/ANKFullWidthKit/">(U)Int256</a></td>
-    <td><a href="/Tests/ANKFullWidthKitTests/">Tests</a></td>
-    <td><a href="/Tests/ANKFullWidthKitBenchmarks/">Benchmarks</a></td>
+    <td>:two_hearts:</td>
+    <td>Two's Complement</a></td>
 </tr>
 <tr>
-    <td><a href="/Sources/ANKFullWidthKit/">(U)Int512</a></td>
-    <td><a href="/Tests/ANKFullWidthKitTests/">Tests</a></td>
-    <td><a href="/Tests/ANKFullWidthKitBenchmarks/">Benchmarks</a></td>
+    <td>:european_castle:</td>
+    <td>Fixed Width Integer</a></td>
 </tr>
 </table>
 
-## ANKSigned
+## ANKSigned ([Sources](Sources/ANKSignedKit), [Tests](Tests/ANKSignedKitTests), [Benchmarks](Tests/ANKSignedKitBenchmarks))
 
 👨‍💻🛠️🚧🧱🧱🏗️🧱🧱🚧⏳
 
 A decorative, width agnostic, pen-and-paper-sign-magnitude, numeric integer.
+
+<table>
+<tr>
+    <td>:ribbon:</td>
+    <td>Decorative</a></td>
+</tr>
+<tr>
+    <td>:ringed_planet:</td>
+    <td>Sign & Magnitude</a></td>
+</tr>
+<tr>
+    <td>:100:</td>
+    <td>Numeric</a></td>
+</tr>
+</table>
