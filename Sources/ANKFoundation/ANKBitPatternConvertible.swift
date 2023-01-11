@@ -12,7 +12,7 @@
 //*============================================================================*
 
 public protocol ANKBitPatternConvertible<BitPattern> {
-        
+    
     associatedtype BitPattern: ANKBitPatternConvertible<BitPattern>
     
     //=------------------------------------------------------------------------=
@@ -40,5 +40,21 @@ extension ANKBitPatternConvertible {
     
     @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
         self.init(bitPattern: source.bitPattern)
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Bit Pattern Convertible x Never
+//*============================================================================*
+
+extension Never: ANKBitPatternConvertible { }
+extension ANKBitPatternConvertible<Never> {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public var bitPattern: Never {
+        fatalError()
     }
 }

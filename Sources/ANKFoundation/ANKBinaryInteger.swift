@@ -19,7 +19,7 @@
 ///
 /// Like `BinaryInteger` all bitwise operations have two's complement semantics.
 ///
-public protocol ANKBinaryInteger: BinaryInteger where Magnitude: ANKUnsignedInteger {
+public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where Magnitude: ANKUnsignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -102,3 +102,56 @@ public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger { }
 //*============================================================================*
 
 public protocol ANKUnsignedInteger: ANKBinaryInteger, UnsignedInteger { }
+
+//*============================================================================*
+// MARK: * ANK x Binary Integer x Defaults
+//*============================================================================*
+
+extension ANKBinaryInteger where Magnitude.BitPattern == BitPattern {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public init(_ source: ANKSigned<Magnitude>) {
+        guard let value = Self(exactly: source) else {
+            preconditionFailure("\(source) is not in \(Self.self)'s representable range")
+        }
+        
+        self = value
+    }
+    
+    @inlinable public init?(exactly source: ANKSigned<Magnitude>) {
+        let sourceIsLessThanZero = source.isLessThanZero
+        //=--------------------------------------=
+        if  Self.isSigned {
+            self.init(bitPattern: source.magnitude)
+            if sourceIsLessThanZero {  self.formTwosComplement()  }
+            if sourceIsLessThanZero != self.isLessThanZero { return nil }
+        //=--------------------------------------=
+        }   else {
+            if sourceIsLessThanZero {  return nil }
+            self.init(bitPattern: source.magnitude)
+        }
+    }
+    
+    @inlinable public init(clamping source: ANKSigned<Magnitude>) where Self: FixedWidthInteger {
+        let sourceIsLessThanZero = source.isLessThanZero
+        //=--------------------------------------=
+        if  Self.isSigned {
+            self.init(bitPattern: source.magnitude)
+            if sourceIsLessThanZero {  self.formTwosComplement()  }
+            if sourceIsLessThanZero != self.isLessThanZero { self = sourceIsLessThanZero ? .min : .max }
+        //=--------------------------------------=
+        }   else {
+            if sourceIsLessThanZero {  self.init(); return }
+            self.init(bitPattern: source.magnitude)
+        }
+    }
+    
+    @inlinable public init(truncatingIfNeeded source: ANKSigned<Magnitude>) {
+        let sourceIsLessThanZero = source.isLessThanZero
+        self.init(bitPattern: source.magnitude)
+        if  sourceIsLessThanZero { self.formTwosComplement() }
+    }
+}

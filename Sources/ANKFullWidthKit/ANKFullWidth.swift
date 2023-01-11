@@ -40,10 +40,9 @@ import ANKFoundation
 /// ```
 ///
 @frozen public struct ANKFullWidth<High, Low>: WoRdS, ANKBigEndianTextCodable,
-ANKLargeBinaryIntegerWhereDigitIsNotSelf, ANKLargeFixedWidthInteger, ANKTwosComplement,
+ANKLargeBinaryIntegerWhereDigitIsNotSelf, ANKLargeFixedWidthInteger,
 CustomStringConvertible, CustomDebugStringConvertible, ExpressibleByStringLiteral where
-High: ANKLargeFixedWidthInteger & ANKTwosComplement,
-Low:  ANKUnsignedLargeFixedWidthInteger<UInt> & ANKTwosComplement,
+High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     
     public typealias IntegerLiteralType = Int
@@ -51,7 +50,7 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     public typealias Digit = High.Digit
     
     public typealias BitPattern = Magnitude
-        
+    
     public typealias Magnitude = ANKFullWidth<High.Magnitude, Low>
     
     public typealias Plus1 = ANKFullWidth<Digit, Magnitude>

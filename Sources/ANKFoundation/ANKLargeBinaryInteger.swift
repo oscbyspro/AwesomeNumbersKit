@@ -97,7 +97,7 @@ public protocol ANKUnsignedLargeBinaryInteger<Digit>: ANKLargeBinaryInteger,
 ANKUnsignedInteger where Digit: ANKUnsignedInteger, Digit.Magnitude == Digit { }
 
 //*============================================================================*
-// MARK: * ANK x Binary Integer x Large x where Digit != Self
+// MARK: * ANK x Binary Integer x Large x Digit != Self
 //*============================================================================*
 
 public protocol ANKLargeBinaryIntegerWhereDigitIsNotSelf<Digit>: ANKLargeBinaryInteger { }

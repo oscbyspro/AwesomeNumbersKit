@@ -11,7 +11,7 @@
 // MARK: * ANK x Int Or UInt
 //*============================================================================*
 
-public protocol ANKIntOrUInt: ANKLargeFixedWidthInteger<Self>, ANKTwosComplement<UInt> where Magnitude == UInt { }
+public protocol ANKIntOrUInt: ANKLargeFixedWidthInteger<Self>, ANKTrivialFixedWidthInteger where Magnitude == UInt { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Fixes Marked As Unavailable in /Integers.swift
