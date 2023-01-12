@@ -70,7 +70,7 @@
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Details x Normal
+    // MARK: Details x Normalization
     //=------------------------------------------------------------------------=
     
     /// - Returns: `true` for all values except negative zero where it returns `false`
@@ -85,23 +85,12 @@
 }
 
 //*============================================================================*
-// MARK: * ANK x Signed x Fixed Width
+// MARK: * ANK x Signed x Aliases
 //*============================================================================*
 
-extension ANKSigned where Magnitude: FixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static var min: Self {
-        Self(Magnitude.max, as: ANKSign.minus)
-    }
-    
-    @inlinable public static var max: Self {
-        Self(Magnitude.max, as: ANKSign.plus)
-    }
-}
+public typealias ANKLargeSigned<T> = ANKSigned<T> where
+T: ANKLargeBinaryIntegerWhereDigitIsNotSelf,
+T: ANKUnsignedLargeBinaryInteger, T == T.Magnitude
 
 //*============================================================================*
 // MARK: * ANK x Signed x Comparison
@@ -158,5 +147,24 @@ extension ANKSigned {
     @inlinable public func hash(into hasher: inout Hasher) {
         hasher.combine(self.magnitude)
         hasher.combine(self.normalizedSign)
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Signed x Fixed Width
+//*============================================================================*
+
+extension ANKSigned where Magnitude: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static var min: Self {
+        Self(Magnitude.max, as: ANKSign.minus)
+    }
+    
+    @inlinable public static var max: Self {
+        Self(Magnitude.max, as: ANKSign.plus)
     }
 }

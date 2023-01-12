@@ -39,8 +39,8 @@ import ANKFoundation
 /// await .biggerIntegerLiterals()
 /// ```
 ///
-@frozen public struct ANKFullWidth<High, Low>: WoRdS, ANKBigEndianTextCodable,
-ANKLargeBinaryIntegerWhereDigitIsNotSelf, ANKLargeFixedWidthInteger,
+@frozen public struct ANKFullWidth<High, Low>: WoRdS, MutableCollection,
+ANKBigEndianTextCodable, ANKLargeBinaryIntegerWhereDigitIsNotSelf, ANKLargeFixedWidthInteger,
 CustomStringConvertible, CustomDebugStringConvertible, ExpressibleByStringLiteral where
 High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
@@ -120,7 +120,7 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     @_transparent public init(bitPattern: BitPattern) {
         self = unsafeBitCast(bitPattern, to: Self.self)
     }
-        
+    
     @_transparent public var bitPattern: BitPattern {
         return unsafeBitCast(self, to: BitPattern.self)
     }

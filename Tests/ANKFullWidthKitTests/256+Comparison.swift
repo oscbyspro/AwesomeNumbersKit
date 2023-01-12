@@ -95,6 +95,12 @@ final class Int256TestsOnComparison: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testSignum() {
+        XCTAssertEqual(T(-1).signum(), -1)
+        XCTAssertEqual(T( 0).signum(),  0)
+        XCTAssertEqual(T( 1).signum(),  1)
+    }
+    
     func testIsZero() {
         XCTAssertTrue (T( 0).isZero)
         XCTAssertFalse(T( 1).isZero)
@@ -123,12 +129,6 @@ final class Int256TestsOnComparison: XCTestCase {
         XCTAssertFalse(T(-1).isMoreThanZero)
         XCTAssertFalse(T(-2).isMoreThanZero)
         XCTAssertFalse(T(-3).isMoreThanZero)
-    }
-    
-    func testSignum() {
-        XCTAssertEqual(T(-1).signum(), -1)
-        XCTAssertEqual(T( 0).signum(),  0)
-        XCTAssertEqual(T( 1).signum(),  1)
     }
 }
 
@@ -202,6 +202,12 @@ final class UInt256TestsOnComparison: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testSignum() {
+        XCTAssertEqual(T(0).signum(), 0)
+        XCTAssertEqual(T(1).signum(), 1)
+        XCTAssertEqual(T(2).signum(), 1)
+    }
+    
     func testIsZero() {
         XCTAssertTrue (T(0).isZero)
         XCTAssertFalse(T(1).isZero)
@@ -215,15 +221,9 @@ final class UInt256TestsOnComparison: XCTestCase {
     }
     
     func testIsMoreThanZero() {
-        XCTAssertFalse(T( 0).isMoreThanZero)
-        XCTAssertTrue (T( 1).isMoreThanZero)
-        XCTAssertTrue (T( 2).isMoreThanZero)
-    }
-    
-    func testSignum() {
-        XCTAssertEqual(T( 0).signum(),  0)
-        XCTAssertEqual(T( 1).signum(),  1)
-        XCTAssertEqual(T( 2).signum(),  1)
+        XCTAssertFalse(T(0).isMoreThanZero)
+        XCTAssertTrue (T(1).isMoreThanZero)
+        XCTAssertTrue (T(2).isMoreThanZero)
     }
 }
 

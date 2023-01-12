@@ -29,9 +29,9 @@ extension StringProtocol where Self == SubSequence {
     
     @inlinable public mutating func _removeRadixLiteralPrefix() -> Int? {
         switch true {
-        case hasPrefix("0x"): removeFirst(2); return 16
-        case hasPrefix("0o"): removeFirst(2); return 08
-        case hasPrefix("0b"): removeFirst(2); return 02
+        case hasPrefix("0x"): removeFirst(2); return 0x10
+        case hasPrefix("0o"): removeFirst(2); return 0o10
+        case hasPrefix("0b"): removeFirst(2); return 0b10
         default: return nil }
     }
 }

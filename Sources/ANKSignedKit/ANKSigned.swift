@@ -16,6 +16,14 @@ import ANKFoundation
 extension ANKSigned: SignedNumeric {
     
     public typealias IntegerLiteralType = Int
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public init(bit: Bool) {
+        self.init(Magnitude(bit: bit), as: ANKSign.plus)
+    }
 }
 
 //*============================================================================*

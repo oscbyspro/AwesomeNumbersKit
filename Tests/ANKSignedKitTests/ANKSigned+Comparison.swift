@@ -78,6 +78,13 @@ final class ANKSignedTestsOnComparison: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testSignum() {
+        XCTAssertEqual(T(0, as: .plus ).signum(),  0)
+        XCTAssertEqual(T(0, as: .minus).signum(),  0)
+        XCTAssertEqual(T(1, as: .plus ).signum(),  1)
+        XCTAssertEqual(T(1, as: .minus).signum(), -1)
+    }
+    
     func testIsZero() {
         XCTAssertEqual(T(0, as: .plus ).isZero, true )
         XCTAssertEqual(T(0, as: .minus).isZero, true )
@@ -97,13 +104,6 @@ final class ANKSignedTestsOnComparison: XCTestCase {
         XCTAssertEqual(T(0, as: .minus).isMoreThanZero, false)
         XCTAssertEqual(T(1, as: .plus ).isMoreThanZero, true )
         XCTAssertEqual(T(1, as: .minus).isMoreThanZero, false)
-    }
-    
-    func testSignum() {
-        XCTAssertEqual(T(0, as: .plus ).signum(),  0)
-        XCTAssertEqual(T(0, as: .minus).signum(),  0)
-        XCTAssertEqual(T(1, as: .plus ).signum(),  1)
-        XCTAssertEqual(T(1, as: .minus).signum(), -1)
     }
 }
 

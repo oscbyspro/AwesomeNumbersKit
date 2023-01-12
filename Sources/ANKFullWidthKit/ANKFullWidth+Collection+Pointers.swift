@@ -38,7 +38,9 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     
     @inlinable static var count: Int {
-        MemoryLayout<Layout>.stride / MemoryLayout<UInt>.stride
+        assert(MemoryLayout<Layout>.size / MemoryLayout<UInt>.size >= 1)
+        assert(MemoryLayout<Layout>.size % MemoryLayout<UInt>.size == 0)
+        return MemoryLayout<Layout>.size / MemoryLayout<UInt>.size
     }
     
     @inlinable static var startIndex: Int {
@@ -128,10 +130,8 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     
     @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafePointer<T>) where T: ANKBitPatternConvertible<Layout> {
-        //=--------------------------------------=
-        assert(MemoryLayout<T>.size / MemoryLayout<UInt>.size >= 1)
-        assert(MemoryLayout<T>.size % MemoryLayout<UInt>.size == 0)
-        //=--------------------------------------=
+        assert(MemoryLayout<T>.size == MemoryLayout<Layout>.size)
+        assert(MemoryLayout<T>.size == MemoryLayout<Layout>.size)
         self.base = UnsafeRawPointer(BIT_PATTERN).assumingMemoryBound(to: UInt.self)
     }
     
@@ -168,10 +168,8 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     
     @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafeMutablePointer<T>) where T: ANKBitPatternConvertible<Layout> {
-        //=--------------------------------------=
-        assert(MemoryLayout<T>.size / MemoryLayout<UInt>.size >= 1)
-        assert(MemoryLayout<T>.size % MemoryLayout<UInt>.size == 0)
-        //=--------------------------------------=
+        assert(MemoryLayout<T>.size == MemoryLayout<Layout>.size)
+        assert(MemoryLayout<T>.size == MemoryLayout<Layout>.size)
         self.base = UnsafeMutableRawPointer(BIT_PATTERN).assumingMemoryBound(to: UInt.self)
     }
     

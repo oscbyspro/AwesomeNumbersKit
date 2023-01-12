@@ -9,6 +9,7 @@
 
 #if DEBUG
 
+import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
 
@@ -18,7 +19,8 @@ import XCTest
 
 final class ANKSignedTests: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
+    typealias T = ANKSigned<ANKUInt256>
+    typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -26,8 +28,22 @@ final class ANKSignedTests: XCTestCase {
     
     func testInit() {
         XCTAssertEqual(T().sign, .plus)
-        XCTAssertEqual(T().magnitude, 0 as UInt)
+        XCTAssertEqual(T().magnitude, 0 as UInt256)
     }
+    
+    func testInitWithBit() {
+        XCTAssertEqual(T(bit: false), T(0))
+        XCTAssertEqual(T(bit: true ), T(1))
+    }
+    
+    func testInitWithDigit() {
+        XCTAssertEqual(T(digit:  D(3)),  T(3))
+        XCTAssertEqual(T(digit: -D(3)), -T(3))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Normalization
+    //=------------------------------------------------------------------------=
     
     func testSign() {
         XCTAssertEqual(T(0, as: .plus ).sign, .plus )
@@ -35,10 +51,6 @@ final class ANKSignedTests: XCTestCase {
         XCTAssertEqual(T(1, as: .plus ).sign, .plus )
         XCTAssertEqual(T(1, as: .minus).sign, .minus)
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Normalization
-    //=------------------------------------------------------------------------=
     
     func testIsNormal() {
         XCTAssertEqual(T(0, as: .plus ).isNormal, true )
