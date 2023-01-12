@@ -23,6 +23,11 @@ A composable, large, fixed-width, two's complement, binary integer.
 </tr>
 </table>
 
+```swift
+public typealias  ANKInt256 = ANKFullWidth< ANKInt128, ANKUInt128>
+public typealias ANKUInt256 = ANKFullWidth<ANKUInt128, ANKUInt128>
+```
+
 ## ANKSigned ([Sources](Sources/ANKSignedKit), [Tests](Tests/ANKSignedKitTests), [Benchmarks](Tests/ANKSignedKitBenchmarks))
 
 👨‍💻🛠️🚧🧱🧱🏗️🧱🧱🚧⏳
