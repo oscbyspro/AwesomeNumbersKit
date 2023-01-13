@@ -72,8 +72,13 @@ extension UInt {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// - Returns: `0 <= power == radix ** exponent < Self.max`
-    @usableFromInline static func maxValueRootReportingUnderestimatedPowerOrZero(_ radix: Int) -> (exponent: Int, power: Self) {
+    /// Returns the largest exponent such that `pow(radix, exponent) <= max + 1`.
+    ///
+    /// The `power` is zero (representing `max + 1`), if and only if the `radix` is a power of 2.
+    ///
+    /// - Note: The expression `max + 1` is also equivalent to `pow(2, bitWidth)`.
+    ///
+    @usableFromInline static func maxPlusOneRootReportingUnderestimatedPowerOrZero(_ radix: Int) -> (exponent: Int, power: Self) {
         precondition(radix >= 2)
         //=--------------------------------------=
         var power = Self(1)
@@ -85,11 +90,17 @@ extension UInt {
             let product = power.multipliedFullWidth(by: radix)
             //=----------------------------------=
             guard  product.high.isZero else {
-                if product.low .isZero { exponent &+= 1; power = product.low }
-                return (exponent, power)
+                if product.low .isZero {
+                    exponent &+= 1
+                    power = product.low
+                }
+                //=------------------------------=
+                assert(power.isZero == radix.isPowerOf2)
+                return(exponent: exponent, power: power)
             }
             //=----------------------------------=
-            exponent &+= 1; power = product.low
+            exponent &+= 1
+            power = product.low
         }
     }
 }

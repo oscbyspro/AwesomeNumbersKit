@@ -184,7 +184,7 @@ extension ANKFullWidth where Self == Magnitude {
                     REMAINDER.formIndex(before:/*-*/&remainderIndex)
                     if   remainderLast0 >= divisorLast0 { return UInt.max }
                     let  remainderLast1  = REMAINDER[remainderIndex]
-                    return divisorLast0.dividingFullWidth((remainderLast0, remainderLast1)).quotient
+                    return divisorLast0.dividingFullWidth(HL(remainderLast0, remainderLast1)).quotient
                 }
                 //=------------------------------=
                 let increment/**/ = Plus1(descending: HL(UInt(), divisor._bitshiftedLeft(words: quotientIndex, bits: Int())))

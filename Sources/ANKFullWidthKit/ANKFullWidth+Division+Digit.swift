@@ -127,7 +127,7 @@ extension ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
             //=----------------------------------=
             backwards: while quotientIndex != QUOTIENT.startIndex {
                 QUOTIENT.formIndex(before: &quotientIndex)
-                let dividend = (remainder, QUOTIENT[quotientIndex]) as   (UInt, UInt)
+                let dividend = (remainder, QUOTIENT[quotientIndex]) as HL<UInt, UInt>
                 let division =  divisor.dividingFullWidth(dividend) as QR<UInt, UInt>
                 (QUOTIENT[quotientIndex], remainder) = division
             }

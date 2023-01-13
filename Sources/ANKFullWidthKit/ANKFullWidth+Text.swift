@@ -64,7 +64,7 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
     _ source: some StringProtocol, radix: Int) -> Self? {
         //=--------------------------------------=
         let utf8 = source.utf8
-        let root = UInt.maxValueRootReportingUnderestimatedPowerOrZero(radix)
+        let root = UInt.maxPlusOneRootReportingUnderestimatedPowerOrZero(radix)
         assert(!root.power.isZero, "radix must not be power of 2")
         //=--------------------------------------=
         var magnitude = Self()
@@ -97,7 +97,7 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
     _ source: some StringProtocol, radix: Int) -> Self? {
         //=--------------------------------------=
         let utf8 = source.utf8
-        let root = UInt.maxValueRootReportingUnderestimatedPowerOrZero(radix)
+        let root = UInt.maxPlusOneRootReportingUnderestimatedPowerOrZero(radix)
         assert(root.power.isZero, "radix must be power of 2")
         //=--------------------------------------=
         var magnitude = Self()
@@ -146,14 +146,13 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
         return  self._encodeWhereRadixIsIn2Through36AndRadixIsNotPowerOf2(magnitude, radix: radix, uppercase: uppercase, to: &text)
     }
     
-    
     @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsPowerOf2(
     _ magnitude: Self, radix: Int, uppercase: Bool, to text: inout String) {
         //=--------------------------------------=
         let magnitude_ = magnitude.minWordCountReportingIsZeroOrMinusOne()
         if  magnitude_.isZeroOrMinusOne { text += "0"; return }
         //=--------------------------------------=
-        let root = UInt.maxValueRootReportingUnderestimatedPowerOrZero(radix)
+        let root = UInt.maxPlusOneRootReportingUnderestimatedPowerOrZero(radix)
         assert(root.power.isZero, "radix must be power of 2")
         //=--------------------------------------=
         text.reserveCapacity(text.utf8.count + magnitude_.minWordCount * root.exponent)
@@ -179,16 +178,16 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
         if  magnitudeLeadingZeroBitCount == Self.bitWidth { return text += "0" }
         //=--------------------------------------=
         var magnitude = magnitude
-        let root = UInt.maxValueRootReportingUnderestimatedPowerOrZero(radix)
+        let root = UInt.maxPlusOneRootReportingUnderestimatedPowerOrZero(radix)
         assert(!root.power.isZero, "radix must not be power of 2")
         //=--------------------------------------=
         let amount: Int = magnitude.bitWidth - magnitudeLeadingZeroBitCount
         let consumption: Int = UInt.bitWidth - root.power.leadingZeroBitCount &- 1
-        let chunks: Int = 1 &+ (amount / consumption) // >= count
+        let chunksCount: Int = 1 &+ (amount / consumption) // overestimated
         //=--------------------------------------=
-        text.reserveCapacity(text.utf8.count + chunks * root.exponent)
+        text.reserveCapacity(text.utf8.count + chunksCount * root.exponent)
         //=--------------------------------------=
-        withUnsafeTemporaryAllocation(of: UInt.self, capacity: chunks) { CHUNKS in
+        withUnsafeTemporaryAllocation(of: UInt.self, capacity: chunksCount) { CHUNKS in
             //=----------------------------------=
             var index = CHUNKS.startIndex
             //=----------------------------------=
