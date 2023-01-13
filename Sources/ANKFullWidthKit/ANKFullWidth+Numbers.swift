@@ -185,13 +185,13 @@ extension ANKFullWidth {
         //=--------------------------------------=
         if  let source = source as? UInt {
             let low = Low(_truncatingBits: source)
-            self.init(descending:(high, low))
+            self.init(descending: HL(high, low))
         //=--------------------------------------=
         // Int, some ANKIntOrUInt
         //=--------------------------------------=
         }   else {
             let low = Low(truncatingIfNeeded: source)
-            self.init(descending:(high, low))
+            self.init(descending: HL(high, low))
         }
     }
 }

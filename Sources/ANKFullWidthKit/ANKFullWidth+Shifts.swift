@@ -149,7 +149,7 @@ extension ANKFullWidth {
         assert(0 <= words && words < self.endIndex)
         assert(0 <= bits  && bits  < UInt.bitWidth)
         //=--------------------------------------=
-        let isLessThanZero: Bool = (self.isLessThanZero)
+        let isLessThanZero = self.isLessThanZero as Bool
         var next: Self = Self(repeating: isLessThanZero)
         //=--------------------------------------=
         next.withUnsafeMutableWordsPointer { NEXT in

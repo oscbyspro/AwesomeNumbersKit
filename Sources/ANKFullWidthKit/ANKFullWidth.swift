@@ -66,11 +66,11 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     }
     
     @inlinable public static var min: Self {
-        Self(descending:(High.min, Low.min))
+        Self(descending: HL(High.min, Low.min))
     }
     
     @inlinable public static var max: Self {
-        Self(descending:(High.max, Low.max))
+        Self(descending: HL(High.max, Low.max))
     }
     
     //=------------------------------------------------------------------------=
@@ -102,15 +102,15 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable public init() {
-        self.init(descending:(High(), Low()))
+        self.init(descending: HL(High(), Low()))
     }
     
     @inlinable public init(bit: Bool) {
-        self.init(descending:(High(), Low(bit: bit)))
+        self.init(descending: HL(High(), Low(bit: bit)))
     }
     
     @inlinable public init(repeating bit: Bool) {
-        self.init(descending:(High(repeating:  bit), Low(repeating:  bit)))
+        self.init(descending: HL(High(repeating: bit), Low(repeating: bit)))
     }
     
     //=------------------------------------------------------------------------=

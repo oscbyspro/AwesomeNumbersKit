@@ -146,9 +146,9 @@ extension ANKFullWidth {
     @inlinable func _multipliedFullWidthAsKaratsubaAsUnsigned(by amount: Self) -> DoubleWidth where High == Low {
         //=--------------------------------------=
         func sum(_ x0: Low, _ x1: Low, _ x2: Low) -> HL<UInt, Low> {
-            let (x3, o3) = x0.addingReportingOverflow(x1) as (Low, Bool)
-            let (x4, o4) = x3.addingReportingOverflow(x2) as (Low, Bool)
-            return HL(UInt(bit: o3) &+ UInt(bit: o4), x4)
+            let s0 = x0.addingReportingOverflow(x1) as PVO<Low>
+            let s1 = s0.partialValue.addingReportingOverflow(x2) as PVO<Low>
+            return HL(UInt(bit: s0.overflow) &+ UInt(bit: s1.overflow), s1.partialValue)
         }
         //=--------------------------------------=
         let m0 = self.low .multipliedFullWidth(by: amount.low ) as HL<Low, Low>
@@ -159,11 +159,11 @@ extension ANKFullWidth {
         let s0 = sum(m0.high, m1.low,  m2.low) as HL<UInt, Low>
         let s1 = sum(m1.high, m2.high, m3.low) as HL<UInt, Low>
         //=--------------------------------------=
-        let r0 = Magnitude(descending:(s0.low,  m0.low))
-        var r1 = Magnitude(descending:(m3.high, Low(digit: s0.high)))
+        let r0 = Magnitude(descending: HL(s0.low,  m0.low))
+        var r1 = Magnitude(descending: HL(m3.high, Low(digit: s0.high)))
         let o0 = r1.low .addReportingOverflow(s1.low) as Bool
         let o1 = r1.high.addReportingOverflow(s1.high &+ Digit(bit: o0)) as Bool
         //=--------------------------------------=
-        assert(!o1); return DoubleWidth(descending:(r1, r0))
+        assert(!o1); return DoubleWidth(descending: HL(r1, r0))
     }
 }

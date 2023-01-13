@@ -54,6 +54,6 @@ extension ANKFullWidth {
     @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
         var partialValue = self
         let overflow: Bool = partialValue.addReportingOverflow(amount)
-        return PVO(partialValue, overflow)        
+        return PVO(partialValue, overflow)
     }
 }

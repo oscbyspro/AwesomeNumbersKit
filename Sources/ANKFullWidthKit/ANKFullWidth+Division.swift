@@ -148,7 +148,9 @@ extension ANKFullWidth where Self == Magnitude {
         precondition(!divisor_.isZeroOrMinusOne, "division by zero")
         //=--------------------------------------=
         if  self <= divisor {
-            return (self == divisor) ? QR(1, Self()) : QR(Self(), self)
+            switch self == divisor {
+            case  true: return QR(quotient: 1,      remainder: Self())
+            case false: return QR(Self(), self) }
         }
         //=--------------------------------------=
         if  divisor_.minLastIndex.isZero {
@@ -161,7 +163,7 @@ extension ANKFullWidth where Self == Magnitude {
         let shift = divisor[unchecked: divisor_.minLastIndex].leadingZeroBitCount
         let divisor = divisor._bitshiftedLeft(words: Int(), bits: shift) as Self
         
-        var remainder  = Plus1(descending:(UInt(),  self))
+        var remainder  = Plus1(descending: HL(UInt(), self))
         let remainder_ = remainder.low.minLastIndexReportingIsZeroOrMinusOne()
         remainder._bitshiftLeft(words: Int(), bits: shift)
         //=--------------------------------------=
@@ -185,8 +187,8 @@ extension ANKFullWidth where Self == Magnitude {
                     return divisorLast0.dividingFullWidth((remainderLast0, remainderLast1)).quotient
                 }
                 //=------------------------------=
-                let increment/**/ = Plus1(descending:(UInt(), divisor._bitshiftedLeft(words: quotientIndex, bits: Int())))
-                var approximation = Plus1(descending:increment.low.multipliedFullWidth(by: digit))
+                let increment/**/ = Plus1(descending: HL(UInt(), divisor._bitshiftedLeft(words: quotientIndex, bits: Int())))
+                var approximation = Plus1(descending: increment.low.multipliedFullWidth(by: digit) as HL<Digit, Magnitude>)
                 //=------------------------------=
                 // Correct Digit At Most Twice
                 //=------------------------------=
@@ -212,8 +214,8 @@ extension ANKFullWidth where Self == Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable func _dividingFullWidthAsUnsigned(_ dividend: DoubleWidth) -> QR<Self, Self> {
-        let dividend = DoubleWidth(descending:(dividend.high, dividend.low))
-        let divisor  = DoubleWidth(descending:(Self(), self))
+        let dividend = DoubleWidth(descending: HL(dividend.high, dividend.low))
+        let divisor  = DoubleWidth(descending: HL(Self(), self))
         let qr: QR<DoubleWidth, DoubleWidth> = dividend._quotientAndRemainderAsUnsigned(dividingBy: divisor)
         return  QR(qr.quotient.low, qr.remainder.low)
     }

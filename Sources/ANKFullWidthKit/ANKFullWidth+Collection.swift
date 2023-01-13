@@ -20,7 +20,9 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable static var count: Int {
-        MemoryLayout<Self>.stride / MemoryLayout<UInt>.stride
+        assert(MemoryLayout<Self>.size / MemoryLayout<UInt>.size >= 1)
+        assert(MemoryLayout<Self>.size % MemoryLayout<UInt>.size == 0)
+        return MemoryLayout<Self>.size / MemoryLayout<UInt>.size
     }
     
     @inlinable static var startIndex: Int {

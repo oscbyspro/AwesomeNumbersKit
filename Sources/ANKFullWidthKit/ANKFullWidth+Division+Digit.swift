@@ -69,11 +69,11 @@ extension ANKFullWidth {
     @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
         //=--------------------------------------=
         if  divisor.isZero {
-            return PVO(0, true)
+            return PVO(Digit(), true)
         }
         //=--------------------------------------=
         if  Self.isSigned, divisor == -1, self == Self.min {
-            return PVO(0, true)
+            return PVO(Digit(), true)
         }
         //=--------------------------------------=
         let qr: QR<Self, Digit> = self.quotientAndRemainder(dividingBy: divisor)
@@ -127,8 +127,8 @@ extension ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
             //=----------------------------------=
             backwards: while quotientIndex != QUOTIENT.startIndex {
                 QUOTIENT.formIndex(before: &quotientIndex)
-                let dividend: (UInt, UInt) = (remainder, QUOTIENT[quotientIndex])
-                let division: (UInt, UInt) =  divisor.dividingFullWidth(dividend)
+                let dividend = (remainder, QUOTIENT[quotientIndex]) as   (UInt, UInt)
+                let division =  divisor.dividingFullWidth(dividend) as QR<UInt, UInt>
                 (QUOTIENT[quotientIndex], remainder) = division
             }
         }

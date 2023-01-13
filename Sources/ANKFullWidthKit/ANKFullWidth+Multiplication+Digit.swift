@@ -55,7 +55,9 @@ extension ANKFullWidth {
     
     @inlinable public func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
         //=--------------------------------------=
-        if  amount.isZero { return HL(Digit(), Magnitude()) }
+        if  amount.isZero {
+            return HL(Digit(), Magnitude())
+        }
         //=--------------------------------------=
         let lhsIsLessThanZero: Bool =   self.isLessThanZero
         let rhsIsLessThanZero: Bool = amount.isLessThanZero
