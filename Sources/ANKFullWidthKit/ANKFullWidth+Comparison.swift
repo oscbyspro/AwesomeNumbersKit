@@ -32,7 +32,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
-        lhs.high < rhs.high ? true : lhs.high > rhs.high ? false : lhs.low < rhs.low
+        lhs.high < rhs.high || lhs.high == rhs.high && lhs.low < rhs.low
     }
     
     //=------------------------------------------------------------------------=
@@ -60,6 +60,7 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.low); hasher.combine(self.high)
+        hasher.combine(self.low )
+        hasher.combine(self.high)
     }
 }

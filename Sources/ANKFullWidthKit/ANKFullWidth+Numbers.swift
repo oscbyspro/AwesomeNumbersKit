@@ -150,7 +150,7 @@ extension ANKFullWidth {
 }
 
 //=----------------------------------------------------------------------------=
-// MARK: + Digit
+// MARK: + Int Or UInt
 //=----------------------------------------------------------------------------=
 
 extension ANKFullWidth {
@@ -272,20 +272,17 @@ extension ANKFullWidth {
         assert(sign == UInt.min || sign == UInt.max)
         //=--------------------------------------=
         var index = words.startIndex
-        //=--------------------------------------=
         let value = Self.fromUnsafeMutableWordsAllocation { VALUE in
             //=----------------------------------=
             var valueIndex = VALUE.startIndex
             var wordsIndex = words.startIndex
-            defer { index = wordsIndex }
+            defer {  index = wordsIndex  }
             //=----------------------------------=
             while wordsIndex != words.endIndex {
                 guard valueIndex != VALUE.endIndex else { return }
-                
-                let word = words[wordsIndex]
-                words.formIndex(after: &wordsIndex)
-                VALUE[valueIndex] = word
+                VALUE[valueIndex] = words[wordsIndex]
                 VALUE.formIndex(after: &valueIndex)
+                words.formIndex(after: &wordsIndex)
             }
             //=----------------------------------=
             while valueIndex != VALUE.endIndex {

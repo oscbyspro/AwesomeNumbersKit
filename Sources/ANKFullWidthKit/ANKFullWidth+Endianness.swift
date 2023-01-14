@@ -10,9 +10,6 @@
 //*============================================================================*
 // MARK: * ANK x Full Width x Endianness
 //*============================================================================*
-//=----------------------------------------------------------------------------=
-// the implementation is platform dependent and identical to /Integers.swift
-//=----------------------------------------------------------------------------=
 
 extension ANKFullWidth {
     
@@ -29,10 +26,10 @@ extension ANKFullWidth {
     }
     
     @_transparent public init(littleEndian value: Self) {
-        #if _endian(little)
-        self = value
-        #else
+        #if _endian(big)
         self = value.byteSwapped
+        #else
+        self = value
         #endif
     }
     
@@ -49,10 +46,10 @@ extension ANKFullWidth {
     }
     
     @_transparent public var littleEndian: Self {
-        #if _endian(little)
-        return self
-        #else
+        #if _endian(big)
         return self.byteSwapped
+        #else
+        return self
         #endif
     }
 }
