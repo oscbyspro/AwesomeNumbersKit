@@ -52,7 +52,7 @@ extension ANKFullWidth {
             return PVO(self, true)
         }
         //=--------------------------------------=
-        if  Self.isSigned, divisor == -1, self == Self.min {
+        if  Self.isSigned, divisor == (-1 as Self), self == Self.min {
             return PVO(self, true)
         }
         //=--------------------------------------=
@@ -71,7 +71,7 @@ extension ANKFullWidth {
             return PVO(self, true)
         }
         //=--------------------------------------=
-        if  Self.isSigned, divisor == -1, self == Self.min {
+        if  Self.isSigned, divisor == (-1 as Self), self == Self.min {
             return PVO(Self(), true)
         }
         //=--------------------------------------=
@@ -148,9 +148,7 @@ extension ANKFullWidth where Self == Magnitude {
         precondition(!divisor_.isZeroOrMinusOne, "division by zero")
         //=--------------------------------------=
         if  self <= divisor {
-            switch self == divisor {
-            case  true: return QR(quotient: 1,      remainder: Self())
-            case false: return QR(Self(), self) }
+            return self == divisor ? QR(1, Self()) : QR(Self(), self)
         }
         //=--------------------------------------=
         if  divisor_.minLastIndex.isZero {
@@ -166,6 +164,9 @@ extension ANKFullWidth where Self == Magnitude {
         var remainder  = Plus1(descending: HL(UInt(), self))
         let remainder_ = remainder.low.minLastIndexReportingIsZeroOrMinusOne()
         remainder._bitshiftLeft(words: Int(), bits: shift)
+        //=--------------------------------------=
+        assert(divisor_.minLastIndex >= 1)
+        assert(divisor_.minLastIndex <= remainder_.minLastIndex)
         //=--------------------------------------=
         // Division
         //=--------------------------------------=
@@ -198,6 +199,7 @@ extension ANKFullWidth where Self == Magnitude {
                 }
                 //=------------------------------=
                 assert(approximation <= remainder)
+                //=------------------------------=
                 remainder &-= approximation
                 QUOTIENT[quotientIndex] = digit
             }
@@ -206,6 +208,9 @@ extension ANKFullWidth where Self == Magnitude {
         // Shifting To Undo Shift Before Division
         //=--------------------------------------=
         remainder._bitshiftRight(words: Int(), bits: shift)
+        //=------------------------------=
+        assert(remainder.high.isZero)
+        //=------------------------------=
         return QR(quotient, remainder.low)
     }
     

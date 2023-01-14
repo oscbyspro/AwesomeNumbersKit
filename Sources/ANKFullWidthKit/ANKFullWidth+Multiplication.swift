@@ -38,9 +38,9 @@ extension ANKFullWidth {
     }
     
     @inlinable public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
-        let isLessThanOrEqualToZero: Bool = self.isLessThanZero != amount.isLessThanZero
-        let product: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
-        let overflow: Bool = isLessThanOrEqualToZero ? (product.high < -1) : !product.high.isZero
+        let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero as Bool
+        let product = self.multipliedFullWidth(by: amount) as HL<Self, Magnitude>
+        let overflow: Bool = isLessThanOrEqualToZero ? product.high < (-1 as Self) : !product.high.isZero
         return PVO(Self(bitPattern: product.low), overflow)
     }
     

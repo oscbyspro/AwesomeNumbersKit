@@ -53,6 +53,7 @@ extension ANKLargeSigned {
         self = Self(digit: pvo.partialValue); return pvo.overflow
     }
     
+    // TODO: appropriate digit division overflow semantics
     @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
         divisor.isZero ? PVO(Digit(), true) : PVO(self % divisor, false)
     }

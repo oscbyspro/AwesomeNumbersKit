@@ -89,8 +89,8 @@ extension UInt {
             //=----------------------------------=
             let product = power.multipliedFullWidth(by: radix)
             //=----------------------------------=
-            guard  product.high.isZero else {
-                if product.low .isZero {
+            guard product.high.isZero else {
+                if  product.low.isZero {
                     exponent &+= 1
                     power = product.low
                 }

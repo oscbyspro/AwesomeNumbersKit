@@ -52,7 +52,7 @@ extension ANKFullWidth {
             return PVO(self, true)
         }
         //=--------------------------------------=
-        if  Self.isSigned, divisor == -1, self == Self.min {
+        if  Self.isSigned, divisor == (-1 as Digit), self == Self.min {
             return PVO(self, true)
         }
         //=--------------------------------------=
@@ -65,14 +65,14 @@ extension ANKFullWidth {
         self = Self(digit: pvo.partialValue); return pvo.overflow
     }
     
-    // TODO: decide appropriate digit division overflow semantics
+    // TODO: appropriate digit division overflow semantics
     @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
         //=--------------------------------------=
         if  divisor.isZero {
             return PVO(Digit(), true)
         }
         //=--------------------------------------=
-        if  Self.isSigned, divisor == -1, self == Self.min {
+        if  Self.isSigned, divisor == (-1 as Digit), self == Self.min {
             return PVO(Digit(), true)
         }
         //=--------------------------------------=
