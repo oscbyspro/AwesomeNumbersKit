@@ -31,4 +31,5 @@ public typealias ANKUInt64 = UInt
 public typealias  ANKInt64 = Never
 public typealias ANKUInt64 = Never
 
+#error("ANKFullWidth can only be used on a 32-bit or 64-bit platform.")
 #endif

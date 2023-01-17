@@ -8,17 +8,7 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * Aliases
+// MARK: * ANK x Words
 //*============================================================================*
 
-public typealias HL<H,L> = (high: H, low:  L)
-public typealias LH<L,H> = (low:  L, high: H)
-public typealias PVO<PV> = (partialValue: PV, overflow: Bool)
-public typealias QR<Q,R> = (quotient: Q,  remainder: R)
-
-//*============================================================================*
-// MARK: * Aliases x Models
-//*============================================================================*
-
-public typealias Sign/*-*/ = ANKSign
-public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude
+public protocol ANKWords: RandomAccessCollection<UInt> where Index == Int { }

@@ -27,7 +27,7 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent public var words: some WoRdS {
+    @_transparent public var words: some ANKWords {
         self
     }
     

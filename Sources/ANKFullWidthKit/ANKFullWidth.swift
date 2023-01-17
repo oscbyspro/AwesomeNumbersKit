@@ -39,7 +39,7 @@ import ANKFoundation
 /// await .biggerIntegerLiterals()
 /// ```
 ///
-@frozen public struct ANKFullWidth<High, Low>: WoRdS, MutableCollection,
+@frozen public struct ANKFullWidth<High, Low>: ANKWords, MutableCollection,
 ANKBigEndianTextCodable, ANKLargeBinaryIntegerWhereDigitIsNotSelf, ANKLargeFixedWidthInteger,
 CustomStringConvertible, CustomDebugStringConvertible, ExpressibleByStringLiteral where
 High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
@@ -89,11 +89,11 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(ascending  digits: LH<Low, High>) {
+    @inlinable public init(ascending  digits: LH<Low, High>) {
         (self.low, self.high) = digits
     }
     
-    @_transparent public init(descending digits: HL<High, Low>) {
+    @inlinable public init(descending digits: HL<High, Low>) {
         (self.high, self.low) = digits
     }
     

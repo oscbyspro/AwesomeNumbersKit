@@ -47,6 +47,6 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     }
     
     @_transparent public func negatedReportingOverflow() -> PVO<Self> {
-        PVO(-self, false)
+        PVO(partialValue: -self, overflow: false)
     }
 }

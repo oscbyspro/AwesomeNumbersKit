@@ -22,7 +22,7 @@ import ANKFoundation
 /// MemoryLayout<Layout>.size % MemoryLayout<UInt>.size == 0
 /// ```
 ///
-@usableFromInline protocol ANKFullWidthUnsafeWordsPointer: WoRdS {
+@usableFromInline protocol ANKFullWidthUnsafeWordsPointer: ANKWords {
     
     associatedtype Layout: ANKBitPatternConvertible<Layout>
 }
