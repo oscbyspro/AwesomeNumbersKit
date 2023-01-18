@@ -130,7 +130,10 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     
     @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafePointer<T>) where T: ANKBitPatternConvertible<Layout> {
-        assert(MemoryLayout<T>.size == MemoryLayout<Layout>.size)
+        //=--------------------------------------=
+        assert(MemoryLayout<T>.size/*-*/ == MemoryLayout<Layout>.size/*-*/)
+        assert(MemoryLayout<T>.alignment == MemoryLayout<Layout>.alignment)
+        //=--------------------------------------=
         self.base = UnsafeRawPointer(BIT_PATTERN).assumingMemoryBound(to: UInt.self)
     }
     
@@ -167,7 +170,10 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     
     @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafeMutablePointer<T>) where T: ANKBitPatternConvertible<Layout> {
-        assert(MemoryLayout<T>.size == MemoryLayout<Layout>.size)
+        //=--------------------------------------=
+        assert(MemoryLayout<T>.size/*-*/ == MemoryLayout<Layout>.size/*-*/)
+        assert(MemoryLayout<T>.alignment == MemoryLayout<Layout>.alignment)
+        //=--------------------------------------=
         self.base = UnsafeMutableRawPointer(BIT_PATTERN).assumingMemoryBound(to: UInt.self)
     }
     
