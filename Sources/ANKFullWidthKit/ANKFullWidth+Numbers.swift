@@ -268,7 +268,7 @@ extension ANKFullWidth {
         return (value, words, index, sign, isLessThanZero)
     }
     
-    @inlinable static func _copy<T>(_ words: T, _extending sign: UInt) -> (Self, Int) where T: Collection<UInt>, T.Index == Int {
+    @inlinable static func _copy<T>(_ words: T, _extending sign: UInt) -> (Self, Int) where T: Collection, T.Element == UInt, T.Index == Int {
         assert(sign == UInt.min || sign == UInt.max)
         //=--------------------------------------=
         var index = words.startIndex

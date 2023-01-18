@@ -135,11 +135,10 @@ extension ANKFullWidth {
     }
     
     @inlinable func _multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by amount: Self) -> DoubleWidth {
-        /// type casting equates to `where High.Magnitude == Low { ... }`
-        let negate = self.isLessThanZero != amount.isLessThanZero as Bool
-        guard let lhs =   self.magnitude as? ANKFullWidth<Low, Low> else { preconditionFailure() }
-        guard let rhs = amount.magnitude as? ANKFullWidth<Low, Low> else { preconditionFailure() }
-        guard let product = lhs._multipliedFullWidthAsKaratsubaAsUnsigned(by:  rhs) as? Magnitude.DoubleWidth else { preconditionFailure() }
+        let negate: Bool = self.isLessThanZero != amount.isLessThanZero
+        let lhs =   self.magnitude as! ANKFullWidth<Low, Low>
+        let rhs = amount.magnitude as! ANKFullWidth<Low, Low>
+        let product = lhs._multipliedFullWidthAsKaratsubaAsUnsigned(by: rhs) as! Magnitude.DoubleWidth
         return DoubleWidth(bitPattern: negate ? product.twosComplement() : product)
     }
     

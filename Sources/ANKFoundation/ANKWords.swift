@@ -11,4 +11,4 @@
 // MARK: * ANK x Words
 //*============================================================================*
 
-public protocol ANKWords: RandomAccessCollection<UInt> where Index == Int { }
+public protocol ANKWords: RandomAccessCollection where Element == UInt, Index == Int { }
