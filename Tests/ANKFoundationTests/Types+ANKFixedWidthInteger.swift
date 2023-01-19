@@ -31,7 +31,7 @@ final class TypesTestsOnANKFixedWidthInteger: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testTrivialTypesCount() {
+    func testTypesCount() {
         XCTAssertEqual(types.count, 10)
     }
     

@@ -7,33 +7,19 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if DEBUG
-
 import ANKFoundation
-import XCTest
 
 //*============================================================================*
-// MARK: * Types x Binary Integer x Large
+// MARK: * ANK x Full Width x Collection x Bytes
 //*============================================================================*
 
-final class TypesTestsOnANKLargeBinaryInteger: XCTestCase {
-    
-    typealias T = any ANKLargeBinaryInteger.Type
-    typealias S = any ANKSignedLargeBinaryInteger.Type
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
-    // MARK: State
+    // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allLargeBinaryIntegerTypes
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testTypesCount() {
-        XCTAssertEqual(types.count, 2)
+    @_transparent public func withUnsafeBytes<T>(_ body: (UnsafeRawBufferPointer) throws -> T) rethrows -> T {
+        try Swift.withUnsafeBytes(of: self, body)
     }
 }
-
-#endif

@@ -13,19 +13,19 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x Binary Integer x Signed
+// MARK: * Types x Contiguous Bytes
 //*============================================================================*
 
-final class TypesTestsOnANKBinaryInteger: XCTestCase {
+final class TypesTestsOnANKContiguousBytes: XCTestCase {
     
-    typealias T = any ANKBinaryInteger.Type
-    typealias S = any ANKSignedInteger.Type
+    typealias T = any (ANKBinaryInteger & ANKContiguousBytes).Type
+    typealias S = any (ANKSignedInteger & ANKContiguousBytes).Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allBinaryIntegerTypes
+    let types = Trivial.allContiguousBytesTypes
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -39,36 +39,20 @@ final class TypesTestsOnANKBinaryInteger: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testIsZero() {
+    func testWithUnsafeBytes() {
         for type: T in types {
-            XCTAssertFalse(type.init( 1).isZero)
-            XCTAssertTrue (type.init( 0).isZero)
+            let x0 = type.init(truncatingIfNeeded:  0)
+            let x1 = type.init(truncatingIfNeeded: -1)
             
-            guard type is S else { continue }
+            x0.withUnsafeBytes { BYTES in
+                XCTAssert(BYTES.allSatisfy({ $0 == 0x00 }))
+                XCTAssertEqual(BYTES.count,  x0.bitWidth/8)
+            }
             
-            XCTAssertFalse(type.init(-1).isZero)
-        }
-    }
-    
-    func testIsLessThanZero() {
-        for type: T in types {
-            XCTAssertFalse(type.init( 1).isLessThanZero)
-            XCTAssertFalse(type.init( 0).isLessThanZero)
-            
-            guard type is S else { continue }
-            
-            XCTAssertTrue (type.init(-1).isLessThanZero)
-        }
-    }
-    
-    func testIsMoreThanZero() {
-        for type: T in types {
-            XCTAssertTrue (type.init( 1).isMoreThanZero)
-            XCTAssertFalse(type.init( 0).isMoreThanZero)
-            
-            guard type is S else { continue }
-            
-            XCTAssertFalse(type.init(-1).isMoreThanZero)
+            x1.withUnsafeBytes { BYTES in
+                XCTAssert(BYTES.allSatisfy({ $0 == 0xFF }))
+                XCTAssertEqual(BYTES.count,  x1.bitWidth/8)
+            }
         }
     }
 }

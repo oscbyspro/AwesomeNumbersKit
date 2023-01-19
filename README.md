@@ -8,8 +8,6 @@ Large number arithmetic in Swift.
 
 ## ANKFullWidth ([Sources](Sources/ANKFullWidthKit), [Tests](Tests/ANKFullWidthKitTests), [Benchmarks](Tests/ANKFullWidthKitBenchmarks))
 
-👨‍💻🛠️🚧🧱🧱🏗️🧱🧱🚧⏳
-
 A composable, large, fixed-width, two's complement, binary integer.
 
 <table>
@@ -33,8 +31,6 @@ typealias ANKUInt256 = ANKFullWidth<ANKUInt128, ANKUInt128>
 ```
 
 ## ANKSigned ([Sources](Sources/ANKSignedKit), [Tests](Tests/ANKSignedKitTests), [Benchmarks](Tests/ANKSignedKitBenchmarks))
-
-👨‍💻🛠️🚧🧱🧱🏗️🧱🧱🚧⏳
 
 A decorative, width agnostic, pen-and-paper-sign-magnitude, numeric integer.
 

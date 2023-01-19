@@ -39,9 +39,9 @@ import ANKFoundation
 /// await .biggerIntegerLiterals()
 /// ```
 ///
-@frozen public struct ANKFullWidth<High, Low>: ANKWords, MutableCollection,
+@frozen public struct ANKFullWidth<High, Low>: ANKWords, ANKContiguousBytes,
 ANKBigEndianTextCodable, ANKLargeBinaryIntegerWhereDigitIsNotSelf, ANKLargeFixedWidthInteger,
-CustomStringConvertible, CustomDebugStringConvertible, ExpressibleByStringLiteral where
+CustomStringConvertible, CustomDebugStringConvertible, ExpressibleByStringLiteral, MutableCollection where
 High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     
