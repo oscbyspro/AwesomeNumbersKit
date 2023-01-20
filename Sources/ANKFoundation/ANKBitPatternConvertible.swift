@@ -11,20 +11,43 @@
 // MARK: * ANK x Bit Pattern Convertible
 //*============================================================================*
 
+/// A type that can be converted to and from a bit pattern representation.
+///
+/// `init(bitPattern:)` is a type-safe alternative to `unsafeBitCast(_:to:)`.
+/// 
 public protocol ANKBitPatternConvertible<BitPattern> {
     
+    /// The bit pattern of this type.
+    ///
+    /// For the purpose of interoperability, it is important that bit pattern
+    /// convertible types common bit patterns share a common bit pattern type.
+    ///
     associatedtype BitPattern: ANKBitPatternConvertible<BitPattern>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    /// Creates a new instance from the given bit pattern.
+    ///
+    /// ```
+    /// Int8(bitPattern: UInt8(255)) // -> Int8(-1)
+    /// Int8(bitPattern: UInt8(255)).bitPattern // -> UInt8(255)
+    /// ```
+    ///
     @inlinable init(bitPattern: BitPattern)
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    /// Returns the bit pattern of this value.
+    ///
+    /// ```
+    /// Int8(bitPattern: UInt8(255)) // -> Int8(-1)
+    /// Int8(bitPattern: UInt8(255)).bitPattern // -> UInt8(255)
+    /// ```
+    ///
     @inlinable var bitPattern: BitPattern { get }
 }
 
@@ -38,6 +61,13 @@ extension ANKBitPatternConvertible {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    /// Creates a new instance from the given bit pattern.
+    ///
+    /// ```
+    /// Int8(bitPattern: UInt8(255)) // -> Int8(-1)
+    /// Int8(bitPattern: UInt8(255)).bitPattern // -> UInt8(255)
+    /// ```
+    ///
     @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
         self.init(bitPattern: source.bitPattern)
     }

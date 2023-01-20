@@ -17,7 +17,7 @@
 ///
 /// **Two's Complement Semantics**
 ///
-/// Like `FixedWidthInteger` all bitwise operations have two's complement semantics.
+/// Like `FixedWidthInteger`, all bitwise operations have two's complement semantics.
 ///
 public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where Magnitude: ANKUnsignedFixedWidthInteger {
     
@@ -25,6 +25,10 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    /// Creates a new instance repeating the given bit in two's complement form.
+    ///
+    /// - Returns: `bit ? ~0 : 0`
+    ///
     @inlinable init(repeating bit: Bool)
     
     //=------------------------------------------------------------------------=
@@ -50,8 +54,26 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    /// Forms a value with equal magnitude but opposite sign, and returns a
+    /// value indicating whether overflow occurred. In the case of overflow,
+    /// the result is truncated.
+    ///
+    /// ```
+    /// var x: Int8 = -127; x.negateReportingOverflow() // x =  127; -> false
+    /// var y: Int8 = -128; y.negateReportingOverflow() // y = -128; -> true
+    /// ```
+    ///
     @inlinable mutating func negateReportingOverflow() -> Bool
     
+    /// Returns a value with equal magnitude but opposite sign, along with a
+    /// value indicating whether overflow occurred. In the case of overflow,
+    /// the result is truncated.
+    ///
+    /// ```
+    /// Int8(-127).negatedReportingOverflow() // -> (partialValue:  127, overflow: false)
+    /// Int8(-128).negatedReportingOverflow() // -> (partialValue: -128, overflow: true )
+    /// ```
+    ///
     @inlinable func negatedReportingOverflow() -> PVO<Self>
 }
 
