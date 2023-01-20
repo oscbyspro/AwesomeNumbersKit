@@ -11,6 +11,10 @@
 // MARK: * ANK x Int Or UInt
 //*============================================================================*
 
+/// A type that is either Int or UInt.
+///
+///  Only `Int` and `UInt` in the standard library may conform to this protocol.
+///
 public protocol ANKIntOrUInt: ANKLargeFixedWidthInteger<Self>, ANKTrivialFixedWidthInteger where Magnitude == UInt { }
 
 //=----------------------------------------------------------------------------=

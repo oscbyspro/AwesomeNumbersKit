@@ -11,4 +11,5 @@
 // MARK: * ANK x Words
 //*============================================================================*
 
+/// A `BinaryInteger.Words` compatible collection.
 public protocol ANKWords: RandomAccessCollection where Element == UInt, Index == Int { }

@@ -35,12 +35,47 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    /// Forms the result of adding this value and the given value, and
+    /// returns a value indicating whether overflow occurred. In the case of
+    /// overflow, the result is truncated.
+    ///
+    /// ```
+    /// var x: UInt8 = 254; x.addReportingOverflow(1) // x = 255; -> false
+    /// var y: UInt8 = 255; y.addReportingOverflow(1) // y = 000; -> true
+    /// ```
+    ///
     @inlinable mutating func addReportingOverflow(_ amount: Self) -> Bool
     
+    /// Forms the result of subtracting this value by the given value, and
+    /// returns a value indicating whether overflow occurred. In the case of
+    /// overflow, the result is truncated.
+    ///
+    /// ```
+    /// var x: UInt8 = 1; x.subtractReportingOverflow(1) // x = 000; -> false
+    /// var y: UInt8 = 0; y.subtractReportingOverflow(1) // y = 255; -> true
+    /// ```
+    ///
     @inlinable mutating func subtractReportingOverflow(_ amount: Self) -> Bool
     
+    /// Forms the result of multiplying this value by the given value, and
+    /// returns a value indicating whether overflow occurred. In the case of
+    /// overflow, the result is truncated.
+    ///
+    /// ```
+    /// var x: UInt8 = 15; x.multiplyFullWidth(by: 15) // x = 225; -> false
+    /// var y: UInt8 = 16; y.multiplyFullWidth(by: 16) // y = 000; -> true
+    /// ```
+    ///
     @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool
     
+    /// Forms the low part of multiplying this value by the given value,
+    /// and returns a high part.
+    ///
+    /// ```
+    /// var x: UInt8 = 15; x.multiplyFullWidth(by: 15) // x = 225; -> 0
+    /// var y: UInt8 = 16; y.multiplyFullWidth(by: 16) // y = 000; -> 1
+    /// ```
+    ///
     @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self
 }
 

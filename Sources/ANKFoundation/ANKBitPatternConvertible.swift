@@ -19,8 +19,7 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     
     /// The bit pattern of this type.
     ///
-    /// For the purpose of interoperability, it is important that bit pattern
-    /// convertible types common bit patterns share a common bit pattern type.
+    /// Types with identical bit patterns should have the same bit pattern type.
     ///
     associatedtype BitPattern: ANKBitPatternConvertible<BitPattern>
     
