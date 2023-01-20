@@ -13,15 +13,19 @@ A composable, large, fixed-width, two's complement, binary integer.
 <table>
 <tr>
     <td>:jigsaw:</td>
-    <td>Composable</a></td>
+    <td>Composable</td>
 </tr>
 <tr>
     <td>:two_hearts:</td>
-    <td>Two's Complement</a></td>
+    <td>Two's Complement</td>
 </tr>
 <tr>
     <td>:european_castle:</td>
-    <td>Fixed Width Integer</a></td>
+    <td>Fixed Width Integer</td>
+</tr>
+<tr>
+    <td>:rocket:</td>
+    <td>Fast Digit Arithmetic</td>
 </tr>
 </table>
 
@@ -37,14 +41,18 @@ A decorative, width agnostic, pen-and-paper-sign-magnitude, numeric integer.
 <table>
 <tr>
     <td>:ribbon:</td>
-    <td>Decorative</a></td>
+    <td>Decorative</td>
 </tr>
 <tr>
     <td>:ringed_planet:</td>
-    <td>Sign & Magnitude</a></td>
+    <td>Sign & Magnitude</td>
 </tr>
 <tr>
     <td>:100:</td>
-    <td>Numeric</a></td>
+    <td>Numeric</td>
+</tr>
+<tr>
+    <td>:rocket:</td>
+    <td>Fast Digit Arithmetic</td>
 </tr>
 </table>

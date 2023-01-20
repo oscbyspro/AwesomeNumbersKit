@@ -50,7 +50,7 @@ final class TypesTestsOnANKContiguousBytes: XCTestCase {
             }
             
             x1.withUnsafeBytes { BYTES in
-                XCTAssert(BYTES.allSatisfy({ $0 == 0xFF }))
+                XCTAssert(BYTES.allSatisfy({ $0 == 0xff }))
                 XCTAssertEqual(BYTES.count,  x1.bitWidth/8)
             }
         }

@@ -33,10 +33,19 @@ import ANKFoundation
 /// High.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
+/// **Fast Digit Arithmetic**
+///
+/// This model accommodates a set of `Self x Digit` addition, subtraction,
+/// multiplication and division methods, in addition to its `Self x Self` methods.
+/// These single-digit methods may prove much faster than their oversized counterparts
+/// when the operands are known to fit in a machine word.
+///
+/// The `Digit` type is `Int` when `Self` is signed, and `UInt` when `Self` is unsigned.
+///
 /// **ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral**
 ///
 /// ```
-/// await .biggerIntegerLiterals()
+/// await .biggerIntegerLiterals() // Swift 5.8
 /// ```
 ///
 @frozen public struct ANKFullWidth<High, Low>: ANKWords, ANKContiguousBytes,

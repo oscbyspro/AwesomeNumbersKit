@@ -34,10 +34,19 @@
 /// semantics. In other words, the sign bit is treated as separate, such that
 /// overflow does not affect it.
 ///
+/// **Fast Digit Arithmetic**
+///
+/// This model accommodates a set of `Self x Digit` addition, subtraction,
+/// multiplication and division methods, in addition to its `Self x Self` methods.
+/// These single-digit methods may prove much faster than their oversized counterparts
+/// when the operands are known to fit in a machine word.
+///
+/// The `Digit` type is `ANKSigned<Magnitude.Digit>` when `Magnitude` has a digit type.
+///
 /// **ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral**
 ///
 /// ```
-/// await .biggerIntegerLiterals()
+/// await .biggerIntegerLiterals() // Swift 5.8
 /// ```
 ///
 @frozen public struct ANKSigned<Magnitude>: Comparable, Hashable where Magnitude: ANKUnsignedInteger, Magnitude == Magnitude.Magnitude {
