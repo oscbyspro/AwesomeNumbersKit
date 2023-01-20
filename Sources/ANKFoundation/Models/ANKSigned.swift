@@ -36,12 +36,12 @@
 ///
 /// **Fast Digit Arithmetic**
 ///
-/// This model accommodates a set of `Self x Digit` addition, subtraction,
-/// multiplication and division methods, in addition to its `Self x Self` methods.
-/// These single-digit methods may prove much faster than their oversized counterparts
-/// when the operands are known to fit in a machine word.
+/// This integer model accommodates a set of `Self x Digit` addition, subtraction,
+/// multiplication, and division methods in addition to its `Self x Self` methods.
+/// These single-digit methods may prove significantly faster than their oversized
+/// counterparts for operands that fit in a single machine word.
 ///
-/// The `Digit` type is `ANKSigned<Magnitude.Digit>` when `Magnitude` has a digit type.
+/// The `Digit` type is `ANKSigned<Magnitude.Digit>` when `Magnitude.Digit` exists.
 ///
 /// **ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral**
 ///

@@ -17,5 +17,6 @@ public protocol ANKContiguousBytes {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
+    /// Calls the given closure with unsafe access to the contents of the underlying storage.
     @inlinable func withUnsafeBytes<T>(_ body: (UnsafeRawBufferPointer) throws -> T) rethrows -> T
 }

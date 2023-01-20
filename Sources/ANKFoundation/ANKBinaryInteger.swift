@@ -17,7 +17,7 @@
 ///
 /// **Two's Complement Semantics**
 ///
-/// Like `BinaryInteger` all bitwise operations have two's complement semantics.
+/// Like `BinaryInteger`, all bitwise operations have two's complement semantics.
 ///
 public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where Magnitude: ANKUnsignedInteger {
     
@@ -25,22 +25,54 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    /// Creates a new instance from the given bit.
+    ///
+    /// - Returns: `self = bit ? 1 : 0`
+    ///
     @inlinable init(bit: Bool)
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    /// Returns whether this value is equal to zero.
+    ///
+    /// - Returns: `self == 0`
+    ///
     @inlinable var isZero: Bool { get }
     
+    /// Returns whether this value is less than zero.
+    ///
+    /// - Returns: `self < 0`
+    ///
     @inlinable var isLessThanZero: Bool { get }
     
+    /// Returns whether this value is more than zero.
+    ///
+    /// - Returns: `self > 0`
+    ///
     @inlinable var isMoreThanZero: Bool { get }
     
+    /// Returns the most significant bit in two's complement form.
+    ///
+    /// - Note: If the value is signed, this is equivalent to `self.isLessThanZero`.
+    ///
+    /// - Returns: `self >> (self.bitWidth - 1) == 1`
+    ///
     @inlinable var mostSignificantBit:  Bool { get }
-        
+    
+    /// Returns the least significant bit in two's complement form.
+    ///
+    /// - Note: It returns `true` if the value is odd and `false` if the value is even.
+    ///
+    /// - Returns: `self & 1 == 1`
+    ///
     @inlinable var leastSignificantBit: Bool { get }
     
+    /// Returns whether this value is a power of `2`.
+    ///
+    /// - Returns: `self.nonzeroBitCount == 1`
+    ///
     @inlinable var isPowerOf2: Bool { get }
     
     //=------------------------------------------------------------------------=
@@ -61,20 +93,47 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     // MARK: Details x Two's Complement
     //=------------------------------------------------------------------------=
     
+    /// Forms the two's complement of this value.
+    ///
+    /// - Returns: `self = ~self &+ 1`
+    ///
     @inlinable mutating func formTwosComplement()
     
+    /// Creates the two's complement of this value.
+    ///
+    /// - Returns: `~self &+ 1`
+    ///
     @inlinable func twosComplement() -> Self
     
     //=------------------------------------------------------------------------=
     // MARK: Details x Sign & Magnitude
     //=------------------------------------------------------------------------=
     
+    /// Creates a new instance from the given integer.
+    ///
+    /// If value passed as source is not representable, an error may occur.
+    ///
     init(_ source: ANKSigned<Magnitude>)
     
+    /// Creates a new instance from the given integer, if it is representable.
+    ///
+    /// If the value passed as source is not representable, the result is nil.
+    ///
     init?(exactly source: ANKSigned<Magnitude>)
     
+    /// Creates a new instance with the representable value closest to the given integer.
+    ///
+    /// If the value passed as source is greater than the maximum representable value,
+    /// the result is this type’s max value. If value passed as source is less than the
+    /// smallest representable value, the result is the type’s min value.
+    ///
     init(clamping source: ANKSigned<Magnitude>)
     
+    /// Creates a new instance from the two's complement bit pattern of the given integer.
+    ///
+    /// - The two's complement value `+0` contains and infinite number of `0s`.
+    /// - The two's complement value `-1` contains and infinite number of `1s`.
+    ///
     init(truncatingIfNeeded source: ANKSigned<Magnitude>)
 }
 

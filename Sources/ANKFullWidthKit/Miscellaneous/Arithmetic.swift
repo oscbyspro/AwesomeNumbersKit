@@ -78,7 +78,7 @@ extension UInt {
     ///
     /// - Note: The expression `max + 1` is also equivalent to `pow(2, bitWidth)`.
     ///
-    @usableFromInline static func maxPlusOneRootReportingUnderestimatedPowerOrZero(_ radix: Int) -> (exponent: Int, power: Self) {
+    @inlinable static func maxPlusOneRootReportingUnderestimatedPowerOrZero(_ radix: Int) -> (exponent: Int, power: Self) {
         precondition(radix >= 2)
         //=--------------------------------------=
         var power = Self(1)
