@@ -76,7 +76,7 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     @inlinable var isPowerOf2: Bool { get }
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Details x Division
     //=------------------------------------------------------------------------=
     
     /// Forms the quotient of this value divided by the given value, and
@@ -84,9 +84,9 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// overflow, the result is either truncated or, if undefined, this value.
     ///
     /// ```
-    /// var a = Int(-128); a.divideReportingOverflow(by: 2) // a =  -64; -> false
-    /// var b = Int(-128); b.divideReportingOverflow(by: 2) // b = -128; -> true
-    /// var c = Int(-128); c.divideReportingOverflow(by: 2) // c = -128; -> true
+    /// var a = Int8(-128); a.divideReportingOverflow(by: 2)) // a = Int8( -64); -> false
+    /// var b = Int8(-128); b.divideReportingOverflow(by: 2)) // b = Int8(-128); -> true
+    /// var c = Int8(-128); c.divideReportingOverflow(by: 2)) // c = Int8(-128); -> true
     /// ```
     ///
     @inlinable mutating func divideReportingOverflow(by divisor: Self) -> Bool
@@ -96,9 +96,9 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// overflow, the result is either truncated or, if undefined, this value.
     ///
     /// ```
-    /// Int8(-128).dividedReportingOverflow(by:  3) // (partialValue:  -42, overflow: false)
-    /// Int8(-128).dividedReportingOverflow(by:  0) // (partialValue: -128, overflow: true )
-    /// Int8(-128).dividedReportingOverflow(by: -1) // (partialValue: -128, overflow: true )
+    /// Int8(-128).dividedReportingOverflow(by: Int8( 3)) // (partialValue: Int8( -42), overflow: false)
+    /// Int8(-128).dividedReportingOverflow(by: Int8( 0)) // (partialValue: Int8(-128), overflow: true )
+    /// Int8(-128).dividedReportingOverflow(by: Int8(-1)) // (partialValue: Int8(-128), overflow: true )
     /// ```
     ///
     @inlinable func dividedReportingOverflow(by divisor: Self) -> PVO<Self>
@@ -109,9 +109,9 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// this value.
     ///
     /// ```
-    /// var a = Int8(-128); a.formRemainderReportingOverflow(dividingBy:  3) // a =  002; -> false
-    /// var b = Int8(-128); b.formRemainderReportingOverflow(dividingBy:  0) // b = -128; -> true
-    /// var c = Int8(-128); c.formRemainderReportingOverflow(dividingBy: -1) // c =  000; -> true
+    /// var a = Int8(-128); a.formRemainderReportingOverflow(dividingBy:  3) // a = Int8(   2); -> false
+    /// var b = Int8(-128); b.formRemainderReportingOverflow(dividingBy:  0) // b = Int8(-128); -> true
+    /// var c = Int8(-128); c.formRemainderReportingOverflow(dividingBy: -1) // c = Int8(   0); -> true
     /// ```
     ///
     @inlinable mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool
@@ -122,9 +122,9 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// this value.
     ///
     /// ```
-    /// Int8(-128).remainderReportingOverflow(dividingBy:  3) // (partialValue:  002, overflow: false)
-    /// Int8(-128).remainderReportingOverflow(dividingBy:  0) // (partialValue: -128, overflow: true )
-    /// Int8(-128).remainderReportingOverflow(dividingBy: -1) // (partialValue:  000, overflow: true )
+    /// Int8(-128).remainderReportingOverflow(dividingBy:  3) // (partialValue: Int8(   2), overflow: false)
+    /// Int8(-128).remainderReportingOverflow(dividingBy:  0) // (partialValue: Int8(-128), overflow: true )
+    /// Int8(-128).remainderReportingOverflow(dividingBy: -1) // (partialValue: Int8(   0), overflow: true )
     /// ```
     ///
     @inlinable func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self>
@@ -132,10 +132,10 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// Returns the quotient and remainder of this value divided by the given value.
     ///
     /// ```
-    /// Int8( 7).quotientAndRemainder(dividingBy:  3) // (quotient:  2, remainder:  1)
-    /// Int8( 7).quotientAndRemainder(dividingBy: -3) // (quotient: -2, remainder:  1)
-    /// Int8(-7).quotientAndRemainder(dividingBy:  3) // (quotient: -2, remainder: -1)
-    /// Int8(-7).quotientAndRemainder(dividingBy: -3) // (quotient:  2, remainder: -1)
+    /// Int8( 7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8( 2), remainder: Int8( 1))
+    /// Int8( 7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8(-2), remainder: Int8( 1))
+    /// Int8(-7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8(-2), remainder: Int8(-1))
+    /// Int8(-7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8( 2), remainder: Int8(-1))
     /// ```
     ///
     @inlinable func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self>

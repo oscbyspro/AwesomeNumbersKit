@@ -30,8 +30,7 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     /// Creates a new instance from the given bit pattern.
     ///
     /// ```
-    /// Int8(bitPattern: UInt8(255)) // -> Int8(-1)
-    /// Int8(bitPattern: UInt8(255)).bitPattern // -> UInt8(255)
+    /// Int8(bitPattern: UInt8(255)) // Int8(-1)
     /// ```
     ///
     @inlinable init(bitPattern: BitPattern)
@@ -43,8 +42,7 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     /// Returns the bit pattern of this value.
     ///
     /// ```
-    /// Int8(bitPattern: UInt8(255)) // -> Int8(-1)
-    /// Int8(bitPattern: UInt8(255)).bitPattern // -> UInt8(255)
+    /// Int8(-1).bitPattern // UInt8(255)
     /// ```
     ///
     @inlinable var bitPattern: BitPattern { get }
@@ -63,8 +61,7 @@ extension ANKBitPatternConvertible {
     /// Creates a new instance from the given bit pattern.
     ///
     /// ```
-    /// Int8(bitPattern: UInt8(255)) // -> Int8(-1)
-    /// Int8(bitPattern: UInt8(255)).bitPattern // -> UInt8(255)
+    /// Int8(bitPattern: UInt8(255)) // Int8(-1)
     /// ```
     ///
     @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {

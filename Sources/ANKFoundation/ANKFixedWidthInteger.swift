@@ -32,7 +32,7 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     @inlinable init(repeating bit: Bool)
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Details x Addition
     //=------------------------------------------------------------------------=
     
     /// Forms the sum of adding the given value to this value, and
@@ -40,19 +40,23 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     /// overflow, the result is truncated.
     ///
     /// ```
-    /// var a: Int8(126); a.addReportingOverflow(1) // a =  127; -> false
-    /// var b: Int8(127); b.addReportingOverflow(1) // b = -128; -> true
+    /// var a: Int8(126); a.addReportingOverflow(Int8(1)) // a = Int8( 127); -> false
+    /// var b: Int8(127); b.addReportingOverflow(Int8(1)) // b = Int8(-128); -> true
     /// ```
     ///
     @inlinable mutating func addReportingOverflow(_ amount: Self) -> Bool
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Multiplication
+    //=------------------------------------------------------------------------=
     
     /// Forms the product of multiplying this value by the given value, and
     /// returns a value indicating whether overflow occurred. In the case of
     /// overflow, the result is truncated.
     ///
     /// ```
-    /// var a = Int8(11); a.multiplyFullWidth(by: Int8(4)) // a = Int8(44); -> false
-    /// var b = Int8.max; b.multiplyFullWidth(by: Int8(4)) // b = Int8(-4); -> true
+    /// var a = Int8(11); a.multiplyReportingOverflow(by: Int8(4)) // a = Int8(44); -> false
+    /// var b = Int8.max; b.multiplyReportingOverflow(by: Int8(4)) // b = Int8(-4); -> true
     /// ```
     ///
     @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool
@@ -61,11 +65,15 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     /// and returns the high.
     ///
     /// ```
-    /// var a = Int8(11); a.multiplyFullWidth(by: Int8(4)) // a = Int8(44); -> Int8(0)
-    /// var b = Int8.max; b.multiplyFullWidth(by: Int8(4)) // b = Int8(-4); -> Int8(1)
+    /// var a = Int8(11); a.multiplyFullWidth(by: Int8(4)) // (high: Int8(0), low:  UInt8(44))
+    /// var b = Int8.max; b.multiplyFullWidth(by: Int8(4)) // (high: Int8(1), low: ~UInt8( 3))
     /// ```
     ///
     @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Subtraction
+    //=------------------------------------------------------------------------=
     
     /// Forms the difference of subtracting the given value from this value,
     /// and returns a value indicating whether overflow occurred. In the case
@@ -94,8 +102,8 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
     /// the result is truncated.
     ///
     /// ```
-    /// var a: Int8(-127); a.negateReportingOverflow() // a =  127; -> false
-    /// var b: Int8(-128); b.negateReportingOverflow() // b = -128; -> true
+    /// var a: Int8(-127); a.negateReportingOverflow() // a = Int8( 127); -> false
+    /// var b: Int8(-128); b.negateReportingOverflow() // b = Int8(-128); -> true
     /// ```
     ///
     @inlinable mutating func negateReportingOverflow() -> Bool
@@ -105,8 +113,8 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
     /// the result is truncated.
     ///
     /// ```
-    /// Int8(-127).negatedReportingOverflow() // -> (partialValue:  127, overflow: false)
-    /// Int8(-128).negatedReportingOverflow() // -> (partialValue: -128, overflow: true )
+    /// Int8(-127).negatedReportingOverflow() // -> (partialValue: Int8( 127), overflow: false)
+    /// Int8(-128).negatedReportingOverflow() // -> (partialValue: Int8(-128), overflow: true )
     /// ```
     ///
     @inlinable func negatedReportingOverflow() -> PVO<Self>

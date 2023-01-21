@@ -30,7 +30,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     @inlinable init(digit: Digit)
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Addition
+    // MARK: Details x Addition
     //=------------------------------------------------------------------------=
     
     /// Forms the sum of adding `rhs` to `lhs`.
@@ -56,7 +56,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     @inlinable static func +(lhs: Self, rhs: Digit) -> Self
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Division
+    // MARK: Details x Division
     //=------------------------------------------------------------------------=
     
     /// Forms the quotient of dividing `lhs` by `rhs`.
@@ -165,7 +165,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Multiplication
+    // MARK: Details x Multiplication
     //=------------------------------------------------------------------------=
     
     /// Forms the product of multiplying `lhs` by `rhs`.
@@ -191,7 +191,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     @inlinable static func *(lhs: Self, rhs: Digit) -> Self
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Subtraction
+    // MARK: Details x Subtraction
     //=------------------------------------------------------------------------=
     
     /// Forms the difference of subtracting `rhs` from `lhs`.

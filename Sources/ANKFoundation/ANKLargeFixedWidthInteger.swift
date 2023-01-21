@@ -21,10 +21,10 @@ public protocol ANKLargeFixedWidthInteger<Digit>: ANKFixedWidthInteger, ANKLarge
 Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Addition
+    // MARK: Details x Addition
     //=------------------------------------------------------------------------=
 
-    /// Forms the truncated sum of adding the `rhs` to `lhs`.
+    /// Forms the truncated sum of adding `rhs` to `lhs`.
     ///
     /// ```
     /// var a: Int256.max - Int256(1); a &+= Int(1) // a = Int256.max
@@ -33,7 +33,7 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     ///
     @inlinable static func &+=(lhs: inout Self, rhs: Digit)
 
-    /// Returns the truncated sum of adding the `rhs` to `lhs`.
+    /// Returns the truncated sum of adding `rhs` to `lhs`.
     ///
     /// ```
     /// (Int256.max - Int256(1)) &+ Int(1) // Int256.max
@@ -65,7 +65,7 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     @inlinable func addingReportingOverflow(_ amount: Digit) -> PVO<Self>
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Multiplication
+    // MARK: Details x Multiplication
     //=------------------------------------------------------------------------=
     
     /// Forms the product of multiplying this value by the given value, and
@@ -84,8 +84,8 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     /// overflow, the result is truncated.
     ///
     /// ```
-    /// Int256(11).multipliedFullWidth(by: Int(4)) // (partialValue: Int256(44), overflow: false)
-    /// Int256.max.multipliedFullWidth(by: Int(4)) // (partialValue: Int256(-4), overflow: true )
+    /// Int256(11).multipliedReportingOverflow(by: Int(4)) // (partialValue: Int256(44), overflow: false)
+    /// Int256.max.multipliedReportingOverflow(by: Int(4)) // (partialValue: Int256(-4), overflow: true )
     /// ```
     ///
     @inlinable func multipliedReportingOverflow(by amount: Digit) -> PVO<Self>
@@ -103,14 +103,14 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     /// Returns the low and high part of multiplying this value by the given value.
     ///
     /// ```
-    /// Int256(11).multipliedFullWidth(by: Int(4)) // (high: Int(0), low: Int256(44))
-    /// Int256.max.multipliedFullWidth(by: Int(4)) // (high: Int(1), low: Int256(-4))
+    /// Int256(11).multipliedFullWidth(by: Int(4)) // (high: Int(0), low:  UInt256(44))
+    /// Int256.max.multipliedFullWidth(by: Int(4)) // (high: Int(1), low: ~UInt256( 3))
     /// ```
     ///
     @inlinable func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude>
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Subtraction
+    // MARK: Details x Subtraction
     //=------------------------------------------------------------------------=
     
     /// Forms the truncated difference of subtracting `rhs` from `lhs`.
