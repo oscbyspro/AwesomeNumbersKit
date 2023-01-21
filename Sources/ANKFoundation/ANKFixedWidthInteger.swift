@@ -40,30 +40,19 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     /// overflow, the result is truncated.
     ///
     /// ```
-    /// var x: UInt8(254); x.addReportingOverflow(1) // x = 255; -> false
-    /// var y: UInt8(255); y.addReportingOverflow(1) // y = 000; -> true
+    /// var a: Int8(126); a.addReportingOverflow(1) // a =  127; -> false
+    /// var b: Int8(127); b.addReportingOverflow(1) // b = -128; -> true
     /// ```
     ///
     @inlinable mutating func addReportingOverflow(_ amount: Self) -> Bool
-    
-    /// Forms the difference of subtracting the given value from this value,
-    /// and returns a value indicating whether overflow occurred. In the case
-    /// of overflow, the result is truncated.
-    ///
-    /// ```
-    /// var x: UInt8(1); x.subtractReportingOverflow(1) // x = 000; -> false
-    /// var y: UInt8(0); y.subtractReportingOverflow(1) // y = 255; -> true
-    /// ```
-    ///
-    @inlinable mutating func subtractReportingOverflow(_ amount: Self) -> Bool
     
     /// Forms the product of multiplying this value by the given value, and
     /// returns a value indicating whether overflow occurred. In the case of
     /// overflow, the result is truncated.
     ///
     /// ```
-    /// var x: UInt8(15); x.multiplyReportingOverflow(by: 15) // x = 225; -> false
-    /// var y: UInt8(16); y.multiplyReportingOverflow(by: 16) // y = 000; -> true
+    /// var a = Int8(11); a.multiplyFullWidth(by: Int8(4)) // a = Int8(44); -> false
+    /// var b = Int8.max; b.multiplyFullWidth(by: Int8(4)) // b = Int8(-4); -> true
     /// ```
     ///
     @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool
@@ -72,11 +61,22 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     /// and returns the high.
     ///
     /// ```
-    /// var x: UInt8(15); x.multiplyFullWidth(by: 15) // x = 225; -> 0
-    /// var y: UInt8(16); y.multiplyFullWidth(by: 16) // y = 000; -> 1
+    /// var a = Int8(11); a.multiplyFullWidth(by: Int8(4)) // a = Int8(44); -> Int8(0)
+    /// var b = Int8.max; b.multiplyFullWidth(by: Int8(4)) // b = Int8(-4); -> Int8(1)
     /// ```
     ///
     @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self
+    
+    /// Forms the difference of subtracting the given value from this value,
+    /// and returns a value indicating whether overflow occurred. In the case
+    /// of overflow, the result is truncated.
+    ///
+    /// ```
+    /// var a: Int8(-127); a.subtractReportingOverflow(1) // a = -128; -> false
+    /// var b: Int8(-128); b.subtractReportingOverflow(1) // b =  127; -> true
+    /// ```
+    ///
+    @inlinable mutating func subtractReportingOverflow(_ amount: Self) -> Bool
 }
 
 //*============================================================================*
@@ -94,8 +94,8 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
     /// the result is truncated.
     ///
     /// ```
-    /// var x: Int8(-127); x.negateReportingOverflow() // x =  127; -> false
-    /// var y: Int8(-128); y.negateReportingOverflow() // y = -128; -> true
+    /// var a: Int8(-127); a.negateReportingOverflow() // a =  127; -> false
+    /// var b: Int8(-128); b.negateReportingOverflow() // b = -128; -> true
     /// ```
     ///
     @inlinable mutating func negateReportingOverflow() -> Bool

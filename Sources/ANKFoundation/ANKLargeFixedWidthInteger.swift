@@ -24,12 +24,44 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     // MARK: Transformations x Addition
     //=------------------------------------------------------------------------=
 
+    /// Forms the truncated sum of adding the `rhs` to `lhs`.
+    ///
+    /// ```
+    /// var a: Int256.max - Int256(1); a &+= Int(1) // a = Int256.max
+    /// var b: Int256.max - Int256(0); b &+= Int(1) // b = Int256.min
+    /// ```
+    ///
     @inlinable static func &+=(lhs: inout Self, rhs: Digit)
 
+    /// Returns the truncated sum of adding the `rhs` to `lhs`.
+    ///
+    /// ```
+    /// (Int256.max - Int256(1)) &+ Int(1) // Int256.max
+    /// (Int256.max - Int256(0)) &+ Int(1) // Int256.min
+    /// ```
+    ///
     @inlinable static func &+(lhs: Self, rhs: Digit) -> Self
     
+    /// Forms the sum of adding the given value to this value, and
+    /// returns a value indicating whether overflow occurred. In the case of
+    /// overflow, the result is truncated.
+    ///
+    /// ```
+    /// var a: Int256.max - Int256(1); a.addReportingOverflow(Int(1)) // a = Int256.max; -> false
+    /// var b: Int256.max - Int256(0); b.addReportingOverflow(Int(1)) // b = Int256.min; -> true
+    /// ```
+    ///
     @inlinable mutating func addReportingOverflow(_ amount: Digit) -> Bool
     
+    /// Returns the sum of adding the given value to this value, and
+    /// returns a value indicating whether overflow occurred. In the case of
+    /// overflow, the result is truncated.
+    ///
+    /// ```
+    /// (Int256.max - Int256(1)).addingReportingOverflow(Int(1)) // (partialValue: Int256.max, overflow: false)
+    /// (Int256.max - Int256(0)).addingReportingOverflow(Int(1)) // (partialValue: Int256.min, overflow: true )
+    /// ```
+    ///
     @inlinable func addingReportingOverflow(_ amount: Digit) -> PVO<Self>
     
     //=------------------------------------------------------------------------=
@@ -41,8 +73,8 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     /// overflow, the result is truncated.
     ///
     /// ```
-    /// var a: UInt8(15); a.multiplyFullWidth(by: 15) // a = 225; -> false
-    /// var b: UInt8(16); b.multiplyFullWidth(by: 16) // b = 000; -> true
+    /// var a = Int256(11); a.multiplyReportingOverflow(by: Int(4)) // a = Int256(44); -> false
+    /// var b = Int256.max; b.multiplyReportingOverflow(by: Int(4)) // b = Int256(-4); -> true
     /// ```
     ///
     @inlinable mutating func multiplyReportingOverflow(by amount: Digit) -> Bool
@@ -52,8 +84,8 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     /// overflow, the result is truncated.
     ///
     /// ```
-    /// UInt8(15).multipliedReportingOverflow(by: 15) // -> (partialValue: 225, overflow: false)
-    /// UInt8(16).multipliedReportingOverflow(by: 16) // -> (partialValue: 000, overflow: true )
+    /// Int256(11).multipliedFullWidth(by: Int(4)) // (partialValue: Int256(44), overflow: false)
+    /// Int256.max.multipliedFullWidth(by: Int(4)) // (partialValue: Int256(-4), overflow: true )
     /// ```
     ///
     @inlinable func multipliedReportingOverflow(by amount: Digit) -> PVO<Self>
@@ -62,8 +94,8 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     /// and returns the high.
     ///
     /// ```
-    /// var a: UInt8(15); a.multiplyFullWidth(by: 15) // a = 225; -> 0
-    /// var b: UInt8(16); b.multiplyFullWidth(by: 16) // b = 000; -> 1
+    /// var a = Int256(11); a.multiplyFullWidth(by: Int(4)) // a = Int256(44); -> Int(0)
+    /// var b = Int256.max; b.multiplyFullWidth(by: Int(4)) // b = Int256(-4); -> Int(1)
     /// ```
     ///
     @inlinable mutating func multiplyFullWidth(by amount: Digit) -> Digit
@@ -71,8 +103,8 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     /// Returns the low and high part of multiplying this value by the given value.
     ///
     /// ```
-    /// UInt8(15).multipliedFullWidth(by: 15) // (high: 0, low: 255)
-    /// UInt8(16).multipliedFullWidth(by: 16) // (high: 1, low: 000)
+    /// Int256(11).multipliedFullWidth(by: Int(4)) // (high: Int(0), low: Int256(44))
+    /// Int256.max.multipliedFullWidth(by: Int(4)) // (high: Int(1), low: Int256(-4))
     /// ```
     ///
     @inlinable func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude>
@@ -80,13 +112,45 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     // MARK: Transformations x Subtraction
     //=------------------------------------------------------------------------=
-
+    
+    /// Forms the truncated difference of subtracting `rhs` from `lhs`.
+    ///
+    /// ```
+    /// var a: Int256.min + Int256(1); a &-= Int(1) // a = Int256.min
+    /// var b: Int256.min + Int256(0); b &-= Int(1) // b = Int256.max
+    /// ```
+    ///
     @inlinable static func &-=(lhs: inout Self, rhs: Digit)
     
+    /// Returns the truncated difference of subtracting `rhs` from `lhs`.
+    ///
+    /// ```
+    /// (Int256.min + Int256(1)) &- Int(1) // Int256.min
+    /// (Int256.min + Int256(0)) &- Int(1) // Int256.max
+    /// ```
+    ///
     @inlinable static func &-(lhs: Self, rhs: Digit) -> Self
 
+    /// Forms the difference of subtracting the given value from this value,
+    /// and returns a value indicating whether overflow occurred. In the case
+    /// of overflow, the result is truncated.
+    ///
+    /// ```
+    /// var a: Int256.min + Int256(1); a.subtractReportingOverflow(Int(1)) // a = Int256.min; -> false
+    /// var b: Int256.min + Int256(0); b.subtractReportingOverflow(Int(1)) // b = Int256.max; -> true
+    /// ```
+    ///
     @inlinable mutating func subtractReportingOverflow(_ amount: Digit) -> Bool
-
+    
+    /// Returns the difference of subtracting the given value from this value,
+    /// and returns a value indicating whether overflow occurred. In the case
+    /// of overflow, the result is truncated.
+    ///
+    /// ```
+    /// (Int256.min + Int256(1)).subtractingReportingOverflow(Int(1)) // (partialValue: Int256.min, overflow: false)
+    /// (Int256.min + Int256(0)).subtractingReportingOverflow(Int(1)) // (partialValue: Int256.max, overflow: true )
+    /// ```
+    ///
     @inlinable func subtractingReportingOverflow(_ amount: Digit) -> PVO<Self>
 }
 

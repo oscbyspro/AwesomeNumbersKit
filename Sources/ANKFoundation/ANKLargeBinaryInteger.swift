@@ -108,9 +108,9 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     /// overflow, the result is either truncated or, if undefined, this value.
     ///
     /// ```
-    /// var a = Int256( 7); a.divideReportingOverflow(by:  3 as Int) // a = Int256( 2); -> false
-    /// var b = Int256.min; b.divideReportingOverflow(by:  0 as Int) // b = Int256.min; -> true
-    /// var c = Int256.min; c.divideReportingOverflow(by: -1 as Int) // c = Int256.min; -> true
+    /// var a = Int256( 7); a.divideReportingOverflow(by: Int( 3)) // a = Int256( 2); -> false
+    /// var b = Int256.min; b.divideReportingOverflow(by: Int( 0)) // b = Int256.min; -> true
+    /// var c = Int256.min; c.divideReportingOverflow(by: Int(-1)) // c = Int256.min; -> true
     /// ```
     ///
     @inlinable mutating func divideReportingOverflow(by divisor: Digit) -> Bool
@@ -120,9 +120,9 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     /// overflow, the result is either truncated or, if undefined, this value.
     ///
     /// ```
-    /// Int256( 7).dividedReportingOverflow(by:  3 as Int) // (partialValue: Int256( 2), overflow: false)
-    /// Int256.min.dividedReportingOverflow(by:  0 as Int) // (partialValue: Int256.min, overflow: true )
-    /// Int256.min.dividedReportingOverflow(by: -1 as Int) // (partialValue: Int256.min, overflow: true )
+    /// Int256( 7).dividedReportingOverflow(by: Int( 3)) // (partialValue: Int256( 2), overflow: false)
+    /// Int256.min.dividedReportingOverflow(by: Int( 0)) // (partialValue: Int256.min, overflow: true )
+    /// Int256.min.dividedReportingOverflow(by: Int(-1)) // (partialValue: Int256.min, overflow: true )
     /// ```
     ///
     @inlinable func dividedReportingOverflow(by divisor: Digit) -> PVO<Self>
@@ -133,9 +133,9 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     /// zero.
     ///
     /// ```
-    /// var a = Int256( 7); a.formRemainderReportingOverflow(dividingBy:  3 as Int) // a = Int256(1); -> false
-    /// var b = Int256.min; b.formRemainderReportingOverflow(dividingBy:  0 as Int) // b = Int256(0); -> true
-    /// var c = Int256.min; c.formRemainderReportingOverflow(dividingBy: -1 as Int) // c = Int256(0); -> true
+    /// var a = Int256( 7); a.formRemainderReportingOverflow(dividingBy: Int( 3)) // a = Int256(1); -> false
+    /// var b = Int256.min; b.formRemainderReportingOverflow(dividingBy: Int( 0)) // b = Int256(0); -> true
+    /// var c = Int256.min; c.formRemainderReportingOverflow(dividingBy: Int(-1)) // c = Int256(0); -> true
     /// ```
     ///
     @inlinable mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool
@@ -146,9 +146,9 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     /// zero.
     ///
     /// ```
-    /// Int256( 7).remainderReportingOverflow(dividingBy:  3 as Int) // (partialValue: Int(1), overflow: false)
-    /// Int256.min.remainderReportingOverflow(dividingBy:  0 as Int) // (partialValue: Int(0), overflow: true )
-    /// Int256.min.remainderReportingOverflow(dividingBy: -1 as Int) // (partialValue: Int(0), overflow: true )
+    /// Int256( 7).remainderReportingOverflow(dividingBy: Int( 3)) // (partialValue: Int(1), overflow: false)
+    /// Int256.min.remainderReportingOverflow(dividingBy: Int( 0)) // (partialValue: Int(0), overflow: true )
+    /// Int256.min.remainderReportingOverflow(dividingBy: Int(-1)) // (partialValue: Int(0), overflow: true )
     /// ```
     ///
     @inlinable func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit>
@@ -156,10 +156,10 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     /// Returns the quotient and remainder of this value divided by the given value.
     ///
     /// ```
-    /// Int256( 7).quotientAndRemainder(dividingBy:  3 as Int) // (quotient: Int256( 2), remainder: Int( 1))
-    /// Int256( 7).quotientAndRemainder(dividingBy: -3 as Int) // (quotient: Int256(-2), remainder: Int( 1))
-    /// Int256(-7).quotientAndRemainder(dividingBy:  3 as Int) // (quotient: Int256(-2), remainder: Int(-1))
-    /// Int256(-7).quotientAndRemainder(dividingBy: -3 as Int) // (quotient: Int256( 2), remainder: Int(-1))
+    /// Int256( 7).quotientAndRemainder(dividingBy: Int( 3)) // (quotient: Int256( 2), remainder: Int( 1))
+    /// Int256( 7).quotientAndRemainder(dividingBy: Int(-3)) // (quotient: Int256(-2), remainder: Int( 1))
+    /// Int256(-7).quotientAndRemainder(dividingBy: Int( 3)) // (quotient: Int256(-2), remainder: Int(-1))
+    /// Int256(-7).quotientAndRemainder(dividingBy: Int(-3)) // (quotient: Int256( 2), remainder: Int(-1))
     /// ```
     ///
     @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>

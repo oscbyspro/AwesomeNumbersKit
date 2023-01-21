@@ -109,9 +109,9 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// this value.
     ///
     /// ```
-    /// var a = Int8(-128); a.formRemainderReportingOverflow(dividingBy:  3) // a =    2; -> false
+    /// var a = Int8(-128); a.formRemainderReportingOverflow(dividingBy:  3) // a =  002; -> false
     /// var b = Int8(-128); b.formRemainderReportingOverflow(dividingBy:  0) // b = -128; -> true
-    /// var c = Int8(-128); c.formRemainderReportingOverflow(dividingBy: -1) // c =    0; -> true
+    /// var c = Int8(-128); c.formRemainderReportingOverflow(dividingBy: -1) // c =  000; -> true
     /// ```
     ///
     @inlinable mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool
@@ -122,9 +122,9 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// this value.
     ///
     /// ```
-    /// Int8(-128).remainderReportingOverflow(dividingBy:  3) // (partialValue:    2, overflow: false)
+    /// Int8(-128).remainderReportingOverflow(dividingBy:  3) // (partialValue:  002, overflow: false)
     /// Int8(-128).remainderReportingOverflow(dividingBy:  0) // (partialValue: -128, overflow: true )
-    /// Int8(-128).remainderReportingOverflow(dividingBy: -1) // (partialValue:    0, overflow: true )
+    /// Int8(-128).remainderReportingOverflow(dividingBy: -1) // (partialValue:  000, overflow: true )
     /// ```
     ///
     @inlinable func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self>
