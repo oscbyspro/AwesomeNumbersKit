@@ -29,7 +29,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public static func %=(lhs: inout Self, rhs: Self) {
-        precondition(!lhs.formRemainderReportingOverflow(by: rhs))
+        precondition(!lhs.formRemainderReportingOverflow(dividingBy: rhs))
     }
     
     @inlinable public static func %(lhs: Self, rhs: Self) -> Self {
@@ -60,7 +60,7 @@ extension ANKFullWidth {
         return PVO(qr.quotient, false)
     }
     
-    @inlinable public mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool {
+    @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool {
         let pvo: PVO<Self> = self.remainderReportingOverflow(dividingBy: divisor)
         self = pvo.partialValue; return pvo.overflow
     }

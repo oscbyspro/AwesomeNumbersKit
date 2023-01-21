@@ -93,7 +93,7 @@ extension ANKTrivialFixedWidthInteger {
         self = pvo.partialValue; return pvo.overflow
     }
     
-    @_transparent public mutating func formRemainderReportingOverflow(by amount: Self) -> Bool {
+    @_transparent public mutating func formRemainderReportingOverflow(dividingBy amount: Self) -> Bool {
         let pvo: PVO<Self> = self.remainderReportingOverflow(dividingBy: amount)
         self = pvo.partialValue; return pvo.overflow
     }

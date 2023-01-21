@@ -48,7 +48,7 @@ extension ANKSigned {
         divisor.isZero ? PVO(self, true) : PVO(self / divisor, false)
     }
     
-    @inlinable public mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool {
+    @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool {
         let pvo: PVO<Self> = self.remainderReportingOverflow(dividingBy: divisor)
         self = pvo.partialValue; return pvo.overflow
     }

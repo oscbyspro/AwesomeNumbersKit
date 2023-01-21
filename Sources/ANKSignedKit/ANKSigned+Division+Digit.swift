@@ -48,12 +48,11 @@ extension ANKLargeSigned {
         divisor.isZero ? PVO(self,  true) : PVO(self / divisor, false)
     }
     
-    @inlinable public mutating func formRemainderReportingOverflow(by divisor: Digit) -> Bool {
+    @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool {
         let pvo: PVO<Digit> = self.remainderReportingOverflow(dividingBy: divisor)
         self = Self(digit: pvo.partialValue); return pvo.overflow
     }
     
-    // TODO: appropriate digit division overflow semantics
     @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
         divisor.isZero ? PVO(Digit(), true) : PVO(self % divisor, false)
     }

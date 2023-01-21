@@ -79,14 +79,65 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    /// Forms the quotient of this value divided by the given value, and
+    /// returns a value indicating whether overflow occurred. In the case of
+    /// overflow, the result is either truncated or, if undefined, this value.
+    ///
+    /// ```
+    /// var a = Int(-128); a.divideReportingOverflow(by: 2) // a =  -64; -> false
+    /// var b = Int(-128); b.divideReportingOverflow(by: 2) // b = -128; -> true
+    /// var c = Int(-128); c.divideReportingOverflow(by: 2) // c = -128; -> true
+    /// ```
+    ///
     @inlinable mutating func divideReportingOverflow(by divisor: Self) -> Bool
     
+    /// Returns the quotient of this value divided by the given value, and
+    /// returns a value indicating whether overflow occurred. In the case of
+    /// overflow, the result is either truncated or, if undefined, this value.
+    ///
+    /// ```
+    /// Int8(-128).dividedReportingOverflow(by:  3) // (partialValue:  -42, overflow: false)
+    /// Int8(-128).dividedReportingOverflow(by:  0) // (partialValue: -128, overflow: true )
+    /// Int8(-128).dividedReportingOverflow(by: -1) // (partialValue: -128, overflow: true )
+    /// ```
+    ///
     @inlinable func dividedReportingOverflow(by divisor: Self) -> PVO<Self>
     
-    @inlinable mutating func formRemainderReportingOverflow(by divisor: Self) -> Bool
+    /// Forms the remainder of this value divided by the given value, and
+    /// returns a value indicating whether overflow occurred. In the case of
+    /// overflow, the result is either the entire remainder or, if undefined,
+    /// this value.
+    ///
+    /// ```
+    /// var a = Int8(-128); a.formRemainderReportingOverflow(dividingBy:  3) // a =    2; -> false
+    /// var b = Int8(-128); b.formRemainderReportingOverflow(dividingBy:  0) // b = -128; -> true
+    /// var c = Int8(-128); c.formRemainderReportingOverflow(dividingBy: -1) // c =    0; -> true
+    /// ```
+    ///
+    @inlinable mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool
     
+    /// Returns the remainder of this value divided by the given value, and
+    /// returns a value indicating whether overflow occurred. In the case of
+    /// overflow, the result is either the entire remainder or, if undefined,
+    /// this value.
+    ///
+    /// ```
+    /// Int8(-128).remainderReportingOverflow(dividingBy:  3) // (partialValue:    2, overflow: false)
+    /// Int8(-128).remainderReportingOverflow(dividingBy:  0) // (partialValue: -128, overflow: true )
+    /// Int8(-128).remainderReportingOverflow(dividingBy: -1) // (partialValue:    0, overflow: true )
+    /// ```
+    ///
     @inlinable func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self>
     
+    /// Returns the quotient and remainder of this value divided by the given value.
+    ///
+    /// ```
+    /// Int8( 7).quotientAndRemainder(dividingBy:  3) // (quotient:  2, remainder:  1)
+    /// Int8( 7).quotientAndRemainder(dividingBy: -3) // (quotient: -2, remainder:  1)
+    /// Int8(-7).quotientAndRemainder(dividingBy:  3) // (quotient: -2, remainder: -1)
+    /// Int8(-7).quotientAndRemainder(dividingBy: -3) // (quotient:  2, remainder: -1)
+    /// ```
+    ///
     @inlinable func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self>
     
     //=------------------------------------------------------------------------=

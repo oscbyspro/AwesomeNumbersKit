@@ -12,11 +12,16 @@
 //*============================================================================*
 
 public protocol ANKContiguousBytes {
-
+    
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
     /// Calls the given closure with unsafe access to the contents of the underlying storage.
+    ///
+    /// ```
+    /// UInt256(1).bigEndian.withUnsafeBytes({ data += $0 })
+    /// ```
+    ///
     @inlinable func withUnsafeBytes<T>(_ body: (UnsafeRawBufferPointer) throws -> T) rethrows -> T
 }

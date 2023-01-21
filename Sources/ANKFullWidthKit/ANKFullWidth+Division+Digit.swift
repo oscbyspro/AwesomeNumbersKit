@@ -29,7 +29,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public static func %=(lhs: inout Self, rhs: Digit) {
-        precondition(!lhs.formRemainderReportingOverflow(by: rhs))
+        precondition(!lhs.formRemainderReportingOverflow(dividingBy: rhs))
     }
     
     @inlinable public static func %(lhs: Self, rhs: Digit) -> Digit {
@@ -60,12 +60,11 @@ extension ANKFullWidth {
         return PVO(qr.quotient, false)
     }
     
-    @inlinable public mutating func formRemainderReportingOverflow(by divisor: Digit) -> Bool {
+    @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool {
         let pvo: PVO<Digit> = self.remainderReportingOverflow(dividingBy: divisor)
         self = Self(digit: pvo.partialValue); return pvo.overflow
     }
     
-    // TODO: appropriate digit division overflow semantics
     @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
         //=--------------------------------------=
         if  divisor.isZero {

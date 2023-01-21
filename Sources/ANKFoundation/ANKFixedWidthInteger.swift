@@ -13,11 +13,11 @@
 
 /// A `FixedWidthInteger` with additional requirements and capabilities.
 ///
-/// All fixed width integers in `AwesomeNumbersKit` conform to `ANKFixedWidthInteger`.
+/// All fixed-width integers in `AwesomeNumbersKit` conform to `ANKFixedWidthInteger`.
 ///
 /// **Two's Complement Semantics**
 ///
-/// Like `FixedWidthInteger`, all bitwise operations have two's complement semantics.
+/// Like `BinaryInteger`, all bitwise operations have two's complement semantics.
 ///
 public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where Magnitude: ANKUnsignedFixedWidthInteger {
     
@@ -35,45 +35,45 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    /// Forms the result of adding this value and the given value, and
+    /// Forms the sum of adding the given value to this value, and
     /// returns a value indicating whether overflow occurred. In the case of
     /// overflow, the result is truncated.
     ///
     /// ```
-    /// var x: UInt8 = 254; x.addReportingOverflow(1) // x = 255; -> false
-    /// var y: UInt8 = 255; y.addReportingOverflow(1) // y = 000; -> true
+    /// var x: UInt8(254); x.addReportingOverflow(1) // x = 255; -> false
+    /// var y: UInt8(255); y.addReportingOverflow(1) // y = 000; -> true
     /// ```
     ///
     @inlinable mutating func addReportingOverflow(_ amount: Self) -> Bool
     
-    /// Forms the result of subtracting this value by the given value, and
-    /// returns a value indicating whether overflow occurred. In the case of
-    /// overflow, the result is truncated.
+    /// Forms the difference of subtracting the given value from this value,
+    /// and returns a value indicating whether overflow occurred. In the case
+    /// of overflow, the result is truncated.
     ///
     /// ```
-    /// var x: UInt8 = 1; x.subtractReportingOverflow(1) // x = 000; -> false
-    /// var y: UInt8 = 0; y.subtractReportingOverflow(1) // y = 255; -> true
+    /// var x: UInt8(1); x.subtractReportingOverflow(1) // x = 000; -> false
+    /// var y: UInt8(0); y.subtractReportingOverflow(1) // y = 255; -> true
     /// ```
     ///
     @inlinable mutating func subtractReportingOverflow(_ amount: Self) -> Bool
     
-    /// Forms the result of multiplying this value by the given value, and
+    /// Forms the product of multiplying this value by the given value, and
     /// returns a value indicating whether overflow occurred. In the case of
     /// overflow, the result is truncated.
     ///
     /// ```
-    /// var x: UInt8 = 15; x.multiplyFullWidth(by: 15) // x = 225; -> false
-    /// var y: UInt8 = 16; y.multiplyFullWidth(by: 16) // y = 000; -> true
+    /// var x: UInt8(15); x.multiplyReportingOverflow(by: 15) // x = 225; -> false
+    /// var y: UInt8(16); y.multiplyReportingOverflow(by: 16) // y = 000; -> true
     /// ```
     ///
     @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool
     
     /// Forms the low part of multiplying this value by the given value,
-    /// and returns a high part.
+    /// and returns the high.
     ///
     /// ```
-    /// var x: UInt8 = 15; x.multiplyFullWidth(by: 15) // x = 225; -> 0
-    /// var y: UInt8 = 16; y.multiplyFullWidth(by: 16) // y = 000; -> 1
+    /// var x: UInt8(15); x.multiplyFullWidth(by: 15) // x = 225; -> 0
+    /// var y: UInt8(16); y.multiplyFullWidth(by: 16) // y = 000; -> 1
     /// ```
     ///
     @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self
@@ -94,8 +94,8 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
     /// the result is truncated.
     ///
     /// ```
-    /// var x: Int8 = -127; x.negateReportingOverflow() // x =  127; -> false
-    /// var y: Int8 = -128; y.negateReportingOverflow() // y = -128; -> true
+    /// var x: Int8(-127); x.negateReportingOverflow() // x =  127; -> false
+    /// var y: Int8(-128); y.negateReportingOverflow() // y = -128; -> true
     /// ```
     ///
     @inlinable mutating func negateReportingOverflow() -> Bool
