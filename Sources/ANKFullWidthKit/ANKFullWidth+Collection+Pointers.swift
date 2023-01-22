@@ -117,13 +117,19 @@ extension ANKFullWidthUnsafeWordsPointer {
 // MARK: * ANK x Full Width x Collection x Pointers x Words
 //*============================================================================*
 
-@frozen @usableFromInline struct UnsafeWordsPointer<Layout>: ANKFullWidthUnsafeWordsPointer where Layout: ANKBitPatternConvertible<Layout> {
+/// An unsafe words pointer.
+///
+/// - Warning: In addition to being unsafe, this collection also provides
+///   unchecked subscript access and wrapping index arithmetic. So, don't
+///   do stupid stuff. Understood? Cool. Let's go!
+///
+@frozen public struct UnsafeWordsPointer<Layout>: ANKFullWidthUnsafeWordsPointer where Layout: ANKBitPatternConvertible<Layout> {
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline let base: UnsafePointer<UInt>
+    public let base: UnsafePointer<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -141,7 +147,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @usableFromInline subscript(index: Int) -> UInt {
+    public subscript(index: Int) -> UInt {
         @_transparent _read {
             assert(self.indices.contains(index))
             #if _endian(big)
@@ -157,13 +163,19 @@ extension ANKFullWidthUnsafeWordsPointer {
 // MARK: * ANK x Full Width x Collection x Pointers x Words x Mutable
 //*============================================================================*
 
-@frozen @usableFromInline struct UnsafeMutableWordsPointer<Layout>: ANKFullWidthUnsafeWordsPointer where Layout: ANKBitPatternConvertible<Layout> {
+/// An unsafe, mutable, words pointer.
+///
+/// - Warning: In addition to being unsafe, this collection also provides
+///   unchecked subscript access and wrapping index arithmetic. So, don't
+///   do stupid stuff. Understood? Cool. Let's go!
+///
+@frozen public struct UnsafeMutableWordsPointer<Layout>: ANKFullWidthUnsafeWordsPointer where Layout: ANKBitPatternConvertible<Layout> {
         
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline let base: UnsafeMutablePointer<UInt>
+    public let base: UnsafeMutablePointer<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -181,7 +193,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @usableFromInline subscript(index: Int) -> UInt {
+    public subscript(index: Int) -> UInt {
         @_transparent _read {
             assert(self.indices.contains(index))
             #if _endian(big)
@@ -213,7 +225,12 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     /// Unsafe access to the integer's words, in order from least significant to most.
-    @_transparent @usableFromInline func withUnsafeWordsPointer<T>(
+    ///
+    /// - Warning: In addition to being unsafe, this collection also provides
+    ///   unchecked subscript access and wrapping index arithmetic. So, don't
+    ///   do stupid stuff. Understood? Cool. Let's go!
+    ///
+    @_transparent public func withUnsafeWordsPointer<T>(
     _ body: (UnsafeWordsPointer<BitPattern>) throws -> T) rethrows -> T {
         try withUnsafePointer(to: self) { SELF in
             try body(UnsafeWordsPointer(BIT_PATTERN: SELF))
@@ -221,7 +238,12 @@ extension ANKFullWidth {
     }
     
     /// Unsafe access to the integer's words, in order from least significant to most.
-    @_transparent @usableFromInline mutating func withUnsafeMutableWordsPointer<T>(
+    ///
+    /// - Warning: In addition to being unsafe, this collection also provides
+    ///   unchecked subscript access and wrapping index arithmetic. So, don't
+    ///   do stupid stuff. Understood? Cool. Let's go!
+    ///
+    @_transparent public mutating func withUnsafeMutableWordsPointer<T>(
     _ body: (UnsafeMutableWordsPointer<BitPattern>) throws -> T) rethrows -> T {
         try withUnsafeMutablePointer(to: &self) { SELF in
             try body(UnsafeMutableWordsPointer(BIT_PATTERN: SELF))
@@ -229,7 +251,12 @@ extension ANKFullWidth {
     }
     
     /// Unsafe access to the integer's words, in order from least significant to most.
-    @_transparent @usableFromInline static func fromUnsafeMutableWordsAllocation(
+    ///
+    /// - Warning: In addition to being unsafe, this collection also provides
+    ///   unchecked subscript access and wrapping index arithmetic. So, don't
+    ///   do stupid stuff. Understood? Cool. Let's go!
+    ///
+    @_transparent public static func fromUnsafeMutableWordsAllocation(
     _ body: (UnsafeMutableWordsPointer<BitPattern>) throws -> Void) rethrows -> Self {
         try withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
             let SELF = BUFFER.baseAddress.unsafelyUnwrapped

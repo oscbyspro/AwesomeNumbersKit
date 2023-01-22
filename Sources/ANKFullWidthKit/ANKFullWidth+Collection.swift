@@ -90,4 +90,12 @@ extension ANKFullWidth {
         @_transparent _read { precondition(self.indices.contains(index)); yield self[unchecked: index] /*------*/ }
         @_transparent  set  { precondition(self.indices.contains(index)); /*-*/ self[unchecked: index] = newValue }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Contiguous Bytes
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public func withUnsafeBytes<T>(_ body: (UnsafeRawBufferPointer) throws -> T) rethrows -> T {
+        try Swift.withUnsafeBytes(of: self, body)
+    }
 }
