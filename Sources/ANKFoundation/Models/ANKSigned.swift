@@ -11,7 +11,7 @@
 // MARK: * ANK x Signed
 //*============================================================================*
 
-/// A decorative, width agnostic, pen-and-paper-sign-magnitude, numeric integer.
+/// A decorative, width agnostic, sign-and-magnitude, numeric integer.
 ///
 /// ```
 /// import ANKFoundation
@@ -30,9 +30,8 @@
 ///
 /// **Sign & Magnitude Semantics**
 ///
-/// It models a sign-decorated magnitude and has pen-and-paper-sign-magnitude
-/// semantics. In other words, the sign bit is treated as separate, such that
-/// overflow does not affect it.
+/// It models a sign-decorated magnitude and has sign-and-magnitude semantics.
+/// The sign bit is treated as separate, such that overflow does not affect it.
 ///
 /// **Fast Digit Arithmetic**
 ///

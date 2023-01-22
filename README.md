@@ -36,7 +36,7 @@ typealias ANKUInt256 = ANKFullWidth<ANKUInt128, ANKUInt128>
 
 ## ANKSigned ([Sources](Sources/ANKSignedKit), [Tests](Tests/ANKSignedKitTests), [Benchmarks](Tests/ANKSignedKitBenchmarks))
 
-A decorative, width agnostic, pen-and-paper-sign-magnitude, numeric integer.
+A decorative, width agnostic, sign-and-magnitude, numeric integer.
 
 <table>
 <tr>
