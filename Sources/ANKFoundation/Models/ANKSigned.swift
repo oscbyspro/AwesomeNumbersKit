@@ -70,10 +70,12 @@
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    /// Creates a new value equal to zero.
     @inlinable public init() {
         self.init(Magnitude(), as: ANKSign.plus)
     }
     
+    /// Creates a new value with the given sign and magnitude.
     @inlinable public init(_ magnitude: Magnitude, as sign: ANKSign) {
         self.sign = sign; self.magnitude = magnitude
     }
@@ -137,14 +139,17 @@ extension ANKSigned {
         self.isZero ? 0 : self.sign == ANKSign.plus ? 1 : -1
     }
     
+    /// Returns whether this value is equal to zero.
     @_transparent public var isZero: Bool {
         self.magnitude.isZero
     }
     
+    /// Returns whether this value is less than zero.
     @inlinable public var isLessThanZero: Bool {
         self.sign != ANKSign.plus && !self.isZero
     }
     
+    /// Returns whether this value is more than zero.
     @inlinable public var isMoreThanZero: Bool {
         self.sign == ANKSign.plus && !self.isZero
     }
@@ -169,10 +174,12 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    /// The minimum representable value in this type.
     @inlinable public static var min: Self {
         Self(Magnitude.max, as: ANKSign.minus)
     }
     
+    /// The maximum representable value in this type.
     @inlinable public static var max: Self {
         Self(Magnitude.max, as: ANKSign.plus)
     }

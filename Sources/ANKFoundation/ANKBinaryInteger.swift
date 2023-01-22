@@ -26,9 +26,6 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     //=------------------------------------------------------------------------=
     
     /// Creates a new instance from the given bit.
-    ///
-    /// - Returns: `bit ? 1 : 0`
-    ///
     @inlinable init(bit: Bool)
     
     //=------------------------------------------------------------------------=
@@ -36,37 +33,18 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     //=------------------------------------------------------------------------=
     
     /// Returns whether this value is equal to zero.
-    ///
-    /// - Returns: `self == 0`
-    ///
     @inlinable var isZero: Bool { get }
     
     /// Returns whether this value is less than zero.
-    ///
-    /// - Returns: `self < 0`
-    ///
     @inlinable var isLessThanZero: Bool { get }
     
     /// Returns whether this value is more than zero.
-    ///
-    /// - Returns: `self > 0`
-    ///
     @inlinable var isMoreThanZero: Bool { get }
     
     /// Returns the most significant bit in two's complement form.
-    ///
-    /// - Note: If the value is signed, this is equivalent to `self.isLessThanZero`.
-    ///
-    /// - Returns: `self >> (self.bitWidth - 1) == 1`
-    ///
     @inlinable var mostSignificantBit:  Bool { get }
     
     /// Returns the least significant bit in two's complement form.
-    ///
-    /// - Note: It returns `true` if the value is odd and `false` if the value is even.
-    ///
-    /// - Returns: `self & 1 == 1`
-    ///
     @inlinable var leastSignificantBit: Bool { get }
     
     //=------------------------------------------------------------------------=
@@ -74,21 +52,12 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     //=------------------------------------------------------------------------=
     
     /// Returns whether this value is odd.
-    ///
-    /// - Returns: `true` if this value is odd, and `false` otherwise.
-    ///
     @inlinable var isOdd: Bool { get }
 
     /// Returns whether this value is even.
-    ///
-    /// - Returns: `true` if this value is even, and `false` otherwise.
-    ///
     @inlinable var isEven: Bool { get }
     
     /// Returns whether this value is a power of `2`.
-    ///
-    /// - Returns: `self.nonzeroBitCount == 1`
-    ///
     @inlinable var isPowerOf2: Bool { get }
     
     //=------------------------------------------------------------------------=
@@ -161,15 +130,9 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     //=------------------------------------------------------------------------=
     
     /// Forms the two's complement of this value.
-    ///
-    /// - Returns: `self = ~self &+ 1`
-    ///
     @inlinable mutating func formTwosComplement()
     
     /// Creates the two's complement of this value.
-    ///
-    /// - Returns: `~self &+ 1`
-    ///
     @inlinable func twosComplement() -> Self
     
     //=------------------------------------------------------------------------=

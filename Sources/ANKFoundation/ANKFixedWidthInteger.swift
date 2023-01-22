@@ -26,9 +26,6 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     //=------------------------------------------------------------------------=
     
     /// Creates a new instance repeating the given bit in two's complement form.
-    ///
-    /// - Returns: `bit ? ~0 : 0`
-    ///
     @inlinable init(repeating bit: Bool)
     
     //=------------------------------------------------------------------------=
