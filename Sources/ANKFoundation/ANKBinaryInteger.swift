@@ -11,7 +11,7 @@
 // MARK: * ANK x Binary Integer
 //*============================================================================*
 
-/// A `BinaryInteger` with additional requirements and capabilities.
+/// An awesome binary integer.
 ///
 /// All binary integers in `AwesomeNumbersKit` conform to `ANKBinaryInteger`.
 ///
@@ -68,6 +68,22 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// - Returns: `self & 1 == 1`
     ///
     @inlinable var leastSignificantBit: Bool { get }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    /// Returns whether this value is odd.
+    ///
+    /// - Returns: `true` if this value is odd, and `false` otherwise.
+    ///
+    @inlinable var isOdd: Bool { get }
+
+    /// Returns whether this value is even.
+    ///
+    /// - Returns: `true` if this value is even, and `false` otherwise.
+    ///
+    @inlinable var isEven: Bool { get }
     
     /// Returns whether this value is a power of `2`.
     ///
@@ -212,6 +228,14 @@ extension ANKBinaryInteger where Self: FixedWidthInteger {
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
+    
+    @_transparent public var isOdd: Bool {
+        self.leastSignificantBit
+    }
+    
+    @_transparent public var isEven: Bool {
+        self.leastSignificantBit == false
+    }
     
     @_transparent public var isPowerOf2: Bool {
         self.nonzeroBitCount == 1

@@ -133,6 +133,10 @@ extension ANKSigned {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    @inlinable public func signum() -> Int {
+        self.isZero ? 0 : self.sign == ANKSign.plus ? 1 : -1
+    }
+    
     @_transparent public var isZero: Bool {
         self.magnitude.isZero
     }
@@ -143,10 +147,6 @@ extension ANKSigned {
     
     @inlinable public var isMoreThanZero: Bool {
         self.sign == ANKSign.plus && !self.isZero
-    }
-    
-    @inlinable public func signum() -> Int {
-        self.isZero ? 0 : self.sign == ANKSign.plus ? 1 : -1
     }
     
     //=------------------------------------------------------------------------=

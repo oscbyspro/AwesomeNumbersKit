@@ -130,6 +130,26 @@ final class Int256TestsOnComparison: XCTestCase {
         XCTAssertFalse(T(-2).isMoreThanZero)
         XCTAssertFalse(T(-3).isMoreThanZero)
     }
+    
+    func testIsOdd() {
+        XCTAssertFalse(T( 0).isOdd)
+        XCTAssertTrue (T( 1).isOdd)
+        XCTAssertFalse(T( 2).isOdd)
+        
+        XCTAssertTrue (T(-1).isOdd)
+        XCTAssertFalse(T(-2).isOdd)
+        XCTAssertTrue (T(-3).isOdd)
+    }
+    
+    func testIsEven() {
+        XCTAssertTrue (T( 0).isEven)
+        XCTAssertFalse(T( 1).isEven)
+        XCTAssertTrue (T( 2).isEven)
+        
+        XCTAssertFalse(T(-1).isEven)
+        XCTAssertTrue (T(-2).isEven)
+        XCTAssertFalse(T(-3).isEven)
+    }
 }
 
 //*============================================================================*
@@ -224,6 +244,18 @@ final class UInt256TestsOnComparison: XCTestCase {
         XCTAssertFalse(T(0).isMoreThanZero)
         XCTAssertTrue (T(1).isMoreThanZero)
         XCTAssertTrue (T(2).isMoreThanZero)
+    }
+    
+    func testIsOdd() {
+        XCTAssertFalse(T(0).isOdd)
+        XCTAssertTrue (T(1).isOdd)
+        XCTAssertFalse(T(2).isOdd)
+    }
+    
+    func testIsEven() {
+        XCTAssertTrue (T(0).isEven)
+        XCTAssertFalse(T(1).isEven)
+        XCTAssertTrue (T(2).isEven)
     }
 }
 

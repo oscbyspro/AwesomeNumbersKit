@@ -11,7 +11,7 @@
 // MARK: * ANK x Fixed Width Integer
 //*============================================================================*
 
-/// A `FixedWidthInteger` with additional requirements and capabilities.
+/// An awesome, fixed-width, binary integer.
 ///
 /// All fixed-width integers in `AwesomeNumbersKit` conform to `ANKFixedWidthInteger`.
 ///

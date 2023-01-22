@@ -11,7 +11,7 @@
 // MARK: * ANK x Binary Integer x Large
 //*============================================================================*
 
-/// A large binary integer with additional requirements and capabilities.
+/// An awesome, large, binary integer.
 ///
 /// **Two's Complement Semantics**
 ///

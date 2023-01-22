@@ -11,7 +11,9 @@
 // MARK: * ANK x Fixed Width Integer x Trivial
 //*============================================================================*
 
-/// An awesome fixed-width integer with trivial implementation.
+/// An awesome, fixed-width, integer with trivial implementation.
+///
+/// Only the following types in the standard library may conform to this protocol:
 ///
 /// - `Int`
 /// - `Int8`

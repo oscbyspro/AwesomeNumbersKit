@@ -15,10 +15,9 @@ import ANKFoundation
 
 /// A composable, large, fixed-width, two's complement, binary integer.
 ///
-/// ```
-/// ANK(U)Int128
-/// ANK(U)Int256
-/// ANK(U)Int512
+/// ```swift
+/// typealias  ANKInt256 = ANKFullWidth< ANKInt128, ANKUInt128>
+/// typealias ANKUInt256 = ANKFullWidth<ANKUInt128, ANKUInt128>
 /// ```
 ///
 /// **Requirements**
@@ -40,7 +39,7 @@ import ANKFoundation
 /// These single-digit methods may prove significantly faster than their oversized
 /// counterparts for operands that fit in a single machine word.
 ///
-/// The `Digit` type is `Int` when `Self` is signed, and `UInt` when `Self` is unsigned.
+/// The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
 /// **ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral**
 ///

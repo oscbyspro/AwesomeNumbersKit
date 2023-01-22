@@ -11,7 +11,7 @@
 // MARK: * ANK x Fixed Width Integer x Large
 //*============================================================================*
 
-/// A large fixed-width integer with additional requirements and capabilities.
+/// An awesome, large, fixed-width, binary integer.
 ///
 /// **Two's Complement Semantics**
 ///
