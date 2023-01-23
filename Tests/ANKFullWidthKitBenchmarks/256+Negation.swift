@@ -31,6 +31,14 @@ final class Int256BenchmarksOnNegation: XCTestCase {
             _ = -abc
         }
     }
+    
+    func testNegatedReportingOverflow() {
+        let abc = T(x64:(0, 1, 2, 3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.negatedReportingOverflow()
+        }
+    }
 }
 
 #endif

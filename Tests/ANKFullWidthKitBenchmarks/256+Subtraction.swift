@@ -33,16 +33,52 @@ final class Int256BenchmarksOnSubtraction: XCTestCase {
         }
     }
     
+    func testSubtractingWrappingAround() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = T(x64:( 0,  1,  2,  3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs &- rhs
+        }
+    }
+    
+    func testSubtractingReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = T(x64:( 0,  1,  2,  3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.subtractingReportingOverflow(rhs)
+        }
+    }
+    
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Int
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testSubtractingInt() {
+    func testSubtractingDigit() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = Int.max
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs - rhs
+        }
+    }
+    
+    func testSubtractingDigitWrappingAround() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = Int.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs &- rhs
+        }
+    }
+    
+    func testSubtractingDigitReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = Int.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.subtractingReportingOverflow(rhs)
         }
     }
 }
@@ -68,16 +104,52 @@ final class UInt256BenchmarksOnSubtraction: XCTestCase {
         }
     }
     
+    func testSubtractingWrappingAround() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = T(x64:( 0,  1,  2,  3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs &- rhs
+        }
+    }
+    
+    func testSubtractingReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = T(x64:( 0,  1,  2,  3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.subtractingReportingOverflow(rhs)
+        }
+    }
+    
     //=------------------------------------------------------------------------=
-    // MARK: Tests x UInt
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testSubtractingUInt() {
+    func testSubtractingDigit() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = UInt.max
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs - rhs
+        }
+    }
+    
+    func testSubtractingDigitWrappingAround() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = UInt.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs &- rhs
+        }
+    }
+    
+    func testSubtractingDigitReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = UInt.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.subtractingReportingOverflow(rhs)
         }
     }
 }

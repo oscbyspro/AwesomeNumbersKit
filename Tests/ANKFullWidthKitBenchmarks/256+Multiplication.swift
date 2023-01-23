@@ -24,9 +24,27 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testMultiplied() {
+        let lhs = T(x64:(~0, ~0, 0, 0))
+        let rhs = T(x64:(~0, ~0, 0, 0))
+
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs * rhs
+        }
+    }
+    
+    func testMultipliedReportingOverflow() {
+        let lhs = T(x64:(~0, ~0, 0, 0))
+        let rhs = T(x64:(~0, ~0, 0, 0))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.multipliedReportingOverflow(by: rhs)
+        }
+    }
+    
     func testMultipliedFullWidth() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
-        let rhs = T(x64:( 0,  1,  2,  3))
+        let lhs = T(x64:(~0, ~0, 0, 0))
+        let rhs = T(x64:(~0, ~0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs.multipliedFullWidth(by: rhs)
@@ -34,11 +52,29 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Int
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testMultipliedByIntFullWidth() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
+    func testMultipliedByDigit() {
+        let lhs = T(x64:(~0, ~0, 0, 0))
+        let rhs = Int.max
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs * rhs
+        }
+    }
+    
+    func testMultipliedByDigitReportingOverflow() {
+        let lhs = T(x64:(~0, ~0, 0, 0))
+        let rhs = Int.max
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.multipliedReportingOverflow(by: rhs)
+        }
+    }
+    
+    func testMultipliedByDigitFullWidth() {
+        let lhs = T(x64:(~0, ~0, 0, 0))
         let rhs = Int.max
         
         for _ in 0 ..< 1_000_000 {
@@ -59,9 +95,27 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testMultiplied() {
+        let lhs = T(x64:(~0, ~0, 0, 0))
+        let rhs = T(x64:(~0, ~0, 0, 0))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs * rhs
+        }
+    }
+    
+    func testMultipliedReportingOverflow() {
+        let lhs = T(x64:(~0, ~0, 0, 0))
+        let rhs = T(x64:(~0, ~0, 0, 0))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.multipliedReportingOverflow(by: rhs)
+        }
+    }
+    
     func testMultipliedFullWidth() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
-        let rhs = T(x64:( 0,  1,  2,  3))
+        let lhs = T(x64:(~0, ~0, 0, 0))
+        let rhs = T(x64:(~0, ~0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs.multipliedFullWidth(by: rhs)
@@ -69,11 +123,29 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x UInt
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testMultipliedByUIntFullWidth() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
+    func testMultipliedByDigit() {
+        let lhs = T(x64:(~0, ~0, 0, 0))
+        let rhs = UInt.max
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs * rhs
+        }
+    }
+    
+    func testMultipliedByDigitReportingOverflow() {
+        let lhs = T(x64:(~0, ~0, 0, 0))
+        let rhs = UInt.max
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.multipliedReportingOverflow(by: rhs)
+        }
+    }
+    
+    func testMultipliedByDigitFullWidth() {
+        let lhs = T(x64:(~0, ~0, 0, 0))
         let rhs = UInt.max
         
         for _ in 0 ..< 1_000_000 {

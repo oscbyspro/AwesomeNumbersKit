@@ -110,7 +110,7 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
         let abc = ANKSigned(M(x64:(0, 1, 2, 3)), as: .plus )
         let xyz = ANKSigned(M(x64:(0, 1, 2, 3)), as: .minus)
         
-        for _ in 0 ..< 1_000 {
+        for _ in 0 ..< 1_000_000 {
             _ = T(abc)
             _ = T(xyz)
 
@@ -223,7 +223,7 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
         let abc = ANKSigned(M(x64:(0, 1, 2, 3)), as: .plus )
         let xyz = ANKSigned(M(x64:(0, 1, 2, 3)), as: .minus)
         
-        for _ in 0 ..< 1_000 {
+        for _ in 0 ..< 1_000_000 {
             _ = T(abc)
             _ = /*-*/
 

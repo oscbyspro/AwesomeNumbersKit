@@ -34,16 +34,52 @@ final class Int256BenchmarksOnDivision: XCTestCase {
         }
     }
     
+    func testQuotientReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = T(x64:( 0,  1,  2,  3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.dividedReportingOverflow(by: rhs)
+        }
+    }
+    
+    func testRemainderReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = T(x64:( 0,  1,  2,  3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.remainderReportingOverflow(dividingBy: rhs)
+        }
+    }
+    
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Int
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testQuotientAndRemainderDividingByInt() {
+    func testQuotientAndRemainderDividingByDigit() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = Int.max
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs.quotientAndRemainder(dividingBy: rhs)
+        }
+    }
+    
+    func testQuotientDividingByDigitReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = Int.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.dividedReportingOverflow(by: rhs)
+        }
+    }
+    
+    func testRemainderDividingByDigitReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = Int.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.remainderReportingOverflow(dividingBy: rhs)
         }
     }
     
@@ -83,16 +119,52 @@ final class UInt256BenchmarksOnDivision: XCTestCase {
         }
     }
     
+    func testQuotientReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = T(x64:( 0,  1,  2,  3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.dividedReportingOverflow(by: rhs)
+        }
+    }
+    
+    func testRemainderReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = T(x64:( 0,  1,  2,  3))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.remainderReportingOverflow(dividingBy: rhs)
+        }
+    }
+    
     //=------------------------------------------------------------------------=
-    // MARK: Tests x UInt
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testQuotientAndRemainderDividingByUInt() {
+    func testQuotientAndRemainderDividingByDigit() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = UInt.max
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs.quotientAndRemainder(dividingBy: rhs)
+        }
+    }
+    
+    func testQuotientDividingByDigitReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = UInt.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.dividedReportingOverflow(by: rhs)
+        }
+    }
+    
+    func testRemainderDividingByDigitReportingOverflow() {
+        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let rhs = UInt.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.remainderReportingOverflow(dividingBy: rhs)
         }
     }
     

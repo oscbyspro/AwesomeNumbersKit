@@ -44,6 +44,15 @@ final class ANKSignedBenchmarksOnAddition: XCTestCase {
         }
     }
     
+    func testAddingReportingOverflow() {
+        let lhs = T.max
+        let rhs = T.min
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.addingReportingOverflow(rhs)
+        }
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
@@ -59,10 +68,19 @@ final class ANKSignedBenchmarksOnAddition: XCTestCase {
     
     func testAddingDigitWrappingAround() {
         let lhs = T.max
-        let rhs = T.min
+        let rhs = D.min
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs &+ rhs
+        }
+    }
+    
+    func testAddingDigitReportingOverflow() {
+        let lhs = T.max
+        let rhs = D.min
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.addingReportingOverflow(rhs)
         }
     }
 }

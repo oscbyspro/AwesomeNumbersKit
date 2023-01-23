@@ -44,6 +44,15 @@ final class ANKSignedBenchmarksOnSubtraction: XCTestCase {
         }
     }
     
+    func testSubtractingReportingOverflow() {
+        let lhs = T.max
+        let rhs = T.max
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.subtractingReportingOverflow(rhs)
+        }
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
@@ -63,6 +72,15 @@ final class ANKSignedBenchmarksOnSubtraction: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs &- rhs
+        }
+    }
+    
+    func testSubtractingDigitReportingOverflow() {
+        let lhs = T.max
+        let rhs = D.max
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.subtractingReportingOverflow(rhs)
         }
     }
 }

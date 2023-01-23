@@ -35,6 +35,15 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         }
     }
     
+    func testMultipliedReportingOverflow() {
+        let lhs = T(4, as: .plus )
+        let rhs = T(4, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.multipliedReportingOverflow(by: rhs)
+        }
+    }
+    
     func testMultipliedFullWidth() {
         let lhs = T(4, as: .plus )
         let rhs = T(4, as: .minus)
@@ -54,6 +63,15 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs * rhs
+        }
+    }
+    
+    func testMultipliedByDigitReportingOverflow() {
+        let lhs = T(4, as: .plus )
+        let rhs = D(4, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.multipliedReportingOverflow(by: rhs)
         }
     }
     

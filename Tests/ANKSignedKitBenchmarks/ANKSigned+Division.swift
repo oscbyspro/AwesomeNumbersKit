@@ -36,6 +36,24 @@ final class ANKSignedBenchmarksOnDivision: XCTestCase {
         }
     }
     
+    func testQuotientReportingOverflow() {
+        let lhs = T(7, as: .plus )
+        let rhs = T(3, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.dividedReportingOverflow(by: rhs)
+        }
+    }
+    
+    func testRemainderReportingOverflow() {
+        let lhs = T(7, as: .plus )
+        let rhs = T(3, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.remainderReportingOverflow(dividingBy: rhs)
+        }
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
@@ -46,6 +64,25 @@ final class ANKSignedBenchmarksOnDivision: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs.quotientAndRemainder(dividingBy: rhs)
+        }
+    }
+    
+    
+    func testQuotientDividingByDigitReportingOverflow() {
+        let lhs = T(7, as: .plus )
+        let rhs = D(3, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.dividedReportingOverflow(by: rhs)
+        }
+    }
+    
+    func testRemainderDividingByDigitReportingOverflow() {
+        let lhs = T(7, as: .plus )
+        let rhs = D(3, as: .minus)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = lhs.remainderReportingOverflow(dividingBy: rhs)
         }
     }
     

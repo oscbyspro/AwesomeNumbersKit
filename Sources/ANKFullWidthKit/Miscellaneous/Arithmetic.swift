@@ -87,12 +87,12 @@ extension UInt {
         //=--------------------------------------=
         while true {
             //=----------------------------------=
-            let product = power.multipliedFullWidth(by: radix)
-            //=----------------------------------=
-            guard product.high.isZero else {
-                if  product.low.isZero {
+            let product = power.multipliedReportingOverflow(by: radix)
+            if  product.overflow {
+                //=------------------------------=
+                if  product.partialValue.isZero {
                     exponent &+= 1
-                    power = product.low
+                    power = product.partialValue
                 }
                 //=------------------------------=
                 assert(power.isZero == radix.isPowerOf2)
@@ -100,7 +100,7 @@ extension UInt {
             }
             //=----------------------------------=
             exponent &+= 1
-            power = product.low
+            power = product.partialValue
         }
     }
 }
