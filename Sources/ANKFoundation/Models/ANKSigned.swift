@@ -69,12 +69,12 @@
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    /// Creates a new value equal to zero.
+    /// Creates a new instance equal to zero.
     @inlinable public init() {
         self.init(Magnitude(), as: ANKSign.plus)
     }
     
-    /// Creates a new value with the given sign and magnitude.
+    /// Creates a new instance with the given sign and magnitude.
     @inlinable public init(_ magnitude: Magnitude, as sign: ANKSign) {
         self.sign = sign; self.magnitude = magnitude
     }
@@ -134,6 +134,7 @@ extension ANKSigned {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    /// Returns `1` if this value is positive, `-1` if it is negative, and `0` otherwise.
     @inlinable public func signum() -> Int {
         self.isZero ? 0 : self.sign == ANKSign.plus ? 1 : -1
     }

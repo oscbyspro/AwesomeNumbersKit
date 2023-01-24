@@ -17,7 +17,7 @@
 ///
 /// **Two's Complement Semantics**
 ///
-/// Like `BinaryInteger`, all bitwise operations have two's complement semantics.
+/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where Magnitude: ANKUnsignedInteger {
     
@@ -26,6 +26,12 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     //=------------------------------------------------------------------------=
     
     /// Creates a new instance from the given bit.
+    ///
+    /// ```
+    /// Int8(bit: false) // Int8(0)
+    /// Int8(bit: true ) // Int8(1)
+    /// ```
+    ///
     @inlinable init(bit: Bool)
     
     //=------------------------------------------------------------------------=
@@ -41,10 +47,10 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// Returns whether this value is more than zero.
     @inlinable var isMoreThanZero: Bool { get }
     
-    /// Returns the most significant bit in two's complement form.
+    /// Returns the most significant bit, in two's complement form.
     @inlinable var mostSignificantBit:  Bool { get }
     
-    /// Returns the least significant bit in two's complement form.
+    /// Returns the least significant bit, in two's complement form.
     @inlinable var leastSignificantBit: Bool { get }
     
     //=------------------------------------------------------------------------=

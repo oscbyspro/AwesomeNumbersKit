@@ -17,7 +17,7 @@
 ///
 /// **Two's Complement Semantics**
 ///
-/// Like `BinaryInteger`, all bitwise operations have two's complement semantics.
+/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where Magnitude: ANKUnsignedFixedWidthInteger {
     
@@ -25,7 +25,13 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    /// Creates a new instance repeating the given bit in two's complement form.
+    /// Creates a new instance repeating the given bit, in two's complement form.
+    ///
+    /// ```
+    /// Int8(repeating: false) // Int8( 0)
+    /// Int8(repeating: true ) // Int8(-1)
+    /// ```
+    ///
     @inlinable init(repeating bit: Bool)
     
     //=------------------------------------------------------------------------=

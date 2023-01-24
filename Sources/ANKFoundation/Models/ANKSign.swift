@@ -13,7 +13,7 @@
 
 /// The sign of a numeric value.
 ///
-/// Bitwise operations work under the assumption that `plus` equals `0` and `minus` equals `1`.
+/// Bitwise operations assume that `plus` equals `0` and `minus` equals `1`.
 ///
 @frozen public enum ANKSign: CustomStringConvertible, Equatable {
     

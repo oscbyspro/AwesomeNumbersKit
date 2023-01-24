@@ -30,12 +30,18 @@ extension ANKFullWidth where Magnitude == ANKUInt256 {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    /// Creates a new instance from the given tuple.
+    ///
     /// - Parameter x64: A tuple of `UInt64` words, from least significant to most.
+    ///
     @_transparent public init(x64: X64_256) {
         self.init(ascending: unsafeBitCast(x64, to: LH<Low, High>.self))
     }
     
+    /// Creates a new instance from the given tuple.
+    ///
     /// - Parameter x32: A tuple of `UInt32` words, from least significant to most.
+    ///
     @_transparent public init(x32: X32_256) {
         self.init(ascending: unsafeBitCast(x32, to: LH<Low, High>.self))
     }

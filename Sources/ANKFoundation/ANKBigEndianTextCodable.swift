@@ -42,7 +42,7 @@ extension ANKBigEndianTextCodable {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    /// Creates a new integer value from the given string and optional radix.
+    /// Creates a new instance from the given string and optional radix.
     ///
     /// When the radix is `nil`, the radix is either decoded from the string or,
     /// if it is cannot be decoded form the string, it is assigned the value 10.

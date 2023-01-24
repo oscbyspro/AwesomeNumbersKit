@@ -15,7 +15,7 @@
 ///
 /// **Two's Complement Semantics**
 ///
-/// Like `BinaryInteger`, all bitwise operations have two's complement semantics.
+/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKLargeFixedWidthInteger<Digit>: ANKFixedWidthInteger, ANKLargeBinaryInteger where
 Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
