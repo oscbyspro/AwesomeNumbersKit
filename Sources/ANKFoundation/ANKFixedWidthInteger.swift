@@ -13,10 +13,6 @@
 
 /// An awesome, fixed-width, binary integer.
 ///
-/// All fixed-width integers in `AwesomeNumbersKit` conform to `ANKFixedWidthInteger`.
-///
-/// **Two's Complement Semantics**
-///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where Magnitude: ANKUnsignedFixedWidthInteger {
@@ -94,6 +90,10 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
 // MARK: * ANK x Fixed Width Integer x Signed
 //*============================================================================*
 
+/// An awesome, signed, fixed-width, binary integer.
+///
+/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
+///
 public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteger {
     
     //=------------------------------------------------------------------------=
@@ -127,4 +127,8 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
 // MARK: * ANK x Fixed Width Integer x Unsigned
 //*============================================================================*
 
+/// An awesome, unsigned, fixed-width, binary integer.
+///
+/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
+///
 public protocol ANKUnsignedFixedWidthInteger: ANKFixedWidthInteger, ANKUnsignedInteger { }

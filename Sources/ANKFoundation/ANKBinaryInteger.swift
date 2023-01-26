@@ -13,10 +13,6 @@
 
 /// An awesome binary integer.
 ///
-/// All binary integers in `AwesomeNumbersKit` conform to `ANKBinaryInteger`.
-///
-/// **Two's Complement Semantics**
-///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where Magnitude: ANKUnsignedInteger {
@@ -177,12 +173,20 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
 // MARK: * ANK x Binary Integer x Signed
 //*============================================================================*
 
+/// An awesome signed integer.
+///
+/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
+///
 public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger { }
 
 //*============================================================================*
 // MARK: * ANK x Binary Integer x Unsigned
 //*============================================================================*
 
+/// An awesome unsigned integer.
+///
+/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
+///
 public protocol ANKUnsignedInteger: ANKBinaryInteger, UnsignedInteger { }
 
 //*============================================================================*

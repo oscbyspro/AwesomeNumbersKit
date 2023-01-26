@@ -13,8 +13,6 @@
 
 /// An awesome, large, binary integer.
 ///
-/// **Two's Complement Semantics**
-///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: ANKUnsignedLargeBinaryInteger {
@@ -234,6 +232,10 @@ extension ANKLargeBinaryInteger where Digit == Self {
 // MARK: * ANK x Binary Integer x Large x Signed
 //*============================================================================*
 
+/// An awesome, signed, large, binary integer.
+///
+/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
+///
 public protocol ANKSignedLargeBinaryInteger<Digit>: ANKLargeBinaryInteger,
 ANKSignedInteger where Digit: ANKSignedInteger { }
 
@@ -241,6 +243,10 @@ ANKSignedInteger where Digit: ANKSignedInteger { }
 // MARK: * ANK x Binary Integer x Large x Unsigned
 //*============================================================================*
 
+/// An awesome, unsigned, large, binary integer.
+///
+/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
+///
 public protocol ANKUnsignedLargeBinaryInteger<Digit>: ANKLargeBinaryInteger,
 ANKUnsignedInteger where Digit: ANKUnsignedInteger, Digit.Magnitude == Digit { }
 
@@ -248,4 +254,27 @@ ANKUnsignedInteger where Digit: ANKUnsignedInteger, Digit.Magnitude == Digit { }
 // MARK: * ANK x Binary Integer x Large x Digit != Self
 //*============================================================================*
 
+/// An awesome, large, binary integer with a digit type that is not itself.
+///
+/// This marker protocol expresses a constraint that cannot be expressed in Swift.
+///
+/// ```
+/// extension ANKSigned {
+///     static func +(lhs: Self, rhs: Self ) -> Self
+///     static func +(lhs: Self, rhs: Digit) -> Self // 🙏 where Digit != Self 🙏
+/// }
+/// ```
+///
+/// This constraint is needed to resolve ambiguity in models like `ANKSigned<UInt>`.
+///
+/// ```
+/// extension ANKSigned {
+///     static func +(lhs: Self, rhs: Self ) -> Self
+/// }
+///
+/// extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
+///     static func +(lhs: Self, rhs: Digit) -> Self // 🥳
+/// }
+/// ```
+///
 public protocol ANKLargeBinaryIntegerWhereDigitIsNotSelf<Digit>: ANKLargeBinaryInteger { }

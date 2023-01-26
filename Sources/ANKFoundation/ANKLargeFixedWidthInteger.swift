@@ -13,8 +13,6 @@
 
 /// An awesome, large, fixed-width, binary integer.
 ///
-/// **Two's Complement Semantics**
-///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKLargeFixedWidthInteger<Digit>: ANKFixedWidthInteger, ANKLargeBinaryInteger where
@@ -158,6 +156,10 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
 // MARK: * ANK x Fixed Width Integer x Large x Signed
 //*============================================================================*
 
+/// An awesome, signed, large, fixed-width, binary integer.
+///
+/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
+///
 public protocol ANKSignedLargeFixedWidthInteger<Digit>: ANKLargeFixedWidthInteger,
 ANKSignedFixedWidthInteger, ANKSignedLargeBinaryInteger where Digit: ANKSignedFixedWidthInteger { }
 
@@ -165,5 +167,9 @@ ANKSignedFixedWidthInteger, ANKSignedLargeBinaryInteger where Digit: ANKSignedFi
 // MARK: * ANK x Fixed Width Integer x Large x Unsigned
 //*============================================================================*
 
+/// An awesome, unsigned, large, fixed-width, binary integer.
+///
+/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
+///
 public protocol ANKUnsignedLargeFixedWidthInteger<Digit>: ANKLargeFixedWidthInteger,
 ANKUnsignedFixedWidthInteger, ANKUnsignedLargeBinaryInteger where Digit: ANKUnsignedFixedWidthInteger { }

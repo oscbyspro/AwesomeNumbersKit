@@ -16,6 +16,33 @@ import ANKFoundation
 extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public init(stringLiteral source: String) {
+        self.init(decoding: source, radix: nil)!
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public var description: String {
+        String(encoding: self)
+    }
+    
+    @inlinable public var debugDescription: String {
+        "\(Self.self)(\(self.lazy.map(String.init).joined(separator: ", ")))"
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Full Width x Text x Big Endian Text Codable
+//*============================================================================*
+
+extension ANKFullWidth {
+    
+    //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
@@ -208,39 +235,5 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
                 text += digits
             }
         }
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Full Width x Text x Literal
-//*============================================================================*
-
-extension ANKFullWidth {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public init(stringLiteral source: String) {
-        self.init(decoding: source, radix: nil)!
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Full Width x Text x Description
-//*============================================================================*
-
-extension ANKFullWidth {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public var description: String {
-        String(encoding: self)
-    }
-    
-    @inlinable public var debugDescription: String {
-        "\(Self.self)(\(self.lazy.map(String.init).joined(separator: ", ")))"
     }
 }

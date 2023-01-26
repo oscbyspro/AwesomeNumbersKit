@@ -208,9 +208,9 @@ extension ANKFullWidth where Self == Magnitude {
         // Shifting To Undo Shift Before Division
         //=--------------------------------------=
         remainder._bitshiftRight(words: Int(), bits: shift)
-        //=------------------------------=
+        //=--------------------------------------=
         assert(remainder.high.isZero)
-        //=------------------------------=
+        //=--------------------------------------=
         return QR(quotient, remainder.low)
     }
     
