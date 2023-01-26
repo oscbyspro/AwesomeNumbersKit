@@ -13,7 +13,7 @@ import ANKFoundation
 // MARK: * ANK x Signed x Large x Multiplication
 //*============================================================================*
 
-extension ANKLargeSigned {
+extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -32,7 +32,7 @@ extension ANKLargeSigned {
 // MARK: * ANK x Signed x Large x Fixed Width x Multiplication
 //*============================================================================*
 
-extension ANKLargeSigned where Magnitude: ANKLargeFixedWidthInteger {
+extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf & ANKLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

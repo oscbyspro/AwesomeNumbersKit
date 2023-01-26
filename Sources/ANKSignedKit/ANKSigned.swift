@@ -30,7 +30,7 @@ extension ANKSigned: SignedNumeric {
 // MARK: * ANK x Signed x Large
 //*============================================================================*
 
-extension ANKLargeSigned {
+extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
     
     public typealias Digit = ANKSigned<Magnitude.Digit>
     

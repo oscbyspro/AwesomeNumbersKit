@@ -127,6 +127,19 @@ final class ANKSignedTestsOnDivision: XCTestCase {
         XCTAssert(T(-1).dividingFullWidth(( T(2), M( 3))) == (-T(3),  T(0)) as (T, T))
         XCTAssert(T(-1).dividingFullWidth((-T(2), M( 3))) == ( T(3), -T(0)) as (T, T))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreNonambiguousWhereDigitIsSelf() {
+        XCTAssert(D.Magnitude.self == D.Magnitude.Digit.self)
+        XCTAssertNotNil(D(7) / D(3))
+        XCTAssertNotNil(D(7) % D(3))
+        XCTAssertNotNil(D(7).dividedReportingOverflow(by: D(3)))
+        XCTAssertNotNil(D(7).remainderReportingOverflow(dividingBy: D(3)))
+        XCTAssertNotNil(D(3).dividingFullWidth((D(0), UInt(7))))
+    }
 }
 
 #endif

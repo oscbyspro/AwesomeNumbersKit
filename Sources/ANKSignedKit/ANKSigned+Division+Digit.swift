@@ -13,7 +13,7 @@ import ANKFoundation
 // MARK: * ANK x Signed x Large x Division
 //*============================================================================*
 
-extension ANKLargeSigned {
+extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

@@ -165,6 +165,17 @@ final class ANKSignedTestsOnAddition: XCTestCase {
         XCTAssert(T.min.addingReportingOverflow(D(-2)) == (T(  ) - D(1), true ) as (T, Bool))
         XCTAssert(T.max.addingReportingOverflow(D(-2)) == (T.max - D(2), false) as (T, Bool))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreNonambiguousWhereDigitIsSelf() {
+        XCTAssert(D.Magnitude.self == D.Magnitude.Digit.self)
+        XCTAssertNotNil(D(2)  + D(3))
+        XCTAssertNotNil(D(2) &+ D(3))
+        XCTAssertNotNil(D(2).addingReportingOverflow(D(3)))
+    }
 }
 
 #endif

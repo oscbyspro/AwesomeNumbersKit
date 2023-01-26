@@ -82,6 +82,18 @@ final class ANKSignedTestsOnMultiplication: XCTestCase {
         XCTAssert(T(-2).multipliedFullWidth(by:  D(3)) == (-D(0),  M(6)) as (D, M))
         XCTAssert(T(-2).multipliedFullWidth(by: -D(3)) == ( D(0),  M(6)) as (D, M))
     }
+    
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreNonambiguousWhereDigitIsSelf() {
+        XCTAssert(D.Magnitude.self == D.Magnitude.Digit.self)
+        XCTAssertNotNil(D(2) * D(3))
+        XCTAssertNotNil(D(2).multipliedReportingOverflow(by: D(3)))
+        XCTAssertNotNil(D(2).multipliedFullWidth(by: D(3)))
+    }
 }
 
 #endif

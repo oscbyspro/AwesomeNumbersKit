@@ -95,14 +95,6 @@
 }
 
 //*============================================================================*
-// MARK: * ANK x Signed x Aliases
-//*============================================================================*
-
-public typealias ANKLargeSigned<T> = ANKSigned<T> where
-T: ANKLargeBinaryIntegerWhereDigitIsNotSelf,
-T: ANKUnsignedLargeBinaryInteger, T == T.Magnitude
-
-//*============================================================================*
 // MARK: * ANK x Signed x Comparison
 //*============================================================================*
 
