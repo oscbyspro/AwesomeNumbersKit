@@ -28,14 +28,14 @@ final class Int256Tests: XCTestCase {
         XCTAssertEqual(T(), 0)
     }
     
-    func testInitWithUInt64() {
+    func testInitX64() {
         XCTAssertEqual(T(x64:(1, 0, 0, 0)), T(1) <<   0)
         XCTAssertEqual(T(x64:(0, 1, 0, 0)), T(1) <<  64)
         XCTAssertEqual(T(x64:(0, 0, 1, 0)), T(1) << 128)
         XCTAssertEqual(T(x64:(0, 0, 0, 1)), T(1) << 192)
     }
     
-    func testInitWithUInt32() {
+    func testInitX32() {
         XCTAssertEqual(T(x32:(1, 0, 0, 0, 0, 0, 0, 0)), T(1) <<   0)
         XCTAssertEqual(T(x32:(0, 1, 0, 0, 0, 0, 0, 0)), T(1) <<  32)
         XCTAssertEqual(T(x32:(0, 0, 1, 0, 0, 0, 0, 0)), T(1) <<  64)
@@ -63,14 +63,14 @@ final class UInt256Tests: XCTestCase {
         XCTAssertEqual(T(), 0)
     }
     
-    func testInitWithUInt64() {
+    func testInitX64() {
         XCTAssertEqual(T(x64:(1, 0, 0, 0)), T(1) <<   0)
         XCTAssertEqual(T(x64:(0, 1, 0, 0)), T(1) <<  64)
         XCTAssertEqual(T(x64:(0, 0, 1, 0)), T(1) << 128)
         XCTAssertEqual(T(x64:(0, 0, 0, 1)), T(1) << 192)
     }
     
-    func testInitWithUInt32() {        
+    func testInitX32() {        
         XCTAssertEqual(T(x32:(1, 0, 0, 0, 0, 0, 0, 0)), T(1) <<   0)
         XCTAssertEqual(T(x32:(0, 1, 0, 0, 0, 0, 0, 0)), T(1) <<  32)
         XCTAssertEqual(T(x32:(0, 0, 1, 0, 0, 0, 0, 0)), T(1) <<  64)

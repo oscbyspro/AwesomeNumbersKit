@@ -13,14 +13,14 @@ import ANKFoundation
 // MARK: * ANK x (U)Int128
 //*============================================================================*
 
-public typealias  ANKInt128 = ANKFullWidth< ANKInt64, ANKUInt64>
-public typealias ANKUInt128 = ANKFullWidth<ANKUInt64, ANKUInt64>
+public typealias  ANKInt192 = ANKFullWidth< ANKInt64, ANKUInt128>
+public typealias ANKUInt192 = ANKFullWidth<ANKUInt64, ANKUInt128>
 
 //*============================================================================*
-// MARK: * ANK x (U)Int128 x X(32/64)
+// MARK: * ANK x (U)Int192 x X(32/64)
 //*============================================================================*
 
-extension ANKFullWidth where Magnitude == ANKUInt128 {
+extension ANKFullWidth where Magnitude == ANKUInt192 {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -30,7 +30,7 @@ extension ANKFullWidth where Magnitude == ANKUInt128 {
     ///
     /// - Parameter x64: A tuple of `UInt64` words, from least significant to most.
     ///
-    @_transparent public init(x64: ANK128X64) {
+    @_transparent public init(x64: ANK192X64) {
         self.init(ascending: unsafeBitCast(x64, to: LH<Low, High>.self))
     }
     
@@ -38,15 +38,15 @@ extension ANKFullWidth where Magnitude == ANKUInt128 {
     ///
     /// - Parameter x32: A tuple of `UInt32` words, from least significant to most.
     ///
-    @_transparent public init(x32: ANK128X32) {
+    @_transparent public init(x32: ANK192X32) {
         self.init(ascending: unsafeBitCast(x32, to: LH<Low, High>.self))
     }
 }
 
 //*============================================================================*
-// MARK: * ANK x (U)Int128 x Tuples
+// MARK: * ANK x (U)Int192 x Tuples
 //*============================================================================*
 
-public typealias ANK128X64 = (UInt64, UInt64)
+public typealias ANK192X64 = (UInt64, UInt64, UInt64)
 
-public typealias ANK128X32 = (UInt32, UInt32, UInt32, UInt32)
+public typealias ANK192X32 = (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)

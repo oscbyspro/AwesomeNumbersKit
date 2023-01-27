@@ -88,14 +88,19 @@ extension ANKFullWidth {
         amount .withUnsafeWordsPointer { RHS in
         product.withUnsafeMutableWordsPointer { PRODUCT in
             //=----------------------------------=
-            var carry: UInt = UInt()
             for lhsIndex: Int in LHS.indices {
-            for rhsIndex: Int in RHS.indices {
-                let lhsWord: UInt = LHS[lhsIndex]
-                let rhsWord: UInt = RHS[rhsIndex]
-                let productIndex: Int = lhsIndex &+ rhsIndex
-                carry = PRODUCT[productIndex].addFullWidth(carry, multiplicands:(lhsWord, rhsWord))
-            }}
+                var carry: UInt = UInt()
+                var productIndex: Int = lhsIndex
+                defer { PRODUCT[productIndex] = carry }
+                
+                for rhsIndex: Int in RHS.indices {
+                    let lhsWord: UInt = LHS[lhsIndex]
+                    let rhsWord: UInt = RHS[rhsIndex]
+                    
+                    carry = PRODUCT[productIndex].addFullWidth(carry, multiplicands:(lhsWord, rhsWord))
+                    PRODUCT.formIndex(after: &productIndex)
+                }
+            }
             //=----------------------------------=
             if  lhsIsLessThanZero {
                 var carry: Bool = true

@@ -13,12 +13,12 @@ import ANKFullWidthKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Int128
+// MARK: * Int192
 //*============================================================================*
 
-final class Int128Tests: XCTestCase {
+final class Int192Tests: XCTestCase {
     
-    typealias T = ANKInt128
+    typealias T = ANKInt192
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -29,26 +29,29 @@ final class Int128Tests: XCTestCase {
     }
     
     func testInitX64() {
-        XCTAssertEqual(T(x64:(1, 0)), T(1) <<   0)
-        XCTAssertEqual(T(x64:(0, 1)), T(1) <<  64)
+        XCTAssertEqual(T(x64:(1, 0, 0)), T(1) <<   0)
+        XCTAssertEqual(T(x64:(0, 1, 0)), T(1) <<  64)
+        XCTAssertEqual(T(x64:(0, 0, 1)), T(1) << 128)
     }
     
     func testInitX32() {
-        XCTAssertEqual(T(x32:(1, 0, 0, 0)), T(1) <<   0)
-        XCTAssertEqual(T(x32:(0, 1, 0, 0)), T(1) <<  32)
-        XCTAssertEqual(T(x32:(0, 0, 1, 0)), T(1) <<  64)
-        XCTAssertEqual(T(x32:(0, 0, 0, 1)), T(1) <<  96)
+        XCTAssertEqual(T(x32:(1, 0, 0, 0, 0, 0)), T(1) <<   0)
+        XCTAssertEqual(T(x32:(0, 1, 0, 0, 0, 0)), T(1) <<  32)
+        XCTAssertEqual(T(x32:(0, 0, 1, 0, 0, 0)), T(1) <<  64)
+        XCTAssertEqual(T(x32:(0, 0, 0, 1, 0, 0)), T(1) <<  96)
+        XCTAssertEqual(T(x32:(0, 0, 0, 0, 1, 0)), T(1) << 128)
+        XCTAssertEqual(T(x32:(0, 0, 0, 0, 0, 1)), T(1) << 160)
     }
 }
 
 //*============================================================================*
-// MARK: * UInt128
+// MARK: * UInt192
 //*============================================================================*
 
-final class UInt128Tests: XCTestCase {
+final class UInt192Tests: XCTestCase {
     
-    typealias T = ANKUInt128
-    
+    typealias T = ANKUInt192
+
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
@@ -58,15 +61,18 @@ final class UInt128Tests: XCTestCase {
     }
     
     func testInitX64() {
-        XCTAssertEqual(T(x64:(1, 0)), T(1) <<   0)
-        XCTAssertEqual(T(x64:(0, 1)), T(1) <<  64)
+        XCTAssertEqual(T(x64:(1, 0, 0)), T(1) <<   0)
+        XCTAssertEqual(T(x64:(0, 1, 0)), T(1) <<  64)
+        XCTAssertEqual(T(x64:(0, 0, 1)), T(1) << 128)
     }
     
     func testInitX32() {
-        XCTAssertEqual(T(x32:(1, 0, 0, 0)), T(1) <<   0)
-        XCTAssertEqual(T(x32:(0, 1, 0, 0)), T(1) <<  32)
-        XCTAssertEqual(T(x32:(0, 0, 1, 0)), T(1) <<  64)
-        XCTAssertEqual(T(x32:(0, 0, 0, 1)), T(1) <<  96)
+        XCTAssertEqual(T(x32:(1, 0, 0, 0, 0, 0)), T(1) <<   0)
+        XCTAssertEqual(T(x32:(0, 1, 0, 0, 0, 0)), T(1) <<  32)
+        XCTAssertEqual(T(x32:(0, 0, 1, 0, 0, 0)), T(1) <<  64)
+        XCTAssertEqual(T(x32:(0, 0, 0, 1, 0, 0)), T(1) <<  96)
+        XCTAssertEqual(T(x32:(0, 0, 0, 0, 1, 0)), T(1) << 128)
+        XCTAssertEqual(T(x32:(0, 0, 0, 0, 0, 1)), T(1) << 160)
     }
 }
 

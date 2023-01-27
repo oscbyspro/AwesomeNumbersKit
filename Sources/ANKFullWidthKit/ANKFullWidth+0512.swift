@@ -22,13 +22,6 @@ public typealias ANKUInt512 = ANKFullWidth<ANKUInt256, ANKUInt256>
 
 extension ANKFullWidth where Magnitude == ANKUInt512 {
     
-    public typealias X64_512 = (
-    UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64)
-    
-    public typealias X32_512 = (
-    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
-    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
-    
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
@@ -37,7 +30,7 @@ extension ANKFullWidth where Magnitude == ANKUInt512 {
     ///
     /// - Parameter x64: A tuple of `UInt64` words, from least significant to most.
     ///
-    @_transparent public init(x64: X64_512) {
+    @_transparent public init(x64: ANK512X64) {
         self.init(ascending: unsafeBitCast(x64, to: LH<Low, High>.self))
     }
     
@@ -45,7 +38,18 @@ extension ANKFullWidth where Magnitude == ANKUInt512 {
     ///
     /// - Parameter x32: A tuple of `UInt32` words, from least significant to most.
     ///
-    @_transparent public init(x32: X32_512) {
+    @_transparent public init(x32: ANK512X32) {
         self.init(ascending: unsafeBitCast(x32, to: LH<Low, High>.self))
     }
 }
+
+//*============================================================================*
+// MARK: * ANK x (U)Int512 x Tuples
+//*============================================================================*
+
+public typealias ANK512X64 = (
+UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64)
+
+public typealias ANK512X32 = (
+UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
+UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
