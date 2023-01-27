@@ -81,7 +81,7 @@ final class Int256TestsOnDivision: XCTestCase {
     // MARK: Tests x Int
     //=------------------------------------------------------------------------=
     
-    func testDividingByInt() {
+    func testDividingByDigit() {
         XCTAssertEqual(T( 0) / Int( 1),  0 as T)
         XCTAssertEqual(T( 0) / Int( 2),  0 as T)
         XCTAssertEqual(T( 0) % Int( 1),  0 as Int)
@@ -106,7 +106,7 @@ final class Int256TestsOnDivision: XCTestCase {
         XCTAssertEqual(T(x64:(~5, ~6, ~9, 2)) / Int(3), T(x64:(~1, ~2, ~3, 0)))
     }
     
-    func testQuotientReportingOverflowDividingByInt() {
+    func testQuotientDividingByDigitReportingOverflow() {
         XCTAssert(T.min.dividedReportingOverflow(by:  Int(0)) == (T.min, true) as (T, Bool))
         XCTAssert(T.min.dividedReportingOverflow(by: -Int(1)) == (T.min, true) as (T, Bool))
 
@@ -116,7 +116,7 @@ final class Int256TestsOnDivision: XCTestCase {
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: Int( 2)) == ( T(x64:(0, w/2 + 2, 1, 2)), false) as (T, Bool))
     }
 
-    func testRemainderReportingOverflowDividingByInt() {
+    func testRemainderDividingByDigitReportingOverflow() {
         XCTAssert(T.min.remainderReportingOverflow(dividingBy:  Int(0)) == (Int(0), true) as (Int, Bool))
         XCTAssert(T.min.remainderReportingOverflow(dividingBy: -Int(1)) == (Int(0), true) as (Int, Bool))
         
@@ -221,10 +221,10 @@ final class UInt256TestsOnDivision: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x UInt
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testDividingByUInt() {
+    func testDividingByDigit() {
         XCTAssertEqual(T(0) / UInt(1), 0 as T)
         XCTAssertEqual(T(0) / UInt(2), 0 as T)
         XCTAssertEqual(T(0) % UInt(1), 0 as UInt)
@@ -239,13 +239,13 @@ final class UInt256TestsOnDivision: XCTestCase {
         XCTAssertEqual(T(x64:(~5, ~6, ~9, 2)) / UInt(3), T(x64:(~1, ~2, ~3, 0)))
     }
     
-    func testQuotientReportingOverflowDividingByUInt() {
+    func testQuotientDividingByDigitReportingOverflow() {
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: UInt(0)) == (T(x64:(1,       2, 3, 4)), true ) as (T, Bool))
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: UInt(1)) == (T(x64:(1,       2, 3, 4)), false) as (T, Bool))
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: UInt(2)) == (T(x64:(0, w/2 + 2, 1, 2)), false) as (T, Bool))
     }
     
-    func testRemainderReportingOverflowDividingByUInt() {
+    func testRemainderDividingByDigitReportingOverflow() {
         XCTAssert(T(x64:(1, 2, 3, 4)).remainderReportingOverflow(dividingBy: UInt(0)) == (UInt(0), true ) as (UInt, Bool))
         XCTAssert(T(x64:(1, 2, 3, 4)).remainderReportingOverflow(dividingBy: UInt(1)) == (UInt(0), false) as (UInt, Bool))
         XCTAssert(T(x64:(1, 2, 3, 4)).remainderReportingOverflow(dividingBy: UInt(2)) == (UInt(1), false) as (UInt, Bool))

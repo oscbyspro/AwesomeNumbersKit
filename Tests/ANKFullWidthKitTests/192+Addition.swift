@@ -13,12 +13,12 @@ import ANKFullWidthKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Int256 x Addition
+// MARK: * Int192 x Addition
 //*============================================================================*
 
-final class Int256TestsOnAddition: XCTestCase {
+final class Int192TestsOnAddition: XCTestCase {
     
-    typealias T = ANKInt256
+    typealias T = ANKInt192
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -50,25 +50,21 @@ final class Int256TestsOnAddition: XCTestCase {
         XCTAssertEqual(T(-1) + T( 1), T( 0))
         XCTAssertEqual(T(-1) + T( 2), T( 1))
         
-        XCTAssertEqual(T(x64:(w, w, w, 0)) +  T(x64:(3, 0, 0, 0)), T(x64:( 2,  0,  0,  1)))
-        XCTAssertEqual(T(x64:(w, w, w, 0)) +  T(x64:(0, 3, 0, 0)), T(x64:( w,  2,  0,  1)))
-        XCTAssertEqual(T(x64:(w, w, w, 0)) +  T(x64:(0, 0, 3, 0)), T(x64:( w,  w,  2,  1)))
-        XCTAssertEqual(T(x64:(w, w, w, 0)) +  T(x64:(0, 0, 0, 3)), T(x64:( w,  w,  w,  3)))
+        XCTAssertEqual(T(x64:(w, w, 0)) +  T(x64:(3, 0, 0)), T(x64:( 2,  0,  1)))
+        XCTAssertEqual(T(x64:(w, w, 0)) +  T(x64:(0, 3, 0)), T(x64:( w,  2,  1)))
+        XCTAssertEqual(T(x64:(w, w, 0)) +  T(x64:(0, 0, 3)), T(x64:( w,  w,  3)))
         
-        XCTAssertEqual(T(x64:(w, w, w, 0)) + -T(x64:(3, 0, 0, 0)), T(x64:(~3,  w,  w,  0)))
-        XCTAssertEqual(T(x64:(w, w, w, 0)) + -T(x64:(0, 3, 0, 0)), T(x64:( w, ~3,  w,  0)))
-        XCTAssertEqual(T(x64:(w, w, w, 0)) + -T(x64:(0, 0, 3, 0)), T(x64:( w,  w, ~3,  0)))
-        XCTAssertEqual(T(x64:(w, w, w, 0)) + -T(x64:(0, 0, 0, 3)), T(x64:( w,  w,  w, ~2)))
+        XCTAssertEqual(T(x64:(w, w, 0)) + -T(x64:(3, 0, 0)), T(x64:(~3,  w,  0)))
+        XCTAssertEqual(T(x64:(w, w, 0)) + -T(x64:(0, 3, 0)), T(x64:( w, ~3,  0)))
+        XCTAssertEqual(T(x64:(w, w, 0)) + -T(x64:(0, 0, 3)), T(x64:( w,  w, ~2)))
         
-        XCTAssertEqual(T(x64:(0, 0, 0, w)) +  T(x64:(3, 0, 0, 0)), T(x64:( 3,  0,  0,  w)))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)) +  T(x64:(0, 3, 0, 0)), T(x64:( 0,  3,  0,  w)))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)) +  T(x64:(0, 0, 3, 0)), T(x64:( 0,  0,  3,  w)))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)) +  T(x64:(0, 0, 0, 3)), T(x64:( 0,  0,  0,  2)))
+        XCTAssertEqual(T(x64:(0, 0, w)) +  T(x64:(3, 0, 0)), T(x64:( 3,  0,  w)))
+        XCTAssertEqual(T(x64:(0, 0, w)) +  T(x64:(0, 3, 0)), T(x64:( 0,  3,  w)))
+        XCTAssertEqual(T(x64:(0, 0, w)) +  T(x64:(0, 0, 3)), T(x64:( 0,  0,  2)))
         
-        XCTAssertEqual(T(x64:(0, 0, 0, w)) + -T(x64:(3, 0, 0, 0)), T(x64:(~2,  w,  w, ~1)))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)) + -T(x64:(0, 3, 0, 0)), T(x64:( 0, ~2,  w, ~1)))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)) + -T(x64:(0, 0, 3, 0)), T(x64:( 0,  0, ~2, ~1)))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)) + -T(x64:(0, 0, 0, 3)), T(x64:( 0,  0,  0, ~3)))
+        XCTAssertEqual(T(x64:(0, 0, w)) + -T(x64:(3, 0, 0)), T(x64:(~2,  w, ~1)))
+        XCTAssertEqual(T(x64:(0, 0, w)) + -T(x64:(0, 3, 0)), T(x64:( 0, ~2, ~1)))
+        XCTAssertEqual(T(x64:(0, 0, w)) + -T(x64:(0, 0, 3)), T(x64:( 0,  0, ~3)))
     }
     
     func testAddingWrappingAround() {
@@ -88,10 +84,10 @@ final class Int256TestsOnAddition: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Digit
+    // MARK: Tests x Int
     //=------------------------------------------------------------------------=
     
-    func testAddingDigit() {
+    func testAddingInt() {
         XCTAssertEqual(T( 1) + Int(-2), T(-1))
         XCTAssertEqual(T( 1) + Int(-1), T( 0))
         XCTAssertEqual(T( 1) + Int( 0), T( 1))
@@ -110,13 +106,13 @@ final class Int256TestsOnAddition: XCTestCase {
         XCTAssertEqual(T(-1) + Int( 1), T( 0))
         XCTAssertEqual(T(-1) + Int( 2), T( 1))
         
-        XCTAssertEqual(T(x64:(w, w, w, 0)) +  Int(3), T(x64:( 2,  0,  0,  1)))
-        XCTAssertEqual(T(x64:(w, w, w, 0)) + -Int(3), T(x64:(~3,  w,  w,  0)))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)) +  Int(3), T(x64:( 3,  0,  0,  w)))
-        XCTAssertEqual(T(x64:(0, 0, 0, w)) + -Int(3), T(x64:(~2,  w,  w, ~1)))
+        XCTAssertEqual(T(x64:(w, w, 0)) +  Int(3), T(x64:( 2,  0,   1)))
+        XCTAssertEqual(T(x64:(w, w, 0)) + -Int(3), T(x64:(~3,  w,   0)))
+        XCTAssertEqual(T(x64:(0, 0, w)) +  Int(3), T(x64:( 3,  0,   w)))
+        XCTAssertEqual(T(x64:(0, 0, w)) + -Int(3), T(x64:(~2,  w,  ~1)))
     }
     
-    func testAddingDigitWrappingAround() {
+    func testAddingIntWrappingAround() {
         XCTAssertEqual(T.min &+ Int( 1), T.min + T(1))
         XCTAssertEqual(T.max &+ Int( 1), T.min)
 
@@ -124,7 +120,7 @@ final class Int256TestsOnAddition: XCTestCase {
         XCTAssertEqual(T.max &+ Int(-1), T.max - T(1))
     }
     
-    func testAddingDigitReportingOverflow() {
+    func testAddingIntReportingOverflow() {
         XCTAssert(T.min.addingReportingOverflow(Int( 1)) == (T.min + 1, false) as (T, Bool))
         XCTAssert(T.max.addingReportingOverflow(Int( 1)) == (T.min,     true ) as (T, Bool))
 
@@ -134,12 +130,12 @@ final class Int256TestsOnAddition: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Addition
+// MARK: * UInt192 x Addition
 //*============================================================================*
 
-final class UInt256TestsOnAddition: XCTestCase {
+final class UInt192TestsOnAddition: XCTestCase {
 
-    typealias T = ANKUInt256
+    typealias T = ANKUInt192
 
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -161,10 +157,9 @@ final class UInt256TestsOnAddition: XCTestCase {
         XCTAssertEqual(T(1) + T(1), T(2))
         XCTAssertEqual(T(1) + T(2), T(3))
 
-        XCTAssertEqual(T(x64:(w, w, w, 0)) + T(x64:(3, 0, 0, 0)), T(x64:(2, 0, 0, 1)))
-        XCTAssertEqual(T(x64:(w, w, w, 0)) + T(x64:(0, 3, 0, 0)), T(x64:(w, 2, 0, 1)))
-        XCTAssertEqual(T(x64:(w, w, w, 0)) + T(x64:(0, 0, 3, 0)), T(x64:(w, w, 2, 1)))
-        XCTAssertEqual(T(x64:(w, w, w, 0)) + T(x64:(0, 0, 0, 3)), T(x64:(w, w, w, 3)))
+        XCTAssertEqual(T(x64:(w, w, 0)) + T(x64:(3, 0, 0)), T(x64:(2, 0, 1)))
+        XCTAssertEqual(T(x64:(w, w, 0)) + T(x64:(0, 3, 0)), T(x64:(w, 2, 1)))
+        XCTAssertEqual(T(x64:(w, w, 0)) + T(x64:(0, 0, 3)), T(x64:(w, w, 3)))
     }
 
     func testAddingWrappingAround() {
@@ -176,12 +171,12 @@ final class UInt256TestsOnAddition: XCTestCase {
         XCTAssert(T.min.addingReportingOverflow(T(1)) == (T.min + (1 as UInt), false) as (T, Bool))
         XCTAssert(T.max.addingReportingOverflow(T(1)) == (T.min,               true ) as (T, Bool))
     }
-    
+
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Digit
+    // MARK: Tests x UInt
     //=------------------------------------------------------------------------=
 
-    func testAddingDigit() {
+    func testAddingUInt() {
         XCTAssertEqual(T(0) + UInt(0), T(0))
         XCTAssertEqual(T(0) + UInt(1), T(1))
         XCTAssertEqual(T(0) + UInt(2), T(2))
@@ -190,18 +185,17 @@ final class UInt256TestsOnAddition: XCTestCase {
         XCTAssertEqual(T(1) + UInt(1), T(2))
         XCTAssertEqual(T(1) + UInt(2), T(3))
 
-        XCTAssertEqual(T(x64:(w, w, w, 0)) + UInt(3), T(x64:(2, 0, 0, 1)))
-        XCTAssertEqual(T(x64:(w, w, 0, 0)) + UInt(3), T(x64:(2, 0, 1, 0)))
-        XCTAssertEqual(T(x64:(w, 0, 0, 0)) + UInt(3), T(x64:(2, 1, 0, 0)))
-        XCTAssertEqual(T(x64:(0, 0, 0, 0)) + UInt(3), T(x64:(3, 0, 0, 0)))
+        XCTAssertEqual(T(x64:(w, w, 0)) + UInt(3), T(x64:(2, 0, 1)))
+        XCTAssertEqual(T(x64:(w, 0, 0)) + UInt(3), T(x64:(2, 1, 0)))
+        XCTAssertEqual(T(x64:(0, 0, 0)) + UInt(3), T(x64:(3, 0, 0)))
     }
 
-    func testAddingDigitWrappingAround() {
+    func testAddingUIntWrappingAround() {
         XCTAssertEqual(T.min &+ UInt(1), T.min + T(1))
         XCTAssertEqual(T.max &+ UInt(1), T.min)
     }
 
-    func testAddingDigitReportingOverflow() {
+    func testAddingUIntReportingOverflow() {
         XCTAssert(T.min.addingReportingOverflow(UInt(1)) == (T.min + (1 as UInt), false) as (T, Bool))
         XCTAssert(T.max.addingReportingOverflow(UInt(1)) == (T.min,               true ) as (T, Bool))
     }

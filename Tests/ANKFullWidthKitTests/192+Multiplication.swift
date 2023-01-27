@@ -27,7 +27,6 @@ final class Int192TestsOnMultiplication: XCTestCase {
     
     let w = UInt64.max
     let s = UInt64.bitWidth
-    let x = T(x64:(.max, 0, 0))
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -42,9 +41,9 @@ final class Int192TestsOnMultiplication: XCTestCase {
         XCTAssertEqual(T(x64:(1, 2, 0)) * T(x64:(3, 4, 0)),  T(x64:(3, 10, 8)))
         XCTAssertEqual(T(x64:(3, 4, 0)) * T(x64:(1, 2, 0)),  T(x64:(3, 10, 8)))
         
-        XCTAssertEqual(x,         T(x64:(~0,  0,  0)))
-        XCTAssertEqual(x * x,     T(x64:( 1, ~1,  0)))
-        XCTAssertEqual(x * x * x, T(x64:(~0,  2, ~2)))
+        XCTAssertEqual(T(w),               T(x64:(~0,  0,  0)))
+        XCTAssertEqual(T(w) * T(w),        T(x64:( 1, ~1,  0)))
+        XCTAssertEqual(T(w) * T(w) * T(w), T(x64:(~0,  2, ~2)))
 
         XCTAssertEqual(T(x64:(w, 0, 0)) * T(x64:(w, 0, 0)), T(x64:(1, ~1,  0)))
         XCTAssertEqual(T(x64:(w, 0, 0)) * T(x64:(w, w, 0)), T(x64:(1, ~0, ~1)))
@@ -131,7 +130,6 @@ final class UInt192TestsOnMultiplication: XCTestCase {
     
     let w = UInt64.max
     let s = UInt64.bitWidth
-    let x = T(x64:(.max, 0, 0))
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -144,9 +142,9 @@ final class UInt192TestsOnMultiplication: XCTestCase {
         XCTAssertEqual(T(x64:(1, 2, 0)) * T(x64:(3, 4, 0)),  T(x64:(3, 10, 8)))
         XCTAssertEqual(T(x64:(3, 4, 0)) * T(x64:(1, 2, 0)),  T(x64:(3, 10, 8)))
         
-        XCTAssertEqual(x,         T(x64:(~0,  0,  0)))
-        XCTAssertEqual(x * x,     T(x64:( 1, ~1,  0)))
-        XCTAssertEqual(x * x * x, T(x64:(~0,  2, ~2)))
+        XCTAssertEqual(T(w),               T(x64:(~0,  0,  0)))
+        XCTAssertEqual(T(w) * T(w),        T(x64:( 1, ~1,  0)))
+        XCTAssertEqual(T(w) * T(w) * T(w), T(x64:(~0,  2, ~2)))
         
         XCTAssertEqual(T(x64:(w, 0, 0)) * T(x64:(w, 0, 0)), T(x64:(1, ~1,  0)))
         XCTAssertEqual(T(x64:(w, 0, 0)) * T(x64:(w, w, 0)), T(x64:(1, ~0, ~1)))
