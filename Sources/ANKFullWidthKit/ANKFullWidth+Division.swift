@@ -143,6 +143,7 @@ extension ANKFullWidth where Self == Magnitude {
     /// Performs long division but with word-sized digits.
     ///
     @_specialize(where Self == ANKUInt128)
+    @_specialize(where Self == ANKUInt192)
     @_specialize(where Self == ANKUInt256)
     @_specialize(where Self == ANKUInt512)
     @inlinable func _quotientAndRemainderAsUnsigned(dividingBy divisor: Self) -> QR<Self, Self> {
