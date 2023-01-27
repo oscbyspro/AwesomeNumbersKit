@@ -20,7 +20,8 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func /=(lhs: inout Self, rhs: Digit) {
-        precondition(!lhs.divideReportingOverflow(by: rhs))
+        let overflow: Bool = lhs.divideReportingOverflow(by: rhs)
+        precondition(!overflow)
     }
     
     @inlinable public static func /(lhs: Self, rhs: Digit) -> Self {
@@ -29,7 +30,8 @@ extension ANKFullWidth {
     }
     
     @inlinable public static func %=(lhs: inout Self, rhs: Digit) {
-        precondition(!lhs.formRemainderReportingOverflow(dividingBy: rhs))
+        let overflow: Bool = lhs.formRemainderReportingOverflow(dividingBy: rhs)
+        precondition(!overflow)
     }
     
     @inlinable public static func %(lhs: Self, rhs: Digit) -> Digit {

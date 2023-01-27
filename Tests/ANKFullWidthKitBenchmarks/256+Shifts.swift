@@ -33,7 +33,7 @@ final class Int256BenchmarksOnBitwiseShifts: XCTestCase {
         }
     }
     
-    func testBitrotatingLeftByMasking() {
+    func testBitshiftingLeftByMasking() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = UInt.bitWidth * 3/2
 
@@ -55,7 +55,7 @@ final class Int256BenchmarksOnBitwiseShifts: XCTestCase {
         }
     }
     
-    func testBitrotatingRightByMasking() {
+    func testBitshiftingRightByMasking() {
         let lhs = T(x64:(~0, ~1, ~2, ~3))
         let rhs = UInt.bitWidth * 3/2
                 

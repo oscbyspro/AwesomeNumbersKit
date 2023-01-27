@@ -20,7 +20,8 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func *=(lhs: inout Self, rhs: Self) {
-        precondition(!lhs.multiplyReportingOverflow(by: rhs))
+        let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
+        precondition(!overflow)
     }
     
     @inlinable public static func *(lhs: Self, rhs: Self) -> Self {
