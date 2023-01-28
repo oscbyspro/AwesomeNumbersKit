@@ -13,19 +13,19 @@ import ANKFullWidthKit
 import XCTest
 
 //*============================================================================*
-// MARK: * Int256 x Text
+// MARK: * Int192 x Text
 //*============================================================================*
 
-final class Int256BenchmarksOnText: XCTestCase {
+final class Int192BenchmarksOnText: XCTestCase {
     
-    typealias T = ANKInt256
+    typealias T = ANKInt192
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
     static let number = T(decoding: source,    radix: 16)!
-    static let source = String(repeating: "f", count: 58)
+    static let source = String(repeating: "f", count: 44)
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -57,19 +57,19 @@ final class Int256BenchmarksOnText: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Text
+// MARK: * UInt192 x Text
 //*============================================================================*
 
-final class UInt256BenchmarksOnText: XCTestCase {
+final class UInt192BenchmarksOnText: XCTestCase {
     
-    typealias T = ANKUInt256
+    typealias T = ANKUInt192
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    static let number = T(decoding: source, radix: 16)!
-    static let source = String(repeating: "f", count: 58)
+    static let number = T(decoding: source,    radix: 16)!
+    static let source = String(repeating: "f", count: 44)
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
