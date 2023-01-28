@@ -159,7 +159,7 @@ extension ANKFullWidth where Self == Magnitude {
             return  QR(qr.quotient, Self(digit: qr.remainder))
         }
         //=--------------------------------------=
-        // Shifting To Clamp Approximation Range
+        // Shift To Clamp Approximation Range
         //=--------------------------------------=
         let shift = divisor[unchecked: divisor_.minLastIndex].leadingZeroBitCount
         let divisor = divisor._bitshiftedLeft(words: Int(), bits: shift) as Self
@@ -192,7 +192,7 @@ extension ANKFullWidth where Self == Magnitude {
                 }
                 //=------------------------------=
                 let increment/**/ = Plus1(descending: HL(UInt(), divisor._bitshiftedLeft(words: quotientIndex, bits: Int())))
-                var approximation = Plus1(descending: increment.low.multipliedFullWidth(by: digit) as HL<Digit, Magnitude>)
+                var approximation = Plus1(descending: increment.low.multipliedFullWidth(by: digit)  as  HL<Digit, Magnitude>)
                 //=------------------------------=
                 // Correct Digit At Most Twice
                 //=------------------------------=
@@ -208,7 +208,7 @@ extension ANKFullWidth where Self == Magnitude {
             }
         }
         //=--------------------------------------=
-        // Shifting To Undo Shift Before Division
+        // Undo Shift Before Division
         //=--------------------------------------=
         remainder._bitshiftRight(words: Int(), bits: shift)
         //=--------------------------------------=

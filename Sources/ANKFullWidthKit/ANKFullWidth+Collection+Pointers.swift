@@ -135,12 +135,8 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafePointer<T>) where T: ANKBitPatternConvertible<Layout> {
-        //=--------------------------------------=
-        assert(MemoryLayout<T>.size/*-*/ == MemoryLayout<Layout>.size/*-*/)
-        assert(MemoryLayout<T>.alignment == MemoryLayout<Layout>.alignment)
-        //=--------------------------------------=
-        self.base = UnsafeRawPointer(BIT_PATTERN).assumingMemoryBound(to: UInt.self)
+    @inlinable init(_ base: UnsafePointer<UInt>) {
+        self.base = base
     }
     
     //=------------------------------------------------------------------------=
@@ -181,12 +177,8 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init<T>(BIT_PATTERN: UnsafeMutablePointer<T>) where T: ANKBitPatternConvertible<Layout> {
-        //=--------------------------------------=
-        assert(MemoryLayout<T>.size/*-*/ == MemoryLayout<Layout>.size/*-*/)
-        assert(MemoryLayout<T>.alignment == MemoryLayout<Layout>.alignment)
-        //=--------------------------------------=
-        self.base = UnsafeMutableRawPointer(BIT_PATTERN).assumingMemoryBound(to: UInt.self)
+    @inlinable init(_ base: UnsafeMutablePointer<UInt>) {
+        self.base = base
     }
     
     //=------------------------------------------------------------------------=
@@ -232,8 +224,10 @@ extension ANKFullWidth {
     ///
     @_transparent public func withUnsafeWordsPointer<T>(
     _ body: (UnsafeWordsPointer<BitPattern>) throws -> T) rethrows -> T {
-        try withUnsafePointer(to: self) { SELF in
-            try body(UnsafeWordsPointer(BIT_PATTERN: SELF))
+        try withUnsafePointer(to: self) {  SELF in
+            try SELF.withMemoryRebound(to: UInt.self, capacity: Self.count) { WORDS in
+                try body(UnsafeWordsPointer(WORDS))
+            }
         }
     }
     
@@ -246,7 +240,9 @@ extension ANKFullWidth {
     @_transparent public mutating func withUnsafeMutableWordsPointer<T>(
     _ body: (UnsafeMutableWordsPointer<BitPattern>) throws -> T) rethrows -> T {
         try withUnsafeMutablePointer(to: &self) { SELF in
-            try body(UnsafeMutableWordsPointer(BIT_PATTERN: SELF))
+            try SELF.withMemoryRebound(to: UInt.self, capacity: Self.count) { WORDS in
+                try body(UnsafeMutableWordsPointer(WORDS))
+            }
         }
     }
     
@@ -260,7 +256,11 @@ extension ANKFullWidth {
     _ body: (UnsafeMutableWordsPointer<BitPattern>) throws -> Void) rethrows -> Self {
         try withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
             let SELF = BUFFER.baseAddress.unsafelyUnwrapped
-            try body(UnsafeMutableWordsPointer(BIT_PATTERN: SELF))
+            //=----------------------------------=
+            try SELF.withMemoryRebound(to: UInt.self, capacity: Self.count) { WORDS in
+                try body(UnsafeMutableWordsPointer(WORDS))
+            }
+            //=----------------------------------=
             return SELF.pointee
         }
     }
