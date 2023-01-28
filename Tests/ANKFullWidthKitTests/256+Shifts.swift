@@ -9,7 +9,7 @@
 
 #if DEBUG
 
-@testable import ANKFullWidthKit
+import ANKFullWidthKit
 import XCTest
 
 //*============================================================================*

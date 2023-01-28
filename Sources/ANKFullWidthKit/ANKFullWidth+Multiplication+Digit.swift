@@ -67,13 +67,17 @@ extension ANKFullWidth {
         let low: Magnitude = self.withUnsafeWordsPointer { LHS in
         Magnitude.fromUnsafeMutableWordsAllocation { LOW in
             //=----------------------------------=
-            var rhsSignCarry = rhsIsLessThanZero
             let rhsWord = UInt(bitPattern: amount)
+            var rhsIsLessThanZeroCarry = rhsIsLessThanZero
             //=----------------------------------=
             for index in LHS.indices {
-                let lhsWord = LHS[index]
+                //=------------------------------=
+                let lhsWord = LHS[index] as UInt
                 (high, LOW[index]) = high.addingFullWidth(multiplicands:(lhsWord, rhsWord))
-                if rhsIsLessThanZero { rhsSignCarry = high.addReportingOverflow(~lhsWord, rhsSignCarry) }
+                //=------------------------------=
+                if  rhsIsLessThanZero {
+                    rhsIsLessThanZeroCarry = high.addReportingOverflow(~lhsWord, rhsIsLessThanZeroCarry)
+                }
             }
             //=----------------------------------=
             high = lhsIsLessThanZero ? high &+ rhsWord.twosComplement() : high
