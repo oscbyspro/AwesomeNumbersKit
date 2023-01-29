@@ -48,20 +48,20 @@ final class ANKSignedTestsOnText: XCTestCase {
     }
     
     func testDecodingStringsWithOrWithoutSignAndRadixLiteral() {
-        XCTAssertEqual( "1234567890",         T(1234567890))
-        XCTAssertEqual( "0x123456789abcdef0", T(0x123456789abcdef0))
-        XCTAssertEqual( "0o1234567012345670", T(0o1234567012345670))
-        XCTAssertEqual( "0b1010101010101010", T(0b1010101010101010))
+        XCTAssertEqual( "1234567890",         T(Int64( "1234567890",       radix: 10)!))
+        XCTAssertEqual( "0x123456789abcdef0", T(Int64( "123456789abcdef0", radix: 16)!))
+        XCTAssertEqual( "0o1234567012345670", T(Int64( "1234567012345670", radix: 08)!))
+        XCTAssertEqual( "0b1010101010101010", T(Int64( "1010101010101010", radix: 02)!))
         
-        XCTAssertEqual("+1234567890",         T(1234567890))
-        XCTAssertEqual("+0x123456789abcdef0", T(0x123456789abcdef0))
-        XCTAssertEqual("+0o1234567012345670", T(0o1234567012345670))
-        XCTAssertEqual("+0b1010101010101010", T(0b1010101010101010))
-
-        XCTAssertEqual("-9876543210",         T(-9876543210))
-        XCTAssertEqual("-0x123456789abcdef0", T(-0x123456789abcdef0))
-        XCTAssertEqual("-0o1234567012345670", T(-0o1234567012345670))
-        XCTAssertEqual("-0b1010101010101010", T(-0b1010101010101010))
+        XCTAssertEqual("+1234567890",         T(Int64( "1234567890",       radix: 10)!))
+        XCTAssertEqual("+0x123456789abcdef0", T(Int64( "123456789abcdef0", radix: 16)!))
+        XCTAssertEqual("+0o1234567012345670", T(Int64( "1234567012345670", radix: 08)!))
+        XCTAssertEqual("+0b1010101010101010", T(Int64( "1010101010101010", radix: 02)!))
+        
+        XCTAssertEqual("-9876543210",         T(Int64("-9876543210",       radix: 10)!))
+        XCTAssertEqual("-0x123456789abcdef0", T(Int64("-123456789abcdef0", radix: 16)!))
+        XCTAssertEqual("-0o1234567012345670", T(Int64("-1234567012345670", radix: 08)!))
+        XCTAssertEqual("-0b1010101010101010", T(Int64("-1010101010101010", radix: 02)!))
     }
     
     func testDecodingPrefixingZerosHasNoEffect() {

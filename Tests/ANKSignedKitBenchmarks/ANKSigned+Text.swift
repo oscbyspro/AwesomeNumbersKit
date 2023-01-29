@@ -24,7 +24,7 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    static let number = T(decoding: source, radix: 16)!
+    static let number = T(decoding:    source, radix: 16)!
     static let source = String(repeating: "f", count: 14)
 
     //=------------------------------------------------------------------------=

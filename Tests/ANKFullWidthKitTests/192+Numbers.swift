@@ -19,9 +19,9 @@ import XCTest
 
 final class Int192TestsOnNumbers: XCTestCase {
     
-    typealias T = ANKInt192
-    typealias S = ANKInt192
-    typealias M = T.Magnitude
+    typealias S =  ANKInt192
+    typealias T =  ANKInt192
+    typealias M = ANKUInt192
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -163,15 +163,15 @@ final class Int192TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testToFloatingPoints() {
-        XCTAssertEqual(Float32(T(-1)), -1.0)
-        XCTAssertEqual(Float32(T( 0)),  0.0)
-        XCTAssertEqual(Float32(T( 1)),  1.0)
+        XCTAssertEqual(Float32(T(-1)), Float32(-1))
+        XCTAssertEqual(Float32(T( 0)), Float32( 0))
+        XCTAssertEqual(Float32(T( 1)), Float32( 1))
 
-        XCTAssertEqual(Float64(T( Int.min)), -9223372036854775808.0)
-        XCTAssertEqual(Float64(T( Int.max)),  9223372036854775807.0)
+        XCTAssertEqual(Float64(T( Int.min)), Float64( Int.min))
+        XCTAssertEqual(Float64(T( Int.max)), Float64( Int.max))
 
-        XCTAssertEqual(Float64(T(UInt.min)), 0.0)
-        XCTAssertEqual(Float64(T(UInt.max)), 18446744073709551615.0)
+        XCTAssertEqual(Float64(T(UInt.min)), Float64(UInt.min))
+        XCTAssertEqual(Float64(T(UInt.max)), Float64(UInt.max))
     }
     
     func testFromFloatingPoints() {
@@ -209,9 +209,9 @@ final class Int192TestsOnNumbers: XCTestCase {
 
 final class UInt192TestsOnNumbers: XCTestCase {
     
-    typealias T = ANKUInt192
     typealias S =  ANKInt192
-    typealias M = T.Magnitude
+    typealias T = ANKUInt192
+    typealias M = ANKUInt192
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -353,11 +353,11 @@ final class UInt192TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testToFloatingPoints() {
-        XCTAssertEqual(Float32(T(x64:(0, 0, 0))), 0.0)
-        XCTAssertEqual(Float32(T(x64:(1, 0, 0))), 1.0)
+        XCTAssertEqual(Float32(T(x64:(0, 0, 0))), Float32(0))
+        XCTAssertEqual(Float32(T(x64:(1, 0, 0))), Float32(1))
 
-        XCTAssertEqual(Float64(T(x64:(0, 0, 0))), 0.0)
-        XCTAssertEqual(Float64(T(x64:(w, 0, 0))), 18446744073709551615.0)
+        XCTAssertEqual(Float64(T(x64:(0, 0, 0))), Float64(0))
+        XCTAssertEqual(Float64(T(x64:(w, 0, 0))), Float64(w))
     }
     
     func testFromFloatingPoints() {

@@ -221,6 +221,7 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
             //=----------------------------------=
             var index = CHUNKS.startIndex
             //=----------------------------------=
+            assert(!magnitude.isZero)
             forwards: repeat {
                 (magnitude, CHUNKS[index]) = magnitude.quotientAndRemainder(dividingBy: root.power)
                 CHUNKS.formIndex(after: &index)

@@ -19,9 +19,9 @@ import XCTest
 
 final class Int256TestsOnNumbers: XCTestCase {
     
-    typealias T = ANKInt256
-    typealias S = ANKInt256
-    typealias M = T.Magnitude
+    typealias S =  ANKInt256
+    typealias T =  ANKInt256
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -153,7 +153,7 @@ final class Int256TestsOnNumbers: XCTestCase {
 
         XCTAssertEqual(T(clamping: Signed(M.max, as: .minus)), T.min)
         XCTAssertEqual(T(clamping: Signed(M.max, as: .plus )), T.max)
-
+        
         XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .minus)), T(x64:(1, 0, 0, 0)))
         XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .plus )), T(x64:(w, w, w, w)))
     }
@@ -163,15 +163,15 @@ final class Int256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testToFloatingPoints() {
-        XCTAssertEqual(Float32(T(-1)), -1.0)
-        XCTAssertEqual(Float32(T( 0)),  0.0)
-        XCTAssertEqual(Float32(T( 1)),  1.0)
+        XCTAssertEqual(Float32(T(-1)), Float32(-1))
+        XCTAssertEqual(Float32(T( 0)), Float32( 0))
+        XCTAssertEqual(Float32(T( 1)), Float32( 1))
+        
+        XCTAssertEqual(Float64(T( Int.min)), Float64( Int.min))
+        XCTAssertEqual(Float64(T( Int.max)), Float64( Int.max))
 
-        XCTAssertEqual(Float64(T( Int.min)), -9223372036854775808.0)
-        XCTAssertEqual(Float64(T( Int.max)),  9223372036854775807.0)
-
-        XCTAssertEqual(Float64(T(UInt.min)), 0.0)
-        XCTAssertEqual(Float64(T(UInt.max)), 18446744073709551615.0)
+        XCTAssertEqual(Float64(T(UInt.min)), Float64(UInt.min))
+        XCTAssertEqual(Float64(T(UInt.max)), Float64(UInt.max))
     }
     
     func testFromFloatingPoints() {
@@ -210,9 +210,9 @@ final class Int256TestsOnNumbers: XCTestCase {
 
 final class UInt256TestsOnNumbers: XCTestCase {
     
-    typealias T = ANKUInt256
     typealias S =  ANKInt256
-    typealias M = T.Magnitude
+    typealias T = ANKUInt256
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -354,11 +354,11 @@ final class UInt256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testToFloatingPoints() {
-        XCTAssertEqual(Float32(T(x64:(0, 0, 0, 0))), 0.0)
-        XCTAssertEqual(Float32(T(x64:(1, 0, 0, 0))), 1.0)
+        XCTAssertEqual(Float32(T(x64:(0, 0, 0, 0))), Float32(0))
+        XCTAssertEqual(Float32(T(x64:(1, 0, 0, 0))), Float32(1))
 
-        XCTAssertEqual(Float64(T(x64:(0, 0, 0, 0))), 0.0)
-        XCTAssertEqual(Float64(T(x64:(w, 0, 0, 0))), 18446744073709551615.0)
+        XCTAssertEqual(Float64(T(x64:(0, 0, 0, 0))), Float64(0))
+        XCTAssertEqual(Float64(T(x64:(w, 0, 0, 0))), Float64(w))
     }
     
     func testFromFloatingPoints() {
