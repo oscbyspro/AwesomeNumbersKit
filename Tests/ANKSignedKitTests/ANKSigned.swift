@@ -39,6 +39,8 @@ final class ANKSignedTests: XCTestCase {
     func testInitWithDigit() {
         XCTAssertEqual(T(digit:  D(3)),  T(3))
         XCTAssertEqual(T(digit: -D(3)), -T(3))
+        XCTAssertEqual(D(digit:  D(3)),  D(3))
+        XCTAssertEqual(D(digit: -D(3)), -D(3))
     }
     
     //=------------------------------------------------------------------------=

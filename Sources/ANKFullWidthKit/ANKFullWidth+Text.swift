@@ -32,7 +32,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public var debugDescription: String {
-        let signedness =  Self.isSigned ? "" : "U"
+        let signedness = !Self.isSigned ? "U" : ""
         let size = String(Self.bitWidth)
         let contents = self.lazy.map(String.init).joined(separator: ", ")
         return "ANK\(signedness)Int\(size)(\(contents))"

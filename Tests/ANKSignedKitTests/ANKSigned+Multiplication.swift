@@ -89,7 +89,7 @@ final class ANKSignedTestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testOverloadsAreNonambiguousWhereDigitIsSelf() {
-        XCTAssert(D.Magnitude.self == D.Magnitude.Digit.self)
+        XCTAssert(D.Digit.self == D.self)
         XCTAssertNotNil(D(2) * D(3))
         XCTAssertNotNil(D(2).multipliedReportingOverflow(by: D(3)))
         XCTAssertNotNil(D(2).multipliedFullWidth(by: D(3)))

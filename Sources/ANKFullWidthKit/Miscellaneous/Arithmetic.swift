@@ -74,7 +74,7 @@ extension UInt {
     
     /// Returns the largest exponent such that `pow(radix, exponent) <= max + 1`.
     ///
-    /// The `power` is zero (representing `max + 1`), if and only if the `radix` is a power of 2.
+    /// The power is zero, representing `max + 1`, if and only if the radix is a power of 2.
     ///
     /// - Note: The expression `max + 1` is also equivalent to `pow(2, bitWidth)`.
     ///

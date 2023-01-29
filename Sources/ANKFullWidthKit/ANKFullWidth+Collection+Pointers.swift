@@ -256,11 +256,10 @@ extension ANKFullWidth {
     _ body: (UnsafeMutableWordsPointer<BitPattern>) throws -> Void) rethrows -> Self {
         try withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
             let SELF = BUFFER.baseAddress.unsafelyUnwrapped
-            //=----------------------------------=
             try SELF.withMemoryRebound(to: UInt.self, capacity: Self.count) { WORDS in
                 try body(UnsafeMutableWordsPointer(WORDS))
             }
-            //=----------------------------------=
+            
             return SELF.pointee
         }
     }

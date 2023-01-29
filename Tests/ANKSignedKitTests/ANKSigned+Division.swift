@@ -133,7 +133,7 @@ final class ANKSignedTestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testOverloadsAreNonambiguousWhereDigitIsSelf() {
-        XCTAssert(D.Magnitude.self == D.Magnitude.Digit.self)
+        XCTAssert(D.Digit.self == D.self)
         XCTAssertNotNil(D(7) / D(3))
         XCTAssertNotNil(D(7) % D(3))
         XCTAssertNotNil(D(7).dividedReportingOverflow(by: D(3)))

@@ -40,6 +40,7 @@ final class Int192TestsOnText: XCTestCase {
         XCTAssertEqual(T(decoding:  "0x", radix: 36),  33)
         XCTAssertEqual(T(decoding:  "0o", radix: 36),  24)
         XCTAssertEqual(T(decoding:  "0b", radix: 36),  11)
+        
         XCTAssertEqual(T(decoding: "-0x", radix: 36), -33)
         XCTAssertEqual(T(decoding: "-0o", radix: 36), -24)
         XCTAssertEqual(T(decoding: "-0b", radix: 36), -11)
@@ -143,6 +144,7 @@ final class UInt192TestsOnText: XCTestCase {
         XCTAssertEqual(T(decoding:  "0x", radix: 36), 33)
         XCTAssertEqual(T(decoding:  "0o", radix: 36), 24)
         XCTAssertEqual(T(decoding:  "0b", radix: 36), 11)
+        
         XCTAssertEqual(T(decoding: "+0x", radix: 36), 33)
         XCTAssertEqual(T(decoding: "+0o", radix: 36), 24)
         XCTAssertEqual(T(decoding: "+0b", radix: 36), 11)
