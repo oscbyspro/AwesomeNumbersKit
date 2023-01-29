@@ -170,7 +170,7 @@ final class ANKSignedTestsOnSubtraction: XCTestCase {
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
     
-    func testOverloadsAreNonambiguousWhereDigitIsSelf() {
+    func testOverloadsAreUnambiguousWhereDigitIsSelf() {
         XCTAssert(D.Digit.self == D.self)
         XCTAssertNotNil(D(5)  - D(3))
         XCTAssertNotNil(D(5) &- D(3))

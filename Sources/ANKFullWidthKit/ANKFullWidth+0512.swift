@@ -37,7 +37,7 @@ extension ANKFullWidth where Magnitude == ANKUInt512 {
         self = unsafeBitCast(x64, to: Self.self)
         #endif
     }
-
+    
     /// Creates a new instance from the given tuple.
     ///
     /// - Parameter x32: A tuple of `UInt32` words, from least significant to most.

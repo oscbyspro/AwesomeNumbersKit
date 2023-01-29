@@ -194,7 +194,7 @@ extension ANKFullWidth where Self == Magnitude {
                 let increment/**/ = Plus1(descending: HL(UInt(), divisor._bitshiftedLeft(words: quotientIndex, bits: Int())))
                 var approximation = Plus1(descending: increment.low.multipliedFullWidth(by: digit)  as  HL<Digit, Magnitude>)
                 //=------------------------------=
-                // Correct Digit At Most Twice
+                // Decrement When Overestimated
                 //=------------------------------=
                 if  approximation > remainder {
                     brrrrrrrrrrrrrrrrrrrrrrr: do { digit &-= 1; approximation &-= increment }
@@ -222,8 +222,7 @@ extension ANKFullWidth where Self == Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable func _dividingFullWidthAsUnsigned(_ dividend: DoubleWidth) -> QR<Self, Self> {
-        let dividend = DoubleWidth(descending: HL(dividend.high, dividend.low))
-        let divisor  = DoubleWidth(descending: HL(Self(), self))
+        let divisor = DoubleWidth(descending: HL(Self(), self))
         let qr: QR<DoubleWidth, DoubleWidth> = dividend._quotientAndRemainderAsUnsigned(dividingBy: divisor)
         return  QR(qr.quotient.low, qr.remainder.low)
     }

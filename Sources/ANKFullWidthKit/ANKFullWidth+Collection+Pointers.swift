@@ -216,7 +216,7 @@ extension ANKFullWidth {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// Unsafe access to the integer's words, in order from least significant to most.
+    /// Unsafe access to the integer's words, from least significant to most.
     ///
     /// - Warning: In addition to being unsafe, this collection also provides
     ///   unchecked subscript access and wrapping index arithmetic. So, don't
@@ -231,7 +231,7 @@ extension ANKFullWidth {
         }
     }
     
-    /// Unsafe access to the integer's words, in order from least significant to most.
+    /// Unsafe access to the integer's words, from least significant to most.
     ///
     /// - Warning: In addition to being unsafe, this collection also provides
     ///   unchecked subscript access and wrapping index arithmetic. So, don't
@@ -246,7 +246,7 @@ extension ANKFullWidth {
         }
     }
     
-    /// Unsafe access to the integer's words, in order from least significant to most.
+    /// Unsafe access to the integer's words, from least significant to most.
     ///
     /// - Warning: In addition to being unsafe, this collection also provides
     ///   unchecked subscript access and wrapping index arithmetic. So, don't

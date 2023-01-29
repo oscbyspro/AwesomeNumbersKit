@@ -99,11 +99,11 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
         //=--------------------------------------=
         var magnitude = Self()
         var chunkStartIndex = utf8.startIndex
-        let alignment = utf8.count % root.exponent
+        let chunkIndexAlignment = utf8.count % root.exponent
         //=--------------------------------------=
-        forwards: if !alignment.isZero {
+        forwards: if !chunkIndexAlignment.isZero {
             //=----------------------------------=
-            let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy: alignment)
+            let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy:  chunkIndexAlignment)
             guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix) else { return nil }
             chunkStartIndex = chunkEndIndex
             //=----------------------------------=
@@ -211,20 +211,18 @@ extension ANKFullWidth where High: ANKUnsignedLargeFixedWidthInteger<UInt> {
         let root = UInt.maxPlusOneRootReportingUnderestimatedPowerOrZero(radix)
         assert(!root.power.isZero, "radix must not be power of 2")
         //=--------------------------------------=
-        let amount: Int = magnitude.bitWidth - magnitudeLeadingZeroBitCount
-        let consumption: Int = UInt.bitWidth - root.power.leadingZeroBitCount &- 1
-        let chunksCount: Int = 1 &+ (amount / consumption) // overestimated
+        let magnitudeSignificantBitWidth: Int = magnitude .bitWidth &- magnitudeLeadingZeroBitCount
+        let chunkBitWidthConsumptionLowerBound: Int = UInt.bitWidth &- root.power.leadingZeroBitCount &- 1
+        let chunkCountUpperBound: Int = 1 &+ (magnitudeSignificantBitWidth / chunkBitWidthConsumptionLowerBound)
         //=--------------------------------------=
-        text.reserveCapacity(text.utf8.count + chunksCount * root.exponent)
+        text.reserveCapacity(text.utf8.count + root.exponent * chunkCountUpperBound)
         //=--------------------------------------=
-        withUnsafeTemporaryAllocation(of: UInt.self, capacity: chunksCount) { CHUNKS in
+        withUnsafeTemporaryAllocation(of: UInt.self, capacity: chunkCountUpperBound) { CHUNKS in
             //=----------------------------------=
             var index = CHUNKS.startIndex
             //=----------------------------------=
-            assert(!magnitude.isZero)
             forwards: repeat {
-                let qr: QR<Self, UInt> = magnitude.quotientAndRemainder(dividingBy: root.power)
-                (magnitude, CHUNKS[index]) = qr
+                (magnitude, CHUNKS[index]) = magnitude.quotientAndRemainder(dividingBy: root.power)
                 CHUNKS.formIndex(after: &index)
             } while !magnitude.isZero
             //=----------------------------------=

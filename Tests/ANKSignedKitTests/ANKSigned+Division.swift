@@ -132,7 +132,7 @@ final class ANKSignedTestsOnDivision: XCTestCase {
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
     
-    func testOverloadsAreNonambiguousWhereDigitIsSelf() {
+    func testOverloadsAreUnambiguousWhereDigitIsSelf() {
         XCTAssert(D.Digit.self == D.self)
         XCTAssertNotNil(D(7) / D(3))
         XCTAssertNotNil(D(7) % D(3))
