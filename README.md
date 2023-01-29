@@ -6,6 +6,8 @@ Large number arithmetic in Swift.
 |:-----:|:-----:|:------:|:------------:|:-----:|:-----:|:-------:|
 | 5.7   | 13.0  | 13.0   | 13.0         | 10.15 | 13.0  | 6.0     |
 
+[![Supported Language Version Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Foscbyspro%2FAwesomeNumbersKit%2Fbadge%3Ftype%3Dswift-versions&color=blue)](https://swiftpackageindex.com/oscbyspro/AwesomeNumbersKit) [![Supported Platforms Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Foscbyspro%2FAwesomeNumbersKit%2Fbadge%3Ftype%3Dplatforms&color=blue)](https://swiftpackageindex.com/oscbyspro/AwesomeNumbersKit)
+
 ## ANKFullWidth ([Sources](Sources/ANKFullWidthKit), [Tests](Tests/ANKFullWidthKitTests), [Benchmarks](Tests/ANKFullWidthKitBenchmarks))
 
 A composable, large, fixed-width, two's complement, binary integer.
