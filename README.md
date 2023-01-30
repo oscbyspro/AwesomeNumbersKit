@@ -56,7 +56,3 @@ A decorative, width agnostic, sign-and-magnitude, numeric integer.
     <td>Fast Digit Arithmetic</td>
 </tr>
 </table>
-
----
-
-[![Supported Swift Language Version Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Foscbyspro%2FAwesomeNumbersKit%2Fbadge%3Ftype%3Dswift-versions&color=blue)](https://swiftpackageindex.com/oscbyspro/AwesomeNumbersKit) [![Supported Platforms Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Foscbyspro%2FAwesomeNumbersKit%2Fbadge%3Ftype%3Dplatforms&color=blue)](https://swiftpackageindex.com/oscbyspro/AwesomeNumbersKit)

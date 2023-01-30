@@ -25,8 +25,9 @@ final class Int256TestsOnDivision: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let w = UInt64.max
-    let s = UInt64.bitWidth
+    let a = UInt  .max
+    let b = UInt64.max
+    let c = UInt32.max
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -61,10 +62,10 @@ final class Int256TestsOnDivision: XCTestCase {
         XCTAssert(T.min.dividedReportingOverflow(by:  T(0)) == (T.min, true) as (T, Bool))
         XCTAssert(T.min.dividedReportingOverflow(by: -T(1)) == (T.min, true) as (T, Bool))
 
-        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: T(-2)) == (-T(x64:(0, w/2 + 2, 1, 2)), false) as (T, Bool))
+        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: T(-2)) == (-T(x64:(0, b/2 + 2, 1, 2)), false) as (T, Bool))
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: T(-1)) == (-T(x64:(1,       2, 3, 4)), false) as (T, Bool))
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: T( 1)) == ( T(x64:(1,       2, 3, 4)), false) as (T, Bool))
-        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: T( 2)) == ( T(x64:(0, w/2 + 2, 1, 2)), false) as (T, Bool))
+        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: T( 2)) == ( T(x64:(0, b/2 + 2, 1, 2)), false) as (T, Bool))
     }
 
     func testRemainderReportingOverflow() {
@@ -110,10 +111,10 @@ final class Int256TestsOnDivision: XCTestCase {
         XCTAssert(T.min.dividedReportingOverflow(by:  Int(0)) == (T.min, true) as (T, Bool))
         XCTAssert(T.min.dividedReportingOverflow(by: -Int(1)) == (T.min, true) as (T, Bool))
 
-        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: Int(-2)) == (-T(x64:(0, w/2 + 2, 1, 2)), false) as (T, Bool))
+        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: Int(-2)) == (-T(x64:(0, b/2 + 2, 1, 2)), false) as (T, Bool))
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: Int(-1)) == (-T(x64:(1,       2, 3, 4)), false) as (T, Bool))
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: Int( 1)) == ( T(x64:(1,       2, 3, 4)), false) as (T, Bool))
-        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: Int( 2)) == ( T(x64:(0, w/2 + 2, 1, 2)), false) as (T, Bool))
+        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: Int( 2)) == ( T(x64:(0, b/2 + 2, 1, 2)), false) as (T, Bool))
     }
 
     func testRemainderDividingByDigitReportingOverflow() {
@@ -151,21 +152,21 @@ final class Int256TestsOnDivision: XCTestCase {
         XCTAssertEqual(T(x64:(8, 7, 6, 5)).dividingFullWidth(dividend).quotient,  T(x64:( 4,  3,  2,  1)))
         XCTAssertEqual(T(x64:(8, 7, 6, 5)).dividingFullWidth(dividend).remainder, T(x64:( 2,  2,  2,  2)))
         //=--------------------------------------=
-        dividend.low  = M(x64:(~1,  w,  w,  w))
-        dividend.high = T(x64:( w,  w,  w,  w))
+        dividend.low  = M(x64:(~1,  b,  b,  b))
+        dividend.high = T(x64:( b,  b,  b,  b))
         
-        XCTAssertEqual(T(x64:(1, 0, 0, 0)).dividingFullWidth(dividend).quotient,  T(x64:(~1,  w,  w,  w)))
+        XCTAssertEqual(T(x64:(1, 0, 0, 0)).dividingFullWidth(dividend).quotient,  T(x64:(~1,  b,  b,  b)))
         XCTAssertEqual(T(x64:(1, 0, 0, 0)).dividingFullWidth(dividend).remainder, T(x64:( 0,  0,  0,  0)))
         
-        XCTAssertEqual(T(x64:(w, w, w, w)).dividingFullWidth(dividend).quotient,  T(x64:( 2,  0,  0,  0)))
-        XCTAssertEqual(T(x64:(w, w, w, w)).dividingFullWidth(dividend).remainder, T(x64:( 0,  0,  0,  0)))
+        XCTAssertEqual(T(x64:(b, b, b, b)).dividingFullWidth(dividend).quotient,  T(x64:( 2,  0,  0,  0)))
+        XCTAssertEqual(T(x64:(b, b, b, b)).dividingFullWidth(dividend).remainder, T(x64:( 0,  0,  0,  0)))
     }
     
     func testDividingFullWidthTruncatesQuotient() {
         var dividend: (high: T, low: M)
         
         dividend.low  = M(x64:(0, 0, 0, 0))
-        dividend.high = T(x64:(w, w, w, w))
+        dividend.high = T(x64:(b, b, b, b))
         
         XCTAssert(T(1).dividingFullWidth(dividend) == (~T(0) << (T.bitWidth - 0), T(0)) as (T, T))
         XCTAssert(T(2).dividingFullWidth(dividend) == (~T(0) << (T.bitWidth - 1), T(0)) as (T, T))
@@ -186,8 +187,9 @@ final class UInt256TestsOnDivision: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let w = UInt64.max
-    let s = UInt64.bitWidth
+    let a = UInt  .max
+    let b = UInt64.max
+    let c = UInt32.max
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -211,7 +213,7 @@ final class UInt256TestsOnDivision: XCTestCase {
     func testQuotientReportingOverflow() {
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: T(0)) == (T(x64:(1, 2,       3, 4)), true ) as (T, Bool))
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: T(1)) == (T(x64:(1, 2,       3, 4)), false) as (T, Bool))
-        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: T(2)) == (T(x64:(0, 2 + w/2, 1, 2)), false) as (T, Bool))
+        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: T(2)) == (T(x64:(0, 2 + b/2, 1, 2)), false) as (T, Bool))
     }
     
     func testRemainderReportingOverflow() {
@@ -242,7 +244,7 @@ final class UInt256TestsOnDivision: XCTestCase {
     func testQuotientDividingByDigitReportingOverflow() {
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: UInt(0)) == (T(x64:(1,       2, 3, 4)), true ) as (T, Bool))
         XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: UInt(1)) == (T(x64:(1,       2, 3, 4)), false) as (T, Bool))
-        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: UInt(2)) == (T(x64:(0, w/2 + 2, 1, 2)), false) as (T, Bool))
+        XCTAssert(T(x64:(1, 2, 3, 4)).dividedReportingOverflow(by: UInt(2)) == (T(x64:(0, b/2 + 2, 1, 2)), false) as (T, Bool))
     }
     
     func testRemainderDividingByDigitReportingOverflow() {
@@ -281,7 +283,7 @@ final class UInt256TestsOnDivision: XCTestCase {
         var dividend: (high: T, low: T)
         
         dividend.low  = T(x64:(0, 0, 0, 0))
-        dividend.high = T(x64:(w, w, w, w))
+        dividend.high = T(x64:(b, b, b, b))
         
         XCTAssert(T(1).dividingFullWidth(dividend) == (~T(0) << (T.bitWidth - 0), T(0)) as (T, T))
         XCTAssert(T(2).dividingFullWidth(dividend) == (~T(0) << (T.bitWidth - 1), T(0)) as (T, T))

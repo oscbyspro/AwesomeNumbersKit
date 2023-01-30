@@ -24,8 +24,9 @@ final class Int192TestsOnComparison: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let w = UInt64.max
-    let s = UInt64.bitWidth
+    let a = UInt  .max
+    let b = UInt64.max
+    let c = UInt32.max
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -51,7 +52,7 @@ final class Int192TestsOnComparison: XCTestCase {
         XCTAssert(T.max == T.max)
 
         XCTAssertEqual(T(x64:(0, 0, 0)), T(x64:(0, 0, 0)))
-        XCTAssertEqual(T(x64:(w, w, w)), T(x64:(w, w, w)))
+        XCTAssertEqual(T(x64:(b, b, b)), T(x64:(b, b, b)))
     }
     
     func testComparing() {
@@ -73,11 +74,11 @@ final class Int192TestsOnComparison: XCTestCase {
         XCTAssert(T.max >  T.min)
         XCTAssert(T.max == T.max)
         
-        XCTAssert(T(x64:(w, 0, 0)) < T(x64:(w, w, 0)))
-        XCTAssert(T(x64:(w, w, 0)) > T(x64:(w, 0, 0)))
+        XCTAssert(T(x64:(b, 0, 0)) < T(x64:(b, b, 0)))
+        XCTAssert(T(x64:(b, b, 0)) > T(x64:(b, 0, 0)))
         
-        XCTAssert(T(x64:(w, w, 0)) > T(x64:(w, w, w)))
-        XCTAssert(T(x64:(w, w, w)) < T(x64:(w, w, 0)))
+        XCTAssert(T(x64:(b, b, 0)) > T(x64:(b, b, b)))
+        XCTAssert(T(x64:(b, b, b)) < T(x64:(b, b, 0)))
     }
     
     func testHashing() {
@@ -163,8 +164,9 @@ final class UInt192TestsOnComparison: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let w = UInt64.max
-    let s = UInt64.bitWidth
+    let a = UInt  .max
+    let b = UInt64.max
+    let c = UInt32.max
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -183,7 +185,7 @@ final class UInt192TestsOnComparison: XCTestCase {
         XCTAssert(T.max == T.max)
         
         XCTAssertEqual(T(x64:(0, 0, 0)), T(x64:(0, 0, 0)))
-        XCTAssertEqual(T(x64:(w, w, w)), T(x64:(w, w, w)))
+        XCTAssertEqual(T(x64:(b, b, b)), T(x64:(b, b, b)))
     }
     
     func testComparing() {
@@ -202,8 +204,8 @@ final class UInt192TestsOnComparison: XCTestCase {
         XCTAssert(T.max >  T.min)
         XCTAssert(T.max == T.max)
         
-        XCTAssert(T(x64:(w, w, 0)) < T(x64:(w, w, w)))
-        XCTAssert(T(x64:(w, w, w)) > T(x64:(w, w, 0)))
+        XCTAssert(T(x64:(b, b, 0)) < T(x64:(b, b, b)))
+        XCTAssert(T(x64:(b, b, b)) > T(x64:(b, b, 0)))
     }
     
     func testHashing() {

@@ -24,8 +24,9 @@ final class Int256TestsOnNegation: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let w = UInt64.max
-    let s = UInt64.bitWidth
+    let a = UInt  .max
+    let b = UInt64.max
+    let c = UInt32.max
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -38,8 +39,8 @@ final class Int256TestsOnNegation: XCTestCase {
     }
     
     func testNegatedReportingOverflow() {
-        XCTAssert(T.min.negatedReportingOverflow() == (T(x64:(0, 0, 0, w << (s - 1))), true ) as (T, Bool))
-        XCTAssert(T.max.negatedReportingOverflow() == (T(x64:(1, 0, 0, w << (s - 1))), false) as (T, Bool))
+        XCTAssert(T.min.negatedReportingOverflow() == (T(x64:(0, 0, 0, b << 63)), true ) as (T, Bool))
+        XCTAssert(T.max.negatedReportingOverflow() == (T(x64:(1, 0, 0, b << 63)), false) as (T, Bool))
     }
 }
 

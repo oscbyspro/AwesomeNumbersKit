@@ -32,7 +32,8 @@ extension ANKFullWidth where Magnitude == ANKUInt512 {
     ///
     @_transparent public init(x64: ANK512X64) {
         #if _endian(big)
-        self = unsafeBitCast((x64.7, x64.6, x64.5, x64.4, x64.3, x64.2, x64.1, x64.0), to: Self.self)
+        self = unsafeBitCast(ANK512X64(
+        x64.7,  x64.6,  x64.5,  x64.4,  x64.3,  x64.2,  x64.1,  x64.0), to: Self.self)
         #else
         self = unsafeBitCast(x64, to: Self.self)
         #endif
@@ -44,9 +45,9 @@ extension ANKFullWidth where Magnitude == ANKUInt512 {
     ///
     @_transparent public init(x32: ANK512X32) {
         #if _endian(big)
-        self = unsafeBitCast((
-        x32.15, x32.14, x32.13, x32.12, x32.11, x32.10, x32.9, x32.8,
-        x32.7,  x32.6,  x32.5,  x32.4,  x32.3,  x32.2,  x32.1, x32.0), to: Self.self)
+        self = unsafeBitCast(ANK512X32(
+        x32.15, x32.14, x32.13, x32.12, x32.11, x32.10, x32.9,  x32.8,
+        x32.7,  x32.6,  x32.5,  x32.4,  x32.3,  x32.2,  x32.1,  x32.0), to: Self.self)
         #else
         self = unsafeBitCast(x32, to: Self.self)
         #endif
