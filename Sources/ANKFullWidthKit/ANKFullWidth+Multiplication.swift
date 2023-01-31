@@ -38,17 +38,17 @@ extension ANKFullWidth {
         self = pvo.partialValue; return pvo.overflow
     }
     
-    @inlinable public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
-        let product = self._multipliedFullWidth(by: amount) as DoubleWidth
+    @inlinable public func multipliedReportingOverflow(by amount:  Self) -> PVO<Self> {
+        let product: DoubleWidth = self._multipliedFullWidth(by: amount)
         //=--------------------------------------=
         let overflow: Bool
         
         if !Self.isSigned {
             overflow = !product.high.isZero
         } else if self.isLessThanZero != amount.isLessThanZero {
-            overflow = product < DoubleWidth(descending: HL(-1 as Self, Magnitude(bitPattern: Self.min)))
+            overflow = product < DoubleWidth(descending: HL(~Self(), Magnitude(bitPattern: Self.min)))
         } else {
-            overflow = product > DoubleWidth(descending: HL( 0 as Self, Magnitude(bitPattern: Self.max)))
+            overflow = product > DoubleWidth(descending: HL( Self(), Magnitude(bitPattern: Self.max)))
         }
         //=--------------------------------------=
         return PVO(Self(bitPattern: product.low), overflow)
@@ -145,12 +145,8 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline func multipliedFullWidthAsKaratsuba(by amount: Self) -> DoubleWidth where High.Magnitude == Low {
-        self._multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by: amount)
-    }
-    
     @inlinable func _multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by amount: Self) -> DoubleWidth {
-        /// type casting equals `where High.Magnitude == Low { ... }`
+        assert(High.Magnitude.self == Low.self)
         let negate: Bool = self.isLessThanZero != amount.isLessThanZero
         let lhs =   self.magnitude as! ANKFullWidth<Low, Low>
         let rhs = amount.magnitude as! ANKFullWidth<Low, Low>

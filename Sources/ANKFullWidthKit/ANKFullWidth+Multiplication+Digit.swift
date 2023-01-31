@@ -46,9 +46,9 @@ extension ANKFullWidth {
         if !Self.isSigned {
             overflow = !product.high.isZero
         } else if self.isLessThanZero != amount.isLessThanZero {
-            overflow = product < Plus1(descending: HL(-1 as Digit, Magnitude(bitPattern: Self.min)))
+            overflow = product < Plus1(descending: HL(~Digit(), Magnitude(bitPattern: Self.min)))
         } else {
-            overflow = product > Plus1(descending: HL( 0 as Digit, Magnitude(bitPattern: Self.max)))
+            overflow = product > Plus1(descending: HL( Digit(), Magnitude(bitPattern: Self.max)))
         }
         //=--------------------------------------=
         return PVO(Self(bitPattern: product.low), overflow)
