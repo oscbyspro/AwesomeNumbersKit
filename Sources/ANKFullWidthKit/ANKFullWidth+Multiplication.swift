@@ -39,9 +39,18 @@ extension ANKFullWidth {
     }
     
     @inlinable public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
-        let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero as Bool
-        let product = self.multipliedFullWidth(by: amount) as HL<Self, Magnitude>
-        let overflow: Bool = isLessThanOrEqualToZero ? product.high < (-1 as Self) : !product.high.isZero
+        let product = self._multipliedFullWidth(by: amount) as DoubleWidth
+        //=--------------------------------------=
+        let overflow: Bool
+        
+        if !Self.isSigned {
+            overflow = !product.high.isZero
+        } else if self.isLessThanZero != amount.isLessThanZero {
+            overflow = product < DoubleWidth(descending: HL(-1 as Self, Magnitude(bitPattern: Self.min)))
+        } else {
+            overflow = product > DoubleWidth(descending: HL( 0 as Self, Magnitude(bitPattern: Self.max)))
+        }
+        //=--------------------------------------=
         return PVO(Self(bitPattern: product.low), overflow)
     }
     
@@ -54,7 +63,7 @@ extension ANKFullWidth {
         self = Self(bitPattern: hl.low); return hl.high
     }
     
-    @_transparent public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
+    @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
         let hl: DoubleWidth = self._multipliedFullWidth(by: amount)
         return HL(hl.high, hl.low)
     }

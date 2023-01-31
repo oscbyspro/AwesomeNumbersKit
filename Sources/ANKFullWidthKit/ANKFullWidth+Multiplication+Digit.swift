@@ -33,15 +33,24 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyReportingOverflow(by amount: Digit) -> Bool {
+    @inlinable public mutating func multiplyReportingOverflow(by  amount: Digit) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
         self = pvo.partialValue; return pvo.overflow
     }
     
     @inlinable public func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
-        let isLessThanOrEqualToZero = self.isLessThanZero != amount.isLessThanZero as Bool
-        let product = self.multipliedFullWidth(by: amount) as HL<Digit, Magnitude>
-        let overflow: Bool = isLessThanOrEqualToZero ? product.high < (-1 as Digit) : !product.high.isZero
+        let product = Plus1(descending: self.multipliedFullWidth(by: amount))
+        //=--------------------------------------=
+        let overflow: Bool
+        
+        if !Self.isSigned {
+            overflow = !product.high.isZero
+        } else if self.isLessThanZero != amount.isLessThanZero {
+            overflow = product < Plus1(descending: HL(-1 as Digit, Magnitude(bitPattern: Self.min)))
+        } else {
+            overflow = product > Plus1(descending: HL( 0 as Digit, Magnitude(bitPattern: Self.max)))
+        }
+        //=--------------------------------------=
         return PVO(Self(bitPattern: product.low), overflow)
     }
     
