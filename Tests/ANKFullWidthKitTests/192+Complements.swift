@@ -22,14 +22,6 @@ final class Int192TestsOnComplements: XCTestCase {
     typealias M = ANKUInt192
     
     //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let a = UInt  .max
-    let b = UInt64.max
-    let c = UInt32.max
-    
-    //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
@@ -38,8 +30,8 @@ final class Int192TestsOnComplements: XCTestCase {
         XCTAssertEqual(T( 0).magnitude, M(0))
         XCTAssertEqual(T(-3).magnitude, M(3))
         
-        XCTAssertEqual(T.min.magnitude, M(x64:(0, 0, b << 63)))
-        XCTAssertEqual(T.max.magnitude, M(x64:(b, b, b >>  1)))
+        XCTAssertEqual(T.min.magnitude, M(x64:( 0,  0, ~0 << 63)))
+        XCTAssertEqual(T.max.magnitude, M(x64:(~0, ~0, ~0 >>  1)))
     }
 }
 
@@ -53,14 +45,6 @@ final class UInt192TestsOnComplements: XCTestCase {
     typealias M = ANKUInt192
     
     //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let a = UInt  .max
-    let b = UInt64.max
-    let c = UInt32.max
-    
-    //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
@@ -68,8 +52,8 @@ final class UInt192TestsOnComplements: XCTestCase {
         XCTAssertEqual(T(3).magnitude, M(3))
         XCTAssertEqual(T(0).magnitude, M(0))
         
-        XCTAssertEqual(T.min.magnitude, M(x64:(0, 0, b << 64)))
-        XCTAssertEqual(T.max.magnitude, M(x64:(b, b, b >>  0)))
+        XCTAssertEqual(T.min.magnitude, M(x64:( 0,  0,  0)))
+        XCTAssertEqual(T.max.magnitude, M(x64:(~0, ~0, ~0)))
     }
 }
 

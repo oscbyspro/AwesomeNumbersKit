@@ -22,32 +22,24 @@ final class Int192TestsOnMultiplication: XCTestCase {
     typealias M = ANKUInt192
     
     //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let a = UInt  .max
-    let b = UInt64.max
-    let c = UInt32.max
-    
-    //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testMultiplied() {
-        XCTAssertEqual( T(x64:(1, 2, 3)) * -T(0), -T(x64:(0, 0, 0)))
-        XCTAssertEqual( T(x64:(1, 2, 3)) *  T(0),  T(x64:(0, 0, 0)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) * -T(0),  T(x64:(0, 0, 0)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) *  T(0), -T(x64:(0, 0, 0)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) * -T(0), -T(x64:(0, 0, 0)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) *  T(0),  T(x64:(0, 0, 0)))
         
-        XCTAssertEqual( T(x64:(1, 2, 3)) * -T(1), -T(x64:(1, 2, 3)))
-        XCTAssertEqual( T(x64:(1, 2, 3)) *  T(1),  T(x64:(1, 2, 3)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) * -T(1),  T(x64:(1, 2, 3)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) *  T(1), -T(x64:(1, 2, 3)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) * -T(1), -T(x64:(1, 2, 3)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) *  T(1),  T(x64:(1, 2, 3)))
         
-        XCTAssertEqual( T(x64:(1, 2, 3)) * -T(2), -T(x64:(2, 4, 6)))
-        XCTAssertEqual( T(x64:(1, 2, 3)) *  T(2),  T(x64:(2, 4, 6)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) * -T(2),  T(x64:(2, 4, 6)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) *  T(2), -T(x64:(2, 4, 6)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) * -T(2), -T(x64:(2, 4, 6)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) *  T(2),  T(x64:(2, 4, 6)))
 
         XCTAssertEqual( T(x64:(1, 2, 3)) * T(x64:(2, 0, 0)), T(x64:(2, 4, 6)))
         XCTAssertEqual( T(x64:(1, 2, 0)) * T(x64:(0, 2, 0)), T(x64:(0, 2, 4)))
@@ -72,17 +64,17 @@ final class Int192TestsOnMultiplication: XCTestCase {
     }
     
     func testMultipliedFullWidth() {
-        XCTAssertEqual(T.min.multipliedFullWidth(by: T.min).low,   M(x64:(0, 0, 0      )))
-        XCTAssertEqual(T.min.multipliedFullWidth(by: T.min).high,  T(x64:(0, 0, 1 << 62)))
+        XCTAssertEqual(T.min.multipliedFullWidth(by: T.min).low,   M(x64:( 0,  0,  0      )))
+        XCTAssertEqual(T.min.multipliedFullWidth(by: T.min).high,  T(x64:( 0,  0,  1 << 62)))
         
-        XCTAssertEqual(T.min.multipliedFullWidth(by: T.max).low,   M(x64:(0, 0, 1 << 63)))
-        XCTAssertEqual(T.min.multipliedFullWidth(by: T.max).high,  T(x64:(0, 0, b << 62)))
+        XCTAssertEqual(T.min.multipliedFullWidth(by: T.max).low,   M(x64:( 0,  0, ~0 << 63)))
+        XCTAssertEqual(T.min.multipliedFullWidth(by: T.max).high,  T(x64:( 0,  0, ~0 << 62)))
 
-        XCTAssertEqual(T.max.multipliedFullWidth(by: T.min).low,   M(x64:(0, 0, 1 << 63)))
-        XCTAssertEqual(T.max.multipliedFullWidth(by: T.min).high,  T(x64:(0, 0, b << 62)))
+        XCTAssertEqual(T.max.multipliedFullWidth(by: T.min).low,   M(x64:( 0,  0, ~0 << 63)))
+        XCTAssertEqual(T.max.multipliedFullWidth(by: T.min).high,  T(x64:( 0,  0, ~0 << 62)))
         
-        XCTAssertEqual(T.max.multipliedFullWidth(by: T.max).low,   M(x64:(1, 0, 0      )))
-        XCTAssertEqual(T.max.multipliedFullWidth(by: T.max).high,  T(x64:(b, b, b >>  2)))
+        XCTAssertEqual(T.max.multipliedFullWidth(by: T.max).low,   M(x64:( 1,  0,  0      )))
+        XCTAssertEqual(T.max.multipliedFullWidth(by: T.max).high,  T(x64:(~0, ~0, ~0 >>  2)))
         //=--------------------------------------=
         XCTAssertEqual(T.min.multipliedFullWidth(by: T(-2)).low,   M( 0))
         XCTAssertEqual(T.min.multipliedFullWidth(by: T(-2)).high,  T( 1))
@@ -114,20 +106,20 @@ final class Int192TestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultipliedByDigit() {
-        XCTAssertEqual( T(x64:(1, 2, 3)) * -Int(0), -T(x64:(0, 0, 0)))
-        XCTAssertEqual( T(x64:(1, 2, 3)) *  Int(0),  T(x64:(0, 0, 0)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) * -Int(0),  T(x64:(0, 0, 0)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) *  Int(0), -T(x64:(0, 0, 0)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) * -Int(0), -T(x64:(0, 0, 0)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) *  Int(0),  T(x64:(0, 0, 0)))
         
-        XCTAssertEqual( T(x64:(1, 2, 3)) * -Int(1), -T(x64:(1, 2, 3)))
-        XCTAssertEqual( T(x64:(1, 2, 3)) *  Int(1),  T(x64:(1, 2, 3)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) * -Int(1),  T(x64:(1, 2, 3)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) *  Int(1), -T(x64:(1, 2, 3)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) * -Int(1), -T(x64:(1, 2, 3)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) *  Int(1),  T(x64:(1, 2, 3)))
         
-        XCTAssertEqual( T(x64:(1, 2, 3)) * -Int(2), -T(x64:(2, 4, 6)))
-        XCTAssertEqual( T(x64:(1, 2, 3)) *  Int(2),  T(x64:(2, 4, 6)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) * -Int(2),  T(x64:(2, 4, 6)))
         XCTAssertEqual(-T(x64:(1, 2, 3)) *  Int(2), -T(x64:(2, 4, 6)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) * -Int(2), -T(x64:(2, 4, 6)))
+        XCTAssertEqual( T(x64:(1, 2, 3)) *  Int(2),  T(x64:(2, 4, 6)))
     }
     
     func testMultipliedByDigitReportingOverflow() throws {
@@ -177,14 +169,6 @@ final class UInt192TestsOnMultiplication: XCTestCase {
     
     typealias T = ANKUInt192
     typealias M = ANKUInt192
-    
-    //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let a = UInt  .max
-    let b = UInt64.max
-    let c = UInt32.max
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

@@ -24,35 +24,27 @@ final class Int256TestsOnNumbers: XCTestCase {
     typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let a = UInt  .max
-    let b = UInt64.max
-    let c = UInt32.max
-    
-    //=------------------------------------------------------------------------=
     // MARK: Tests x Integers
     //=------------------------------------------------------------------------=
     
     func testToIntegers() {
-        XCTAssertEqual(UInt64(T(x64:(1, 0, 0, 0))), 1)
-        XCTAssertEqual(UInt64(T(x64:(b, 0, 0, 0))), b)
+        XCTAssertEqual(UInt64(T(x64:( 1,  0,  0,  0))),  1)
+        XCTAssertEqual(UInt64(T(x64:(~0,  0,  0,  0))), ~0)
 
-        XCTAssertEqual(UInt64(clamping: T(x64:(1, 0, 0, 0))), 1)
-        XCTAssertEqual(UInt64(clamping: T(x64:(b, 0, 0, 0))), b)
-        XCTAssertEqual(UInt64(clamping: T(x64:(1, 1, 1, 1))), b)
-        XCTAssertEqual(UInt64(clamping: T(x64:(b, b, b, b))), 0)
+        XCTAssertEqual(UInt64(clamping: T(x64:( 1,  0,  0,  0))),  1)
+        XCTAssertEqual(UInt64(clamping: T(x64:(~0,  0,  0,  0))), ~0)
+        XCTAssertEqual(UInt64(clamping: T(x64:( 1,  1,  1,  1))), ~0)
+        XCTAssertEqual(UInt64(clamping: T(x64:(~0, ~0, ~0, ~0))),  0)
 
-        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(1, 0, 0, 0))), 1)
-        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(b, 0, 0, 0))), b)
-        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(1, 1, 1, 1))), 1)
-        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(b, b, b, b))), b)
+        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:( 1,  0,  0,  0))),  1)
+        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(~0,  0,  0,  0))), ~0)
+        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:( 1,  1,  1,  1))),  1)
+        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(~0, ~0, ~0, ~0))), ~0)
         
-        XCTAssertEqual(UInt64(exactly: T(x64:(1, 0, 0, 0))), 1)
-        XCTAssertEqual(UInt64(exactly: T(x64:(b, 0, 0, 0))), b)
-        XCTAssertEqual(UInt64(exactly: T(x64:(1, 1, 1, 1))), nil)
-        XCTAssertEqual(UInt64(exactly: T(x64:(b, b, b, b))), nil)
+        XCTAssertEqual(UInt64(exactly: T(x64:( 1,  0,  0,  0))),   1)
+        XCTAssertEqual(UInt64(exactly: T(x64:(~0,  0,  0,  0))),  ~0)
+        XCTAssertEqual(UInt64(exactly: T(x64:( 1,  1,  1,  1))), nil)
+        XCTAssertEqual(UInt64(exactly: T(x64:(~0, ~0, ~0, ~0))), nil)
     }
     
     func testFromIntegers() {
@@ -74,17 +66,17 @@ final class Int256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testFromInt() {
-        XCTAssertEqual(T(Int.min), T(x64:(UInt64(truncatingIfNeeded: Int.min), b, b, b)))
-        XCTAssertEqual(T(Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max), 0, 0, 0)))
+        XCTAssertEqual(T(Int.min), T(x64:(UInt64(truncatingIfNeeded: Int.min), ~0, ~0, ~0)))
+        XCTAssertEqual(T(Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max),  0,  0,  0)))
         
-        XCTAssertEqual(T(exactly:  Int.min), T(x64:(UInt64(truncatingIfNeeded: Int.min), b, b, b)))
-        XCTAssertEqual(T(exactly:  Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max), 0, 0, 0)))
+        XCTAssertEqual(T(exactly:  Int.min), T(x64:(UInt64(truncatingIfNeeded: Int.min), ~0, ~0, ~0)))
+        XCTAssertEqual(T(exactly:  Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max),  0,  0,  0)))
         
-        XCTAssertEqual(T(clamping: Int.min), T(x64:(UInt64(truncatingIfNeeded: Int.min), b, b, b)))
-        XCTAssertEqual(T(clamping: Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max), 0, 0, 0)))
+        XCTAssertEqual(T(clamping: Int.min), T(x64:(UInt64(truncatingIfNeeded: Int.min), ~0, ~0, ~0)))
+        XCTAssertEqual(T(clamping: Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max),  0,  0,  0)))
         
-        XCTAssertEqual(T(truncatingIfNeeded: Int.min), T(x64:(UInt64(truncatingIfNeeded: Int.min), b, b, b)))
-        XCTAssertEqual(T(truncatingIfNeeded: Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max), 0, 0, 0)))
+        XCTAssertEqual(T(truncatingIfNeeded: Int.min), T(x64:(UInt64(truncatingIfNeeded: Int.min), ~0, ~0, ~0)))
+        XCTAssertEqual(T(truncatingIfNeeded: Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max),  0,  0,  0)))
     }
     
     //=------------------------------------------------------------------------=
@@ -129,7 +121,7 @@ final class Int256TestsOnNumbers: XCTestCase {
     
     func testFromMagnitude() {
         XCTAssertEqual(T(M.min), T(  ))
-        XCTAssertEqual(T(M(44)), T(44)) // some value that does not crash
+        XCTAssertEqual(T(M(44)), T(44))
         
         XCTAssertEqual(T(exactly:  M.min), T())
         XCTAssertEqual(T(exactly:  M.max), nil)
@@ -137,8 +129,8 @@ final class Int256TestsOnNumbers: XCTestCase {
         XCTAssertEqual(T(clamping: M.min), T())
         XCTAssertEqual(T(clamping: M.max), T.max)
 
-        XCTAssertEqual(T(truncatingIfNeeded: M.min), T(x64:(0, 0, 0, 0)))
-        XCTAssertEqual(T(truncatingIfNeeded: M.max), T(x64:(b, b, b, b)))
+        XCTAssertEqual(T(truncatingIfNeeded: M.min), T(x64:( 0,  0,  0,  0)))
+        XCTAssertEqual(T(truncatingIfNeeded: M.max), T(x64:(~0, ~0, ~0, ~0)))
     }
     
     //=------------------------------------------------------------------------=
@@ -146,8 +138,8 @@ final class Int256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testsFromSignedMagnitude() {
-        XCTAssertEqual(T(Signed(M(44), as: .minus)), -T(44)) // some value that does not crash
-        XCTAssertEqual(T(Signed(M(44), as: .plus )),  T(44)) // some value that does not crash
+        XCTAssertEqual(T(Signed(M(44), as: .minus)), -T(44))
+        XCTAssertEqual(T(Signed(M(44), as: .plus )),  T(44))
         
         XCTAssertEqual(T(exactly:  Signed(M.max, as: .minus)), nil)
         XCTAssertEqual(T(exactly:  Signed(M.max, as: .plus )), nil)
@@ -155,8 +147,8 @@ final class Int256TestsOnNumbers: XCTestCase {
         XCTAssertEqual(T(clamping: Signed(M.max, as: .minus)), T.min)
         XCTAssertEqual(T(clamping: Signed(M.max, as: .plus )), T.max)
         
-        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .minus)), T(x64:(1, 0, 0, 0)))
-        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .plus )), T(x64:(b, b, b, b)))
+        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .minus)), T(x64:( 1,  0,  0,  0)))
+        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .plus )), T(x64:(~0, ~0, ~0, ~0)))
     }
     
     //=------------------------------------------------------------------------=
@@ -216,35 +208,27 @@ final class UInt256TestsOnNumbers: XCTestCase {
     typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let a = UInt  .max
-    let b = UInt64.max
-    let c = UInt32.max
-    
-    //=------------------------------------------------------------------------=
     // MARK: Tests x Integers
     //=------------------------------------------------------------------------=
     
     func testToIntegers() {
-        XCTAssertEqual(UInt64(T(x64:(1, 0, 0, 0))), 1)
-        XCTAssertEqual(UInt64(T(x64:(b, 0, 0, 0))), b)
+        XCTAssertEqual(UInt64(T(x64:( 1,  0,  0,  0))),  1)
+        XCTAssertEqual(UInt64(T(x64:(~0,  0,  0,  0))), ~0)
         
-        XCTAssertEqual(UInt64(clamping: T(x64:(1, 0, 0, 0))), 1)
-        XCTAssertEqual(UInt64(clamping: T(x64:(b, 0, 0, 0))), b)
-        XCTAssertEqual(UInt64(clamping: T(x64:(1, 1, 1, 1))), b)
-        XCTAssertEqual(UInt64(clamping: T(x64:(b, b, b, b))), b)
+        XCTAssertEqual(UInt64(clamping: T(x64:( 1,  0,  0,  0))),  1)
+        XCTAssertEqual(UInt64(clamping: T(x64:(~0,  0,  0,  0))), ~0)
+        XCTAssertEqual(UInt64(clamping: T(x64:( 1,  1,  1,  1))), ~0)
+        XCTAssertEqual(UInt64(clamping: T(x64:(~0, ~0, ~0, ~0))), ~0)
         
-        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(1, 0, 0, 0))), 1)
-        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(b, 0, 0, 0))), b)
-        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(1, 1, 1, 1))), 1)
-        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(b, b, b, b))), b)
+        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:( 1,  0,  0,  0))),  1)
+        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(~0,  0,  0,  0))), ~0)
+        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:( 1,  1,  1,  1))),  1)
+        XCTAssertEqual(UInt64(truncatingIfNeeded: T(x64:(~0, ~0, ~0, ~0))), ~0)
         
-        XCTAssertEqual(UInt64(exactly: T(x64:(1, 0, 0, 0))), 1)
-        XCTAssertEqual(UInt64(exactly: T(x64:(b, 0, 0, 0))), b)
-        XCTAssertEqual(UInt64(exactly: T(x64:(1, 1, 1, 1))), nil)
-        XCTAssertEqual(UInt64(exactly: T(x64:(b, b, b, b))), nil)
+        XCTAssertEqual(UInt64(exactly: T(x64:( 1,  0,  0,  0))),   1)
+        XCTAssertEqual(UInt64(exactly: T(x64:(~0,  0,  0,  0))),  ~0)
+        XCTAssertEqual(UInt64(exactly: T(x64:( 1,  1,  1,  1))), nil)
+        XCTAssertEqual(UInt64(exactly: T(x64:(~0, ~0, ~0, ~0))), nil)
     }
     
     func testFromIntegers() {
@@ -266,7 +250,7 @@ final class UInt256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testFromInt() {
-        XCTAssertEqual(T(Int(  )), T()) // some value that does not crash
+        XCTAssertEqual(T(Int(  )), T())
         XCTAssertEqual(T(Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max), 0, 0, 0)))
         
         XCTAssertEqual(T(exactly:  Int.min), nil)
@@ -275,8 +259,8 @@ final class UInt256TestsOnNumbers: XCTestCase {
         XCTAssertEqual(T(clamping: Int.min), T(x64:(UInt64(truncatingIfNeeded: Int(  )), 0, 0, 0)))
         XCTAssertEqual(T(clamping: Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max), 0, 0, 0)))
         
-        XCTAssertEqual(T(truncatingIfNeeded: Int.min), T(x64:(UInt64(truncatingIfNeeded: Int.min), b, b, b)))
-        XCTAssertEqual(T(truncatingIfNeeded: Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max), 0, 0, 0)))
+        XCTAssertEqual(T(truncatingIfNeeded: Int.min), T(x64:(UInt64(truncatingIfNeeded: Int.min), ~0, ~0, ~0)))
+        XCTAssertEqual(T(truncatingIfNeeded: Int.max), T(x64:(UInt64(truncatingIfNeeded: Int.max),  0,  0,  0)))
     }
     
     //=------------------------------------------------------------------------=
@@ -302,17 +286,17 @@ final class UInt256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testFromSignitude() {
-        XCTAssertEqual(T(S(  )), T()) // some value that does not crash
-        XCTAssertEqual(T(S.max), T(x64:(b, b, b, UInt64(bitPattern: Int64.max))))
+        XCTAssertEqual(T(S(  )), T())
+        XCTAssertEqual(T(S.max), T(x64:(~0, ~0, ~0, UInt64(bitPattern: Int64.max))))
         
         XCTAssertEqual(T(exactly:  S.min), nil)
-        XCTAssertEqual(T(exactly:  S.max), T(x64:(b, b, b, UInt64(bitPattern: Int64.max))))
+        XCTAssertEqual(T(exactly:  S.max), T(x64:(~0, ~0, ~0, UInt64(bitPattern: Int64.max))))
 
-        XCTAssertEqual(T(clamping: S.min), T(x64:(0, 0, 0, UInt64(bitPattern: Int64(  )))))
-        XCTAssertEqual(T(clamping: S.max), T(x64:(b, b, b, UInt64(bitPattern: Int64.max))))
+        XCTAssertEqual(T(clamping: S.min), T(x64:( 0,  0,  0, UInt64(bitPattern: Int64(  )))))
+        XCTAssertEqual(T(clamping: S.max), T(x64:(~0, ~0, ~0, UInt64(bitPattern: Int64.max))))
 
-        XCTAssertEqual(T(truncatingIfNeeded: S.min), T(x64:(0, 0, 0, UInt64(bitPattern: Int64.min))))
-        XCTAssertEqual(T(truncatingIfNeeded: S.max), T(x64:(b, b, b, UInt64(bitPattern: Int64.max))))
+        XCTAssertEqual(T(truncatingIfNeeded: S.min), T(x64:( 0,  0,  0, UInt64(bitPattern: Int64.min))))
+        XCTAssertEqual(T(truncatingIfNeeded: S.max), T(x64:(~0, ~0, ~0, UInt64(bitPattern: Int64.max))))
     }
 
     //=------------------------------------------------------------------------=
@@ -338,7 +322,7 @@ final class UInt256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
 
     func testsFromSignedMagnitude() {
-        XCTAssertEqual(T(ANKSigned(M(  ), as: .minus)),  T(  )) // some value that does not crash
+        XCTAssertEqual(T(ANKSigned(M(  ), as: .minus)),  T(  ))
         XCTAssertEqual(T(ANKSigned(M.max, as: .plus )),  T.max)
 
         XCTAssertEqual(T(exactly:  ANKSigned(M.max, as: .minus)),   nil)
@@ -347,8 +331,8 @@ final class UInt256TestsOnNumbers: XCTestCase {
         XCTAssertEqual(T(clamping: ANKSigned(M.max, as: .minus)), T.min)
         XCTAssertEqual(T(clamping: ANKSigned(M.max, as: .plus )), T.max)
 
-        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .minus)), T(x64:(1, 0, 0, 0)))
-        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .plus )), T(x64:(b, b, b, b)))
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .minus)), T(x64:( 1,  0,  0,  0)))
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .plus )), T(x64:(~0, ~0, ~0, ~0)))
     }
     
     //=------------------------------------------------------------------------=
@@ -356,11 +340,11 @@ final class UInt256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testToFloatingPoints() {
-        XCTAssertEqual(Float32(T(x64:(0, 0, 0, 0))), Float32(0))
-        XCTAssertEqual(Float32(T(x64:(1, 0, 0, 0))), Float32(1))
-
-        XCTAssertEqual(Float64(T(x64:(0, 0, 0, 0))), Float64(0))
-        XCTAssertEqual(Float64(T(x64:(b, 0, 0, 0))), Float64(b))
+        XCTAssertEqual(Float32(T(0)), Float32(0))
+        XCTAssertEqual(Float32(T(1)), Float32(1))
+        
+        XCTAssertEqual(Float64(T(UInt.min)), Float64(UInt.min))
+        XCTAssertEqual(Float64(T(UInt.max)), Float64(UInt.max))
     }
 
     func testFromFloatingPoints() {

@@ -21,14 +21,6 @@ final class Int192TestsOnSubtraction: XCTestCase {
     typealias T = ANKInt192
     
     //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let a = UInt  .max
-    let b = UInt64.max
-    let c = UInt32.max
-    
-    //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
@@ -51,21 +43,21 @@ final class Int192TestsOnSubtraction: XCTestCase {
         XCTAssertEqual(T(-1) - T( 1), T(-2))
         XCTAssertEqual(T(-1) - T( 2), T(-3))
         
-        XCTAssertEqual(T(x64:(b, b, 0)) - -T(x64:(3, 0, 0)), T(x64:( 2,  0,  1)))
-        XCTAssertEqual(T(x64:(b, b, 0)) - -T(x64:(0, 3, 0)), T(x64:( b,  2,  1)))
-        XCTAssertEqual(T(x64:(b, b, 0)) - -T(x64:(0, 0, 3)), T(x64:( b,  b,  3)))
+        XCTAssertEqual(T(x64:(~0, ~0,  0)) - -T(x64:(3, 0, 0)), T(x64:( 2,  0,  1)))
+        XCTAssertEqual(T(x64:(~0, ~0,  0)) - -T(x64:(0, 3, 0)), T(x64:(~0,  2,  1)))
+        XCTAssertEqual(T(x64:(~0, ~0,  0)) - -T(x64:(0, 0, 3)), T(x64:(~0, ~0,  3)))
         
-        XCTAssertEqual(T(x64:(b, b, 0)) -  T(x64:(3, 0, 0)), T(x64:(~3,  b,  0)))
-        XCTAssertEqual(T(x64:(b, b, 0)) -  T(x64:(0, 3, 0)), T(x64:( b, ~3,  0)))
-        XCTAssertEqual(T(x64:(b, b, 0)) -  T(x64:(0, 0, 3)), T(x64:( b,  b, ~2)))
+        XCTAssertEqual(T(x64:(~0, ~0,  0)) -  T(x64:(3, 0, 0)), T(x64:(~3, ~0,  0)))
+        XCTAssertEqual(T(x64:(~0, ~0,  0)) -  T(x64:(0, 3, 0)), T(x64:(~0, ~3,  0)))
+        XCTAssertEqual(T(x64:(~0, ~0,  0)) -  T(x64:(0, 0, 3)), T(x64:(~0, ~0, ~2)))
         
-        XCTAssertEqual(T(x64:(0, 0, b)) - -T(x64:(3, 0, 0)), T(x64:( 3,  0,  b)))
-        XCTAssertEqual(T(x64:(0, 0, b)) - -T(x64:(0, 3, 0)), T(x64:( 0,  3,  b)))
-        XCTAssertEqual(T(x64:(0, 0, b)) - -T(x64:(0, 0, 3)), T(x64:( 0,  0,  2)))
+        XCTAssertEqual(T(x64:( 0,  0, ~0)) - -T(x64:(3, 0, 0)), T(x64:( 3,  0, ~0)))
+        XCTAssertEqual(T(x64:( 0,  0, ~0)) - -T(x64:(0, 3, 0)), T(x64:( 0,  3, ~0)))
+        XCTAssertEqual(T(x64:( 0,  0, ~0)) - -T(x64:(0, 0, 3)), T(x64:( 0,  0,  2)))
         
-        XCTAssertEqual(T(x64:(0, 0, b)) -  T(x64:(3, 0, 0)), T(x64:(~2,  b, ~1)))
-        XCTAssertEqual(T(x64:(0, 0, b)) -  T(x64:(0, 3, 0)), T(x64:( 0, ~2, ~1)))
-        XCTAssertEqual(T(x64:(0, 0, b)) -  T(x64:(0, 0, 3)), T(x64:( 0,  0, ~3)))
+        XCTAssertEqual(T(x64:( 0,  0, ~0)) -  T(x64:(3, 0, 0)), T(x64:(~2, ~0, ~1)))
+        XCTAssertEqual(T(x64:( 0,  0, ~0)) -  T(x64:(0, 3, 0)), T(x64:( 0, ~2, ~1)))
+        XCTAssertEqual(T(x64:( 0,  0, ~0)) -  T(x64:(0, 0, 3)), T(x64:( 0,  0, ~3)))
     }
     
     func testSubtractingWrappingAround() {
@@ -85,10 +77,10 @@ final class Int192TestsOnSubtraction: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Int
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testSubtractingInt() {
+    func testSubtractingDigit() {
         XCTAssertEqual(T( 1) - Int(-2), T( 3))
         XCTAssertEqual(T( 1) - Int(-1), T( 2))
         XCTAssertEqual(T( 1) - Int( 0), T( 1))
@@ -107,13 +99,13 @@ final class Int192TestsOnSubtraction: XCTestCase {
         XCTAssertEqual(T(-1) - Int( 1), T(-2))
         XCTAssertEqual(T(-1) - Int( 2), T(-3))
         
-        XCTAssertEqual(T(x64:(b, b, 0)) - -Int(3), T(x64:( 2,  0,  1)))
-        XCTAssertEqual(T(x64:(b, b, 0)) -  Int(3), T(x64:(~3,  b,  0)))
-        XCTAssertEqual(T(x64:(0, 0, b)) - -Int(3), T(x64:( 3,  0,  b)))
-        XCTAssertEqual(T(x64:(0, 0, b)) -  Int(3), T(x64:(~2,  b, ~1)))
+        XCTAssertEqual(T(x64:(~0, ~0,  0)) - -Int(3), T(x64:( 2,  0,  1)))
+        XCTAssertEqual(T(x64:(~0, ~0,  0)) -  Int(3), T(x64:(~3, ~0,  0)))
+        XCTAssertEqual(T(x64:( 0,  0, ~0)) - -Int(3), T(x64:( 3,  0, ~0)))
+        XCTAssertEqual(T(x64:( 0,  0, ~0)) -  Int(3), T(x64:(~2, ~0, ~1)))
     }
     
-    func testSubtractingIntWrappingAround() {
+    func testSubtractingDigitWrappingAround() {
         XCTAssertEqual(T.min &- Int( 2), T.max - Int(1))
         XCTAssertEqual(T.max &- Int( 2), T.max - Int(2))
         
@@ -121,7 +113,7 @@ final class Int192TestsOnSubtraction: XCTestCase {
         XCTAssertEqual(T.max &- Int(-2), T.min + Int(1))
     }
     
-    func testSubtractingIntReportingOverflow() {
+    func testSubtractingDigitReportingOverflow() {
         XCTAssert(T.min.subtractingReportingOverflow(Int( 2)) == (T.max - Int(1), true ) as (T, Bool))
         XCTAssert(T.max.subtractingReportingOverflow(Int( 2)) == (T.max - Int(2), false) as (T, Bool))
         
@@ -137,14 +129,6 @@ final class Int192TestsOnSubtraction: XCTestCase {
 final class UInt192TestsOnSubtraction: XCTestCase {
     
     typealias T = ANKUInt192
-        
-    //=------------------------------------------------------------------------=
-    // MARK: State
-    //=------------------------------------------------------------------------=
-    
-    let a = UInt  .max
-    let b = UInt64.max
-    let c = UInt32.max
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -156,9 +140,9 @@ final class UInt192TestsOnSubtraction: XCTestCase {
         XCTAssertEqual(T(3) - T(2), T(1))
         XCTAssertEqual(T(3) - T(3), T(0))
         
-        XCTAssertEqual(T(x64:(0, b, b)) - T(x64:(3, 0, 0)), T(x64:(~2, ~1,  b)))
-        XCTAssertEqual(T(x64:(0, b, b)) - T(x64:(0, 3, 0)), T(x64:( 0, ~3,  b)))
-        XCTAssertEqual(T(x64:(0, b, b)) - T(x64:(0, 0, 3)), T(x64:( 0,  b, ~3)))
+        XCTAssertEqual(T(x64:(0, ~0, ~0)) - T(x64:(3, 0, 0)), T(x64:(~2, ~1, ~0)))
+        XCTAssertEqual(T(x64:(0, ~0, ~0)) - T(x64:(0, 3, 0)), T(x64:( 0, ~3, ~0)))
+        XCTAssertEqual(T(x64:(0, ~0, ~0)) - T(x64:(0, 0, 3)), T(x64:( 0, ~0, ~3)))
     }
     
     func testSubtractingWrappingAround() {
@@ -172,26 +156,26 @@ final class UInt192TestsOnSubtraction: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x UInt
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testSubtractingUInt() {
+    func testSubtractingDigit() {
         XCTAssertEqual(T(3) - UInt(0), T(3))
         XCTAssertEqual(T(3) - UInt(1), T(2))
         XCTAssertEqual(T(3) - UInt(2), T(1))
         XCTAssertEqual(T(3) - UInt(3), T(0))
         
-        XCTAssertEqual(T(x64:(b, b, b)) - UInt(3), T(x64:(~3,  b,  b)))
-        XCTAssertEqual(T(x64:(0, b, b)) - UInt(3), T(x64:(~2, ~1,  b)))
-        XCTAssertEqual(T(x64:(0, 0, b)) - UInt(3), T(x64:(~2,  b, ~1)))
+        XCTAssertEqual(T(x64:(~0, ~0, ~0)) - UInt(3), T(x64:(~3, ~0, ~0)))
+        XCTAssertEqual(T(x64:( 0, ~0, ~0)) - UInt(3), T(x64:(~2, ~1, ~0)))
+        XCTAssertEqual(T(x64:( 0,  0, ~0)) - UInt(3), T(x64:(~2, ~0, ~1)))
     }
     
-    func testSubtractingUIntWrappingAround() {
+    func testSubtractingDigitWrappingAround() {
         XCTAssertEqual(T.min &- UInt(2), T.max - UInt(1))
         XCTAssertEqual(T.max &- UInt(2), T.max - UInt(2))
     }
     
-    func testSubtractingUIntReportingOverflow() {
+    func testSubtractingDigitReportingOverflow() {
         XCTAssert(T.min.subtractingReportingOverflow(UInt(2)) == (T.max - UInt(1), true ) as (T, Bool))
         XCTAssert(T.max.subtractingReportingOverflow(UInt(2)) == (T.max - UInt(2), false) as (T, Bool))
     }
