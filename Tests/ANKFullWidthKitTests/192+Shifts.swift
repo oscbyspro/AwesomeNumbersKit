@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK192X64
+private typealias Y = ANK192X32
+
 //*============================================================================*
 // MARK: * Int192 x Tests x Bitwise x Shifts
 //*============================================================================*
@@ -25,25 +28,25 @@ final class Int192TestsOnBitwiseShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeftByWords() {
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) <<  (64 * 0), T(x64:(~0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) <<  (64 * 1), T(x64:( 0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) <<  (64 * 2), T(x64:( 0,  0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) <<  (64 * 3), T(x64:( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) <<  (64 * 0), T(x64: X(~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) <<  (64 * 1), T(x64: X( 0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) <<  (64 * 2), T(x64: X( 0,  0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) <<  (64 * 3), T(x64: X( 0,  0,  0)))
         
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) >> -(64 * 0), T(x64:(~0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) >> -(64 * 1), T(x64:( 0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) >> -(64 * 2), T(x64:( 0,  0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) >> -(64 * 3), T(x64:( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) >> -(64 * 0), T(x64: X(~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) >> -(64 * 1), T(x64: X( 0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) >> -(64 * 2), T(x64: X( 0,  0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) >> -(64 * 3), T(x64: X( 0,  0,  0)))
     }
     
     func testBitshiftingLeftByBits() {
-        XCTAssertEqual(T(x64:(1, 2, 3)) << 0, T(x64:(1, 2,  3)))
-        XCTAssertEqual(T(x64:(1, 2, 3)) << 1, T(x64:(2, 4,  6)))
-        XCTAssertEqual(T(x64:(1, 2, 3)) << 2, T(x64:(4, 8, 12)))
+        XCTAssertEqual(T(x64: X(1, 2, 3)) << 0, T(x64: X(1, 2,  3)))
+        XCTAssertEqual(T(x64: X(1, 2, 3)) << 1, T(x64: X(2, 4,  6)))
+        XCTAssertEqual(T(x64: X(1, 2, 3)) << 2, T(x64: X(4, 8, 12)))
         
-        XCTAssertEqual(T(x64:(~0 << 48, ~0 >> 16, 0)) << 16, T(x64:(0, ~0, 0)))
-        XCTAssertEqual(T(x64:(~0 << 32, ~0 >> 32, 0)) << 32, T(x64:(0, ~0, 0)))
-        XCTAssertEqual(T(x64:(~0 << 16, ~0 >> 48, 0)) << 48, T(x64:(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(~0 << 48, ~0 >> 16, 0)) << 16, T(x64: X(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(~0 << 32, ~0 >> 32, 0)) << 32, T(x64: X(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(~0 << 16, ~0 >> 48, 0)) << 48, T(x64: X(0, ~0, 0)))
     }
     
     //=------------------------------------------------------------------------=
@@ -51,35 +54,35 @@ final class Int192TestsOnBitwiseShifts: XCTestCase {
     //=------------------------------------------------------------------------=
 
     func testBitshiftingRightByWords() {
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) >>  (64 * 0), T(x64:( 0,  0, ~0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) >>  (64 * 1), T(x64:( 0, ~0, ~0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) >>  (64 * 2), T(x64:(~0, ~0, ~0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) >>  (64 * 3), T(x64:(~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) >>  (64 * 0), T(x64: X( 0,  0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) >>  (64 * 1), T(x64: X( 0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) >>  (64 * 2), T(x64: X(~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) >>  (64 * 3), T(x64: X(~0, ~0, ~0)))
         
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) << -(64 * 0), T(x64:( 0,  0, ~0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) << -(64 * 1), T(x64:( 0, ~0, ~0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) << -(64 * 2), T(x64:(~0, ~0, ~0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) << -(64 * 3), T(x64:(~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) << -(64 * 0), T(x64: X( 0,  0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) << -(64 * 1), T(x64: X( 0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) << -(64 * 2), T(x64: X(~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) << -(64 * 3), T(x64: X(~0, ~0, ~0)))
 
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) >>  (64 * 0), T(x64:(~0, ~0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) >>  (64 * 1), T(x64:(~0,  0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) >>  (64 * 2), T(x64:( 0,  0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) >>  (64 * 3), T(x64:( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) >>  (64 * 0), T(x64: X(~0, ~0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) >>  (64 * 1), T(x64: X(~0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) >>  (64 * 2), T(x64: X( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) >>  (64 * 3), T(x64: X( 0,  0,  0)))
 
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) << -(64 * 0), T(x64:(~0, ~0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) << -(64 * 1), T(x64:(~0,  0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) << -(64 * 2), T(x64:( 0,  0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) << -(64 * 3), T(x64:( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) << -(64 * 0), T(x64: X(~0, ~0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) << -(64 * 1), T(x64: X(~0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) << -(64 * 2), T(x64: X( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) << -(64 * 3), T(x64: X( 0,  0,  0)))
     }
     
     func testBitshiftingRightByBits() {
-        XCTAssertEqual(T(x64:(4, 8, 12)) >> 0, T(x64:(4, 8, 12)))
-        XCTAssertEqual(T(x64:(4, 8, 12)) >> 1, T(x64:(2, 4,  6)))
-        XCTAssertEqual(T(x64:(4, 8, 12)) >> 2, T(x64:(1, 2,  3)))
+        XCTAssertEqual(T(x64: X(4, 8, 12)) >> 0, T(x64: X(4, 8, 12)))
+        XCTAssertEqual(T(x64: X(4, 8, 12)) >> 1, T(x64: X(2, 4,  6)))
+        XCTAssertEqual(T(x64: X(4, 8, 12)) >> 2, T(x64: X(1, 2,  3)))
 
-        XCTAssertEqual(T(x64:(0, ~0 << 16, ~0 >> 48)) >> 16, T(x64:(0, ~0, 0)))
-        XCTAssertEqual(T(x64:(0, ~0 << 32, ~0 >> 32)) >> 32, T(x64:(0, ~0, 0)))
-        XCTAssertEqual(T(x64:(0, ~0 << 48, ~0 >> 16)) >> 48, T(x64:(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(0, ~0 << 16, ~0 >> 48)) >> 16, T(x64: X(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(0, ~0 << 32, ~0 >> 32)) >> 32, T(x64: X(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(0, ~0 << 48, ~0 >> 16)) >> 48, T(x64: X(0, ~0, 0)))
     }
 }
 
@@ -96,25 +99,25 @@ final class UInt192TestsOnBitwiseShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeftByWords() {
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) <<  (64 * 0), T(x64:(~0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) <<  (64 * 1), T(x64:( 0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) <<  (64 * 2), T(x64:( 0,  0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) <<  (64 * 3), T(x64:( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) <<  (64 * 0), T(x64: X(~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) <<  (64 * 1), T(x64: X( 0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) <<  (64 * 2), T(x64: X( 0,  0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) <<  (64 * 3), T(x64: X( 0,  0,  0)))
 
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) >> -(64 * 0), T(x64:(~0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) >> -(64 * 1), T(x64:( 0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) >> -(64 * 2), T(x64:( 0,  0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)) >> -(64 * 3), T(x64:( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) >> -(64 * 0), T(x64: X(~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) >> -(64 * 1), T(x64: X( 0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) >> -(64 * 2), T(x64: X( 0,  0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) >> -(64 * 3), T(x64: X( 0,  0,  0)))
     }
 
     func testBitshiftingLeftByBits() {
-        XCTAssertEqual(T(x64:(1, 2, 3)) << 0, T(x64:(1, 2,  3)))
-        XCTAssertEqual(T(x64:(1, 2, 3)) << 1, T(x64:(2, 4,  6)))
-        XCTAssertEqual(T(x64:(1, 2, 3)) << 2, T(x64:(4, 8, 12)))
+        XCTAssertEqual(T(x64: X(1, 2, 3)) << 0, T(x64: X(1, 2,  3)))
+        XCTAssertEqual(T(x64: X(1, 2, 3)) << 1, T(x64: X(2, 4,  6)))
+        XCTAssertEqual(T(x64: X(1, 2, 3)) << 2, T(x64: X(4, 8, 12)))
 
-        XCTAssertEqual(T(x64:(~0 << 48, ~0 >> 16, 0)) << 16, T(x64:(0, ~0, 0)))
-        XCTAssertEqual(T(x64:(~0 << 32, ~0 >> 32, 0)) << 32, T(x64:(0, ~0, 0)))
-        XCTAssertEqual(T(x64:(~0 << 16, ~0 >> 48, 0)) << 48, T(x64:(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(~0 << 48, ~0 >> 16, 0)) << 16, T(x64: X(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(~0 << 32, ~0 >> 32, 0)) << 32, T(x64: X(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(~0 << 16, ~0 >> 48, 0)) << 48, T(x64: X(0, ~0, 0)))
     }
     
     //=------------------------------------------------------------------------=
@@ -122,35 +125,35 @@ final class UInt192TestsOnBitwiseShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingRightByWords() {
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) >>  (64 * 0), T(x64:( 0,  0, ~0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) >>  (64 * 1), T(x64:( 0, ~0,  0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) >>  (64 * 2), T(x64:(~0,  0,  0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) >>  (64 * 3), T(x64:( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) >>  (64 * 0), T(x64: X( 0,  0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) >>  (64 * 1), T(x64: X( 0, ~0,  0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) >>  (64 * 2), T(x64: X(~0,  0,  0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) >>  (64 * 3), T(x64: X( 0,  0,  0)))
 
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) << -(64 * 0), T(x64:( 0,  0, ~0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) << -(64 * 1), T(x64:( 0, ~0,  0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) << -(64 * 2), T(x64:(~0,  0,  0)))
-        XCTAssertEqual(T(x64:( 0,  0, ~0)) << -(64 * 3), T(x64:( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) << -(64 * 0), T(x64: X( 0,  0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) << -(64 * 1), T(x64: X( 0, ~0,  0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) << -(64 * 2), T(x64: X(~0,  0,  0)))
+        XCTAssertEqual(T(x64: X( 0,  0, ~0)) << -(64 * 3), T(x64: X( 0,  0,  0)))
 
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) >>  (64 * 0), T(x64:(~0, ~0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) >>  (64 * 1), T(x64:(~0,  0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) >>  (64 * 2), T(x64:( 0,  0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) >>  (64 * 3), T(x64:( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) >>  (64 * 0), T(x64: X(~0, ~0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) >>  (64 * 1), T(x64: X(~0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) >>  (64 * 2), T(x64: X( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) >>  (64 * 3), T(x64: X( 0,  0,  0)))
 
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) << -(64 * 0), T(x64:(~0, ~0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) << -(64 * 1), T(x64:(~0,  0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) << -(64 * 2), T(x64:( 0,  0,  0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0)) << -(64 * 3), T(x64:( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) << -(64 * 0), T(x64: X(~0, ~0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) << -(64 * 1), T(x64: X(~0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) << -(64 * 2), T(x64: X( 0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0)) << -(64 * 3), T(x64: X( 0,  0,  0)))
     }
 
     func testBitshiftingRightByBits() {
-        XCTAssertEqual(T(x64:(4, 8, 12)) >> 0, T(x64:(4, 8, 12)))
-        XCTAssertEqual(T(x64:(4, 8, 12)) >> 1, T(x64:(2, 4,  6)))
-        XCTAssertEqual(T(x64:(4, 8, 12)) >> 2, T(x64:(1, 2,  3)))
+        XCTAssertEqual(T(x64: X(4, 8, 12)) >> 0, T(x64: X(4, 8, 12)))
+        XCTAssertEqual(T(x64: X(4, 8, 12)) >> 1, T(x64: X(2, 4,  6)))
+        XCTAssertEqual(T(x64: X(4, 8, 12)) >> 2, T(x64: X(1, 2,  3)))
 
-        XCTAssertEqual(T(x64:(0, ~0 << 16, ~0 >> 48)) >> 16, T(x64:(0, ~0, 0)))
-        XCTAssertEqual(T(x64:(0, ~0 << 32, ~0 >> 32)) >> 32, T(x64:(0, ~0, 0)))
-        XCTAssertEqual(T(x64:(0, ~0 << 48, ~0 >> 16)) >> 48, T(x64:(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(0, ~0 << 16, ~0 >> 48)) >> 16, T(x64: X(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(0, ~0 << 32, ~0 >> 32)) >> 32, T(x64: X(0, ~0, 0)))
+        XCTAssertEqual(T(x64: X(0, ~0 << 48, ~0 >> 16)) >> 48, T(x64: X(0, ~0, 0)))
     }
 }
 

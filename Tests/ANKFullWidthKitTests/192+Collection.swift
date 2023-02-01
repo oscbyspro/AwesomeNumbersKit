@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK192X64
+private typealias Y = ANK192X32
+
 //*============================================================================*
 // MARK: * Int192 x Collection
 //*============================================================================*

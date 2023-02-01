@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK192X64
+private typealias Y = ANK192X32
+
 //*============================================================================*
 // MARK: * Int192 x Comparison
 //*============================================================================*
@@ -25,8 +28,8 @@ final class Int192BenchmarksOnComparison: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsLessThan() {
-        let lhs = T(x64:(0, 1, 2))
-        let rhs = T(x64:(0, 1, 2))
+        let lhs = T(x64: X(0, 1, 2))
+        let rhs = T(x64: X(0, 1, 2))
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs < rhs
@@ -38,7 +41,7 @@ final class Int192BenchmarksOnComparison: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsZero() {
-        let abc = T(x64:(0, 1, 2))
+        let abc = T(x64: X(0, 1, 2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.isZero
@@ -46,7 +49,7 @@ final class Int192BenchmarksOnComparison: XCTestCase {
     }
     
     func testIsLessThanZero() {
-        let abc = T(x64:(0, 1, 2))
+        let abc = T(x64: X(0, 1, 2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.isLessThanZero
@@ -54,7 +57,7 @@ final class Int192BenchmarksOnComparison: XCTestCase {
     }
     
     func testIsMoreThanZero() {
-        let abc = T(x64:(0, 1, 2))
+        let abc = T(x64: X(0, 1, 2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.isMoreThanZero
@@ -75,8 +78,8 @@ final class UInt192BenchmarksOnComparison: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsLessThan() {
-        let lhs = T(x64:(0, 1, 2))
-        let rhs = T(x64:(0, 1, 2))
+        let lhs = T(x64: X(0, 1, 2))
+        let rhs = T(x64: X(0, 1, 2))
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs < rhs
@@ -88,7 +91,7 @@ final class UInt192BenchmarksOnComparison: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsZero() {
-        let abc = T(x64:(0, 1, 2))
+        let abc = T(x64: X(0, 1, 2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.isZero
@@ -96,7 +99,7 @@ final class UInt192BenchmarksOnComparison: XCTestCase {
     }
     
     func testIsLessThanZero() {
-        let abc = T(x64:(0, 1, 2))
+        let abc = T(x64: X(0, 1, 2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.isLessThanZero
@@ -104,7 +107,7 @@ final class UInt192BenchmarksOnComparison: XCTestCase {
     }
     
     func testIsMoreThanZero() {
-        let abc = T(x64:(0, 1, 2))
+        let abc = T(x64: X(0, 1, 2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.isMoreThanZero

@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK192X64
+private typealias Y = ANK192X32
+
 //*============================================================================*
 // MARK: * Int192 x Bitwise
 //*============================================================================*
@@ -25,8 +28,8 @@ final class Int192BenchmarksOnBitwise: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAnd() {
-        let lhs = T(x64:(~0, ~1, ~2))
-        let rhs = T(x64:( 0,  1,  2))
+        let lhs = T(x64: X(~0, ~1, ~2))
+        let rhs = T(x64: X( 0,  1,  2))
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs & rhs
@@ -34,8 +37,8 @@ final class Int192BenchmarksOnBitwise: XCTestCase {
     }
     
     func testOr() {
-        let lhs = T(x64:(~0, ~1, ~2))
-        let rhs = T(x64:( 0,  1,  2))
+        let lhs = T(x64: X(~0, ~1, ~2))
+        let rhs = T(x64: X( 0,  1,  2))
 
         for _ in 0 ..< 1_000_000 {
             _ = lhs | rhs
@@ -43,8 +46,8 @@ final class Int192BenchmarksOnBitwise: XCTestCase {
     }
     
     func testXor() {
-        let lhs = T(x64:(~0, ~1, ~2))
-        let rhs = T(x64:( 0,  1,  2))
+        let lhs = T(x64: X(~0, ~1, ~2))
+        let rhs = T(x64: X( 0,  1,  2))
 
         for _ in 0 ..< 1_000_000 {
             _ = lhs ^ rhs
@@ -52,7 +55,7 @@ final class Int192BenchmarksOnBitwise: XCTestCase {
     }
     
     func testNot() {
-        let abc = T(x64:(~0, ~1, ~2))
+        let abc = T(x64: X(~0, ~1, ~2))
         
         for _ in 0 ..< 1_000_000 {
             _ = ~abc
@@ -60,7 +63,7 @@ final class Int192BenchmarksOnBitwise: XCTestCase {
     }
     
     func testByteSwapped() {
-        let abc = T(x64:(~0, ~1, ~2))
+        let abc = T(x64: X(~0, ~1, ~2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.byteSwapped
@@ -81,8 +84,8 @@ final class UInt192BenchmarksOnBitwise: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAnd() {
-        let lhs = T(x64:(~0, ~1, ~2))
-        let rhs = T(x64:( 0,  1,  2))
+        let lhs = T(x64: X(~0, ~1, ~2))
+        let rhs = T(x64: X( 0,  1,  2))
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs & rhs
@@ -90,8 +93,8 @@ final class UInt192BenchmarksOnBitwise: XCTestCase {
     }
     
     func testOr() {
-        let lhs = T(x64:(~0, ~1, ~2))
-        let rhs = T(x64:( 0,  1,  2))
+        let lhs = T(x64: X(~0, ~1, ~2))
+        let rhs = T(x64: X( 0,  1,  2))
 
         for _ in 0 ..< 1_000_000 {
             _ = lhs | rhs
@@ -99,8 +102,8 @@ final class UInt192BenchmarksOnBitwise: XCTestCase {
     }
     
     func testXor() {
-        let lhs = T(x64:(~0, ~1, ~2))
-        let rhs = T(x64:( 0,  1,  2))
+        let lhs = T(x64: X(~0, ~1, ~2))
+        let rhs = T(x64: X( 0,  1,  2))
 
         for _ in 0 ..< 1_000_000 {
             _ = lhs ^ rhs
@@ -108,7 +111,7 @@ final class UInt192BenchmarksOnBitwise: XCTestCase {
     }
     
     func testNot() {
-        let abc = T(x64:(~0, ~1, ~2))
+        let abc = T(x64: X(~0, ~1, ~2))
         
         for _ in 0 ..< 1_000_000 {
             _ = ~abc
@@ -116,7 +119,7 @@ final class UInt192BenchmarksOnBitwise: XCTestCase {
     }
     
     func testByteSwapped() {
-        let abc = T(x64:(~0, ~1, ~2))
+        let abc = T(x64: X(~0, ~1, ~2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.byteSwapped

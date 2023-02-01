@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK256X64
+private typealias Y = ANK256X32
+
 //*============================================================================*
 // MARK: * Int256 x Words
 //*============================================================================*
@@ -25,7 +28,7 @@ final class Int256BenchmarksOnWords: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNonzeroBitCount() {
-        let abc = T(x64:(0, 0, 0, 0))
+        let abc = T(x64: X(0, 0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.nonzeroBitCount
@@ -33,7 +36,7 @@ final class Int256BenchmarksOnWords: XCTestCase {
     }
     
     func testLeadingZeroBitCount() {
-        let abc = T(x64:(0, 0, 0, 0))
+        let abc = T(x64: X(0, 0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.leadingZeroBitCount
@@ -41,7 +44,7 @@ final class Int256BenchmarksOnWords: XCTestCase {
     }
     
     func testTrailingZeroBitCount() {
-        let abc = T(x64:(0, 0, 0, 0))
+        let abc = T(x64: X(0, 0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.trailingZeroBitCount
@@ -62,7 +65,7 @@ final class UInt256BenchmarksOnWords: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNonzeroBitCount() {
-        let abc = T(x64:(0, 0, 0, 0))
+        let abc = T(x64: X(0, 0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.nonzeroBitCount
@@ -70,7 +73,7 @@ final class UInt256BenchmarksOnWords: XCTestCase {
     }
     
     func testLeadingZeroBitCount() {
-        let abc = T(x64:(0, 0, 0, 0))
+        let abc = T(x64: X(0, 0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.leadingZeroBitCount
@@ -78,7 +81,7 @@ final class UInt256BenchmarksOnWords: XCTestCase {
     }
     
     func testTrailingZeroBitCount() {
-        let abc = T(x64:(0, 0, 0, 0))
+        let abc = T(x64: X(0, 0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.trailingZeroBitCount

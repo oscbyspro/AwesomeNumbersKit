@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK192X64
+private typealias Y = ANK192X32
+
 //*============================================================================*
 // MARK: * Int192 x Negation
 //*============================================================================*
@@ -25,7 +28,7 @@ final class Int192BenchmarksOnNegation: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNegated() {
-        let abc = T(x64:(0, 1, 2))
+        let abc = T(x64: X(0, 1, 2))
         
         for _ in 0 ..< 1_000_000 {
             _ = -abc
@@ -33,7 +36,7 @@ final class Int192BenchmarksOnNegation: XCTestCase {
     }
     
     func testNegatedReportingOverflow() {
-        let abc = T(x64:(0, 1, 2))
+        let abc = T(x64: X(0, 1, 2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.negatedReportingOverflow()

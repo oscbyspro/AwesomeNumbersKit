@@ -13,10 +13,8 @@
 
 /// A decorative, width agnostic, sign-and-magnitude, numeric integer.
 ///
-/// ```
-/// import ANKFoundation
-/// import ANKSignedKit
-/// ```
+/// It stores a sign and a magnitude and has sign-and-magnitude semantics. The
+/// sign bit is treated as separate, meaning that overflow does not affect it.
 ///
 /// **Positive & Negative Zero**
 ///
@@ -27,11 +25,6 @@
 ///
 /// - use `isLessThanZero` to check if the integer is negative
 /// - use `isMoreThanZero` to check if the integer is positive
-///
-/// **Sign & Magnitude Semantics**
-///
-/// It models a sign-decorated magnitude and has sign-and-magnitude semantics.
-/// The sign bit is treated as separate, such that overflow does not affect it.
 ///
 /// **Fast Digit Arithmetic**
 ///

@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK256X64
+private typealias Y = ANK256X32
+
 //*============================================================================*
 // MARK: * Int256 x Endianness
 //*============================================================================*
@@ -39,15 +42,15 @@ final class Int256TestsOnEndianness: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBigEndian() {
-        let base = T(x64:(1, 2, 3, 4))
-        let baseBigEndian = T(x64:(b4, b3, b2, b1))
+        let base = T(x64: X(1, 2, 3, 4))
+        let baseBigEndian = T(x64: X(b4, b3, b2, b1))
         XCTAssertEqual(base.bigEndian, baseBigEndian)
         XCTAssertEqual(T(bigEndian: baseBigEndian), base)
     }
     
     func testLittleEndian() {
-        let base = T(x64:(1, 2, 3, 4))
-        let baseLittleEndian = T(x64:(l1, l2, l3, l4))
+        let base = T(x64: X(1, 2, 3, 4))
+        let baseLittleEndian = T(x64: X(l1, l2, l3, l4))
         XCTAssertEqual(base.littleEndian, baseLittleEndian)
         XCTAssertEqual(T(littleEndian: baseLittleEndian), base)
     }
@@ -80,15 +83,15 @@ final class UInt256TestsOnEndianness: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBigEndian() {
-        let base = T(x64:(1, 2, 3, 4))
-        let baseBigEndian = T(x64:(b4, b3, b2, b1))
+        let base = T(x64: X(1, 2, 3, 4))
+        let baseBigEndian = T(x64: X(b4, b3, b2, b1))
         XCTAssertEqual(base.bigEndian, baseBigEndian)
         XCTAssertEqual(T(bigEndian: baseBigEndian), base)
     }
     
     func testLittleEndian() {
-        let base = T(x64:(1, 2, 3, 4))
-        let baseLittleEndian = T(x64:(l1, l2, l3, l4))
+        let base = T(x64: X(1, 2, 3, 4))
+        let baseLittleEndian = T(x64: X(l1, l2, l3, l4))
         XCTAssertEqual(base.littleEndian, baseLittleEndian)
         XCTAssertEqual(T(littleEndian: baseLittleEndian), base)
     }

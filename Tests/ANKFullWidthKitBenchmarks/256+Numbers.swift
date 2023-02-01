@@ -13,6 +13,9 @@ import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK256X64
+private typealias Y = ANK256X32
+
 //*============================================================================*
 // MARK: * Int256 x Numbers
 //*============================================================================*
@@ -50,7 +53,7 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     }
     
     func testSignitude() {
-        let abc = S(x64:(0, 1, 2, 3))
+        let abc = S(x64: X(0, 1, 2, 3))
         
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
@@ -61,7 +64,7 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     }
     
     func testMagnitude() {
-        let abc = M(x64:(0, 1, 2, 3))
+        let abc = M(x64: X(0, 1, 2, 3))
         
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
@@ -107,8 +110,8 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
         
     func testSignedMagnitude() {
-        let abc = ANKSigned(M(x64:(0, 1, 2, 3)), as: .plus )
-        let xyz = ANKSigned(M(x64:(0, 1, 2, 3)), as: .minus)
+        let abc = ANKSigned(M(x64: X(0, 1, 2, 3)), as: .plus )
+        let xyz = ANKSigned(M(x64: X(0, 1, 2, 3)), as: .minus)
         
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
@@ -163,7 +166,7 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     }
     
     func testSignitude() {
-        let abc = S(x64:(0, 1, 2, 3))
+        let abc = S(x64: X(0, 1, 2, 3))
         
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
@@ -174,7 +177,7 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     }
     
     func testMagnitude() {
-        let abc = M(x64:(0, 1, 2, 3))
+        let abc = M(x64: X(0, 1, 2, 3))
         
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
@@ -220,8 +223,8 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSignedMagnitude() {
-        let abc = ANKSigned(M(x64:(0, 1, 2, 3)), as: .plus )
-        let xyz = ANKSigned(M(x64:(0, 1, 2, 3)), as: .minus)
+        let abc = ANKSigned(M(x64: X(0, 1, 2, 3)), as: .plus )
+        let xyz = ANKSigned(M(x64: X(0, 1, 2, 3)), as: .minus)
         
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)

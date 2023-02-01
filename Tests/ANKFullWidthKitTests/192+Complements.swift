@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK192X64
+private typealias Y = ANK192X32
+
 //*============================================================================*
 // MARK: * Int192 x Complements
 //*============================================================================*
@@ -30,8 +33,8 @@ final class Int192TestsOnComplements: XCTestCase {
         XCTAssertEqual(T( 0).magnitude, M(0))
         XCTAssertEqual(T(-3).magnitude, M(3))
         
-        XCTAssertEqual(T.min.magnitude, M(x64:( 0,  0, ~0 << 63)))
-        XCTAssertEqual(T.max.magnitude, M(x64:(~0, ~0, ~0 >>  1)))
+        XCTAssertEqual(T.min.magnitude, M(x64: X( 0,  0, ~0 << 63)))
+        XCTAssertEqual(T.max.magnitude, M(x64: X(~0, ~0, ~0 >>  1)))
     }
 }
 
@@ -52,8 +55,8 @@ final class UInt192TestsOnComplements: XCTestCase {
         XCTAssertEqual(T(3).magnitude, M(3))
         XCTAssertEqual(T(0).magnitude, M(0))
         
-        XCTAssertEqual(T.min.magnitude, M(x64:( 0,  0,  0)))
-        XCTAssertEqual(T.max.magnitude, M(x64:(~0, ~0, ~0)))
+        XCTAssertEqual(T.min.magnitude, M(x64: X( 0,  0,  0)))
+        XCTAssertEqual(T.max.magnitude, M(x64: X(~0, ~0, ~0)))
     }
 }
 

@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK256X64
+private typealias Y = ANK256X32
+
 //*============================================================================*
 // MARK: * Int256 x Bitwise
 //*============================================================================*
@@ -25,41 +28,41 @@ final class Int256TestsOnBitwise: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNot() {
-        XCTAssertEqual(~T(x64:( 0,  1,  2,  3)), T(x64:(~0, ~1, ~2, ~3)))
-        XCTAssertEqual(~T(x64:(~0, ~1, ~2, ~3)), T(x64:( 0,  1,  2,  3)))
+        XCTAssertEqual(~T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~1, ~2, ~3)))
+        XCTAssertEqual(~T(x64: X(~0, ~1, ~2, ~3)), T(x64: X( 0,  1,  2,  3)))
     }
     
     func testAnd() {
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) & T(x64:( 0,  0,  0,  0)), T(x64:( 0,  0,  0,  0)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) & T(x64:( 0,  0,  0,  0)), T(x64:( 0,  0,  0,  0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) & T(x64:(~0, ~0, ~0, ~0)), T(x64:( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) & T(x64:(~0, ~0, ~0, ~0)), T(x64:( 3,  2,  1,  0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 0,  1,  2,  3)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) & T(x64:( 1,  1,  1,  1)), T(x64:( 0,  1,  0,  1)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) & T(x64:( 1,  1,  1,  1)), T(x64:( 1,  0,  1,  0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X( 1,  1,  1,  1)), T(x64: X( 0,  1,  0,  1)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  1,  0)))
     }
     
     func testOr() {
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) | T(x64:( 0,  0,  0,  0)), T(x64:( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) | T(x64:( 0,  0,  0,  0)), T(x64:( 3,  2,  1,  0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) | T(x64:(~0, ~0, ~0, ~0)), T(x64:(~0, ~0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) | T(x64:(~0, ~0, ~0, ~0)), T(x64:(~0, ~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) | T(x64:( 1,  1,  1,  1)), T(x64:( 1,  1,  3,  3)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) | T(x64:( 1,  1,  1,  1)), T(x64:( 3,  3,  1,  1)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  1,  3,  3)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X( 1,  1,  1,  1)), T(x64: X( 3,  3,  1,  1)))
     }
     
     func testXor() {
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) ^ T(x64:( 0,  0,  0,  0)), T(x64:( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) ^ T(x64:( 0,  0,  0,  0)), T(x64:( 3,  2,  1,  0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) ^ T(x64:(~0, ~0, ~0, ~0)), T(x64:(~0, ~1, ~2, ~3)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) ^ T(x64:(~0, ~0, ~0, ~0)), T(x64:(~3, ~2, ~1, ~0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~1, ~2, ~3)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~3, ~2, ~1, ~0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) ^ T(x64:( 1,  1,  1,  1)), T(x64:( 1,  0,  3,  2)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) ^ T(x64:( 1,  1,  1,  1)), T(x64:( 2,  3,  0,  1)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  3,  2)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 2,  3,  0,  1)))
     }
     
     //=------------------------------------------------------------------------=
@@ -67,14 +70,14 @@ final class Int256TestsOnBitwise: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testByteSwapped() {
-        XCTAssertEqual(T(x64:( 0,  0,  0,  0)).byteSwapped, T(x64:( 0,  0,  0,  0)))
-        XCTAssertEqual(T(x64:(~0,  0,  0,  0)).byteSwapped, T(x64:( 0,  0,  0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0,  0)).byteSwapped, T(x64:( 0,  0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0,  0)).byteSwapped, T(x64:( 0, ~0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0, ~0)).byteSwapped, T(x64:(~0, ~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0,  0,  0)).byteSwapped, T(x64: X( 0,  0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0,  0,  0,  0)).byteSwapped, T(x64: X( 0,  0,  0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0,  0)).byteSwapped, T(x64: X( 0,  0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0,  0)).byteSwapped, T(x64: X( 0, ~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0, ~0)).byteSwapped, T(x64: X(~0, ~0, ~0, ~0)))
         
-        XCTAssertEqual(T(x64:(1, 2, 3, 4)).byteSwapped, T(x64:(4 << 56, 3 << 56, 2 << 56, 1 << 56)))
-        XCTAssertEqual(T(x64:(4 << 56, 3 << 56, 2 << 56, 1 << 56)).byteSwapped, T(x64:(1, 2, 3, 4)))
+        XCTAssertEqual(T(x64: X(1, 2, 3, 4)).byteSwapped, T(x64: X(4 << 56, 3 << 56, 2 << 56, 1 << 56)))
+        XCTAssertEqual(T(x64: X(4 << 56, 3 << 56, 2 << 56, 1 << 56)).byteSwapped, T(x64: X(1, 2, 3, 4)))
     }
 }
 
@@ -91,41 +94,41 @@ final class UInt256TestsOnBitwise: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNot() {
-        XCTAssertEqual(~T(x64:( 0,  1,  2,  3)), T(x64:(~0, ~1, ~2, ~3)))
-        XCTAssertEqual(~T(x64:(~0, ~1, ~2, ~3)), T(x64:( 0,  1,  2,  3)))
+        XCTAssertEqual(~T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~1, ~2, ~3)))
+        XCTAssertEqual(~T(x64: X(~0, ~1, ~2, ~3)), T(x64: X( 0,  1,  2,  3)))
     }
     
     func testAnd() {
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) & T(x64:( 0,  0,  0,  0)), T(x64:( 0,  0,  0,  0)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) & T(x64:( 0,  0,  0,  0)), T(x64:( 0,  0,  0,  0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) & T(x64:(~0, ~0, ~0, ~0)), T(x64:( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) & T(x64:(~0, ~0, ~0, ~0)), T(x64:( 3,  2,  1,  0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 0,  1,  2,  3)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) & T(x64:( 1,  1,  1,  1)), T(x64:( 0,  1,  0,  1)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) & T(x64:( 1,  1,  1,  1)), T(x64:( 1,  0,  1,  0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X( 1,  1,  1,  1)), T(x64: X( 0,  1,  0,  1)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  1,  0)))
     }
     
     func testOr() {
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) | T(x64:( 0,  0,  0,  0)), T(x64:( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) | T(x64:( 0,  0,  0,  0)), T(x64:( 3,  2,  1,  0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) | T(x64:(~0, ~0, ~0, ~0)), T(x64:(~0, ~0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) | T(x64:(~0, ~0, ~0, ~0)), T(x64:(~0, ~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) | T(x64:( 1,  1,  1,  1)), T(x64:( 1,  1,  3,  3)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) | T(x64:( 1,  1,  1,  1)), T(x64:( 3,  3,  1,  1)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  1,  3,  3)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X( 1,  1,  1,  1)), T(x64: X( 3,  3,  1,  1)))
     }
     
     func testXor() {
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) ^ T(x64:( 0,  0,  0,  0)), T(x64:( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) ^ T(x64:( 0,  0,  0,  0)), T(x64:( 3,  2,  1,  0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) ^ T(x64:(~0, ~0, ~0, ~0)), T(x64:(~0, ~1, ~2, ~3)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) ^ T(x64:(~0, ~0, ~0, ~0)), T(x64:(~3, ~2, ~1, ~0)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~1, ~2, ~3)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~3, ~2, ~1, ~0)))
         
-        XCTAssertEqual(T(x64:(0, 1, 2, 3)) ^ T(x64:( 1,  1,  1,  1)), T(x64:( 1,  0,  3,  2)))
-        XCTAssertEqual(T(x64:(3, 2, 1, 0)) ^ T(x64:( 1,  1,  1,  1)), T(x64:( 2,  3,  0,  1)))
+        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  3,  2)))
+        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 2,  3,  0,  1)))
     }
     
     //=------------------------------------------------------------------------=
@@ -133,14 +136,14 @@ final class UInt256TestsOnBitwise: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testByteSwapped() {
-        XCTAssertEqual(T(x64:( 0,  0,  0,  0)).byteSwapped, T(x64:( 0,  0,  0,  0)))
-        XCTAssertEqual(T(x64:(~0,  0,  0,  0)).byteSwapped, T(x64:( 0,  0,  0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0,  0,  0)).byteSwapped, T(x64:( 0,  0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0,  0)).byteSwapped, T(x64:( 0, ~0, ~0, ~0)))
-        XCTAssertEqual(T(x64:(~0, ~0, ~0, ~0)).byteSwapped, T(x64:(~0, ~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0,  0,  0)).byteSwapped, T(x64: X( 0,  0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0,  0,  0,  0)).byteSwapped, T(x64: X( 0,  0,  0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0,  0,  0)).byteSwapped, T(x64: X( 0,  0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0,  0)).byteSwapped, T(x64: X( 0, ~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0, ~0)).byteSwapped, T(x64: X(~0, ~0, ~0, ~0)))
         
-        XCTAssertEqual(T(x64:(1, 2, 3, 4)).byteSwapped, T(x64:(4 << 56, 3 << 56, 2 << 56, 1 << 56)))
-        XCTAssertEqual(T(x64:(4 << 56, 3 << 56, 2 << 56, 1 << 56)).byteSwapped, T(x64:(1, 2, 3, 4)))
+        XCTAssertEqual(T(x64: X(1, 2, 3, 4)).byteSwapped, T(x64: X(4 << 56, 3 << 56, 2 << 56, 1 << 56)))
+        XCTAssertEqual(T(x64: X(4 << 56, 3 << 56, 2 << 56, 1 << 56)).byteSwapped, T(x64: X(1, 2, 3, 4)))
     }
 }
 

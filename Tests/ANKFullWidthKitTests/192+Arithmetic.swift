@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK192X64
+private typealias Y = ANK192X32
+
 //*============================================================================*
 // MARK: * Int192 x Arithmetic
 //*============================================================================*
@@ -25,7 +28,7 @@ final class Int192TestsOnArithmetic: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIdentities() {
-        let x = T(x64:(1, 2, 3))
+        let x = T(x64: X(1, 2, 3))
         XCTAssertEqual(x + (0 as T), x)
         XCTAssertEqual(x - (x as T), 0)
         XCTAssertEqual(x * (1 as T), x)
@@ -62,7 +65,7 @@ final class UInt192TestsOnArithmetic: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIdentities() {
-        let x = T(x64:(1, 2, 3))
+        let x = T(x64: X(1, 2, 3))
         XCTAssertEqual(x + (0 as T), x)
         XCTAssertEqual(x - (x as T), 0)
         XCTAssertEqual(x * (1 as T), x)

@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK192X64
+private typealias Y = ANK192X32
+
 //*============================================================================*
 // MARK: * Int192 x Bitshifts
 //*============================================================================*
@@ -25,7 +28,7 @@ final class Int192BenchmarksOnBitwiseShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeft() {
-        let lhs = T(x64:(~0, ~1, ~2))
+        let lhs = T(x64: X(~0, ~1, ~2))
         let rhs = UInt.bitWidth * 3/2
 
         for _ in 0 ..< 1_000_000 {
@@ -34,7 +37,7 @@ final class Int192BenchmarksOnBitwiseShifts: XCTestCase {
     }
     
     func testBitshiftingLeftByMasking() {
-        let lhs = T(x64:(~0, ~1, ~2))
+        let lhs = T(x64: X(~0, ~1, ~2))
         let rhs = UInt.bitWidth * 3/2
 
         for _ in 0 ..< 1_000_000 {
@@ -47,7 +50,7 @@ final class Int192BenchmarksOnBitwiseShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingRight() {
-        let lhs = T(x64:(~0, ~1, ~2))
+        let lhs = T(x64: X(~0, ~1, ~2))
         let rhs = UInt.bitWidth * 3/2
 
         for _ in 0 ..< 1_000_000 {
@@ -56,7 +59,7 @@ final class Int192BenchmarksOnBitwiseShifts: XCTestCase {
     }
     
     func testBitshiftingRightByMasking() {
-        let lhs = T(x64:(~0, ~1, ~2))
+        let lhs = T(x64: X(~0, ~1, ~2))
         let rhs = UInt.bitWidth * 3/2
                 
         for _ in 0 ..< 1_000_000 {
@@ -78,7 +81,7 @@ final class UInt192BenchmarksOnBitwiseShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeft() {
-        let lhs = T(x64:(~0, ~1, ~2))
+        let lhs = T(x64: X(~0, ~1, ~2))
         let rhs = UInt.bitWidth * 3/2
 
         for _ in 0 ..< 1_000_000 {
@@ -87,7 +90,7 @@ final class UInt192BenchmarksOnBitwiseShifts: XCTestCase {
     }
     
     func testBitshiftingLeftByMasking() {
-        let lhs = T(x64:(~0, ~1, ~2))
+        let lhs = T(x64: X(~0, ~1, ~2))
         let rhs = UInt.bitWidth * 3/2
         
         for _ in 0 ..< 1_000_000 {
@@ -100,7 +103,7 @@ final class UInt192BenchmarksOnBitwiseShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingRight() {
-        let lhs = T(x64:(~0, ~1, ~2))
+        let lhs = T(x64: X(~0, ~1, ~2))
         let rhs = UInt.bitWidth * 3/2
 
         for _ in 0 ..< 1_000_000 {
@@ -109,7 +112,7 @@ final class UInt192BenchmarksOnBitwiseShifts: XCTestCase {
     }
     
     func testBitshiftingRightByMasking() {
-        let lhs = T(x64:(~0, ~1, ~2))
+        let lhs = T(x64: X(~0, ~1, ~2))
         let rhs = UInt.bitWidth * 3/2
                 
         for _ in 0 ..< 1_000_000 {

@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK256X64
+private typealias Y = ANK256X32
+
 //*============================================================================*
 // MARK: * Int256 x Addition
 //*============================================================================*
@@ -25,8 +28,8 @@ final class Int256BenchmarksOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAdding() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
-        let rhs = T(x64:( 0,  1,  2,  3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
+        let rhs = T(x64: X( 0,  1,  2,  3))
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs + rhs
@@ -34,8 +37,8 @@ final class Int256BenchmarksOnAddition: XCTestCase {
     }
     
     func testAddingWrappingAround() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
-        let rhs = T(x64:( 0,  1,  2,  3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
+        let rhs = T(x64: X( 0,  1,  2,  3))
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs &+ rhs
@@ -43,8 +46,8 @@ final class Int256BenchmarksOnAddition: XCTestCase {
     }
     
     func testAddingReportingOverflow() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
-        let rhs = T(x64:( 0,  1,  2,  3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
+        let rhs = T(x64: X( 0,  1,  2,  3))
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs.addingReportingOverflow(rhs)
@@ -56,7 +59,7 @@ final class Int256BenchmarksOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAddingDigit() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
         let rhs = Int.max
         
         for _ in 0 ..< 1_000_000 {
@@ -65,7 +68,7 @@ final class Int256BenchmarksOnAddition: XCTestCase {
     }
     
     func testAddingDigitWrappingAround() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
         let rhs = Int.max
 
         for _ in 0 ..< 1_000_000 {
@@ -74,7 +77,7 @@ final class Int256BenchmarksOnAddition: XCTestCase {
     }
     
     func testAddingDigitReportingOverflow() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
         let rhs = Int.max
         
         for _ in 0 ..< 1_000_000 {
@@ -96,8 +99,8 @@ final class UInt256BenchmarksOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAdding() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
-        let rhs = T(x64:( 0,  1,  2,  3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
+        let rhs = T(x64: X( 0,  1,  2,  3))
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs + rhs
@@ -105,8 +108,8 @@ final class UInt256BenchmarksOnAddition: XCTestCase {
     }
     
     func testAddingWrappingAround() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
-        let rhs = T(x64:( 0,  1,  2,  3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
+        let rhs = T(x64: X( 0,  1,  2,  3))
 
         for _ in 0 ..< 1_000_000 {
             _ = lhs &+ rhs
@@ -114,8 +117,8 @@ final class UInt256BenchmarksOnAddition: XCTestCase {
     }
     
     func testAddingReportingOverflow() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
-        let rhs = T(x64:( 0,  1,  2,  3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
+        let rhs = T(x64: X( 0,  1,  2,  3))
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs.addingReportingOverflow(rhs)
@@ -127,7 +130,7 @@ final class UInt256BenchmarksOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAddingDigit() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
         let rhs = UInt.max
         
         for _ in 0 ..< 1_000_000 {
@@ -136,7 +139,7 @@ final class UInt256BenchmarksOnAddition: XCTestCase {
     }
     
     func testAddingDigitWrappingAround() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
         let rhs = UInt.max
         
         for _ in 0 ..< 1_000_000 {
@@ -145,7 +148,7 @@ final class UInt256BenchmarksOnAddition: XCTestCase {
     }
     
     func testAddingDigitReportingOverflow() {
-        let lhs = T(x64:(~0, ~1, ~2, ~3))
+        let lhs = T(x64: X(~0, ~1, ~2, ~3))
         let rhs = UInt.max
         
         for _ in 0 ..< 1_000_000 {

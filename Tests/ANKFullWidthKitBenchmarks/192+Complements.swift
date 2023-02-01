@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK192X64
+private typealias Y = ANK192X32
+
 //*============================================================================*
 // MARK: * Int192 x Complements
 //*============================================================================*
@@ -25,7 +28,7 @@ final class Int192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        let abc = T(x64:(~0, ~1, ~2))
+        let abc = T(x64: X(~0, ~1, ~2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.magnitude
@@ -33,7 +36,7 @@ final class Int192BenchmarksOnComplements: XCTestCase {
     }
     
     func testTwosComplement() {
-        let abc = T(x64:(~0, ~1, ~2))
+        let abc = T(x64: X(~0, ~1, ~2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.twosComplement()
@@ -54,7 +57,7 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        let abc = T(x64:(~0, ~1, ~2))
+        let abc = T(x64: X(~0, ~1, ~2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.magnitude
@@ -62,7 +65,7 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
     }
     
     func testTwosComplement() {
-        let abc = T(x64:(~0, ~1, ~2))
+        let abc = T(x64: X(~0, ~1, ~2))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.twosComplement()

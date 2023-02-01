@@ -12,6 +12,9 @@
 import ANKFullWidthKit
 import XCTest
 
+private typealias X = ANK256X64
+private typealias Y = ANK256X32
+
 //*============================================================================*
 // MARK: * Int256 x Arithmetic
 //*============================================================================*
@@ -25,7 +28,7 @@ final class Int256TestsOnArithmetic: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIdentities() {
-        let x = T(x64:(1, 2, 3, 4))
+        let x = T(x64: X(1, 2, 3, 4))
         XCTAssertEqual(x + (0 as T), x)
         XCTAssertEqual(x - (x as T), 0)
         XCTAssertEqual(x * (1 as T), x)
@@ -62,7 +65,7 @@ final class UInt256TestsOnArithmetic: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIdentities() {
-        let x = T(x64:(1, 2, 3, 4))
+        let x = T(x64: X(1, 2, 3, 4))
         XCTAssertEqual(x + (0 as T), x)
         XCTAssertEqual(x - (x as T), 0)
         XCTAssertEqual(x * (1 as T), x)

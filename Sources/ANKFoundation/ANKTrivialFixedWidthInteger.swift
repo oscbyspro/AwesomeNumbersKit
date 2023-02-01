@@ -11,7 +11,7 @@
 // MARK: * ANK x Fixed Width Integer x Trivial
 //*============================================================================*
 
-/// An awesome, fixed-width, integer with trivial implementation.
+/// An awesome, fixed-width, binary integer with trivial implementation.
 ///
 /// Only the following types in the standard library may conform to this protocol:
 ///
@@ -64,7 +64,7 @@ extension ANKTrivialFixedWidthInteger {
     }
     
     @_transparent public var mostSignificantBit: Bool {
-        self & (1 as Self) << (Self.bitWidth - 1) != (0 as Self)
+        self &>> (Self.bitWidth &- 1) != (0 as Self)
     }
     
     @_transparent public var leastSignificantBit: Bool {
