@@ -13,59 +13,59 @@ import ANKFoundation
 // MARK: * Types
 //*============================================================================*
 
-enum Trivial {
+enum Types {
     
     //=------------------------------------------------------------------------=
-    // MARK: State
+    // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    static let allBinaryIntegerTypes: [any ANKBinaryInteger.Type] =
+    static let ANKBinaryInteger: [any ANKBinaryInteger.Type] =
     [Int.self,  Int8.self,  Int16.self,  Int32.self,  Int64.self,
     UInt.self, UInt8.self, UInt16.self, UInt32.self, UInt64.self]
     
-    static let allSignedIntegerTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /*-----------------*/ANKSignedInteger.Type })
+    static let ANKSignedInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKSignedInteger.Type })
     
-    static let allUnsignedIntegerTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /*---------------*/ANKUnsignedInteger.Type })
+    static let ANKUnsignedInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKUnsignedInteger.Type })
     
-    static let allLargeBinaryIntegerTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /*------------*/ANKLargeBinaryInteger.Type })
+    static let ANKLargeBinaryInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKLargeBinaryInteger.Type })
     
-    static let allSignedLargeBinaryIntegerTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /*------*/ANKSignedLargeBinaryInteger.Type })
+    static let ANKSignedLargeBinaryInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKSignedLargeBinaryInteger.Type })
     
-    static let allUnsignedLargeBinaryIntegerTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /*----*/ANKUnsignedLargeBinaryInteger.Type })
+    static let ANKUnsignedLargeBinaryInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKUnsignedLargeBinaryInteger.Type })
     
-    static let allFixedWidthIntegerTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /*-------------*/ANKFixedWidthInteger.Type })
+    static let ANKFixedWidthInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKFixedWidthInteger.Type })
     
-    static let allSignedFixedWidthIntegerTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*---*/ANKSignedFixedWidthInteger.Type })
+    static let ANKSignedFixedWidthInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKSignedFixedWidthInteger.Type })
     
-    static let allUnsignedFixedWidthIntegerTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*-*/ANKUnsignedFixedWidthInteger.Type })
+    static let ANKUnsignedFixedWidthInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKUnsignedFixedWidthInteger.Type })
     
-    static let allLargeFixedWidthIntegerTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*----*/ANKLargeFixedWidthInteger.Type })
+    static let ANKLargeFixedWidthInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKLargeFixedWidthInteger.Type })
     
-    static let allSignedLargeFixedWidthIntegerTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any   ANKSignedLargeFixedWidthInteger.Type })
+    static let ANKSignedLargeFixedWidthInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKSignedLargeFixedWidthInteger.Type })
     
-    static let allUnsignedLargeFixedWidthIntegerTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any ANKUnsignedLargeFixedWidthInteger.Type })
+    static let ANKUnsignedLargeFixedWidthInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKUnsignedLargeFixedWidthInteger.Type })
     
     //=------------------------------------------------------------------------=
-    // MARK: State
+    // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    static let allContiguousBytesTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any /*-*/(ANKBinaryInteger & ANKContiguousBytes).Type })
+    static let ANKContiguousBytes =
+    ANKBinaryInteger.compactMap({ $0 as? any (ANKBinaryInteger & ANKContiguousBytes).Type })
     
-    static let allBigEndianTextCodableTypes =
-    allBinaryIntegerTypes.compactMap({ $0 as? any (ANKBigEndianTextCodable & ANKBinaryInteger).Type })
+    static let ANKBigEndianTextCodable =
+    ANKBinaryInteger.compactMap({ $0 as? any (ANKBigEndianTextCodable & ANKBinaryInteger).Type })
     
-    static let allEitherIntOrUIntTypes =
-    allFixedWidthIntegerTypes.compactMap({ $0 as? any /*------------------------*/ANKIntOrUInt.Type })
+    static let ANKIntOrUInt =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKIntOrUInt.Type })
 }

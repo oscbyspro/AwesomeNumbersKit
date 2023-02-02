@@ -204,7 +204,7 @@ final class UInt256TestsOnComparison: XCTestCase {
         set.insert(T(x64: X(0, 0, 1, 0)))
         set.insert(T(x64: X(0, 0, 0, 1)))
         set.insert(T(x64: X(0, 0, 0, 0)))
-        XCTAssertEqual(set.count,  5)
+        XCTAssertEqual(set.count, 5)
     }
     
     //=------------------------------------------------------------------------=

@@ -64,7 +64,7 @@ extension ANKTrivialFixedWidthInteger {
     }
     
     @_transparent public var mostSignificantBit: Bool {
-        self &>> (Self.bitWidth &- 1) != (0 as Self)
+        self & ((1 as Self) &<< (Self.bitWidth &- 1)) != (0 as Self)
     }
     
     @_transparent public var leastSignificantBit: Bool {
@@ -102,7 +102,7 @@ extension ANKTrivialFixedWidthInteger {
     
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
         let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(truncatingIfNeeded: hl.low); return hl.high
+        self = Self(bitPattern: hl.low); return hl.high
     }
 }
 
@@ -155,7 +155,7 @@ extension ANKTrivialFixedWidthInteger {
     }
     
     @_transparent public func twosComplement() -> Self {
-        ~self &+ 1
+        ~self &+ (1 as Self)
     }
 }
 

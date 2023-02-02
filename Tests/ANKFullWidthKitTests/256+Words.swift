@@ -273,15 +273,15 @@ final class UInt256TestsOnWords: XCTestCase {
         XCTAssert(T(x32: Y( 0,  0,  0,  0,  0,  0,  1,  0)).minWordCountReportingIsZeroOrMinusOne() == (7, false) as (Int, Bool))
         XCTAssert(T(x32: Y( 0,  0,  0,  0,  0,  0,  0,  1)).minWordCountReportingIsZeroOrMinusOne() == (8, false) as (Int, Bool))
 
-        XCTAssert(T(x32: Y(~0, ~0, ~0, ~0, ~0, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
-        XCTAssert(T(x32: Y( 1, ~0, ~0, ~0, ~0, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
-        XCTAssert(T(x32: Y(~0,  1, ~0, ~0, ~0, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
-        XCTAssert(T(x32: Y(~0, ~0,  1, ~0, ~0, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
-        XCTAssert(T(x32: Y(~0, ~0, ~0,  1, ~0, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
-        XCTAssert(T(x32: Y(~0, ~0, ~0, ~0,  1, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
-        XCTAssert(T(x32: Y(~0, ~0, ~0, ~0, ~0,  1, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
-        XCTAssert(T(x32: Y(~0, ~0, ~0, ~0, ~0, ~0,  1, ~0)).minWordCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
-        XCTAssert(T(x32: Y(~0, ~0, ~0, ~0, ~0, ~0, ~0,  1)).minWordCountReportingIsZeroOrMinusOne() == (4, false) as (Int, Bool))
+        XCTAssert(T(x32: Y(~0, ~0, ~0, ~0, ~0, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (8, false) as (Int, Bool))
+        XCTAssert(T(x32: Y( 1, ~0, ~0, ~0, ~0, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (8, false) as (Int, Bool))
+        XCTAssert(T(x32: Y(~0,  1, ~0, ~0, ~0, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (8, false) as (Int, Bool))
+        XCTAssert(T(x32: Y(~0, ~0,  1, ~0, ~0, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (8, false) as (Int, Bool))
+        XCTAssert(T(x32: Y(~0, ~0, ~0,  1, ~0, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (8, false) as (Int, Bool))
+        XCTAssert(T(x32: Y(~0, ~0, ~0, ~0,  1, ~0, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (8, false) as (Int, Bool))
+        XCTAssert(T(x32: Y(~0, ~0, ~0, ~0, ~0,  1, ~0, ~0)).minWordCountReportingIsZeroOrMinusOne() == (8, false) as (Int, Bool))
+        XCTAssert(T(x32: Y(~0, ~0, ~0, ~0, ~0, ~0,  1, ~0)).minWordCountReportingIsZeroOrMinusOne() == (8, false) as (Int, Bool))
+        XCTAssert(T(x32: Y(~0, ~0, ~0, ~0, ~0, ~0, ~0,  1)).minWordCountReportingIsZeroOrMinusOne() == (8, false) as (Int, Bool))
     }
 }
 

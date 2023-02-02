@@ -25,7 +25,7 @@ final class TypesTestsOnANKBinaryInteger: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allBinaryIntegerTypes
+    let types: [T] = Types.ANKBinaryInteger
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

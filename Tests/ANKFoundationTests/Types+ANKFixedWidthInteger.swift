@@ -25,7 +25,7 @@ final class TypesTestsOnANKFixedWidthInteger: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allFixedWidthIntegerTypes
+    let types: [T] = Types.ANKFixedWidthInteger
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

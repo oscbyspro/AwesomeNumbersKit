@@ -25,7 +25,7 @@ final class TypesTestsOnANKIntOrUInt: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allEitherIntOrUIntTypes
+    let types: [T] = Types.ANKIntOrUInt
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -35,11 +35,15 @@ final class TypesTestsOnANKIntOrUInt: XCTestCase {
         XCTAssertEqual(types.count, 2)
     }
     
-    func testIsEitherIntOrUInt() {
+    //=------------------------------------------------------------------------=
+    // MARK: Tests
+    //=------------------------------------------------------------------------=
+    
+    func testIsIntOrUInt() {
         for type: T in types {
             if type is  Int.Type { continue }
             if type is UInt.Type { continue }
-            XCTFail("\(type) is neither Int nor UInt")
+            XCTFail("\(type) is not Int or UInt")
         }
     }
 }

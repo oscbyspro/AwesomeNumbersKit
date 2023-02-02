@@ -25,7 +25,7 @@ final class TypesTestsOnANKContiguousBytes: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allContiguousBytesTypes
+    let types: [T] = Types.ANKContiguousBytes
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

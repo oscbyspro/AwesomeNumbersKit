@@ -25,7 +25,7 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types = Trivial.allBigEndianTextCodableTypes
+    let types: [T] = Types.ANKBigEndianTextCodable
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -121,7 +121,8 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
     
     func testEncodingRadix16() {
         for type: T in types {
-            let max = type.init(123), min = type.init(exactly: -123)
+            let max = type.init(123)
+            let min = type.init(exactly: -123)
             
             XCTAssertEqual(String(encoding: max, radix: 16, uppercase: false),   "7b")
             XCTAssertEqual(String(encoding: max, radix: 16, uppercase: true ),   "7B")
@@ -135,7 +136,8 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
     
     func testEncodingRadix10() {
         for type: T in types {
-            let max = type.init(123), min = type.init(exactly: -123)
+            let max = type.init(123)
+            let min = type.init(exactly: -123)
             
             XCTAssertEqual(String(encoding: max, radix: 10, uppercase: false),  "123")
             XCTAssertEqual(String(encoding: max, radix: 10, uppercase: true ),  "123")

@@ -134,7 +134,7 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// Forms the two's complement of this value.
     @inlinable mutating func formTwosComplement()
     
-    /// Creates the two's complement of this value.
+    /// Returns the two's complement of this value.
     @inlinable func twosComplement() -> Self
     
     //=------------------------------------------------------------------------=
