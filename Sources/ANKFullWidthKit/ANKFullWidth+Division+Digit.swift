@@ -19,22 +19,22 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func /=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func /=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.divideReportingOverflow(by: rhs)
         precondition(!overflow)
     }
     
-    @inlinable public static func /(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @inlinable public static func /(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
     
-    @inlinable public static func %=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func %=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.formRemainderReportingOverflow(dividingBy: rhs)
         precondition(!overflow)
     }
     
-    @inlinable public static func %(lhs: Self, rhs: Digit) -> Digit {
+    @_disfavoredOverload @inlinable public static func %(lhs: Self, rhs: Digit) -> Digit {
         let pvo: PVO<Digit> = lhs.remainderReportingOverflow(dividingBy: rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
@@ -43,12 +43,12 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func divideReportingOverflow(by divisor: Digit) -> Bool {
+    @_disfavoredOverload @inlinable public mutating func divideReportingOverflow(by divisor: Digit) -> Bool {
         let pvo: PVO<Self> = self.dividedReportingOverflow(by: divisor)
         self = pvo.partialValue; return pvo.overflow
     }
     
-    @inlinable public func dividedReportingOverflow(by divisor: Digit) -> PVO<Self> {
+    @_disfavoredOverload @inlinable public func dividedReportingOverflow(by divisor: Digit) -> PVO<Self> {
         //=--------------------------------------=
         if  divisor.isZero {
             return PVO(self, true)
@@ -62,12 +62,12 @@ extension ANKFullWidth {
         return PVO(qr.quotient, false)
     }
     
-    @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool {
+    @_disfavoredOverload @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool {
         let pvo: PVO<Digit> = self.remainderReportingOverflow(dividingBy: divisor)
         self = Self(digit: pvo.partialValue); return pvo.overflow
     }
     
-    @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
+    @_disfavoredOverload @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
         //=--------------------------------------=
         if  divisor.isZero {
             return PVO(Digit(), true)
@@ -85,7 +85,7 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
+    @_disfavoredOverload @inlinable public func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
         let  divisorIsLessThanZero: Bool = divisor.isLessThanZero
         let dividendIsLessThanZero: Bool =    self.isLessThanZero
         //=--------------------------------------=

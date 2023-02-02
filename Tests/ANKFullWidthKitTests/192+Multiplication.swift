@@ -162,6 +162,22 @@ final class Int192TestsOnMultiplication: XCTestCase {
         XCTAssertEqual(T(x64: X( 1,  2,  3)).multipliedFullWidth(by: Int( 2)).low,  M(x64: X( 2,  4,  6)))
         XCTAssertEqual(T(x64: X( 1,  2,  3)).multipliedFullWidth(by: Int( 2)).high, Int( 0))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        var x = T()
+        
+        XCTAssertNotNil(x *= 0)
+        XCTAssertNotNil(x.multiplyReportingOverflow(by: 0))
+        XCTAssertNotNil(x.multiplyFullWidth(by: 0))
+        
+        XCTAssertNotNil(x *  0)
+        XCTAssertNotNil(x.multipliedReportingOverflow(by: 0))
+        XCTAssertNotNil(x.multipliedFullWidth(by: 0))
+    }
 }
 
 //*============================================================================*
@@ -239,6 +255,22 @@ final class UInt192TestsOnMultiplication: XCTestCase {
         
         XCTAssertEqual(T(x64: X( 1,  2,  3)).multipliedFullWidth(by: UInt(2)).low,  M(x64: X( 2,  4,  6)))
         XCTAssertEqual(T(x64: X( 1,  2,  3)).multipliedFullWidth(by: UInt(2)).high, UInt(0))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        var x = T()
+        
+        XCTAssertNotNil(x *= 0)
+        XCTAssertNotNil(x.multiplyReportingOverflow(by: 0))
+        XCTAssertNotNil(x.multiplyFullWidth(by: 0))
+        
+        XCTAssertNotNil(x *  0)
+        XCTAssertNotNil(x.multipliedReportingOverflow(by: 0))
+        XCTAssertNotNil(x.multipliedFullWidth(by: 0))
     }
 }
 

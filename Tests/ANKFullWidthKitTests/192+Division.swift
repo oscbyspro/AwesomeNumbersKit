@@ -168,6 +168,26 @@ final class Int192TestsOnDivision: XCTestCase {
         XCTAssert(T(4).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 2), T(0)) as (T, T))
         XCTAssert(T(8).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 3), T(0)) as (T, T))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        var x = T(1)
+        
+        XCTAssertNotNil(x /= 1)
+        XCTAssertNotNil(x %= 2)
+        XCTAssertNotNil(x.divideReportingOverflow(by: 1))
+        XCTAssertNotNil(x.formRemainderReportingOverflow(dividingBy: 2))
+        
+        XCTAssertNotNil(x /  1)
+        XCTAssertNotNil(x %  2)
+        XCTAssertNotNil(x.dividedReportingOverflow(by: 1))
+        XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 2))
+        XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 1))
+        XCTAssertNotNil(x.dividingFullWidth((1, 2)))
+    }
 }
 
 //*============================================================================*
@@ -276,6 +296,26 @@ final class UInt192TestsOnDivision: XCTestCase {
         XCTAssert(T(2).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 1), T(0)) as (T, T))
         XCTAssert(T(4).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 2), T(0)) as (T, T))
         XCTAssert(T(8).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 3), T(0)) as (T, T))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        var x = T(1)
+        
+        XCTAssertNotNil(x /= 1)
+        XCTAssertNotNil(x %= 2)
+        XCTAssertNotNil(x.divideReportingOverflow(by: 1))
+        XCTAssertNotNil(x.formRemainderReportingOverflow(dividingBy: 2))
+        
+        XCTAssertNotNil(x /  1)
+        XCTAssertNotNil(x %  2)
+        XCTAssertNotNil(x.dividedReportingOverflow(by: 1))
+        XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 2))
+        XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 1))
+        XCTAssertNotNil(x.dividingFullWidth((1, 2)))
     }
 }
 

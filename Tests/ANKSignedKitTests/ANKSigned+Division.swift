@@ -133,12 +133,35 @@ final class ANKSignedTestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testOverloadsAreUnambiguousWhereDigitIsSelf() {
-        XCTAssert(D.Digit.self == D.self)
-        XCTAssertNotNil(D(7) / D(3))
-        XCTAssertNotNil(D(7) % D(3))
-        XCTAssertNotNil(D(7).dividedReportingOverflow(by: D(3)))
-        XCTAssertNotNil(D(7).remainderReportingOverflow(dividingBy: D(3)))
-        XCTAssertNotNil(D(3).dividingFullWidth((D(0), UInt(7))))
+        var x = D(1) as D.Digit
+        
+        XCTAssertNotNil(x /= D(1))
+        XCTAssertNotNil(x %= D(2))
+        XCTAssertNotNil(x.divideReportingOverflow(by: D(1)))
+        XCTAssertNotNil(x.formRemainderReportingOverflow(dividingBy: D(2)))
+        
+        XCTAssertNotNil(x /  D(1))
+        XCTAssertNotNil(x %  D(2))
+        XCTAssertNotNil(x.dividedReportingOverflow(by: D(1)))
+        XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: D(2)))
+        XCTAssertNotNil(x.quotientAndRemainder(dividingBy: D(1)))
+        XCTAssertNotNil(x.dividingFullWidth((D(1), UInt(2))))
+    }
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        var x = T(1)
+        
+        XCTAssertNotNil(x /= 1)
+        XCTAssertNotNil(x %= 2)
+        XCTAssertNotNil(x.divideReportingOverflow(by: 1))
+        XCTAssertNotNil(x.formRemainderReportingOverflow(dividingBy: 2))
+        
+        XCTAssertNotNil(x /  1)
+        XCTAssertNotNil(x %  2)
+        XCTAssertNotNil(x.dividedReportingOverflow(by: 1))
+        XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 2))
+        XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 1))
+        XCTAssertNotNil(x.dividingFullWidth((1, 2)))
     }
 }
 

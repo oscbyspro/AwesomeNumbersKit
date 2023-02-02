@@ -13,17 +13,17 @@ import ANKFoundation
 // MARK: * ANK x Signed x Large x Multiplication
 //*============================================================================*
 
-extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
+extension ANKSigned where Magnitude: ANKLargeBinaryInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
         
-    @_transparent public static func *=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @_transparent public static func *=(lhs: inout Self, rhs: Digit) {
         lhs = lhs * rhs
     }
     
-    @inlinable public static func *(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @inlinable public static func *(lhs: Self, rhs: Digit) -> Self {
         Self(lhs.magnitude * rhs.magnitude, as: lhs.sign ^ rhs.sign)
     }
 }
@@ -32,18 +32,18 @@ extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
 // MARK: * ANK x Signed x Large x Fixed Width x Multiplication
 //*============================================================================*
 
-extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf & ANKLargeFixedWidthInteger {
+extension ANKSigned where Magnitude: ANKLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyReportingOverflow(by  amount: Digit) -> Bool {
+    @_disfavoredOverload @inlinable public mutating func multiplyReportingOverflow(by  amount: Digit) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
         self = pvo.partialValue; return pvo.overflow
     }
     
-    @inlinable public func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
+    @_disfavoredOverload @inlinable public func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
         let pvo: PVO<Magnitude> = self.magnitude.multipliedReportingOverflow(by: amount.magnitude)
         return   PVO(Self(pvo.partialValue, as: self.sign ^ amount.sign), pvo.overflow)
     }
@@ -52,12 +52,12 @@ extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf & 
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyFullWidth(by amount: Digit) -> Digit {
+    @_disfavoredOverload @inlinable public mutating func multiplyFullWidth(by amount: Digit) -> Digit {
         let hl: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
         self = Self(hl.low, as: ANKSign.plus); return hl.high
     }
     
-    @inlinable public func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
+    @_disfavoredOverload @inlinable public func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
         let hl: HL<Magnitude.Digit, Magnitude> = self.magnitude.multipliedFullWidth(by: amount.magnitude)
         return  HL(Digit(hl.high, as: self.sign ^ amount.sign), hl.low)
     }

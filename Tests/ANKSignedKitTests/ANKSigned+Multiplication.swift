@@ -89,10 +89,27 @@ final class ANKSignedTestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testOverloadsAreUnambiguousWhereDigitIsSelf() {
-        XCTAssert(D.Digit.self == D.self)
-        XCTAssertNotNil(D(2) * D(3))
-        XCTAssertNotNil(D(2).multipliedReportingOverflow(by: D(3)))
-        XCTAssertNotNil(D(2).multipliedFullWidth(by: D(3)))
+        var x = D() as D.Digit
+
+        XCTAssertNotNil(x *= D(0))
+        XCTAssertNotNil(x.multiplyReportingOverflow(by: D(0)))
+        XCTAssertNotNil(x.multiplyFullWidth(by: D(0)))
+        
+        XCTAssertNotNil(x *  D(0))
+        XCTAssertNotNil(x.multipliedReportingOverflow(by: D(0)))
+        XCTAssertNotNil(x.multipliedFullWidth(by: D(0)))
+    }
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        var x = T()
+        
+        XCTAssertNotNil(x *= 0)
+        XCTAssertNotNil(x.multiplyReportingOverflow(by: 0))
+        XCTAssertNotNil(x.multiplyFullWidth(by: 0))
+        
+        XCTAssertNotNil(x *  0)
+        XCTAssertNotNil(x.multipliedReportingOverflow(by: 0))
+        XCTAssertNotNil(x.multipliedFullWidth(by: 0))
     }
 }
 

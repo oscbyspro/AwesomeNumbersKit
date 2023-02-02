@@ -13,25 +13,25 @@ import ANKFoundation
 // MARK: * ANK x Signed x Large x Division
 //*============================================================================*
 
-extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
+extension ANKSigned where Magnitude: ANKLargeBinaryInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public static func /=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @_transparent public static func /=(lhs: inout Self, rhs: Digit) {
         lhs = lhs / rhs
     }
     
-    @_transparent public static func /(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @_transparent public static func /(lhs: Self, rhs: Digit) -> Self {
         lhs.quotientAndRemainder(dividingBy: rhs).quotient
     }
     
-    @_transparent public static func %=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @_transparent public static func %=(lhs: inout Self, rhs: Digit) {
         lhs = Self(digit: lhs % rhs)
     }
     
-    @_transparent public static func %(lhs: Self, rhs: Digit) -> Digit {
+    @_disfavoredOverload @_transparent public static func %(lhs: Self, rhs: Digit) -> Digit {
         lhs.quotientAndRemainder(dividingBy: rhs).remainder
     }
     
@@ -39,21 +39,21 @@ extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func divideReportingOverflow(by divisor: Digit) -> Bool {
+    @_disfavoredOverload @inlinable public mutating func divideReportingOverflow(by divisor: Digit) -> Bool {
         let pvo: PVO<Self> = self.dividedReportingOverflow(by: divisor)
         self = pvo.partialValue; return pvo.overflow
     }
     
-    @inlinable public func dividedReportingOverflow(by divisor: Digit) -> PVO<Self> {
+    @_disfavoredOverload @inlinable public func dividedReportingOverflow(by divisor: Digit) -> PVO<Self> {
         divisor.isZero ? PVO(self,  true) : PVO(self / divisor, false)
     }
     
-    @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool {
+    @_disfavoredOverload @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool {
         let pvo: PVO<Digit> = self.remainderReportingOverflow(dividingBy: divisor)
         self = Self(digit: pvo.partialValue); return pvo.overflow
     }
     
-    @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
+    @_disfavoredOverload @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
         divisor.isZero ? PVO(Digit(), true) : PVO(self % divisor, false)
     }
     
@@ -61,7 +61,7 @@ extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
+    @_disfavoredOverload @inlinable public func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
         let qr: QR<Magnitude, Magnitude.Digit> = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
         return  QR(Self(qr.quotient, as: self.sign ^ divisor.sign), Digit(qr.remainder, as: self.sign))
     }

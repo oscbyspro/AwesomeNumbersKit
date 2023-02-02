@@ -19,12 +19,12 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func *=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func *=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
         precondition(!overflow)
     }
     
-    @inlinable public static func *(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @inlinable public static func *(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
@@ -33,12 +33,12 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyReportingOverflow(by  amount: Digit) -> Bool {
+    @_disfavoredOverload @inlinable public mutating func multiplyReportingOverflow(by  amount: Digit) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
         self = pvo.partialValue; return pvo.overflow
     }
     
-    @inlinable public func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
+    @_disfavoredOverload @inlinable public func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
         let product = Plus1(descending: self.multipliedFullWidth(by: amount))
         //=--------------------------------------=
         let overflow: Bool
@@ -58,12 +58,12 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyFullWidth(by amount: Digit) -> Digit {
+    @_disfavoredOverload @inlinable public mutating func multiplyFullWidth(by amount: Digit) -> Digit {
         let hl: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
         self = Self(bitPattern: hl.low); return hl.high
     }
     
-    @inlinable public func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
+    @_disfavoredOverload @inlinable public func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
         //=--------------------------------------=
         if  amount.isZero {
             return HL(Digit(), Magnitude())

@@ -169,12 +169,29 @@ final class ANKSignedTestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
-    
+        
     func testOverloadsAreUnambiguousWhereDigitIsSelf() {
-        XCTAssert(D.Digit.self == D.self)
-        XCTAssertNotNil(D(2)  + D(3))
-        XCTAssertNotNil(D(2) &+ D(3))
-        XCTAssertNotNil(D(2).addingReportingOverflow(D(3)))
+        var x = D() as D.Digit
+        
+        XCTAssertNotNil(x  += D(0))
+        XCTAssertNotNil(x &+= D(0))
+        XCTAssertNotNil(x.addReportingOverflow(D(0)))
+        
+        XCTAssertNotNil(x  +  D(0))
+        XCTAssertNotNil(x &+  D(0))
+        XCTAssertNotNil(x.addingReportingOverflow(D(0)))
+    }
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        var x = T()
+        
+        XCTAssertNotNil(x  += 0)
+        XCTAssertNotNil(x &+= 0)
+        XCTAssertNotNil(x.addReportingOverflow(0))
+        
+        XCTAssertNotNil(x  +  0)
+        XCTAssertNotNil(x &+  0)
+        XCTAssertNotNil(x.addingReportingOverflow(0))
     }
 }
 

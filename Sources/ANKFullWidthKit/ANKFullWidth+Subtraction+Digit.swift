@@ -19,12 +19,12 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func -=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func -=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.subtractReportingOverflow(rhs)
         precondition(!overflow)
     }
     
-    @inlinable public static func -(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @inlinable public static func -(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.subtractingReportingOverflow(rhs)
         precondition(!pvo.overflow); return pvo.partialValue
     }
@@ -33,11 +33,11 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public static func &-=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @_transparent public static func &-=(lhs: inout Self, rhs: Digit) {
         _ = lhs.subtractReportingOverflow(rhs) as Bool
     }
     
-    @_transparent public static func &-(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @_transparent public static func &-(lhs: Self, rhs: Digit) -> Self {
         lhs.subtractingReportingOverflow(rhs).partialValue
     }
     
@@ -45,7 +45,7 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func subtractReportingOverflow(_ amount: Digit) -> Bool {
+    @_disfavoredOverload @inlinable public mutating func subtractReportingOverflow(_ amount: Digit) -> Bool {
         let lhsWasLessThanZero: Bool =   self.isLessThanZero
         let rhsWasLessThanZero: Bool = amount.isLessThanZero
         //=--------------------------------------=
@@ -68,7 +68,7 @@ extension ANKFullWidth {
         return lhsWasLessThanZero != rhsWasLessThanZero && lhsWasLessThanZero != self.isLessThanZero
     }
     
-    @inlinable public func subtractingReportingOverflow(_ amount: Digit) -> PVO<Self> {
+    @_disfavoredOverload @inlinable public func subtractingReportingOverflow(_ amount: Digit) -> PVO<Self> {
         var partialValue = self
         let overflow: Bool = partialValue.subtractReportingOverflow(amount)
         return PVO(partialValue, overflow)

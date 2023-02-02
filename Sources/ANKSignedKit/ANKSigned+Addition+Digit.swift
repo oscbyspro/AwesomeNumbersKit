@@ -13,13 +13,13 @@ import ANKFoundation
 // MARK: * ANK x Signed x Large x Addition
 //*============================================================================*
 
-extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
+extension ANKSigned where Magnitude: ANKLargeBinaryInteger {
 
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func +=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func +=(lhs: inout Self, rhs: Digit) {
         //=--------------------------------------=
         if  lhs.sign == rhs.sign {
             lhs.magnitude += rhs.magnitude
@@ -36,7 +36,7 @@ extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
         }
     }
     
-    @_transparent public static func +(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @_transparent public static func +(lhs: Self, rhs: Digit) -> Self {
         var lhs = lhs; lhs += rhs; return lhs
     }
 }
@@ -45,17 +45,17 @@ extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf {
 // MARK: * ANK x Signed x Fixed Width x Large x Addition
 //*============================================================================*
 
-extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf & ANKLargeFixedWidthInteger {
+extension ANKSigned where Magnitude: ANKLargeFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public static func &+=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @_transparent public static func &+=(lhs: inout Self, rhs: Digit) {
         _ = lhs.addReportingOverflow(rhs)
     }
     
-    @_transparent public static func &+(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @_transparent public static func &+(lhs: Self, rhs: Digit) -> Self {
         lhs.addingReportingOverflow(rhs).partialValue
     }
     
@@ -63,7 +63,7 @@ extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf & 
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func addReportingOverflow(_ amount: Digit) -> Bool {
+    @_disfavoredOverload @inlinable public mutating func addReportingOverflow(_ amount: Digit) -> Bool {
         //=--------------------------------------=
         if  self.sign == amount.sign {
             return self.magnitude.addReportingOverflow(amount.magnitude)
@@ -74,7 +74,7 @@ extension ANKSigned where Magnitude: ANKLargeBinaryIntegerWhereDigitIsNotSelf & 
         return false
     }
     
-    @inlinable public func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {
+    @_disfavoredOverload @inlinable public func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {
         var partialValue = self
         let overflow: Bool = partialValue.addReportingOverflow(amount)
         return PVO(partialValue, overflow)

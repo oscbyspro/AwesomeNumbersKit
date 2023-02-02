@@ -46,9 +46,9 @@ import ANKFoundation
 /// await .biggerIntegerLiterals() // Swift 5.8
 /// ```
 ///
-@frozen public struct ANKFullWidth<High, Low>: ANKBigEndianTextCodable, ANKContiguousBytes,
-ANKLargeBinaryIntegerWhereDigitIsNotSelf, ANKLargeFixedWidthInteger, ANKWords,
-CustomStringConvertible, CustomDebugStringConvertible, ExpressibleByStringLiteral, MutableCollection where
+@frozen public struct ANKFullWidth<High, Low>: ANKBigEndianTextCodable,
+ANKContiguousBytes, ANKLargeFixedWidthInteger, ANKWords, CustomStringConvertible,
+CustomDebugStringConvertible, ExpressibleByStringLiteral, MutableCollection where
 High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     

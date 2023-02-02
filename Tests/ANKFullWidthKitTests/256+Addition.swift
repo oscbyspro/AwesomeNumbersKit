@@ -127,6 +127,22 @@ final class Int256TestsOnAddition: XCTestCase {
         XCTAssert(T.min.addingReportingOverflow(Int(-1)) == (T.max,     true ) as (T, Bool))
         XCTAssert(T.max.addingReportingOverflow(Int(-1)) == (T.max - 1, false) as (T, Bool))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        var x = T()
+        
+        XCTAssertNotNil(x  += 0)
+        XCTAssertNotNil(x &+= 0)
+        XCTAssertNotNil(x.addReportingOverflow(0))
+        
+        XCTAssertNotNil(x  +  0)
+        XCTAssertNotNil(x &+  0)
+        XCTAssertNotNil(x.addingReportingOverflow(0))
+    }
 }
 
 //*============================================================================*
@@ -193,6 +209,22 @@ final class UInt256TestsOnAddition: XCTestCase {
     func testAddingDigitReportingOverflow() {
         XCTAssert(T.min.addingReportingOverflow(UInt(1)) == (T.min + (1 as UInt), false) as (T, Bool))
         XCTAssert(T.max.addingReportingOverflow(UInt(1)) == (T.min,               true ) as (T, Bool))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        var x = T()
+        
+        XCTAssertNotNil(x  += 0)
+        XCTAssertNotNil(x &+= 0)
+        XCTAssertNotNil(x.addReportingOverflow(0))
+        
+        XCTAssertNotNil(x  +  0)
+        XCTAssertNotNil(x &+  0)
+        XCTAssertNotNil(x.addingReportingOverflow(0))
     }
 }
 
