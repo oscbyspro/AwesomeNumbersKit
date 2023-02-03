@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
 
@@ -18,15 +19,16 @@ import XCTest
 
 final class ANKSignedBenchmarksOnComplements: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
+    typealias T = ANKSigned<ANKUInt256>
+    typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        let abc = T(UInt.max, as: .plus )
-        let xyz = T(UInt.max, as: .minus)
+        let abc = T.max
+        let xyz = T.min
 
         for _ in 0 ..< 1_000_000 {
             _ = abc.magnitude

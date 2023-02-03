@@ -176,7 +176,7 @@ extension ANKFullWidth where High == High.Magnitude {
             text += String(MAGNITUDE[index], radix: radix, uppercase: uppercase)
             //=----------------------------------=
             backwards: while index != MAGNITUDE.startIndex {
-                MAGNITUDE.formIndex(before: &index)
+                MAGNITUDE.formIndex(before:   &index)
                 let digits  = String(MAGNITUDE[index], radix: radix, uppercase: uppercase)
                 let padding = root.exponent &- digits.utf8.count
                 if !padding.isZero { text += repeatElement("0", count: padding) }
@@ -216,7 +216,7 @@ extension ANKFullWidth where High == High.Magnitude {
             text += String(CHUNKS[index], radix: radix, uppercase: uppercase)
             //=----------------------------------=
             backwards: while index != CHUNKS.startIndex {
-                CHUNKS.formIndex(before:  &index)
+                CHUNKS.formIndex(before:   &index)
                 let digits  = String(CHUNKS[index], radix: radix, uppercase: uppercase)
                 let padding = root.exponent &- digits.utf8.count
                 if !padding.isZero { text += repeatElement("0", count: padding) }

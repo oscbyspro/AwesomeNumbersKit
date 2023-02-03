@@ -19,9 +19,8 @@ import XCTest
 
 final class ANKSignedBenchmarksOnDivision: XCTestCase {
     
-    typealias T = ANKSigned<UInt256>
+    typealias T = ANKSigned<ANKUInt256>
     typealias D = ANKSigned<UInt>
-    typealias M = UInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -92,7 +91,7 @@ final class ANKSignedBenchmarksOnDivision: XCTestCase {
     
     func testDividingFullWidth() {
         let lhs = (T.max)
-        let rhs = (T.max, M.max)
+        let rhs = (T.max, T.max.magnitude)
         
         for _ in 0 ..< 1_000_000 {
             _ = lhs.dividingFullWidth(rhs)

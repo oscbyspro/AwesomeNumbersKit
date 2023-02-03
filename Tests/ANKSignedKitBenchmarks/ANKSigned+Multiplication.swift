@@ -19,7 +19,7 @@ import XCTest
 
 final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
     
-    typealias T = ANKSigned<UInt256>
+    typealias T = ANKSigned<ANKUInt256>
     typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=

@@ -149,6 +149,20 @@
                BlueprintName = "ANKSignedKitBenchmarks"
                ReferencedContainer = "container:">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ANKSignedBenchmarksOnText/testDecodeUsingSwiftStdlib()">
+               </Test>
+               <Test
+                  Identifier = "ANKSignedBenchmarksOnText/testDecodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
+               </Test>
+               <Test
+                  Identifier = "ANKSignedBenchmarksOnText/testEncodeUsingSwiftStdlib()">
+               </Test>
+               <Test
+                  Identifier = "ANKSignedBenchmarksOnText/testEncodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

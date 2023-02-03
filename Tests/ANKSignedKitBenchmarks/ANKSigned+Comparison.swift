@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
 
@@ -18,7 +19,8 @@ import XCTest
 
 final class ANKSignedBenchmarksOnComparison: XCTestCase {
     
-    typealias T = ANKSigned<UInt>
+    typealias T = ANKSigned<ANKUInt256>
+    typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
