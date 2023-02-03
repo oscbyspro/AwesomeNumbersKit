@@ -91,61 +91,52 @@
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "Int192BenchmarksOnText/testDecodePowerOf2UsingStdlib()">
+                  Identifier = "Int192BenchmarksOnText/testDecodeUsingSwiftStdlib()">
                </Test>
                <Test
-                  Identifier = "Int192BenchmarksOnText/testDecodeUsingStdlib()">
-               </Test>
-               <Test
-                  Identifier = "Int192BenchmarksOnText/testEncodePowerOf2UsingStdlib()">
+                  Identifier = "Int192BenchmarksOnText/testDecodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
                </Test>
                <Test
                   Identifier = "Int192BenchmarksOnText/testEncodeUsingSwiftStdlib()">
                </Test>
                <Test
-                  Identifier = "Int256BenchmarksOnText/testDecodePowerOf2UsingStdlib()">
+                  Identifier = "Int192BenchmarksOnText/testEncodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
                </Test>
                <Test
-                  Identifier = "Int256BenchmarksOnText/testDecodeUsingStdlib()">
+                  Identifier = "Int256BenchmarksOnText/testDecodeUsingSwiftStdlib()">
                </Test>
                <Test
-                  Identifier = "Int256BenchmarksOnText/testEncodePowerOf2UsingStdlib()">
+                  Identifier = "Int256BenchmarksOnText/testDecodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
                </Test>
                <Test
                   Identifier = "Int256BenchmarksOnText/testEncodeUsingSwiftStdlib()">
                </Test>
                <Test
-                  Identifier = "UInt192BenchmarksOnText/testDecodePowerOf2UsingStdlib()">
-               </Test>
-               <Test
-                  Identifier = "UInt192BenchmarksOnText/testDecodePowerOf2UsingSwiftStdlib()">
-               </Test>
-               <Test
-                  Identifier = "UInt192BenchmarksOnText/testDecodeUsingStdlib()">
+                  Identifier = "Int256BenchmarksOnText/testEncodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
                </Test>
                <Test
                   Identifier = "UInt192BenchmarksOnText/testDecodeUsingSwiftStdlib()">
                </Test>
                <Test
-                  Identifier = "UInt192BenchmarksOnText/testEncodePowerOf2UsingStdlib()">
-               </Test>
-               <Test
-                  Identifier = "UInt192BenchmarksOnText/testEncodePowerOf2UsingSwiftStdlib()">
+                  Identifier = "UInt192BenchmarksOnText/testDecodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
                </Test>
                <Test
                   Identifier = "UInt192BenchmarksOnText/testEncodeUsingSwiftStdlib()">
                </Test>
                <Test
-                  Identifier = "UInt256BenchmarksOnText/testDecodePowerOf2UsingStdlib()">
+                  Identifier = "UInt192BenchmarksOnText/testEncodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
                </Test>
                <Test
-                  Identifier = "UInt256BenchmarksOnText/testDecodeUsingStdlib()">
+                  Identifier = "UInt256BenchmarksOnText/testDecodeUsingSwiftStdlib()">
                </Test>
                <Test
-                  Identifier = "UInt256BenchmarksOnText/testEncodePowerOf2UsingStdlib()">
+                  Identifier = "UInt256BenchmarksOnText/testDecodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
                </Test>
                <Test
                   Identifier = "UInt256BenchmarksOnText/testEncodeUsingSwiftStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt256BenchmarksOnText/testEncodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
                </Test>
             </SkippedTests>
          </TestableReference>

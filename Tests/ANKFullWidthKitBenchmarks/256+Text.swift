@@ -40,7 +40,7 @@ final class Int256BenchmarksOnText: XCTestCase {
         }
     }
     
-    func testDecodePowerOf2() {
+    func testDecodeWhereRadixIsPowerOf2() {
         for _ in 0 ..< 50_000 {
             _ = T(decoding: Self.source, radix: 16)!
         }
@@ -52,7 +52,7 @@ final class Int256BenchmarksOnText: XCTestCase {
         }
     }
     
-    func testEncodePowerOf2() {
+    func testEncodeWhereRadixIsPowerOf2() {
         for _ in 0 ..< 50_000 {
             _ = String(encoding: Self.number, radix: 16)
         }
@@ -62,13 +62,13 @@ final class Int256BenchmarksOnText: XCTestCase {
     // MARK: Tests x Swift Standard Library Methods
     //=------------------------------------------------------------------------=
     
-    func testDecodeUsingStdlib() {
+    func testDecodeUsingSwiftStdlib() {
         for _ in 0 ..< 50_000 {
             _ = T(Self.source, radix: 10)!
         }
     }
     
-    func testDecodePowerOf2UsingStdlib() {
+    func testDecodeUsingSwiftStdlibWhereRadixIsPowerOf2() {
         for _ in 0 ..< 50_000 {
             _ = T(Self.source, radix: 16)!
         }
@@ -80,7 +80,7 @@ final class Int256BenchmarksOnText: XCTestCase {
         }
     }
     
-    func testEncodePowerOf2UsingStdlib() {
+    func testEncodeUsingSwiftStdlibWhereRadixIsPowerOf2() {
         for _ in 0 ..< 50_000 {
             _ = String(Self.number, radix: 16)
         }
@@ -112,7 +112,7 @@ final class UInt256BenchmarksOnText: XCTestCase {
         }
     }
     
-    func testDecodePowerOf2() {
+    func testDecodeWhereRadixIsPowerOf2() {
         for _ in 0 ..< 50_000 {
             _ = T(decoding: Self.source, radix: 16)!
         }
@@ -124,7 +124,7 @@ final class UInt256BenchmarksOnText: XCTestCase {
         }
     }
     
-    func testEncodePowerOf2() {
+    func testEncodeWhereRadixIsPowerOf2() {
         for _ in 0 ..< 50_000 {
             _ = String(encoding: Self.number, radix: 16)
         }
@@ -134,13 +134,13 @@ final class UInt256BenchmarksOnText: XCTestCase {
     // MARK: Tests x Swift Standard Library Methods
     //=------------------------------------------------------------------------=
     
-    func testDecodeUsingStdlib() {
+    func testDecodeUsingSwiftStdlib() {
         for _ in 0 ..< 50_000 {
             _ = T(Self.source, radix: 10)!
         }
     }
     
-    func testDecodePowerOf2UsingStdlib() {
+    func testDecodeUsingSwiftStdlibWhereRadixIsPowerOf2() {
         for _ in 0 ..< 50_000 {
             _ = T(Self.source, radix: 16)!
         }
@@ -152,7 +152,7 @@ final class UInt256BenchmarksOnText: XCTestCase {
         }
     }
     
-    func testEncodePowerOf2UsingStdlib() {
+    func testEncodeUsingSwiftStdlibWhereRadixIsPowerOf2() {
         for _ in 0 ..< 50_000 {
             _ = String(Self.number, radix: 16)
         }

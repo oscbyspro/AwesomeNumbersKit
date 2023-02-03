@@ -194,10 +194,10 @@ extension ANKFullWidth where High == High.Magnitude {
         let root = UInt.maxPlusOneRootReportingUnderestimatedPowerOrZero(radix)
         assert(!root.power.isZero, "radix must not be power of 2")
         //=--------------------------------------=
-        var magnitude = value.magnitude
+        var magnitude: Magnitude = value.magnitude
         let magnitudeSignificantBitWidth: Int = magnitude .bitWidth &- magnitudeLeadingZeroBitCount
-        let chunkBitWidthConsumptionLowerBound: Int = UInt.bitWidth &- root.power.leadingZeroBitCount &- 1
-        let chunkCountUpperBound: Int = magnitudeSignificantBitWidth / chunkBitWidthConsumptionLowerBound &+ 1
+        let chunkBitWidthConsumptionLowerBound: Int = UInt.bitWidth &- root.power.leadingZeroBitCount  &- 1
+        let chunkCountUpperBound = (magnitudeSignificantBitWidth / chunkBitWidthConsumptionLowerBound) &+ 1
         //=--------------------------------------=
         var text = value.sign != .plus ? "-" : ""
         text.reserveCapacity(text.utf8.count + root.exponent * chunkCountUpperBound)
