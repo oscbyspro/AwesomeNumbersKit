@@ -89,6 +89,65 @@
                BlueprintName = "ANKFullWidthKitBenchmarks"
                ReferencedContainer = "container:">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "Int192BenchmarksOnText/testDecodePowerOf2UsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "Int192BenchmarksOnText/testDecodeUsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "Int192BenchmarksOnText/testEncodePowerOf2UsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "Int192BenchmarksOnText/testEncodeUsingSwiftStdlib()">
+               </Test>
+               <Test
+                  Identifier = "Int256BenchmarksOnText/testDecodePowerOf2UsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "Int256BenchmarksOnText/testDecodeUsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "Int256BenchmarksOnText/testEncodePowerOf2UsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "Int256BenchmarksOnText/testEncodeUsingSwiftStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt192BenchmarksOnText/testDecodePowerOf2UsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt192BenchmarksOnText/testDecodePowerOf2UsingSwiftStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt192BenchmarksOnText/testDecodeUsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt192BenchmarksOnText/testDecodeUsingSwiftStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt192BenchmarksOnText/testEncodePowerOf2UsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt192BenchmarksOnText/testEncodePowerOf2UsingSwiftStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt192BenchmarksOnText/testEncodeUsingSwiftStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt256BenchmarksOnText/testDecodePowerOf2UsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt256BenchmarksOnText/testDecodeUsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt256BenchmarksOnText/testEncodePowerOf2UsingStdlib()">
+               </Test>
+               <Test
+                  Identifier = "UInt256BenchmarksOnText/testEncodeUsingSwiftStdlib()">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">
