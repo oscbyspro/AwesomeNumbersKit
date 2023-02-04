@@ -73,30 +73,37 @@ extension UInt {
     //=------------------------------------------------------------------------=
     
     /// Returns the largest exponent such that `pow(radix, exponent) <= max + 1`.
-    ///
-    /// - Note: The expression `max + 1` is also equivalent to `pow(2, bitWidth)`.
-    ///
-    @inlinable static func maxPlusOneRootReportingUnderestimatedPowerOrZero(_ radix: Int) -> (exponent: Int, power: Self) {
+    @inlinable static func radixRootReportingImperfectPowerOrZero(_ radix: Int) -> (exponent: Int, power: Self) {
         precondition(radix >= 2)
         //=--------------------------------------=
+        // Fast Path
+        //=--------------------------------------=
+        if  radix.isPowerOf2 {
+            let radixTrailingZeroBitCount = radix.trailingZeroBitCount
+            if  radixTrailingZeroBitCount.isPowerOf2 {
+                let exponent = Self.bitWidth &>> radixTrailingZeroBitCount.trailingZeroBitCount
+                return (exponent: exponent, power: 0)
+            }
+        }
+        //=--------------------------------------=
+        // Slow Path
+        //=--------------------------------------=
         var power = Self(1)
-        let radix = Self(radix)
+        let radix = Self(bitPattern: radix)
         var exponent = Int()
         //=--------------------------------------=
-        while true {
-            //=----------------------------------=
+        exponentiate: while true {
             let product = power.multipliedFullWidth(by: radix)
             if !product.high.isZero {
                 //=------------------------------=
-                if  product.low.isZero, product.high == (1 as Self) {
+                if  product.high == (1 as Self), product.low.isZero {
                     exponent &+= 1
                     power = product.low
                 }
                 //=------------------------------=
-                assert(power.isZero == (radix.isPowerOf2 && Self.bitWidth.isMultiple(of: radix.trailingZeroBitCount)))
-                return(exponent: exponent, power: power)
+                return (exponent: exponent, power: power)
             }
-            //=----------------------------------=
+            
             exponent &+= 1
             power = product.low
         }

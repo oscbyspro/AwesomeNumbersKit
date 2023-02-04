@@ -71,9 +71,9 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// overflow, the result is either truncated or, if undefined, this value.
     ///
     /// ```
-    /// var a = Int8(-128); a.divideReportingOverflow(by: 2)) // a = Int8( -64); -> false
-    /// var b = Int8(-128); b.divideReportingOverflow(by: 2)) // b = Int8(-128); -> true
-    /// var c = Int8(-128); c.divideReportingOverflow(by: 2)) // c = Int8(-128); -> true
+    /// var a = Int8(-128); a.divideReportingOverflow(by:  3)) // a = Int8( -42); -> false
+    /// var b = Int8(-128); b.divideReportingOverflow(by:  0)) // b = Int8(-128); -> true
+    /// var c = Int8(-128); c.divideReportingOverflow(by: -1)) // c = Int8(-128); -> true
     /// ```
     ///
     @inlinable mutating func divideReportingOverflow(by divisor: Self) -> Bool
