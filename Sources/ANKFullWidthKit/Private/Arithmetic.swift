@@ -74,8 +74,6 @@ extension UInt {
     
     /// Returns the largest exponent such that `pow(radix, exponent) <= max + 1`.
     ///
-    /// The power is zero, representing `max + 1`, if and only if the radix is a power of 2.
-    ///
     /// - Note: The expression `max + 1` is also equivalent to `pow(2, bitWidth)`.
     ///
     @inlinable static func maxPlusOneRootReportingUnderestimatedPowerOrZero(_ radix: Int) -> (exponent: Int, power: Self) {
@@ -87,20 +85,20 @@ extension UInt {
         //=--------------------------------------=
         while true {
             //=----------------------------------=
-            let product = power.multipliedReportingOverflow(by: radix)
-            if  product.overflow {
+            let product = power.multipliedFullWidth(by: radix)
+            if !product.high.isZero {
                 //=------------------------------=
-                if  product.partialValue.isZero {
+                if  product.low.isZero, product.high == (1 as Self) {
                     exponent &+= 1
-                    power = product.partialValue
+                    power = product.low
                 }
                 //=------------------------------=
-                assert(power.isZero == radix.isPowerOf2)
+                assert(power.isZero == (radix.isPowerOf2 && Self.bitWidth.isMultiple(of: radix.trailingZeroBitCount)))
                 return(exponent: exponent, power: power)
             }
             //=----------------------------------=
             exponent &+= 1
-            power = product.partialValue
+            power = product.low
         }
     }
 }

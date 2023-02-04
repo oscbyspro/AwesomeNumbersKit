@@ -76,7 +76,7 @@ extension ANKFullWidth where High == High.Magnitude {
     @_transparent @usableFromInline static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: Int) -> Self? {
         precondition(2 <= radix && radix <= 36)
         //=--------------------------------------=
-        if  radix.isPowerOf2 {
+        if  radix.isPowerOf2 && radix.trailingZeroBitCount.isPowerOf2 {
             return self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsPowerOf2(source, radix: radix)
         }
         //=--------------------------------------=
@@ -86,7 +86,7 @@ extension ANKFullWidth where High == High.Magnitude {
     @inlinable static func _decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsNotPowerOf2(_ source: some StringProtocol, radix: Int) -> Self? {
         let utf8 = source.utf8
         let root = UInt.maxPlusOneRootReportingUnderestimatedPowerOrZero(radix)
-        assert(!root.power.isZero, "radix must not be power of 2")
+        assert(!root.power.isZero)
         //=--------------------------------------=
         var magnitude: Magnitude = Self()
         var chunkStartIndex: String.Index = utf8.startIndex
@@ -117,7 +117,7 @@ extension ANKFullWidth where High == High.Magnitude {
     @inlinable static func _decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsPowerOf2(_ source: some StringProtocol, radix: Int) -> Self? {
         let utf8 = source.utf8
         let root = UInt.maxPlusOneRootReportingUnderestimatedPowerOrZero(radix)
-        assert(root.power.isZero, "radix must be power of 2")
+        assert(root.power.isZero)
         //=--------------------------------------=
         var magnitude: Magnitude = Self()
         //=--------------------------------------=
@@ -153,7 +153,7 @@ extension ANKFullWidth where High == High.Magnitude {
     @_transparent @usableFromInline static func _encode(_ value: ANKSigned<Self>, radix: Int, uppercase: Bool) -> String {
         precondition(2 <= radix && radix <= 36)
         //=--------------------------------------=
-        if  radix.isPowerOf2 {
+        if  radix.isPowerOf2 && radix.trailingZeroBitCount.isPowerOf2 {
             return self._encodeWhereRadixIsIn2Through36AndRadixIsPowerOf2(value, radix: radix, uppercase: uppercase)
         }
         //=--------------------------------------=
@@ -165,7 +165,7 @@ extension ANKFullWidth where High == High.Magnitude {
         if  magnitude_.isZeroOrMinusOne { return "0" }
         //=--------------------------------------=
         let root = UInt.maxPlusOneRootReportingUnderestimatedPowerOrZero(radix)
-        assert(root.power.isZero, "radix must be power of 2")
+        assert(root.power.isZero)
         //=--------------------------------------=
         var text = value.sign != .plus ? "-" : ""
         text.reserveCapacity(text.utf8.count + magnitude_.minWordCount * root.exponent)
@@ -188,11 +188,12 @@ extension ANKFullWidth where High == High.Magnitude {
     }
     
     @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsNotPowerOf2(_ value: ANKSigned<Self>, radix: Int, uppercase: Bool) -> String {
+        //=--------------------------------------=
         let magnitudeLeadingZeroBitCount = value.magnitude.leadingZeroBitCount
         if  magnitudeLeadingZeroBitCount == Self.bitWidth { return "0" }
         //=--------------------------------------=
         let root = UInt.maxPlusOneRootReportingUnderestimatedPowerOrZero(radix)
-        assert(!root.power.isZero, "radix must not be power of 2")
+        assert(!root.power.isZero)
         //=--------------------------------------=
         var magnitude: Magnitude = value.magnitude
         let magnitudeSignificantBitWidth: Int = magnitude .bitWidth &- magnitudeLeadingZeroBitCount
