@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Arithmetic x UInt
+// MARK: * ANK x UInt x Arithmetic
 //*============================================================================*
 
 extension UInt {
@@ -59,53 +59,5 @@ extension UInt {
         var low = self
         let high: Self = low.addFullWidth(carry, multiplicands: multiplicands)
         return HL(high,  low)
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Arithmetic x UInt
-//*============================================================================*
-
-extension UInt {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    /// Returns the largest exponent such that `pow(radix, exponent) <= max + 1`.
-    @inlinable static func radixRootReportingImperfectPowerOrZero(_ radix: Int) -> (exponent: Int, power: Self) {
-        precondition(radix >= 2)
-        //=--------------------------------------=
-        // Fast Path
-        //=--------------------------------------=
-        if  radix.isPowerOf2 {
-            let radixTrailingZeroBitCount = radix.trailingZeroBitCount
-            if  radixTrailingZeroBitCount.isPowerOf2 {
-                let exponent = Self.bitWidth &>> radixTrailingZeroBitCount.trailingZeroBitCount
-                return (exponent: exponent, power: 0)
-            }
-        }
-        //=--------------------------------------=
-        // Slow Path
-        //=--------------------------------------=
-        var power = Self(1)
-        let radix = Self(bitPattern: radix)
-        var exponent = Int()
-        //=--------------------------------------=
-        exponentiate: while true {
-            let product = power.multipliedFullWidth(by: radix)
-            if !product.high.isZero {
-                //=------------------------------=
-                if  product.high == (1 as Self), product.low.isZero {
-                    exponent &+= 1
-                    power = product.low
-                }
-                //=------------------------------=
-                return (exponent: exponent, power: power)
-            }
-            
-            exponent &+= 1
-            power = product.low
-        }
     }
 }
