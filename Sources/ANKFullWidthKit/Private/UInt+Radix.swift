@@ -7,6 +7,8 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import ANKFoundation
+
 //*============================================================================*
 // MARK: * ANK x UInt x Radix
 //*============================================================================*
@@ -24,31 +26,36 @@ extension UInt {
         // Fast Path
         //=--------------------------------------=
         if  radix.isPowerOf2 {
-            let radixTrailingZeroBitCount = radix.trailingZeroBitCount
-            if  radixTrailingZeroBitCount.isPowerOf2 {
-                let exponent = Self.bitWidth &>> radixTrailingZeroBitCount.trailingZeroBitCount
+            let rtzbc = radix.trailingZeroBitCount
+            //=----------------------------------=
+            // Radix == 2, 4, 16, 256, ...
+            //=----------------------------------=
+            if  rtzbc.isPowerOf2 {
+                let exponent = Self.bitWidth &>> rtzbc.trailingZeroBitCount
                 return (exponent: exponent, power: 0)
+            //=----------------------------------=
+            // Radix == 8, 32, 64, 128, ...
+            //=----------------------------------=
             }   else {
-                let exponent = Self.bitWidth  /  radixTrailingZeroBitCount
-                return (exponent: exponent, power: 1 &<< (radixTrailingZeroBitCount * exponent))
+                let exponent = Self.bitWidth / rtzbc
+                return (exponent: exponent, power: 1 &<< (rtzbc * exponent))
             }
         }
         //=--------------------------------------=
         // Slow Path
         //=--------------------------------------=
-        var power = Self(1)
+        var exponent = Int(1)
+        var power = Self(bitPattern: radix)
         let radix = Self(bitPattern: radix)
-        var exponent = Int()
         //=--------------------------------------=
         exponentiate: while true {
             let product = power.multipliedFullWidth(by: radix)
             if !product.high.isZero {
-                //=------------------------------=
-                if  product.high == (1 as Self), product.low.isZero {
+                if  product.high == 1, product.low.isZero {
                     exponent &+= 1
                     power = product.low
                 }
-                //=------------------------------=
+                
                 return (exponent: exponent, power: power)
             }
             

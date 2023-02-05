@@ -75,12 +75,15 @@ extension ANKFullWidth where High == High.Magnitude {
     
     @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: Int) -> Self? {
         precondition(2 <= radix && radix <= 36)
-        //=--------------------------------------=
         let root = UInt.radixRootReportingImperfectPowerOrZero(radix)
+        //=--------------------------------------=
+        // Radix == 2, 4, 16
         //=--------------------------------------=
         if  root.power.isZero {
             return self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsUIntRoot(source, radix: radix, root: root)
         }
+        //=--------------------------------------=
+        // Radix != 2, 4, 16
         //=--------------------------------------=
         return  self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(source, radix: radix, root: root)
     }
@@ -158,12 +161,15 @@ extension ANKFullWidth where High == High.Magnitude {
     
     @inlinable static func _encode(_ value: ANKSigned<Self>, radix: Int, uppercase: Bool) -> String {
         precondition(2 <= radix && radix <= 36)
-        //=--------------------------------------=
         let root = UInt.radixRootReportingImperfectPowerOrZero(radix)
+        //=--------------------------------------=
+        // Radix == 2, 4, 16
         //=--------------------------------------=
         if  root.power.isZero {
             return self._encodeWhereRadixIsIn2Through36AndRadixIsUIntRoot(value, radix: radix, uppercase: uppercase, root: root)
         }
+        //=--------------------------------------=
+        // Radix != 2, 4, 16
         //=--------------------------------------=
         return  self._encodeWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(value, radix: radix, uppercase: uppercase, root: root)
     }
