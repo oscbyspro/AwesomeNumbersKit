@@ -45,9 +45,6 @@ import ANKFoundation
     //=------------------------------------------------------------------------=
     
     /// Returns the largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
-    ///
-    /// - Returns: The `floor` of `x` in the equation: `pow(radix, x) = pow(2, UInt.bitWidth)`.
-    ///
     @inlinable static func root(_ radix: Int) -> (exponent: Int, power: UInt) {
         precondition(radix >= 2)
         //=--------------------------------------=

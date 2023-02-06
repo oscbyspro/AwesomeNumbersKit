@@ -32,10 +32,12 @@ extension ANKFullWidth {
     }
     
     @inlinable public var debugDescription: String {
-        let signedness = !Self.isSigned ? "U" : ""
-        let size = String(Self.bitWidth)
-        let contents = self.lazy.map(String.init).joined(separator: ", ")
-        return "ANK\(signedness)Int\(size)(\(contents))"
+        self.withUnsafeWordsPointer { SELF in
+            let signedness = !Self.isSigned ? "U" : ""
+            let size = String(Self.bitWidth)
+            let contents = SELF.lazy.map(String.init).joined(separator: ", ")
+            return "ANK\(signedness)Int\(size)(\(contents))"
+        }
     }
 }
 
@@ -59,7 +61,9 @@ extension ANKFullWidth {
     }
     
     @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
-        Magnitude._encode(ANKSigned(source.magnitude, as: ANKSign(source.isLessThanZero)), radix: radix, uppercase: uppercase)
+        let sign = ANKSign(source.isLessThanZero)
+        let number = ANKSigned(source.magnitude, as: sign)
+        return Magnitude._encode(number, radix: radix, uppercase: uppercase)
     }
 }
 
@@ -103,13 +107,16 @@ extension ANKFullWidth where High == High.Magnitude {
             backwards: while chunkEndIndex != utf8.startIndex {
                 //=------------------------------=
                 if  magnitudeIndex == MAGNITUDE.endIndex {
-                    return source.prefix(upTo: chunkEndIndex).utf8.allSatisfy({ $0 == UInt8(ascii: "0") })
+                    let remainders =  source.prefix(upTo: chunkEndIndex).utf8
+                    return remainders.allSatisfy({ $0 == UInt8(ascii: "0") })
                 }
                 //=------------------------------=
-                let chunkStartIndex = utf8.index(chunkEndIndex, offsetBy: -radix.exponent, limitedBy: utf8.startIndex) ?? utf8.startIndex
-                guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.base) else { return false }
-                //=------------------------------=
+                let chunkStartIndex = utf8.index(chunkEndIndex,
+                offsetBy: -radix.exponent,
+                limitedBy: utf8.startIndex) ?? utf8.startIndex
+                guard let  digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.base) else { return false }
                 chunkEndIndex = chunkStartIndex
+                //=------------------------------=
                 MAGNITUDE[magnitudeIndex] = digit
                 MAGNITUDE.formIndex(after: &magnitudeIndex)
             }
@@ -125,17 +132,17 @@ extension ANKFullWidth where High == High.Magnitude {
         assert(!radix.power.isZero)
         //=--------------------------------------=
         let utf8 = source.utf8
-        var magnitude: Magnitude = Self()
         var chunkStartIndex: String.Index = utf8.startIndex
         let chunkIndexAlignment: Int = utf8.count % radix.exponent
+        var magnitude: Magnitude = Self()
         //=--------------------------------------=
         forwards: if !chunkIndexAlignment.isZero {
             //=----------------------------------=
-            let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy:  chunkIndexAlignment)
+            let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy: chunkIndexAlignment)
             guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.base) else { return nil }
             chunkStartIndex = chunkEndIndex
             //=----------------------------------=
-            guard !magnitude.addReportingOverflow(digit as UInt) else { return nil }
+            magnitude[unchecked: Self.startIndex] = digit
         }
         //=--------------------------------------=
         forwards: while chunkStartIndex != utf8.endIndex {
@@ -174,15 +181,15 @@ extension ANKFullWidth where High == High.Magnitude {
     _ value: ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
         assert(radix.power.isZero)
         //=--------------------------------------=
-        let magnitude_ = value.magnitude.minWordCountReportingIsZeroOrMinusOne()
+        let magnitude_ = value.magnitude.minLastIndexReportingIsZeroOrMinusOne()
         if  magnitude_.isZeroOrMinusOne { return "0" }
         //=--------------------------------------=
         var text = value.sign != .plus ? "-" : ""
-        text.reserveCapacity(text.utf8.count + magnitude_.minWordCount * radix.exponent)
+        text.reserveCapacity(text.utf8.count + (magnitude_.minLastIndex &+ 1) * radix.exponent)
         //=--------------------------------------=
         value.magnitude.withUnsafeWordsPointer { MAGNITUDE in
             //=----------------------------------=
-            var index = MAGNITUDE.index(before: magnitude_.minWordCount)
+            var index = magnitude_.minLastIndex
             text += String(MAGNITUDE[index], radix: radix.base, uppercase: uppercase)
             //=----------------------------------=
             backwards: while index != MAGNITUDE.startIndex {
@@ -206,19 +213,18 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         var magnitude: Magnitude = value.magnitude
         let magnitudeSignificantBitWidth: Int = magnitude .bitWidth &- magnitudeLeadingZeroBitCount
-        let chunkBitWidthConsumptionLowerBound: Int = UInt.bitWidth &- radix.power.leadingZeroBitCount  &- 1
+        let chunkBitWidthConsumptionLowerBound: Int = UInt.bitWidth &- radix.power.leadingZeroBitCount &- 1
         let chunkCountUpperBound = (magnitudeSignificantBitWidth / chunkBitWidthConsumptionLowerBound) &+ 1
         //=--------------------------------------=
         var text = value.sign != .plus ? "-" : ""
         text.reserveCapacity(text.utf8.count + radix.exponent * chunkCountUpperBound)
         //=--------------------------------------=
-        withUnsafeTemporaryAllocation(of: UInt.self, capacity: chunkCountUpperBound) { CHUNKS in
+        withUnsafeTemporaryAllocation(of: UInt.self, capacity:  chunkCountUpperBound) { CHUNKS in
             //=----------------------------------=
             var index = CHUNKS.startIndex
             //=----------------------------------=
-            assert(!magnitude.isZero)
             forwards: repeat {
-                (magnitude, CHUNKS[index]) = magnitude.quotientAndRemainder(dividingBy: radix.power)
+                (magnitude, CHUNKS[index]) = magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
                 CHUNKS.formIndex(after: &index)
             } while !magnitude.isZero
             //=----------------------------------=

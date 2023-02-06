@@ -53,16 +53,16 @@
             </BuildableReference>
             <SkippedTests>
                 <Test
-                    Identifier = "ANKSignedBenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
-                </Test>
-                <Test
                     Identifier = "ANKSignedBenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
                 </Test>
                 <Test
-                    Identifier = "ANKSignedBenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
+                    Identifier = "ANKSignedBenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
                 </Test>
                 <Test
                     Identifier = "ANKSignedBenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
+                </Test>
+                <Test
+                    Identifier = "ANKSignedBenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
                 </Test>
             </SkippedTests>
          </TestableReference>
