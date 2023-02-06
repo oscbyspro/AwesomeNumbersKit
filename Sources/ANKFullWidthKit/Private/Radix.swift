@@ -10,43 +10,72 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x UInt x Radix
+// MARK: * ANK x Radix UInt Root
 //*============================================================================*
 
-extension UInt {
+/// The largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
+///
+/// - Its `base` is `>= 2`
+/// - Its `exponent` is `>= 1` and `<= UInt.bitWidth`
+/// - Its `power` is `0` when `pow(radix, exponent) == UInt.max + 1`
+///
+@usableFromInline struct RadixUIntRoot {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: State
+    //=------------------------------------------------------------------------=
+    
+    @usableFromInline let base: Int
+    @usableFromInline let exponent: Int
+    @usableFromInline let power: UInt
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(_ radix: Int) {
+        let  root = Self.root(radix)
+        self.base = radix
+        self.exponent = root.exponent
+        self.power = root.power
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// Returns the largest exponent such that `pow(radix, exponent) <= max + 1`.
-    @inlinable static func radixRootReportingImperfectPowerOrZero(_ radix: Int) -> (exponent: Int, power: Self) {
+    /// Returns the largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
+    ///
+    /// - Returns: The `floor` of `x` in the equation: `pow(radix, x) = pow(2, UInt.bitWidth)`.
+    ///
+    @inlinable static func root(_ radix: Int) -> (exponent: Int, power: UInt) {
         precondition(radix >= 2)
         //=--------------------------------------=
         // Fast Path
         //=--------------------------------------=
         if  radix.isPowerOf2 {
-            let rtzbc = radix.trailingZeroBitCount
+            let zeros = radix.trailingZeroBitCount
             //=----------------------------------=
             // Radix == 2, 4, 16, 256, ...
             //=----------------------------------=
-            if  rtzbc.isPowerOf2 {
-                let exponent = Self.bitWidth &>> rtzbc.trailingZeroBitCount
+            if  zeros.isPowerOf2 {
+                let exponent = UInt.bitWidth &>> zeros.trailingZeroBitCount
                 return (exponent: exponent, power: 0)
             //=----------------------------------=
             // Radix == 8, 32, 64, 128, ...
             //=----------------------------------=
             }   else {
-                let exponent = Self.bitWidth / rtzbc
-                return (exponent: exponent, power: 1 &<< (rtzbc * exponent))
+                let exponent = UInt.bitWidth  /  zeros
+                let power = (1 as UInt) &<< UInt(bitPattern: zeros * exponent)
+                return (exponent: exponent, power: power)
             }
         }
         //=--------------------------------------=
         // Slow Path
         //=--------------------------------------=
-        var exponent = Int(1)
-        var power = Self(bitPattern: radix)
-        let radix = Self(bitPattern: radix)
+        var exponent = 1 as Int
+        var power = UInt(bitPattern: radix)
+        let radix = UInt(bitPattern: radix)
         //=--------------------------------------=
         exponentiate: while true {
             let product = power.multipliedFullWidth(by: radix)

@@ -33,27 +33,27 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testDecode() {
-        for _ in 0 ..< 50_000 {
-            _ = T(decoding: Self.source, radix: 10)!
-        }
-    }
-    
-    func testDecodePowerOf2() {
+    func testDecodingRadix16() {
         for _ in 0 ..< 50_000 {
             _ = T(decoding: Self.source, radix: 16)!
         }
     }
     
-    func testEncode() {
+    func testDecodingRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = String(encoding: Self.number, radix: 10)
+            _ = T(decoding: Self.source, radix: 10)!
         }
     }
     
-    func testEncodePowerOf2() {
+    func testEncodingRadix16() {
         for _ in 0 ..< 50_000 {
             _ = String(encoding: Self.number, radix: 16)
+        }
+    }
+    
+    func testEncodingRadix10() {
+        for _ in 0 ..< 50_000 {
+            _ = String(encoding: Self.number, radix: 10)
         }
     }
     
@@ -61,27 +61,27 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
     // MARK: Tests x Swift Standard Library Methods
     //=------------------------------------------------------------------------=
     
-    func testDecodeUsingSwiftStdlib() {
-        for _ in 0 ..< 50_000 {
-            _ = T.Magnitude(Self.source, radix: 10)!
-        }
-    }
-    
-    func testDecodeUsingSwiftStdlibWhereRadixIsPowerOf2() {
+    func testDecodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
             _ = T.Magnitude(Self.source, radix: 16)!
         }
     }
     
-    func testEncodeUsingSwiftStdlib() {
+    func testDecodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = String(Self.number.magnitude, radix: 10)
+            _ = T.Magnitude(Self.source, radix: 10)!
         }
     }
     
-    func testEncodeUsingSwiftStdlibWhereRadixIsPowerOf2() {
+    func testEncodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
             _ = String(Self.number.magnitude, radix: 16)
+        }
+    }
+    
+    func testEncodingUsingSwiftStdlibRadix10() {
+        for _ in 0 ..< 50_000 {
+            _ = String(Self.number.magnitude, radix: 10)
         }
     }
 }

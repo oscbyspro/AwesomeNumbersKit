@@ -38,8 +38,8 @@ final class Int256TestsOnText: XCTestCase {
     }
     
     func testDecodingRadix16() {
-        XCTAssertEqual(T.min, T(decoding: "-8" + String(repeating: "0", count: 63), radix: 16))
-        XCTAssertEqual(T.max, T(decoding:  "7" + String(repeating: "f", count: 63), radix: 16))
+        XCTAssertEqual(T.min, T(decoding: "-8" + String(repeating: "0", count: T.bitWidth / 4 - 1), radix: 16))
+        XCTAssertEqual(T.max, T(decoding:  "7" + String(repeating: "f", count: T.bitWidth / 4 - 1), radix: 16))
     }
     
     func testDecodingRadix10() {
@@ -53,13 +53,13 @@ final class Int256TestsOnText: XCTestCase {
     }
     
     func testDecodingRadix4() {
-        XCTAssertEqual(T.min, T(decoding: "-2" + String(repeating: "0", count: 127), radix: 4))
-        XCTAssertEqual(T.max, T(decoding:  "1" + String(repeating: "3", count: 127), radix: 4))
+        XCTAssertEqual(T.min, T(decoding: "-2" + String(repeating: "0", count: T.bitWidth / 2 - 1), radix: 4))
+        XCTAssertEqual(T.max, T(decoding:  "1" + String(repeating: "3", count: T.bitWidth / 2 - 1), radix: 4))
     }
     
     func testDecodingRadix2() {
-        XCTAssertEqual(T.min, T(decoding: "-1" + String(repeating: "0", count: T.bitWidth - 1), radix: 2))
-        XCTAssertEqual(T.max, T(decoding:        String(repeating: "1", count: T.bitWidth - 1), radix: 2))
+        XCTAssertEqual(T.min, T(decoding: "-1" + String(repeating: "0", count: T.bitWidth / 1 - 1), radix: 2))
+        XCTAssertEqual(T.max, T(decoding:        String(repeating: "1", count: T.bitWidth / 1 - 1), radix: 2))
     }
     
     func testDecodingRadixLiteralAsNumber() {
@@ -123,10 +123,10 @@ final class Int256TestsOnText: XCTestCase {
     }
     
     func testEncodingRadix16() {
-        XCTAssertEqual(String(encoding: T.min, radix: 16, uppercase: false), "-8" + String(repeating: "0", count: 63))
-        XCTAssertEqual(String(encoding: T.min, radix: 16, uppercase: true ), "-8" + String(repeating: "0", count: 63))
-        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: false),  "7" + String(repeating: "f", count: 63))
-        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: true ),  "7" + String(repeating: "F", count: 63))
+        XCTAssertEqual(String(encoding: T.min, radix: 16, uppercase: false), "-8" + String(repeating: "0", count: T.bitWidth / 4 - 1))
+        XCTAssertEqual(String(encoding: T.min, radix: 16, uppercase: true ), "-8" + String(repeating: "0", count: T.bitWidth / 4 - 1))
+        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: false),  "7" + String(repeating: "f", count: T.bitWidth / 4 - 1))
+        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: true ),  "7" + String(repeating: "F", count: T.bitWidth / 4 - 1))
     }
     
     func testEncodingRadix10() {
@@ -134,19 +134,19 @@ final class Int256TestsOnText: XCTestCase {
         XCTAssertEqual(String(encoding: T.max, radix: 10),  "57896044618658097711785492504343953926634992332820282019728792003956564819967")
     }
     
-    func testEncodingRadix4() {
-        XCTAssertEqual(String(encoding: T.min, radix: 4), "-2" + String(repeating: "0", count: 127))
-        XCTAssertEqual(String(encoding: T.max, radix: 4),  "1" + String(repeating: "3", count: 127))
-    }
-    
     func testEncodingRadix8() {
         XCTAssertEqual(String(encoding: T.min, radix: 8), "-1" + String(repeating: "0", count: 85))
         XCTAssertEqual(String(encoding: T.max, radix: 8),        String(repeating: "7", count: 85))
     }
     
+    func testEncodingRadix4() {
+        XCTAssertEqual(String(encoding: T.min, radix: 4), "-2" + String(repeating: "0", count: T.bitWidth / 2 - 1))
+        XCTAssertEqual(String(encoding: T.max, radix: 4),  "1" + String(repeating: "3", count: T.bitWidth / 2 - 1))
+    }
+    
     func testEncodingRadix2() {
-        XCTAssertEqual(String(encoding: T.min, radix: 2), "-1" + String(repeating: "0", count: T.bitWidth - 1))
-        XCTAssertEqual(String(encoding: T.max, radix: 2),        String(repeating: "1", count: T.bitWidth - 1))
+        XCTAssertEqual(String(encoding: T.min, radix: 2), "-1" + String(repeating: "0", count: T.bitWidth / 1 - 1))
+        XCTAssertEqual(String(encoding: T.max, radix: 2),        String(repeating: "1", count: T.bitWidth / 1 - 1))
     }
 }
 
@@ -174,7 +174,7 @@ final class UInt256TestsOnText: XCTestCase {
     
     func testDecodingRadix16() {
         XCTAssertEqual(T.min, T(decoding: "0",  radix: 16))
-        XCTAssertEqual(T.max, T(decoding: String(repeating: "f", count: 64), radix: 16))
+        XCTAssertEqual(T.max, T(decoding: String(repeating: "f", count: T.bitWidth / 4), radix: 16))
     }
     
     func testDecodingRadix10() {
@@ -189,12 +189,12 @@ final class UInt256TestsOnText: XCTestCase {
     
     func testDecodingRadix4() {
         XCTAssertEqual(T.min, T(decoding: "0",  radix: 4))
-        XCTAssertEqual(T.max, T(decoding: String(repeating: "3", count: 128), radix: 4))
+        XCTAssertEqual(T.max, T(decoding: String(repeating: "3", count: T.bitWidth / 2), radix: 4))
     }
     
     func testDecodingRadix2() {
         XCTAssertEqual(T.min, T(decoding: "0",  radix: 2))
-        XCTAssertEqual(T.max, T(decoding: String(repeating: "1", count: T.bitWidth), radix: 2))
+        XCTAssertEqual(T.max, T(decoding: String(repeating: "1", count: T.bitWidth / 1), radix: 2))
     }
     
     func testDecodingRadixLiteralAsNumber() {
@@ -255,8 +255,8 @@ final class UInt256TestsOnText: XCTestCase {
     func testEncodingRadix16() {
         XCTAssertEqual(String(encoding: T.min, radix: 16, uppercase: false), "0")
         XCTAssertEqual(String(encoding: T.min, radix: 16, uppercase: true ), "0")
-        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: false), String(repeating: "f", count: 64))
-        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: true ), String(repeating: "F", count: 64))
+        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: false), String(repeating: "f", count: T.bitWidth / 4))
+        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: true ), String(repeating: "F", count: T.bitWidth / 4))
     }
     
     func testEncodingRadix10() {
@@ -271,12 +271,12 @@ final class UInt256TestsOnText: XCTestCase {
     
     func testEncodingRadix4() {
         XCTAssertEqual(String(encoding: T.min, radix: 4), "0")
-        XCTAssertEqual(String(encoding: T.max, radix: 4), String(repeating: "3", count: 128))
+        XCTAssertEqual(String(encoding: T.max, radix: 4), String(repeating: "3", count: T.bitWidth / 2))
     }
     
     func testEncodingRadix2() {
         XCTAssertEqual(String(encoding: T.min, radix: 2), "0")
-        XCTAssertEqual(String(encoding: T.max, radix: 2), String(repeating: "1", count: T.bitWidth))
+        XCTAssertEqual(String(encoding: T.max, radix: 2), String(repeating: "1", count: T.bitWidth / 1))
     }
 }
 

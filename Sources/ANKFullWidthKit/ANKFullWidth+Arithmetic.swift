@@ -21,7 +21,7 @@ extension ANKFullWidth {
     @inlinable var absoluteValueModuloBitWidth: Int {
         //=--------------------------------------=
         if  Self.bitWidth.isPowerOf2 {
-            return Int(bitPattern: self.first) & (Self.bitWidth &- 1)
+            return  Int(bitPattern: self.first) & (Self.bitWidth &- 1)
         }
         //=--------------------------------------=
         let value = Int(bitPattern: self % Digit(bitPattern: Self.bitWidth))

@@ -74,25 +74,23 @@ extension ANKFullWidth where High == High.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: Int) -> Self? {
-        precondition(2 <= radix && radix <= 36)
-        let root = UInt.radixRootReportingImperfectPowerOrZero(radix)
+        precondition(2 ... 36 ~=  radix)
+        let radix = RadixUIntRoot(radix)
         //=--------------------------------------=
         // Radix == 2, 4, 16
         //=--------------------------------------=
-        if  root.power.isZero {
-            return self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsUIntRoot(source, radix: radix, root: root)
+        if  radix.power.isZero {
+            return self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsUIntRoot(source, radix: radix)
         }
         //=--------------------------------------=
         // Radix != 2, 4, 16
         //=--------------------------------------=
-        return  self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(source, radix: radix, root: root)
+        return  self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(source, radix: radix)
     }
     
     @inlinable static func _decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsUIntRoot(
-    _ source: some StringProtocol, radix: Int, root: (exponent: Int, power: UInt)) -> Self? {
-        assert(2 ... 36 ~= radix)
-        assert(root.power.isZero)
-        assert(root == UInt.radixRootReportingImperfectPowerOrZero(radix))
+    _ source: some StringProtocol, radix: RadixUIntRoot) -> Self? {
+        assert(radix.power.isZero)
         //=--------------------------------------=
         let utf8 = source.utf8
         var magnitude: Magnitude = Self()
@@ -108,8 +106,8 @@ extension ANKFullWidth where High == High.Magnitude {
                     return source.prefix(upTo: chunkEndIndex).utf8.allSatisfy({ $0 == UInt8(ascii: "0") })
                 }
                 //=------------------------------=
-                let chunkStartIndex = utf8.index(chunkEndIndex, offsetBy: -root.exponent, limitedBy: utf8.startIndex) ?? utf8.startIndex
-                guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix) else { return false }
+                let chunkStartIndex = utf8.index(chunkEndIndex, offsetBy: -radix.exponent, limitedBy: utf8.startIndex) ?? utf8.startIndex
+                guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.base) else { return false }
                 //=------------------------------=
                 chunkEndIndex = chunkStartIndex
                 MAGNITUDE[magnitudeIndex] = digit
@@ -123,20 +121,18 @@ extension ANKFullWidth where High == High.Magnitude {
     }
     
     @inlinable static func _decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(
-    _ source: some StringProtocol, radix: Int, root: (exponent: Int, power: UInt)) -> Self? {
-        assert(2 ... 36 ~= radix)
-        assert(root.power.isZero == false)
-        assert(root == UInt.radixRootReportingImperfectPowerOrZero(radix))
+    _ source: some StringProtocol, radix: RadixUIntRoot) -> Self? {
+        assert(!radix.power.isZero)
         //=--------------------------------------=
         let utf8 = source.utf8
         var magnitude: Magnitude = Self()
         var chunkStartIndex: String.Index = utf8.startIndex
-        let chunkIndexAlignment: Int = utf8.count % root.exponent
+        let chunkIndexAlignment: Int = utf8.count % radix.exponent
         //=--------------------------------------=
         forwards: if !chunkIndexAlignment.isZero {
             //=----------------------------------=
             let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy:  chunkIndexAlignment)
-            guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix) else { return nil }
+            guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.base) else { return nil }
             chunkStartIndex = chunkEndIndex
             //=----------------------------------=
             guard !magnitude.addReportingOverflow(digit as UInt) else { return nil }
@@ -144,11 +140,11 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         forwards: while chunkStartIndex != utf8.endIndex {
             //=----------------------------------=
-            let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy: root.exponent)
-            guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix) else { return nil }
+            let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy: radix.exponent)
+            guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.base) else { return nil }
             chunkStartIndex = chunkEndIndex
             //=----------------------------------=
-            guard !magnitude.multiplyReportingOverflow(by: root.power as UInt) else { return nil }
+            guard !magnitude.multiplyReportingOverflow(by: radix.power as UInt) else { return nil }
             guard !magnitude.addReportingOverflow(digit as UInt) else { return nil }
         }
         //=--------------------------------------=
@@ -160,41 +156,39 @@ extension ANKFullWidth where High == High.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable static func _encode(_ value: ANKSigned<Self>, radix: Int, uppercase: Bool) -> String {
-        precondition(2 <= radix && radix <= 36)
-        let root = UInt.radixRootReportingImperfectPowerOrZero(radix)
+        precondition(2 ... 36 ~=  radix)
+        let radix = RadixUIntRoot(radix)
         //=--------------------------------------=
         // Radix == 2, 4, 16
         //=--------------------------------------=
-        if  root.power.isZero {
-            return self._encodeWhereRadixIsIn2Through36AndRadixIsUIntRoot(value, radix: radix, uppercase: uppercase, root: root)
+        if  radix.power.isZero {
+            return self._encodeWhereRadixIsIn2Through36AndRadixIsUIntRoot(value, radix: radix, uppercase: uppercase)
         }
         //=--------------------------------------=
         // Radix != 2, 4, 16
         //=--------------------------------------=
-        return  self._encodeWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(value, radix: radix, uppercase: uppercase, root: root)
+        return  self._encodeWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(value, radix: radix, uppercase: uppercase)
     }
     
     @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsUIntRoot(
-    _ value: ANKSigned<Self>, radix: Int, uppercase: Bool, root: (exponent: Int, power: UInt)) -> String {
-        assert(2 ... 36 ~= radix)
-        assert(root.power.isZero)
-        assert(root == UInt.radixRootReportingImperfectPowerOrZero(radix))
+    _ value: ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
+        assert(radix.power.isZero)
         //=--------------------------------------=
         let magnitude_ = value.magnitude.minWordCountReportingIsZeroOrMinusOne()
         if  magnitude_.isZeroOrMinusOne { return "0" }
         //=--------------------------------------=
         var text = value.sign != .plus ? "-" : ""
-        text.reserveCapacity(text.utf8.count + magnitude_.minWordCount * root.exponent)
+        text.reserveCapacity(text.utf8.count + magnitude_.minWordCount * radix.exponent)
         //=--------------------------------------=
         value.magnitude.withUnsafeWordsPointer { MAGNITUDE in
             //=----------------------------------=
             var index = MAGNITUDE.index(before: magnitude_.minWordCount)
-            text += String(MAGNITUDE[index], radix: radix, uppercase: uppercase)
+            text += String(MAGNITUDE[index], radix: radix.base, uppercase: uppercase)
             //=----------------------------------=
             backwards: while index != MAGNITUDE.startIndex {
                 MAGNITUDE.formIndex(before:   &index)
-                let digits  = String(MAGNITUDE[index], radix: radix, uppercase: uppercase)
-                let padding = root.exponent &- digits.utf8.count
+                let digits  = String(MAGNITUDE[index], radix: radix.base, uppercase: uppercase)
+                let padding = radix.exponent &- digits.utf8.count
                 if !padding.isZero { text += repeatElement("0", count: padding) }
                 text += digits
             }
@@ -204,21 +198,19 @@ extension ANKFullWidth where High == High.Magnitude {
     }
     
     @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(
-    _ value: ANKSigned<Self>, radix: Int, uppercase: Bool, root: (exponent: Int, power: UInt)) -> String {
-        assert(2 ... 36 ~= radix)
-        assert(root.power.isZero == false)
-        assert(root == UInt.radixRootReportingImperfectPowerOrZero(radix))
+    _ value: ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
+        assert(!radix.power.isZero)
         //=--------------------------------------=
         let magnitudeLeadingZeroBitCount = value.magnitude.leadingZeroBitCount
         if  magnitudeLeadingZeroBitCount == Self.bitWidth { return "0" }
         //=--------------------------------------=
         var magnitude: Magnitude = value.magnitude
         let magnitudeSignificantBitWidth: Int = magnitude .bitWidth &- magnitudeLeadingZeroBitCount
-        let chunkBitWidthConsumptionLowerBound: Int = UInt.bitWidth &- root.power.leadingZeroBitCount  &- 1
+        let chunkBitWidthConsumptionLowerBound: Int = UInt.bitWidth &- radix.power.leadingZeroBitCount  &- 1
         let chunkCountUpperBound = (magnitudeSignificantBitWidth / chunkBitWidthConsumptionLowerBound) &+ 1
         //=--------------------------------------=
         var text = value.sign != .plus ? "-" : ""
-        text.reserveCapacity(text.utf8.count + root.exponent * chunkCountUpperBound)
+        text.reserveCapacity(text.utf8.count + radix.exponent * chunkCountUpperBound)
         //=--------------------------------------=
         withUnsafeTemporaryAllocation(of: UInt.self, capacity: chunkCountUpperBound) { CHUNKS in
             //=----------------------------------=
@@ -226,17 +218,17 @@ extension ANKFullWidth where High == High.Magnitude {
             //=----------------------------------=
             assert(!magnitude.isZero)
             forwards: repeat {
-                (magnitude, CHUNKS[index]) = magnitude.quotientAndRemainder(dividingBy: root.power)
+                (magnitude, CHUNKS[index]) = magnitude.quotientAndRemainder(dividingBy: radix.power)
                 CHUNKS.formIndex(after: &index)
             } while !magnitude.isZero
             //=----------------------------------=
             CHUNKS.formIndex(before: &index)
-            text += String(CHUNKS[index], radix: radix, uppercase: uppercase)
+            text += String(CHUNKS[index], radix: radix.base, uppercase: uppercase)
             //=----------------------------------=
             backwards: while index != CHUNKS.startIndex {
                 CHUNKS.formIndex(before:   &index)
-                let digits  = String(CHUNKS[index], radix: radix, uppercase: uppercase)
-                let padding = root.exponent &- digits.utf8.count
+                let digits  = String(CHUNKS[index], radix: radix.base, uppercase: uppercase)
+                let padding = radix.exponent &- digits.utf8.count
                 if !padding.isZero { text += repeatElement("0", count: padding) }
                 text += digits
             }

@@ -52,18 +52,18 @@
                ReferencedContainer = "container:">
             </BuildableReference>
             <SkippedTests>
-               <Test
-                  Identifier = "ANKSignedBenchmarksOnText/testDecodeUsingSwiftStdlib()">
-               </Test>
-               <Test
-                  Identifier = "ANKSignedBenchmarksOnText/testDecodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
-               </Test>
-               <Test
-                  Identifier = "ANKSignedBenchmarksOnText/testEncodeUsingSwiftStdlib()">
-               </Test>
-               <Test
-                  Identifier = "ANKSignedBenchmarksOnText/testEncodeUsingSwiftStdlibWhereRadixIsPowerOf2()">
-               </Test>
+                <Test
+                    Identifier = "ANKSignedBenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
+                </Test>
+                <Test
+                    Identifier = "ANKSignedBenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
+                </Test>
+                <Test
+                    Identifier = "ANKSignedBenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
+                </Test>
+                <Test
+                    Identifier = "ANKSignedBenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
+                </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>

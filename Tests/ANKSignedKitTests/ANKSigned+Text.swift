@@ -36,8 +36,8 @@ final class ANKSignedTestsOnText: XCTestCase {
     }
     
     func testDecodingRadix16() {
-        XCTAssertEqual(T.min, T(decoding: "-ffffffffffffffff", radix: 16))
-        XCTAssertEqual(T.max, T(decoding: "+ffffffffffffffff", radix: 16))
+        XCTAssertEqual(T.min, T(decoding: "-" + String(repeating: "f", count: M.bitWidth / 4), radix: 16))
+        XCTAssertEqual(T.max, T(decoding:       String(repeating: "f", count: M.bitWidth / 4), radix: 16))
     }
     
     func testDecodingRadix10() {
@@ -51,13 +51,13 @@ final class ANKSignedTestsOnText: XCTestCase {
     }
     
     func testDecodingRadix4() {
-        XCTAssertEqual(T.min, T(decoding: "-" + String(repeating: "3", count: 32), radix: 4))
-        XCTAssertEqual(T.max, T(decoding:       String(repeating: "3", count: 32), radix: 4))
+        XCTAssertEqual(T.min, T(decoding: "-" + String(repeating: "3", count: M.bitWidth / 2), radix: 4))
+        XCTAssertEqual(T.max, T(decoding:       String(repeating: "3", count: M.bitWidth / 2), radix: 4))
     }
     
     func testDecodingRadix2() {
-        XCTAssertEqual(T.min, T(decoding: "-" + String(repeating: "1", count: 64), radix: 2))
-        XCTAssertEqual(T.max, T(decoding:       String(repeating: "1", count: 64), radix: 2))
+        XCTAssertEqual(T.min, T(decoding: "-" + String(repeating: "1", count: M.bitWidth / 1), radix: 2))
+        XCTAssertEqual(T.max, T(decoding:       String(repeating: "1", count: M.bitWidth / 1), radix: 2))
     }
     
     func testDecodingRadixLiteralAsNumber() {
@@ -71,20 +71,20 @@ final class ANKSignedTestsOnText: XCTestCase {
     }
     
     func testDecodingStringsWithOrWithoutSignAndRadixLiteral() {
-        XCTAssertEqual( "1234567890",         T(Int64( "1234567890",       radix: 10)!))
-        XCTAssertEqual( "0x123456789abcdef0", T(Int64( "123456789abcdef0", radix: 16)!))
-        XCTAssertEqual( "0o1234567012345670", T(Int64( "1234567012345670", radix: 08)!))
-        XCTAssertEqual( "0b1010101010101010", T(Int64( "1010101010101010", radix: 02)!))
+        XCTAssertEqual( "1234567890",         T( 1234567890         as Int64))
+        XCTAssertEqual( "0x123456789abcdef0", T( 0x123456789abcdef0 as Int64))
+        XCTAssertEqual( "0o1234567012345670", T( 0o1234567012345670 as Int64))
+        XCTAssertEqual( "0b1010101010101010", T( 0b1010101010101010 as Int64))
         
-        XCTAssertEqual("+1234567890",         T(Int64( "1234567890",       radix: 10)!))
-        XCTAssertEqual("+0x123456789abcdef0", T(Int64( "123456789abcdef0", radix: 16)!))
-        XCTAssertEqual("+0o1234567012345670", T(Int64( "1234567012345670", radix: 08)!))
-        XCTAssertEqual("+0b1010101010101010", T(Int64( "1010101010101010", radix: 02)!))
+        XCTAssertEqual("+1234567890",         T(+1234567890         as Int64))
+        XCTAssertEqual("+0x123456789abcdef0", T(+0x123456789abcdef0 as Int64))
+        XCTAssertEqual("+0o1234567012345670", T(+0o1234567012345670 as Int64))
+        XCTAssertEqual("+0b1010101010101010", T(+0b1010101010101010 as Int64))
         
-        XCTAssertEqual("-9876543210",         T(Int64("-9876543210",       radix: 10)!))
-        XCTAssertEqual("-0x123456789abcdef0", T(Int64("-123456789abcdef0", radix: 16)!))
-        XCTAssertEqual("-0o1234567012345670", T(Int64("-1234567012345670", radix: 08)!))
-        XCTAssertEqual("-0b1010101010101010", T(Int64("-1010101010101010", radix: 02)!))
+        XCTAssertEqual("-1234567890",         T(-1234567890         as Int64))
+        XCTAssertEqual("-0x123456789abcdef0", T(-0x123456789abcdef0 as Int64))
+        XCTAssertEqual("-0o1234567012345670", T(-0o1234567012345670 as Int64))
+        XCTAssertEqual("-0b1010101010101010", T(-0b1010101010101010 as Int64))
     }
     
     func testDecodingPrefixingZerosHasNoEffect() {
@@ -121,10 +121,10 @@ final class ANKSignedTestsOnText: XCTestCase {
     }
     
     func testEncodingRadix16() {
-        XCTAssertEqual(String(encoding: T.min, radix: 16, uppercase: false), "-" + String(repeating: "f", count: 16))
-        XCTAssertEqual(String(encoding: T.min, radix: 16, uppercase: true ), "-" + String(repeating: "F", count: 16))
-        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: false),       String(repeating: "f", count: 16))
-        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: true ),       String(repeating: "F", count: 16))
+        XCTAssertEqual(String(encoding: T.min, radix: 16, uppercase: false), "-" + String(repeating: "f", count: M.bitWidth / 4))
+        XCTAssertEqual(String(encoding: T.min, radix: 16, uppercase: true ), "-" + String(repeating: "F", count: M.bitWidth / 4))
+        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: false),       String(repeating: "f", count: M.bitWidth / 4))
+        XCTAssertEqual(String(encoding: T.max, radix: 16, uppercase: true ),       String(repeating: "F", count: M.bitWidth / 4))
     }
     
     func testEncodingRadix10() {
@@ -138,13 +138,13 @@ final class ANKSignedTestsOnText: XCTestCase {
     }
     
     func testEncodingRadix4() {
-        XCTAssertEqual(String(encoding: T.min, radix: 4), "-" + String(repeating: "3", count: 32))
-        XCTAssertEqual(String(encoding: T.max, radix: 4),       String(repeating: "3", count: 32))
+        XCTAssertEqual(String(encoding: T.min, radix: 4), "-" + String(repeating: "3", count: M.bitWidth / 2))
+        XCTAssertEqual(String(encoding: T.max, radix: 4),       String(repeating: "3", count: M.bitWidth / 2))
     }
     
     func testEncodingRadix2() {
-        XCTAssertEqual(String(encoding: T.min, radix: 2), "-" + String(repeating: "1", count: 64))
-        XCTAssertEqual(String(encoding: T.max, radix: 2),       String(repeating: "1", count: 64))
+        XCTAssertEqual(String(encoding: T.min, radix: 2), "-" + String(repeating: "1", count: M.bitWidth / 1))
+        XCTAssertEqual(String(encoding: T.max, radix: 2),       String(repeating: "1", count: M.bitWidth / 1))
     }
 }
 

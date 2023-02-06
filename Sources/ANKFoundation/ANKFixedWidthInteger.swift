@@ -64,8 +64,8 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     /// and returns the high.
     ///
     /// ```
-    /// var a = Int8(11); a.multiplyFullWidth(by: Int8(4)) // (high: Int8(0), low:  UInt8(44))
-    /// var b = Int8.max; b.multiplyFullWidth(by: Int8(4)) // (high: Int8(1), low: ~UInt8( 3))
+    /// var a = Int8(11); a.multiplyFullWidth(by: Int8(4)) // a = Int8(44); -> Int8(0)
+    /// var b = Int8.max; b.multiplyFullWidth(by: Int8(4)) // b = Int8(-4); -> Int8(1)
     /// ```
     ///
     @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self
