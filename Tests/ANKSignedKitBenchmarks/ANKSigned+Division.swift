@@ -66,7 +66,6 @@ final class ANKSignedBenchmarksOnDivision: XCTestCase {
         }
     }
     
-    
     func testQuotientDividingByDigitReportingOverflow() {
         let lhs = T(7, as: .plus )
         let rhs = D(3, as: .minus)

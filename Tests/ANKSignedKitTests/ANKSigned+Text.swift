@@ -59,7 +59,6 @@ final class ANKSignedTestsOnText: XCTestCase {
         XCTAssertEqual(T.min, T(decoding: "-3w5e11264sgsf", radix: 36))
         XCTAssertEqual(T.max, T(decoding:  "3w5e11264sgsf", radix: 36))
     }
-        
     
     func testDecodingRadixLiteralAsNumber() {
         XCTAssertEqual(T(decoding:  "0x", radix: 36),  33)
@@ -89,10 +88,13 @@ final class ANKSignedTestsOnText: XCTestCase {
     }
     
     func testDecodingPrefixingZerosHasNoEffect() {
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0", radix: 10), T(0))
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1", radix: 10), T(1))
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0", radix: 16), T(0))
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1", radix: 16), T(1))
+        let zero = String(repeating: "0", count: M.bitWidth) + "0"
+        let one  = String(repeating: "0", count: M.bitWidth) + "1"
+        
+        for radix in 2 ... 36 {
+            XCTAssertEqual(T(decoding: zero, radix: radix), T(0))
+            XCTAssertEqual(T(decoding: one,  radix: radix), T(1))
+        }
     }
     
     func testDecodingValueOutsideOfRepresentableRangeReturnsNil() {

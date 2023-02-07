@@ -80,10 +80,10 @@ final class Int192TestsOnAddition: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Int
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testAddingInt() {
+    func testAddingDigit() {
         XCTAssertEqual(T( 1) + Int(-2), T(-1))
         XCTAssertEqual(T( 1) + Int(-1), T( 0))
         XCTAssertEqual(T( 1) + Int( 0), T( 1))
@@ -108,7 +108,7 @@ final class Int192TestsOnAddition: XCTestCase {
         XCTAssertEqual(T(x64: X( 0,  0, ~0)) + -Int(3), T(x64: X(~2, ~0, ~1)))
     }
     
-    func testAddingIntWrappingAround() {
+    func testAddingDigitWrappingAround() {
         XCTAssertEqual(T.min &+ Int( 1), T.min + T(1))
         XCTAssertEqual(T.max &+ Int( 1), T.min)
 
@@ -116,7 +116,7 @@ final class Int192TestsOnAddition: XCTestCase {
         XCTAssertEqual(T.max &+ Int(-1), T.max - T(1))
     }
     
-    func testAddingIntReportingOverflow() {
+    func testAddingDigitReportingOverflow() {
         XCTAssert(T.min.addingReportingOverflow(Int( 1)) == (T.min + 1, false) as (T, Bool))
         XCTAssert(T.max.addingReportingOverflow(Int( 1)) == (T.min,     true ) as (T, Bool))
 
@@ -178,10 +178,10 @@ final class UInt192TestsOnAddition: XCTestCase {
     }
 
     //=------------------------------------------------------------------------=
-    // MARK: Tests x UInt
+    // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
 
-    func testAddingUInt() {
+    func testAddingDigit() {
         XCTAssertEqual(T(0) + UInt(0), T(0))
         XCTAssertEqual(T(0) + UInt(1), T(1))
         XCTAssertEqual(T(0) + UInt(2), T(2))
@@ -195,12 +195,12 @@ final class UInt192TestsOnAddition: XCTestCase {
         XCTAssertEqual(T(x64: X( 0,  0, 0)) + UInt(3), T(x64: X(3, 0, 0)))
     }
 
-    func testAddingUIntWrappingAround() {
+    func testAddingDigitWrappingAround() {
         XCTAssertEqual(T.min &+ UInt(1), T.min + T(1))
         XCTAssertEqual(T.max &+ UInt(1), T.min)
     }
 
-    func testAddingUIntReportingOverflow() {
+    func testAddingDigitReportingOverflow() {
         XCTAssert(T.min.addingReportingOverflow(UInt(1)) == (T.min + (1 as UInt), false) as (T, Bool))
         XCTAssert(T.max.addingReportingOverflow(UInt(1)) == (T.min,               true ) as (T, Bool))
     }

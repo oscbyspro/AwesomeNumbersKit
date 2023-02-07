@@ -21,8 +21,8 @@ private typealias Y = ANK256X32
 
 final class Int256BenchmarksOnDivision: XCTestCase {
     
-    typealias T = ANKInt256
-    typealias M = T.Magnitude
+    typealias T =  ANKInt256
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -107,7 +107,7 @@ final class Int256BenchmarksOnDivision: XCTestCase {
 final class UInt256BenchmarksOnDivision: XCTestCase {
     
     typealias T = ANKUInt256
-    typealias M = T.Magnitude
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

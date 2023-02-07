@@ -33,21 +33,15 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testDecodingRadix16() {
-        for _ in 0 ..< 50_000 {
-            _ = T(decoding: Self.source, radix: 16)!
-        }
-    }
-    
     func testDecodingRadix10() {
         for _ in 0 ..< 50_000 {
             _ = T(decoding: Self.source, radix: 10)!
         }
     }
     
-    func testEncodingRadix16() {
+    func testDecodingRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = String(encoding: Self.number, radix: 16)
+            _ = T(decoding: Self.source, radix: 16)!
         }
     }
     
@@ -57,15 +51,15 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
         }
     }
     
+    func testEncodingRadix16() {
+        for _ in 0 ..< 50_000 {
+            _ = String(encoding: Self.number, radix: 16)
+        }
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Swift Standard Library Methods
     //=------------------------------------------------------------------------=
-    
-    func testDecodingUsingSwiftStdlibRadix16() {
-        for _ in 0 ..< 50_000 {
-            _ = T.Magnitude(Self.source, radix: 16)!
-        }
-    }
     
     func testDecodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
@@ -73,15 +67,21 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
         }
     }
     
-    func testEncodingUsingSwiftStdlibRadix16() {
+    func testDecodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = String(Self.number.magnitude, radix: 16)
+            _ = T.Magnitude(Self.source, radix: 16)!
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
             _ = String(Self.number.magnitude, radix: 10)
+        }
+    }
+    
+    func testEncodingUsingSwiftStdlibRadix16() {
+        for _ in 0 ..< 50_000 {
+            _ = String(Self.number.magnitude, radix: 16)
         }
     }
 }

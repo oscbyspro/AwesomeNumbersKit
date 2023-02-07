@@ -83,7 +83,6 @@ final class ANKSignedTestsOnMultiplication: XCTestCase {
         XCTAssert(T(-2).multipliedFullWidth(by: -D(3)) == ( D(0),  M(6)) as (D, M))
     }
     
-    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=

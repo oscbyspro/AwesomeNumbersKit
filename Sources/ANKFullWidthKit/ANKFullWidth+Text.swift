@@ -212,7 +212,7 @@ extension ANKFullWidth where High == High.Magnitude {
         if  magnitudeLeadingZeroBitCount == Self.bitWidth { return "0" }
         //=--------------------------------------=
         var magnitude: Magnitude = value.magnitude
-        let magnitudeSignificantBitWidth: Int = magnitude .bitWidth &- magnitudeLeadingZeroBitCount
+        let magnitudeSignificantBitWidth: Int = Magnitude .bitWidth &- magnitudeLeadingZeroBitCount
         let chunkBitWidthConsumptionLowerBound: Int = UInt.bitWidth &- radix.power.leadingZeroBitCount &- 1
         let chunkCountUpperBound = (magnitudeSignificantBitWidth / chunkBitWidthConsumptionLowerBound) &+ 1
         //=--------------------------------------=
@@ -223,8 +223,11 @@ extension ANKFullWidth where High == High.Magnitude {
             //=----------------------------------=
             var index = CHUNKS.startIndex
             //=----------------------------------=
+            assert(!magnitude.isZero)
             forwards: repeat {
-                (magnitude, CHUNKS[index]) = magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
+                let division = magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
+                magnitude = division.quotient as Self
+                CHUNKS[index] = division.remainder as UInt
                 CHUNKS.formIndex(after: &index)
             } while !magnitude.isZero
             //=----------------------------------=

@@ -90,10 +90,13 @@ final class Int192TestsOnText: XCTestCase {
     }
     
     func testDecodingPrefixingZerosHasNoEffect() {
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0", radix: 10), T(0))
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1", radix: 10), T(1))
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0", radix: 16), T(0))
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1", radix: 16), T(1))
+        let zero = String(repeating: "0", count: T.bitWidth) + "0"
+        let one  = String(repeating: "0", count: T.bitWidth) + "1"
+        
+        for radix in 2 ... 36 {
+            XCTAssertEqual(T(decoding: zero, radix: radix), T(0))
+            XCTAssertEqual(T(decoding: one,  radix: radix), T(1))
+        }
     }
     
     func testDecodingValueOutsideOfRepresentableRangeReturnsNil() {
@@ -222,10 +225,13 @@ final class UInt192TestsOnText: XCTestCase {
     }
     
     func testDecodingPrefixingZerosHasNoEffect() {
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0", radix: 10), T(0))
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1", radix: 10), T(1))
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "0", radix: 16), T(0))
-        XCTAssertEqual(T(decoding: String(repeating: "0", count: 99) + "1", radix: 16), T(1))
+        let zero = String(repeating: "0", count: T.bitWidth) + "0"
+        let one  = String(repeating: "0", count: T.bitWidth) + "1"
+        
+        for radix in 2 ... 36 {
+            XCTAssertEqual(T(decoding: zero, radix: radix), T(0))
+            XCTAssertEqual(T(decoding: one,  radix: radix), T(1))
+        }
     }
     
     func testDecodingValueOutsideOfRepresentableRangeReturnsNil() {
