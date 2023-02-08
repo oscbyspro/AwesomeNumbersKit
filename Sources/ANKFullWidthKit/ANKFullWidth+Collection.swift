@@ -19,25 +19,25 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable static var count: Int {
+    @inlinable public static var count: Int {
         assert(Self.bitWidth / UInt.bitWidth >= 1)
         assert(Self.bitWidth % UInt.bitWidth == 0)
         return Self.bitWidth / UInt.bitWidth
     }
     
-    @inlinable static var startIndex: Int {
+    @inlinable public static var startIndex: Int {
         0
     }
     
-    @inlinable static var endIndex: Int {
+    @inlinable public static var endIndex: Int {
         self.count
     }
     
-    @inlinable static var lastIndex: Int {
+    @inlinable public static var lastIndex: Int {
         self.count - 1
     }
     
-    @inlinable static var indices: Range<Int> {
+    @inlinable public static var indices: Range<Int> {
         0 ..< self.count
     }
     

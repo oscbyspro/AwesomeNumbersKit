@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Radix UInt Root
+// MARK: * ANK x Text x Radix UInt Root
 //*============================================================================*
 
 /// The largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
@@ -53,7 +53,7 @@ import ANKFoundation
         if  radix.isPowerOf2 {
             let zeros = radix.trailingZeroBitCount
             //=----------------------------------=
-            // Radix == 2, 4, 16, 256, ...
+            // Radix == 2,  4, 16, 256, ...
             //=----------------------------------=
             if  zeros.isPowerOf2 {
                 let exponent = UInt.bitWidth &>> zeros.trailingZeroBitCount

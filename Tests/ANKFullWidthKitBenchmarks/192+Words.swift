@@ -28,26 +28,56 @@ final class Int192BenchmarksOnWords: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNonzeroBitCount() {
-        let abc = T(x64: X(0, 0, 0))
+        let abc =  T(x64: X(0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.nonzeroBitCount
+            _ = xyz.nonzeroBitCount
         }
     }
     
     func testLeadingZeroBitCount() {
-        let abc = T(x64: X(0, 0, 0))
+        let abc =  T(x64: X(0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.leadingZeroBitCount
+            _ = xyz.leadingZeroBitCount
         }
     }
     
     func testTrailingZeroBitCount() {
-        let abc = T(x64: X(0, 0, 0))
+        let abc =  T(x64: X(0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.trailingZeroBitCount
+            _ = xyz.trailingZeroBitCount
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Min Two's Complement
+    //=------------------------------------------------------------------------=
+    
+    func testMinLastIndexReportingIsZeroOrMinusOne() {
+        let abc =  T(x64: X(0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.minLastIndexReportingIsZeroOrMinusOne()
+            _ = xyz.minLastIndexReportingIsZeroOrMinusOne()
+        }
+    }
+    
+    func testMinWordCountReportingIsZeroOrMinusOne() {
+        let abc =  T(x64: X(0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.minWordCountReportingIsZeroOrMinusOne()
+            _ = xyz.minWordCountReportingIsZeroOrMinusOne()
         }
     }
 }
@@ -65,26 +95,56 @@ final class UInt192BenchmarksOnWords: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNonzeroBitCount() {
-        let abc = T(x64: X(0, 0, 0))
+        let abc =  T(x64: X(0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.nonzeroBitCount
+            _ = xyz.nonzeroBitCount
         }
     }
     
     func testLeadingZeroBitCount() {
-        let abc = T(x64: X(0, 0, 0))
+        let abc =  T(x64: X(0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.leadingZeroBitCount
+            _ = xyz.leadingZeroBitCount
         }
     }
     
     func testTrailingZeroBitCount() {
-        let abc = T(x64: X(0, 0, 0))
+        let abc =  T(x64: X(0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
             _ = abc.trailingZeroBitCount
+            _ = xyz.trailingZeroBitCount
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Min Two's Complement
+    //=------------------------------------------------------------------------=
+    
+    func testMinLastIndexReportingIsZeroOrMinusOne() {
+        let abc =  T(x64: X(0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.minLastIndexReportingIsZeroOrMinusOne()
+            _ = xyz.minLastIndexReportingIsZeroOrMinusOne()
+        }
+    }
+    
+    func testMinWordCountReportingIsZeroOrMinusOne() {
+        let abc =  T(x64: X(0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.minWordCountReportingIsZeroOrMinusOne()
+            _ = xyz.minWordCountReportingIsZeroOrMinusOne()
         }
     }
 }
