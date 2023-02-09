@@ -7,7 +7,7 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if DEBUG
+#if !DEBUG
 
 import ANKFullWidthKit
 import XCTest
@@ -19,7 +19,7 @@ private typealias Y = ANK256X32
 // MARK: * Int256
 //*============================================================================*
 
-final class Int256Tests: XCTestCase {
+final class Int256Benchmarks: XCTestCase {
     
     typealias T = ANKInt256
     
@@ -28,25 +28,21 @@ final class Int256Tests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInit() {
-        XCTAssertEqual(T(), T(x64: X(0, 0, 0, 0)))
+        for _ in 0 ..< 1_000_000 {
+            _ = T()
+        }
     }
     
     func testInitX64() {
-        XCTAssertEqual(T(x64: X(1, 0, 0, 0)), T(1) <<   0)
-        XCTAssertEqual(T(x64: X(0, 1, 0, 0)), T(1) <<  64)
-        XCTAssertEqual(T(x64: X(0, 0, 1, 0)), T(1) << 128)
-        XCTAssertEqual(T(x64: X(0, 0, 0, 1)), T(1) << 192)
+        for _ in 0 ..< 1_000_000 {
+            _ = T(x64: X(1, 2, 3, 4))
+        }
     }
-    
+
     func testInitX32() {
-        XCTAssertEqual(T(x32: Y(1, 0, 0, 0, 0, 0, 0, 0)), T(1) <<   0)
-        XCTAssertEqual(T(x32: Y(0, 1, 0, 0, 0, 0, 0, 0)), T(1) <<  32)
-        XCTAssertEqual(T(x32: Y(0, 0, 1, 0, 0, 0, 0, 0)), T(1) <<  64)
-        XCTAssertEqual(T(x32: Y(0, 0, 0, 1, 0, 0, 0, 0)), T(1) <<  96)
-        XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 1, 0, 0, 0)), T(1) << 128)
-        XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 1, 0, 0)), T(1) << 160)
-        XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 1, 0)), T(1) << 192)
-        XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 1)), T(1) << 224)
+        for _ in 0 ..< 1_000_000 {
+            _ = T(x32: Y(1, 2, 3, 4, 5, 6, 7, 8))
+        }
     }
     
     //=------------------------------------------------------------------------=
@@ -54,29 +50,37 @@ final class Int256Tests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitBit() {
-        XCTAssertEqual(T(bit: false), T( ))
-        XCTAssertEqual(T(bit: true ), T(1))
+        for _ in 0 ..< 1_000_000 {
+            _ = T(bit: true)
+        }
     }
     
     func testInitRepeatingBit() {
-        XCTAssertEqual(T(repeating: false),  T( ))
-        XCTAssertEqual(T(repeating: true ), ~T( ))
+        for _ in 0 ..< 1_000_000 {
+            _ = T(repeating: true)
+        }
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Constants
     //=------------------------------------------------------------------------=
     
-    func testInitMin() {
-        XCTAssertEqual(T.min,  (T(1) << (T.bitWidth - 1)))
+    @inlinable func testInitMin() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T.min
+        }
     }
     
-    func testInitMax() {
-        XCTAssertEqual(T.max, ~(T(1) << (T.bitWidth - 1)))
+    @inlinable func testInitMax() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T.max
+        }
     }
     
-    func testInitZero() {
-        XCTAssertEqual(T.zero,  T( ))
+    @inlinable func testInitZero() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T.zero
+        }
     }
     
     //=------------------------------------------------------------------------=
@@ -84,11 +88,15 @@ final class Int256Tests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitAscending() {
-        XCTAssertEqual(T(ascending:  (ANKUInt128(x64:(1, 2)), ANKInt128(x64:(3, 4)))), T(x64: X(1, 2, 3, 4)))
+        for _ in 0 ..< 1_000_000 {
+            _ = T(ascending:(ANKUInt128(), ANKInt128()))
+        }
     }
-
+    
     func testInitDescending() {
-        XCTAssertEqual(T(descending: (ANKInt128(x64:(3, 4)), ANKUInt128(x64:(1, 2)))), T(x64: X(1, 2, 3, 4)))
+        for _ in 0 ..< 1_000_000 {
+            _ = T(descending:(ANKInt128(), ANKUInt128()))
+        }
     }
 }
 
@@ -96,34 +104,30 @@ final class Int256Tests: XCTestCase {
 // MARK: * UInt256
 //*============================================================================*
 
-final class UInt256Tests: XCTestCase {
+final class UInt256Benchmarks: XCTestCase {
     
     typealias T = ANKUInt256
-
+    
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testInit() {
-        XCTAssertEqual(T(), T(x64: X(0, 0, 0, 0)))
+        for _ in 0 ..< 1_000_000 {
+            _ = T()
+        }
     }
     
     func testInitX64() {
-        XCTAssertEqual(T(x64: X(1, 0, 0, 0)), T(1) <<   0)
-        XCTAssertEqual(T(x64: X(0, 1, 0, 0)), T(1) <<  64)
-        XCTAssertEqual(T(x64: X(0, 0, 1, 0)), T(1) << 128)
-        XCTAssertEqual(T(x64: X(0, 0, 0, 1)), T(1) << 192)
+        for _ in 0 ..< 1_000_000 {
+            _ = T(x64: X(1, 2, 3, 4))
+        }
     }
-    
+
     func testInitX32() {
-        XCTAssertEqual(T(x32: Y(1, 0, 0, 0, 0, 0, 0, 0)), T(1) <<   0)
-        XCTAssertEqual(T(x32: Y(0, 1, 0, 0, 0, 0, 0, 0)), T(1) <<  32)
-        XCTAssertEqual(T(x32: Y(0, 0, 1, 0, 0, 0, 0, 0)), T(1) <<  64)
-        XCTAssertEqual(T(x32: Y(0, 0, 0, 1, 0, 0, 0, 0)), T(1) <<  96)
-        XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 1, 0, 0, 0)), T(1) << 128)
-        XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 1, 0, 0)), T(1) << 160)
-        XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 1, 0)), T(1) << 192)
-        XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 1)), T(1) << 224)
+        for _ in 0 ..< 1_000_000 {
+            _ = T(x32: Y(1, 2, 3, 4, 5, 6, 7, 8))
+        }
     }
     
     //=------------------------------------------------------------------------=
@@ -131,29 +135,37 @@ final class UInt256Tests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitBit() {
-        XCTAssertEqual(T(bit: false), T( ))
-        XCTAssertEqual(T(bit: true ), T(1))
+        for _ in 0 ..< 1_000_000 {
+            _ = T(bit: true)
+        }
     }
     
     func testInitRepeatingBit() {
-        XCTAssertEqual(T(repeating: false),  T( ))
-        XCTAssertEqual(T(repeating: true ), ~T( ))
+        for _ in 0 ..< 1_000_000 {
+            _ = T(repeating: true)
+        }
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Constants
     //=------------------------------------------------------------------------=
     
-    func testInitMin() {
-        XCTAssertEqual(T.min,  T( ))
+    @inlinable func testInitMin() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T.min
+        }
     }
     
-    func testInitMax() {
-        XCTAssertEqual(T.max, ~T( ))
+    @inlinable func testInitMax() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T.max
+        }
     }
     
-    func testInitZero() {
-        XCTAssertEqual(T.zero, T( ))
+    @inlinable func testInitZero() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T.zero
+        }
     }
     
     //=------------------------------------------------------------------------=
@@ -161,11 +173,15 @@ final class UInt256Tests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitAscending() {
-        XCTAssertEqual(T(ascending:  (ANKUInt128(x64:(1, 2)), ANKUInt128(x64:(3, 4)))), T(x64: X(1, 2, 3, 4)))
+        for _ in 0 ..< 1_000_000 {
+            _ = T(ascending:(ANKUInt128(), ANKUInt128()))
+        }
     }
-
+    
     func testInitDescending() {
-        XCTAssertEqual(T(descending: (ANKUInt128(x64:(3, 4)), ANKUInt128(x64:(1, 2)))), T(x64: X(1, 2, 3, 4)))
+        for _ in 0 ..< 1_000_000 {
+            _ = T(descending:(ANKUInt128(), ANKUInt128()))
+        }
     }
 }
 

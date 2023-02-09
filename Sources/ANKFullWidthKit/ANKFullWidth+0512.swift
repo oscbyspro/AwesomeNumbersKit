@@ -17,7 +17,7 @@ public typealias  ANKInt512 = ANKFullWidth< ANKInt256, ANKUInt256>
 public typealias ANKUInt512 = ANKFullWidth<ANKUInt256, ANKUInt256>
 
 //*============================================================================*
-// MARK: * ANK x (U)Int512 x X(32/64)
+// MARK: * ANK x (U)Int512 x (32/64)
 //*============================================================================*
 
 extension ANKFullWidth where Magnitude == ANKUInt512 {
@@ -32,8 +32,7 @@ extension ANKFullWidth where Magnitude == ANKUInt512 {
     ///
     @_transparent public init(x64: ANK512X64) {
         #if _endian(big)
-        self = unsafeBitCast(ANK512X64(
-        x64.7,  x64.6,  x64.5,  x64.4,  x64.3,  x64.2,  x64.1,  x64.0), to: Self.self)
+        self = unsafeBitCast(ANK512X64(x64.7, x64.6, x64.5, x64.4, x64.3, x64.2, x64.1, x64.0), to: Self.self)
         #else
         self = unsafeBitCast(x64, to: Self.self)
         #endif

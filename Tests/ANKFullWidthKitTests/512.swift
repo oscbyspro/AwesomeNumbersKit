@@ -28,7 +28,7 @@ final class Int512Tests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInit() {
-        XCTAssertEqual(T(), 0)
+        XCTAssertEqual(T(), T(x64: X(0, 0, 0, 0, 0, 0, 0, 0)))
     }
     
     func testInitX64() {
@@ -59,6 +59,48 @@ final class Int512Tests: XCTestCase {
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0)), T(1) << 416)
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0)), T(1) << 448)
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)), T(1) << 480)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Bit
+    //=------------------------------------------------------------------------=
+    
+    func testInitBit() {
+        XCTAssertEqual(T(bit: false), T( ))
+        XCTAssertEqual(T(bit: true ), T(1))
+    }
+    
+    func testInitRepeatingBit() {
+        XCTAssertEqual(T(repeating: false),  T( ))
+        XCTAssertEqual(T(repeating: true ), ~T( ))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Constants
+    //=------------------------------------------------------------------------=
+    
+    func testInitMin() {
+        XCTAssertEqual(T.min,  (T(1) << (T.bitWidth - 1)))
+    }
+    
+    func testInitMax() {
+        XCTAssertEqual(T.max, ~(T(1) << (T.bitWidth - 1)))
+    }
+    
+    func testInitZero() {
+        XCTAssertEqual(T.zero,  T( ))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Components
+    //=------------------------------------------------------------------------=
+    
+    func testInitAscending() {
+        XCTAssertEqual(T(ascending:  (ANKUInt256(x64:(1, 2, 3, 4)), ANKInt256(x64:(5, 6, 7, 8)))), T(x64: X(1, 2, 3, 4, 5, 6, 7, 8)))
+    }
+
+    func testInitDescending() {
+        XCTAssertEqual(T(descending: (ANKInt256(x64:(5, 6, 7, 8)), ANKUInt256(x64:(1, 2, 3, 4)))), T(x64: X(1, 2, 3, 4, 5, 6, 7, 8)))
     }
 }
 
@@ -69,13 +111,13 @@ final class Int512Tests: XCTestCase {
 final class UInt512Tests: XCTestCase {
     
     typealias T = ANKUInt512
-    
+
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testInit() {
-        XCTAssertEqual(T(), 0)
+        XCTAssertEqual(T(), T(x64: X(0, 0, 0, 0, 0, 0, 0, 0)))
     }
     
     func testInitX64() {
@@ -106,6 +148,48 @@ final class UInt512Tests: XCTestCase {
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0)), T(1) << 416)
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0)), T(1) << 448)
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)), T(1) << 480)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Bit
+    //=------------------------------------------------------------------------=
+    
+    func testInitBit() {
+        XCTAssertEqual(T(bit: false), T( ))
+        XCTAssertEqual(T(bit: true ), T(1))
+    }
+    
+    func testInitRepeatingBit() {
+        XCTAssertEqual(T(repeating: false),  T( ))
+        XCTAssertEqual(T(repeating: true ), ~T( ))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Constants
+    //=------------------------------------------------------------------------=
+    
+    func testInitMin() {
+        XCTAssertEqual(T.min,  T( ))
+    }
+    
+    func testInitMax() {
+        XCTAssertEqual(T.max, ~T( ))
+    }
+    
+    func testInitZero() {
+        XCTAssertEqual(T.zero, T( ))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Components
+    //=------------------------------------------------------------------------=
+    
+    func testInitAscending() {
+        XCTAssertEqual(T(ascending:  (ANKUInt256(x64:(1, 2, 3, 4)), ANKUInt256(x64:(5, 6, 7, 8)))), T(x64: X(1, 2, 3, 4, 5, 6, 7, 8)))
+    }
+
+    func testInitDescending() {
+        XCTAssertEqual(T(descending: (ANKUInt256(x64:(5, 6, 7, 8)), ANKUInt256(x64:(1, 2, 3, 4)))), T(x64: X(1, 2, 3, 4, 5, 6, 7, 8)))
     }
 }
 

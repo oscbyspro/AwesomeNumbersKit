@@ -52,54 +52,54 @@
                ReferencedContainer = "container:">
             </BuildableReference>
             <SkippedTests>
-                <Test
-                    Identifier = "Int192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
-                </Test>
-                <Test
-                    Identifier = "Int192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
-                </Test>
-                <Test
-                    Identifier = "Int192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
-                </Test>
-                <Test
-                    Identifier = "Int192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
-                </Test>
-                <Test
-                    Identifier = "Int256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
-                </Test>
-                <Test
-                    Identifier = "Int256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
-                </Test>
-                <Test
-                    Identifier = "Int256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
-                </Test>
-                <Test
-                    Identifier = "Int256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
-                </Test>
-                <Test
-                    Identifier = "UInt192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
-                </Test>
-                <Test
-                    Identifier = "UInt192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
-                </Test>
-                <Test
-                    Identifier = "UInt192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
-                </Test>
-                <Test
-                    Identifier = "UInt192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
-                </Test>
-                <Test
-                    Identifier = "UInt256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
-                </Test>
-                <Test
-                    Identifier = "UInt256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
-                </Test>
-                <Test
-                    Identifier = "UInt256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
-                </Test>
-                <Test
-                    Identifier = "UInt256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
-                </Test>
+               <Test
+                  Identifier = "Int192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
+               </Test>
+               <Test
+                  Identifier = "Int192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
+               </Test>
+               <Test
+                  Identifier = "Int192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
+               </Test>
+               <Test
+                  Identifier = "Int192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
+               </Test>
+               <Test
+                  Identifier = "Int256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
+               </Test>
+               <Test
+                  Identifier = "Int256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
+               </Test>
+               <Test
+                  Identifier = "Int256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
+               </Test>
+               <Test
+                  Identifier = "Int256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
+               </Test>
+               <Test
+                  Identifier = "UInt192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
+               </Test>
+               <Test
+                  Identifier = "UInt192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
+               </Test>
+               <Test
+                  Identifier = "UInt192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
+               </Test>
+               <Test
+                  Identifier = "UInt192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
+               </Test>
+               <Test
+                  Identifier = "UInt256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
+               </Test>
+               <Test
+                  Identifier = "UInt256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
+               </Test>
+               <Test
+                  Identifier = "UInt256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
+               </Test>
+               <Test
+                  Identifier = "UInt256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
+               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>
@@ -132,7 +132,7 @@
       </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"

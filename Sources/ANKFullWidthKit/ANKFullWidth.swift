@@ -68,16 +68,16 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public static var zero: Self {
-        Self()
-    }
-    
     @inlinable public static var min: Self {
         Self(descending: HL(High.min, Low.min))
     }
     
     @inlinable public static var max: Self {
         Self(descending: HL(High.max, Low.max))
+    }
+    
+    @inlinable public static var zero: Self {
+        Self()
     }
     
     //=------------------------------------------------------------------------=
@@ -117,7 +117,7 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     }
     
     @inlinable public init(repeating bit: Bool) {
-        self.init(descending: HL(High(repeating: bit), Low(repeating: bit)))
+         self.init(bitPattern: bit ? Magnitude.max : Magnitude.min)
     }
     
     //=------------------------------------------------------------------------=

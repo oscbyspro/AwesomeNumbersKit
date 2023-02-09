@@ -31,7 +31,7 @@ extension ANKSigned where Magnitude: ANKLargeBinaryInteger {
             lhs.magnitude -= rhs.magnitude
         //=--------------------------------------=
         }   else {
-            lhs.sign  = rhs.sign // lhs.sign.toggle()
+            lhs.sign  = rhs.sign
             lhs.magnitude  = extended - lhs.magnitude
         }
     }

@@ -17,7 +17,7 @@ public typealias  ANKInt256 = ANKFullWidth< ANKInt128, ANKUInt128>
 public typealias ANKUInt256 = ANKFullWidth<ANKUInt128, ANKUInt128>
 
 //*============================================================================*
-// MARK: * ANK x (U)Int256 x X(32/64)
+// MARK: * ANK x (U)Int256 x (32/64)
 //*============================================================================*
 
 extension ANKFullWidth where Magnitude == ANKUInt256 {
