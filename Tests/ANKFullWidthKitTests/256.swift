@@ -21,14 +21,15 @@ private typealias Y = ANK256X32
 
 final class Int256Tests: XCTestCase {
     
-    typealias T = ANKInt256
+    typealias T =  ANKInt256
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testInit() {
-        XCTAssertEqual(T(), T(x64: X(0, 0, 0, 0)))
+        XCTAssertEqual(T(x64: X(0, 0, 0, 0)), T())
     }
     
     func testInitX64() {
@@ -90,6 +91,26 @@ final class Int256Tests: XCTestCase {
     func testInitDescending() {
         XCTAssertEqual(T(descending: (ANKInt128(x64:(3, 4)), ANKUInt128(x64:(1, 2)))), T(x64: X(1, 2, 3, 4)))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Bit Pattern
+    //=------------------------------------------------------------------------=
+    
+    func testInitBitPattern() {
+        XCTAssertEqual(T(bitPattern: M.min), T(  ))
+        XCTAssertEqual(T(bitPattern: M.max), T(-1))
+        
+        XCTAssertEqual(T(bitPattern:  (M(1) << (M.bitWidth - 1))), T.min)
+        XCTAssertEqual(T(bitPattern: ~(M(1) << (M.bitWidth - 1))), T.max)
+    }
+    
+    func testValueAsBitPattern() {
+        XCTAssertEqual(T(  ).bitPattern, M.min)
+        XCTAssertEqual(T(-1).bitPattern, M.max)
+        
+        XCTAssertEqual(T.min.bitPattern,  (M(1) << (M.bitWidth - 1)))
+        XCTAssertEqual(T.max.bitPattern, ~(M(1) << (M.bitWidth - 1)))
+    }
 }
 
 //*============================================================================*
@@ -99,13 +120,14 @@ final class Int256Tests: XCTestCase {
 final class UInt256Tests: XCTestCase {
     
     typealias T = ANKUInt256
+    typealias M = ANKUInt256
 
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testInit() {
-        XCTAssertEqual(T(), T(x64: X(0, 0, 0, 0)))
+        XCTAssertEqual(T(x64: X(0, 0, 0, 0)), T())
     }
     
     func testInitX64() {
@@ -166,6 +188,20 @@ final class UInt256Tests: XCTestCase {
 
     func testInitDescending() {
         XCTAssertEqual(T(descending: (ANKUInt128(x64:(3, 4)), ANKUInt128(x64:(1, 2)))), T(x64: X(1, 2, 3, 4)))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Bit Pattern
+    //=------------------------------------------------------------------------=
+    
+    func testInitBitPattern() {
+        XCTAssertEqual(T(bitPattern: M.min), T.min)
+        XCTAssertEqual(T(bitPattern: M.max), T.max)
+    }
+    
+    func testValueAsBitPattern() {
+        XCTAssertEqual(T.min.bitPattern, M.min)
+        XCTAssertEqual(T.max.bitPattern, M.max)
     }
 }
 

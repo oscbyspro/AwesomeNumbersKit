@@ -117,7 +117,7 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     }
     
     @inlinable public init(repeating bit: Bool) {
-         self.init(bitPattern: bit ? Magnitude.max : Magnitude.min)
+        self.init(bitPattern: bit ? Magnitude.max : Magnitude.min)
     }
     
     //=------------------------------------------------------------------------=

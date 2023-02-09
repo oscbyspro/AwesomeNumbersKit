@@ -21,7 +21,8 @@ private typealias Y = ANK256X32
 
 final class Int256Benchmarks: XCTestCase {
     
-    typealias T = ANKInt256
+    typealias T =  ANKInt256
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -89,13 +90,29 @@ final class Int256Benchmarks: XCTestCase {
     
     func testInitAscending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(ascending:(ANKUInt128(), ANKInt128()))
+            _ = T(ascending:  (ANKUInt128(), ANKInt128()))
         }
     }
     
     func testInitDescending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(descending:(ANKInt128(), ANKUInt128()))
+            _ = T(descending: (ANKInt128(), ANKUInt128()))
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Bit Pattern
+    //=------------------------------------------------------------------------=
+    
+    func testInitBitPattern() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T(bitPattern: M.max)
+        }
+    }
+    
+    func testValueAsBitPattern() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T.max.bitPattern
         }
     }
 }
@@ -107,6 +124,7 @@ final class Int256Benchmarks: XCTestCase {
 final class UInt256Benchmarks: XCTestCase {
     
     typealias T = ANKUInt256
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -174,13 +192,29 @@ final class UInt256Benchmarks: XCTestCase {
     
     func testInitAscending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(ascending:(ANKUInt128(), ANKUInt128()))
+            _ = T(ascending:  (ANKUInt128(), ANKUInt128()))
         }
     }
     
     func testInitDescending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(descending:(ANKUInt128(), ANKUInt128()))
+            _ = T(descending: (ANKUInt128(), ANKUInt128()))
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Bit Pattern
+    //=------------------------------------------------------------------------=
+        
+    func testInitBitPattern() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T(bitPattern: M.max)
+        }
+    }
+    
+    func testValueAsBitPattern() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T.max.bitPattern
         }
     }
 }
