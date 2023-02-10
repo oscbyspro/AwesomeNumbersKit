@@ -16,7 +16,27 @@ import ANKFoundation
 extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Details x Bit Pattern
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public init(bitPattern: BitPattern) {
+        self = unsafeBitCast(bitPattern, to: Self.self)
+    }
+    
+    @_transparent public var bitPattern: BitPattern {
+        return unsafeBitCast(self, to: BitPattern.self)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Magnitude
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var magnitude: Magnitude {
+        Magnitude(bitPattern: self.isLessThanZero ? self.twosComplement() : self)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Two's Complement
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func formTwosComplement() {
@@ -32,13 +52,5 @@ extension ANKFullWidth {
     
     @_transparent public func twosComplement() -> Self {
         var next = self; next.formTwosComplement(); return next
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public var magnitude: Magnitude {
-        Magnitude(bitPattern: self.isLessThanZero ? self.twosComplement() : self)
     }
 }

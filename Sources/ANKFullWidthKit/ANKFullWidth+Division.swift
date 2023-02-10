@@ -191,7 +191,7 @@ extension ANKFullWidth where Self == Magnitude {
                     return divisorLast0.dividingFullWidth(HL(remainderLast0, remainderLast1)).quotient
                 }
                 //=------------------------------=
-                let increment/**/ = Plus1(descending: HL(UInt(), divisor._bitshiftedLeft(words: quotientIndex, bits: Int())))
+                let increment     = Plus1(descending: HL(UInt(), divisor._bitshiftedLeft(words: quotientIndex, bits: Int())))
                 var approximation = Plus1(descending: increment.low.multipliedFullWidth(by: digit)  as  HL<Digit, Magnitude>)
                 //=------------------------------=
                 // Decrement When Overestimated

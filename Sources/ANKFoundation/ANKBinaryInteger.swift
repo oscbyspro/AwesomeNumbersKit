@@ -55,7 +55,7 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     
     /// Returns whether this value is odd.
     @inlinable var isOdd: Bool { get }
-
+    
     /// Returns whether this value is even.
     @inlinable var isEven: Bool { get }
     
@@ -175,7 +175,7 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
 // MARK: * ANK x Binary Integer x Signed
 //*============================================================================*
 
-/// An awesome signed integer.
+/// An awesome, signed, binary integer.
 ///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
@@ -185,7 +185,7 @@ public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger { }
 // MARK: * ANK x Binary Integer x Unsigned
 //*============================================================================*
 
-/// An awesome unsigned integer.
+/// An awesome, unsigned, binary integer.
 ///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
@@ -221,7 +221,7 @@ extension ANKBinaryInteger where Self: FixedWidthInteger {
 // MARK: Details x Sign & Magnitude
 //=----------------------------------------------------------------------------=
 
-extension ANKBinaryInteger where Magnitude.BitPattern == BitPattern {
+extension ANKBinaryInteger where BitPattern == Magnitude.BitPattern {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers

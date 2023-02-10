@@ -22,13 +22,13 @@ final class ANKSignedTestsOnComplements: XCTestCase {
     typealias M = UInt
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Magnitude
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        XCTAssertEqual(T( 3).magnitude, M(3))
+        XCTAssertEqual(T(-1).magnitude, M(1))
         XCTAssertEqual(T( 0).magnitude, M(0))
-        XCTAssertEqual(T(-3).magnitude, M(3))
+        XCTAssertEqual(T( 1).magnitude, M(1))
     }
 }
 

@@ -23,7 +23,7 @@ final class ANKSignedBenchmarksOnComplements: XCTestCase {
     typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Magnitude
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {

@@ -119,18 +119,6 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     @inlinable public init(repeating bit: Bool) {
         self.init(bitPattern: bit ? Magnitude.max : Magnitude.min)
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Details x Bit Pattern
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public init(bitPattern: BitPattern) {
-        self = unsafeBitCast(bitPattern, to: Self.self)
-    }
-    
-    @_transparent public var bitPattern: BitPattern {
-        return unsafeBitCast(self, to: BitPattern.self)
-    }
 }
 
 //*============================================================================*

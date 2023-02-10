@@ -88,26 +88,6 @@ final class Int192Tests: XCTestCase {
     func testInitDescending() {
         XCTAssertEqual(T(descending: (ANKInt64(3), ANKUInt128(x64:(1, 2)))), T(x64: X(1, 2, 3)))
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit Pattern
-    //=------------------------------------------------------------------------=
-    
-    func testInitBitPattern() {
-        XCTAssertEqual(T(bitPattern: M.min), T(  ))
-        XCTAssertEqual(T(bitPattern: M.max), T(-1))
-        
-        XCTAssertEqual(T(bitPattern:  (M(1) << (M.bitWidth - 1))), T.min)
-        XCTAssertEqual(T(bitPattern: ~(M(1) << (M.bitWidth - 1))), T.max)
-    }
-    
-    func testValueAsBitPattern() {
-        XCTAssertEqual(T(  ).bitPattern, M.min)
-        XCTAssertEqual(T(-1).bitPattern, M.max)
-        
-        XCTAssertEqual(T.min.bitPattern,  (M(1) << (M.bitWidth - 1)))
-        XCTAssertEqual(T.max.bitPattern, ~(M(1) << (M.bitWidth - 1)))
-    }
 }
 
 //*============================================================================*
@@ -182,20 +162,6 @@ final class UInt192Tests: XCTestCase {
 
     func testInitDescending() {
         XCTAssertEqual(T(descending: (ANKUInt64(3), ANKUInt128(x64:(1, 2)))), T(x64: X(1, 2, 3)))
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit Pattern
-    //=------------------------------------------------------------------------=
-    
-    func testInitBitPattern() {
-        XCTAssertEqual(T(bitPattern: M.min), T.min)
-        XCTAssertEqual(T(bitPattern: M.max), T.max)
-    }
-    
-    func testValueAsBitPattern() {
-        XCTAssertEqual(T.min.bitPattern, M.min)
-        XCTAssertEqual(T.max.bitPattern, M.max)
     }
 }
 

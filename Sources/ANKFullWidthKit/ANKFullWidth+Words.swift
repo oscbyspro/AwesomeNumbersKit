@@ -70,7 +70,7 @@ extension ANKFullWidth {
     /// Int256(-1).minLastIndexReportingIsZeroOrMinusOne() // (minLastIndex: 0, isZeroOrMinusOne: true )
     /// ```
     ///
-    /// - Note: Using `isLessThanZero` is the most efficent way to differentiate between `0` and `-1`.
+    /// - Note: Using `isLessThanZero` is an efficent way to differentiate between `0` and `-1`.
     ///
     @inlinable public func minLastIndexReportingIsZeroOrMinusOne() -> (minLastIndex: Int, isZeroOrMinusOne: Bool) {
         let sign:  UInt = UInt(repeating: self.isLessThanZero)
@@ -86,7 +86,7 @@ extension ANKFullWidth {
     /// Int256(-1).minWordCountReportingIsZeroOrMinusOne() // (minWordCount: 1, isZeroOrMinusOne: true )
     /// ```
     ///
-    /// - Note: Using `isLessThanZero` is the most efficent way to differentiate between `0` and `-1`.
+    /// - Note: Using `isLessThanZero` is an efficent way to differentiate between `0` and `-1`.
     ///
     @inlinable public func minWordCountReportingIsZeroOrMinusOne() -> (minWordCount: Int, isZeroOrMinusOne: Bool) {
         let info = self.minLastIndexReportingIsZeroOrMinusOne()

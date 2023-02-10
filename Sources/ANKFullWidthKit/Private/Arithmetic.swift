@@ -30,7 +30,7 @@ extension UInt {
     /// var d: UInt = ~0; d.addReportingOverflow(~0, true ) // d = ~0; -> true
     /// ```
     ///
-    /// - Returns: A value truncating the range: `HL(0, 0) ... HL(1, ~0)`.
+    /// - Returns: A truncated value in the range: `(high: 0, low: 0) ... (high: 1, low: ~0)`.
     ///
     @inlinable mutating func addReportingOverflow(_ amount: Self, _ bit: Bool) -> Bool {
         let a: Bool = self.addReportingOverflow(amount)
@@ -49,7 +49,7 @@ extension UInt {
     /// (~0 as UInt).addingReportingOverflow(~0, true ) // (partialValue: ~0, overflow: true )
     /// ```
     ///
-    /// - Returns: A value truncating the range: `HL(0, 0) ... HL(1, ~0)`.
+    /// - Returns: A truncated value in the range: `(high: 0, low: 0) ... (high: 1, low: ~0)`.
     ///
     @inlinable func addingReportingOverflow(_ amount: Self, _ bit: Bool) -> PVO<Self> {
         var partialValue = self
@@ -68,7 +68,7 @@ extension UInt {
     /// var b: UInt = ~0; b.addFullWidth(multiplicands:(~0, ~0)) // b = 0; -> ~0
     /// ```
     ///
-    /// - Returns: A value in the range: `HL(0, 0) ... HL(~0, 0)`.
+    /// - Returns: A value in the range: `(high: 0, low: 0) ... (high: ~0, low: 0)`.
     ///
     @inlinable mutating func addFullWidth(multiplicands: (Self, Self)) -> Self {
         let hl: HL<Self, Self> = multiplicands.0.multipliedFullWidth(by: multiplicands.1)
@@ -82,7 +82,7 @@ extension UInt {
     /// (~0 as UInt).addingFullWidth(multiplicands:(~0, ~0)) // (high: ~0, low: 0)
     /// ```
     ///
-    /// - Returns: A value in the range: `HL(0, 0) ... HL(~0, 0)`.
+    /// - Returns: A value in the range: `(high: 0, low: 0) ... (high: ~0, low: 0)`.
     ///
     @inlinable func addingFullWidth(multiplicands: (Self, Self)) -> HL<Self, Magnitude> {
         var low = self
@@ -101,7 +101,7 @@ extension UInt {
     /// var b: UInt = ~0; b.addFullWidth(~0, multiplicands:(~0, ~0)) // b = ~0; -> ~0
     /// ```
     ///
-    /// - Returns: A value in the range: `HL(0, 0) ... HL(~0, ~0)`.
+    /// - Returns: A value in the range: `(high: 0, low: 0) ... (high: ~0, low: ~0)`.
     ///
     @inlinable mutating func addFullWidth(_ addend: Self, multiplicands: (Self, Self)) -> Self {
         let high: Self = self.addFullWidth(multiplicands: multiplicands)
@@ -115,7 +115,7 @@ extension UInt {
     /// (~0 as UInt).addingFullWidth(~0, multiplicands:(~0, ~0)) // (high: ~0, low: ~0)
     /// ```
     ///
-    /// - Returns: A value in the range: `HL(0, 0) ... HL(~0, ~0)`.
+    /// - Returns: A value in the range: `(high: 0, low: 0) ... (high: ~0, low: ~0)`.
     ///
     @inlinable func addingFullWidth(_ addend: Self, multiplicands: (Self, Self)) -> HL<Self, Magnitude> {
         var low = self

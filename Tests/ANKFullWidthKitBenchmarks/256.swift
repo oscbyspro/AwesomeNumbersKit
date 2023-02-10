@@ -99,22 +99,6 @@ final class Int256Benchmarks: XCTestCase {
             _ = T(descending: (ANKInt128(), ANKUInt128()))
         }
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit Pattern
-    //=------------------------------------------------------------------------=
-    
-    func testInitBitPattern() {
-        for _ in 0 ..< 1_000_000 {
-            _ = T(bitPattern: M.max)
-        }
-    }
-    
-    func testValueAsBitPattern() {
-        for _ in 0 ..< 1_000_000 {
-            _ = T.max.bitPattern
-        }
-    }
 }
 
 //*============================================================================*
@@ -199,22 +183,6 @@ final class UInt256Benchmarks: XCTestCase {
     func testInitDescending() {
         for _ in 0 ..< 1_000_000 {
             _ = T(descending: (ANKUInt128(), ANKUInt128()))
-        }
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit Pattern
-    //=------------------------------------------------------------------------=
-        
-    func testInitBitPattern() {
-        for _ in 0 ..< 1_000_000 {
-            _ = T(bitPattern: M.max)
-        }
-    }
-    
-    func testValueAsBitPattern() {
-        for _ in 0 ..< 1_000_000 {
-            _ = T.max.bitPattern
         }
     }
 }

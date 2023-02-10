@@ -22,9 +22,26 @@ private typealias Y = ANK192X32
 final class Int192BenchmarksOnComplements: XCTestCase {
     
     typealias T = ANKInt192
+    typealias M = ANKUInt192
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Bit Pattern
+    //=------------------------------------------------------------------------=
+    
+    func testInitBitPattern() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T(bitPattern: M.max)
+        }
+    }
+    
+    func testValueAsBitPattern() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T.max.bitPattern
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Magnitude
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
@@ -34,6 +51,10 @@ final class Int192BenchmarksOnComplements: XCTestCase {
             _ = abc.magnitude
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Two's Complement
+    //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
         let abc = T(x64: X(~0, ~1, ~2))
@@ -51,9 +72,26 @@ final class Int192BenchmarksOnComplements: XCTestCase {
 final class UInt192BenchmarksOnComplements: XCTestCase {
     
     typealias T = ANKUInt192
+    typealias M = ANKUInt192
+
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Bit Pattern
+    //=------------------------------------------------------------------------=
+    
+    func testInitBitPattern() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T(bitPattern: M.max)
+        }
+    }
+    
+    func testValueAsBitPattern() {
+        for _ in 0 ..< 1_000_000 {
+            _ = T.max.bitPattern
+        }
+    }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Magnitude
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
@@ -63,6 +101,10 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
             _ = abc.magnitude
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Two's Complement
+    //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
         let abc = T(x64: X(~0, ~1, ~2))

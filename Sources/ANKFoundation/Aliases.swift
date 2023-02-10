@@ -20,5 +20,5 @@ public typealias QR<Q,R> = (quotient: Q,  remainder: R)
 // MARK: * Aliases x Models
 //*============================================================================*
 
-public typealias Sign/*-*/ = ANKSign
+public typealias Sign      = ANKSign
 public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude

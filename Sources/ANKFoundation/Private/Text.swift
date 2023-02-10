@@ -35,10 +35,10 @@ extension StringProtocol where Self == SubSequence {
     /// Removes and returns a radix literal prefix, if it exists.
     ///
     /// ```
-    /// var a = "0x?"[...]; a._removeSignPrefix() // a.removeFirst(2); -> 0x10
-    /// var b = "0o?"[...]; b._removeSignPrefix() // b.removeFirst(2); -> 0o10
-    /// var c = "0b?"[...]; c._removeSignPrefix() // c.removeFirst(2); -> 0b10
-    /// var d = "???"[...]; d._removeSignPrefix() // nil
+    /// var a = "0x?"[...]; a._removeRadixLiteralPrefix() // a.removeFirst(2); -> 0x10
+    /// var b = "0o?"[...]; b._removeRadixLiteralPrefix() // b.removeFirst(2); -> 0o10
+    /// var c = "0b?"[...]; c._removeRadixLiteralPrefix() // c.removeFirst(2); -> 0b10
+    /// var d = "???"[...]; d._removeRadixLiteralPrefix() // nil
     /// ```
     ///
     @inlinable public mutating func _removeRadixLiteralPrefix() -> Int? {
