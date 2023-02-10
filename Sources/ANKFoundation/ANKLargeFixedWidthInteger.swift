@@ -40,9 +40,9 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     ///
     @inlinable static func &+(lhs: Self, rhs: Digit) -> Self
     
-    /// Forms the sum of adding the given value to this value, and
-    /// returns a value indicating whether overflow occurred. In the case of
-    /// overflow, the result is truncated.
+    /// Forms the sum of adding the given value to this value,
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
     ///
     /// ```
     /// var a: Int256(32); a.addReportingOverflow(Int(1)) // a = Int256(33); -> false
@@ -51,9 +51,9 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     ///
     @inlinable mutating func addReportingOverflow(_ amount: Digit) -> Bool
     
-    /// Returns the sum of adding the given value to this value, and
-    /// returns a value indicating whether overflow occurred. In the case of
-    /// overflow, the result is truncated.
+    /// Returns the sum of adding the given value to this value,
+    /// along with a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
     ///
     /// ```
     /// Int256(32).addingReportingOverflow(Int(1)) // (partialValue: Int256(33), overflow: false)
@@ -66,9 +66,9 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     // MARK: Details x Multiplication
     //=------------------------------------------------------------------------=
     
-    /// Forms the product of multiplying this value by the given value, and
-    /// returns a value indicating whether overflow occurred. In the case of
-    /// overflow, the result is truncated.
+    /// Forms the product of multiplying this value by the given value,
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
     ///
     /// ```
     /// var a = Int256(11); a.multiplyReportingOverflow(by: Int(4)) // a = Int256(44); -> false
@@ -78,8 +78,8 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     @inlinable mutating func multiplyReportingOverflow(by amount: Digit) -> Bool
     
     /// Returns the product of multiplying this value by the given value,
-    /// along with a value indicating whether overflow occurred. In the case of
-    /// overflow, the result is truncated.
+    /// along with a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
     ///
     /// ```
     /// Int256(11).multipliedReportingOverflow(by: Int(4)) // (partialValue: Int256(44), overflow: false)
@@ -130,8 +130,8 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     @inlinable static func &-(lhs: Self, rhs: Digit) -> Self
 
     /// Forms the difference of subtracting the given value from this value,
-    /// and returns a value indicating whether overflow occurred. In the case
-    /// of overflow, the result is truncated.
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
     ///
     /// ```
     /// var a: Int256(33); a.subtractReportingOverflow(Int(1)) // a = Int256(32); -> false
@@ -141,8 +141,8 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     @inlinable mutating func subtractReportingOverflow(_ amount: Digit) -> Bool
     
     /// Returns the difference of subtracting the given value from this value,
-    /// and returns a value indicating whether overflow occurred. In the case
-    /// of overflow, the result is truncated.
+    /// along with a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
     ///
     /// ```
     /// Int256(33).subtractingReportingOverflow(Int(1)) // (partialValue: Int256(32), overflow: false)

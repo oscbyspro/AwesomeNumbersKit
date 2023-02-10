@@ -34,9 +34,9 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     // MARK: Details x Addition
     //=------------------------------------------------------------------------=
     
-    /// Forms the sum of adding the given value to this value, and
-    /// returns a value indicating whether overflow occurred. In the case of
-    /// overflow, the result is truncated.
+    /// Forms the sum of adding the given value to this value,
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
     ///
     /// ```
     /// var a: Int8(126); a.addReportingOverflow(Int8(1)) // a = Int8( 127); -> false
@@ -49,9 +49,9 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     // MARK: Details x Multiplication
     //=------------------------------------------------------------------------=
     
-    /// Forms the product of multiplying this value by the given value, and
-    /// returns a value indicating whether overflow occurred. In the case of
-    /// overflow, the result is truncated.
+    /// Forms the product of multiplying this value by the given value,
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
     ///
     /// ```
     /// var a = Int8(11); a.multiplyReportingOverflow(by: Int8(4)) // a = Int8(44); -> false
@@ -75,8 +75,8 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     //=------------------------------------------------------------------------=
     
     /// Forms the difference of subtracting the given value from this value,
-    /// and returns a value indicating whether overflow occurred. In the case
-    /// of overflow, the result is truncated.
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
     ///
     /// ```
     /// var a: Int8(-127); a.subtractReportingOverflow(1) // a = -128; -> false
@@ -100,9 +100,9 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    /// Forms a value with equal magnitude but opposite sign, and returns a
-    /// value indicating whether overflow occurred. In the case of overflow,
-    /// the result is truncated.
+    /// Forms a value with equal magnitude but opposite sign,
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
     ///
     /// ```
     /// var a: Int8(-127); a.negateReportingOverflow() // a = Int8( 127); -> false
@@ -111,9 +111,9 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
     ///
     @inlinable mutating func negateReportingOverflow() -> Bool
     
-    /// Returns a value with equal magnitude but opposite sign, along with a
-    /// value indicating whether overflow occurred. In the case of overflow,
-    /// the result is truncated.
+    /// Returns a value with equal magnitude but opposite sign,
+    /// along with a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
     ///
     /// ```
     /// Int8(-127).negatedReportingOverflow() // -> (partialValue: Int8( 127), overflow: false)

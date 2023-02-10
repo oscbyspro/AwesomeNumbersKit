@@ -66,9 +66,10 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     // MARK: Details x Division
     //=------------------------------------------------------------------------=
     
-    /// Forms the quotient of this value divided by the given value, and
-    /// returns a value indicating whether overflow occurred. In the case of
-    /// overflow, the result is either truncated or, if undefined, this value.
+    /// Forms the quotient of this value divided by the given value,
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is either truncated or,
+    /// if undefined, this value.
     ///
     /// ```
     /// var a = Int8(-128); a.divideReportingOverflow(by:  3)) // a = Int8( -42); -> false
@@ -78,9 +79,10 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     ///
     @inlinable mutating func divideReportingOverflow(by divisor: Self) -> Bool
     
-    /// Returns the quotient of this value divided by the given value, and
-    /// returns a value indicating whether overflow occurred. In the case of
-    /// overflow, the result is either truncated or, if undefined, this value.
+    /// Returns the quotient of this value divided by the given value,
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is either truncated or,
+    /// if undefined, this value.
     ///
     /// ```
     /// Int8(-128).dividedReportingOverflow(by: Int8( 3)) // (partialValue: Int8( -42), overflow: false)
@@ -90,10 +92,10 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     ///
     @inlinable func dividedReportingOverflow(by divisor: Self) -> PVO<Self>
     
-    /// Forms the remainder of this value divided by the given value, and
-    /// returns a value indicating whether overflow occurred. In the case of
-    /// overflow, the result is either the entire remainder or, if undefined,
-    /// this value.
+    /// Forms the remainder of this value divided by the given value,
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is either the entire remainder or,
+    /// if undefined, this value.
     ///
     /// ```
     /// var a = Int8(-128); a.formRemainderReportingOverflow(dividingBy:  3) // a = Int8(   2); -> false
@@ -103,10 +105,10 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     ///
     @inlinable mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool
     
-    /// Returns the remainder of this value divided by the given value, and
-    /// returns a value indicating whether overflow occurred. In the case of
-    /// overflow, the result is either the entire remainder or, if undefined,
-    /// this value.
+    /// Returns the remainder of this value divided by the given value,
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is either the entire remainder or,
+    /// if undefined, this value.
     ///
     /// ```
     /// Int8(-128).remainderReportingOverflow(dividingBy:  3) // (partialValue: Int8(   2), overflow: false)
