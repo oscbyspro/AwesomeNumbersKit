@@ -45,15 +45,13 @@ final class Int192TestsOnCollection: XCTestCase {
     func testWithUnsafeMutableBytes() {
         var x0 = T(truncatingIfNeeded:  0)
         let x1 = T(truncatingIfNeeded: -1)
-        //=----------------------------------=
+        
         x0.withUnsafeMutableBytes { BYTES in
             XCTAssertEqual(BYTES.count,  x1.bitWidth/8)
             XCTAssert(BYTES.allSatisfy({ $0  == 0x00 }))
             BYTES.indices.forEach({ BYTES[$0] = 0xff })
             XCTAssert(BYTES.allSatisfy({ $0  == 0xff }))
-        }
-        //=----------------------------------=
-        XCTAssertEqual(x0, x1)
+        };  XCTAssertEqual(x0, x1)
     }
 }
 
@@ -87,15 +85,13 @@ final class UInt192TestsOnCollection: XCTestCase {
     func testWithUnsafeMutableBytes() {
         var x0 = T(truncatingIfNeeded:  0)
         let x1 = T(truncatingIfNeeded: -1)
-        //=----------------------------------=
+        
         x0.withUnsafeMutableBytes { BYTES in
             XCTAssertEqual(BYTES.count,  x1.bitWidth/8)
             XCTAssert(BYTES.allSatisfy({ $0  == 0x00 }))
             BYTES.indices.forEach({ BYTES[$0] = 0xff })
             XCTAssert(BYTES.allSatisfy({ $0  == 0xff }))
-        }
-        //=----------------------------------=
-        XCTAssertEqual(x0, x1)
+        };  XCTAssertEqual(x0, x1)
     }
 }
 

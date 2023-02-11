@@ -43,14 +43,14 @@ final class TypesTestsOnANKMutableContiguousBytes: XCTestCase {
         for type: T in types {
             var x0 = type.init(truncatingIfNeeded:  0)
             let x1 = type.init(truncatingIfNeeded: -1)
-            //=----------------------------------=
+            
             x0.withUnsafeMutableBytes { BYTES in
                 XCTAssertEqual(BYTES.count,  x1.bitWidth/8)
                 XCTAssert(BYTES.allSatisfy({ $0  == 0x00 }))
                 BYTES.indices.forEach({ BYTES[$0] = 0xff })
                 XCTAssert(BYTES.allSatisfy({ $0  == 0xff }))
             }
-            //=----------------------------------=
+            
             let lhs = x0.words.map({ $0 as! UInt })
             let rhs = x1.words.map({ $0 as! UInt })
             XCTAssertEqual(lhs, rhs)
