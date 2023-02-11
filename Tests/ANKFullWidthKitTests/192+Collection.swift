@@ -24,7 +24,49 @@ final class Int192TestsOnCollection: XCTestCase {
     typealias T = ANKInt192
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Contiguous Bytes
+    // MARK: Tests x Bytes
+    //=------------------------------------------------------------------------=
+    
+    func testWithUnsafeBytes() {
+        let x0 = T(truncatingIfNeeded:  0)
+        let x1 = T(truncatingIfNeeded: -1)
+        
+        x0.withUnsafeBytes { BYTES in
+            XCTAssert(BYTES.allSatisfy({ $0 == 0x00 }))
+            XCTAssertEqual(BYTES.count,  x0.bitWidth/8)
+        }
+        
+        x1.withUnsafeBytes { BYTES in
+            XCTAssert(BYTES.allSatisfy({ $0 == 0xff }))
+            XCTAssertEqual(BYTES.count,  x1.bitWidth/8)
+        }
+    }
+    
+    func testWithUnsafeMutableBytes() {
+        var x0 = T(truncatingIfNeeded:  0)
+        let x1 = T(truncatingIfNeeded: -1)
+        //=----------------------------------=
+        x0.withUnsafeMutableBytes { BYTES in
+            XCTAssertEqual(BYTES.count,  x1.bitWidth/8)
+            XCTAssert(BYTES.allSatisfy({ $0  == 0x00 }))
+            BYTES.indices.forEach({ BYTES[$0] = 0xff })
+            XCTAssert(BYTES.allSatisfy({ $0  == 0xff }))
+        }
+        //=----------------------------------=
+        XCTAssertEqual(x0, x1)
+    }
+}
+
+//*============================================================================*
+// MARK: * UInt192 x Collection
+//*============================================================================*
+
+final class UInt192TestsOnCollection: XCTestCase {
+    
+    typealias T = ANKUInt192
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Bytes
     //=------------------------------------------------------------------------=
 
     func testWithUnsafeBytes() {
@@ -41,33 +83,19 @@ final class Int192TestsOnCollection: XCTestCase {
             XCTAssertEqual(BYTES.count,  x1.bitWidth/8)
         }
     }
-}
-
-//*============================================================================*
-// MARK: * UInt192 x Collection
-//*============================================================================*
-
-final class UInt192TestsOnCollection: XCTestCase {
     
-    typealias T = ANKUInt192
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Contiguous Bytes
-    //=------------------------------------------------------------------------=
-
-    func testWithUnsafeBytes() {
-        let x0 = T(truncatingIfNeeded:  0)
+    func testWithUnsafeMutableBytes() {
+        var x0 = T(truncatingIfNeeded:  0)
         let x1 = T(truncatingIfNeeded: -1)
-        
-        x0.withUnsafeBytes { BYTES in
-            XCTAssert(BYTES.allSatisfy({ $0 == 0x00 }))
-            XCTAssertEqual(BYTES.count,  x0.bitWidth/8)
-        }
-        
-        x1.withUnsafeBytes { BYTES in
-            XCTAssert(BYTES.allSatisfy({ $0 == 0xff }))
+        //=----------------------------------=
+        x0.withUnsafeMutableBytes { BYTES in
             XCTAssertEqual(BYTES.count,  x1.bitWidth/8)
+            XCTAssert(BYTES.allSatisfy({ $0  == 0x00 }))
+            BYTES.indices.forEach({ BYTES[$0] = 0xff })
+            XCTAssert(BYTES.allSatisfy({ $0  == 0xff }))
         }
+        //=----------------------------------=
+        XCTAssertEqual(x0, x1)
     }
 }
 

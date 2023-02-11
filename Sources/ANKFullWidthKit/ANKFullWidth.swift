@@ -47,7 +47,7 @@ import ANKFoundation
 /// ```
 ///
 @frozen public struct ANKFullWidth<High, Low>: ANKBigEndianTextCodable,
-ANKContiguousBytes, ANKLargeFixedWidthInteger, ANKWords, CustomStringConvertible,
+ANKLargeFixedWidthInteger, ANKMutableContiguousBytes, ANKWords, CustomStringConvertible,
 CustomDebugStringConvertible, ExpressibleByStringLiteral, MutableCollection where
 High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {

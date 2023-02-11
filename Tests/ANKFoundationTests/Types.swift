@@ -63,6 +63,13 @@ enum Types {
     static let ANKContiguousBytes =
     ANKBinaryInteger.compactMap({ $0 as? any (ANKBinaryInteger & ANKContiguousBytes).Type })
     
+    static let ANKMutableContiguousBytes =
+    ANKBinaryInteger.compactMap({ $0 as? any (ANKBinaryInteger & ANKMutableContiguousBytes).Type })
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
     static let ANKBigEndianTextCodable =
     ANKBinaryInteger.compactMap({ $0 as? any (ANKBigEndianTextCodable & ANKBinaryInteger).Type })
     

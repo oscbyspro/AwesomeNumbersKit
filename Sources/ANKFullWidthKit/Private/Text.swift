@@ -15,6 +15,8 @@ import ANKFoundation
 
 /// The largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
 ///
+/// The decision between Int and UInt typing is based on interoperability.
+///
 /// - Its `base` is `>= 2`
 /// - Its `exponent` is `>= 1` and `<= UInt.bitWidth`
 /// - Its `power` is `0` when `pow(radix, exponent) == UInt.max + 1`
@@ -51,7 +53,7 @@ import ANKFoundation
         // Fast Path
         //=--------------------------------------=
         if  radix.isPowerOf2 {
-            let zeros = radix.trailingZeroBitCount
+            let zeros: Int = radix.trailingZeroBitCount
             //=----------------------------------=
             // Radix == 2,  4, 16, 256, ...
             //=----------------------------------=
@@ -63,8 +65,8 @@ import ANKFoundation
             //=----------------------------------=
             }   else {
                 let exponent = UInt.bitWidth  /  zeros
-                let shift = zeros.multipliedReportingOverflow(by: exponent).partialValue
-                return (exponent: exponent, power: 1 &<< shift)
+                let shift: Int = zeros.multipliedReportingOverflow(by: exponent).partialValue
+                return (exponent: exponent, power: 1 &<< UInt(bitPattern: shift))
             }
         }
         //=--------------------------------------=
