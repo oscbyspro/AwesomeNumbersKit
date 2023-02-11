@@ -132,7 +132,7 @@ extension ANKFullWidth {
 // MARK: + Unsigned
 //=----------------------------------------------------------------------------=
 
-extension ANKFullWidth where Self == Magnitude {
+extension ANKFullWidth where High == High.Magnitude {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

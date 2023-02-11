@@ -11,14 +11,14 @@
 // MARK: * ANK x Contiguous Bytes
 //*============================================================================*
 
-/// A type that offers direct access to the contents of its underlying bytes.
+/// A type that offers read-only access to its data.
 public protocol ANKContiguousBytes {
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// Calls the given closure with direct access to the underlying bytes of this value.
+    /// Calls the given closure with read-only access to this value's data.
     ///
     /// ```
     /// UInt256(1).bigEndian.withUnsafeBytes({ data += $0 })

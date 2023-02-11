@@ -59,7 +59,7 @@ extension ANKFullWidth {
 extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
+    // MARK: Utilities
     //=------------------------------------------------------------------------=
     
     /// Returns this value's last index, in min two's complement form.

@@ -19,7 +19,7 @@ extension UInt {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    /// Forms the sum of adding the given value and bit to this value,
+    /// Forms the sum of adding both values to this value,
     /// and returns a value indicating whether overflow occured.
     /// In the case of overflow, the result is truncated.
     ///
@@ -34,11 +34,11 @@ extension UInt {
     ///
     @inlinable mutating func addReportingOverflow(_ amount: Self, _ bit: Bool) -> Bool {
         let a: Bool = self.addReportingOverflow(amount)
-        let b: Bool = self.addReportingOverflow(UInt(bit: bit))
+        let b: Bool = self.addReportingOverflow(Self(bit: bit))
         return a || b
     }
     
-    /// Returns the sum of adding the given value and bit to this value,
+    /// Returns the sum of adding both values to this value,
     /// along with a value indicating whether overflow occured.
     /// In the case of overflow, the result is truncated.
     ///

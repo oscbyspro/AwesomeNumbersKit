@@ -30,8 +30,8 @@ A composable, large, fixed-width, two's complement, binary integer.
 </table>
 
 ```swift
-typealias  ANKInt256 = ANKFullWidth< ANKInt128, ANKUInt128>
-typealias ANKUInt256 = ANKFullWidth<ANKUInt128, ANKUInt128>
+typealias  Int256 = ANKFullWidth< Int128, UInt128>
+typealias UInt256 = ANKFullWidth<UInt128, UInt128>
 ```
 
 ## ANKSigned ([Sources](Sources/ANKSignedKit), [Tests](Tests/ANKSignedKitTests), [Benchmarks](Tests/ANKSignedKitBenchmarks))

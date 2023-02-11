@@ -63,8 +63,8 @@ import ANKFoundation
             //=----------------------------------=
             }   else {
                 let exponent = UInt.bitWidth  /  zeros
-                let power = (1 as UInt) &<< UInt(bitPattern: zeros * exponent)
-                return (exponent: exponent, power: power)
+                let shift = zeros.multipliedReportingOverflow(by: exponent).partialValue
+                return (exponent: exponent, power: 1 &<< shift)
             }
         }
         //=--------------------------------------=

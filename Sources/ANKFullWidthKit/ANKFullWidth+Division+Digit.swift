@@ -110,8 +110,8 @@ extension ANKFullWidth {
 // MARK: + Unsigned
 //=----------------------------------------------------------------------------=
 
-extension ANKFullWidth where Self: ANKUnsignedLargeFixedWidthInteger {
- 
+extension ANKFullWidth where High == High.Magnitude {
+    
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
