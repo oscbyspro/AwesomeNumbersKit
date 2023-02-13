@@ -46,6 +46,17 @@
         self == Self.plus ? "+" : "-"
     }
     
+    /// The in-memory representation of this value.
+    ///
+    /// ```
+    /// plus  // 0x00
+    /// minus // 0x01
+    /// ```
+    ///
+    @_transparent @usableFromInline var _data: UInt8 {
+        unsafeBitCast(self, to: UInt8.self)
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
@@ -63,9 +74,7 @@
     //=------------------------------------------------------------------------=
     
     @_transparent public static func ==(lhs: Self, rhs: Self) -> Bool {
-        let lhsBitPattern = unsafeBitCast(lhs, to: Bool.self)
-        let rhsBitPattern = unsafeBitCast(rhs, to: Bool.self)
-        return lhsBitPattern == rhsBitPattern
+        lhs._data == rhs._data
     }
 }
 
@@ -81,7 +90,7 @@ extension ANKSign {
     
     /// Returns the opposite sign.
     @_transparent public static prefix func ~(x: Self) -> Self {
-        Self(!unsafeBitCast(x, to: Bool.self))
+        x ^ minus
     }
     
     /// Forms `minus` if both signs are `minus`, and `plus` otherwise.
@@ -106,10 +115,8 @@ extension ANKSign {
     /// minus & minus // minus
     /// ```
     ///
-    @_transparent public static func &(lhs:  Self, rhs:  Self) -> Self {
-        let lhsBitPattern = unsafeBitCast(lhs, to: UInt8.self)
-        let rhsBitPattern = unsafeBitCast(rhs, to: UInt8.self)
-        return unsafeBitCast(lhsBitPattern & rhsBitPattern, to: Self.self)
+    @_transparent public static func &(lhs: Self, rhs: Self) -> Self {
+        unsafeBitCast(lhs._data & rhs._data,  to: Self.self)
     }
     
     /// Forms `minus` if at least one sign is `minus`, and `plus` otherwise.
@@ -134,10 +141,8 @@ extension ANKSign {
     /// minus | minus // minus
     /// ```
     ///
-    @_transparent public static func |(lhs:  Self, rhs:  Self) -> Self {
-        let lhsBitPattern = unsafeBitCast(lhs, to: UInt8.self)
-        let rhsBitPattern = unsafeBitCast(rhs, to: UInt8.self)
-        return unsafeBitCast(lhsBitPattern | rhsBitPattern, to: Self.self)
+    @_transparent public static func |(lhs: Self, rhs: Self) -> Self {
+        unsafeBitCast(lhs._data | rhs._data,  to: Self.self)
     }
     
     /// Forms `minus` if exactly one sign is `minus`, and `plus` otherwise.
@@ -162,9 +167,7 @@ extension ANKSign {
     /// minus ^ minus // plus
     /// ```
     ///
-    @_transparent public static func ^(lhs:  Self, rhs:  Self) -> Self {
-        let lhsBitPattern = unsafeBitCast(lhs, to: UInt8.self)
-        let rhsBitPattern = unsafeBitCast(rhs, to: UInt8.self)
-        return unsafeBitCast(lhsBitPattern ^ rhsBitPattern, to: Self.self)
+    @_transparent public static func ^(lhs: Self, rhs: Self) -> Self {
+        unsafeBitCast(lhs._data ^ rhs._data,  to: Self.self)
     }
 }
