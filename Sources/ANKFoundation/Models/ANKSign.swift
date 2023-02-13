@@ -21,27 +21,21 @@
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    case plus
-    case minus
+    case plus  // 0x00
+    case minus // 0x01
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
     /// Creates a new instance from the given bit.
-    ///
-    /// - Returns: `bit ? Self.minus : Self.plus`
-    ///
-    @inlinable public init(_ bit: Bool) {
-        self = bit ? Self.minus : Self.plus
+    @_transparent public init(_ bit: Bool) {
+        self = unsafeBitCast(bit, to: Self.self)
     }
     
     /// Creates a new instance from the given sign.
-    ///
-    /// - Returns: `sign == FloatingPointSign.plus ? Self.plus : Self.minus`
-    ///
-    @inlinable public init(_ sign: FloatingPointSign) {
-        self = sign == FloatingPointSign.plus ? Self.plus : Self.minus
+    @_transparent public init(_ sign: FloatingPointSign) {
+        self = unsafeBitCast(sign, to: Self.self)
     }
     
     //=------------------------------------------------------------------------=
@@ -56,12 +50,22 @@
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    /// Toggles this variable’s value.
+    /// Forms the opposite sign.
     ///
     /// Use this method to toggle from `plus` to `minus` or from `minus` to `plus`.
-    ///
-    @inlinable public mutating func toggle() {
+    /// 
+    @_transparent public mutating func toggle() {
         self = ~self
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public static func ==(lhs: Self, rhs: Self) -> Bool {
+        let lhsBitPattern = unsafeBitCast(lhs, to: Bool.self)
+        let rhsBitPattern = unsafeBitCast(rhs, to: Bool.self)
+        return lhsBitPattern == rhsBitPattern
     }
 }
 
@@ -75,38 +79,93 @@ extension ANKSign {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    /// Returns the inverse of the given value.
-    @inlinable public static prefix func ~(x: Self) -> Self {
-        x == self.plus ? self.minus : self.plus
+    /// Returns the opposite sign.
+    @_transparent public static prefix func ~(x: Self) -> Self {
+        Self(!unsafeBitCast(x, to: Bool.self))
     }
     
-    /// Forms `minus` if both values equal `minus`, and `plus` otherwise.
-    @inlinable public static func &=(lhs: inout Self, rhs: Self) {
+    /// Forms `minus` if both signs are `minus`, and `plus` otherwise.
+    ///
+    ///
+    /// ```
+    /// plus  & plus  // plus
+    /// plus  & minus // plus
+    /// minus & plus  // plus
+    /// minus & minus // minus
+    /// ```
+    ///
+    @_transparent public static func &=(lhs: inout Self, rhs: Self) {
         lhs = lhs & rhs
     }
     
-    /// Returns `minus` if both values equal `minus`, and `plus` otherwise.
-    @inlinable public static func &(lhs: Self, rhs: Self) -> Self {
-        lhs == rhs ? lhs : self.plus
+    /// Returns `minus` if both signs are `minus`, and `plus` otherwise.
+    ///
+    /// ```
+    /// plus  & plus  // plus
+    /// plus  & minus // plus
+    /// minus & plus  // plus
+    /// minus & minus // minus
+    /// ```
+    ///
+    @_transparent public static func &(lhs:  Self, rhs:  Self) -> Self {
+        let lhsBitPattern = unsafeBitCast(lhs, to: UInt8.self)
+        let rhsBitPattern = unsafeBitCast(rhs, to: UInt8.self)
+        return unsafeBitCast(lhsBitPattern & rhsBitPattern, to: Self.self)
     }
     
-    /// Forms `minus` if one, or both, values equal `minus`, and `plus` otherwise.
-    @inlinable public static func |=(lhs: inout Self, rhs: Self) {
+    /// Forms `minus` if at least one sign is `minus`, and `plus` otherwise.
+    ///
+    /// ```
+    /// plus  | plus  // plus
+    /// plus  | minus // minus
+    /// minus | plus  // minus
+    /// minus | minus // minus
+    /// ```
+    ///
+    @_transparent public static func |=(lhs: inout Self, rhs: Self) {
         lhs = lhs | rhs
     }
     
-    /// Returns `minus` if one, or both, values equal `minus`, and `plus` otherwise.
-    @inlinable public static func |(lhs: Self, rhs: Self) -> Self {
-        lhs == rhs ? lhs : self.minus
+    /// Returns `minus` if at least one sign is `minus`, and `plus` otherwise.
+    ///
+    /// ```
+    /// plus  | plus  // plus
+    /// plus  | minus // minus
+    /// minus | plus  // minus
+    /// minus | minus // minus
+    /// ```
+    ///
+    @_transparent public static func |(lhs:  Self, rhs:  Self) -> Self {
+        let lhsBitPattern = unsafeBitCast(lhs, to: UInt8.self)
+        let rhsBitPattern = unsafeBitCast(rhs, to: UInt8.self)
+        return unsafeBitCast(lhsBitPattern | rhsBitPattern, to: Self.self)
     }
     
-    /// Forms `minus` if one value equals `minus`, and `plus` otherwise.
-    @inlinable public static func ^=(lhs: inout Self, rhs: Self) {
+    /// Forms `minus` if exactly one sign is `minus`, and `plus` otherwise.
+    ///
+    /// ```
+    /// plus  ^ plus  // plus
+    /// plus  ^ minus // minus
+    /// minus ^ plus  // minus
+    /// minus ^ minus // plus
+    /// ```
+    ///
+    @_transparent public static func ^=(lhs: inout Self, rhs: Self) {
         lhs = lhs ^ rhs
     }
     
-    /// Returns `minus` if one value equals `minus`, and `plus` otherwise.
-    @inlinable public static func ^(lhs: Self, rhs: Self) -> Self {
-        lhs == rhs ? self.plus : self.minus
+    /// Returns `minus` if exactly one sign is `minus`, and `plus` otherwise.
+    ///
+    /// ```
+    /// plus  ^ plus  // plus
+    /// plus  ^ minus // minus
+    /// minus ^ plus  // minus
+    /// minus ^ minus // plus
+    /// ```
+    ///
+    @_transparent public static func ^(lhs:  Self, rhs:  Self) -> Self {
+        let lhsBitPattern = unsafeBitCast(lhs, to: UInt8.self)
+        let rhsBitPattern = unsafeBitCast(rhs, to: UInt8.self)
+        return unsafeBitCast(lhsBitPattern ^ rhsBitPattern, to: Self.self)
     }
 }

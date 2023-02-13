@@ -19,7 +19,7 @@ private typealias Y = ANK256X32
 // MARK: * Int256 x Bitshifts
 //*============================================================================*
 
-final class Int256BenchmarksOnBitwiseShifts: XCTestCase {
+final class Int256BenchmarksOnShifts: XCTestCase {
     
     typealias T = ANKInt256
     
@@ -69,10 +69,10 @@ final class Int256BenchmarksOnBitwiseShifts: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Bitwise x Shifts
+// MARK: * UInt256 x Shifts
 //*============================================================================*
 
-final class UInt256BenchmarksOnBitwiseShifts: XCTestCase {
+final class UInt256BenchmarksOnShifts: XCTestCase {
     
     typealias T = ANKUInt256
     

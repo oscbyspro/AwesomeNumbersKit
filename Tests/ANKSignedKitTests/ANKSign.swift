@@ -22,7 +22,7 @@ final class ANKSignTests: XCTestCase {
     typealias T = ANKSign
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Initializers
     //=------------------------------------------------------------------------=
     
     func testInitWithBit() {
@@ -36,7 +36,16 @@ final class ANKSignTests: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Accessors
+    //=------------------------------------------------------------------------=
+    
+    func testDescription() {
+        XCTAssertEqual(T.plus .description, "+")
+        XCTAssertEqual(T.minus.description, "-")
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Transformations
     //=------------------------------------------------------------------------=
     
     func testNot() {

@@ -10,14 +10,14 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x (U)Int512
+// MARK: * ANK x [U]Int512
 //*============================================================================*
 
 public typealias  ANKInt512 = ANKFullWidth< ANKInt256, ANKUInt256>
 public typealias ANKUInt512 = ANKFullWidth<ANKUInt256, ANKUInt256>
 
 //*============================================================================*
-// MARK: * ANK x (U)Int512 x (32/64)
+// MARK: * ANK x [U]Int512 x (32/64)
 //*============================================================================*
 
 extension ANKFullWidth where Magnitude == ANKUInt512 {
@@ -54,7 +54,7 @@ extension ANKFullWidth where Magnitude == ANKUInt512 {
 }
 
 //*============================================================================*
-// MARK: * ANK x (U)Int512 x Tuples
+// MARK: * ANK x [U]Int512 x Tuples
 //*============================================================================*
 
 public typealias ANK512X64 = (

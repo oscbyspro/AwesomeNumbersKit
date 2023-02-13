@@ -16,10 +16,10 @@ private typealias X = ANK192X64
 private typealias Y = ANK192X32
 
 //*============================================================================*
-// MARK: * Int192 x Tests x Bitwise x Shifts
+// MARK: * Int192 x Tests x Shifts
 //*============================================================================*
 
-final class Int192TestsOnBitwiseShifts: XCTestCase {
+final class Int192TestsOnShifts: XCTestCase {
     
     typealias T = ANKInt192
     
@@ -87,10 +87,10 @@ final class Int192TestsOnBitwiseShifts: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt192 x Tests x Bitwise x Shifts
+// MARK: * UInt192 x Tests x Shifts
 //*============================================================================*
 
-final class UInt192TestsOnBitwiseShifts: XCTestCase {
+final class UInt192TestsOnShifts: XCTestCase {
     
     typealias T = ANKUInt192
     

@@ -19,13 +19,5 @@ public protocol ANKMutableContiguousBytes: ANKContiguousBytes {
     //=------------------------------------------------------------------------=
     
     /// Calls the given closure with read-write access to this value's data.
-    ///
-    /// ```
-    /// bytes.withUnsafeMutableBytes { BYTES in
-    ///     let status  = SecRandomCopyBytes(kSecRandomDefault, BYTES.count, BYTES.baseAddress!)
-    ///     if  status != errSecSuccess { fatalError("Bad day, eh?") }
-    /// }
-    /// ```
-    ///
     @inlinable mutating func withUnsafeMutableBytes<T>(_ body: (UnsafeMutableRawBufferPointer) throws -> T) rethrows -> T
 }

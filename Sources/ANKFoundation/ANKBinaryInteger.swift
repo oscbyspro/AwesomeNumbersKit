@@ -255,7 +255,7 @@ extension ANKBinaryInteger where BitPattern == Magnitude.BitPattern {
         if  Self.isSigned {
             self.init(bitPattern: source.magnitude)
             if sourceIsLessThanZero {  self.formTwosComplement()  }
-            if sourceIsLessThanZero != self.isLessThanZero { self = sourceIsLessThanZero ? .min : .max }
+            if sourceIsLessThanZero != self.isLessThanZero { self = sourceIsLessThanZero ? Self.min : Self.max }
         //=--------------------------------------=
         }   else {
             if sourceIsLessThanZero {  self.init(); return }

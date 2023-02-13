@@ -31,6 +31,8 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     ///
     /// ```
     /// Int8(bitPattern: UInt8(255)) // Int8(-1)
+    /// Int8(bitPattern: UInt8(254)) // Int8(-2)
+    /// Int8(bitPattern: UInt8(253)) // Int8(-3)
     /// ```
     ///
     @inlinable init(bitPattern: BitPattern)
@@ -43,6 +45,8 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     ///
     /// ```
     /// Int8(-1).bitPattern // UInt8(255)
+    /// Int8(-2).bitPattern // UInt8(254)
+    /// Int8(-3).bitPattern // UInt8(253)
     /// ```
     ///
     @inlinable var bitPattern: BitPattern { get }
@@ -62,6 +66,8 @@ extension ANKBitPatternConvertible {
     ///
     /// ```
     /// Int8(bitPattern: UInt8(255)) // Int8(-1)
+    /// Int8(bitPattern: UInt8(254)) // Int8(-2)
+    /// Int8(bitPattern: UInt8(253)) // Int8(-3)
     /// ```
     ///
     @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
