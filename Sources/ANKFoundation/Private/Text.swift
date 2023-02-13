@@ -11,6 +11,32 @@
 // MARK: * ANK x Text
 //*============================================================================*
 
+extension StringProtocol {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    /// Returns the sign and radix, along with any remaining characters.
+    ///
+    /// ```
+    /// "+0x???"._bigEndianTextComponents(radix: nil) // (sign: .plus,  radix: 16, body: "???")
+    /// "??????"._bigEndianTextComponents(radix: nil) // (sign: .plus,  radix: 10, body: "??????")
+    /// "-0x???"._bigEndianTextComponents(radix:   2) // (sign: .minus, radix:  2, body: "0x????")
+    /// ```
+    ///
+    @inlinable public func _bigEndianTextComponents(radix: Int?) -> (sign: ANKSign, radix: Int, body: SubSequence) {
+        var body  = self[...]
+        let sign  = body._removeSignPrefix() ?? .plus
+        let radix = radix ?? body._removeRadixLiteralPrefix() ?? 10
+        return (sign: sign, radix: radix, body: body)
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + SubSequence
+//=----------------------------------------------------------------------------=
+
 extension StringProtocol where Self == SubSequence {
     
     //=------------------------------------------------------------------------=

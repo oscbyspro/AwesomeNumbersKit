@@ -174,12 +174,9 @@ extension ANKTrivialFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
-        var bigEndianText = source[...]
-        let sign  = bigEndianText._removeSignPrefix() ?? ANKSign.plus
-        let radix = radix ?? bigEndianText._removeRadixLiteralPrefix() ?? 10
-        let magnitude = Magnitude(bigEndianText, radix: radix)
-        guard  let magnitude else { return nil }
-        return Self(exactly: ANKSigned(magnitude, as: sign))
+        let components = source._bigEndianTextComponents(radix: radix)
+        guard let magnitude = Magnitude(components.body, radix: components.radix) else { return nil }
+        return Self(exactly: ANKSigned(magnitude, as: components.sign))
     }
     
     @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
