@@ -35,8 +35,8 @@ extension ANKFullWidth {
         self.withUnsafeWordsPointer { SELF in
             let signedness = !Self.isSigned ? "U" : ""
             let size = String(Self.bitWidth)
-            let contents = SELF.lazy.map(String.init).joined(separator: ", ")
-            return "ANK\(signedness)Int\(size)(\(contents))"
+            let body = SELF.lazy.map(String.init).joined(separator: ", ")
+            return "ANK\(signedness)Int\(size)(\(body))"
         }
     }
 }
@@ -181,24 +181,25 @@ extension ANKFullWidth where High == High.Magnitude {
         let magnitude_ = value.magnitude.minLastIndexReportingIsZeroOrMinusOne()
         if  magnitude_.isZeroOrMinusOne { return "0" }
         //=--------------------------------------=
-        var text = value.sign != .plus ? "-" : ""
-        text.reserveCapacity(text.utf8.count + (magnitude_.minLastIndex &+ 1) * radix.exponent)
-        //=--------------------------------------=
-        value.magnitude.withUnsafeWordsPointer { MAGNITUDE in
-            //=----------------------------------=
+        return value.magnitude.withUnsafeWordsPointer { MAGNITUDE in
             var index = magnitude_.minLastIndex
+            //=----------------------------------=
+            var text = value.sign != .plus ? "-" : ""
             text += String(MAGNITUDE[index], radix: radix.base, uppercase: uppercase)
+            let size = text.utf8.count + radix.exponent * index
+            text.reserveCapacity(size)
             //=----------------------------------=
             backwards: while index != MAGNITUDE.startIndex {
-                MAGNITUDE.formIndex(before:   &index)
+                MAGNITUDE.formIndex(before: &index)
                 let digits  = String(MAGNITUDE[index], radix: radix.base, uppercase: uppercase)
                 let padding = radix.exponent &- digits.utf8.count
                 if !padding.isZero { text += repeatElement("0", count: padding) }
                 text += digits
             }
+            //=----------------------------------=
+            assert(text.utf8.count == size)
+            return text
         }
-        //=--------------------------------------=
-        return text
     }
     
     @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(
@@ -206,40 +207,40 @@ extension ANKFullWidth where High == High.Magnitude {
         assert(!radix.power.isZero)
         //=--------------------------------------=
         let magnitudeLeadingZeroBitCount = value.magnitude.leadingZeroBitCount
-        if  magnitudeLeadingZeroBitCount == Self.bitWidth { return "0" }
+        if  magnitudeLeadingZeroBitCount == Magnitude.bitWidth { return "0" }
         //=--------------------------------------=
         var magnitude: Magnitude = value.magnitude
         let magnitudeSignificantBitWidth: Int = Magnitude .bitWidth &- magnitudeLeadingZeroBitCount
         let chunkBitWidthConsumptionLowerBound: Int = UInt.bitWidth &- radix.power.leadingZeroBitCount &- 1
         let chunkCountUpperBound = (magnitudeSignificantBitWidth / chunkBitWidthConsumptionLowerBound) &+ 1
         //=--------------------------------------=
-        var text = value.sign != .plus ? "-" : ""
-        text.reserveCapacity(text.utf8.count + radix.exponent * chunkCountUpperBound)
-        //=--------------------------------------=
-        withUnsafeTemporaryAllocation(of: UInt.self, capacity:  chunkCountUpperBound) { CHUNKS in
-            //=----------------------------------=
-            var index = CHUNKS.startIndex
+        return withUnsafeTemporaryAllocation(of: UInt.self, capacity: chunkCountUpperBound) { CACHE in
+            var index = CACHE.startIndex
             //=----------------------------------=
             assert(!magnitude.isZero)
-            forwards: repeat {
+            forwards: while true {
                 let division = magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
-                magnitude = division.quotient as Self
-                CHUNKS[index] = division.remainder as UInt
-                CHUNKS.formIndex(after: &index)
-            } while !magnitude.isZero
+                magnitude = division.quotient as Magnitude
+                CACHE[index] = division.remainder  as UInt
+                if  magnitude.isZero { break }
+                CACHE.formIndex(after: &index)
+            }
             //=----------------------------------=
-            CHUNKS.formIndex(before: &index)
-            text += String(CHUNKS[index], radix: radix.base, uppercase: uppercase)
+            var text = value.sign != .plus ? "-" : ""
+            text += String(CACHE[index], radix: radix.base, uppercase: uppercase)
+            let size = text.utf8.count + radix.exponent * index
+            text.reserveCapacity(size)
             //=----------------------------------=
-            backwards: while index != CHUNKS.startIndex {
-                CHUNKS.formIndex(before:   &index)
-                let digits  = String(CHUNKS[index], radix: radix.base, uppercase: uppercase)
+            backwards: while index != CACHE.startIndex {
+                CACHE.formIndex(before: &index)
+                let digits  = String(CACHE[index], radix: radix.base, uppercase: uppercase)
                 let padding = radix.exponent &- digits.utf8.count
                 if !padding.isZero { text += repeatElement("0", count: padding) }
                 text += digits
             }
+            //=----------------------------------=
+            assert(text.utf8.count == size)
+            return text
         }
-        //=--------------------------------------=
-        return text
     }
 }
