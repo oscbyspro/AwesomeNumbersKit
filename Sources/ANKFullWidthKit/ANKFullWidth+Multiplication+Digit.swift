@@ -82,6 +82,7 @@ extension ANKFullWidth {
             for index in LHS.indices {
                 //=------------------------------=
                 let lhsWord = LHS[index] as UInt
+                //=------------------------------=
                 (high, LOW[index]) = high.addingFullWidth(multiplicands:(lhsWord, rhsWord))
                 //=------------------------------=
                 if  rhsIsLessThanZero {

@@ -169,7 +169,8 @@ extension ANKFullWidth where High == High.Magnitude {
         remainder._bitshiftLeft(words: Int(), bits: shift)
         //=--------------------------------------=
         assert(divisor_.minLastIndex >= 1)
-        assert(divisor_.minLastIndex <= remainder_.minLastIndex)
+        assert(divisor_.minLastIndex <= remainder_.minLastIndex )
+        assert(divisor[divisor_.minLastIndex].mostSignificantBit)
         //=--------------------------------------=
         // Division
         //=--------------------------------------=
@@ -211,8 +212,6 @@ extension ANKFullWidth where High == High.Magnitude {
         // Undo Shift Before Division
         //=--------------------------------------=
         remainder._bitshiftRight(words: Int(), bits: shift)
-        //=--------------------------------------=
-        assert(remainder.high.isZero)
         //=--------------------------------------=
         return QR(quotient, remainder.low)
     }

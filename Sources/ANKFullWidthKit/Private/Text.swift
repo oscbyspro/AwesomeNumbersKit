@@ -62,8 +62,6 @@ import ANKFoundation
         assert(radix >= 2)
         assert(radix.isPowerOf2)
         //=--------------------------------------=
-        // Fast Path
-        //=--------------------------------------=
         let zeros: Int = radix.trailingZeroBitCount
         //=--------------------------------------=
         // Radix == 2,  4, 16, 256, ...
