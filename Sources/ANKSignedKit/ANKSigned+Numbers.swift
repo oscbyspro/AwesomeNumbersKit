@@ -53,8 +53,9 @@ extension ANKSigned {
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        guard let magnitude  = Magnitude(exactly: source.magnitude) else { return nil }
-        self.init(magnitude, as: ANKSign(source < 0))
+        guard let magnitude = Magnitude(exactly: source.magnitude) else { return nil }
+        let sign = ANKSign(source < 0)
+        self.init(magnitude, as: sign)
     }
     
     @inlinable public init(clamping source: some BinaryInteger) {
@@ -75,6 +76,8 @@ extension ANKSigned {
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(Magnitude(clamping: source.magnitude), as: ANKSign(source < 0))
+        let sign = ANKSign(source < 0)
+        let magnitude = Magnitude(clamping: source.magnitude)
+        self.init(magnitude, as: sign)
     }
 }

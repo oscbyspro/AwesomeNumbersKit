@@ -23,8 +23,8 @@
 /// This is deliberate and enables sign transformations such as `sign.toggle()`
 /// when `magnitude.isZero`.
 ///
-/// - use `isLessThanZero` to check if the integer is negative
-/// - use `isMoreThanZero` to check if the integer is positive
+/// - use `isLessThanZero` to check if the integer is `negative`
+/// - use `isMoreThanZero` to check if the integer is `positive`
 ///
 /// **Fast Digit Arithmetic**
 ///
@@ -46,10 +46,14 @@
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    /// The positive zero value.
+    ///
+    /// Positive and negative zero are equal and have the same hash value.
+    ///
     @inlinable public static var zero: Self {
         Self()
     }
-        
+    
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
@@ -61,7 +65,7 @@
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    /// Creates a new instance equal to zero.
+    /// Creates a new instance with a positive zero value.
     @inlinable public init() {
         self.init(Magnitude(), as: ANKSign.plus)
     }

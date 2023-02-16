@@ -165,8 +165,8 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     
     /// Creates a new instance from the two's complement bit pattern of the given integer.
     ///
-    /// - The two's complement representation of `+0` contains an infinite number of `0s`.
-    /// - The two's complement representation of `-1` contains an infinite number of `1s`.
+    /// - The two's complement representation of `+0` is an infinite sequence of `0s`.
+    /// - The two's complement representation of `-1` is an infinite sequence of `1s`.
     ///
     init(truncatingIfNeeded source: ANKSigned<Magnitude>)
 }

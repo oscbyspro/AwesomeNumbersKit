@@ -15,7 +15,7 @@
 ///
 /// Bitwise operations assume that `plus` equals `0` and `minus` equals `1`.
 ///
-@frozen public enum ANKSign: CustomStringConvertible, Equatable {
+@frozen public enum ANKSign: CustomStringConvertible, Hashable {
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -53,7 +53,7 @@
     /// minus // 0x01
     /// ```
     ///
-    @_transparent @usableFromInline var _data: UInt8 {
+    @_transparent @usableFromInline var data: UInt8 {
         unsafeBitCast(self, to: UInt8.self)
     }
     
@@ -74,7 +74,7 @@
     //=------------------------------------------------------------------------=
     
     @_transparent public static func ==(lhs: Self, rhs: Self) -> Bool {
-        lhs._data == rhs._data
+        lhs.data == rhs.data
     }
 }
 
@@ -116,7 +116,7 @@ extension ANKSign {
     /// ```
     ///
     @_transparent public static func &(lhs: Self, rhs: Self) -> Self {
-        unsafeBitCast(lhs._data & rhs._data,  to: Self.self)
+        unsafeBitCast(lhs.data & rhs.data, to: Self.self)
     }
     
     /// Forms `minus` if at least one sign is `minus`, and `plus` otherwise.
@@ -142,7 +142,7 @@ extension ANKSign {
     /// ```
     ///
     @_transparent public static func |(lhs: Self, rhs: Self) -> Self {
-        unsafeBitCast(lhs._data | rhs._data,  to: Self.self)
+        unsafeBitCast(lhs.data | rhs.data, to: Self.self)
     }
     
     /// Forms `minus` if exactly one sign is `minus`, and `plus` otherwise.
@@ -168,6 +168,6 @@ extension ANKSign {
     /// ```
     ///
     @_transparent public static func ^(lhs: Self, rhs: Self) -> Self {
-        unsafeBitCast(lhs._data ^ rhs._data,  to: Self.self)
+        unsafeBitCast(lhs.data ^ rhs.data, to: Self.self)
     }
 }

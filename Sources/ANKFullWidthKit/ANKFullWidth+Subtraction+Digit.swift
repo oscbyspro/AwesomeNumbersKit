@@ -54,9 +54,8 @@ extension ANKFullWidth {
             var borrow: Bool = LHS[index].subtractReportingOverflow(UInt(bitPattern: amount))
             LHS.formIndex(after:  &index)
             //=----------------------------------=
-            let decrement = rhsWasLessThanZero ? ~0 : 1 as UInt // -1 vs +1
-            //=----------------------------------=
-            borrowing: while borrow != rhsWasLessThanZero, index != LHS.endIndex {
+            let decrement = rhsWasLessThanZero ? UInt(bitPattern: -1) : 1
+            while borrow != rhsWasLessThanZero, index != LHS.endIndex {
                 borrow = LHS[index].subtractReportingOverflow(decrement)
                 LHS.formIndex(after: &index)
             }

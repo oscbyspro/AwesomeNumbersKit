@@ -34,7 +34,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public static var lastIndex: Int {
-        self.count - 1
+        self.count &- 1
     }
     
     @inlinable public static var indices: Range<Int> {
@@ -87,7 +87,7 @@ extension ANKFullWidth {
     }
     
     public subscript(index: Int) -> UInt {
-        @_transparent _read { precondition(self.indices.contains(index)); yield self[unchecked: index] /*------*/ }
-        @_transparent  set  { precondition(self.indices.contains(index)); /*-*/ self[unchecked: index] = newValue }
+        @_transparent _read { precondition(self.indices ~= index); yield self[unchecked: index] /*------*/ }
+        @_transparent  set  { precondition(self.indices ~= index); /*-*/ self[unchecked: index] = newValue }
     }
 }

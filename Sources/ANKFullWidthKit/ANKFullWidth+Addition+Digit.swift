@@ -54,9 +54,8 @@ extension ANKFullWidth {
             var carry: Bool = LHS[index].addReportingOverflow(UInt(bitPattern: amount))
             LHS.formIndex(after: &index)
             //=----------------------------------=
-            let increment = rhsWasLessThanZero ? ~0 : 1 as UInt // -1 vs +1
-            //=----------------------------------=
-            carrying: while carry != rhsWasLessThanZero, index != LHS.endIndex {
+            let increment = rhsWasLessThanZero ? UInt(bitPattern: -1) : 1
+            while carry  != rhsWasLessThanZero, index != LHS.endIndex {
                 carry = LHS[index].addReportingOverflow(increment)
                 LHS.formIndex(after: &index)
             }

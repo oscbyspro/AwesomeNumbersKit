@@ -22,7 +22,9 @@ extension ANKSigned: SignedNumeric {
     //=------------------------------------------------------------------------=
     
     @inlinable public init(bit: Bool) {
-        self.init(Magnitude(bit: bit), as: ANKSign.plus)
+        let sign = ANKSign.plus
+        let magnitude = Magnitude(bit: bit)
+        self.init(magnitude, as: sign)
     }
 }
 
@@ -39,7 +41,9 @@ extension ANKSigned where Magnitude: ANKLargeBinaryInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public init(digit: Digit) {
-        self.init(Magnitude(digit: digit.magnitude), as: digit.sign)
+        let sign = digit.sign
+        let magnitude = Magnitude(digit: digit.magnitude)
+        self.init(magnitude, as: sign)
     }
 }
 

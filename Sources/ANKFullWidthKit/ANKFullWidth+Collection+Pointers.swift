@@ -52,7 +52,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     }
     
     @inlinable static var lastIndex: Int {
-        self.count - 1
+        self.count &- 1
     }
     
     @inlinable static var indices: Range<Int> {
@@ -88,27 +88,29 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     
     @inlinable public func index(after index: Int) -> Int {
-        assert((/*-----------*/     self.endIndex) > index)
-        assert((self.startIndex ... self.endIndex).contains(index))
-        return index &+ 1
+        let value = index &+ 1
+        assert(self.startIndex ... self.endIndex ~= index)
+        assert(self.startIndex ... self.endIndex ~= value)
+        return value  as Index
     }
     
     @inlinable public func index(before index: Int) -> Int {
-        assert((self.startIndex     /*---------*/) < index)
-        assert((self.startIndex ... self.endIndex).contains(index))
-        return index &- 1
+        let value = index &- 1
+        assert(self.startIndex ... self.endIndex ~= index)
+        assert(self.startIndex ... self.endIndex ~= value)
+        return value  as Index
     }
     
     @inlinable public func index(_ index: Int, offsetBy distance: Int) -> Int {
-        let next = index &+ distance
-        assert((self.startIndex ... self.endIndex).contains(index))
-        assert((self.startIndex ... self.endIndex).contains(next ))
-        return next
+        let value = index &+ distance
+        assert(self.startIndex ... self.endIndex ~= index)
+        assert(self.startIndex ... self.endIndex ~= value)
+        return value  as Index
     }
     
     @inlinable public func distance(from start: Int, to end: Int) -> Int {
-        assert((self.startIndex ... self.endIndex).contains(start))
-        assert((self.startIndex ... self.endIndex).contains(end  ))
+        assert(self.startIndex ... self.endIndex ~= start)
+        assert(self.startIndex ... self.endIndex ~= end  )
         return end &- start
     }
 }
@@ -145,7 +147,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     
     public subscript(index: Int) -> UInt {
         @_transparent _read {
-            assert(self.indices.contains(index))
+            assert(self.indices ~= index)
             #if _endian(big)
             yield self.base[self.lastIndex &- index]
             #else
@@ -187,7 +189,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     
     public subscript(index: Int) -> UInt {
         @_transparent _read {
-            assert(self.indices.contains(index))
+            assert(self.indices ~= index)
             #if _endian(big)
             yield self.base[self.lastIndex &- index]
             #else
@@ -196,7 +198,7 @@ extension ANKFullWidthUnsafeWordsPointer {
         }
         
         @_transparent nonmutating _modify {
-            assert(self.indices.contains(index))
+            assert(self.indices ~= index)
             #if _endian(big)
             yield &self.base[self.lastIndex &- index]
             #else

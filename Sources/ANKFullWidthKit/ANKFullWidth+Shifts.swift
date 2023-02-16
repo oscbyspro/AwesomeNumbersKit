@@ -28,7 +28,7 @@ extension ANKFullWidth {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int x Internal
+    // MARK: Transformations x Int
     //=------------------------------------------------------------------------=
     
     /// - Parameters:
@@ -42,7 +42,7 @@ extension ANKFullWidth {
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable func _bitshiftedLeft(by amount: Int) -> Self {
-        assert(0 <= amount &&  amount < Self.bitWidth)
+        assert(0 ..< Self.bitWidth ~= amount)
         let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
         let bits:  Int = amount &  (UInt.bitWidth &- 1)
         return self._bitshiftedLeft(words: words, bits: bits)
@@ -61,8 +61,8 @@ extension ANKFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable func _bitshiftedLeft(words: Int, bits: Int) -> Self {
-        assert(0 <= words && words < self.endIndex)
-        assert(0 <= bits  && bits  < UInt.bitWidth)
+        assert(0 ..< self.endIndex ~= words)
+        assert(0 ..< UInt.bitWidth ~= bits )
         //=--------------------------------------=
         var next = Self()
         //=--------------------------------------=
@@ -113,7 +113,7 @@ extension ANKFullWidth {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations x Int x Internal
+    // MARK: Transformations x Int
     //=------------------------------------------------------------------------=
     
     /// - Parameters:
@@ -127,7 +127,7 @@ extension ANKFullWidth {
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable func _bitshiftedRight(by amount: Int) -> Self {
-        assert(0 <= amount &&  amount < Self.bitWidth)
+        assert(0 ..< Self.bitWidth ~= amount)
         let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
         let bits:  Int = amount &  (UInt.bitWidth &- 1)
         return self._bitshiftedRight(words: words, bits: bits)
@@ -146,8 +146,8 @@ extension ANKFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable func _bitshiftedRight(words: Int, bits: Int) -> Self {
-        assert(0 <= words && words < self.endIndex)
-        assert(0 <= bits  && bits  < UInt.bitWidth)
+        assert(0 ..< self.endIndex ~= words)
+        assert(0 ..< UInt.bitWidth ~= bits )
         //=--------------------------------------=
         let isLessThanZero = self.isLessThanZero as Bool
         var next: Self = Self(repeating: isLessThanZero)

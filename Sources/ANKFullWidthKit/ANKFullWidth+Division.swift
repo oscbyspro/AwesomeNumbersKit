@@ -150,13 +150,17 @@ extension ANKFullWidth where High == High.Magnitude {
         let divisor_ = divisor.minLastIndexReportingIsZeroOrMinusOne()
         precondition(!divisor_.isZeroOrMinusOne, "division by zero")
         //=--------------------------------------=
+        // Fast: Dividend <= Divisor
+        //=--------------------------------------=
         if  self <= divisor {
             return self == divisor ? QR(1, Self()) : QR(Self(), self)
         }
         //=--------------------------------------=
+        // Fast: Divisor Is One Word
+        //=--------------------------------------=
         if  divisor_.minLastIndex.isZero {
             let qr: QR<Self, Digit> = self.quotientAndRemainder(dividingBy: divisor.first)
-            return  QR(qr.quotient, Self(digit: qr.remainder))
+            return  QR(qr.quotient,   Self(digit: qr.remainder))
         }
         //=--------------------------------------=
         // Shift To Clamp Approximation Range
@@ -192,8 +196,8 @@ extension ANKFullWidth where High == High.Magnitude {
                     return divisorLast0.dividingFullWidth(HL(remainderLast0, remainderLast1)).quotient
                 }
                 //=------------------------------=
-                let increment     = Plus1(descending: HL(UInt(), divisor._bitshiftedLeft(words: quotientIndex, bits: Int())))
-                var approximation = Plus1(descending: increment.low.multipliedFullWidth(by: digit)  as  HL<Digit, Magnitude>)
+                let increment = Plus1(descending: HL(UInt(), divisor._bitshiftedLeft(words: quotientIndex, bits: Int())))
+                var approximation = Plus1(descending: increment.low.multipliedFullWidth(by: digit) as HL<Digit, Magnitude>)
                 //=------------------------------=
                 // Decrement When Overestimated
                 //=------------------------------=
