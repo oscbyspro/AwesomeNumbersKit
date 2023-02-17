@@ -11,11 +11,11 @@
 // MARK: * ANK x Int Or UInt
 //*============================================================================*
 
-/// A type that is either Int or UInt.
+/// A type that is either `Int` or `UInt`.
 ///
 ///  Only `Int` and `UInt` in the standard library may conform to this protocol.
 ///
-public protocol ANKIntOrUInt: ANKLargeFixedWidthInteger<Self>, ANKTrivialFixedWidthInteger where Magnitude == UInt { }
+public protocol ANKIntOrUInt: ANKCoreInteger, ANKLargeFixedWidthInteger<Self> where Magnitude == UInt { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Fixes Marked As Unavailable in /Integers.swift

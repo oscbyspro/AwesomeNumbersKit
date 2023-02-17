@@ -8,10 +8,10 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Trivial
+// MARK: * ANK x Fixed Width Integer x Core
 //*============================================================================*
 
-/// An awesome, fixed-width, binary integer with trivial implementation.
+/// An awesome, fixed-width, binary integer.
 ///
 /// Only the following types in the standard library may conform to this protocol:
 ///
@@ -26,13 +26,13 @@
 /// - `UInt32`
 /// - `UInt64`
 ///
-public protocol ANKTrivialFixedWidthInteger: ANKBigEndianTextCodable, ANKFixedWidthInteger, ANKUnsafeRawInteger where BitPattern == Magnitude { }
+public protocol ANKCoreInteger: ANKBigEndianTextCodable, ANKFixedWidthInteger, ANKTrivialContiguousBytes where BitPattern == Magnitude { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension ANKTrivialFixedWidthInteger {
+extension ANKCoreInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -109,7 +109,7 @@ extension ANKTrivialFixedWidthInteger {
 // MARK: + Details x Bit Pattern
 //=----------------------------------------------------------------------------=
 
-extension ANKTrivialFixedWidthInteger {
+extension ANKCoreInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
@@ -128,7 +128,7 @@ extension ANKTrivialFixedWidthInteger {
 // MARK: + Details x Two's Complement
 //=----------------------------------------------------------------------------=
 
-extension ANKTrivialFixedWidthInteger {
+extension ANKCoreInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -147,7 +147,7 @@ extension ANKTrivialFixedWidthInteger {
 // MARK: + Details x Big Endian Text Codable
 //=----------------------------------------------------------------------------=
 
-extension ANKTrivialFixedWidthInteger {
+extension ANKCoreInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
@@ -165,10 +165,10 @@ extension ANKTrivialFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Signed x Trivial
+// MARK: * ANK x Fixed Width Integer x Signed x Core
 //*============================================================================*
 
-extension ANKTrivialFixedWidthInteger where Self: ANKSignedFixedWidthInteger {
+extension ANKCoreInteger where Self: ANKSignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -185,45 +185,45 @@ extension ANKTrivialFixedWidthInteger where Self: ANKSignedFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Trivial x Swift
+// MARK: * ANK x Fixed Width Integer x Core x Swift
 //*============================================================================*
 
-extension Int: ANKTrivialFixedWidthInteger, ANKSignedFixedWidthInteger {
+extension Int: ANKCoreInteger, ANKSignedFixedWidthInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension Int8: ANKTrivialFixedWidthInteger, ANKSignedFixedWidthInteger {
+extension Int8: ANKCoreInteger, ANKSignedFixedWidthInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension Int16: ANKTrivialFixedWidthInteger, ANKSignedFixedWidthInteger {
+extension Int16: ANKCoreInteger, ANKSignedFixedWidthInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension Int32: ANKTrivialFixedWidthInteger, ANKSignedFixedWidthInteger {
+extension Int32: ANKCoreInteger, ANKSignedFixedWidthInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension Int64: ANKTrivialFixedWidthInteger, ANKSignedFixedWidthInteger {
+extension Int64: ANKCoreInteger, ANKSignedFixedWidthInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension UInt: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger {
+extension UInt: ANKCoreInteger, ANKUnsignedFixedWidthInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension UInt8: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger {
+extension UInt8: ANKCoreInteger, ANKUnsignedFixedWidthInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension UInt16: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger {
+extension UInt16: ANKCoreInteger, ANKUnsignedFixedWidthInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension UInt32: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger {
+extension UInt32: ANKCoreInteger, ANKUnsignedFixedWidthInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension UInt64: ANKTrivialFixedWidthInteger, ANKUnsignedFixedWidthInteger {
+extension UInt64: ANKCoreInteger, ANKUnsignedFixedWidthInteger {
     public typealias BitPattern = Magnitude
 }

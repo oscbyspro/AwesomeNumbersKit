@@ -13,18 +13,18 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x ANKUnsafeRawInteger
+// MARK: * Types x ANKCoreInteger
 //*============================================================================*
 
-final class TypesTestsOnANKUnsafeRawInteger: XCTestCase {
+final class TypesTestsOnANKCoreInteger: XCTestCase {
     
-    typealias T = any ANKUnsafeRawInteger.Type
+    typealias T = any ANKCoreInteger.Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types: [T] = Types.ANKUnsafeRawInteger
+    let types: [T] = Types.ANKCoreInteger
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -35,7 +35,7 @@ final class TypesTestsOnANKUnsafeRawInteger: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Contiguous Bytes
     //=------------------------------------------------------------------------=
     
     func testWithUnsafeBytes() {

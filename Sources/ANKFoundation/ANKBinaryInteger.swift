@@ -218,7 +218,7 @@ extension ANKBinaryInteger where Self: FixedWidthInteger {
 }
 
 //=----------------------------------------------------------------------------=
-// MARK: Details x Sign & Magnitude
+// MARK: + Details x Sign & Magnitude
 //=----------------------------------------------------------------------------=
 
 extension ANKBinaryInteger where BitPattern == Magnitude.BitPattern {
