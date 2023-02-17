@@ -19,5 +19,10 @@ public protocol ANKMutableContiguousBytes: ANKContiguousBytes {
     //=------------------------------------------------------------------------=
     
     /// Calls the given closure with read-write access to this value's data.
+    ///
+    /// ```
+    /// var x = UInt256(1).bigEndian; x.withUnsafeMutableBytes({ _ in })
+    /// ```
+    ///
     @inlinable mutating func withUnsafeMutableBytes<T>(_ body: (UnsafeMutableRawBufferPointer) throws -> T) rethrows -> T
 }

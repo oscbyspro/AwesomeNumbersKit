@@ -13,7 +13,7 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x Fixed Width Integer x Large
+// MARK: * Types x ANKLargeFixedWidthInteger
 //*============================================================================*
 
 final class TypesTestsOnANKLargeFixedWidthInteger: XCTestCase {

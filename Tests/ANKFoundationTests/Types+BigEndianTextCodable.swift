@@ -13,7 +13,7 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x Big Endian Text Codable
+// MARK: * Types x ANKBigEndianTextCodable
 //*============================================================================*
 
 final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {

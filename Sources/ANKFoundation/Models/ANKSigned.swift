@@ -48,7 +48,7 @@
     
     /// The positive zero value.
     ///
-    /// Positive and negative zero are equal and have the same hash value.
+    /// Positive and negative zero are equal and have the same `hashValue`.
     ///
     @inlinable public static var zero: Self {
         Self()
@@ -81,7 +81,7 @@
     
     /// - Returns: `true` for all values except negative zero where it returns `false`
     @inlinable public var isNormal: Bool {
-        self.sign == .plus || !self.isZero
+        self.sign == ANKSign.plus || !self.isZero
     }
     
     /// - Returns: `sign` for all values except negative zero where it returns `plus`

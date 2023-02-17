@@ -13,7 +13,7 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x Binary Integer x Large
+// MARK: * Types x ANKLargeBinaryInteger
 //*============================================================================*
 
 final class TypesTestsOnANKLargeBinaryInteger: XCTestCase {

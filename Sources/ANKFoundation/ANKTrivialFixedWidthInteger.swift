@@ -26,8 +26,7 @@
 /// - `UInt32`
 /// - `UInt64`
 ///
-public protocol ANKTrivialFixedWidthInteger: ANKBigEndianTextCodable, ANKMutableContiguousBytes,
-ANKFixedWidthInteger where BitPattern == Magnitude { }
+public protocol ANKTrivialFixedWidthInteger: ANKBigEndianTextCodable, ANKFixedWidthInteger, ANKUnsafeRawInteger where BitPattern == Magnitude { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -122,25 +121,6 @@ extension ANKTrivialFixedWidthInteger {
         
     @_transparent public var bitPattern: BitPattern {
         return unsafeBitCast(self, to: BitPattern.self)
-    }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details x Contiguous Bytes
-//=----------------------------------------------------------------------------=
-
-extension ANKTrivialFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public func withUnsafeBytes<T>(_ body: (UnsafeRawBufferPointer) throws -> T) rethrows -> T {
-        try Swift.withUnsafeBytes(of: self, body)
-    }
-    
-    @_transparent public mutating func withUnsafeMutableBytes<T>(_ body: (UnsafeMutableRawBufferPointer) throws -> T) rethrows -> T {
-        try Swift.withUnsafeMutableBytes(of: &self, body)
     }
 }
 

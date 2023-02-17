@@ -13,7 +13,7 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x Binary Integer x Signed
+// MARK: * Types x ANKBinaryInteger
 //*============================================================================*
 
 final class TypesTestsOnANKBinaryInteger: XCTestCase {

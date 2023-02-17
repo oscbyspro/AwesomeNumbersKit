@@ -56,15 +56,8 @@ enum Types {
     static let ANKUnsignedLargeFixedWidthInteger =
     ANKBinaryInteger.compactMap({ $0 as? any ANKUnsignedLargeFixedWidthInteger.Type })
     
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    static let ANKContiguousBytes =
-    ANKBinaryInteger.compactMap({ $0 as? any (ANKBinaryInteger & ANKContiguousBytes).Type })
-    
-    static let ANKMutableContiguousBytes =
-    ANKBinaryInteger.compactMap({ $0 as? any (ANKBinaryInteger & ANKMutableContiguousBytes).Type })
+    static let ANKUnsafeRawInteger =
+    ANKBinaryInteger.compactMap({ $0 as? any ANKUnsafeRawInteger.Type })
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

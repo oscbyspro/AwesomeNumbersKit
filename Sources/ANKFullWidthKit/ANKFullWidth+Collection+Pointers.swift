@@ -226,7 +226,7 @@ extension ANKFullWidth {
     ///
     @_transparent public func withUnsafeWordsPointer<T>(
     _ body: (UnsafeWordsPointer<BitPattern>) throws -> T) rethrows -> T {
-        try withUnsafePointer(to: self) {  SELF in
+        try Swift.withUnsafePointer(to: self) {  SELF in
             try SELF.withMemoryRebound(to: UInt.self, capacity: Self.count) { WORDS in
                 try body(UnsafeWordsPointer(WORDS))
             }
@@ -241,7 +241,7 @@ extension ANKFullWidth {
     ///
     @_transparent public mutating func withUnsafeMutableWordsPointer<T>(
     _ body: (UnsafeMutableWordsPointer<BitPattern>) throws -> T) rethrows -> T {
-        try withUnsafeMutablePointer(to: &self) { SELF in
+        try Swift.withUnsafeMutablePointer(to: &self) { SELF in
             try SELF.withMemoryRebound(to: UInt.self, capacity: Self.count) { WORDS in
                 try body(UnsafeMutableWordsPointer(WORDS))
             }
@@ -256,7 +256,7 @@ extension ANKFullWidth {
     ///
     @_transparent public static func fromUnsafeMutableWordsAllocation(
     _ body: (UnsafeMutableWordsPointer<BitPattern>) throws -> Void) rethrows -> Self {
-        try withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
+        try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
             let SELF = BUFFER.baseAddress.unsafelyUnwrapped
             try SELF.withMemoryRebound(to: UInt.self, capacity: Self.count) { WORDS in
                 try body(UnsafeMutableWordsPointer(WORDS))

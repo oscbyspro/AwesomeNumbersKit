@@ -13,7 +13,7 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x Int Or UInt
+// MARK: * Types x ANKIntOrUInt
 //*============================================================================*
 
 final class TypesTestsOnANKIntOrUInt: XCTestCase {
