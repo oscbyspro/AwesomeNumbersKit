@@ -73,8 +73,8 @@ extension ANKFullWidth {
         let rhsIsLessThanZero: Bool = amount.isLessThanZero
         //=--------------------------------------=
         var high = UInt()
-        let low: Magnitude = self.withUnsafeWordsPointer { LHS in
-        Magnitude.fromUnsafeMutableWordsAllocation { LOW in
+        let low: Magnitude = self.withUnsafeWords { LHS in
+        Magnitude.fromUnsafeMutableWords { LOW in
             //=----------------------------------=
             let rhsWord = UInt(bitPattern: amount)
             var rhsIsLessThanZeroCarry = rhsIsLessThanZero

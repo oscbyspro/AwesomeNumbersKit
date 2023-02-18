@@ -66,8 +66,8 @@ extension ANKFullWidth {
         //=--------------------------------------=
         var next = Self()
         //=--------------------------------------=
-        next.withUnsafeMutableWordsPointer { NEXT in
-        self.withUnsafeWordsPointer { SELF in
+        next.withUnsafeMutableWords { NEXT in
+        self.withUnsafeWords { SELF in
             let a: Int = bits
             let b: Int = UInt.bitWidth &- bits
             
@@ -152,8 +152,8 @@ extension ANKFullWidth {
         let isLessThanZero = self.isLessThanZero as Bool
         var next: Self = Self(repeating: isLessThanZero)
         //=--------------------------------------=
-        next.withUnsafeMutableWordsPointer { NEXT in
-        self.withUnsafeWordsPointer { SELF in
+        next.withUnsafeMutableWords { NEXT in
+        self.withUnsafeWords { SELF in
             let a: Int = bits
             let b: Int = UInt.bitWidth &- bits
             

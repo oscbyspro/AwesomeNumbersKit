@@ -74,7 +74,7 @@ extension ANKFullWidth {
     ///
     @inlinable public func minLastIndexReportingIsZeroOrMinusOne() -> (minLastIndex: Int, isZeroOrMinusOne: Bool) {
         let sign:  UInt = UInt(repeating: self.isLessThanZero)
-        let index: Int? = self.withUnsafeWordsPointer({ SELF in SELF.lastIndex(where:{ word in word != sign }) })
+        let index: Int? = self.withUnsafeWords({ SELF in SELF.lastIndex(where:{ word in word != sign }) })
         return index.map({( $0, false )}) ?? (0, true)
     }
     

@@ -82,8 +82,8 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @usableFromInline subscript(unchecked index: Int) -> UInt {
-        @_transparent _read { yield  self.withUnsafeWordsPointer({ $0[index] /*------*/ }) }
-        @_transparent  set  { self.withUnsafeMutableWordsPointer({ $0[index] = newValue }) }
+        @_transparent _read { yield  self.withUnsafeWords({ $0[index] /*------*/ }) }
+        @_transparent  set  { self.withUnsafeMutableWords({ $0[index] = newValue }) }
     }
     
     public subscript(index: Int) -> UInt {

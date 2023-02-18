@@ -49,7 +49,7 @@ extension ANKFullWidth {
         let lhsWasLessThanZero: Bool =   self.isLessThanZero
         let rhsWasLessThanZero: Bool = amount.isLessThanZero
         //=--------------------------------------=
-        let borrow: Bool = self.withUnsafeMutableWordsPointer { LHS in
+        let borrow: Bool = self.withUnsafeMutableWords { LHS in
             var index = LHS.startIndex
             var borrow: Bool = LHS[index].subtractReportingOverflow(UInt(bitPattern: amount))
             LHS.formIndex(after:  &index)

@@ -43,11 +43,11 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public var byteSwapped: Self {
-        Self.fromUnsafeMutableWordsAllocation { NEXT in
-        self.withUnsafeWordsPointer { SELF in
+        Self.fromUnsafeMutableWords { RESULT in
+        self.withUnsafeWords { SELF in
             for index in  SELF.indices {
                 let word: UInt = SELF[index].byteSwapped
-                NEXT[SELF.lastIndex - index] = word
+                RESULT[RESULT.lastIndex &- index] = word
             }
         }}
     }

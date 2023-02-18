@@ -178,7 +178,7 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         // Division
         //=--------------------------------------=
-        var quotient = Self(); quotient.withUnsafeMutableWordsPointer { QUOTIENT in
+        var quotient = Self(); quotient.withUnsafeMutableWords { QUOTIENT in
             var remainderIndex = remainder_.minLastIndex &+ 1
             var  quotientIndex = remainderIndex &-  divisor_.minLastIndex
             let   divisorLast0 = divisor[unchecked: divisor_.minLastIndex]
@@ -188,7 +188,7 @@ extension ANKFullWidth where High == High.Magnitude {
                 //=------------------------------=
                 // Approximate Quotient Digit
                 //=------------------------------=
-                var digit: UInt = remainder.withUnsafeWordsPointer { REMAINDER in
+                var digit: UInt = remainder.withUnsafeWords { REMAINDER in
                     let  remainderLast0  = REMAINDER[remainderIndex]
                     REMAINDER.formIndex(before:/*-*/&remainderIndex)
                     if   remainderLast0 >= divisorLast0 { return UInt.max }

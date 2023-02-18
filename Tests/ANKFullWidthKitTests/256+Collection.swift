@@ -75,26 +75,26 @@ final class Int256TestsOnCollection: XCTestCase {
     // MARK: Tests x Words
     //=------------------------------------------------------------------------=
     
-    func testWithUnsafeWordsPointer() {
+    func testWithUnsafeWords() {
         let x0 = T(truncatingIfNeeded:  0)
         let x1 = T(truncatingIfNeeded: -1)
         
-        x0.withUnsafeWordsPointer { WORDS in
+        x0.withUnsafeWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
             XCTAssert(WORDS.allSatisfy({  $0 == UInt.min }))
         }
         
-        x1.withUnsafeWordsPointer { WORDS in
+        x1.withUnsafeWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
             XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))
         }
     }
     
-    func testWithUnsafeMutableWordsPointer() {
+    func testWithUnsafeMutableWords() {
         var x0 = T(truncatingIfNeeded:  0)
         let x1 = T(truncatingIfNeeded: -1)
                 
-        x0.withUnsafeMutableWordsPointer { WORDS in
+        x0.withUnsafeMutableWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
             XCTAssert(WORDS.allSatisfy({  $0  == UInt.min }))
             WORDS.indices.forEach({ WORDS[$0]  = UInt.max })
@@ -102,17 +102,17 @@ final class Int256TestsOnCollection: XCTestCase {
         };  XCTAssertEqual(x0, x1)
     }
     
-    func testFromUnsafeMutableWordsAllocation() {
+    func testFromUnsafeMutableWords() {
         let x0 = T(truncatingIfNeeded:  0)
         let x1 = T(truncatingIfNeeded: -1)
                 
-        let y0 = T.fromUnsafeMutableWordsAllocation { WORDS in
+        let y0 = T.fromUnsafeMutableWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
             WORDS.indices.forEach({ WORDS[$0] = UInt.min })
             XCTAssert(WORDS.allSatisfy({  $0 == UInt.min }))
         };  XCTAssertEqual(x0, y0)
         
-        let y1 = T.fromUnsafeMutableWordsAllocation { WORDS in
+        let y1 = T.fromUnsafeMutableWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
             WORDS.indices.forEach({ WORDS[$0] = UInt.max })
             XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))
@@ -180,26 +180,26 @@ final class UInt256TestsOnCollection: XCTestCase {
     // MARK: Tests x Words
     //=------------------------------------------------------------------------=
     
-    func testWithUnsafeWordsPointer() {
+    func testWithUnsafeWords() {
         let x0 = T(truncatingIfNeeded:  0)
         let x1 = T(truncatingIfNeeded: -1)
         
-        x0.withUnsafeWordsPointer { WORDS in
+        x0.withUnsafeWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
             XCTAssert(WORDS.allSatisfy({  $0 == UInt.min }))
         }
         
-        x1.withUnsafeWordsPointer { WORDS in
+        x1.withUnsafeWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
             XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))
         }
     }
     
-    func testWithUnsafeMutableWordsPointer() {
+    func testWithUnsafeMutableWords() {
         var x0 = T(truncatingIfNeeded:  0)
         let x1 = T(truncatingIfNeeded: -1)
                 
-        x0.withUnsafeMutableWordsPointer { WORDS in
+        x0.withUnsafeMutableWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
             XCTAssert(WORDS.allSatisfy({  $0  == UInt.min }))
             WORDS.indices.forEach({ WORDS[$0]  = UInt.max })
@@ -207,17 +207,17 @@ final class UInt256TestsOnCollection: XCTestCase {
         };  XCTAssertEqual(x0, x1)
     }
     
-    func testFromUnsafeMutableWordsAllocation() {
+    func testFromUnsafeMutableWords() {
         let x0 = T(truncatingIfNeeded:  0)
         let x1 = T(truncatingIfNeeded: -1)
                 
-        let y0 = T.fromUnsafeMutableWordsAllocation { WORDS in
+        let y0 = T.fromUnsafeMutableWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
             WORDS.indices.forEach({ WORDS[$0] = UInt.min })
             XCTAssert(WORDS.allSatisfy({  $0 == UInt.min }))
         };  XCTAssertEqual(x0, y0)
         
-        let y1 = T.fromUnsafeMutableWordsAllocation { WORDS in
+        let y1 = T.fromUnsafeMutableWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
             WORDS.indices.forEach({ WORDS[$0] = UInt.max })
             XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))

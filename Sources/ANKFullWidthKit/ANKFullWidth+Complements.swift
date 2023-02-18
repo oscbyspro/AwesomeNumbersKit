@@ -40,7 +40,7 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func formTwosComplement() {
-        self.withUnsafeMutableWordsPointer { SELF in
+        self.withUnsafeMutableWords { SELF in
             var carry: Bool = true
             for index: Int in SELF.indices {
                 var word: UInt = ~SELF[index]

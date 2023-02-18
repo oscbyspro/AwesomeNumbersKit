@@ -122,7 +122,7 @@ extension ANKFullWidth where High == High.Magnitude {
         var quotient  = self
         var remainder = UInt()
         //=--------------------------------------=
-        quotient.withUnsafeMutableWordsPointer { QUOTIENT in
+        quotient.withUnsafeMutableWords { QUOTIENT in
             //=----------------------------------=
             var quotientIndex: Int = QUOTIENT.endIndex
             //=----------------------------------=

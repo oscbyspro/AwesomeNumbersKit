@@ -224,9 +224,9 @@ extension ANKFullWidth {
     ///   unchecked subscript access and wrapping index arithmetic. So, don't
     ///   do stupid stuff. Understood? Cool. Let's go!
     ///
-    @_transparent public func withUnsafeWordsPointer<T>(
+    @_transparent public func withUnsafeWords<T>(
     _ body: (UnsafeWordsPointer<BitPattern>) throws -> T) rethrows -> T {
-        try Swift.withUnsafePointer(to: self) {  SELF in
+        try Swift.withUnsafePointer(to: self) { SELF in
             try SELF.withMemoryRebound(to: UInt.self, capacity: Self.count) { WORDS in
                 try body(UnsafeWordsPointer(WORDS))
             }
@@ -239,7 +239,7 @@ extension ANKFullWidth {
     ///   unchecked subscript access and wrapping index arithmetic. So, don't
     ///   do stupid stuff. Understood? Cool. Let's go!
     ///
-    @_transparent public mutating func withUnsafeMutableWordsPointer<T>(
+    @_transparent public mutating func withUnsafeMutableWords<T>(
     _ body: (UnsafeMutableWordsPointer<BitPattern>) throws -> T) rethrows -> T {
         try Swift.withUnsafeMutablePointer(to: &self) { SELF in
             try SELF.withMemoryRebound(to: UInt.self, capacity: Self.count) { WORDS in
@@ -254,7 +254,7 @@ extension ANKFullWidth {
     ///   unchecked subscript access and wrapping index arithmetic. So, don't
     ///   do stupid stuff. Understood? Cool. Let's go!
     ///
-    @_transparent public static func fromUnsafeMutableWordsAllocation(
+    @_transparent public static func fromUnsafeMutableWords(
     _ body: (UnsafeMutableWordsPointer<BitPattern>) throws -> Void) rethrows -> Self {
         try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
             let SELF = BUFFER.baseAddress.unsafelyUnwrapped

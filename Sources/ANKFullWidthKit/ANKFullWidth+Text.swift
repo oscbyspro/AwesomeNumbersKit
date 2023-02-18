@@ -32,7 +32,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public var debugDescription: String {
-        self.withUnsafeWordsPointer { SELF in
+        self.withUnsafeWords { SELF in
             let signedness = !Self.isSigned ? "U" : ""
             let size = String(Self.bitWidth)
             let body = SELF.lazy.map(String.init).joined(separator: ", ")
@@ -96,7 +96,7 @@ extension ANKFullWidth where High == High.Magnitude {
         let utf8 = source.utf8
         var magnitude: Magnitude = Self()
         //=--------------------------------------=
-        let success = magnitude.withUnsafeMutableWordsPointer { MAGNITUDE in
+        let success = magnitude.withUnsafeMutableWords { MAGNITUDE in
             //=----------------------------------=
             var chunkEndIndex  = utf8.endIndex
             var magnitudeIndex = MAGNITUDE.startIndex
@@ -181,7 +181,7 @@ extension ANKFullWidth where High == High.Magnitude {
         let magnitude_ = value.magnitude.minLastIndexReportingIsZeroOrMinusOne()
         if  magnitude_.isZeroOrMinusOne { return "0" }
         //=--------------------------------------=
-        return value.magnitude.withUnsafeWordsPointer { MAGNITUDE in
+        return value.magnitude.withUnsafeWords { MAGNITUDE in
             var index = magnitude_.minLastIndex
             //=----------------------------------=
             var text = value.sign != .plus ? "-" : ""

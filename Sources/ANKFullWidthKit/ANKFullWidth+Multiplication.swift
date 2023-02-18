@@ -94,9 +94,9 @@ extension ANKFullWidth {
         //=--------------------------------------=
         var product = DoubleWidth()
         //=--------------------------------------=
-        self   .withUnsafeWordsPointer { LHS in
-        amount .withUnsafeWordsPointer { RHS in
-        product.withUnsafeMutableWordsPointer { PRODUCT in
+        self   .withUnsafeWords { LHS in
+        amount .withUnsafeWords { RHS in
+        product.withUnsafeMutableWords { PRODUCT in
             //=----------------------------------=
             for lhsIndex: Int in LHS.indices {
                 var carry: UInt = UInt()

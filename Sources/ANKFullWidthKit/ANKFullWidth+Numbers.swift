@@ -272,7 +272,7 @@ extension ANKFullWidth {
         assert(sign == UInt.min || sign == UInt.max)
         //=--------------------------------------=
         var index = words.startIndex
-        let value = Self.fromUnsafeMutableWordsAllocation { VALUE in
+        let value = Self.fromUnsafeMutableWords { VALUE in
             //=----------------------------------=
             var valueIndex = VALUE.startIndex
             var wordsIndex = words.startIndex
