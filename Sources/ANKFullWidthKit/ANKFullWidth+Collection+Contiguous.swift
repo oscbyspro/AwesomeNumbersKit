@@ -21,27 +21,21 @@ extension ANKFullWidth {
     
     @inlinable public func withContiguousStorageIfAvailable<T>(
     _ body: (UnsafeBufferPointer<UInt>) throws -> T) rethrows -> T? {
-        //=--------------------------------------=
         #if _endian(big)
-        var value: Self { self.wordSwapped }
+        var base: Self { self.wordSwapped }
         #else
-        var value: Self { self }
+        var base: Self { self }
         #endif
-        //=--------------------------------------=
-        return try value.withUnsafeWords({ try body(UnsafeBufferPointer(start: $0.base, count: $0.count)) })
+        
+        return try base.withUnsafeWords({ try body(UnsafeBufferPointer(start: $0.base, count: $0.count)) })
     }
     
     @inlinable public mutating func withContiguousMutableStorageIfAvailable<T>(
     _ body: (inout UnsafeMutableBufferPointer<UInt>) throws -> T) rethrows -> T? {
-        //=--------------------------------------=
         #if _endian(big)
-        self = self.wordSwapped
+        self = self.wordSwapped; defer { self = self.wordSwapped }
         #endif
-        //=--------------------------------------=
+        
         return try self.withUnsafeMutableWords({ var x = UnsafeMutableBufferPointer(start: $0.base, count: $0.count); return try body(&x) })
-        //=--------------------------------------=
-        #if _endian(big)
-        self = self.wordSwapped
-        #endif
     }
 }
