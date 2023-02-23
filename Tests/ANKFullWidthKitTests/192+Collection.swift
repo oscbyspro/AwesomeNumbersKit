@@ -118,6 +118,37 @@ final class Int192TestsOnCollection: XCTestCase {
             XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))
         };  XCTAssertEqual(x1, y1)
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Words x Contiguous
+    //=------------------------------------------------------------------------=
+    
+    func testWithContiguousStorageIfAvailable() {
+        let x0 = T(truncatingIfNeeded:  0)
+        let x1 = T(truncatingIfNeeded: -1)
+        
+        let s0: Void? = x0.withContiguousStorageIfAvailable { WORDS in
+            XCTAssertEqual(WORDS.count, T.count)
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.min }))
+        };  XCTAssertNotNil(s0)
+        
+        let s1: Void? = x1.withContiguousStorageIfAvailable { WORDS in
+            XCTAssertEqual(WORDS.count, T.count)
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))
+        };  XCTAssertNotNil(s1)
+    }
+    
+    func testWithContiguousMutableStorageIfAvailable() {
+        var x0 = T(truncatingIfNeeded:  0)
+        let x1 = T(truncatingIfNeeded: -1)
+                
+        x0.withContiguousMutableStorageIfAvailable { WORDS in
+            XCTAssertEqual(WORDS.count, T.count)
+            XCTAssert(WORDS.allSatisfy({  $0  == UInt.min }))
+            WORDS.indices.forEach({ WORDS[$0]  = UInt.max })
+            XCTAssert(WORDS.allSatisfy({  $0  == UInt.max }))
+        };  XCTAssertEqual(x0, x1)
+    }
 }
 
 //*============================================================================*
@@ -222,6 +253,37 @@ final class UInt192TestsOnCollection: XCTestCase {
             WORDS.indices.forEach({ WORDS[$0] = UInt.max })
             XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))
         };  XCTAssertEqual(x1, y1)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Words x Contiguous
+    //=------------------------------------------------------------------------=
+    
+    func testWithContiguousStorageIfAvailable() {
+        let x0 = T(truncatingIfNeeded:  0)
+        let x1 = T(truncatingIfNeeded: -1)
+        
+        let s0: Void? = x0.withContiguousStorageIfAvailable { WORDS in
+            XCTAssertEqual(WORDS.count, T.count)
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.min }))
+        };  XCTAssertNotNil(s0)
+        
+        let s1: Void? = x1.withContiguousStorageIfAvailable { WORDS in
+            XCTAssertEqual(WORDS.count, T.count)
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))
+        };  XCTAssertNotNil(s1)
+    }
+    
+    func testWithContiguousMutableStorageIfAvailable() {
+        var x0 = T(truncatingIfNeeded:  0)
+        let x1 = T(truncatingIfNeeded: -1)
+                
+        x0.withContiguousMutableStorageIfAvailable { WORDS in
+            XCTAssertEqual(WORDS.count, T.count)
+            XCTAssert(WORDS.allSatisfy({  $0  == UInt.min }))
+            WORDS.indices.forEach({ WORDS[$0]  = UInt.max })
+            XCTAssert(WORDS.allSatisfy({  $0  == UInt.max }))
+        };  XCTAssertEqual(x0, x1)
     }
 }
 

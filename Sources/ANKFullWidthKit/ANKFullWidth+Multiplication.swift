@@ -106,7 +106,6 @@ extension ANKFullWidth {
                 for rhsIndex: Int in RHS.indices {
                     let lhsWord: UInt = LHS[lhsIndex]
                     let rhsWord: UInt = RHS[rhsIndex]
-                    
                     carry = PRODUCT[productIndex].addFullWidth(carry, multiplicands:(lhsWord, rhsWord))
                     PRODUCT.formIndex(after: &productIndex)
                 }
