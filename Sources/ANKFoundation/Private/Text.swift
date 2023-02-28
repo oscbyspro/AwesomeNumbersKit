@@ -20,9 +20,9 @@ extension StringProtocol {
     /// Returns the sign and radix, along with any remaining characters.
     ///
     /// ```
-    /// "+0x???"._bigEndianTextComponents(radix: nil) // (sign: .plus,  radix: 16, body:    "???")
-    /// "??????"._bigEndianTextComponents(radix: nil) // (sign: .plus,  radix: 10, body: "??????")
-    /// "-0x???"._bigEndianTextComponents(radix:   2) // (sign: .minus, radix:  2, body:  "0x???")
+    /// "+0x???"._bigEndianTextComponents(radix: nil) // (sign: plus,  radix: 16, body:    "???")
+    /// "??????"._bigEndianTextComponents(radix: nil) // (sign: plus,  radix: 10, body: "??????")
+    /// "-0x???"._bigEndianTextComponents(radix:   2) // (sign: minus, radix:  2, body:  "0x???")
     /// ```
     ///
     @inlinable public func _bigEndianTextComponents(radix: Int?) -> (sign: ANKSign, radix: Int, body: SubSequence) {
@@ -46,8 +46,8 @@ extension StringProtocol where Self == SubSequence {
     /// Removes and returns a sign prefix, if it exists.
     ///
     /// ```
-    /// var a = "+?"[...]; a._removeSignPrefix() // a.removeFirst(); -> .plus
-    /// var b = "-?"[...]; b._removeSignPrefix() // b.removeFirst(); -> .minus
+    /// var a = "+?"[...]; a._removeSignPrefix() // a = "?"; -> plus
+    /// var b = "-?"[...]; b._removeSignPrefix() // b = "?"; -> minus
     /// var c = "??"[...]; c._removeSignPrefix() // nil
     /// ```
     ///
@@ -61,9 +61,9 @@ extension StringProtocol where Self == SubSequence {
     /// Removes and returns a radix literal prefix, if it exists.
     ///
     /// ```
-    /// var a = "0x?"[...]; a._removeRadixLiteralPrefix() // a.removeFirst(2); -> 0x10
-    /// var b = "0o?"[...]; b._removeRadixLiteralPrefix() // b.removeFirst(2); -> 0o10
-    /// var c = "0b?"[...]; c._removeRadixLiteralPrefix() // c.removeFirst(2); -> 0b10
+    /// var a = "0x?"[...]; a._removeRadixLiteralPrefix() // a = "?"; -> 16
+    /// var b = "0o?"[...]; b._removeRadixLiteralPrefix() // b = "?"; -> 08
+    /// var c = "0b?"[...]; c._removeRadixLiteralPrefix() // c = "?"; -> 02
     /// var d = "???"[...]; d._removeRadixLiteralPrefix() // nil
     /// ```
     ///
