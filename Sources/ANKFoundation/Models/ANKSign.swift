@@ -13,7 +13,7 @@
 
 /// The sign of a numeric value.
 ///
-/// Bitwise operations assume that `plus` equals `0` and `minus` equals `1`.
+/// Bitwise operations assume that ``plus`` equals `0` and ``minus`` equals `1`.
 ///
 @frozen public enum ANKSign: CustomStringConvertible, Hashable {
     
@@ -63,7 +63,7 @@
     
     /// Forms the opposite sign.
     ///
-    /// Use this method to toggle from `plus` to `minus` or from `minus` to `plus`.
+    /// Use this method to toggle from ``ANKSign/plus`` to ``ANKSign/minus`` or from ``ANKSign/minus`` to ``ANKSign/plus``.
     /// 
     @_transparent public mutating func toggle() {
         self = ~self
@@ -93,7 +93,7 @@ extension ANKSign {
         x ^ minus
     }
     
-    /// Forms `minus` if both signs are `minus`, and `plus` otherwise.
+    /// Forms ``ANKSign/minus`` if both signs are ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
     /// ```
     /// plus  & plus  // plus
@@ -106,7 +106,7 @@ extension ANKSign {
         lhs = lhs & rhs
     }
     
-    /// Returns `minus` if both signs are `minus`, and `plus` otherwise.
+    /// Returns ``ANKSign/minus`` if both signs are ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
     /// ```
     /// plus  & plus  // plus
@@ -119,7 +119,7 @@ extension ANKSign {
         unsafeBitCast(lhs.data & rhs.data, to: Self.self)
     }
     
-    /// Forms `minus` if at least one sign is `minus`, and `plus` otherwise.
+    /// Forms ``ANKSign/minus`` if at least one sign is ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
     /// ```
     /// plus  | plus  // plus
@@ -132,7 +132,7 @@ extension ANKSign {
         lhs = lhs | rhs
     }
     
-    /// Returns `minus` if at least one sign is `minus`, and `plus` otherwise.
+    /// Returns ``ANKSign/minus`` if at least one sign is ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
     /// ```
     /// plus  | plus  // plus
@@ -145,7 +145,7 @@ extension ANKSign {
         unsafeBitCast(lhs.data | rhs.data, to: Self.self)
     }
     
-    /// Forms `minus` if exactly one sign is `minus`, and `plus` otherwise.
+    /// Forms ``ANKSign/minus`` if exactly one sign is ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
     /// ```
     /// plus  ^ plus  // plus
@@ -158,7 +158,7 @@ extension ANKSign {
         lhs = lhs ^ rhs
     }
     
-    /// Returns `minus` if exactly one sign is `minus`, and `plus` otherwise.
+    /// Returns ``ANKSign/minus`` if exactly one sign is ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
     /// ```
     /// plus  ^ plus  // plus

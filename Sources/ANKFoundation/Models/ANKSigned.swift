@@ -16,17 +16,17 @@
 /// It stores a sign and a magnitude and has sign-and-magnitude semantics. The
 /// sign bit is treated as separate, meaning that overflow does not affect it.
 ///
-/// **Positive & Negative Zero**
+/// ### Positive & Negative Zero
 ///
 /// Zero is signed and can therefore have either a positive or negative sign.
 /// Both representations are `==` to each other and have the same `hashValue`.
-/// This is deliberate and enables sign transformations such as `sign.toggle()`
-/// when `magnitude.isZero`.
+/// This is enables sign transformations such as ``sign``.``ANKSign/toggle()``
+/// when ``magnitude``.``ANKBinaryInteger/isZero``.
 ///
-/// - use `isLessThanZero` to check if the integer is `negative`
-/// - use `isMoreThanZero` to check if the integer is `positive`
+/// - use ``isLessThanZero`` to check if the integer is `negative`
+/// - use ``isMoreThanZero`` to check if the integer is `positive`
 ///
-/// **Fast Digit Arithmetic**
+/// ### Fast Digit Arithmetic
 ///
 /// This model has a set of `Self` x `Digit` arithmetic methods in addition to its
 /// `Self` x `Self` methods. These single-digit methods may prove much faster than
@@ -79,12 +79,12 @@
     // MARK: Details x Normalization
     //=------------------------------------------------------------------------=
     
-    /// - Returns: `true` for all values except negative zero where it returns `false`
+    /// - Returns: Returns `true` for all values except negative zero where it returns `false`.
     @inlinable public var isNormal: Bool {
         self.sign == ANKSign.plus || !self.isZero
     }
     
-    /// - Returns: `sign` for all values except negative zero where it returns `plus`
+    /// - Returns: Returns the ``sign`` for all values except negative zero where it returns ``plus``.
     @inlinable public var normalizedSign: ANKSign {
         self.isNormal ? self.sign : ANKSign.plus
     }

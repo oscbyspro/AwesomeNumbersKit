@@ -20,7 +20,7 @@ import ANKFoundation
 /// typealias ANKUInt256 = ANKFullWidth<ANKUInt128, ANKUInt128>
 /// ```
 ///
-/// **Requirements**
+/// ### Requirements
 ///
 /// It models a `UInt` digit collection. In practice this means:
 ///
@@ -32,7 +32,7 @@ import ANKFoundation
 /// High.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
-/// **Fast Digit Arithmetic**
+/// ### Fast Digit Arithmetic**
 ///
 /// This model has a set of `Self` x `Digit` arithmetic methods in addition to its
 /// `Self` x `Self` methods. These single-digit methods may prove much faster than
@@ -40,7 +40,7 @@ import ANKFoundation
 ///
 /// Its `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
-/// **ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral**
+/// ### ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral**
 ///
 /// ```
 /// await .biggerIntegerLiterals() // Swift 5.8

@@ -55,9 +55,9 @@ public protocol ANKMutableContiguousBytes: ANKContiguousBytes {
 ///
 /// Types conforming to this protocol have access to the following semantic methods:
 ///
-/// - `withUnsafeBytes(_:)`
-/// - `withUnsafeMutableBytes(_:)`
-/// - `fromUnsafeMutableBytes(_:)`
+/// - ``withUnsafeBytes(_:)``
+/// - ``withUnsafeMutableBytes(_:)``
+/// - ``fromUnsafeMutableBytes(_:)``
 ///
 public protocol ANKTrivialContiguousBytes: ANKMutableContiguousBytes { }
 

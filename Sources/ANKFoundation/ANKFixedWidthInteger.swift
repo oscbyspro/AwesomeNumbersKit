@@ -13,6 +13,8 @@
 
 /// An awesome, fixed-width, binary integer.
 ///
+/// ### Two's Complement
+///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where Magnitude: ANKUnsignedFixedWidthInteger {
@@ -92,6 +94,8 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
 
 /// An awesome, signed, fixed-width, binary integer.
 ///
+/// ### Two's Complement
+///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteger {
@@ -128,6 +132,8 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
 //*============================================================================*
 
 /// An awesome, unsigned, fixed-width, binary integer.
+///
+/// ### Two's Complement
 ///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///

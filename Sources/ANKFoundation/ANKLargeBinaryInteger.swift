@@ -13,6 +13,8 @@
 
 /// An awesome, large, binary integer.
 ///
+/// ### Two's Complement
+///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: ANKUnsignedLargeBinaryInteger {
@@ -236,6 +238,8 @@ extension ANKLargeBinaryInteger where Digit == Self {
 
 /// An awesome, signed, large, binary integer.
 ///
+/// ### Two's Complement
+///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKSignedLargeBinaryInteger<Digit>: ANKLargeBinaryInteger,
@@ -246,6 +250,8 @@ ANKSignedInteger where Digit: ANKSignedInteger { }
 //*============================================================================*
 
 /// An awesome, unsigned, large, binary integer.
+///
+/// ### Two's Complement
 ///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///

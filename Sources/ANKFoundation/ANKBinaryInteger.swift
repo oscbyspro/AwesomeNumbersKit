@@ -13,6 +13,8 @@
 
 /// An awesome binary integer.
 ///
+/// ### Two's Complement
+///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where Magnitude: ANKUnsignedInteger {
@@ -177,6 +179,8 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
 
 /// An awesome, signed, binary integer.
 ///
+/// ### Two's Complement
+///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger { }
@@ -186,6 +190,8 @@ public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger { }
 //*============================================================================*
 
 /// An awesome, unsigned, binary integer.
+///
+/// ### Two's Complement
 ///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
