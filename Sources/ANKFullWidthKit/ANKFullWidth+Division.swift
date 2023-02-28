@@ -140,7 +140,7 @@ extension ANKFullWidth where High == High.Magnitude {
     
     /// Returns the quotient and remainder of dividing the dividend by the divisor.
     ///
-    /// Performs long division but with word-sized digits.
+    /// Performs unsigned long division with `UInt` digits.
     ///
     @_specialize(where Self == ANKUInt128)
     @_specialize(where Self == ANKUInt192)

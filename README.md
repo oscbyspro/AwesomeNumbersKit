@@ -56,3 +56,25 @@ A decorative, width agnostic, sign-and-magnitude, numeric integer.
     <td>Fast Digit Arithmetic</td>
 </tr>
 </table>
+
+## ANKFoundation ([Sources](Sources/ANKFoundation), [Tests](Tests/ANKFoundationTests), [Benchmarks](Tests/ANKFoundationBenchmarks))
+
+Models, protocols, extensions and utilities underpinning this package.
+
+### Models
+
+- [ANKSign](Sources/ANKFoundation/Models/ANKSign.swift)
+- [ANKSigned](Sources/ANKFoundation/Models/ANKSigned.swift)
+
+### Protocols
+
+- [ANKBigEndianTextCodable](Sources/ANKFoundation/ANKBigEndianTextCodable.swift)
+- [ANK[Binary/Signed/Unsigned]Integer](Sources/ANKFoundation/ANKBinaryInteger.swift)
+- [ANKBitPatternConvertible\<BitPattern\>](Sources/ANKFoundation/ANKBitPatternConvertible.swift)
+- [ANK[Mutable/Trivial]ContiguousBytes](Sources/ANKFoundation/ANKContiguousBytes.swift)
+- [ANKCoreInteger](Sources/ANKFoundation/ANKCoreInteger.swift)
+- [ANK[Signed/Unsigned]FixedWidthInteger](Sources/ANKFoundation/ANKFixedWidthInteger.swift)
+- [ANKIntOrUInt](Sources/ANKFoundation/ANKIntOrUInt.swift)
+- [ANK[Signed/Unsigned]LargeBinaryInteger\<Digit\>](Sources/ANKFoundation/ANKLargeBinaryInteger.swift)
+- [ANK[Signed/Unsigned]LargeFixedWidthInteger\<Digit\>](Sources/ANKFoundation/ANKLargeFixedWidthInteger.swift)
+- [ANKWords](Sources/ANKFoundation/ANKWords.swift)
