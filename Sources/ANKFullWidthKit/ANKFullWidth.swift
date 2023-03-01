@@ -32,7 +32,7 @@ import ANKFoundation
 /// High.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
-/// ### Fast Digit Arithmetic**
+/// ### Single Digit Arithmetic**
 ///
 /// This model has a set of `Self` x `Digit` arithmetic methods in addition to its
 /// `Self` x `Self` methods. These single-digit methods may prove much faster than
@@ -85,10 +85,14 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     //=------------------------------------------------------------------------=
     
     #if _endian(big)
+    /// The most  significant partition of this value.
     public var high: High
+    /// The least significant partition of this value.
     public var low:  Low
     #else
+    /// The least significant partition of this value.
     public var low:  Low
+    /// The most  significant partition of this value.
     public var high: High
     #endif
     
@@ -96,12 +100,20 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(ascending  digits: LH<Low, High>) {
-        (self.low, self.high) = digits
+    /// Creates a new instance from the given partitions.
+    ///
+    /// - Parameter ascending: Two partitions, from least significant to most.
+    ///
+    @inlinable public init(ascending  partitions: LH<Low, High>) {
+        (self.low, self.high) = partitions
     }
     
-    @inlinable public init(descending digits: HL<High, Low>) {
-        (self.high, self.low) = digits
+    /// Creates a new instance from the given partitions.
+    ///
+    /// - Parameter descending: Two partitions, from most significant to least.
+    ///
+    @inlinable public init(descending partitions: HL<High, Low>) {
+        (self.high, self.low) = partitions
     }
     
     //=------------------------------------------------------------------------=

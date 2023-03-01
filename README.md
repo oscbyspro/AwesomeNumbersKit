@@ -25,7 +25,7 @@ A composable, large, fixed-width, two's complement, binary integer.
 </tr>
 <tr>
     <td>:rocket:</td>
-    <td>Fast Digit Arithmetic</td>
+    <td>Single Digit Arithmetic</td>
 </tr>
 </table>
 
@@ -53,7 +53,7 @@ A decorative, width agnostic, sign-and-magnitude, numeric integer.
 </tr>
 <tr>
     <td>:rocket:</td>
-    <td>Fast Digit Arithmetic</td>
+    <td>Single Digit Arithmetic</td>
 </tr>
 </table>
 

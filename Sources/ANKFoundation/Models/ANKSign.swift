@@ -21,8 +21,11 @@
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    case plus  // 0x00
-    case minus // 0x01
+    /// The sign of a positive value.
+    case plus
+    
+    /// The sign of a negative value.
+    case minus
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers

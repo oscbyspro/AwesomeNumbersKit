@@ -26,7 +26,7 @@
 /// - use ``isLessThanZero`` to check if the integer is `negative`
 /// - use ``isMoreThanZero`` to check if the integer is `positive`
 ///
-/// ### Fast Digit Arithmetic
+/// ### Single Digit Arithmetic
 ///
 /// This model has a set of `Self` x `Digit` arithmetic methods in addition to its
 /// `Self` x `Self` methods. These single-digit methods may prove much faster than
@@ -58,7 +58,10 @@
     // MARK: State
     //=------------------------------------------------------------------------=
     
+    /// The sign of this value.
     public var sign: ANKSign
+    
+    /// The magnitude of this value.
     public var magnitude: Magnitude
     
     //=------------------------------------------------------------------------=
@@ -79,12 +82,12 @@
     // MARK: Details x Normalization
     //=------------------------------------------------------------------------=
     
-    /// - Returns: Returns `true` for all values except negative zero where it returns `false`.
+    /// Returns `true` for all values except negative zero where it returns `false`.
     @inlinable public var isNormal: Bool {
         self.sign == ANKSign.plus || !self.isZero
     }
     
-    /// - Returns: Returns the ``sign`` for all values except negative zero where it returns ``plus``.
+    /// Returns the ``ANKSigned/sign`` when ``ANKSigned/isNormal``, and ``ANKSign/plus`` otherwise.
     @inlinable public var normalizedSign: ANKSign {
         self.isNormal ? self.sign : ANKSign.plus
     }
