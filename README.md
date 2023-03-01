@@ -6,7 +6,7 @@ Large number arithmetic in Swift.
 |:-----:|:-----:|:------:|:------------:|:-----:|:-----:|:-------:|
 | 5.7   | 13.0  | 13.0   | 13.0         | 10.15 | 13.0  | 6.0     |
 
-## ANKFullWidth ([Sources](Sources/ANKFullWidthKit), [Tests](Tests/ANKFullWidthKitTests), [Benchmarks](Tests/ANKFullWidthKitBenchmarks))
+## ANKFullWidthKit ([Sources](Sources/ANKFullWidthKit), [Tests](Tests/ANKFullWidthKitTests), [Benchmarks](Tests/ANKFullWidthKitBenchmarks))
 
 A composable, large, fixed-width, two's complement, binary integer.
 
@@ -34,7 +34,7 @@ typealias  Int256 = ANKFullWidth< Int128, UInt128>
 typealias UInt256 = ANKFullWidth<UInt128, UInt128>
 ```
 
-## ANKSigned ([Sources](Sources/ANKSignedKit), [Tests](Tests/ANKSignedKitTests), [Benchmarks](Tests/ANKSignedKitBenchmarks))
+## ANKSignedKit ([Sources](Sources/ANKSignedKit), [Tests](Tests/ANKSignedKitTests), [Benchmarks](Tests/ANKSignedKitBenchmarks))
 
 A decorative, width agnostic, sign-and-magnitude, numeric integer.
 
