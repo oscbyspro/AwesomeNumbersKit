@@ -13,5 +13,8 @@ import ANKFoundation
 // MARK: * ANK x [U]Int1024
 //*============================================================================*
 
-public typealias  ANKInt1024 = ANKFullWidth< ANKInt512, ANKUInt512>
+/// A 1024-bit signed integer value type.
+public typealias ANKInt1024 = ANKFullWidth<ANKInt512, ANKUInt512>
+
+/// A 1024-bit unsigned integer value type.
 public typealias ANKUInt1024 = ANKFullWidth<ANKUInt512, ANKUInt512>

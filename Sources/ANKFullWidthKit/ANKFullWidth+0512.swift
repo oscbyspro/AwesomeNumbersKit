@@ -13,7 +13,10 @@ import ANKFoundation
 // MARK: * ANK x [U]Int512
 //*============================================================================*
 
-public typealias  ANKInt512 = ANKFullWidth< ANKInt256, ANKUInt256>
+/// A 512-bit signed integer value type.
+public typealias ANKInt512 = ANKFullWidth<ANKInt256, ANKUInt256>
+
+/// A 512-bit signed integer value type.
 public typealias ANKUInt512 = ANKFullWidth<ANKUInt256, ANKUInt256>
 
 //*============================================================================*
@@ -57,9 +60,11 @@ extension ANKFullWidth where Magnitude == ANKUInt512 {
 // MARK: * ANK x [U]Int512 x Tuples
 //*============================================================================*
 
+/// A 512-bit pattern, split into `UInt64` words.
 public typealias ANK512X64 = (
 UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64)
 
+/// A 512-bit pattern, split into `UInt32` words.
 public typealias ANK512X32 = (
 UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
 UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)

@@ -85,14 +85,14 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     //=------------------------------------------------------------------------=
     
     #if _endian(big)
-    /// The most  significant partition of this value.
+    /// The most  significant part of this value.
     public var high: High
-    /// The least significant partition of this value.
+    /// The least significant part of this value.
     public var low:  Low
     #else
-    /// The least significant partition of this value.
+    /// The least significant part of this value.
     public var low:  Low
-    /// The most  significant partition of this value.
+    /// The most  significant part of this value.
     public var high: High
     #endif
     
@@ -100,20 +100,20 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    /// Creates a new instance from the given partitions.
+    /// Creates a new instance from the given partition.
     ///
-    /// - Parameter ascending: Two partitions, from least significant to most.
+    /// - Parameter ascending: An integer split in two parts, from least significant to most.
     ///
-    @inlinable public init(ascending  partitions: LH<Low, High>) {
-        (self.low, self.high) = partitions
+    @inlinable public init(ascending partition: LH<Low, High>) {
+        (self.low, self.high) = partition
     }
     
-    /// Creates a new instance from the given partitions.
+    /// Creates a new instance from the given partition.
     ///
-    /// - Parameter descending: Two partitions, from most significant to least.
+    /// - Parameter descending: An integer split in two parts, from most significant to least.
     ///
-    @inlinable public init(descending partitions: HL<High, Low>) {
-        (self.high, self.low) = partitions
+    @inlinable public init(descending partition: HL<High, Low>) {
+        (self.high, self.low) = partition
     }
     
     //=------------------------------------------------------------------------=

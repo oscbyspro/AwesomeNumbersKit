@@ -149,13 +149,13 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     ///
     /// If the value passed as source is not representable, an error may occur.
     ///
-    init(_ source: ANKSigned<Magnitude>)
+    @inlinable init(_ source: ANKSigned<Magnitude>)
     
     /// Creates a new instance from the given integer, if it is representable.
     ///
     /// If the value passed as source is not representable, the result is nil.
     ///
-    init?(exactly source: ANKSigned<Magnitude>)
+    @inlinable init?(exactly source: ANKSigned<Magnitude>)
     
     /// Creates a new instance with the representable value closest to the given integer.
     ///
@@ -163,14 +163,14 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// the result is this type’s max value. If value passed as source is less than the
     /// smallest representable value, the result is this type’s min value.
     ///
-    init(clamping source: ANKSigned<Magnitude>)
+    @inlinable init(clamping source: ANKSigned<Magnitude>)
     
     /// Creates a new instance from the two's complement bit pattern of the given integer.
     ///
     /// - The two's complement representation of `+0` is an infinite sequence of `0s`.
     /// - The two's complement representation of `-1` is an infinite sequence of `1s`.
     ///
-    init(truncatingIfNeeded source: ANKSigned<Magnitude>)
+    @inlinable init(truncatingIfNeeded source: ANKSigned<Magnitude>)
 }
 
 //*============================================================================*

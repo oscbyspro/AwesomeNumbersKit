@@ -18,17 +18,26 @@ import ANKFoundation
 
 #if arch(i386) || arch(arm) || arch(arm64_32) || arch(wasm32) || arch(powerpc)
 
-public typealias  ANKInt64 = ANKFullWidth< Int, UInt>
+/// A 64-bit signed integer value type.
+public typealias ANKInt64 = ANKFullWidth<Int, UInt>
+
+/// A 64-bit unsigned integer value type.
 public typealias ANKUInt64 = ANKFullWidth<UInt, UInt>
 
 #elseif arch(x86_64) || arch(arm64) || arch(powerpc64) || arch(powerpc64le) || arch(s390x)
 
-public typealias  ANKInt64 =  Int
+/// A 64-bit signed integer value type.
+public typealias ANKInt64 = Int
+
+/// A 64-bit unsigned integer value type.
 public typealias ANKUInt64 = UInt
 
 #else
 
-public typealias  ANKInt64 = Never
+/// A 64-bit signed integer value type.
+public typealias ANKInt64 = Never
+
+/// A 64-bit unsigned integer value type.
 public typealias ANKUInt64 = Never
 
 #error("ANKFullWidth can only be used on a 32-bit or 64-bit platform.")

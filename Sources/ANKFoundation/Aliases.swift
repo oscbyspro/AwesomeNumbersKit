@@ -27,6 +27,8 @@ public typealias QR<Q,R> = (quotient: Q, remainder: R)
 // MARK: * Aliases x Models
 //*============================================================================*
 
+/// The sign of a numeric value.
 public typealias Sign = ANKSign
 
+/// A decorative, width agnostic, sign-and-magnitude, numeric integer.
 public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude
