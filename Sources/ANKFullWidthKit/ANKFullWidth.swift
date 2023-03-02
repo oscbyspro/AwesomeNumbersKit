@@ -32,7 +32,7 @@ import ANKFoundation
 /// High.bitWidth % UInt.bitWidth == 0
 /// ```
 ///
-/// ### Single Digit Arithmetic**
+/// ### Single Digit Arithmetic
 ///
 /// This model has a set of `Self` x `Digit` arithmetic methods in addition to its
 /// `Self` x `Self` methods. These single-digit methods may prove much faster than
@@ -40,7 +40,7 @@ import ANKFoundation
 ///
 /// Its `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
-/// ### ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral**
+/// ### ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral
 ///
 /// ```
 /// await .biggerIntegerLiterals() // Swift 5.8
@@ -102,7 +102,7 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     
     /// Creates a new instance from the given partition.
     ///
-    /// - Parameter ascending: An integer split in two parts, from least significant to most.
+    /// - Parameter ascending: An integer split into two parts, from least significant to most.
     ///
     @inlinable public init(ascending partition: LH<Low, High>) {
         (self.low, self.high) = partition
@@ -110,7 +110,7 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     
     /// Creates a new instance from the given partition.
     ///
-    /// - Parameter descending: An integer split in two parts, from most significant to least.
+    /// - Parameter descending: An integer split into two parts, from most significant to least.
     ///
     @inlinable public init(descending partition: HL<High, Low>) {
         (self.high, self.low) = partition

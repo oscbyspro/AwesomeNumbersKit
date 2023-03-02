@@ -34,7 +34,7 @@
 ///
 /// Its `Digit` type is `ANKSigned<Magnitude.Digit>` when `Magnitude.Digit` exists.
 ///
-/// **ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral**
+/// ### ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral
 ///
 /// ```
 /// await .biggerIntegerLiterals() // Swift 5.8
