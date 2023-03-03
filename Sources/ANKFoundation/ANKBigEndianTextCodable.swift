@@ -29,7 +29,7 @@ public protocol ANKBigEndianTextCodable {
     
     /// Creates a new instance from the given string and optional radix.
     ///
-    /// If the given radix is `nil`, it is either decoded from the string or assigned the value 10.
+    /// If the given radix is `nil`, it is either decoded from the string or assigned the value `10`.
     ///
     @inlinable static func decodeBigEndianText(_ source: some StringProtocol,  radix: Int?) -> Self?
     
@@ -49,7 +49,7 @@ extension ANKBigEndianTextCodable {
     
     /// Creates a new instance from the given string and optional radix.
     ///
-    /// If the given radix is `nil`, it is either decoded from the string or assigned the value 10.
+    /// If the given radix is `nil`, it is either decoded from the string or assigned the value `10`.
     ///
     @_transparent public init?(decoding source: some StringProtocol, radix: Int? = nil) {
         guard let value = Self.decodeBigEndianText(source, radix: radix) else { return nil }; self = value

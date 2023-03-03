@@ -12,9 +12,6 @@
 //*============================================================================*
 
 /// The sign of a numeric value.
-///
-/// Bitwise operations assume that ``plus`` equals `0` and ``minus`` equals `1`.
-///
 @frozen public enum ANKSign: CustomStringConvertible, Hashable {
     
     //=------------------------------------------------------------------------=

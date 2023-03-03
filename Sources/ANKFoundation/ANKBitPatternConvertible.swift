@@ -41,7 +41,7 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    /// Returns the bit pattern of this value.
+    /// The bit pattern of this value.
     ///
     /// ```
     /// Int8(-1).bitPattern // UInt8(255)

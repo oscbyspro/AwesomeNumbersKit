@@ -45,7 +45,7 @@ extension ANKSigned where Magnitude: ANKLargeBinaryInteger {
     }
     
     @_disfavoredOverload @inlinable public func dividedReportingOverflow(by divisor: Digit) -> PVO<Self> {
-        divisor.isZero ? PVO(self,  true) : PVO(self / divisor, false)
+        divisor.isZero ? PVO(self, true) : PVO(self / divisor, false)
     }
     
     @_disfavoredOverload @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool {

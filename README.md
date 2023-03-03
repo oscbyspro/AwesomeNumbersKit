@@ -1,4 +1,4 @@
-# [AwesomeNumbersKit](https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit/)
+# [AwesomeNumbersKit](https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit)
 
 Large number arithmetic in Swift.
 

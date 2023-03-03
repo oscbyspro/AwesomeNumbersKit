@@ -34,13 +34,13 @@ import ANKFoundation
 ///
 /// ### Single Digit Arithmetic
 ///
-/// This model has a set of `Self` x `Digit` arithmetic methods in addition to its
-/// `Self` x `Self` methods. These single-digit methods may prove much faster than
-/// their oversized counterparts for operands that fit in a machine word.
+/// This model offers `Self` x `Digit` methods alongside its `Self` x `Self`
+/// methods. These may prove much faster than their oversized counterparts for
+/// operands that fit in a machine word.
 ///
-/// Its `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
+/// - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
-/// ### ExpressibleByStringLiteral vs ExpressibleByIntegerLiteral
+/// ### Expressible by Integer vs String Literal
 ///
 /// ```
 /// await .biggerIntegerLiterals() // Swift 5.8

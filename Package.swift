@@ -14,10 +14,6 @@ import PackageDescription
 // MARK: * Awesome Numbers Kit
 //*============================================================================*
 
-let withSlowBuildAlerts: [SwiftSetting] = []
-//.unsafeFlags(["-Xfrontend", "-warn-long-function-bodies=400"],          .when(configuration: .debug)),
-//.unsafeFlags(["-Xfrontend", "-warn-long-expression-type-checking=400"], .when(configuration: .debug))]
-
 let package = Package(
     name: "AwesomeNumbersKit",
     platforms: [
@@ -66,51 +62,42 @@ let package = Package(
         //=--------------------------------------=
         .target(
         name: "ANKFoundation",
-        dependencies: [],
-        swiftSettings: withSlowBuildAlerts),
+        dependencies: []),
         
         .testTarget(
         name: "ANKFoundationTests",
-        dependencies: ["ANKFoundation"],
-        swiftSettings: withSlowBuildAlerts),
+        dependencies: ["ANKFoundation"]),
         
         .testTarget(
         name: "ANKFoundationBenchmarks",
-        dependencies: ["ANKFoundation"],
-        swiftSettings: withSlowBuildAlerts),
+        dependencies: ["ANKFoundation"]),
         //=--------------------------------------=
         // ANK x Full Width Kit
         //=--------------------------------------=
         .target(
         name: "ANKFullWidthKit",
-        dependencies: ["ANKFoundation"],
-        swiftSettings: withSlowBuildAlerts),
+        dependencies: ["ANKFoundation"]),
         
         .testTarget(
         name: "ANKFullWidthKitTests",
-        dependencies: ["ANKFullWidthKit"],
-        swiftSettings: withSlowBuildAlerts),
+        dependencies: ["ANKFullWidthKit"]),
         
         .testTarget(
         name: "ANKFullWidthKitBenchmarks",
-        dependencies: ["ANKFullWidthKit"],
-        swiftSettings: withSlowBuildAlerts),
+        dependencies: ["ANKFullWidthKit"]),
         //=--------------------------------------=
         // ANK x Signed Kit
         //=--------------------------------------=
         .target(
         name: "ANKSignedKit",
-        dependencies: ["ANKFoundation"],
-        swiftSettings: withSlowBuildAlerts),
+        dependencies: ["ANKFoundation"]),
         
         .testTarget(
         name: "ANKSignedKitTests",
-        dependencies: ["ANKFullWidthKit", "ANKSignedKit"],
-        swiftSettings: withSlowBuildAlerts),
+        dependencies: ["ANKFullWidthKit", "ANKSignedKit"]),
         
         .testTarget(
         name: "ANKSignedKitBenchmarks",
-        dependencies: ["ANKFullWidthKit", "ANKSignedKit"],
-        swiftSettings: withSlowBuildAlerts),
+        dependencies: ["ANKFullWidthKit", "ANKSignedKit"]),
     ]
 )
