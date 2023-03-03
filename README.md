@@ -11,22 +11,10 @@ Large number arithmetic in Swift.
 A composable, large, fixed-width, two's complement, binary integer.
 
 <table>
-<tr>
-    <td>:jigsaw:</td>
-    <td>Composable</td>
-</tr>
-<tr>
-    <td>:two_hearts:</td>
-    <td>Two's Complement</td>
-</tr>
-<tr>
-    <td>:european_castle:</td>
-    <td>Fixed Width Integer</td>
-</tr>
-<tr>
-    <td>:rocket:</td>
-    <td>Single Digit Arithmetic</td>
-</tr>
+<tr><td>:jigsaw:</td><td>Composable</td></tr>
+<tr><td>:two_hearts:</td><td>Two's Complement</td></tr>
+<tr><td>:european_castle:</td><td>Fixed Width Integer</td></tr>
+<tr><td>:rocket:</td><td>Single Digit Arithmetic</td></tr>
 </table>
 
 ```swift
@@ -39,23 +27,17 @@ typealias UInt256 = ANKFullWidth<UInt128, UInt128>
 A decorative, width agnostic, sign-and-magnitude, numeric integer.
 
 <table>
-<tr>
-    <td>:ribbon:</td>
-    <td>Decorative</td>
-</tr>
-<tr>
-    <td>:ringed_planet:</td>
-    <td>Sign & Magnitude</td>
-</tr>
-<tr>
-    <td>:100:</td>
-    <td>Numeric</td>
-</tr>
-<tr>
-    <td>:rocket:</td>
-    <td>Single Digit Arithmetic</td>
-</tr>
+<tr><td>:ribbon:</td><td>Decorative</td></tr>
+<tr><td>:ringed_planet:</td><td>Sign & Magnitude</td></tr>
+<tr><td>:100:</td><td>Numeric</td></tr>
+<tr><td>:rocket:</td><td>Single Digit Arithmetic</td></tr>
 </table>
+
+```swift
+typealias Magnitude = UInt
+let min = Signed(Magnitude.max, as: Sign.minus)
+let max = Signed(Magnitude.max, as: Sign.plus )
+```
 
 ## ANKFoundation ([Sources](Sources/ANKFoundation), [Tests](Tests/ANKFoundationTests), [Benchmarks](Tests/ANKFoundationBenchmarks))
 
