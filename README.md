@@ -18,8 +18,8 @@ A composable, large, fixed-width, two's complement, binary integer.
 </table>
 
 ```swift
-typealias  Int256 = ANKFullWidth< Int128, UInt128>
-typealias UInt256 = ANKFullWidth<UInt128, UInt128>
+typealias  Int256 = FullWidth< Int128, UInt128>
+typealias UInt256 = FullWidth<UInt128, UInt128>
 ```
 
 ## ANKSignedKit ([Sources](Sources/ANKSignedKit), [Tests](Tests/ANKSignedKitTests), [Benchmarks](Tests/ANKSignedKitBenchmarks))

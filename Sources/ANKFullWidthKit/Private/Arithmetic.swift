@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Arithmetic
+// MARK: * ANK x Arithmetic x UInt
 //*============================================================================*
 
 extension UInt {
@@ -121,5 +121,23 @@ extension UInt {
         var low = self
         let high: Self = low.addFullWidth(addend, multiplicands: multiplicands)
         return HL(high,  low)
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Arithmetic x Unsigned x Fixed Width
+//*============================================================================*
+
+extension ANKUnsignedFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func sum(_ x0: Self, _ x1: Self, _ x2: Self) -> HL<UInt, Self> {
+        var xx = x0
+        let o3 = xx.addReportingOverflow(x1)
+        let o4 = xx.addReportingOverflow(x2)
+        return HL(UInt(bit: o3) &+ UInt(bit: o4), xx)
     }
 }

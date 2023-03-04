@@ -27,7 +27,7 @@ final class Int192BenchmarksOnNumbers: XCTestCase {
     typealias M = ANKUInt192
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x [U]Int
     //=------------------------------------------------------------------------=
     
     func testInt() {
@@ -52,9 +52,9 @@ final class Int192BenchmarksOnNumbers: XCTestCase {
         }
     }
     
-    func testSignitude() {
-        let abc = S(x64: X(0, 1, 2))
-        
+    func testInt8() {
+        let abc = Int8.max
+
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
             _ = T(exactly:  abc)
@@ -63,9 +63,53 @@ final class Int192BenchmarksOnNumbers: XCTestCase {
         }
     }
     
-    func testMagnitude() {
-        let abc = M(x64: X(0, 1, 2))
-        
+    func testUInt8() {
+        let abc = UInt8.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
+        }
+    }
+    
+    func testInt16() {
+        let abc = Int16.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
+        }
+    }
+    
+    func testUInt16() {
+        let abc = UInt16.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
+        }
+    }
+    
+    func testInt32() {
+        let abc = Int32.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
+        }
+    }
+    
+    func testUInt32() {
+        let abc = UInt32.max
+
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
             _ = T(exactly:  abc)
@@ -96,12 +140,51 @@ final class Int192BenchmarksOnNumbers: XCTestCase {
         }
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Float
+    //=------------------------------------------------------------------------=
+    
+    func testFloat32() {
+        let abc = Float32(UInt32.max)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+        }
+    }
+    
     func testFloat64() {
         let abc = Float64(UInt64.max)
         
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
             _ = T(exactly:  abc)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Complements
+    //=------------------------------------------------------------------------=
+    
+    func testSignitude() {
+        let abc = S(x64: X(0, 1, 2))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
+        }
+    }
+    
+    func testMagnitude() {
+        let abc = M(x64: X(0, 1, 2))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
         }
     }
     
@@ -140,7 +223,7 @@ final class UInt192BenchmarksOnNumbers: XCTestCase {
     typealias M = ANKUInt192
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x [U]Int
     //=------------------------------------------------------------------------=
     
     func testInt() {
@@ -165,9 +248,9 @@ final class UInt192BenchmarksOnNumbers: XCTestCase {
         }
     }
     
-    func testSignitude() {
-        let abc = S(x64: X(0, 1, 2))
-        
+    func testInt8() {
+        let abc = Int8.max
+
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
             _ = T(exactly:  abc)
@@ -176,9 +259,53 @@ final class UInt192BenchmarksOnNumbers: XCTestCase {
         }
     }
     
-    func testMagnitude() {
-        let abc = M(x64: X(0, 1, 2))
-        
+    func testUInt8() {
+        let abc = UInt8.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
+        }
+    }
+    
+    func testInt16() {
+        let abc = Int16.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
+        }
+    }
+    
+    func testUInt16() {
+        let abc = UInt16.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
+        }
+    }
+    
+    func testInt32() {
+        let abc = Int32.max
+
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
+        }
+    }
+    
+    func testUInt32() {
+        let abc = UInt32.max
+
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
             _ = T(exactly:  abc)
@@ -209,12 +336,51 @@ final class UInt192BenchmarksOnNumbers: XCTestCase {
         }
     }
     
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Float
+    //=------------------------------------------------------------------------=
+    
+    func testFloat32() {
+        let abc = Float32(UInt32.max)
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+        }
+    }
+    
     func testFloat64() {
         let abc = Float64(UInt64.max)
         
         for _ in 0 ..< 1_000_000 {
             _ = T(abc)
             _ = T(exactly:  abc)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Complements
+    //=------------------------------------------------------------------------=
+    
+    func testSignitude() {
+        let abc = S(x64: X(0, 1, 2))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
+        }
+    }
+    
+    func testMagnitude() {
+        let abc = M(x64: X(0, 1, 2))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = T(abc)
+            _ = T(exactly:  abc)
+            _ = T(clamping: abc)
+            _ = T(truncatingIfNeeded: abc)
         }
     }
     

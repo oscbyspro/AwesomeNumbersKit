@@ -7,6 +7,17 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
+import ANKFoundation
+
+//*============================================================================*
+// MARK: * ANK x Aliases
+//*============================================================================*
+
+/// A composable, large, fixed-width, two's complement, binary integer.
+public typealias FullWidth<High, Low> = ANKFullWidth<High, Low> where
+High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
+High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude
+
 //*============================================================================*
 // MARK: * ANK x Aliases x Signed
 //*============================================================================*
