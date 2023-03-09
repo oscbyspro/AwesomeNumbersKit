@@ -60,7 +60,7 @@ extension ANKFullWidth {
     @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
         let sign = ANKSign(source.isLessThanZero)
         let number = ANKSigned(source.magnitude, as: sign)
-        return Magnitude._encode(number, radix: radix, uppercase: uppercase)
+        return Magnitude._encodeBigEndianText(number, radix: radix, uppercase: uppercase)
     }
 }
 
@@ -108,9 +108,7 @@ extension ANKFullWidth where High == High.Magnitude {
                     return remainders.allSatisfy({ $0 == UInt8(ascii: "0") })
                 }
                 //=------------------------------=
-                let chunkStartIndex = utf8.index(chunkEndIndex,
-                offsetBy: -radix.exponent,
-                limitedBy: utf8.startIndex) ?? utf8.startIndex
+                let chunkStartIndex = utf8.index(chunkEndIndex, offsetBy: -radix.exponent, limitedBy: utf8.startIndex) ?? utf8.startIndex
                 guard let  digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.base) else { return false }
                 chunkEndIndex = chunkStartIndex
                 //=------------------------------=
@@ -159,22 +157,22 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Encode
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _encode(_ value: ANKSigned<Self>, radix: Int, uppercase: Bool) -> String {
+    @inlinable static func _encodeBigEndianText(_ value: ANKSigned<Self>, radix: Int, uppercase: Bool) -> String {
         precondition(2 ... 36 ~=  radix)
         let radix = RadixUIntRoot(radix)
         //=--------------------------------------=
         // Radix == 2, 4, 16
         //=--------------------------------------=
         if  radix.power.isZero {
-            return self._encodeWhereRadixIsIn2Through36AndRadixIsUIntRoot(value, radix: radix, uppercase: uppercase)
+            return self._encodeBigEndianTextWhereRadixIsIn2Through36AndRadixIsUIntRoot(value, radix: radix, uppercase: uppercase)
         }
         //=--------------------------------------=
         // Radix != 2, 4, 16
         //=--------------------------------------=
-        return  self._encodeWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(value, radix: radix, uppercase: uppercase)
+        return  self._encodeBigEndianTextWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(value, radix: radix, uppercase: uppercase)
     }
     
-    @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsUIntRoot(
+    @inlinable static func _encodeBigEndianTextWhereRadixIsIn2Through36AndRadixIsUIntRoot(
     _ value: ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
         assert(radix.power.isZero)
         //=--------------------------------------=
@@ -202,7 +200,7 @@ extension ANKFullWidth where High == High.Magnitude {
         }
     }
     
-    @inlinable static func _encodeWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(
+    @inlinable static func _encodeBigEndianTextWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(
     _ value: ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
         assert(!radix.power.isZero)
         //=--------------------------------------=

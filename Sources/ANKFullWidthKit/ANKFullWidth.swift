@@ -16,9 +16,17 @@ import ANKFoundation
 /// A composable, large, fixed-width, two's complement, binary integer.
 ///
 /// ```swift
-/// typealias  ANKInt256 = ANKFullWidth< ANKInt128, ANKUInt128>
-/// typealias ANKUInt256 = ANKFullWidth<ANKUInt128, ANKUInt128>
+/// typealias  Int256 = FullWidth< Int128, UInt128>
+/// typealias UInt256 = FullWidth<UInt128, UInt128>
 /// ```
+///
+/// ### Single Digit Arithmetic
+///
+/// This model offers `Self` x `Digit` methods alongside its `Self` x `Self`
+/// methods. These may prove much faster than their oversized counterparts for
+/// operands that fit in a machine word.
+///
+/// - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
 /// ### Requirements
 ///
@@ -31,14 +39,6 @@ import ANKFoundation
 /// Low .bitWidth % UInt.bitWidth == 0
 /// High.bitWidth % UInt.bitWidth == 0
 /// ```
-///
-/// ### Single Digit Arithmetic
-///
-/// This model offers `Self` x `Digit` methods alongside its `Self` x `Self`
-/// methods. These may prove much faster than their oversized counterparts for
-/// operands that fit in a machine word.
-///
-/// - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
 /// ### Expressible by Integer vs String Literal
 ///

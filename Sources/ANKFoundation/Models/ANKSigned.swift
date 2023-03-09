@@ -13,15 +13,22 @@
 
 /// A decorative, width agnostic, sign-and-magnitude, numeric integer.
 ///
+/// ```swift
+/// typealias Magnitude = UInt
+/// let min = Signed(Magnitude.max, as: Sign.minus)
+/// let max = Signed(Magnitude.max, as: Sign.plus )
+/// ```
+///
+/// ### Sign & Magnitude
+///
 /// It stores a sign and a magnitude and has sign-and-magnitude semantics. The
 /// sign bit is treated as separate, meaning that overflow does not affect it.
 ///
-/// ### Positive & Negative Zero
+/// ### Positive zero & Negative Zero
 ///
-/// Zero is signed and can therefore have either a positive or negative sign.
-/// Both representations are `==` to each other and have the same `hashValue`.
-/// This is enables sign transformations such as ``sign``.``ANKSign/toggle()``
-/// when ``magnitude``.``ANKBinaryInteger/isZero``.
+/// Zero is signed, meaning that it can be either positive or negative. Both values
+/// are `==` to each other and have the same `hashValue`. This enables transformations
+/// such as ``sign``.``ANKSign/toggle()`` when ``magnitude``.``ANKBinaryInteger/isZero``.
 ///
 /// - use ``isLessThanZero`` to check if the integer is `negative`
 /// - use ``isMoreThanZero`` to check if the integer is `positive`
