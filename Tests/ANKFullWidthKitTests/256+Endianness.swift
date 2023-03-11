@@ -42,17 +42,19 @@ final class Int256TestsOnEndianness: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBigEndian() {
-        let base = T(x64: X(1, 2, 3, 4))
-        let baseBigEndian = T(x64: X(b4, b3, b2, b1))
-        XCTAssertEqual(base.bigEndian, baseBigEndian)
-        XCTAssertEqual(T(bigEndian: baseBigEndian), base)
+        XCTAssertEqual(T(x64: X(01 ,02, 03, 04)).bigEndian,     T(x64: X(b4, b3, b2, b1)))
+        XCTAssertEqual(T(x64: X(b4, b3, b2, b1)).bigEndian,     T(x64: X(01, 02, 03, 04)))
+        
+        XCTAssertEqual(T(bigEndian: T(x64: X(01, 02, 03, 04))), T(x64: X(b4, b3, b2, b1)))
+        XCTAssertEqual(T(bigEndian: T(x64: X(b4, b3, b2, b1))), T(x64: X(01, 02, 03, 04)))
     }
     
     func testLittleEndian() {
-        let base = T(x64: X(1, 2, 3, 4))
-        let baseLittleEndian = T(x64: X(l1, l2, l3, l4))
-        XCTAssertEqual(base.littleEndian, baseLittleEndian)
-        XCTAssertEqual(T(littleEndian: baseLittleEndian), base)
+        XCTAssertEqual(T(x64: X(01, 02, 03, 04)).littleEndian,     T(x64: X(l1, l2, l3, l4)))
+        XCTAssertEqual(T(x64: X(l1, l2, l3, l4)).littleEndian,     T(x64: X(01, 02, 03, 04)))
+        
+        XCTAssertEqual(T(littleEndian: T(x64: X(01, 02, 03, 04))), T(x64: X(l1, l2, l3, l4)))
+        XCTAssertEqual(T(littleEndian: T(x64: X(l1, l2, l3, l4))), T(x64: X(01, 02, 03, 04)))
     }
 }
 
@@ -83,17 +85,19 @@ final class UInt256TestsOnEndianness: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBigEndian() {
-        let base = T(x64: X(1, 2, 3, 4))
-        let baseBigEndian = T(x64: X(b4, b3, b2, b1))
-        XCTAssertEqual(base.bigEndian, baseBigEndian)
-        XCTAssertEqual(T(bigEndian: baseBigEndian), base)
+        XCTAssertEqual(T(x64: X(01 ,02, 03, 04)).bigEndian,     T(x64: X(b4, b3, b2, b1)))
+        XCTAssertEqual(T(x64: X(b4, b3, b2, b1)).bigEndian,     T(x64: X(01, 02, 03, 04)))
+        
+        XCTAssertEqual(T(bigEndian: T(x64: X(01, 02, 03, 04))), T(x64: X(b4, b3, b2, b1)))
+        XCTAssertEqual(T(bigEndian: T(x64: X(b4, b3, b2, b1))), T(x64: X(01, 02, 03, 04)))
     }
     
     func testLittleEndian() {
-        let base = T(x64: X(1, 2, 3, 4))
-        let baseLittleEndian = T(x64: X(l1, l2, l3, l4))
-        XCTAssertEqual(base.littleEndian, baseLittleEndian)
-        XCTAssertEqual(T(littleEndian: baseLittleEndian), base)
+        XCTAssertEqual(T(x64: X(01, 02, 03, 04)).littleEndian,     T(x64: X(l1, l2, l3, l4)))
+        XCTAssertEqual(T(x64: X(l1, l2, l3, l4)).littleEndian,     T(x64: X(01, 02, 03, 04)))
+        
+        XCTAssertEqual(T(littleEndian: T(x64: X(01, 02, 03, 04))), T(x64: X(l1, l2, l3, l4)))
+        XCTAssertEqual(T(littleEndian: T(x64: X(l1, l2, l3, l4))), T(x64: X(01, 02, 03, 04)))
     }
 }
 

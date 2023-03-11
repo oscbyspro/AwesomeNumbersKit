@@ -34,8 +34,8 @@ final class Int256TestsOnNegation: XCTestCase {
     }
     
     func testNegatedReportingOverflow() {
-        XCTAssert(T.min.negatedReportingOverflow() == (T(x64: X(0, 0, 0, ~0 << 63)), true ) as (T, Bool))
-        XCTAssert(T.max.negatedReportingOverflow() == (T(x64: X(1, 0, 0, ~0 << 63)), false) as (T, Bool))
+        XCTAssert(T.min.negatedReportingOverflow() == (T.min,        true ) as (T, Bool))
+        XCTAssert(T.max.negatedReportingOverflow() == (T.min + T(1), false) as (T, Bool))
     }
 }
 
