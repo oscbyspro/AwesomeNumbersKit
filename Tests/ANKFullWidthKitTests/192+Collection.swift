@@ -48,9 +48,9 @@ final class Int192TestsOnCollection: XCTestCase {
         
         x0.withUnsafeMutableBytes { BYTES in
             XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            XCTAssert(BYTES.allSatisfy({  $0  == 0x00 }))
-            BYTES.indices.forEach({ BYTES[$0]  = 0xff })
-            XCTAssert(BYTES.allSatisfy({  $0  == 0xff }))
+            XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
+            BYTES.indices.forEach({ BYTES[$0] = 0xff })
+            XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
         };  XCTAssertEqual(x0, x1)
     }
     
@@ -60,14 +60,14 @@ final class Int192TestsOnCollection: XCTestCase {
                 
         let y0 = T.fromUnsafeMutableBytes { BYTES in
             XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            BYTES.indices.forEach({ BYTES[$0]  = 0x00 })
-            XCTAssert(BYTES.allSatisfy({  $0  == 0x00 }))
+            BYTES.indices.forEach({ BYTES[$0] = 0x00 })
+            XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
         };  XCTAssertEqual(x0, y0)
         
         let y1 = T.fromUnsafeMutableBytes { BYTES in
             XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            BYTES.indices.forEach({ BYTES[$0]  = 0xff })
-            XCTAssert(BYTES.allSatisfy({  $0  == 0xff }))
+            BYTES.indices.forEach({ BYTES[$0] = 0xff })
+            XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
         };  XCTAssertEqual(x1, y1)
     }
     
@@ -96,9 +96,9 @@ final class Int192TestsOnCollection: XCTestCase {
                 
         x0.withUnsafeMutableWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
-            XCTAssert(WORDS.allSatisfy({  $0  == UInt.min }))
-            WORDS.indices.forEach({ WORDS[$0]  = UInt.max })
-            XCTAssert(WORDS.allSatisfy({  $0  == UInt.max }))
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.min }))
+            WORDS.indices.forEach({ WORDS[$0] = UInt.max })
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))
         };  XCTAssertEqual(x0, x1)
     }
     
@@ -144,9 +144,9 @@ final class Int192TestsOnCollection: XCTestCase {
                 
         x0.withContiguousMutableStorageIfAvailable { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
-            XCTAssert(WORDS.allSatisfy({  $0  == UInt.min }))
-            WORDS.indices.forEach({ WORDS[$0]  = UInt.max })
-            XCTAssert(WORDS.allSatisfy({  $0  == UInt.max }))
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.min }))
+            WORDS.indices.forEach({ WORDS[$0] = UInt.max })
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))
         };  XCTAssertEqual(x0, x1)
     }
 }
@@ -184,9 +184,9 @@ final class UInt192TestsOnCollection: XCTestCase {
                 
         x0.withUnsafeMutableBytes { BYTES in
             XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            XCTAssert(BYTES.allSatisfy({  $0  == 0x00 }))
-            BYTES.indices.forEach({ BYTES[$0]  = 0xff })
-            XCTAssert(BYTES.allSatisfy({  $0  == 0xff }))
+            XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
+            BYTES.indices.forEach({ BYTES[$0] = 0xff })
+            XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
         };  XCTAssertEqual(x0, x1)
     }
     
@@ -196,14 +196,14 @@ final class UInt192TestsOnCollection: XCTestCase {
                 
         let y0 = T.fromUnsafeMutableBytes { BYTES in
             XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            BYTES.indices.forEach({ BYTES[$0]  = 0x00 })
-            XCTAssert(BYTES.allSatisfy({  $0  == 0x00 }))
+            BYTES.indices.forEach({ BYTES[$0] = 0x00 })
+            XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
         };  XCTAssertEqual(x0, y0)
         
         let y1 = T.fromUnsafeMutableBytes { BYTES in
             XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            BYTES.indices.forEach({ BYTES[$0]  = 0xff })
-            XCTAssert(BYTES.allSatisfy({  $0  == 0xff }))
+            BYTES.indices.forEach({ BYTES[$0] = 0xff })
+            XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
         };  XCTAssertEqual(x1, y1)
     }
     
@@ -232,9 +232,9 @@ final class UInt192TestsOnCollection: XCTestCase {
                 
         x0.withUnsafeMutableWords { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
-            XCTAssert(WORDS.allSatisfy({  $0  == UInt.min }))
-            WORDS.indices.forEach({ WORDS[$0]  = UInt.max })
-            XCTAssert(WORDS.allSatisfy({  $0  == UInt.max }))
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.min }))
+            WORDS.indices.forEach({ WORDS[$0] = UInt.max })
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))
         };  XCTAssertEqual(x0, x1)
     }
     
@@ -280,9 +280,9 @@ final class UInt192TestsOnCollection: XCTestCase {
                 
         x0.withContiguousMutableStorageIfAvailable { WORDS in
             XCTAssertEqual(WORDS.count, T.count)
-            XCTAssert(WORDS.allSatisfy({  $0  == UInt.min }))
-            WORDS.indices.forEach({ WORDS[$0]  = UInt.max })
-            XCTAssert(WORDS.allSatisfy({  $0  == UInt.max }))
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.min }))
+            WORDS.indices.forEach({ WORDS[$0] = UInt.max })
+            XCTAssert(WORDS.allSatisfy({  $0 == UInt.max }))
         };  XCTAssertEqual(x0, x1)
     }
 }

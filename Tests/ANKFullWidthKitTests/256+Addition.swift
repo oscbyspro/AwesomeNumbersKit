@@ -190,11 +190,11 @@ final class UInt256TestsOnAddition: XCTestCase {
         XCTAssertEqual(T(0) + UInt(0), T(0))
         XCTAssertEqual(T(0) + UInt(1), T(1))
         XCTAssertEqual(T(0) + UInt(2), T(2))
-
+        
         XCTAssertEqual(T(1) + UInt(0), T(1))
         XCTAssertEqual(T(1) + UInt(1), T(2))
         XCTAssertEqual(T(1) + UInt(2), T(3))
-
+        
         XCTAssertEqual(T(x64: X(~0, ~0, ~0,  0)) + UInt(3), T(x64: X(2, 0, 0, 1)))
         XCTAssertEqual(T(x64: X(~0, ~0,  0,  0)) + UInt(3), T(x64: X(2, 0, 1, 0)))
         XCTAssertEqual(T(x64: X(~0,  0,  0,  0)) + UInt(3), T(x64: X(2, 1, 0, 0)))

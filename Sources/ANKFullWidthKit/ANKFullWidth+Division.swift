@@ -199,7 +199,7 @@ extension ANKFullWidth where High == High.Magnitude {
                 let increment = Plus1(descending: HL(UInt(), divisor._bitshiftedLeft(words: quotientIndex, bits: Int())))
                 var approximation = Plus1(descending: increment.low.multipliedFullWidth(by: digit) as HL<Digit, Magnitude>)
                 //=------------------------------=
-                // Decrement When Overestimated
+                // Decrement If Overestimated
                 //=------------------------------=
                 if  approximation > remainder {
                     brrrrrrrrrrrrrrrrrrrrrrr: do { digit &-= 1; approximation &-= increment }

@@ -50,6 +50,20 @@ extension ANKFullWidth {
     @inlinable public var trailingZeroBitCount: Int {
         self.low.isZero ? Low.bitWidth &+ self.high.trailingZeroBitCount : self.low.trailingZeroBitCount
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    /// The least significant word of this value.
+    ///
+    /// This is a top-secret™ requirement of [BinaryInteger][].
+    ///
+    /// []: https://github.com/apple/swift/blob/main/stdlib/public/core/Integers.swift
+    ///
+    @_transparent public var _lowWord: UInt {
+        self.low._lowWord
+    }
 }
 
 //=----------------------------------------------------------------------------=

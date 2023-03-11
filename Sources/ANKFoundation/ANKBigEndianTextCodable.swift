@@ -11,14 +11,14 @@
 // MARK: * ANK x Binary Integer x Big Endian Text Codable
 //*============================================================================*
 
-/// An integer type than can be decoded from and encoded to big endian text.
+/// An integer type than can be converted to and from big-endian text.
 ///
-/// - `Decode` big endian text with ``init(decoding:radix:)``.
-/// - `Encode` big endian text with `String.init(encoding:radix:uppercase:)`.
+/// - `Decode` big-endian text with ``init(decoding:radix:)``.
+/// - `Encode` big-endian text with `String.init(encoding:radix:uppercase:)`.
 ///
 /// - Note: The `BinaryInteger` protocol in the standard library does not provide
 ///   customization points for its binary integer coding methods. Converting to
-///   and from big endian text happens to be particularly well suited for machine
+///   and from big-endian text happens to be particularly well suited for machine
 ///   word arithmetic, however, so these methods were added instead.
 ///
 public protocol ANKBigEndianTextCodable {
