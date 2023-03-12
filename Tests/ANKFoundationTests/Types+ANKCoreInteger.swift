@@ -45,12 +45,12 @@ final class TypesTestsOnANKCoreInteger: XCTestCase {
             
             x0.withUnsafeBytes { BYTES in
                 XCTAssertEqual(BYTES.count, type.bitWidth/8)
-                XCTAssert(BYTES.allSatisfy({ $0 == 0x00 }))
+                XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
             }
             
             x1.withUnsafeBytes { BYTES in
                 XCTAssertEqual(BYTES.count, type.bitWidth/8)
-                XCTAssert(BYTES.allSatisfy({ $0 == 0xff }))
+                XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
             }
         }
     }
@@ -78,14 +78,14 @@ final class TypesTestsOnANKCoreInteger: XCTestCase {
             
             let y0 = type.fromUnsafeMutableBytes { BYTES in
                 XCTAssertEqual(BYTES.count, type.bitWidth/8)
-                BYTES.indices.forEach({ BYTES[$0]  = 0x00 })
-                XCTAssert(BYTES.allSatisfy({  $0  == 0x00 }))
+                BYTES.indices.forEach({ BYTES[$0] = 0x00 })
+                XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
             }
             
             let y1 = type.fromUnsafeMutableBytes { BYTES in
                 XCTAssertEqual(BYTES.count, type.bitWidth/8)
-                BYTES.indices.forEach({ BYTES[$0]  = 0xff })
-                XCTAssert(BYTES.allSatisfy({  $0  == 0xff }))
+                BYTES.indices.forEach({ BYTES[$0] = 0xff })
+                XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
             }
             
             XCTAssertEqual(x0.words.map({ $0 as! UInt }), y0.words.map({ $0 as! UInt }))

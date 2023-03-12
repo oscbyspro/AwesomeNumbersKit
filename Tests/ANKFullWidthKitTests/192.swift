@@ -82,11 +82,11 @@ final class Int192Tests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitAscending() {
-        XCTAssertEqual(T(ascending:  (ANKUInt128(x64:(1, 2)), ANKInt64(3))), T(x64: X(1, 2, 3)))
+        XCTAssertEqual(T(ascending:  (T.Low(x64:(1, 2)), T.High(3))), T(x64: X(1, 2, 3)))
     }
 
     func testInitDescending() {
-        XCTAssertEqual(T(descending: (ANKInt64(3), ANKUInt128(x64:(1, 2)))), T(x64: X(1, 2, 3)))
+        XCTAssertEqual(T(descending: (T.High(3), T.Low(x64:(1, 2)))), T(x64: X(1, 2, 3)))
     }
 }
 
@@ -157,11 +157,11 @@ final class UInt192Tests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitAscending() {
-        XCTAssertEqual(T(ascending:  (ANKUInt128(x64:(1, 2)), ANKUInt64(3))), T(x64: X(1, 2, 3)))
+        XCTAssertEqual(T(ascending:  (T.Low(x64:(1, 2)), T.High(3))), T(x64: X(1, 2, 3)))
     }
 
     func testInitDescending() {
-        XCTAssertEqual(T(descending: (ANKUInt64(3), ANKUInt128(x64:(1, 2)))), T(x64: X(1, 2, 3)))
+        XCTAssertEqual(T(descending: (T.High(3), T.Low(x64:(1, 2)))), T(x64: X(1, 2, 3)))
     }
 }
 

@@ -79,11 +79,11 @@ final class Int128Tests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitAscending() {
-        XCTAssertEqual(T(ascending:  (ANKUInt64(1), ANKInt64(2))), T(x64: X(1, 2)))
+        XCTAssertEqual(T(ascending:  (T.Low(1), T.High(2))), T(x64: X(1, 2)))
     }
 
     func testInitDescending() {
-        XCTAssertEqual(T(descending: (ANKInt64(2), ANKUInt64(1))), T(x64: X(1, 2)))
+        XCTAssertEqual(T(descending: (T.High(2), T.Low(1))), T(x64: X(1, 2)))
     }
     
     //=------------------------------------------------------------------------=
@@ -171,11 +171,11 @@ final class UInt128Tests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitAscending() {
-        XCTAssertEqual(T(ascending:  (ANKUInt64(1), ANKUInt64(2))), T(x64: X(1, 2)))
+        XCTAssertEqual(T(ascending:  (T.Low(1), T.High(2))), T(x64: X(1, 2)))
     }
     
     func testInitDescending() {
-        XCTAssertEqual(T(descending: (ANKUInt64(2), ANKUInt64(1))), T(x64: X(1, 2)))
+        XCTAssertEqual(T(descending: (T.High(2), T.Low(1))), T(x64: X(1, 2)))
     }
     
     //=------------------------------------------------------------------------=

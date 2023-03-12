@@ -90,13 +90,13 @@ final class Int256Benchmarks: XCTestCase {
     
     func testInitAscending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(ascending:  (ANKUInt128(), ANKInt128()))
+            _ = T(ascending:  (T.Low(), T.High()))
         }
     }
     
     func testInitDescending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(descending: (ANKInt128(), ANKUInt128()))
+            _ = T(descending: (T.High(), T.Low()))
         }
     }
 }
@@ -176,13 +176,13 @@ final class UInt256Benchmarks: XCTestCase {
     
     func testInitAscending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(ascending:  (ANKUInt128(), ANKUInt128()))
+            _ = T(ascending:  (T.Low(), T.High()))
         }
     }
     
     func testInitDescending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(descending: (ANKUInt128(), ANKUInt128()))
+            _ = T(descending: (T.High(), T.Low()))
         }
     }
 }

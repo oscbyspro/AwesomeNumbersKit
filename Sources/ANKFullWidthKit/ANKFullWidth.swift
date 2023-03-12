@@ -52,13 +52,17 @@ CustomDebugStringConvertible, ExpressibleByStringLiteral, MutableCollection wher
 High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     
-    public typealias IntegerLiteralType = Int
+    public typealias High = High
+    
+    public typealias Low = Low
     
     public typealias Digit = High.Digit
     
-    public typealias BitPattern = Magnitude
+    public typealias IntegerLiteralType = Int
     
     public typealias Magnitude = ANKFullWidth<High.Magnitude, Low>
+    
+    public typealias BitPattern = Magnitude
     
     public typealias Plus1 = ANKFullWidth<Digit, Magnitude>
     

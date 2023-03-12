@@ -31,11 +31,6 @@ public typealias ANKUInt64 = UInt
 
 #else
 
-/// A 64-bit signed integer value type.
-public typealias ANKInt64 = Never
-
-/// A 64-bit unsigned integer value type.
-public typealias ANKUInt64 = Never
-
 #error("ANKFullWidth can only be used on a 32-bit or 64-bit platform.")
+
 #endif

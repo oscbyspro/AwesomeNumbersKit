@@ -40,11 +40,7 @@ final class TypesTestsOnANKIntOrUInt: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsIntOrUInt() {
-        for type: T in types {
-            if type is  Int.Type { continue }
-            if type is UInt.Type { continue }
-            XCTFail("\(type) is not Int or UInt")
-        }
+        XCTAssert(types.allSatisfy({ $0 == Int.self || $0 == UInt.self }))
     }
 }
 
