@@ -145,6 +145,7 @@ extension ANKFullWidth where High == High.Magnitude {
     @_specialize(where Self == ANKUInt128)
     @_specialize(where Self == ANKUInt192)
     @_specialize(where Self == ANKUInt256)
+    @_specialize(where Self == ANKUInt384)
     @_specialize(where Self == ANKUInt512)
     @inlinable func _quotientAndRemainderAsUnsigned(dividingBy divisor: Self) -> QR<Self, Self> {
         let divisor_ = divisor.minLastIndexReportingIsZeroOrMinusOne()

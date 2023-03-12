@@ -31,6 +31,9 @@ public typealias Int192 = ANKInt192
 /// A 256-bit signed integer value type.
 public typealias Int256 = ANKInt256
 
+/// A 384-bit signed integer value type.
+public typealias Int384 = ANKInt384
+
 /// A 512-bit signed integer value type.
 public typealias Int512 = ANKInt512
 
@@ -55,6 +58,9 @@ public typealias UInt192 = ANKUInt192
 
 /// A 256-bit unsigned integer value type.
 public typealias UInt256 = ANKUInt256
+
+/// A 384-bit unsigned integer value type.
+public typealias UInt384 = ANKUInt384
 
 /// A 512-bit unsigned integer value type.
 public typealias UInt512 = ANKUInt512
