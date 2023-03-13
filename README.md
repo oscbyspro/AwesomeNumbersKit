@@ -1,4 +1,4 @@
-# [AwesomeNumbersKit](https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit)
+# [AwesomeNumbersKit][ANK/D]
 
 Large number arithmetic in Swift.
 
@@ -6,7 +6,7 @@ Large number arithmetic in Swift.
 |:-----:|:-----:|:------:|:------------:|:-----:|:-----:|:-------:|
 | 5.7   | 13.0  | 13.0   | 13.0         | 10.15 | 13.0  | 6.0     |
 
-## [ANKFullWidthKit](https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit/ankfullwidth) ([Sources](Sources/ANKFullWidthKit), [Tests](Tests/ANKFullWidthKitTests), [Benchmarks](Tests/ANKFullWidthKitBenchmarks))
+## [ANKFullWidthKit][FUL/D] ([Sources][FUL/S], [Tests][FUL/T], [Benchmarks][FUL/B])
 
 A composable, large, fixed-width, two's complement, binary integer.
 
@@ -23,7 +23,7 @@ typealias  Int256 = FullWidth< Int128, UInt128>
 typealias UInt256 = FullWidth<UInt128, UInt128>
 ```
 
-## [ANKSignedKit](https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit/anksigned) ([Sources](Sources/ANKSignedKit), [Tests](Tests/ANKSignedKitTests), [Benchmarks](Tests/ANKSignedKitBenchmarks))
+## [ANKSignedKit][SIG/D] ([Sources][SIG/S], [Tests][SIG/T], [Benchmarks][SIG/B])
 
 A decorative, width agnostic, sign-and-magnitude, numeric integer.
 
@@ -40,7 +40,7 @@ let min = Signed(Magnitude.max, as: Sign.minus)
 let max = Signed(Magnitude.max, as: Sign.plus )
 ```
 
-## ANKFoundation ([Sources](Sources/ANKFoundation), [Tests](Tests/ANKFoundationTests), [Benchmarks](Tests/ANKFoundationBenchmarks))
+## ANKFoundation ([Sources][FDN/S], [Tests][FDN/T], [Benchmarks][FDN/B])
 
 Models, protocols, extensions and utilities underpinning this package.
 
@@ -71,3 +71,21 @@ Models, protocols, extensions and utilities underpinning this package.
 - [ANKUnsignedLargeBinaryInteger\<Digit\>](Sources/ANKFoundation/ANKLargeBinaryInteger.swift)
 - [ANKUnsignedLargeFixedWidthInteger\<Digit\>](Sources/ANKFoundation/ANKLargeFixedWidthInteger.swift)
 - [ANKWords](Sources/ANKFoundation/ANKWords.swift)
+
+<!-- Links -->
+
+[ANK/D]: https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit
+[FUL/D]: https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit/ankfullwidth
+[SIG/D]: https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit/anksigned
+
+[FDN/S]: Sources/ANKFoundation
+[FUL/S]: Sources/ANKFullWidthKit
+[SIG/S]: Sources/ANKSignedKit
+
+[FDN/T]: Tests/ANKFoundationTests
+[FUL/T]: Tests/ANKFullWidthKitTests
+[SIG/T]: Tests/ANKSignedKitTests
+
+[FDN/B]: Tests/ANKFoundationBenchmarks
+[FUL/B]: Tests/ANKFullWidthKitBenchmarks
+[SIG/B]: Tests/ANKSignedKitBenchmarks
