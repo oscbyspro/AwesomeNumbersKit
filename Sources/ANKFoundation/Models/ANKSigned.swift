@@ -35,9 +35,16 @@
 ///
 /// ### Single Digit Arithmetic
 ///
-/// Alongside its ordinary arithmetic operations, it also offers single digit
-/// operations. These methods are more efficient, but they can only be used on
-/// operands that fit in one machine word.
+/// Alongside its ordinary arithmetic operations, ``ANKSigned`` also offers single digit
+/// operations. These methods are more efficient, but they can only be used on operands that
+/// fit in a machine word. See the following for more details:
+///
+/// - ``ANKLargeBinaryInteger``
+/// - ``ANKLargeFixedWidthInteger``
+/// - ``ANKSignedLargeBinaryInteger``
+/// - ``ANKSignedLargeFixedWidthInteger``
+/// - ``ANKUnsignedLargeBinaryInteger``
+/// - ``ANKUnsignedLargeFixedWidthInteger``
 ///
 /// - Note: The `Digit` type is `ANKSigned<Magnitude.Digit>` when it exists.
 ///
