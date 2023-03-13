@@ -24,7 +24,7 @@
 /// It stores a sign and a magnitude and has sign-and-magnitude semantics. The
 /// sign bit is treated as separate, meaning that overflow does not affect it.
 ///
-/// ### Positive zero & Negative Zero
+/// ### Positive Zero & Negative Zero
 ///
 /// Zero is signed, meaning that it can be either positive or negative. Both values
 /// are `==` to each other and have the same `hashValue`. This enables transformations
@@ -35,9 +35,9 @@
 ///
 /// ### Single Digit Arithmetic
 ///
-/// This model offers `Self` x `Digit` methods alongside its `Self` x `Self`
-/// methods. These may prove much faster than their oversized counterparts for
-/// operands that fit in a machine word.
+/// Alongside its ordinary arithmetic operations, it also offers single digit
+/// operations. These methods are more efficient, but they can only be used on
+/// operands that fit in one machine word.
 ///
 /// - Note: The `Digit` type is `ANKSigned<Magnitude.Digit>` when it exists.
 ///

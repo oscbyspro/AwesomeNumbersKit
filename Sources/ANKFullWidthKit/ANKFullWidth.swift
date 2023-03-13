@@ -22,9 +22,9 @@ import ANKFoundation
 ///
 /// ### Single Digit Arithmetic
 ///
-/// This model offers `Self` x `Digit` methods alongside its `Self` x `Self`
-/// methods. These may prove much faster than their oversized counterparts for
-/// operands that fit in a machine word.
+/// Alongside its ordinary arithmetic operations, it also offers single digit
+/// operations. These methods are more efficient, but they can only be used on
+/// operands that fit in one machine word.
 ///
 /// - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
@@ -52,20 +52,28 @@ CustomDebugStringConvertible, ExpressibleByStringLiteral, MutableCollection wher
 High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     
+    /// The most significant part of this type.
     public typealias High = High
     
+    /// The least significant part of this type.
     public typealias Low = Low
     
+    /// The digit of this type.
     public typealias Digit = High.Digit
     
+    /// The integer literal used to create instance of this type.
     public typealias IntegerLiteralType = Int
     
+    /// The magnitude of this type.
     public typealias Magnitude = ANKFullWidth<High.Magnitude, Low>
     
+    /// The bit pattern of this type.
     public typealias BitPattern = Magnitude
     
+    /// An integer type with one more ``Digit`` than this type.
     public typealias Plus1 = ANKFullWidth<Digit, Magnitude>
     
+    /// An integer type with double the width of this type.
     public typealias DoubleWidth = ANKFullWidth<Self, Magnitude>
     
     //=------------------------------------------------------------------------=

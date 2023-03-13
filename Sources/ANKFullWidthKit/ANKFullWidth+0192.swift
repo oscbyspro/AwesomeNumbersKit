@@ -55,7 +55,7 @@ extension ANKFullWidth where Magnitude == ANKUInt192 {
 }
 
 //*============================================================================*
-// MARK: * ANK x [U]Int192 x Tuples
+// MARK: * ANK x [U]Int192 x Patterns
 //*============================================================================*
 
 /// A 192-bit pattern, split into `UInt64` words.

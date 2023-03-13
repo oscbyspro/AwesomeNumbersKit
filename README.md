@@ -14,6 +14,7 @@ A composable, large, fixed-width, two's complement, binary integer.
 <tr><td>:jigsaw:</td><td>Composable</td></tr>
 <tr><td>:two_hearts:</td><td>Two's Complement</td></tr>
 <tr><td>:european_castle:</td><td>Fixed Width Integer</td></tr>
+<tr><td>:book:</td><td>Trivial UInt Collection</td></tr>
 <tr><td>:rocket:</td><td>Single Digit Arithmetic</td></tr>
 </table>
 

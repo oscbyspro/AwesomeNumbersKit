@@ -2,6 +2,40 @@
 
 A composable, large, fixed-width, two's complement, binary integer.
 
+## Overview
+
+This module provides a generic model for working with fixed-width integers larger
+than 64 bits: ``ANKFullWidth``.  Its bit width is the sum of the bit width of its 
+``ANKFullWidth/High-swift.typealias`` and ``ANKFullWidth/Low-swift.typealias`` 
+parts.  In this fashion, you  may construct any size that is a multiple of 64 bits 
+(or 32 bits on 32-bit platforms):
+
+```swift
+typealias  Int256 = FullWidth< Int128, UInt128>
+typealias UInt256 = FullWidth<UInt128, UInt128>
+```
+
+#### Trivial UInt Collection
+
+``ANKFullWidth`` models a `UInt` collection with inline storage. The bit widths of 
+its ``ANKFullWidth/High-swift.typealias`` and ``ANKFullWidth/Low-swift.typealias``  
+parts must therefore be multiplies of `UInt.bitWidth`. This requirement allows you 
+to operate on its words directly. While it does conform to the `Collection` protocol, 
+the best way to access these words is by using the following methods — based on custom, 
+endian-sensitive, pointers: 
+
+- ``ANKFullWidth/withUnsafeWords(_:)``
+- ``ANKFullWidth/withUnsafeMutableWords(_:)``
+- ``ANKFullWidth/fromUnsafeMutableWords(_:)``
+
+#### Single Digit Arithmetic
+
+Alongside its ordinary arithmetic operations, ``ANKFullWidth`` also offers 
+single digit operations. These methods are more efficient, but they can only 
+be used on operands that fit in one machine word.
+
+- Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
+
 ## Topics
 
 ### Models
