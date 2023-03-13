@@ -19,7 +19,7 @@ High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude
 
 //*============================================================================*
-// MARK: * ANK x Aliases x Signed
+// MARK: * ANK x Aliases x Integers x Signed
 //*============================================================================*
 
 /// A 128-bit signed integer value type.
@@ -47,7 +47,7 @@ public typealias Int2048 = ANKInt2048
 public typealias Int4096 = ANKInt4096
 
 //*============================================================================*
-// MARK: * ANK x Aliases x Unsigned
+// MARK: * ANK x Aliases x Integers x Unsigned
 //*============================================================================*
 
 /// A 128-bit unsigned integer value type.

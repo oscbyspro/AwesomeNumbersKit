@@ -11,6 +11,16 @@
 // MARK: * Aliases
 //*============================================================================*
 
+/// The sign of a numeric value.
+public typealias Sign = ANKSign
+
+/// A decorative, width agnostic, sign-and-magnitude, numeric integer.
+public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude
+
+//*============================================================================*
+// MARK: * Aliases x Arithmetic
+//*============================================================================*
+
 /// A high and a low value.
 public typealias HL<H,L> = (high: H, low: L)
 
@@ -22,13 +32,3 @@ public typealias PVO<PV> = (partialValue: PV, overflow: Bool)
 
 /// A quotient and a remainder, relating to division.
 public typealias QR<Q,R> = (quotient: Q, remainder: R)
-
-//*============================================================================*
-// MARK: * Aliases x Models
-//*============================================================================*
-
-/// The sign of a numeric value.
-public typealias Sign = ANKSign
-
-/// A decorative, width agnostic, sign-and-magnitude, numeric integer.
-public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude
