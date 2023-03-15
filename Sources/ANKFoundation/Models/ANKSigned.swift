@@ -21,17 +21,23 @@
 ///
 /// ### Sign & Magnitude
 ///
-/// It stores a sign and a magnitude and has sign-and-magnitude semantics. The
-/// sign bit is treated as separate, meaning that overflow does not affect it.
+/// ``ANKSigned`` models a sign and a magnitude that are independent of each other,
+/// meaning that the sign is unaffected by fixed-width integer overflow. The following
+/// illustrates its behavior:
+///
+/// ```swift
+/// Signed<UInt8>(255, as: .minus) &- 1 // Signed<UInt8>(0, as: .minus)
+/// Signed<UInt8>(255, as: .plus ) &+ 1 // Signed<UInt8>(0, as: .plus )
+/// ```
 ///
 /// ### Positive Zero & Negative Zero
 ///
-/// Zero is signed, meaning that it can be either positive or negative. Both values
-/// are `==` to each other and have the same `hashValue`. This enables transformations
-/// such as ``sign``.``ANKSign/toggle()`` when ``magnitude``.``ANKBinaryInteger/isZero``.
+/// Zero is signed, meaning that it can be either positive or negative. These values
+/// are comparatively equal and have the same `hashValue`. This makes it possible to
+/// ``ANKSign/toggle()`` the sign without checking for zero.
 ///
-/// - use ``isLessThanZero`` to check if the integer is `negative`
-/// - use ``isMoreThanZero`` to check if the integer is `positive`
+/// - use ``isLessThanZero`` to check if the value is `negative` and non-zero
+/// - use ``isMoreThanZero`` to check if the value is `positive` and non-zero
 ///
 /// ### Single Digit Arithmetic
 ///
