@@ -36,8 +36,8 @@
 /// are comparatively equal and have the same `hashValue`. This makes it possible to
 /// ``ANKSign/toggle()`` the sign without checking for zero.
 ///
-/// - use ``isLessThanZero`` to check if the value is `negative` and non-zero
-/// - use ``isMoreThanZero`` to check if the value is `positive` and non-zero
+/// - use ``isLessThanZero`` to check if a value is `negative` and non-zero
+/// - use ``isMoreThanZero`` to check if a value is `positive` and non-zero
 ///
 /// ### Single Digit Arithmetic
 ///
