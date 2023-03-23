@@ -14,10 +14,10 @@ import ANKFoundation
 //*============================================================================*
 
 /// A 384-bit signed integer value type.
-public typealias ANKInt384 = ANKFullWidth<ANKInt128, ANKUInt256>
+public typealias ANKInt384 = ANKFullWidth<ANKInt192, ANKUInt192>
 
 /// A 384-bit unsigned integer value type.
-public typealias ANKUInt384 = ANKFullWidth<ANKUInt128, ANKUInt256>
+public typealias ANKUInt384 = ANKFullWidth<ANKUInt192, ANKUInt192>
 
 //*============================================================================*
 // MARK: * ANK x [U]Int384 x (32/64)
