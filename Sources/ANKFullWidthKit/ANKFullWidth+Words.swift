@@ -19,8 +19,58 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public static var bitWidth: Int {
-        High.bitWidth + Low.bitWidth
+    @inlinable public static var count: Int {
+        assert(Self.bitWidth / UInt.bitWidth >= 1)
+        assert(Self.bitWidth % UInt.bitWidth == 0)
+        return Self.bitWidth / UInt.bitWidth
+    }
+    
+    @inlinable public static var startIndex: Int {
+        0
+    }
+    
+    @inlinable public static var endIndex: Int {
+        self.count
+    }
+    
+    @inlinable public static var lastIndex: Int {
+        self.count &- 1
+    }
+    
+    @inlinable public static var indices: Range<Int> {
+        0 ..< self.count
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public var count: Int {
+        Self.count
+    }
+    
+    @_transparent public var startIndex: Int {
+        Self.startIndex
+    }
+    
+    @_transparent public var endIndex: Int {
+        Self.endIndex
+    }
+    
+    @_transparent public var lastIndex: Int {
+        Self.lastIndex
+    }
+    
+    @_transparent public var indices: Range<Int> {
+        Self.indices
+    }
+    
+    @_transparent public var first: UInt {
+        self[unchecked: self.startIndex]
+    }
+    
+    @_transparent public var last: UInt {
+        self[unchecked: self.lastIndex]
     }
     
     //=------------------------------------------------------------------------=
@@ -31,30 +81,6 @@ extension ANKFullWidth {
         self
     }
     
-    @_transparent public var mostSignificantBit: Bool {
-        self.high.mostSignificantBit
-    }
-    
-    @_transparent public var leastSignificantBit: Bool {
-        self.low.leastSignificantBit
-    }
-    
-    @inlinable public var nonzeroBitCount: Int {
-        self.low.nonzeroBitCount &+ self.high.nonzeroBitCount
-    }
-    
-    @inlinable public var leadingZeroBitCount: Int {
-        self.high.isZero ? High.bitWidth &+ self.low.leadingZeroBitCount : self.high.leadingZeroBitCount
-    }
-    
-    @inlinable public var trailingZeroBitCount: Int {
-        self.low.isZero ? Low.bitWidth &+ self.high.trailingZeroBitCount : self.low.trailingZeroBitCount
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
     /// The least significant word of this value.
     ///
     /// This is a top-secret™ requirement of [BinaryInteger][].
@@ -63,6 +89,20 @@ extension ANKFullWidth {
     ///
     @_transparent public var _lowWord: UInt {
         self.low._lowWord
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @usableFromInline subscript(unchecked index: Int) -> UInt {
+        @_transparent _read { yield  self.withUnsafeWords({ $0[index] /*------*/ }) }
+        @_transparent  set  { self.withUnsafeMutableWords({ $0[index] = newValue }) }
+    }
+    
+    public subscript(index: Int) -> UInt {
+        @_transparent _read { precondition(self.indices ~= index); yield self[unchecked: index] /*------*/ }
+        @_transparent  set  { precondition(self.indices ~= index); /*-*/ self[unchecked: index] = newValue }
     }
 }
 

@@ -16,67 +16,87 @@ private typealias X = ANK256X64
 private typealias Y = ANK256X32
 
 //*============================================================================*
-// MARK: * Int256 x Words
+// MARK: * Int256 x Bits
 //*============================================================================*
 
-final class Int256BenchmarksOnWords: XCTestCase {
+final class Int256BenchmarksOnBits: XCTestCase {
     
     typealias T = ANKInt256
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Min Two's Complement
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testMinLastIndexReportingIsZeroOrMinusOne() {
+    func testNonzeroBitCount() {
         let abc =  T(x64: X(0, 0, 0, 0))
         let xyz = ~T(x64: X(0, 0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.minLastIndexReportingIsZeroOrMinusOne()
-            _ = xyz.minLastIndexReportingIsZeroOrMinusOne()
+            _ = abc.nonzeroBitCount
+            _ = xyz.nonzeroBitCount
         }
     }
     
-    func testMinWordCountReportingIsZeroOrMinusOne() {
+    func testLeadingZeroBitCount() {
         let abc =  T(x64: X(0, 0, 0, 0))
         let xyz = ~T(x64: X(0, 0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.minWordCountReportingIsZeroOrMinusOne()
-            _ = xyz.minWordCountReportingIsZeroOrMinusOne()
+            _ = abc.leadingZeroBitCount
+            _ = xyz.leadingZeroBitCount
+        }
+    }
+    
+    func testTrailingZeroBitCount() {
+        let abc =  T(x64: X(0, 0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0, 0))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.trailingZeroBitCount
+            _ = xyz.trailingZeroBitCount
         }
     }
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Words
+// MARK: * UInt256 x Bits
 //*============================================================================*
 
-final class UInt256BenchmarksOnWords: XCTestCase {
+final class UInt256BenchmarksOnBits: XCTestCase {
     
     typealias T = ANKUInt256
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Min Two's Complement
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testMinLastIndexReportingIsZeroOrMinusOne() {
+    func testNonzeroBitCount() {
         let abc =  T(x64: X(0, 0, 0, 0))
         let xyz = ~T(x64: X(0, 0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.minLastIndexReportingIsZeroOrMinusOne()
-            _ = xyz.minLastIndexReportingIsZeroOrMinusOne()
+            _ = abc.nonzeroBitCount
+            _ = xyz.nonzeroBitCount
         }
     }
     
-    func testMinWordCountReportingIsZeroOrMinusOne() {
+    func testLeadingZeroBitCount() {
         let abc =  T(x64: X(0, 0, 0, 0))
         let xyz = ~T(x64: X(0, 0, 0, 0))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.minWordCountReportingIsZeroOrMinusOne()
-            _ = xyz.minWordCountReportingIsZeroOrMinusOne()
+            _ = abc.leadingZeroBitCount
+            _ = xyz.leadingZeroBitCount
+        }
+    }
+    
+    func testTrailingZeroBitCount() {
+        let abc =  T(x64: X(0, 0, 0, 0))
+        let xyz = ~T(x64: X(0, 0, 0, 0))
+        
+        for _ in 0 ..< 1_000_000 {
+            _ = abc.trailingZeroBitCount
+            _ = xyz.trailingZeroBitCount
         }
     }
 }
