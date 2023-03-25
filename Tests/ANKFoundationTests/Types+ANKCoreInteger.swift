@@ -35,7 +35,7 @@ final class TypesTestsOnANKCoreInteger: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Contiguous Bytes
+    // MARK: Tests x Bytes
     //=------------------------------------------------------------------------=
     
     func testWithUnsafeBytes() {

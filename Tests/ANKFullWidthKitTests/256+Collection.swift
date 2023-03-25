@@ -120,7 +120,7 @@ final class Int256TestsOnCollection: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Words x Contiguous
+    // MARK: Tests x Words x Contiguous Sequence
     //=------------------------------------------------------------------------=
     
     func testWithContiguousStorageIfAvailable() {
@@ -256,7 +256,7 @@ final class UInt256TestsOnCollection: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Words x Contiguous
+    // MARK: Tests x Words x Contiguous Sequence
     //=------------------------------------------------------------------------=
     
     func testWithContiguousStorageIfAvailable() {
