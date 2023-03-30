@@ -19,12 +19,12 @@ extension ANKFullWidth {
     // MARK: Details x Bit Pattern
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(bitPattern: BitPattern) {
-        self = unsafeBitCast(bitPattern, to: Self.self)
+    @_transparent public var bitPattern: BitPattern {
+        unsafeBitCast(self, to: BitPattern.self)
     }
     
-    @_transparent public var bitPattern: BitPattern {
-        return unsafeBitCast(self, to: BitPattern.self)
+    @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
+        self = unsafeBitCast(source.bitPattern, to: Self.self)
     }
     
     //=------------------------------------------------------------------------=

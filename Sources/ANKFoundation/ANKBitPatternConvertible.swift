@@ -35,7 +35,7 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     /// Int8(bitPattern: UInt8(253)) // Int8(-3)
     /// ```
     ///
-    @inlinable init(bitPattern: BitPattern)
+    @inlinable init(bitPattern source: some ANKBitPatternConvertible<BitPattern>)
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
@@ -53,40 +53,10 @@ public protocol ANKBitPatternConvertible<BitPattern> {
 }
 
 //=----------------------------------------------------------------------------=
-// MARK: + Details
+// MARK: + Details where Bit Pattern is Self
 //=----------------------------------------------------------------------------=
 
-extension ANKBitPatternConvertible {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    /// Creates a new instance from the given bit pattern.
-    ///
-    /// ```swift
-    /// Int8(bitPattern: UInt8(255)) // Int8(-1)
-    /// Int8(bitPattern: UInt8(254)) // Int8(-2)
-    /// Int8(bitPattern: UInt8(253)) // Int8(-3)
-    /// ```
-    ///
-    @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
-        self.init(bitPattern: source.bitPattern)
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Bit Pattern Convertible x Never
-//*============================================================================*
-
-extension Never: ANKBitPatternConvertible { }
-extension ANKBitPatternConvertible<Never> {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public var bitPattern: Never {
-        fatalError()
-    }
+extension ANKBitPatternConvertible where  BitPattern == Self {
+    @_transparent public var  bitPattern: BitPattern {  self }
+    @_transparent public init(bitPattern  source: some ANKBitPatternConvertible<BitPattern>) { self = source.bitPattern }
 }

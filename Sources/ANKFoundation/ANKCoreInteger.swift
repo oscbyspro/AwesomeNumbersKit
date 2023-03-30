@@ -8,7 +8,7 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Core
+// MARK: * ANK x Core Integer
 //*============================================================================*
 
 /// An awesome, fixed-width, binary integer.
@@ -27,7 +27,8 @@
 /// - `UInt32`
 /// - `UInt64`
 ///
-public protocol ANKCoreInteger: ANKBigEndianTextCodable, ANKFixedWidthInteger, ANKTrivialContiguousBytes where BitPattern == Magnitude { }
+public protocol ANKCoreInteger: ANKBigEndianTextCodable, ANKFixedWidthInteger, ANKTrivialContiguousBytes where
+Magnitude: ANKCoreInteger, Magnitude == BitPattern { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -104,35 +105,21 @@ extension ANKCoreInteger {
         let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
         self = Self(bitPattern: hl.low); return hl.high
     }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details x Bit Pattern
-//=----------------------------------------------------------------------------=
-
-extension ANKCoreInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
+    // MARK: Details x Bit Pattern
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(bitPattern: BitPattern) {
-        self = unsafeBitCast(bitPattern, to: Self.self)
-    }
-        
     @_transparent public var bitPattern: BitPattern {
-        return unsafeBitCast(self, to: BitPattern.self)
+        unsafeBitCast(self, to: BitPattern.self)
     }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details x Two's Complement
-//=----------------------------------------------------------------------------=
-
-extension ANKCoreInteger {
+    
+    @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
+        self = unsafeBitCast(source.bitPattern, to: Self.self)
+    }
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Details x Two's Complement
     //=------------------------------------------------------------------------=
     
     @_transparent public mutating func formTwosComplement() {
@@ -142,16 +129,9 @@ extension ANKCoreInteger {
     @_transparent public func twosComplement() -> Self {
         ~self &+ (1 as Self)
     }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details x Big Endian Text Codable
-//=----------------------------------------------------------------------------=
-
-extension ANKCoreInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
+    // MARK: Details x Big Endian Text Codable
     //=------------------------------------------------------------------------=
     
     @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
@@ -166,7 +146,7 @@ extension ANKCoreInteger {
 }
 
 //*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Signed x Core
+// MARK: * ANK x Core Integer x Signed
 //*============================================================================*
 
 extension ANKCoreInteger where Self: ANKSignedFixedWidthInteger {
@@ -186,7 +166,7 @@ extension ANKCoreInteger where Self: ANKSignedFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Core x Swift
+// MARK: * ANK x Core Integer x Swift
 //*============================================================================*
 
 extension Int: ANKCoreInteger, ANKSignedFixedWidthInteger {
