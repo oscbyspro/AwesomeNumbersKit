@@ -118,7 +118,7 @@ extension ANKFullWidth {
     
     /// Returns this value's last index, in min two's complement form.
     ///
-    /// ```
+    /// ```swift
     /// Int256( 1).minLastIndexReportingIsZeroOrMinusOne() // (minLastIndex: 0, isZeroOrMinusOne: false)
     /// Int256( 0).minLastIndexReportingIsZeroOrMinusOne() // (minLastIndex: 0, isZeroOrMinusOne: true )
     /// Int256(-1).minLastIndexReportingIsZeroOrMinusOne() // (minLastIndex: 0, isZeroOrMinusOne: true )
@@ -134,7 +134,7 @@ extension ANKFullWidth {
     
     /// Returns this value's word count, in min two's complement form.
     ///
-    /// ```
+    /// ```swift
     /// Int256( 1).minWordCountReportingIsZeroOrMinusOne() // (minWordCount: 1, isZeroOrMinusOne: false)
     /// Int256( 0).minWordCountReportingIsZeroOrMinusOne() // (minWordCount: 1, isZeroOrMinusOne: true )
     /// Int256(-1).minWordCountReportingIsZeroOrMinusOne() // (minWordCount: 1, isZeroOrMinusOne: true )

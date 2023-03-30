@@ -20,7 +20,7 @@ public protocol ANKContiguousBytes {
     
     /// Calls the given closure with read-only access to this value's data.
     ///
-    /// ```
+    /// ```swift
     /// UInt256(1).bigEndian.withUnsafeBytes({ data += $0 })
     /// ```
     ///
@@ -40,7 +40,7 @@ public protocol ANKMutableContiguousBytes: ANKContiguousBytes {
     
     /// Calls the given closure with read-write access to this value's data.
     ///
-    /// ```
+    /// ```swift
     /// var x = UInt256(1).bigEndian; x.withUnsafeMutableBytes({ _ in })
     /// ```
     ///
@@ -73,7 +73,7 @@ extension ANKTrivialContiguousBytes {
     
     /// Calls the given closure with read-only access to this value's data.
     ///
-    /// ```
+    /// ```swift
     /// UInt256(1).bigEndian.withUnsafeBytes({ data += $0 })
     /// ```
     ///
@@ -83,7 +83,7 @@ extension ANKTrivialContiguousBytes {
     
     /// Calls the given closure with read-write access to this value's data.
     ///
-    /// ```
+    /// ```swift
     /// var x = UInt256(1).bigEndian; x.withUnsafeMutableBytes({ _ in })
     /// ```
     ///
@@ -93,7 +93,7 @@ extension ANKTrivialContiguousBytes {
     
     /// Creates a new instance from a temporary allocation.
     ///
-    /// ```
+    /// ```swift
     /// UInt256.fromUnsafeMutableBytes({ _ in }).bigEndian
     /// ```
     ///

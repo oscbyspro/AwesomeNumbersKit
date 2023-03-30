@@ -23,7 +23,7 @@ extension UInt {
     /// and returns a value indicating whether overflow occured.
     /// In the case of overflow, the result is truncated.
     ///
-    /// ```
+    /// ```swift
     /// var a: UInt = ~0; a.addReportingOverflow( 0, false) // a = ~0; -> false
     /// var b: UInt = ~0; a.addReportingOverflow( 0, true ) // b =  0; -> true
     /// var c: UInt = ~0; c.addReportingOverflow(~0, false) // c = ~1; -> true
@@ -42,7 +42,7 @@ extension UInt {
     /// along with a value indicating whether overflow occured.
     /// In the case of overflow, the result is truncated.
     ///
-    /// ```
+    /// ```swift
     /// (~0 as UInt).addingReportingOverflow( 0, false) // (partialValue: ~0, overflow: false)
     /// (~0 as UInt).addingReportingOverflow( 0, true ) // (partialValue:  0, overflow: true )
     /// (~0 as UInt).addingReportingOverflow(~0, false) // (partialValue: ~1, overflow: true )
@@ -63,7 +63,7 @@ extension UInt {
     
     /// Forms the sum of adding the product of the multiplicands to this value.
     ///
-    /// ```
+    /// ```swift
     /// var a: UInt = ~0; a.addFullWidth(multiplicands:( 2,  3)) // a = 5; ->  1
     /// var b: UInt = ~0; b.addFullWidth(multiplicands:(~0, ~0)) // b = 0; -> ~0
     /// ```
@@ -77,7 +77,7 @@ extension UInt {
     
     /// Returns the sum of adding the product of the multiplicands to this value.
     ///
-    /// ```
+    /// ```swift
     /// (~0 as UInt).addingFullWidth(multiplicands:( 2,  3)) // (high:  1, low: 5)
     /// (~0 as UInt).addingFullWidth(multiplicands:(~0, ~0)) // (high: ~0, low: 0)
     /// ```
@@ -96,7 +96,7 @@ extension UInt {
     
     /// Returns the sum of adding the addend and product of the multiplicands to this value.
     ///
-    /// ```
+    /// ```swift
     /// var a: UInt = ~0; a.addFullWidth( 1, multiplicands:( 2,  3)) // a =  6; ->  1
     /// var b: UInt = ~0; b.addFullWidth(~0, multiplicands:(~0, ~0)) // b = ~0; -> ~0
     /// ```
@@ -110,7 +110,7 @@ extension UInt {
     
     /// Returns the sum of adding the addend and product of the multiplicands to this value.
     ///
-    /// ```
+    /// ```swift
     /// (~0 as UInt).addingFullWidth( 1, multiplicands:( 2,  3)) // (high:  1, low:  6)
     /// (~0 as UInt).addingFullWidth(~0, multiplicands:(~0, ~0)) // (high: ~0, low: ~0)
     /// ```

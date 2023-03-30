@@ -25,7 +25,7 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     
     /// Creates a new instance repeating the given bit, in two's complement form.
     ///
-    /// ```
+    /// ```swift
     /// Int8(repeating: false) // Int8( 0)
     /// Int8(repeating: true ) // Int8(-1)
     /// ```
@@ -40,7 +40,7 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     /// and returns a value indicating whether overflow occurred.
     /// In the case of overflow, the result is truncated.
     ///
-    /// ```
+    /// ```swift
     /// var a: Int8(126); a.addReportingOverflow(Int8(1)) // a = Int8( 127); -> false
     /// var b: Int8(127); b.addReportingOverflow(Int8(1)) // b = Int8(-128); -> true
     /// ```
@@ -55,7 +55,7 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     /// and returns a value indicating whether overflow occurred.
     /// In the case of overflow, the result is truncated.
     ///
-    /// ```
+    /// ```swift
     /// var a = Int8(11); a.multiplyReportingOverflow(by: Int8(4)) // a = Int8(44); -> false
     /// var b = Int8.max; b.multiplyReportingOverflow(by: Int8(4)) // b = Int8(-4); -> true
     /// ```
@@ -65,7 +65,7 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     /// Forms the low part of multiplying this value by the given value,
     /// and returns the high.
     ///
-    /// ```
+    /// ```swift
     /// var a = Int8(11); a.multiplyFullWidth(by: Int8(4)) // a = Int8(44); -> Int8(0)
     /// var b = Int8.max; b.multiplyFullWidth(by: Int8(4)) // b = Int8(-4); -> Int8(1)
     /// ```
@@ -80,7 +80,7 @@ public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where 
     /// and returns a value indicating whether overflow occurred.
     /// In the case of overflow, the result is truncated.
     ///
-    /// ```
+    /// ```swift
     /// var a: Int8(-127); a.subtractReportingOverflow(1) // a = -128; -> false
     /// var b: Int8(-128); b.subtractReportingOverflow(1) // b =  127; -> true
     /// ```
@@ -108,7 +108,7 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
     /// and returns a value indicating whether overflow occurred.
     /// In the case of overflow, the result is truncated.
     ///
-    /// ```
+    /// ```swift
     /// var a: Int8(-127); a.negateReportingOverflow() // a = Int8( 127); -> false
     /// var b: Int8(-128); b.negateReportingOverflow() // b = Int8(-128); -> true
     /// ```
@@ -119,7 +119,7 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
     /// along with a value indicating whether overflow occurred.
     /// In the case of overflow, the result is truncated.
     ///
-    /// ```
+    /// ```swift
     /// Int8(-127).negatedReportingOverflow() // -> (partialValue: Int8( 127), overflow: false)
     /// Int8(-128).negatedReportingOverflow() // -> (partialValue: Int8(-128), overflow: true )
     /// ```

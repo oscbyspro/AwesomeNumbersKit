@@ -122,7 +122,7 @@ extension ANKFullWidth {
 ///
 /// ### Requirements
 ///
-/// ```
+/// ```swift
 /// MemoryLayout<Layout>.size / MemoryLayout<UInt>.size >= 1
 /// MemoryLayout<Layout>.size % MemoryLayout<UInt>.size == 0
 /// ```

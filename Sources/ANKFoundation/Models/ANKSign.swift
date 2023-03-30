@@ -48,7 +48,7 @@
     
     /// The in-memory representation of this value.
     ///
-    /// ```
+    /// ```swift
     /// plus  // 0x00
     /// minus // 0x01
     /// ```
@@ -95,7 +95,7 @@ extension ANKSign {
     
     /// Forms ``ANKSign/minus`` if both signs are ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
-    /// ```
+    /// ```swift
     /// plus  & plus  // plus
     /// plus  & minus // plus
     /// minus & plus  // plus
@@ -108,7 +108,7 @@ extension ANKSign {
     
     /// Returns ``ANKSign/minus`` if both signs are ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
-    /// ```
+    /// ```swift
     /// plus  & plus  // plus
     /// plus  & minus // plus
     /// minus & plus  // plus
@@ -121,7 +121,7 @@ extension ANKSign {
     
     /// Forms ``ANKSign/minus`` if at least one sign is ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
-    /// ```
+    /// ```swift
     /// plus  | plus  // plus
     /// plus  | minus // minus
     /// minus | plus  // minus
@@ -134,7 +134,7 @@ extension ANKSign {
     
     /// Returns ``ANKSign/minus`` if at least one sign is ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
-    /// ```
+    /// ```swift
     /// plus  | plus  // plus
     /// plus  | minus // minus
     /// minus | plus  // minus
@@ -147,7 +147,7 @@ extension ANKSign {
     
     /// Forms ``ANKSign/minus`` if exactly one sign is ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
-    /// ```
+    /// ```swift
     /// plus  ^ plus  // plus
     /// plus  ^ minus // minus
     /// minus ^ plus  // minus
@@ -160,7 +160,7 @@ extension ANKSign {
     
     /// Returns ``ANKSign/minus`` if exactly one sign is ``ANKSign/minus``, and ``ANKSign/plus`` otherwise.
     ///
-    /// ```
+    /// ```swift
     /// plus  ^ plus  // plus
     /// plus  ^ minus // minus
     /// minus ^ plus  // minus

@@ -35,7 +35,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     
     /// Forms the sum of adding `rhs` to `lhs`.
     ///
-    /// ```
+    /// ```swift
     /// var a = Int256(1); a += Int(2) // a = Int256(3)
     /// var b = Int256(2); b += Int(3) // b = Int256(5)
     /// var c = Int256(3); c += Int(4) // c = Int256(7)
@@ -46,7 +46,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
 
     /// Returns the sum of adding `rhs` to `lhs`.
     ///
-    /// ```
+    /// ```swift
     /// Int256(1) + Int(2) // Int256(3)
     /// Int256(2) + Int(3) // Int256(5)
     /// Int256(3) + Int(4) // Int256(7)
@@ -61,7 +61,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     
     /// Forms the quotient of dividing `lhs` by `rhs`.
     ///
-    /// ```
+    /// ```swift
     /// var a = Int256( 7); a /= Int( 3) // a = Int256( 2)
     /// var b = Int256( 7); b /= Int(-3) // b = Int256(-2)
     /// var c = Int256(-7); c /= Int( 3) // c = Int256(-2)
@@ -72,7 +72,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     
     /// Returns the quotient of dividing `lhs` by `rhs`.
     ///
-    /// ```
+    /// ```swift
     /// Int256( 7) / Int( 3) // Int256( 2)
     /// Int256( 7) / Int(-3) // Int256(-2)
     /// Int256(-7) / Int( 3) // Int256(-2)
@@ -83,7 +83,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     
     /// Forms the remainder of dividing `lhs` by `rhs`.
     ///
-    /// ```
+    /// ```swift
     /// var a = Int256( 7); a %= Int( 3) // a = Int256( 1)
     /// var b = Int256( 7); b %= Int(-3) // b = Int256( 1)
     /// var c = Int256(-7); c %= Int( 3) // c = Int256(-1)
@@ -94,7 +94,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     
     /// Returns the remainder of dividing `lhs` by `rhs`.
     ///
-    /// ```
+    /// ```swift
     /// Int256( 7) % Int( 3) // Int( 1)
     /// Int256( 7) % Int(-3) // Int( 1)
     /// Int256(-7) % Int( 3) // Int(-1)
@@ -108,7 +108,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     /// In the case of overflow, the result is either truncated or,
     /// if undefined, this value.
     ///
-    /// ```
+    /// ```swift
     /// var a = Int256( 7); a.divideReportingOverflow(by: Int( 3)) // a = Int256( 2); -> false
     /// var b = Int256.min; b.divideReportingOverflow(by: Int( 0)) // b = Int256.min; -> true
     /// var c = Int256.min; c.divideReportingOverflow(by: Int(-1)) // c = Int256.min; -> true
@@ -121,7 +121,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     /// In the case of overflow, the result is either truncated or,
     /// if undefined, this value.
     ///
-    /// ```
+    /// ```swift
     /// Int256( 7).dividedReportingOverflow(by: Int( 3)) // (partialValue: Int256( 2), overflow: false)
     /// Int256.min.dividedReportingOverflow(by: Int( 0)) // (partialValue: Int256.min, overflow: true )
     /// Int256.min.dividedReportingOverflow(by: Int(-1)) // (partialValue: Int256.min, overflow: true )
@@ -134,7 +134,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     /// In the case of overflow, the result is either the entire remainder or,
     /// if undefined, zero.
     ///
-    /// ```
+    /// ```swift
     /// var a = Int256( 7); a.formRemainderReportingOverflow(dividingBy: Int( 3)) // a = Int256(1); -> false
     /// var b = Int256.min; b.formRemainderReportingOverflow(dividingBy: Int( 0)) // b = Int256(0); -> true
     /// var c = Int256.min; c.formRemainderReportingOverflow(dividingBy: Int(-1)) // c = Int256(0); -> true
@@ -147,7 +147,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     /// In the case of overflow, the result is either the entire remainder
     /// or, if undefined, zero.
     ///
-    /// ```
+    /// ```swift
     /// Int256( 7).remainderReportingOverflow(dividingBy: Int( 3)) // (partialValue: Int(1), overflow: false)
     /// Int256.min.remainderReportingOverflow(dividingBy: Int( 0)) // (partialValue: Int(0), overflow: true )
     /// Int256.min.remainderReportingOverflow(dividingBy: Int(-1)) // (partialValue: Int(0), overflow: true )
@@ -157,7 +157,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     
     /// Returns the quotient and remainder of this value divided by the given value.
     ///
-    /// ```
+    /// ```swift
     /// Int256( 7).quotientAndRemainder(dividingBy: Int( 3)) // (quotient: Int256( 2), remainder: Int( 1))
     /// Int256( 7).quotientAndRemainder(dividingBy: Int(-3)) // (quotient: Int256(-2), remainder: Int( 1))
     /// Int256(-7).quotientAndRemainder(dividingBy: Int( 3)) // (quotient: Int256(-2), remainder: Int(-1))
@@ -172,7 +172,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     
     /// Forms the product of multiplying `lhs` by `rhs`.
     ///
-    /// ```
+    /// ```swift
     /// var a = Int256(1); a *= Int(2) // a = Int256( 2)
     /// var b = Int256(2); b *= Int(3) // b = Int256( 6)
     /// var c = Int256(3); c *= Int(4) // c = Int256(12)
@@ -183,7 +183,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     
     /// Returns the product of multiplying `lhs` by `rhs`.
     ///
-    /// ```
+    /// ```swift
     /// Int256(1) * Int(2) // Int256( 2)
     /// Int256(2) * Int(3) // Int256( 6)
     /// Int256(3) * Int(4) // Int256(12)
@@ -198,7 +198,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     
     /// Forms the difference of subtracting `rhs` from `lhs`.
     ///
-    /// ```
+    /// ```swift
     /// var a = Int256(3); a -= Int(2) // a = Int256(1)
     /// var b = Int256(5); b -= Int(3) // b = Int256(2)
     /// var c = Int256(7); c -= Int(4) // c = Int256(3)
@@ -209,7 +209,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
 
     /// Returns the difference of subtracting `rhs` from `lhs`.
     ///
-    /// ```
+    /// ```swift
     /// Int256(3) - Int(2) // Int256(1)
     /// Int256(5) - Int(3) // Int256(2)
     /// Int256(7) - Int(4) // Int256(3)

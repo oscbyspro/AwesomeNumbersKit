@@ -55,7 +55,7 @@ import ANKFoundation
 ///
 /// ### Expressible by Integer vs String Literal
 ///
-/// ```
+/// ```swift
 /// await .biggerIntegerLiterals() // Swift 5.8
 /// ```
 ///

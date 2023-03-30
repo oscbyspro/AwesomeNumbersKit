@@ -29,7 +29,7 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     
     /// Creates a new instance from the given bit pattern.
     ///
-    /// ```
+    /// ```swift
     /// Int8(bitPattern: UInt8(255)) // Int8(-1)
     /// Int8(bitPattern: UInt8(254)) // Int8(-2)
     /// Int8(bitPattern: UInt8(253)) // Int8(-3)
@@ -43,7 +43,7 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     
     /// The bit pattern of this value.
     ///
-    /// ```
+    /// ```swift
     /// Int8(-1).bitPattern // UInt8(255)
     /// Int8(-2).bitPattern // UInt8(254)
     /// Int8(-3).bitPattern // UInt8(253)
@@ -64,7 +64,7 @@ extension ANKBitPatternConvertible {
     
     /// Creates a new instance from the given bit pattern.
     ///
-    /// ```
+    /// ```swift
     /// Int8(bitPattern: UInt8(255)) // Int8(-1)
     /// Int8(bitPattern: UInt8(254)) // Int8(-2)
     /// Int8(bitPattern: UInt8(253)) // Int8(-3)

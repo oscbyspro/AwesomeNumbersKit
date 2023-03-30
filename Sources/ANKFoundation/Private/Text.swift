@@ -19,7 +19,7 @@ extension StringProtocol {
     
     /// Returns the sign and radix, along with any remaining characters.
     ///
-    /// ```
+    /// ```swift
     /// "+0x???"._bigEndianTextComponents(radix: nil) // (sign: plus,  radix: 16, body:    "???")
     /// "??????"._bigEndianTextComponents(radix: nil) // (sign: plus,  radix: 10, body: "??????")
     /// "-0x???"._bigEndianTextComponents(radix:   2) // (sign: minus, radix:  2, body:  "0x???")
@@ -45,7 +45,7 @@ extension StringProtocol where Self == SubSequence {
     
     /// Removes and returns a sign prefix, if it exists.
     ///
-    /// ```
+    /// ```swift
     /// var a = "+?"[...]; a._removeSignPrefix() // a = "?"; -> plus
     /// var b = "-?"[...]; b._removeSignPrefix() // b = "?"; -> minus
     /// var c = "??"[...]; c._removeSignPrefix() // nil
@@ -60,7 +60,7 @@ extension StringProtocol where Self == SubSequence {
     
     /// Removes and returns a radix literal prefix, if it exists.
     ///
-    /// ```
+    /// ```swift
     /// var a = "0x?"[...]; a._removeRadixLiteralPrefix() // a = "?"; -> 16
     /// var b = "0o?"[...]; b._removeRadixLiteralPrefix() // b = "?"; -> 08
     /// var c = "0b?"[...]; c._removeRadixLiteralPrefix() // c = "?"; -> 02

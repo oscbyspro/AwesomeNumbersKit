@@ -25,7 +25,7 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     
     /// Creates a new instance from the given bit.
     ///
-    /// ```
+    /// ```swift
     /// Int8(bit: false) // Int8(0)
     /// Int8(bit: true ) // Int8(1)
     /// ```
@@ -73,7 +73,7 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// In the case of overflow, the result is either truncated or,
     /// if undefined, this value.
     ///
-    /// ```
+    /// ```swift
     /// var a = Int8(-128); a.divideReportingOverflow(by:  3)) // a = Int8( -42); -> false
     /// var b = Int8(-128); b.divideReportingOverflow(by:  0)) // b = Int8(-128); -> true
     /// var c = Int8(-128); c.divideReportingOverflow(by: -1)) // c = Int8(-128); -> true
@@ -86,7 +86,7 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// In the case of overflow, the result is either truncated or,
     /// if undefined, this value.
     ///
-    /// ```
+    /// ```swift
     /// Int8(-128).dividedReportingOverflow(by: Int8( 3)) // (partialValue: Int8( -42), overflow: false)
     /// Int8(-128).dividedReportingOverflow(by: Int8( 0)) // (partialValue: Int8(-128), overflow: true )
     /// Int8(-128).dividedReportingOverflow(by: Int8(-1)) // (partialValue: Int8(-128), overflow: true )
@@ -99,7 +99,7 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// In the case of overflow, the result is either the entire remainder or,
     /// if undefined, this value.
     ///
-    /// ```
+    /// ```swift
     /// var a = Int8(-128); a.formRemainderReportingOverflow(dividingBy:  3) // a = Int8(   2); -> false
     /// var b = Int8(-128); b.formRemainderReportingOverflow(dividingBy:  0) // b = Int8(-128); -> true
     /// var c = Int8(-128); c.formRemainderReportingOverflow(dividingBy: -1) // c = Int8(   0); -> true
@@ -112,7 +112,7 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     /// In the case of overflow, the result is either the entire remainder or,
     /// if undefined, this value.
     ///
-    /// ```
+    /// ```swift
     /// Int8(-128).remainderReportingOverflow(dividingBy:  3) // (partialValue: Int8(   2), overflow: false)
     /// Int8(-128).remainderReportingOverflow(dividingBy:  0) // (partialValue: Int8(-128), overflow: true )
     /// Int8(-128).remainderReportingOverflow(dividingBy: -1) // (partialValue: Int8(   0), overflow: true )
@@ -122,7 +122,7 @@ public protocol ANKBinaryInteger: BinaryInteger, ANKBitPatternConvertible where 
     
     /// Returns the quotient and remainder of this value divided by the given value.
     ///
-    /// ```
+    /// ```swift
     /// Int8( 7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8( 2), remainder: Int8( 1))
     /// Int8( 7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8(-2), remainder: Int8( 1))
     /// Int8(-7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8(-2), remainder: Int8(-1))
