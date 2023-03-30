@@ -13,27 +13,19 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x ANKFixedWidthInteger
+// MARK: * ANK x Core Integer x Bits
 //*============================================================================*
 
-final class TypesTestsOnANKFixedWidthInteger: XCTestCase {
+final class ANKCoreIntegerTestsOnBits: XCTestCase {
     
-    typealias T = any ANKFixedWidthInteger.Type
-    typealias S = any ANKSignedFixedWidthInteger.Type
+    typealias T = any (ANKCoreInteger).Type
+    typealias S = any (ANKCoreInteger & ANKSignedFixedWidthInteger).Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types: [T] = Types.ANKFixedWidthInteger
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testTypesCount() {
-        XCTAssertEqual(types.count, 10)
-    }
+    let types: [T] = typesOfANKCoreInteger
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -52,17 +44,6 @@ final class TypesTestsOnANKFixedWidthInteger: XCTestCase {
             XCTAssertEqual(type.min .leastSignificantBit, false)
             XCTAssertEqual(type.zero.leastSignificantBit, false)
             XCTAssertEqual(type.max .leastSignificantBit, true )
-        }
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Signed
-    //=------------------------------------------------------------------------=
-    
-    func testNegatedReportingOverflow() {
-        for case let type as S in types {
-            XCTAssertEqual(type.min.negatedReportingOverflow().overflow, true )
-            XCTAssertEqual(type.max.negatedReportingOverflow().overflow, false)
         }
     }
 }

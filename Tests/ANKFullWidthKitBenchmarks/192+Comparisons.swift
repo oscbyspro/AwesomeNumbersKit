@@ -16,10 +16,10 @@ private typealias X = ANK192X64
 private typealias Y = ANK192X32
 
 //*============================================================================*
-// MARK: * Int192 x Comparison
+// MARK: * Int192 x Comparisons
 //*============================================================================*
 
-final class Int192BenchmarksOnComparison: XCTestCase {
+final class Int192BenchmarksOnComparisons: XCTestCase {
     
     typealias T = ANKInt192
     
@@ -66,10 +66,10 @@ final class Int192BenchmarksOnComparison: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt192 x Comparison
+// MARK: * UInt192 x Comparisons
 //*============================================================================*
 
-final class UInt192BenchmarksOnComparison: XCTestCase {
+final class UInt192BenchmarksOnComparisons: XCTestCase {
     
     typealias T = ANKUInt192
     

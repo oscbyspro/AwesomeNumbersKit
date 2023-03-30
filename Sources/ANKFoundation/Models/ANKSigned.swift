@@ -114,32 +114,10 @@
 }
 
 //*============================================================================*
-// MARK: * ANK x Signed x Comparison
+// MARK: * ANK x Signed x Comparisons
 //*============================================================================*
 
 extension ANKSigned {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
-        //=--------------------------------------=
-        if  lhs.sign != rhs.sign {
-            return lhs.isZero && rhs.isZero
-        }
-        //=--------------------------------------=
-        return lhs.magnitude == rhs.magnitude
-    }
-    
-    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
-        //=--------------------------------------=
-        if  lhs.sign != rhs.sign {
-            return (lhs.sign != ANKSign.plus) && !(lhs.isZero && rhs.isZero)
-        }
-        //=--------------------------------------=
-        return (lhs.sign == ANKSign.plus) == (lhs.magnitude < rhs.magnitude)
-    }
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
@@ -172,6 +150,28 @@ extension ANKSigned {
     @inlinable public func hash(into hasher: inout Hasher) {
         hasher.combine(self.magnitude)
         hasher.combine(self.normalizedSign)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
+        //=--------------------------------------=
+        if  lhs.sign != rhs.sign {
+            return lhs.isZero && rhs.isZero
+        }
+        //=--------------------------------------=
+        return lhs.magnitude == rhs.magnitude
+    }
+    
+    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
+        //=--------------------------------------=
+        if  lhs.sign != rhs.sign {
+            return (lhs.sign != ANKSign.plus) && !(lhs.isZero && rhs.isZero)
+        }
+        //=--------------------------------------=
+        return (lhs.sign == ANKSign.plus) == (lhs.magnitude < rhs.magnitude)
     }
 }
 

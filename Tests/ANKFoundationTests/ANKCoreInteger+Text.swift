@@ -18,22 +18,14 @@ import XCTest
 
 final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
     
-    typealias T = any (ANKBigEndianTextCodable & ANKBinaryInteger).Type
-    typealias S = any (ANKBigEndianTextCodable & ANKSignedInteger).Type
+    typealias T = any (ANKCoreInteger).Type
+    typealias S = any (ANKCoreInteger & ANKSignedFixedWidthInteger).Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types: [T] = Types.ANKBigEndianTextCodable
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testTypesCount() {
-        XCTAssertEqual(types.count, 10)
-    }
+    let types: [T] = typesOfANKCoreInteger
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Decode
@@ -43,9 +35,7 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
         for type: T in types {
             XCTAssertEqual(Int(type.init(decoding:  "7b", radix: 16)!),  123)
             XCTAssertEqual(Int(type.init(decoding: "+7b", radix: 16)!),  123)
-            
             guard type is S else { continue }
-            
             XCTAssertEqual(Int(type.init(decoding: "-7b", radix: 16)!), -123)
         }
     }
@@ -54,9 +44,7 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
         for type: T in types {
             XCTAssertEqual(Int(type.init(decoding:  "123", radix: 10)!),  123)
             XCTAssertEqual(Int(type.init(decoding: "+123", radix: 10)!),  123)
-            
             guard type is S else { continue }
-            
             XCTAssertEqual(Int(type.init(decoding: "-123", radix: 10)!), -123)
         }
     }
@@ -66,9 +54,7 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
             XCTAssertEqual(Int(type.init(decoding:  "0x", radix: 36)!),  33)
             XCTAssertEqual(Int(type.init(decoding:  "0o", radix: 36)!),  24)
             XCTAssertEqual(Int(type.init(decoding:  "0b", radix: 36)!),  11)
-            
             guard type is S else { continue }
-            
             XCTAssertEqual(Int(type.init(decoding: "-0x", radix: 36)!), -33)
             XCTAssertEqual(Int(type.init(decoding: "-0o", radix: 36)!), -24)
             XCTAssertEqual(Int(type.init(decoding: "-0b", radix: 36)!), -11)
@@ -81,14 +67,11 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
             XCTAssertEqual(Int(type.init(decoding:  "0b10", radix: nil)!),  0b10)
             XCTAssertEqual(Int(type.init(decoding:  "0o10", radix: nil)!),  0o10)
             XCTAssertEqual(Int(type.init(decoding:  "0x10", radix: nil)!),  0x10)
-            
             XCTAssertEqual(Int(type.init(decoding:   "+10", radix: nil)!),    10)
             XCTAssertEqual(Int(type.init(decoding: "+0b10", radix: nil)!),  0b10)
             XCTAssertEqual(Int(type.init(decoding: "+0o10", radix: nil)!),  0o10)
             XCTAssertEqual(Int(type.init(decoding: "+0x10", radix: nil)!),  0x10)
-            
             guard type is S else { continue }
-            
             XCTAssertEqual(Int(type.init(decoding:   "-10", radix: nil)!),   -10)
             XCTAssertEqual(Int(type.init(decoding: "-0b10", radix: nil)!), -0b10)
             XCTAssertEqual(Int(type.init(decoding: "-0o10", radix: nil)!), -0o10)
@@ -106,7 +89,6 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
     func testDecodingValueOutsideOfRepresentableRangeReturnsNil() {
         let positive = "+" + String(repeating: "1", count: 65)
         let negative = "-" + String(repeating: "1", count: 65)
-
         for type: T in types {
             for radix in 2 ... 36 {
                 XCTAssertNil(type.init(decoding: positive, radix: radix))
@@ -121,14 +103,10 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
     
     func testEncodingRadix16() {
         for type: T in types {
-            let max = type.init(123)
-            let min = type.init(exactly: -123)
-            
+            let max = type.init(123), min = type.init(exactly: -123)
             XCTAssertEqual(String(encoding: max, radix: 16, uppercase: false),   "7b")
             XCTAssertEqual(String(encoding: max, radix: 16, uppercase: true ),   "7B")
-            
             guard let min else { continue }
-            
             XCTAssertEqual(String(encoding: min, radix: 16, uppercase: false),  "-7b")
             XCTAssertEqual(String(encoding: min, radix: 16, uppercase: true ),  "-7B")
         }
@@ -136,14 +114,10 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
     
     func testEncodingRadix10() {
         for type: T in types {
-            let max = type.init(123)
-            let min = type.init(exactly: -123)
-            
+            let max = type.init(123), min = type.init(exactly: -123)
             XCTAssertEqual(String(encoding: max, radix: 10, uppercase: false),  "123")
             XCTAssertEqual(String(encoding: max, radix: 10, uppercase: true ),  "123")
-            
             guard let min else { continue }
-            
             XCTAssertEqual(String(encoding: min, radix: 10, uppercase: false), "-123")
             XCTAssertEqual(String(encoding: min, radix: 10, uppercase: true ), "-123")
         }

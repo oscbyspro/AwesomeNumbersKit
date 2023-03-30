@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Comparison
+// MARK: * ANK x Full Width x Comparisons
 //*============================================================================*
 
 extension ANKFullWidth {

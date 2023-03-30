@@ -13,68 +13,19 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x ANKCoreInteger
+// MARK: * ANK x Core Integer x Pointers
 //*============================================================================*
 
-final class TypesTestsOnANKCoreInteger: XCTestCase {
+final class ANKCoreIntegerTestsOnPointers: XCTestCase {
     
-    typealias T = any ANKCoreInteger.Type
+    typealias T = any (ANKCoreInteger).Type
+    typealias S = any (ANKCoreInteger & ANKSignedFixedWidthInteger).Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types: [T] = Types.ANKCoreInteger
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testTypesCount() {
-        XCTAssertEqual(types.count, 10)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit Pattern
-    //=------------------------------------------------------------------------=
-    
-    func testInitBitPattern() {
-        func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertEqual(T(bitPattern: T.Magnitude.min), T( 0))
-            XCTAssertEqual(T(bitPattern: T.Magnitude.max), T(-1))
-            
-            XCTAssertEqual(T(bitPattern:  (T.Magnitude(1) << (T.bitWidth - 1))), T.min)
-            XCTAssertEqual(T(bitPattern: ~(T.Magnitude(1) << (T.bitWidth - 1))), T.max)
-        }
-        
-        func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertEqual(T(bitPattern: T.Magnitude.min), T.min)
-            XCTAssertEqual(T(bitPattern: T.Magnitude.max), T.max)
-        }
-        
-        for type: T in types {
-            type.isSigned ? whereIsSigned(type) : whereIsUnsigned(type)
-        }
-    }
-    
-    func testValueAsBitPattern() {
-        func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertEqual(T( 0).bitPattern, T.Magnitude.min)
-            XCTAssertEqual(T(-1).bitPattern, T.Magnitude.max)
-            
-            XCTAssertEqual(T.min.bitPattern,  (T.Magnitude(1) << (T.bitWidth - 1)))
-            XCTAssertEqual(T.max.bitPattern, ~(T.Magnitude(1) << (T.bitWidth - 1)))
-        }
-        
-        func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertEqual(T.min.bitPattern, T.Magnitude.min)
-            XCTAssertEqual(T.max.bitPattern, T.Magnitude.max)
-        }
-        
-        for type: T in types {
-            type.isSigned ? whereIsSigned(type) : whereIsUnsigned(type)
-        }
-    }
+    let types: [T] = typesOfANKCoreInteger
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Bytes

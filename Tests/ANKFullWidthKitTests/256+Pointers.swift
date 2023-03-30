@@ -16,10 +16,10 @@ private typealias X = ANK256X64
 private typealias Y = ANK256X32
 
 //*============================================================================*
-// MARK: * Int256 x Collection
+// MARK: * Int256 x Pointers
 //*============================================================================*
 
-final class Int256TestsOnCollection: XCTestCase {
+final class Int256TestsOnPointers: XCTestCase {
     
     typealias T = ANKInt256
     
@@ -152,10 +152,10 @@ final class Int256TestsOnCollection: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Collection
+// MARK: * UInt256 x Pointers
 //*============================================================================*
 
-final class UInt256TestsOnCollection: XCTestCase {
+final class UInt256TestsOnPointers: XCTestCase {
     
     typealias T = ANKUInt256
     

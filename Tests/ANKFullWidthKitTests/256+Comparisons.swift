@@ -12,16 +12,16 @@
 import ANKFullWidthKit
 import XCTest
 
-private typealias X = ANK192X64
-private typealias Y = ANK192X32
+private typealias X = ANK256X64
+private typealias Y = ANK256X32
 
 //*============================================================================*
-// MARK: * Int192 x Comparison
+// MARK: * Int256 x Comparisons
 //*============================================================================*
 
-final class Int192TestsOnComparison: XCTestCase {
+final class Int256TestsOnComparisons: XCTestCase {
     
-    typealias T = ANKInt192
+    typealias T = ANKInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -46,8 +46,8 @@ final class Int192TestsOnComparison: XCTestCase {
         XCTAssert(T.max != T.min)
         XCTAssert(T.max == T.max)
 
-        XCTAssertEqual(T(x64: X( 0,  0,  0)), T(x64: X( 0,  0,  0)))
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0)), T(x64: X(~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0,  0, 0 )), T(x64: X( 0,  0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
     }
     
     func testComparing() {
@@ -69,21 +69,22 @@ final class Int192TestsOnComparison: XCTestCase {
         XCTAssert(T.max >  T.min)
         XCTAssert(T.max == T.max)
         
-        XCTAssert(T(x64: X(~0,  0,  0)) < T(x64: X(~0, ~0,  0)))
-        XCTAssert(T(x64: X(~0, ~0,  0)) > T(x64: X(~0,  0,  0)))
+        XCTAssert(T(x64: X(~0, ~0,  0,  0)) < T(x64: X(~0, ~0, ~0,  0)))
+        XCTAssert(T(x64: X(~0, ~0, ~0,  0)) > T(x64: X(~0, ~0,  0,  0)))
         
-        XCTAssert(T(x64: X(~0, ~0,  0)) > T(x64: X(~0, ~0, ~0)))
-        XCTAssert(T(x64: X(~0, ~0, ~0)) < T(x64: X(~0, ~0,  0)))
+        XCTAssert(T(x64: X(~0, ~0, ~0,  0)) > T(x64: X(~0, ~0, ~0, ~0)))
+        XCTAssert(T(x64: X(~0, ~0, ~0, ~0)) < T(x64: X(~0, ~0, ~0,  0)))
     }
     
     func testHashing() {
         var set = Set<T>()
-        set.insert(T(x64: X(0, 0, 0)))
-        set.insert(T(x64: X(1, 0, 0)))
-        set.insert(T(x64: X(0, 1, 0)))
-        set.insert(T(x64: X(0, 0, 1)))
-        set.insert(T(x64: X(0, 0, 0)))
-        XCTAssertEqual(set.count, 4)
+        set.insert(T(x64: X(0, 0, 0, 0)))
+        set.insert(T(x64: X(1, 0, 0, 0)))
+        set.insert(T(x64: X(0, 1, 0, 0)))
+        set.insert(T(x64: X(0, 0, 1, 0)))
+        set.insert(T(x64: X(0, 0, 0, 1)))
+        set.insert(T(x64: X(0, 0, 0, 0)))
+        XCTAssertEqual(set.count,  5)
     }
     
     //=------------------------------------------------------------------------=
@@ -148,12 +149,12 @@ final class Int192TestsOnComparison: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt192 x Comparison
+// MARK: * UInt256 x Comparisons
 //*============================================================================*
 
-final class UInt192TestsOnComparison: XCTestCase {
+final class UInt256TestsOnComparisons: XCTestCase {
     
-    typealias T = ANKUInt192
+    typealias T = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -171,8 +172,8 @@ final class UInt192TestsOnComparison: XCTestCase {
         XCTAssert(T.max != T.min)
         XCTAssert(T.max == T.max)
         
-        XCTAssertEqual(T(x64: X( 0,  0,  0)), T(x64: X( 0,  0,  0)))
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0)), T(x64: X(~0, ~0, ~0)))
+        XCTAssertEqual(T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
     }
     
     func testComparing() {
@@ -191,18 +192,19 @@ final class UInt192TestsOnComparison: XCTestCase {
         XCTAssert(T.max >  T.min)
         XCTAssert(T.max == T.max)
         
-        XCTAssert(T(x64: X(~0, ~0,  0)) < T(x64: X(~0, ~0, ~0)))
-        XCTAssert(T(x64: X(~0, ~0, ~0)) > T(x64: X(~0, ~0,  0)))
+        XCTAssert(T(x64: X(~0, ~0, ~0,  0)) < T(x64: X(~0, ~0, ~0, ~0)))
+        XCTAssert(T(x64: X(~0, ~0, ~0, ~0)) > T(x64: X(~0, ~0, ~0,  0)))
     }
     
     func testHashing() {
         var set = Set<T>()
-        set.insert(T(x64: X(0, 0, 0)))
-        set.insert(T(x64: X(1, 0, 0)))
-        set.insert(T(x64: X(0, 1, 0)))
-        set.insert(T(x64: X(0, 0, 1)))
-        set.insert(T(x64: X(0, 0, 0)))
-        XCTAssertEqual(set.count, 4)
+        set.insert(T(x64: X(0, 0, 0, 0)))
+        set.insert(T(x64: X(1, 0, 0, 0)))
+        set.insert(T(x64: X(0, 1, 0, 0)))
+        set.insert(T(x64: X(0, 0, 1, 0)))
+        set.insert(T(x64: X(0, 0, 0, 1)))
+        set.insert(T(x64: X(0, 0, 0, 0)))
+        XCTAssertEqual(set.count, 5)
     }
     
     //=------------------------------------------------------------------------=

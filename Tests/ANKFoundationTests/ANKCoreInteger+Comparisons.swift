@@ -13,27 +13,19 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x ANKBinaryInteger
+// MARK: * ANK x Core Integer x Comparisons
 //*============================================================================*
 
-final class TypesTestsOnANKBinaryInteger: XCTestCase {
+final class ANKCoreIntegerTestsOnComparisons: XCTestCase {
     
-    typealias T = any ANKBinaryInteger.Type
-    typealias S = any ANKSignedInteger.Type
+    typealias T = any (ANKCoreInteger).Type
+    typealias S = any (ANKCoreInteger & ANKSignedFixedWidthInteger).Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types: [T] = Types.ANKBinaryInteger
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testTypesCount() {
-        XCTAssertEqual(types.count, 10)
-    }
+    let types: [T] = typesOfANKCoreInteger
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -43,9 +35,7 @@ final class TypesTestsOnANKBinaryInteger: XCTestCase {
         for type: T in types {
             XCTAssertFalse(type.init( 1).isZero)
             XCTAssertTrue (type.init( 0).isZero)
-            
-            guard type is S else { continue }
-            
+            guard type.isSigned else { continue }
             XCTAssertFalse(type.init(-1).isZero)
         }
     }
@@ -54,9 +44,7 @@ final class TypesTestsOnANKBinaryInteger: XCTestCase {
         for type: T in types {
             XCTAssertFalse(type.init( 1).isLessThanZero)
             XCTAssertFalse(type.init( 0).isLessThanZero)
-            
-            guard type is S else { continue }
-            
+            guard type.isSigned else { continue }
             XCTAssertTrue (type.init(-1).isLessThanZero)
         }
     }
@@ -65,9 +53,7 @@ final class TypesTestsOnANKBinaryInteger: XCTestCase {
         for type: T in types {
             XCTAssertTrue (type.init( 1).isMoreThanZero)
             XCTAssertFalse(type.init( 0).isMoreThanZero)
-            
-            guard type is S else { continue }
-            
+            guard type.isSigned else { continue }
             XCTAssertFalse(type.init(-1).isMoreThanZero)
         }
     }

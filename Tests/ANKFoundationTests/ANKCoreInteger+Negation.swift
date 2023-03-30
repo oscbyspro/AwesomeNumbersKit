@@ -13,26 +13,29 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x ANKLargeBinaryInteger
+// MARK: * ANK x Core Integer x Negation
 //*============================================================================*
 
-final class TypesTestsOnANKLargeBinaryInteger: XCTestCase {
+final class ANKCoreIntegerTestsOnNegation: XCTestCase {
     
-    typealias T = any ANKLargeBinaryInteger.Type
-    typealias S = any ANKSignedLargeBinaryInteger.Type
+    typealias T = any (ANKCoreInteger).Type
+    typealias S = any (ANKCoreInteger & ANKSignedFixedWidthInteger).Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types: [T] = Types.ANKLargeBinaryInteger
+    let types: [T] = typesOfANKCoreInteger
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Negation
     //=------------------------------------------------------------------------=
     
-    func testTypesCount() {
-        XCTAssertEqual(types.count, 2)
+    func testNegatedReportingOverflow() {
+        for case let type as S in types {
+            XCTAssertEqual(type.min.negatedReportingOverflow().overflow, true )
+            XCTAssertEqual(type.max.negatedReportingOverflow().overflow, false)
+        }
     }
 }
 

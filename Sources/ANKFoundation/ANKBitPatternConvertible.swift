@@ -56,7 +56,21 @@ public protocol ANKBitPatternConvertible<BitPattern> {
 // MARK: + Details where Bit Pattern is Self
 //=----------------------------------------------------------------------------=
 
-extension ANKBitPatternConvertible where  BitPattern == Self {
-    @_transparent public var  bitPattern: BitPattern {  self }
-    @_transparent public init(bitPattern  source: some ANKBitPatternConvertible<BitPattern>) { self = source.bitPattern }
+extension ANKBitPatternConvertible where BitPattern == Self {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
+        self = source.bitPattern
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public var bitPattern: BitPattern {
+        self
+    }
 }
