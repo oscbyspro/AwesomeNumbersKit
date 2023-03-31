@@ -23,10 +23,6 @@ extension ANKFullWidth {
         self.init(source)
     }
     
-    @_transparent public init(integerLiteral source: Int) {
-        self.init(source)
-    }
-    
     @_transparent public init(_truncatingBits source: UInt) {
         self.init(source)
     }
@@ -280,5 +276,32 @@ extension ANKFullWidth {
         }
         //=--------------------------------------=
         return (value: value, words: words, index: index, sign: sign, isLessThanZero: isLessThanZero)
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Literal
+//=----------------------------------------------------------------------------=
+
+extension ANKFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public init(integerLiteral source: StaticBigInt) {
+        guard let value = Self(_exactlyIntegerLiteral: source) else {
+            preconditionFailure("Integer literal '\(source)' overflows when stored into '\(Self.name)'.")
+        }
+        
+        self = value
+    }
+    
+    @inlinable init?(_exactlyIntegerLiteral source: StaticBigInt) {
+        let   isOK: Bool;  switch Self.isSigned {
+        case  true: isOK = source.bitWidth <= Self.bitWidth
+        case false: isOK = source.bitWidth <= Self.bitWidth + 1 && source.signum() >= 0 }
+        guard isOK  else { return nil }
+        self = Self.fromUnsafeMutableWords({ for i in $0.indices { $0[i] = source[i] } })
     }
 }

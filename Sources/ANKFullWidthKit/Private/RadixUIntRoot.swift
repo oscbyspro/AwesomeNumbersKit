@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Text x Radix UInt Root
+// MARK: * ANK x Radix UInt Root
 //*============================================================================*
 
 /// The largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.

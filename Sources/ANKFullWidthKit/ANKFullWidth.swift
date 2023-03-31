@@ -53,15 +53,9 @@ import ANKFoundation
 ///
 /// - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
-/// ### Expressible by Integer vs String Literal
-///
-/// ```swift
-/// await .biggerIntegerLiterals() // Swift 5.8
-/// ```
-///
 @frozen public struct ANKFullWidth<High, Low>: ANKBigEndianTextCodable,
-ANKLargeFixedWidthInteger, ANKTrivialContiguousBytes, ANKWords, CustomStringConvertible,
-CustomDebugStringConvertible, ExpressibleByStringLiteral, MutableCollection where
+ANKLargeFixedWidthInteger, ANKTrivialContiguousBytes, ANKWords,
+CustomStringConvertible, CustomDebugStringConvertible, MutableCollection where
 High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     
@@ -73,9 +67,6 @@ High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
     
     /// The digit of this type.
     public typealias Digit = High.Digit
-    
-    /// The integer literal used to create instance of this type.
-    public typealias IntegerLiteralType = Int
     
     /// The magnitude of this type.
     public typealias Magnitude = ANKFullWidth<High.Magnitude, Low>

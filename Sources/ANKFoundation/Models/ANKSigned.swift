@@ -54,12 +54,6 @@
 ///
 /// - Note: The `Digit` type is `ANKSigned<Magnitude.Digit>` when it exists.
 ///
-/// ### Expressible by Integer vs String Literal
-///
-/// ```swift
-/// await .biggerIntegerLiterals() // Swift 5.8
-/// ```
-///
 @frozen public struct ANKSigned<Magnitude>: Comparable, Hashable where Magnitude: ANKUnsignedInteger, Magnitude == Magnitude.Magnitude {
     
     //=------------------------------------------------------------------------=

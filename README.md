@@ -2,9 +2,10 @@
 
 Large number arithmetic in Swift.
 
-| Swift | iOS  | iPadOS | Mac Catalyst | macOS | tvOS | watchOS |
-|:-----:|:----:|:------:|:------------:|:-----:|:----:|:-------:|
-| 5.7   | 13.0 | 13.0   | 13.0         | 10.15 | 13.0 | 6.0     |
+| Package | Swift | iOS  | iPadOS | Mac Catalyst | macOS | tvOS | watchOS |
+|:-------:|:-----:|:----:|:------:|:------------:|:-----:|:----:|:-------:|
+| 0.6.2   | 5.7   | 13.0 | 13.0   | 13.0         | 10.15 | 13.0 | 6.0     |
+| 1.0.0   | 5.8   | 16.4 | 16.4   | 16.4         | 13.3  | 16.4 | 9.4     |
 
 ## [ANKFullWidthKit][FUL/D] ([Sources][FUL/S], [Tests][FUL/T], [Benchmarks][FUL/B])
 

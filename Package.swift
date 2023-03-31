@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.8
 //=----------------------------------------------------------------------------=
 // This source file is part of the AwesomeNumbersKit open source project.
 //
@@ -17,11 +17,11 @@ import PackageDescription
 let package = Package(
     name: "AwesomeNumbersKit",
     platforms: [
-        .iOS(.v13),
-        .macCatalyst(.v13),
-        .macOS(.v10_15),
-        .tvOS(.v13),
-        .watchOS(.v6),
+        .iOS("16.4"),
+        .macCatalyst("16.4"),
+        .macOS("13.3"),
+        .tvOS("16.4"),
+        .watchOS("9.4"),
     ],
     products: [
         //=--------------------------------------=

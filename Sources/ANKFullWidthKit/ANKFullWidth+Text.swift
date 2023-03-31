@@ -16,11 +16,20 @@ import ANKFoundation
 extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
-    // MARK: Initializers
+    // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(stringLiteral source: String) {
-        self.init(decoding: source, radix: nil)!
+    /// The name of this type.
+    ///
+    /// ```swift
+    /// FullWidth< Int128, UInt128>.description //  "Int256"
+    /// FullWidth<UInt256, UInt256>.description // "UInt512"
+    /// ```
+    ///
+    @inlinable static var name: String {
+        let signedness = !Self.isSigned ? "U" : ""
+        let size = String(Self.bitWidth)
+        return "ANK\(signedness)Int\(size)"
     }
     
     //=------------------------------------------------------------------------=
@@ -33,10 +42,9 @@ extension ANKFullWidth {
     
     @inlinable public var debugDescription: String {
         self.withUnsafeWords { SELF in
-            let signedness = !Self.isSigned ? "U" : ""
-            let size = String(Self.bitWidth)
+            let name = Self.name
             let body = SELF.lazy.map(String.init).joined(separator: ", ")
-            return "ANK\(signedness)Int\(size)(\(body))"
+            return "\(name)(\(body))"
         }
     }
 }

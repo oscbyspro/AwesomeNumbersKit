@@ -71,20 +71,20 @@ final class ANKSignedTestsOnText: XCTestCase {
     }
     
     func testDecodingStringsWithOrWithoutSignAndRadixLiteral() {
-        XCTAssertEqual( "1234567890",         T( 1234567890         as Int64))
-        XCTAssertEqual( "0x123456789abcdef0", T( 0x123456789abcdef0 as Int64))
-        XCTAssertEqual( "0o1234567012345670", T( 0o1234567012345670 as Int64))
-        XCTAssertEqual( "0b1010101010101010", T( 0b1010101010101010 as Int64))
+        XCTAssertEqual(T(decoding:  "1234567890"),         T( 1234567890         as Int64))
+        XCTAssertEqual(T(decoding:  "0x123456789abcdef0"), T( 0x123456789abcdef0 as Int64))
+        XCTAssertEqual(T(decoding:  "0o1234567012345670"), T( 0o1234567012345670 as Int64))
+        XCTAssertEqual(T(decoding:  "0b1010101010101010"), T( 0b1010101010101010 as Int64))
         
-        XCTAssertEqual("+1234567890",         T(+1234567890         as Int64))
-        XCTAssertEqual("+0x123456789abcdef0", T(+0x123456789abcdef0 as Int64))
-        XCTAssertEqual("+0o1234567012345670", T(+0o1234567012345670 as Int64))
-        XCTAssertEqual("+0b1010101010101010", T(+0b1010101010101010 as Int64))
+        XCTAssertEqual(T(decoding: "+1234567890"),         T(+1234567890         as Int64))
+        XCTAssertEqual(T(decoding: "+0x123456789abcdef0"), T(+0x123456789abcdef0 as Int64))
+        XCTAssertEqual(T(decoding: "+0o1234567012345670"), T(+0o1234567012345670 as Int64))
+        XCTAssertEqual(T(decoding: "+0b1010101010101010"), T(+0b1010101010101010 as Int64))
         
-        XCTAssertEqual("-1234567890",         T(-1234567890         as Int64))
-        XCTAssertEqual("-0x123456789abcdef0", T(-0x123456789abcdef0 as Int64))
-        XCTAssertEqual("-0o1234567012345670", T(-0o1234567012345670 as Int64))
-        XCTAssertEqual("-0b1010101010101010", T(-0b1010101010101010 as Int64))
+        XCTAssertEqual(T(decoding: "-1234567890"),         T(-1234567890         as Int64))
+        XCTAssertEqual(T(decoding: "-0x123456789abcdef0"), T(-0x123456789abcdef0 as Int64))
+        XCTAssertEqual(T(decoding: "-0o1234567012345670"), T(-0o1234567012345670 as Int64))
+        XCTAssertEqual(T(decoding: "-0b1010101010101010"), T(-0b1010101010101010 as Int64))
     }
     
     func testDecodingPrefixingZerosHasNoEffect() {

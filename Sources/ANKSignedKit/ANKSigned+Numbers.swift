@@ -19,14 +19,6 @@ extension ANKSigned {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public init(integerLiteral source: Int) {
-        self.init(source)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
     @inlinable public init(_ source: some BinaryInteger) {
         guard let value = Self(exactly: source) else {
             preconditionFailure("\(source) is not in \(Self.self)'s representable range")
@@ -79,5 +71,20 @@ extension ANKSigned {
         let sign = ANKSign(source < 0)
         let magnitude = Magnitude(clamping: source.magnitude)
         self.init(magnitude, as: sign)
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Literal
+//=----------------------------------------------------------------------------=
+
+extension ANKSigned {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public init(integerLiteral source: Int) {
+        self.init(source)
     }
 }

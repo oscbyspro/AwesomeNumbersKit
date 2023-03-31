@@ -16,14 +16,6 @@ import ANKFoundation
 extension ANKSigned where Magnitude: ANKBigEndianTextCodable {
     
     //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public init(stringLiteral source: String) {
-        self.init(decoding: source, radix: nil)!
-    }
-    
-    //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     

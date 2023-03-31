@@ -24,18 +24,6 @@ extension ANKFullWidth {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
-        lhs.low == rhs.low && lhs.high == rhs.high
-    }
-    
-    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
-        lhs.high < rhs.high || lhs.high == rhs.high && lhs.low < rhs.low
-    }
-    
-    //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
@@ -62,5 +50,17 @@ extension ANKFullWidth {
     @inlinable public func hash(into hasher: inout Hasher) {
         hasher.combine(self.low )
         hasher.combine(self.high)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
+        lhs.low == rhs.low && lhs.high == rhs.high
+    }
+    
+    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
+        lhs.high < rhs.high || lhs.high == rhs.high && lhs.low < rhs.low
     }
 }

@@ -32,12 +32,12 @@ final class ANKSignedTestsOnDivision: XCTestCase {
         XCTAssertEqual(T( 0) / T( 2),  0 as T)
         XCTAssertEqual(T( 0) % T( 1),  0 as T)
         XCTAssertEqual(T( 0) % T( 2),  0 as T)
-
+        
         XCTAssertEqual(T( 7) / T( 1),  7 as T)
         XCTAssertEqual(T( 7) / T( 2),  3 as T)
         XCTAssertEqual(T( 7) % T( 1),  0 as T)
         XCTAssertEqual(T( 7) % T( 2),  1 as T)
-                
+        
         XCTAssertEqual(T( 7) / T( 3),  2 as T)
         XCTAssertEqual(T( 7) / T(-3), -2 as T)
         XCTAssertEqual(T(-7) / T( 3), -2 as T)
