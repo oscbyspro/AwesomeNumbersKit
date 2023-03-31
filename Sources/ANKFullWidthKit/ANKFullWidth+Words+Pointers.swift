@@ -46,8 +46,8 @@ extension ANKFullWidth {
     ///   do stupid stuff. Understood? Cool. Let's go!
     ///
     @_transparent public static func fromUnsafeMutableWords(_ body: (ANKUnsafeMutableWordsPointer<BitPattern>) throws -> Void) rethrows -> Self {
-        try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { BUFFER in
-            let SELF = BUFFER.baseAddress.unsafelyUnwrapped
+        try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { ALLOC in
+            let SELF = ALLOC.baseAddress.unsafelyUnwrapped
             try SELF.withMemoryRebound(to: UInt.self, capacity: Self.count) { WORDS in
                 try body(ANKUnsafeMutableWordsPointer(WORDS))
             }

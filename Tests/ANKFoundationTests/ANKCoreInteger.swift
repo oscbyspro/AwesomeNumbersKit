@@ -52,7 +52,7 @@ final class ANKCoreIntegerTests: XCTestCase {
     }
     
     func testANKCoreInteger() {
-        XCTAssertEqual(10, types.count)
+        XCTAssertEqual(10, types.compactMap({ $0 as  any ANKCoreInteger.Type }).count)
     }
     
     func testANKFixedWidthInteger() {
