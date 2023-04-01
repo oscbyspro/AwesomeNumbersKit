@@ -18,8 +18,7 @@ import XCTest
 
 final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
     
-    typealias T = any (ANKCoreInteger).Type
-    typealias S = any (ANKCoreInteger & ANKSignedFixedWidthInteger).Type
+    typealias T = any ANKCoreInteger.Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -35,7 +34,7 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
         for type: T in types {
             XCTAssertEqual(Int(type.init(decoding:  "7b", radix: 16)!),  123)
             XCTAssertEqual(Int(type.init(decoding: "+7b", radix: 16)!),  123)
-            guard type is S else { continue }
+            guard type.isSigned else { continue }
             XCTAssertEqual(Int(type.init(decoding: "-7b", radix: 16)!), -123)
         }
     }
@@ -44,7 +43,7 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
         for type: T in types {
             XCTAssertEqual(Int(type.init(decoding:  "123", radix: 10)!),  123)
             XCTAssertEqual(Int(type.init(decoding: "+123", radix: 10)!),  123)
-            guard type is S else { continue }
+            guard type.isSigned else { continue }
             XCTAssertEqual(Int(type.init(decoding: "-123", radix: 10)!), -123)
         }
     }
@@ -54,7 +53,7 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
             XCTAssertEqual(Int(type.init(decoding:  "0x", radix: 36)!),  33)
             XCTAssertEqual(Int(type.init(decoding:  "0o", radix: 36)!),  24)
             XCTAssertEqual(Int(type.init(decoding:  "0b", radix: 36)!),  11)
-            guard type is S else { continue }
+            guard type.isSigned else { continue }
             XCTAssertEqual(Int(type.init(decoding: "-0x", radix: 36)!), -33)
             XCTAssertEqual(Int(type.init(decoding: "-0o", radix: 36)!), -24)
             XCTAssertEqual(Int(type.init(decoding: "-0b", radix: 36)!), -11)
@@ -71,7 +70,7 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
             XCTAssertEqual(Int(type.init(decoding: "+0b10", radix: nil)!),  0b10)
             XCTAssertEqual(Int(type.init(decoding: "+0o10", radix: nil)!),  0o10)
             XCTAssertEqual(Int(type.init(decoding: "+0x10", radix: nil)!),  0x10)
-            guard type is S else { continue }
+            guard type.isSigned else { continue }
             XCTAssertEqual(Int(type.init(decoding:   "-10", radix: nil)!),   -10)
             XCTAssertEqual(Int(type.init(decoding: "-0b10", radix: nil)!), -0b10)
             XCTAssertEqual(Int(type.init(decoding: "-0o10", radix: nil)!), -0o10)

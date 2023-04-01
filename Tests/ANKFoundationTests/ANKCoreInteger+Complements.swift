@@ -18,8 +18,7 @@ import XCTest
 
 final class ANKCoreIntegerTestsOnComplements: XCTestCase {
     
-    typealias T = any (ANKCoreInteger).Type
-    typealias S = any (ANKCoreInteger & ANKSignedFixedWidthInteger).Type
+    typealias T = any ANKCoreInteger.Type
     
     //=------------------------------------------------------------------------=
     // MARK: State

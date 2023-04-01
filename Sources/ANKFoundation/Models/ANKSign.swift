@@ -45,8 +45,8 @@
     /// The bit representation of this value.
     ///
     /// ```swift
-    /// plus  // false
-    /// minus // true
+    /// plus .bit // false
+    /// minus.bit // true
     /// ```
     ///
     @_transparent public var bit: Bool {
@@ -56,8 +56,8 @@
     /// The in-memory representation of this value.
     ///
     /// ```swift
-    /// plus  // 0x00
-    /// minus // 0x01
+    /// plus .data // 0x00
+    /// minus.data // 0x01
     /// ```
     ///
     @_transparent @usableFromInline var data: UInt8 {

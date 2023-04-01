@@ -18,8 +18,7 @@ import XCTest
 
 final class ANKCoreIntegerTestsOnBits: XCTestCase {
     
-    typealias T = any (ANKCoreInteger).Type
-    typealias S = any (ANKCoreInteger & ANKSignedFixedWidthInteger).Type
+    typealias T = any ANKCoreInteger.Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -33,9 +32,9 @@ final class ANKCoreIntegerTestsOnBits: XCTestCase {
     
     func testMostSignificantBit() {
         for type: T in types {
-            XCTAssertEqual(type.min .mostSignificantBit, type.isSigned)
-            XCTAssertEqual(type.zero.mostSignificantBit, false)
-            XCTAssertEqual(type.max .mostSignificantBit, type.isSigned == false)
+            XCTAssertEqual(type.min .mostSignificantBit,  type.isSigned)
+            XCTAssertEqual(type.zero.mostSignificantBit,  false)
+            XCTAssertEqual(type.max .mostSignificantBit, !type.isSigned)
         }
     }
     

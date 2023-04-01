@@ -22,8 +22,7 @@ UInt.self, UInt8.self, UInt16.self, UInt32.self, UInt64.self]
 
 final class ANKCoreIntegerTests: XCTestCase {
     
-    typealias T = any (ANKCoreInteger).Type
-    typealias S = any (ANKCoreInteger & ANKSignedFixedWidthInteger).Type
+    typealias T = any ANKCoreInteger.Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
