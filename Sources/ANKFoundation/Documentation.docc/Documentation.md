@@ -6,6 +6,7 @@ Models, protocols, extensions and utilities underpinning this package.
 
 ### Models
 
+- ``ANKError``
 - ``ANKSign``
 - ``ANKSigned``
 

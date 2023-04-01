@@ -101,33 +101,33 @@ extension ANKFullWidth where High == High.Magnitude {
     _ source: some StringProtocol, radix: RadixUIntRoot) -> Self? {
         assert(radix.power.isZero)
         //=--------------------------------------=
-        let utf8 = source.utf8
-        var magnitude: Magnitude = Self()
-        //=--------------------------------------=
-        let success = magnitude.withUnsafeMutableWords { MAGNITUDE in
+        return try? Self.fromUnsafeMutableWords { MAGNITUDE in
             //=----------------------------------=
-            var chunkEndIndex  = utf8.endIndex
-            var magnitudeIndex = MAGNITUDE.startIndex
+            let utf8 = source.utf8
+            var chunkEndIndex  = utf8.endIndex as String.Index
+            var magnitudeIndex = MAGNITUDE.startIndex as Int
             //=----------------------------------=
             backwards: while chunkEndIndex != utf8.startIndex {
                 //=------------------------------=
-                if  magnitudeIndex == MAGNITUDE.endIndex {
-                    let remainders =  source.prefix(upTo: chunkEndIndex).utf8
-                    return remainders.allSatisfy({ $0 == UInt8(ascii: "0") })
+                guard magnitudeIndex != MAGNITUDE.endIndex else {
+                    let remainders = source[..<chunkEndIndex].utf8
+                    let isOK = remainders.allSatisfy({ $0 == 48 })
+                    if  isOK { return } else { throw ANKError() }
                 }
                 //=------------------------------=
                 let chunkStartIndex = utf8.index(chunkEndIndex, offsetBy: -radix.exponent, limitedBy: utf8.startIndex) ?? utf8.startIndex
-                guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.base) else { return false }
+                guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.base) else { throw ANKError() }
                 chunkEndIndex = chunkStartIndex
                 //=------------------------------=
                 MAGNITUDE[magnitudeIndex] = digit
                 MAGNITUDE.formIndex(after: &magnitudeIndex)
             }
             //=----------------------------------=
-            return true
+            while magnitudeIndex != MAGNITUDE.endIndex {
+                MAGNITUDE[magnitudeIndex] = 0 as UInt
+                MAGNITUDE.formIndex(after: &magnitudeIndex)
+            }
         }
-        //=--------------------------------------=
-        return success ? magnitude : nil
     }
     
     @inlinable static func _decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(
@@ -135,9 +135,9 @@ extension ANKFullWidth where High == High.Magnitude {
         assert(!radix.power.isZero)
         //=--------------------------------------=
         let utf8 = source.utf8
-        var chunkStartIndex: String.Index = utf8.startIndex
-        let chunkIndexAlignment: Int = utf8.count % radix.exponent
-        var magnitude: Magnitude = Self()
+        var chunkStartIndex = utf8.startIndex as String.Index
+        let chunkIndexAlignment = utf8.count % radix.exponent
+        var magnitude = Magnitude()
         //=--------------------------------------=
         forwards: if !chunkIndexAlignment.isZero {
             //=----------------------------------=
