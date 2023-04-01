@@ -86,13 +86,9 @@ extension ANKFullWidth where High == High.Magnitude {
         precondition(2 ... 36 ~=  radix)
         let radix = RadixUIntRoot(radix)
         //=--------------------------------------=
-        // Radix == 2, 4, 16
-        //=--------------------------------------=
         if  radix.power.isZero {
             return self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsUIntRoot(source, radix: radix)
         }
-        //=--------------------------------------=
-        // Radix != 2, 4, 16
         //=--------------------------------------=
         return  self._decodeBigEndianDigitsWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(source, radix: radix)
     }
@@ -169,13 +165,9 @@ extension ANKFullWidth where High == High.Magnitude {
         precondition(2 ... 36 ~=  radix)
         let radix = RadixUIntRoot(radix)
         //=--------------------------------------=
-        // Radix == 2, 4, 16
-        //=--------------------------------------=
         if  radix.power.isZero {
             return self._encodeBigEndianTextWhereRadixIsIn2Through36AndRadixIsUIntRoot(value, radix: radix, uppercase: uppercase)
         }
-        //=--------------------------------------=
-        // Radix != 2, 4, 16
         //=--------------------------------------=
         return  self._encodeBigEndianTextWhereRadixIsIn2Through36AndRadixIsNotUIntRoot(value, radix: radix, uppercase: uppercase)
     }
@@ -209,9 +201,7 @@ extension ANKFullWidth where High == High.Magnitude {
             //=----------------------------------=
             assert(!magnitude.isZero)
             forwards: repeat {
-                let division = magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
-                magnitude = division.quotient as Magnitude
-                CHUNKS[index] = division.remainder as UInt
+                (magnitude, CHUNKS[index]) = magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
                 CHUNKS.formIndex(after: &index)
             } while !magnitude.isZero
             //=----------------------------------=

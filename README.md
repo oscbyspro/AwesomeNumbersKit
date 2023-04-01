@@ -47,7 +47,7 @@ Models, protocols, extensions and utilities underpinning this package.
 
 ### Models
 
-- [ANKError](Sources/ANKFoundation/ANKError.swift)
+- [ANKError](Sources/ANKFoundation/Models/ANKError.swift)
 - [ANKSign](Sources/ANKFoundation/Models/ANKSign.swift)
 - [ANKSigned\<Magnitude\>](Sources/ANKFoundation/Models/ANKSigned.swift)
 
