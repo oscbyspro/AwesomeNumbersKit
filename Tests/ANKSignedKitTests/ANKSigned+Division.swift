@@ -28,25 +28,25 @@ final class ANKSignedTestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividing() {
-        XCTAssertEqual(T( 0) / T( 1),  0 as T)
-        XCTAssertEqual(T( 0) / T( 2),  0 as T)
-        XCTAssertEqual(T( 0) % T( 1),  0 as T)
-        XCTAssertEqual(T( 0) % T( 2),  0 as T)
+        XCTAssertEqual( T(0) /  T(1),  T(0))
+        XCTAssertEqual( T(0) /  T(2),  T(0))
+        XCTAssertEqual( T(0) %  T(1),  T(0))
+        XCTAssertEqual( T(0) %  T(2),  T(0))
         
-        XCTAssertEqual(T( 7) / T( 1),  7 as T)
-        XCTAssertEqual(T( 7) / T( 2),  3 as T)
-        XCTAssertEqual(T( 7) % T( 1),  0 as T)
-        XCTAssertEqual(T( 7) % T( 2),  1 as T)
+        XCTAssertEqual( T(7) /  T(1),  T(7))
+        XCTAssertEqual( T(7) /  T(2),  T(3))
+        XCTAssertEqual( T(7) %  T(1),  T(0))
+        XCTAssertEqual( T(7) %  T(2),  T(1))
         
-        XCTAssertEqual(T( 7) / T( 3),  2 as T)
-        XCTAssertEqual(T( 7) / T(-3), -2 as T)
-        XCTAssertEqual(T(-7) / T( 3), -2 as T)
-        XCTAssertEqual(T(-7) / T(-3),  2 as T)
+        XCTAssertEqual( T(7) /  T(3),  T(2))
+        XCTAssertEqual( T(7) / -T(3), -T(2))
+        XCTAssertEqual(-T(7) /  T(3), -T(2))
+        XCTAssertEqual(-T(7) / -T(3),  T(2))
         
-        XCTAssertEqual(T( 7) % T( 3),  1 as T)
-        XCTAssertEqual(T( 7) % T(-3),  1 as T)
-        XCTAssertEqual(T(-7) % T( 3), -1 as T)
-        XCTAssertEqual(T(-7) % T(-3), -1 as T)
+        XCTAssertEqual( T(7) %  T(3),  T(1))
+        XCTAssertEqual( T(7) % -T(3),  T(1))
+        XCTAssertEqual(-T(7) %  T(3), -T(1))
+        XCTAssertEqual(-T(7) % -T(3), -T(1))
     }
     
     func testQuotientReportingOverflow() {
@@ -64,25 +64,25 @@ final class ANKSignedTestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingByDigit() {
-        XCTAssertEqual(T( 0) / D( 1),  0 as T)
-        XCTAssertEqual(T( 0) / D( 2),  0 as T)
-        XCTAssertEqual(T( 0) % D( 1),  0 as D)
-        XCTAssertEqual(T( 0) % D( 2),  0 as D)
+        XCTAssertEqual( T(0) /  D(1),  T(0))
+        XCTAssertEqual( T(0) /  D(2),  T(0))
+        XCTAssertEqual( T(0) %  D(1),  D(0))
+        XCTAssertEqual( T(0) %  D(2),  D(0))
 
-        XCTAssertEqual(T( 7) / D( 1),  7 as T)
-        XCTAssertEqual(T( 7) / D( 2),  3 as T)
-        XCTAssertEqual(T( 7) % D( 1),  0 as D)
-        XCTAssertEqual(T( 7) % D( 2),  1 as D)
+        XCTAssertEqual( T(7) /  D(1),  T(7))
+        XCTAssertEqual( T(7) /  D(2),  T(3))
+        XCTAssertEqual( T(7) %  D(1),  D(0))
+        XCTAssertEqual( T(7) %  D(2),  D(1))
                 
-        XCTAssertEqual(T( 7) / D( 3),  2 as T)
-        XCTAssertEqual(T( 7) / D(-3), -2 as T)
-        XCTAssertEqual(T(-7) / D( 3), -2 as T)
-        XCTAssertEqual(T(-7) / D(-3),  2 as T)
+        XCTAssertEqual( T(7) /  D(3),  T(2))
+        XCTAssertEqual( T(7) / -D(3), -T(2))
+        XCTAssertEqual(-T(7) /  D(3), -T(2))
+        XCTAssertEqual(-T(7) / -D(3),  T(2))
         
-        XCTAssertEqual(T( 7) % D( 3),  1 as D)
-        XCTAssertEqual(T( 7) % D(-3),  1 as D)
-        XCTAssertEqual(T(-7) % D( 3), -1 as D)
-        XCTAssertEqual(T(-7) % D(-3), -1 as D)
+        XCTAssertEqual( T(7) %  D(3),  D(1))
+        XCTAssertEqual( T(7) % -D(3),  D(1))
+        XCTAssertEqual(-T(7) %  D(3), -D(1))
+        XCTAssertEqual(-T(7) % -D(3), -D(1))
     }
     
     func testQuotientReportingOverflowDividingByDigit() {
@@ -105,10 +105,10 @@ final class ANKSignedTestsOnDivision: XCTestCase {
         XCTAssert(T.min.dividingFullWidth(( T(1), M( 1))) == (-T(1),  T(2)) as (T, T))
         XCTAssert(T.min.dividingFullWidth((-T(1), M( 1))) == ( T(1), -T(2)) as (T, T))
         
-        XCTAssert(T( 2).dividingFullWidth(( T(1), M( 1))) == (T.max/T(2) + T(1),  T(1)) as (T, T))
-        XCTAssert(T( 2).dividingFullWidth((-T(1), M( 1))) == (T.min/T(2) - T(1), -T(1)) as (T, T))
-        XCTAssert(T(-2).dividingFullWidth(( T(1), M( 1))) == (T.min/T(2) - T(1),  T(1)) as (T, T))
-        XCTAssert(T(-2).dividingFullWidth((-T(1), M( 1))) == (T.max/T(2) + T(1), -T(1)) as (T, T))
+        XCTAssert(( T(2)).dividingFullWidth(( T(1), M( 1))) == (T.max/T(2) + T(1),  T(1)) as (T, T))
+        XCTAssert(( T(2)).dividingFullWidth((-T(1), M( 1))) == (T.min/T(2) - T(1), -T(1)) as (T, T))
+        XCTAssert((-T(2)).dividingFullWidth(( T(1), M( 1))) == (T.min/T(2) - T(1),  T(1)) as (T, T))
+        XCTAssert((-T(2)).dividingFullWidth((-T(1), M( 1))) == (T.max/T(2) + T(1), -T(1)) as (T, T))
     }
     
     func testDividingFullWidthTruncatesQuotient() {
@@ -117,15 +117,15 @@ final class ANKSignedTestsOnDivision: XCTestCase {
         XCTAssert(T.min.dividingFullWidth((T.max, M.max)) == (-T(1),  T(0)) as (T, T))
         XCTAssert(T.min.dividingFullWidth((T.min, M.max)) == ( T(1),  T(0)) as (T, T))
         
-        XCTAssert(T( 2).dividingFullWidth((T.max, M.max)) == (T.max,  T(1)) as (T, T))
-        XCTAssert(T( 2).dividingFullWidth((T.min, M.max)) == (T.min, -T(1)) as (T, T))
-        XCTAssert(T(-2).dividingFullWidth((T.max, M.max)) == (T.min,  T(1)) as (T, T))
-        XCTAssert(T(-2).dividingFullWidth((T.min, M.max)) == (T.max, -T(1)) as (T, T))
+        XCTAssert(( T(2)).dividingFullWidth((T.max, M.max)) == (T.max,  T(1)) as (T, T))
+        XCTAssert(( T(2)).dividingFullWidth((T.min, M.max)) == (T.min, -T(1)) as (T, T))
+        XCTAssert((-T(2)).dividingFullWidth((T.max, M.max)) == (T.min,  T(1)) as (T, T))
+        XCTAssert((-T(2)).dividingFullWidth((T.min, M.max)) == (T.max, -T(1)) as (T, T))
         
-        XCTAssert(T( 1).dividingFullWidth(( T(2), M( 3))) == ( T(3),  T(0)) as (T, T))
-        XCTAssert(T( 1).dividingFullWidth((-T(2), M( 3))) == (-T(3), -T(0)) as (T, T))
-        XCTAssert(T(-1).dividingFullWidth(( T(2), M( 3))) == (-T(3),  T(0)) as (T, T))
-        XCTAssert(T(-1).dividingFullWidth((-T(2), M( 3))) == ( T(3), -T(0)) as (T, T))
+        XCTAssert(( T(1)).dividingFullWidth(( T(2), M( 3))) == ( T(3),  T(0)) as (T, T))
+        XCTAssert(( T(1)).dividingFullWidth((-T(2), M( 3))) == (-T(3), -T(0)) as (T, T))
+        XCTAssert((-T(1)).dividingFullWidth(( T(2), M( 3))) == (-T(3),  T(0)) as (T, T))
+        XCTAssert((-T(1)).dividingFullWidth((-T(2), M( 3))) == ( T(3), -T(0)) as (T, T))
     }
     
     //=------------------------------------------------------------------------=

@@ -25,9 +25,9 @@ final class ANKSignedTestsOnNegation: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNegated() {
-        XCTAssertEqual(-T( 0), T( 0))
-        XCTAssertEqual(-T( 1), T(-1))
-        XCTAssertEqual(-T(-1), T( 1))
+        XCTAssertEqual(-( T(0)),  T(0))
+        XCTAssertEqual(-( T(1)), -T(1))
+        XCTAssertEqual(-(-T(1)),  T(1))
     }
     
     func testNegatedSignIsAlwaysToggled() {

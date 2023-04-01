@@ -87,11 +87,11 @@ final class ANKSignedTestsOnSubtraction: XCTestCase {
     }
     
     func testSubtractingReportingOverflow() {
-        XCTAssert(T.min.subtractingReportingOverflow(T( 2)) == (T(  ) - T(1), true ) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(T( 2)) == (T.max - T(2), false) as (T, Bool))
+        XCTAssert(T.min.subtractingReportingOverflow( T(2)) == (T(  ) - T(1), true ) as (T, Bool))
+        XCTAssert(T.max.subtractingReportingOverflow( T(2)) == (T.max - T(2), false) as (T, Bool))
         
-        XCTAssert(T.min.subtractingReportingOverflow(T(-2)) == (T.min + T(2), false) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(T(-2)) == (T(  ) + T(1), true ) as (T, Bool))
+        XCTAssert(T.min.subtractingReportingOverflow(-T(2)) == (T.min + T(2), false) as (T, Bool))
+        XCTAssert(T.max.subtractingReportingOverflow(-T(2)) == (T(  ) + T(1), true ) as (T, Bool))
     }
     
     //=------------------------------------------------------------------------=
@@ -159,11 +159,11 @@ final class ANKSignedTestsOnSubtraction: XCTestCase {
     }
     
     func testSubtractingDigitReportingOverflow() {
-        XCTAssert(T.min.subtractingReportingOverflow(D( 2)) == (T(  ) - D(1), true ) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(D( 2)) == (T.max - D(2), false) as (T, Bool))
+        XCTAssert(T.min.subtractingReportingOverflow( D(2)) == (T(  ) - D(1), true ) as (T, Bool))
+        XCTAssert(T.max.subtractingReportingOverflow( D(2)) == (T.max - D(2), false) as (T, Bool))
         
-        XCTAssert(T.min.subtractingReportingOverflow(D(-2)) == (T.min + D(2), false) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(D(-2)) == (T(  ) + D(1), true ) as (T, Bool))
+        XCTAssert(T.min.subtractingReportingOverflow(-D(2)) == (T.min + D(2), false) as (T, Bool))
+        XCTAssert(T.max.subtractingReportingOverflow(-D(2)) == (T(  ) + D(1), true ) as (T, Bool))
     }
     
     //=------------------------------------------------------------------------=

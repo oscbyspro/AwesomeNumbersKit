@@ -35,10 +35,10 @@ final class ANKSignedTestsOnMultiplication: XCTestCase {
     }
     
     func testMultipliedReportingOverflow() {
-        XCTAssert(T( 2).multipliedReportingOverflow(by:  T(3)) == ( T(6), false) as (T, Bool))
-        XCTAssert(T( 2).multipliedReportingOverflow(by: -T(3)) == (-T(6), false) as (T, Bool))
-        XCTAssert(T(-2).multipliedReportingOverflow(by:  T(3)) == (-T(6), false) as (T, Bool))
-        XCTAssert(T(-2).multipliedReportingOverflow(by: -T(3)) == ( T(6), false) as (T, Bool))
+        XCTAssert(( T(2)).multipliedReportingOverflow(by:  T(3)) == ( T(6), false) as (T, Bool))
+        XCTAssert(( T(2)).multipliedReportingOverflow(by: -T(3)) == (-T(6), false) as (T, Bool))
+        XCTAssert((-T(2)).multipliedReportingOverflow(by:  T(3)) == (-T(6), false) as (T, Bool))
+        XCTAssert((-T(2)).multipliedReportingOverflow(by: -T(3)) == ( T(6), false) as (T, Bool))
         
         XCTAssert(T.min.multipliedReportingOverflow(by: T.min) == ( T(1), true ) as (T, Bool))
         XCTAssert(T.min.multipliedReportingOverflow(by: T.max) == (-T(1), true ) as (T, Bool))
@@ -47,10 +47,10 @@ final class ANKSignedTestsOnMultiplication: XCTestCase {
     }
     
     func testMultipliedFullWidth() {
-        XCTAssert(T( 2).multipliedFullWidth(by:  T(3)) == ( T(0),  M(6)) as (T, M))
-        XCTAssert(T( 2).multipliedFullWidth(by: -T(3)) == (-T(0),  M(6)) as (T, M))
-        XCTAssert(T(-2).multipliedFullWidth(by:  T(3)) == (-T(0),  M(6)) as (T, M))
-        XCTAssert(T(-2).multipliedFullWidth(by: -T(3)) == ( T(0),  M(6)) as (T, M))
+        XCTAssert(( T(2)).multipliedFullWidth(by:  T(3)) == ( T(0),  M(6)) as (T, M))
+        XCTAssert(( T(2)).multipliedFullWidth(by: -T(3)) == (-T(0),  M(6)) as (T, M))
+        XCTAssert((-T(2)).multipliedFullWidth(by:  T(3)) == (-T(0),  M(6)) as (T, M))
+        XCTAssert((-T(2)).multipliedFullWidth(by: -T(3)) == ( T(0),  M(6)) as (T, M))
         
         XCTAssert(T.min.multipliedFullWidth(by: T.min) == (T.max - T(1), M(1)) as (T, M))
         XCTAssert(T.min.multipliedFullWidth(by: T.max) == (T.min + T(1), M(1)) as (T, M))
@@ -70,17 +70,17 @@ final class ANKSignedTestsOnMultiplication: XCTestCase {
     }
     
     func testMultipliedByDigitReportingOverflow() {
-        XCTAssert(T( 2).multipliedReportingOverflow(by:  D(3)) == ( T(6), false) as (T, Bool))
-        XCTAssert(T( 2).multipliedReportingOverflow(by: -D(3)) == (-T(6), false) as (T, Bool))
-        XCTAssert(T(-2).multipliedReportingOverflow(by:  D(3)) == (-T(6), false) as (T, Bool))
-        XCTAssert(T(-2).multipliedReportingOverflow(by: -D(3)) == ( T(6), false) as (T, Bool))
+        XCTAssert(( T(2)).multipliedReportingOverflow(by:  D(3)) == ( T(6), false) as (T, Bool))
+        XCTAssert(( T(2)).multipliedReportingOverflow(by: -D(3)) == (-T(6), false) as (T, Bool))
+        XCTAssert((-T(2)).multipliedReportingOverflow(by:  D(3)) == (-T(6), false) as (T, Bool))
+        XCTAssert((-T(2)).multipliedReportingOverflow(by: -D(3)) == ( T(6), false) as (T, Bool))
     }
     
     func testMultipliedByDigitFullWidth() {
-        XCTAssert(T( 2).multipliedFullWidth(by:  D(3)) == ( D(0),  M(6)) as (D, M))
-        XCTAssert(T( 2).multipliedFullWidth(by: -D(3)) == (-D(0),  M(6)) as (D, M))
-        XCTAssert(T(-2).multipliedFullWidth(by:  D(3)) == (-D(0),  M(6)) as (D, M))
-        XCTAssert(T(-2).multipliedFullWidth(by: -D(3)) == ( D(0),  M(6)) as (D, M))
+        XCTAssert(( T(2)).multipliedFullWidth(by:  D(3)) == ( D(0),  M(6)) as (D, M))
+        XCTAssert(( T(2)).multipliedFullWidth(by: -D(3)) == (-D(0),  M(6)) as (D, M))
+        XCTAssert((-T(2)).multipliedFullWidth(by:  D(3)) == (-D(0),  M(6)) as (D, M))
+        XCTAssert((-T(2)).multipliedFullWidth(by: -D(3)) == ( D(0),  M(6)) as (D, M))
     }
     
     //=------------------------------------------------------------------------=

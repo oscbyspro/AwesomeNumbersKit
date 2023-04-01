@@ -49,6 +49,6 @@ extension ANKSigned where Magnitude: ANKLargeBinaryInteger {
 // MARK: * ANK x Signed x Conditional Conformances
 //*============================================================================*
 
+extension ANKSigned: ANKBigEndianTextCodable      where Magnitude: ANKBigEndianTextCodable { }
+extension ANKSigned: CustomStringConvertible      where Magnitude: ANKBigEndianTextCodable { }
 extension ANKSigned: CustomDebugStringConvertible where Magnitude: ANKBigEndianTextCodable { }
-extension ANKSigned: CustomStringConvertible where Magnitude: ANKBigEndianTextCodable { }
-extension ANKSigned: ANKBigEndianTextCodable where Magnitude: ANKBigEndianTextCodable { }

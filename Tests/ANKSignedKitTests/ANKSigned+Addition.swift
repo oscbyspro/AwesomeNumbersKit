@@ -87,11 +87,11 @@ final class ANKSignedTestsOnAddition: XCTestCase {
     }
     
     func testAddingReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow(T( 2)) == (T.min + T(2), false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(T( 2)) == (T(  ) + T(1), true ) as (T, Bool))
+        XCTAssert(T.min.addingReportingOverflow( T(2)) == (T.min + T(2), false) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow( T(2)) == (T(  ) + T(1), true ) as (T, Bool))
         
-        XCTAssert(T.min.addingReportingOverflow(T(-2)) == (T(  ) - T(1), true ) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(T(-2)) == (T.max - T(2), false) as (T, Bool))
+        XCTAssert(T.min.addingReportingOverflow(-T(2)) == (T(  ) - T(1), true ) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(-T(2)) == (T.max - T(2), false) as (T, Bool))
     }
     
     //=------------------------------------------------------------------------=
@@ -159,11 +159,11 @@ final class ANKSignedTestsOnAddition: XCTestCase {
     }
     
     func testAddingDigitReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow(D( 2)) == (T.min + D(2), false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(D( 2)) == (T(  ) + D(1), true ) as (T, Bool))
+        XCTAssert(T.min.addingReportingOverflow( D(2)) == (T.min + D(2), false) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow( D(2)) == (T(  ) + D(1), true ) as (T, Bool))
 
-        XCTAssert(T.min.addingReportingOverflow(D(-2)) == (T(  ) - D(1), true ) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(D(-2)) == (T.max - D(2), false) as (T, Bool))
+        XCTAssert(T.min.addingReportingOverflow(-D(2)) == (T(  ) - D(1), true ) as (T, Bool))
+        XCTAssert(T.max.addingReportingOverflow(-D(2)) == (T.max - D(2), false) as (T, Bool))
     }
     
     //=------------------------------------------------------------------------=
