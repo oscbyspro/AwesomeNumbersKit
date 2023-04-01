@@ -10,7 +10,7 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Signed x Numbers x Integer x Decode
+// MARK: * ANK x Signed x Numbers x Integer
 //*============================================================================*
 
 extension ANKSigned {

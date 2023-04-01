@@ -42,8 +42,15 @@
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public var description: String {
-        self == Self.plus ? "+" : "-"
+    /// The bit representation of this value.
+    ///
+    /// ```swift
+    /// plus  // false
+    /// minus // true
+    /// ```
+    ///
+    @_transparent public var bit: Bool {
+        unsafeBitCast(self, to: Bool.self)
     }
     
     /// The in-memory representation of this value.
@@ -75,6 +82,14 @@
     
     @_transparent public static func ==(lhs: Self, rhs: Self) -> Bool {
         lhs.data == rhs.data
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Text
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var description: String {
+        self.bit ? "-" : "+"
     }
 }
 

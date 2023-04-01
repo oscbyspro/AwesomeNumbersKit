@@ -39,6 +39,11 @@ final class ANKSignTests: XCTestCase {
     // MARK: Tests x Accessors
     //=------------------------------------------------------------------------=
     
+    func testBit() {
+        XCTAssertEqual(T.plus .bit, false)
+        XCTAssertEqual(T.minus.bit, true )
+    }
+    
     func testDescription() {
         XCTAssertEqual(T.plus .description, "+")
         XCTAssertEqual(T.minus.description, "-")

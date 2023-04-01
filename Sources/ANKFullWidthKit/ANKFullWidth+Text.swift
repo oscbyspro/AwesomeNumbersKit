@@ -187,24 +187,8 @@ extension ANKFullWidth where High == High.Magnitude {
         let magnitude_ = value.magnitude.minLastIndexReportingIsZeroOrMinusOne()
         if  magnitude_.isZeroOrMinusOne { return "0" }
         //=--------------------------------------=
-        return value.magnitude.withUnsafeWords { MAGNITUDE in
-            var index = magnitude_.minLastIndex
-            //=----------------------------------=
-            var text = value.sign != .plus ? "-" : ""
-            text += String(MAGNITUDE[index], radix: radix.base, uppercase: uppercase)
-            let size = text.utf8.count + radix.exponent * index
-            text.reserveCapacity(size)
-            //=----------------------------------=
-            backwards: while index != MAGNITUDE.startIndex {
-                MAGNITUDE.formIndex(before: &index)
-                let digits  = String(MAGNITUDE[index], radix: radix.base, uppercase: uppercase)
-                let padding = radix.exponent &- digits.utf8.count
-                if !padding.isZero { text += repeatElement("0", count: padding) }
-                text += digits
-            }
-            //=----------------------------------=
-            assert(text.utf8.count == size)
-            return text
+        return value.magnitude.withUnsafeWords {
+            String._bigEndianText(chunks: $0[...magnitude_.minLastIndex], sign: value.sign, radix: radix, uppercase: uppercase)
         }
     }
     
@@ -220,33 +204,62 @@ extension ANKFullWidth where High == High.Magnitude {
         let chunkBitWidthConsumptionLowerBound: Int = UInt.bitWidth &- radix.power.leadingZeroBitCount &- 1
         let chunkCountUpperBound = (magnitudeSignificantBitWidth / chunkBitWidthConsumptionLowerBound) &+ 1
         //=--------------------------------------=
-        return withUnsafeTemporaryAllocation(of: UInt.self, capacity: chunkCountUpperBound) { CACHE in
-            var index = CACHE.startIndex
+        return withUnsafeTemporaryAllocation(of: UInt.self, capacity: chunkCountUpperBound) { CHUNKS in
+            var index = CHUNKS.startIndex
             //=----------------------------------=
             assert(!magnitude.isZero)
-            forwards: while true {
+            forwards: repeat {
                 let division = magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
                 magnitude = division.quotient as Magnitude
-                CACHE[index] = division.remainder  as UInt
-                if  magnitude.isZero { break }
-                CACHE.formIndex(after: &index)
+                CHUNKS[index] = division.remainder as UInt
+                CHUNKS.formIndex(after: &index)
+            } while !magnitude.isZero
+            //=----------------------------------=
+            return String._bigEndianText(chunks: CHUNKS[..<index], sign: value.sign, radix: radix, uppercase: uppercase)
+        }
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + String
+//=----------------------------------------------------------------------------=
+
+extension String {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func _bigEndianText(chunks: some ANKWords, sign: ANKSign, radix: RadixUIntRoot, uppercase: Bool) -> Self {
+        //=--------------------------------------=
+        assert(!chunks.isEmpty)
+        assert(radix.power.isZero || chunks.allSatisfy({ $0 < radix.power }))
+        //=--------------------------------------=
+        var index = chunks.index(before:  chunks.endIndex)
+        var first = String(chunks[index], radix: radix.base, uppercase:  uppercase)
+        let count = Int(bit: sign.bit) +  first.utf8.count + radix.exponent * index
+        //=--------------------------------------=
+        return String(unsafeUninitializedCapacity: count) { UTF8 in
+            var utf8Index = UTF8.startIndex
+            //=----------------------------------=
+            if  sign.bit {
+                UTF8.write(45, from: &utf8Index)
             }
             //=----------------------------------=
-            var text = value.sign != .plus ? "-" : ""
-            text += String(CACHE[index], radix: radix.base, uppercase: uppercase)
-            let size = text.utf8.count + radix.exponent * index
-            text.reserveCapacity(size)
+            UTF8.write(&first, from: &utf8Index)
             //=----------------------------------=
-            backwards: while index != CACHE.startIndex {
-                CACHE.formIndex(before: &index)
-                let digits  = String(CACHE[index], radix: radix.base, uppercase: uppercase)
-                let padding = radix.exponent &- digits.utf8.count
-                if !padding.isZero { text += repeatElement("0", count: padding) }
-                text += digits
+            backwards: while index != chunks.startIndex {
+                chunks.formIndex(before:   &index)
+                var content = String(chunks[index], radix: radix.base, uppercase: uppercase)
+                content.withUTF8 { CONTENT in
+                    let padding = repeatElement(UInt8(48), count: radix.exponent &- CONTENT.count)
+                    UTF8.write(padding, from: &utf8Index)
+                    UTF8.write(CONTENT, from: &utf8Index)
+                }
             }
             //=----------------------------------=
-            assert(text.utf8.count == size)
-            return text
+            assert(UTF8.distance(from: UTF8.startIndex, to: utf8Index) == count)
+            return count
         }
     }
 }
