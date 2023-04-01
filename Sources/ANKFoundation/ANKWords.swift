@@ -11,17 +11,14 @@
 // MARK: * ANK x Words
 //*============================================================================*
 
-/// A collection of a binary integer's words.
+/// A collection of `UInt` words, with indices from `0` to `count`.
 public protocol ANKWords: RandomAccessCollection where Element == UInt, Index == Int { }
 
 //*============================================================================*
-// MARK: * ANK x Words x Swift
+// MARK: * ANK x Words x Stdlib
 //*============================================================================*
 
 extension Array<UInt>: ANKWords { }
 extension ContiguousArray<UInt>: ANKWords { }
 extension UnsafeBufferPointer<UInt>: ANKWords { }
 extension UnsafeMutableBufferPointer<UInt>: ANKWords { }
-
-extension ArraySlice: ANKWords where Element == UInt, Index == Int { }
-extension Slice: ANKWords where Base: RandomAccessCollection, Element == UInt, Index == Int { }

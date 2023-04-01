@@ -166,7 +166,7 @@ extension ANKCoreInteger where Self: ANKSignedFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * ANK x Core Integer x Swift
+// MARK: * ANK x Core Integer x Stdlib
 //*============================================================================*
 
 extension Int: ANKCoreInteger, ANKSignedFixedWidthInteger {

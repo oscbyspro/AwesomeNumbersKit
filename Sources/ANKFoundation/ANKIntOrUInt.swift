@@ -37,7 +37,7 @@ extension Int {
 }
 
 //*============================================================================*
-// MARK: * ANK x Int Or UInt x Swift
+// MARK: * ANK x Int Or UInt x Stdlib
 //*============================================================================*
 
 extension  Int: ANKIntOrUInt,   ANKSignedLargeFixedWidthInteger { }

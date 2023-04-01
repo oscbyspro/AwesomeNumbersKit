@@ -117,7 +117,7 @@ extension ANKFullWidth where High == High.Magnitude {
                 }
                 //=------------------------------=
                 let chunkStartIndex = utf8.index(chunkEndIndex, offsetBy: -radix.exponent, limitedBy: utf8.startIndex) ?? utf8.startIndex
-                guard let  digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.base) else { return false }
+                guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.base) else { return false }
                 chunkEndIndex = chunkStartIndex
                 //=------------------------------=
                 MAGNITUDE[magnitudeIndex] = digit
@@ -230,10 +230,12 @@ extension String {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _bigEndianText(chunks: some ANKWords, sign: ANKSign, radix: RadixUIntRoot, uppercase: Bool) -> Self {
+    @inlinable static func _bigEndianText<T>(chunks: T, sign: ANKSign, radix: RadixUIntRoot, uppercase: Bool) -> Self
+    where T: RandomAccessCollection, T.Element == UInt, T.Index == Int {
         //=--------------------------------------=
-        assert(!chunks.isEmpty)
-        assert(radix.power.isZero || chunks.allSatisfy({ $0 < radix.power }))
+        assert(chunks.isEmpty == false)
+        assert(chunks.startIndex.isZero && chunks.endIndex == chunks.count)
+        assert(chunks.allSatisfy{ $0 < radix.power } || radix.power.isZero)
         //=--------------------------------------=
         var index = chunks.index(before:  chunks.endIndex)
         var first = String(chunks[index], radix: radix.base, uppercase:  uppercase)
