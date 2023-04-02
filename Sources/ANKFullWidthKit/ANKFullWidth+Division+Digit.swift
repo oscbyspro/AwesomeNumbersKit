@@ -124,13 +124,13 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         quotient.withUnsafeMutableWords { QUOTIENT in
             //=----------------------------------=
-            var quotientIndex: Int = QUOTIENT.endIndex
+            var index = QUOTIENT.endIndex as Int
             //=----------------------------------=
-            backwards: while quotientIndex != QUOTIENT.startIndex {
-                QUOTIENT.formIndex(before: &quotientIndex)
-                let dividend = (remainder, QUOTIENT[quotientIndex]) as HL<UInt, UInt>
-                let division =  divisor.dividingFullWidth(dividend) as QR<UInt, UInt>
-                (QUOTIENT[quotientIndex], remainder) = division
+            backwards: while index != QUOTIENT.startIndex {
+                QUOTIENT.formIndex(before: &index)
+                let dividend = HL(remainder, QUOTIENT[index]) as HL<UInt, UInt>
+                let qr =  divisor.dividingFullWidth(dividend) as QR<UInt, UInt>
+                (QUOTIENT[index], remainder) = qr
             }
         }
         //=--------------------------------------=

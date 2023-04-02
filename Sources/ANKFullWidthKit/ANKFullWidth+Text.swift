@@ -19,17 +19,17 @@ extension ANKFullWidth {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// The name of this type.
+    /// The description of this type.
     ///
     /// ```swift
     /// FullWidth< Int128, UInt128>.description //  "Int256"
     /// FullWidth<UInt256, UInt256>.description // "UInt512"
     /// ```
     ///
-    @inlinable static var name: String {
+    @inlinable static var description: String {
         let signedness = !Self.isSigned ? "U" : ""
         let size = String(Self.bitWidth)
-        return "ANK\(signedness)Int\(size)"
+        return "\(signedness)Int\(size)"
     }
     
     //=------------------------------------------------------------------------=
@@ -42,7 +42,7 @@ extension ANKFullWidth {
     
     @inlinable public var debugDescription: String {
         self.withUnsafeWords { SELF in
-            let name = Self.name
+            let name = Self.description
             let body = SELF.lazy.map(String.init).joined(separator: ", ")
             return "\(name)(\(body))"
         }
@@ -223,6 +223,7 @@ extension String {
     @inlinable static func _bigEndianText<T>(chunks: T, sign: ANKSign, radix: RadixUIntRoot, uppercase: Bool) -> Self
     where T: RandomAccessCollection, T.Element == UInt, T.Index == Int {
         //=--------------------------------------=
+        assert(2 ... 36 ~=  radix.base)
         assert(chunks.isEmpty == false)
         assert(chunks.startIndex.isZero && chunks.endIndex == chunks.count)
         assert(chunks.allSatisfy{ $0 < radix.power } || radix.power.isZero)
@@ -240,13 +241,23 @@ extension String {
             //=----------------------------------=
             UTF8.write(&first, from: &utf8Index)
             //=----------------------------------=
+            let map00To10: UInt = 48
+            let map10To37: UInt = uppercase ? 55 : 87
+            //=--------------------------------------=
             backwards: while index != chunks.startIndex {
-                chunks.formIndex(before:   &index)
-                var content = String(chunks[index], radix: radix.base, uppercase: uppercase)
-                content.withUTF8 { CONTENT in
-                    let padding = repeatElement(UInt8(48), count: radix.exponent &- CONTENT.count)
-                    UTF8.write(padding, from: &utf8Index)
-                    UTF8.write(CONTENT, from: &utf8Index)
+                chunks.formIndex(before: &index)
+                
+                var chunk = chunks[index] as UInt
+                let destination = UTF8.index(utf8Index, offsetBy: radix.exponent)
+                defer { utf8Index = destination }
+                
+                var position = destination
+                backwards: while position != utf8Index {
+                    UTF8.formIndex(before: &position)
+                    
+                    let digit: UInt
+                    (chunk, digit) = chunk.quotientAndRemainder(dividingBy: UInt(bitPattern:  radix.base))
+                    UTF8[position] = UInt8(_truncatingBits: digit &+ (digit < 10 ? map00To10 : map10To37))
                 }
             }
             //=----------------------------------=

@@ -291,7 +291,7 @@ extension ANKFullWidth {
     
     @inlinable public init(integerLiteral source: StaticBigInt) {
         guard let value = Self(_exactlyIntegerLiteral: source) else {
-            preconditionFailure("Integer literal '\(source)' overflows when stored into '\(Self.name)'.")
+            preconditionFailure("Integer literal '\(source)' overflows when stored into '\(Self.description)'.")
         }
         
         self = value
