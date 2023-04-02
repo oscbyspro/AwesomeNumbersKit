@@ -228,6 +228,7 @@ extension String {
         assert(chunks.startIndex.isZero && chunks.endIndex == chunks.count)
         assert(chunks.allSatisfy{ $0 < radix.power } || radix.power.isZero)
         //=--------------------------------------=
+        let alphabet = DigitsToText(uppercase:  uppercase)
         var index = chunks.index(before:  chunks.endIndex)
         var first = String(chunks[index], radix: radix.base, uppercase:  uppercase)
         let count = Int(bit: sign.bit) +  first.utf8.count + radix.exponent * index
@@ -241,9 +242,6 @@ extension String {
             //=----------------------------------=
             UTF8.write(&first, from: &utf8Index)
             //=----------------------------------=
-            let map00To10: UInt = 48
-            let map10To37: UInt = uppercase ? 55 : 87
-            //=--------------------------------------=
             backwards: while index != chunks.startIndex {
                 chunks.formIndex(before: &index)
                 
@@ -257,7 +255,7 @@ extension String {
                     
                     let digit: UInt
                     (chunk, digit) = chunk.quotientAndRemainder(dividingBy: UInt(bitPattern:  radix.base))
-                    UTF8[position] = UInt8(_truncatingBits: digit &+ (digit < 10 ? map00To10 : map10To37))
+                    UTF8[position] = alphabet[unchecked: digit]
                 }
             }
             //=----------------------------------=
