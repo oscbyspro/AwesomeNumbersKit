@@ -8,7 +8,7 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * ANK x Digits To Text
+// MARK: * ANK x Digits To Text x Encode
 //*============================================================================*
 
 /// Encodes digits from `0` through `36` to ASCII.
@@ -35,7 +35,7 @@
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init(uppercase: Bool) {
+    @inlinable init(uppercase: Bool) {
         self.map00To10 = 48
         self.map10To37 = uppercase ? 55 : 87
     }

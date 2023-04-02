@@ -15,9 +15,7 @@ import ANKFoundation
 
 /// The largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
 ///
-/// The mixed `Int` and `UInt` typing is for the sake of interoperability.
-///
-/// - Its `base` is `>= 2`
+/// - Its `base` is `>= 2` and `<= 36`
 /// - Its `exponent` is `>= 1` and `<= UInt.bitWidth`
 /// - Its `power` is `0` when `pow(radix, exponent) == UInt.max + 1`
 ///
@@ -27,19 +25,42 @@ import ANKFoundation
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline let base: Int
-    @usableFromInline let exponent: Int
+    @usableFromInline let base: UInt
+    @usableFromInline let exponent: UInt
     @usableFromInline let power: UInt
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable var baseInt: Int {
+        assert(base <= 36)
+        return Int(bitPattern: base)
+    }
+    
+    @inlinable var exponentInt: Int {
+        assert(exponent <= UInt.bitWidth)
+        return Int(bitPattern:  exponent)
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    /// Creates a new instance from the given radix.
+    ///
+    /// The radix must not exceed `36`, because that is the size of the alphabet.
+    ///
+    /// - Parameter radix: A value from `2` through `36`.
+    ///
     @inlinable init(_ radix: Int) {
-        let  root = Self._root(radix)
-        self.base = radix
-        self.exponent = root.exponent
-        self.power = root.power
+        //=--------------------------------------=
+        precondition(2 ... 36 ~= radix)
+        //=--------------------------------------=
+        self.base = UInt(bitPattern: radix)
+        switch radix.isPowerOf2 {
+        case  true: (self.exponent, self.power) = Self._rootWhereRadixIsPowerOf2(self.base)
+        case false: (self.exponent, self.power) = Self._rootWhereRadixIsWhatever(self.base) }
     }
     
     //=------------------------------------------------------------------------=
@@ -47,49 +68,38 @@ import ANKFoundation
     //=------------------------------------------------------------------------=
     
     /// Returns the largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
-    @inlinable static func _root(_ radix: Int) -> (exponent: Int, power: UInt) {
-        precondition(radix >= 2)
-        //=--------------------------------------=
-        if  radix.isPowerOf2 {
-            return self._rootWhereRadixIsAtLeast2AndRadixIsPowerOf2(radix)
-        }
-        //=--------------------------------------=
-        return self._rootWhereRadixIsAtLeast2(radix)
-    }
-    
-    /// Returns the largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
-    @inlinable static func _rootWhereRadixIsAtLeast2AndRadixIsPowerOf2(_ radix: Int) -> (exponent: Int, power: UInt) {
+    @inlinable static func _rootWhereRadixIsPowerOf2(_ radix: UInt) -> (exponent: UInt, power: UInt) {
         assert(radix >= 2)
         assert(radix.isPowerOf2)
         //=--------------------------------------=
-        let zeros: Int = radix.trailingZeroBitCount
+        let zeros = UInt(bitPattern: radix.trailingZeroBitCount)
         //=--------------------------------------=
         // Radix == 2,  4, 16, 256, ...
         //=--------------------------------------=
         if  zeros.isPowerOf2 {
-            let exponent = UInt.bitWidth &>> zeros.trailingZeroBitCount
+            let exponent = UInt(bitPattern: UInt.bitWidth &>> zeros.trailingZeroBitCount)
             return (exponent: exponent, power: 0)
         //=--------------------------------------=
         // Radix == 8, 32, 64, 128, ...
         //=--------------------------------------=
         }   else {
-            let exponent = UInt.bitWidth / zeros
-            let shift = zeros.multipliedReportingOverflow(by: exponent).partialValue
-            let power = 1 &<< UInt(bitPattern: shift)
+            let exponent = UInt(bitPattern: UInt.bitWidth) /  zeros
+            let shift: UInt = zeros.multipliedReportingOverflow(by: exponent).partialValue
+            let power: UInt = (1 as UInt) &<<  shift
             return (exponent: exponent, power: power)
         }
     }
     
     /// Returns the largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
-    @inlinable static func _rootWhereRadixIsAtLeast2(_ radix: Int) -> (exponent: Int, power: UInt) {
+    @inlinable static func _rootWhereRadixIsWhatever(_ radix: UInt) -> (exponent: UInt, power: UInt) {
         assert(radix >= 2)
         //=--------------------------------------=
-        var exponent = 1 as Int
-        var power = UInt(bitPattern: radix)
-        let radix = UInt(bitPattern: radix)
+        var exponent  = 1 as UInt
+        var power = radix as UInt
+        let radix = radix as UInt
         //=--------------------------------------=
         exponentiate: while true {
-            let product = power.multipliedFullWidth(by: radix)
+            let product = power.multipliedFullWidth(by: radix) as HL<UInt, UInt>
             if !product.high.isZero {
                 if  product.high == 1, product.low.isZero {
                     exponent &+= 1
