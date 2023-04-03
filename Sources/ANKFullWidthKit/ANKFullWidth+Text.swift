@@ -95,26 +95,28 @@ extension ANKFullWidth where High == High.Magnitude {
         try Self.fromUnsafeMutableWords { MAGNITUDE in
             assert(radix.power.isZero)
             //=----------------------------------=
-            let utf8 = source.utf8
-            var chunkEndIndex  = utf8.endIndex as String.Index
-            var magnitudeIndex = MAGNITUDE.startIndex as Int
+            let utf8  = source.utf8
+            let start = utf8.startIndex as String.Index
+            var tail  = utf8.endIndex   as String.Index
+            var index = MAGNITUDE.startIndex as Int
+            let step  = (-radix.exponentInt) as Int
             //=----------------------------------=
-            backwards: while chunkEndIndex != utf8.startIndex {
-                if  magnitudeIndex == MAGNITUDE.endIndex {
-                    return try utf8[..<chunkEndIndex].allSatisfy({ $0 == 48 }) || ANKError()
+            backwards: while tail != start {
+                remainders: if index == MAGNITUDE.endIndex {
+                    return try utf8[..<tail].allSatisfy({ $0 == 48 }) || ANKError()
                 }
                 //=------------------------------=
-                let chunkStartIndex = utf8.index(chunkEndIndex, offsetBy: -radix.exponentInt, limitedBy: utf8.startIndex) ?? utf8.startIndex
-                let digit = try UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.baseInt) ?? ANKError()
-                chunkEndIndex = chunkStartIndex
+                let head = utf8.index(tail, offsetBy: step,  limitedBy: start) ?? start
+                let word = try UInt(source[head  ..<  tail], radix: radix.baseInt) ?? ANKError()
                 //=------------------------------=
-                MAGNITUDE[magnitudeIndex] = digit
-                MAGNITUDE.formIndex(after: &magnitudeIndex)
+                tail = head
+                MAGNITUDE[index] = word
+                MAGNITUDE.formIndex(after: &index)
             }
             //=----------------------------------=
-            while magnitudeIndex != MAGNITUDE.endIndex {
-                MAGNITUDE[magnitudeIndex] = 0 as UInt
-                MAGNITUDE.formIndex(after: &magnitudeIndex)
+            uninitialized: while index != MAGNITUDE.endIndex  {
+                MAGNITUDE[index] = UInt()
+                MAGNITUDE.formIndex(after: &index)
             }
         }
     }
@@ -123,27 +125,21 @@ extension ANKFullWidth where High == High.Magnitude {
         assert(!radix.power.isZero)
         //=--------------------------------------=
         let utf8 = source.utf8
-        var chunkStartIndex = utf8.startIndex as String.Index
-        let chunkIndexAlignment = utf8.count % radix.exponentInt
+        var head = utf8.startIndex as String.Index
+        let alignment = utf8.count % radix.exponentInt
         var magnitude = Magnitude()
         //=--------------------------------------=
-        forwards: if !chunkIndexAlignment.isZero {
-            //=----------------------------------=
-            let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy: chunkIndexAlignment)
-            let digit = try UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.baseInt) ?? ANKError()
-            chunkStartIndex = chunkEndIndex
-            //=----------------------------------=
-            magnitude[unchecked: Self.startIndex] = digit
+        forwards: if !alignment.isZero {
+            let tail = utf8.index(head, offsetBy: alignment/*----*/);  defer { head = tail }
+            let word = try UInt(source[head  ..<  tail], radix: radix.baseInt) ?? ANKError()
+            magnitude[unchecked:  magnitude.startIndex] = word
         }
         //=--------------------------------------=
-        forwards: while chunkStartIndex != utf8.endIndex {
-            //=----------------------------------=
-            let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy: radix.exponentInt)
-            let digit = try UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.baseInt) ?? ANKError()
-            chunkStartIndex = chunkEndIndex
-            //=----------------------------------=
-            try !magnitude.multiplyReportingOverflow(by: radix.power as UInt) || ANKError()
-            try !magnitude.addReportingOverflow(digit as UInt) || ANKError()
+        forwards: while head != utf8.endIndex {
+            let tail = utf8.index(head, offsetBy: radix.exponentInt);  defer { head = tail }
+            let word = try UInt(source[head  ..<  tail], radix: radix.baseInt) ?? ANKError()
+            try !magnitude.multiplyReportingOverflow(by: radix.power  as UInt) || ANKError()
+            try !magnitude.addReportingOverflow(word as  UInt)/*------------*/ || ANKError()
         }
         //=--------------------------------------=
         return magnitude
@@ -192,9 +188,9 @@ extension String {
     @inlinable static func _bigEndianText<T>(chunks: T, sign: ANKSign, radix: RadixUIntRoot, uppercase: Bool) -> Self
     where T: BidirectionalCollection<UInt>, T.Index == Int {
         assert(2 ... 36 ~= radix.base)
-        assert(chunks.last != 0 || chunks.count == 1)
+        assert(chunks.last! != 0 || chunks.count == 1)
         assert(chunks.startIndex.isZero && chunks.endIndex == chunks.count)
-        assert(chunks.allSatisfy{ $0 < radix.power } || radix.power.isZero)
+        assert(chunks.allSatisfy({ $0 < radix.power }) || radix.power == 0)
         //=--------------------------------------=
         let alphabet = DigitsToText(uppercase:  uppercase)
         var index = chunks.index(before:  chunks.endIndex)
