@@ -72,9 +72,7 @@ import ANKFoundation
     /// [67]: https://github.com/oscbyspro/AwesomeNumbersKit/issues/67
     ///
     @inlinable func divisibilityByPowerUpperBound(_ magnitude: some UnsignedInteger) -> Int {
-        precondition(self.power > 1)
-        let min = 36.leadingZeroBitCount &- 1
-        return magnitude.bitWidth /  min &+ 1
+        precondition(self.power > 1); return magnitude.bitWidth / 36.leadingZeroBitCount &+ 1
     }
 }
 

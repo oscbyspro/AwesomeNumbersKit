@@ -38,7 +38,7 @@
         guard predicate else { throw error }
     }
     
-    /// Throws the error if the value is nil.
+    /// Unwraps the value, or throws the error because the value is nil.
     ///
     /// This is an awesome alternative to the guard-let-else-throw pattern.
     ///
