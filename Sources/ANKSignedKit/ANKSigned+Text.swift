@@ -38,9 +38,9 @@ extension ANKSigned where Magnitude: ANKBigEndianTextCodable {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
+    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) throws -> Self {
         let components = source._bigEndianTextComponents(radix: radix)
-        guard let magnitude = Magnitude.decodeBigEndianText(components.body, radix: components.radix) else { return nil }
+        let magnitude = try Magnitude.decodeBigEndianText(components.body, radix: components.radix)
         return Self(magnitude, as: components.sign)
     }
     

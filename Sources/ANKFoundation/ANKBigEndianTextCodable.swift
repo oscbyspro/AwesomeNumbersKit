@@ -31,7 +31,7 @@ public protocol ANKBigEndianTextCodable {
     ///
     /// If the given radix is `nil`, it is either decoded from the string or assigned the value `10`.
     ///
-    @inlinable static func decodeBigEndianText(_ source: some StringProtocol,  radix: Int?) -> Self?
+    @inlinable static func decodeBigEndianText(_ source: some StringProtocol,  radix: Int?) throws -> Self
     
     /// Creates a string representing the given value, using the given format.
     @inlinable static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String
@@ -52,7 +52,7 @@ extension ANKBigEndianTextCodable {
     /// If the given radix is `nil`, it is either decoded from the string or assigned the value `10`.
     ///
     @_transparent public init?(decoding source: some StringProtocol, radix: Int? = nil) {
-        guard let value = Self.decodeBigEndianText(source, radix: radix) else { return nil }; self = value
+        guard let value = try? Self.decodeBigEndianText(source, radix: radix) else { return nil }; self = value
     }
 }
 

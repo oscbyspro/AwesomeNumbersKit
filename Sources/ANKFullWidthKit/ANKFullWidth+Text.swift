@@ -59,16 +59,15 @@ extension ANKFullWidth {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) -> Self? {
+    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) throws -> Self {
         let components = source._bigEndianTextComponents(radix: radix)
         let root = RadixUIntRoot(components.radix)
         //=--------------------------------------=
-        let magnitude: Magnitude?; switch root.power.isZero {
-        case  true: magnitude = Magnitude._decodeBigEndianDigitsWhereRadixIsUIntRoot(   components.body, radix: root)
-        case false: magnitude = Magnitude._decodeBigEndianDigitsWhereRadixIsNotUIntRoot(components.body, radix: root) }
-        guard  let  magnitude   else { return nil }
+        let magnitude: Magnitude; switch root.power.isZero {
+        case  true: magnitude = try Magnitude._decodeBigEndianDigitsWhereRadixIsUIntRoot(   components.body, radix: root)
+        case false: magnitude = try Magnitude._decodeBigEndianDigitsWhereRadixIsNotUIntRoot(components.body, radix: root) }
         //=--------------------------------------=
-        return Self(exactly: ANKSigned(magnitude, as: components.sign))
+        return try Self(exactly: ANKSigned(magnitude, as: components.sign)) ?? ANKError()
     }
     
     @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
@@ -92,26 +91,21 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Decode
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _decodeBigEndianDigitsWhereRadixIsUIntRoot(
-    _ source: some StringProtocol, radix: RadixUIntRoot) -> Self? {
-        assert(radix.power.isZero)
-        //=--------------------------------------=
-        return try? Self.fromUnsafeMutableWords { MAGNITUDE in
+    @inlinable static func _decodeBigEndianDigitsWhereRadixIsUIntRoot(_ source: some StringProtocol, radix: RadixUIntRoot) throws -> Self {
+        try Self.fromUnsafeMutableWords { MAGNITUDE in
+            assert(radix.power.isZero)
             //=----------------------------------=
             let utf8 = source.utf8
             var chunkEndIndex  = utf8.endIndex as String.Index
             var magnitudeIndex = MAGNITUDE.startIndex as Int
             //=----------------------------------=
             backwards: while chunkEndIndex != utf8.startIndex {
-                //=------------------------------=
-                guard magnitudeIndex != MAGNITUDE.endIndex else {
-                    let remainders = utf8[..<chunkEndIndex]
-                    let isOK = remainders.allSatisfy({ $0 == 48 })
-                    if  isOK { return } else { throw ANKError() }
+                if  magnitudeIndex == MAGNITUDE.endIndex {
+                    return try utf8[..<chunkEndIndex].allSatisfy({ $0 == 48 }) || ANKError()
                 }
                 //=------------------------------=
                 let chunkStartIndex = utf8.index(chunkEndIndex, offsetBy: -radix.exponentInt, limitedBy: utf8.startIndex) ?? utf8.startIndex
-                guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.baseInt) else { throw ANKError() }
+                let digit = try UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.baseInt) ?? ANKError()
                 chunkEndIndex = chunkStartIndex
                 //=------------------------------=
                 MAGNITUDE[magnitudeIndex] = digit
@@ -125,8 +119,7 @@ extension ANKFullWidth where High == High.Magnitude {
         }
     }
     
-    @inlinable static func _decodeBigEndianDigitsWhereRadixIsNotUIntRoot(
-    _ source: some StringProtocol, radix: RadixUIntRoot) -> Self? {
+    @inlinable static func _decodeBigEndianDigitsWhereRadixIsNotUIntRoot(_ source: some StringProtocol, radix: RadixUIntRoot) throws -> Self {
         assert(!radix.power.isZero)
         //=--------------------------------------=
         let utf8 = source.utf8
@@ -137,7 +130,7 @@ extension ANKFullWidth where High == High.Magnitude {
         forwards: if !chunkIndexAlignment.isZero {
             //=----------------------------------=
             let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy: chunkIndexAlignment)
-            guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.baseInt) else { return nil }
+            let digit = try UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.baseInt) ?? ANKError()
             chunkStartIndex = chunkEndIndex
             //=----------------------------------=
             magnitude[unchecked: Self.startIndex] = digit
@@ -146,11 +139,11 @@ extension ANKFullWidth where High == High.Magnitude {
         forwards: while chunkStartIndex != utf8.endIndex {
             //=----------------------------------=
             let chunkEndIndex = utf8.index(chunkStartIndex, offsetBy: radix.exponentInt)
-            guard let digit = UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.baseInt) else { return nil }
+            let digit = try UInt(source[chunkStartIndex ..< chunkEndIndex], radix: radix.baseInt) ?? ANKError()
             chunkStartIndex = chunkEndIndex
             //=----------------------------------=
-            guard !magnitude.multiplyReportingOverflow(by: radix.power as UInt) else { return nil }
-            guard !magnitude.addReportingOverflow(digit as UInt) else { return nil }
+            try !magnitude.multiplyReportingOverflow(by: radix.power as UInt) || ANKError()
+            try !magnitude.addReportingOverflow(digit as UInt) || ANKError()
         }
         //=--------------------------------------=
         return magnitude
@@ -160,8 +153,7 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Encode
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _encodeBigEndianTextWhereRadixIsUIntRoot(
-    _ value: ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
+    @inlinable static func _encodeBigEndianTextWhereRadixIsUIntRoot(_ value: ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
         assert(radix.power.isZero)
         //=--------------------------------------=
         let magnitude_ = value.magnitude.minLastIndexReportingIsZeroOrMinusOne()
@@ -172,8 +164,7 @@ extension ANKFullWidth where High == High.Magnitude {
         }
     }
     
-    @inlinable static func _encodeBigEndianTextWhereRadixIsNotUIntRoot(
-    _ value: ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
+    @inlinable static func _encodeBigEndianTextWhereRadixIsNotUIntRoot(_ value: ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
         assert(!radix.power.isZero)
         //=--------------------------------------=
         let magnitudeLeadingZeroBitCount = value.magnitude.leadingZeroBitCount
@@ -242,7 +233,7 @@ extension String {
                     UTF8.formIndex(before: &position)
                     
                     let digit: UInt
-                    (chunk, digit) = chunk.quotientAndRemainder(dividingBy: UInt(bitPattern: radix.base))
+                    (chunk, digit) = chunk.quotientAndRemainder(dividingBy: radix.base)
                     UTF8[position] = alphabet[unchecked: digit]
                 }
             }
