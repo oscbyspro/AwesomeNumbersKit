@@ -67,12 +67,14 @@ import ANKFoundation
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// Overestimates how many times its power divides the given magnitude.
+    /// Overestimates how many times its power divides the magnitude.
     ///
     /// [67]: https://github.com/oscbyspro/AwesomeNumbersKit/issues/67
     ///
-    @_transparent @usableFromInline func divisibilityByPowerUpperBound(_ magnitude: some UnsignedInteger) -> Int {
-        magnitude.bitWidth / (36.leadingZeroBitCount &- 1) &+ 1
+    @inlinable func divisibilityByPowerUpperBound(_ magnitude: some UnsignedInteger) -> Int {
+        precondition(self.power > 1)
+        let min = 36.leadingZeroBitCount &- 1
+        return magnitude.bitWidth /  min &+ 1
     }
 }
 
