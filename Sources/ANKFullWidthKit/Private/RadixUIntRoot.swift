@@ -57,11 +57,30 @@ import ANKFoundation
         //=--------------------------------------=
         precondition(2 ... 36 ~= radix)
         //=--------------------------------------=
-        self.base = UInt(bitPattern: radix)
-        switch radix.isPowerOf2 {
-        case  true: (self.exponent, self.power) = Self._rootWhereRadixIsPowerOf2(self.base)
-        case false: (self.exponent, self.power) = Self._rootWhereRadixIsWhatever(self.base) }
+        ( self.base) = UInt(bitPattern: radix)
+        ( self.exponent, self.power)  = radix.isPowerOf2
+        ? Self._rootWhereRadixIsPowerOf2(self.base)
+        : Self._rootWhereRadixIsWhatever(self.base)
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    /// Overestimates how many times its power divides the given magnitude.
+    ///
+    /// [67]: https://github.com/oscbyspro/AwesomeNumbersKit/issues/67
+    ///
+    @_transparent @usableFromInline func divisibilityByPowerUpperBound(_ magnitude: some UnsignedInteger) -> Int {
+        magnitude.bitWidth / (36.leadingZeroBitCount &- 1) &+ 1
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Root
+//=----------------------------------------------------------------------------=
+
+extension RadixUIntRoot {
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities

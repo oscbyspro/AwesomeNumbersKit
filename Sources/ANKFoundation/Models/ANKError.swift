@@ -43,8 +43,8 @@
     /// This is an awesome alternative to the guard-let-else-throw pattern.
     ///
     /// ```swift
-    /// try       value ??           ANKError()
-    /// guard let value else { throw ANKError() }
+    ///       let value = try value ??           ANKError()
+    /// guard let value =     value else { throw ANKError() }
     /// ```
     ///
     @_transparent public static func ??<T>(value: T?, error: Self) throws -> T {

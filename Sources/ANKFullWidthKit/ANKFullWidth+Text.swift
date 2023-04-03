@@ -73,11 +73,11 @@ extension ANKFullWidth {
     @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
         let root  = RadixUIntRoot(radix)
         let sign  = ANKSign(source.isLessThanZero)
-        let value = ANKSigned(source.magnitude, as: sign)
+        var value = ANKSigned(source.magnitude, as: sign)
         //=--------------------------------------=
         switch root.power.isZero {
-        case  true: return Magnitude._encodeBigEndianTextWhereRadixIsUIntRoot(   value, radix: root, uppercase: uppercase)
-        case false: return Magnitude._encodeBigEndianTextWhereRadixIsNotUIntRoot(value, radix: root, uppercase: uppercase) }
+        case  true: return Magnitude._encodeBigEndianTextWhereRadixIsUIntRoot(   &value, radix: root, uppercase: uppercase)
+        case false: return Magnitude._encodeBigEndianTextWhereRadixIsNotUIntRoot(&value, radix: root, uppercase: uppercase) }
     }
 }
 
@@ -153,36 +153,26 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Encode
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _encodeBigEndianTextWhereRadixIsUIntRoot(_ value: ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
+    @inlinable static func _encodeBigEndianTextWhereRadixIsUIntRoot(_ value: inout ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
         assert(radix.power.isZero)
         //=--------------------------------------=
-        let magnitude_ = value.magnitude.minLastIndexReportingIsZeroOrMinusOne()
-        if  magnitude_.isZeroOrMinusOne { return "0" }
-        //=--------------------------------------=
+        let minLastIndex: Int = value.magnitude.minLastIndexReportingIsZeroOrMinusOne().minLastIndex
         return value.magnitude.withUnsafeWords {
-            String._bigEndianText(chunks: $0[...magnitude_.minLastIndex], sign: value.sign, radix: radix, uppercase: uppercase)
+            String._bigEndianText(chunks: $0[...minLastIndex], sign: value.sign, radix: radix, uppercase: uppercase)
         }
     }
     
-    @inlinable static func _encodeBigEndianTextWhereRadixIsNotUIntRoot(_ value: ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
+    @inlinable static func _encodeBigEndianTextWhereRadixIsNotUIntRoot(_ value: inout ANKSigned<Self>, radix: RadixUIntRoot, uppercase: Bool) -> String {
         assert(!radix.power.isZero)
         //=--------------------------------------=
-        let magnitudeLeadingZeroBitCount = value.magnitude.leadingZeroBitCount
-        if  magnitudeLeadingZeroBitCount == Magnitude.bitWidth { return "0" }
-        //=--------------------------------------=
-        var magnitude: Magnitude = value.magnitude
-        let magnitudeSignificantBitWidth: Int = Magnitude .bitWidth &- magnitudeLeadingZeroBitCount
-        let chunkBitWidthConsumptionLowerBound: Int = UInt.bitWidth &- radix.power.leadingZeroBitCount &- 1
-        let chunkCountUpperBound = (magnitudeSignificantBitWidth / chunkBitWidthConsumptionLowerBound) &+ 1
-        //=--------------------------------------=
-        return withUnsafeTemporaryAllocation(of: UInt.self, capacity: chunkCountUpperBound) { CHUNKS in
+        let capacity: Int = radix.divisibilityByPowerUpperBound(value.magnitude)
+        return withUnsafeTemporaryAllocation(of: UInt.self,  capacity: capacity) { CHUNKS in
             var index = CHUNKS.startIndex
             //=----------------------------------=
-            assert(!magnitude.isZero)
             forwards: repeat {
-                (magnitude, CHUNKS[index]) = magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
+                (value.magnitude, CHUNKS[index]) = value.magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
                 CHUNKS.formIndex(after: &index)
-            } while !magnitude.isZero
+            } while !value.magnitude.isZero
             //=----------------------------------=
             return String._bigEndianText(chunks: CHUNKS[..<index], sign: value.sign, radix: radix, uppercase: uppercase)
         }
@@ -200,10 +190,9 @@ extension String {
     //=------------------------------------------------------------------------=
     
     @inlinable static func _bigEndianText<T>(chunks: T, sign: ANKSign, radix: RadixUIntRoot, uppercase: Bool) -> Self
-    where T: RandomAccessCollection, T.Element == UInt, T.Index == Int {
-        //=--------------------------------------=
-        assert(2 ... 36 ~=  radix.base)
-        assert(chunks.isEmpty == false)
+    where T: BidirectionalCollection<UInt>, T.Index == Int {
+        assert(2 ... 36 ~= radix.base)
+        assert(chunks.last != 0 || chunks.count == 1)
         assert(chunks.startIndex.isZero && chunks.endIndex == chunks.count)
         assert(chunks.allSatisfy{ $0 < radix.power } || radix.power.isZero)
         //=--------------------------------------=
