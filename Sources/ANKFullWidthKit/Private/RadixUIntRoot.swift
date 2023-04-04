@@ -101,6 +101,10 @@ extension RadixUIntRoot {
         // MARK: Accessors
         //=--------------------------------------------------------------------=
         
+        @available(*, unavailable) @usableFromInline var power: UInt {
+            self.root.power
+        }
+        
         @inlinable subscript<T>(dynamicMember keyPath: KeyPath<RadixUIntRoot, T>) -> T {
             self.root[keyPath: keyPath]
         }
