@@ -298,10 +298,10 @@ extension ANKFullWidth {
     }
     
     @inlinable init?(_exactlyIntegerLiteral source: StaticBigInt) {
-        let   isOK: Bool;  switch Self.isSigned {
-        case  true: isOK = source.bitWidth <= Self.bitWidth
-        case false: isOK = source.bitWidth <= Self.bitWidth + 1 && source.signum() >= 0 }
-        guard isOK  else { return nil }
+        guard  Self.isSigned
+        ? source.bitWidth <= Self.bitWidth
+        : source.bitWidth <= Self.bitWidth + 1 && source.signum() >= 0
+        else { return nil  }
         self = Self.fromUnsafeMutableWords({ for i in $0.indices { $0[i] = source[i] } })
     }
 }

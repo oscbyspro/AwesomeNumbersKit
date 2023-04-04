@@ -19,7 +19,7 @@ import ANKFoundation
 /// - Its `exponent` is `>= 1` and `<= UInt.bitWidth`
 /// - Its `power` is `0` when `pow(radix, exponent) == UInt.max + 1`
 ///
-@usableFromInline struct RadixUIntRoot {
+@frozen @usableFromInline struct RadixUIntRoot {
     
     //=------------------------------------------------------------------------=
     // MARK: State
