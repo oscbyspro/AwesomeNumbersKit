@@ -61,23 +61,17 @@ extension ANKFullWidth {
     
     @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) throws -> Self {
         let components = source._bigEndianTextComponents(radix: radix)
-        let radix = RadixUIntRoot(components.radix)
-        let magnitude = try radix.asPerfect {
-            try Magnitude._decodeBigEndianDigits(components.body, radix: $0)
-        }   asImperfect: {
-            try Magnitude._decodeBigEndianDigits(components.body, radix: $0)
-        }
+        let magnitude  = try RadixUIntRoot(components.radix).switch(
+          perfect: { try Magnitude._decodeBigEndianDigits(components.body,  radix: $0) },
+        imperfect: { try Magnitude._decodeBigEndianDigits(components.body,  radix: $0) })
         return try Self(exactly: ANKSigned(magnitude, as: components.sign)) ?? ANKError()
     }
     
     @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
-        let radix = RadixUIntRoot(radix)
         var value = ANKSigned(source.magnitude, as: ANKSign(source.isLessThanZero))
-        return radix.asPerfect {
-            Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase)
-        }   asImperfect: {
-            Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase)
-        }
+        return RadixUIntRoot(radix).switch(
+          perfect: { Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase) },
+        imperfect: { Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase) })
     }
 }
 
@@ -92,7 +86,7 @@ extension ANKFullWidth where High == High.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: RadixUIntRoot.Perfect) throws -> Self {
-        try Self.fromUnsafeMutableWords { MAGNITUDE in
+        try Self.fromUnsafeMutableWords  { MAGNITUDE in
             let utf8  = source.utf8.drop { $0 == 48 }
             let start = utf8.startIndex as String.Index
             var tail  = utf8.endIndex   as String.Index

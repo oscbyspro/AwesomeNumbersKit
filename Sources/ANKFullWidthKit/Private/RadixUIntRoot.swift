@@ -63,8 +63,11 @@ import ANKFoundation
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable func asPerfect<T>(_ asPerfect: (Perfect) throws -> T, asImperfect: (Imperfect) throws -> T) rethrows -> T {
-        try self.power.isZero ? asPerfect(.init(unchecked: self)) :  asImperfect(.init(unchecked: self))
+    /// Branches based on whether its power is zero or not.
+    @inlinable func `switch`<T>(perfect: (Perfect) throws -> T, imperfect: (Imperfect) throws -> T) rethrows -> T {
+        try self.power.isZero
+        ?   perfect(.init(unchecked: self))
+        : imperfect(.init(unchecked: self))
     }
 }
 
