@@ -101,7 +101,7 @@ extension ANKFullWidth where High == High.Magnitude {
             //=----------------------------------=
             backwards: while tail != start {
                 try index != MAGNITUDE.endIndex || ANKError()
-                let head = utf8.index(tail, offsetBy: step,  limitedBy: start) ?? start
+                let head = utf8.index(tail, offsetBy: step,  limitedBy: start/**/) ?? start/**/
                 let word = try UInt(source[head  ..<  tail], radix: radix.baseInt) ?? ANKError()
                 
                 tail = head
@@ -123,7 +123,7 @@ extension ANKFullWidth where High == High.Magnitude {
         var magnitude = Magnitude()
         //=--------------------------------------=
         forwards: if !alignment.isZero {
-            let tail = utf8.index(head, offsetBy: alignment/*---------*/);  defer { head = tail }
+            let tail = utf8.index(head, offsetBy: alignment/*----*/);  defer { head = tail }
             let word = try UInt(source[head  ..<  tail], radix: radix.baseInt) ?? ANKError()
             magnitude[unchecked:  magnitude.startIndex] = word
         }
@@ -132,7 +132,7 @@ extension ANKFullWidth where High == High.Magnitude {
             let tail = utf8.index(head, offsetBy: radix.exponentInt);  defer { head = tail }
             let word = try UInt(source[head  ..<  tail], radix: radix.baseInt) ?? ANKError()
             try !magnitude.multiplyReportingOverflow(by: radix.power  as UInt) || ANKError()
-            try !magnitude.addReportingOverflow(word as  UInt)/*-----------------*/ || ANKError()
+            try !magnitude.addReportingOverflow(word as  UInt)/*------------*/ || ANKError()
         }
         //=--------------------------------------=
         return magnitude
