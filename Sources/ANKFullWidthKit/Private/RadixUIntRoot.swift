@@ -28,6 +28,14 @@ import ANKFoundation
     @inlinable var base: UInt { get }
     
     @inlinable var exponent: UInt { get }
+    
+    @inlinable var power: UInt { get }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable func dividing(_ dividend: UInt) -> QR<UInt, UInt>
 }
 
 //=----------------------------------------------------------------------------=
@@ -48,6 +56,15 @@ extension RadixUIntRoot {
     @_transparent @usableFromInline var exponentInt: Int {
         assert(self.exponent <= UInt.bitWidth)
         return Int(bitPattern:  self.exponent)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    /// Divides the dividend by its base.
+    @inlinable func dividing(_ dividend: UInt) -> QR<UInt, UInt> {
+        dividend.quotientAndRemainder(dividingBy: self.base)
     }
 }
 
@@ -97,7 +114,7 @@ extension RadixUIntRoot {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// Returns the largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
+    /// Returns the largest exponent in `pow(radix, exponent) <= UInt.max + 1`.
     @inlinable static func _rootWhereRadixIsPowerOf2(_ radix: UInt) -> (exponent: UInt, power: UInt) {
         assert(radix >= 2)
         assert(radix.isPowerOf2)
@@ -120,7 +137,7 @@ extension RadixUIntRoot {
         }
     }
     
-    /// Returns the largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
+    /// Returns the largest exponent in `pow(radix, exponent) <= UInt.max + 1`.
     @inlinable static func _rootWhereRadixIsWhatever(_ radix: UInt) -> (exponent: UInt, power: UInt) {
         assert(radix >= 2)
         //=--------------------------------------=
@@ -157,6 +174,7 @@ extension RadixUIntRoot {
     //=------------------------------------------------------------------------=
     
     @usableFromInline let root: AnyRadixUIntRoot
+    @usableFromInline let special: QR<UInt, UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -166,6 +184,8 @@ extension RadixUIntRoot {
         assert(unchecked.power.isZero)
         assert([2, 4, 16].contains(unchecked.base))
         self.root = unchecked
+        self.special.quotient  = UInt(bitPattern: unchecked.base.trailingZeroBitCount)
+        self.special.remainder = unchecked.base &- 1
     }
     
     //=------------------------------------------------------------------------=
@@ -178,6 +198,18 @@ extension RadixUIntRoot {
     
     @_transparent @usableFromInline var exponent: UInt {
         self.root.exponent
+    }
+    
+    @_transparent @usableFromInline var power: UInt {
+        self.root.power
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable func dividing(_ dividend: UInt) -> QR<UInt, UInt> {
+        QR(dividend &>> self.special.quotient, dividend & self.special.remainder)
     }
 }
 
@@ -226,7 +258,7 @@ extension RadixUIntRoot {
     
     /// Overestimates how many times its power divides the magnitude.
     ///
-    /// [67]: https://github.com/oscbyspro/AwesomeNumbersKit/issues/67
+    /// [magic]: https://github.com/oscbyspro/AwesomeNumbersKit/issues/67
     ///
     @inlinable func divisibilityByPowerUpperBound(_ magnitude: some UnsignedInteger) -> Int {
         magnitude.bitWidth / 36.leadingZeroBitCount &+ 1

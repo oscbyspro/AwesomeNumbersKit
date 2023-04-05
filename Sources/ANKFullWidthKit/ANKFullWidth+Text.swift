@@ -50,7 +50,7 @@ extension ANKFullWidth {
 }
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Text x Big Endian Text Codable
+// MARK: * ANK x Full Width x Text x Decode
 //*============================================================================*
 
 extension ANKFullWidth {
@@ -66,13 +66,6 @@ extension ANKFullWidth {
         imperfect: { try Magnitude._decodeBigEndianDigits(components.body,  radix: $0) })
         return try Self(exactly: ANKSigned(magnitude, as: components.sign)) ?? ANKError()
     }
-    
-    @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
-        var value = ANKSigned(source.magnitude, as: ANKSign(source.isLessThanZero))
-        return AnyRadixUIntRoot(radix).switch(
-          perfect: { Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase) },
-        imperfect: { Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase) })
-    }
 }
 
 //=----------------------------------------------------------------------------=
@@ -82,7 +75,7 @@ extension ANKFullWidth {
 extension ANKFullWidth where High == High.Magnitude {
     
     //=------------------------------------------------------------------------=
-    // MARK: Decode
+    // MARK: Utilities
     //=------------------------------------------------------------------------=
     
     @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: PerfectRadixUIntRoot) throws -> Self {
@@ -131,15 +124,40 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         return magnitude
     }
+}
+
+//*============================================================================*
+// MARK: * ANK x Full Width x Text x Encode
+//*============================================================================*
+
+extension ANKFullWidth {
     
     //=------------------------------------------------------------------------=
-    // MARK: Encode
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
+        var value = ANKSigned(source.magnitude, as: ANKSign(source.isLessThanZero))
+        return AnyRadixUIntRoot(radix).switch(
+          perfect: { Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase) },
+        imperfect: { Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase) })
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Unsigned
+//=----------------------------------------------------------------------------=
+
+extension ANKFullWidth where High == High.Magnitude {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
     //=------------------------------------------------------------------------=
     
     @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>, radix: PerfectRadixUIntRoot, uppercase: Bool) -> String {
-        let minLastIndex: Int = value.magnitude.minLastIndexReportingIsZeroOrMinusOne().minLastIndex
+        let minLastIndex = value.magnitude.minLastIndexReportingIsZeroOrMinusOne().minLastIndex as Int
         return value.magnitude.withUnsafeWords {
-            String._bigEndianText(chunks: $0[...minLastIndex], sign: value.sign, radix: radix.root, uppercase: uppercase)
+            String(chunks: $0[...minLastIndex], sign: value.sign, radix: radix, uppercase: uppercase)
         }
     }
     
@@ -148,10 +166,10 @@ extension ANKFullWidth where High == High.Magnitude {
         return withUnsafeTemporaryAllocation(of: UInt.self,  capacity: capacity) { CHUNKS in
             var index = CHUNKS.startIndex
             rebasing: repeat {
-                (value.magnitude, CHUNKS[index]) = value.magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
+                (value.magnitude,CHUNKS[index]) = value.magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
                 CHUNKS.formIndex(after: &index)
-            }   while !value.magnitude.isZero
-            return String._bigEndianText(chunks: CHUNKS[..<index], sign: value.sign, radix: radix.root, uppercase: uppercase)
+            }   while !(value.magnitude.isZero)
+            return String(chunks:CHUNKS[..<index], sign: value.sign, radix: radix, uppercase: uppercase)
         }
     }
 }
@@ -166,8 +184,7 @@ extension String {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _bigEndianText<T>(chunks: T, sign: ANKSign, radix: AnyRadixUIntRoot, uppercase: Bool) -> Self
-    where T: BidirectionalCollection,  T.Element == UInt, T.Index == Int {
+    @inlinable init<T>(chunks: T, sign: ANKSign, radix: some RadixUIntRoot, uppercase: Bool) where T: BidirectionalCollection<UInt>, T.Index == Int {
         assert(chunks.last! != 0 || chunks.count == 1)
         assert(chunks.startIndex.isZero && chunks.endIndex == chunks.count)
         assert(chunks.allSatisfy({ $0 < radix.power }) || radix.power == 0)
@@ -177,7 +194,7 @@ extension String {
         var first = String(chunks[index], radix: radix.baseInt, uppercase:  uppercase)
         let count = Int(bit: sign.bit) &+ first.utf8.count + radix.exponentInt * index
         //=--------------------------------------=
-        return String(unsafeUninitializedCapacity: count) { UTF8 in
+        self.init(unsafeUninitializedCapacity: count) { UTF8 in
             var utf8Index = UTF8.startIndex
             //=----------------------------------=
             if  sign.bit {
@@ -198,7 +215,7 @@ extension String {
                     UTF8.formIndex(before: &position)
                     
                     let digit: UInt
-                    (chunk, digit) = chunk.quotientAndRemainder(dividingBy: radix.base)
+                    (chunk, digit) = radix.dividing(chunk)
                     UTF8[position] = alphabet[unchecked: digit]
                 }
             }
