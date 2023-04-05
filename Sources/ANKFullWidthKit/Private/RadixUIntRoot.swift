@@ -13,13 +13,50 @@ import ANKFoundation
 // MARK: * ANK x Radix UInt Root
 //*============================================================================*
 
-/// The largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
+/// The largest exponent in `pow(radix, exponent) <= UInt.max + 1`.
 ///
 /// - Its `base` is `>= 2` and `<= 36`
 /// - Its `exponent` is `>= 1` and `<= UInt.bitWidth`
-/// - Its `power` is `0` when `pow(radix, exponent) == UInt.max + 1`
+/// - A power of `UInt.max + 1` is represented by `0`
 ///
-@frozen @usableFromInline struct RadixUIntRoot {
+@usableFromInline protocol RadixUIntRoot {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: State
+    //=------------------------------------------------------------------------=
+        
+    @inlinable var base: UInt { get }
+    
+    @inlinable var exponent: UInt { get }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details
+//=----------------------------------------------------------------------------=
+
+extension RadixUIntRoot {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @_transparent @usableFromInline var baseInt: Int {
+        assert(self.base <= 36)
+        return Int(bitPattern: self.base)
+    }
+    
+    @_transparent @usableFromInline var exponentInt: Int {
+        assert(self.exponent <= UInt.bitWidth)
+        return Int(bitPattern:  self.exponent)
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Radix UInt Root x Any
+//*============================================================================*
+
+/// A ``RadixUIntRoot`` with a power that may be zero.
+@frozen @usableFromInline struct AnyRadixUIntRoot: RadixUIntRoot {
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -28,20 +65,6 @@ import ANKFoundation
     @usableFromInline let base: UInt
     @usableFromInline let exponent: UInt
     @usableFromInline let power: UInt
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @inlinable var baseInt: Int {
-        assert(base <= 36)
-        return Int(bitPattern: base)
-    }
-    
-    @inlinable var exponentInt: Int {
-        assert(exponent <= UInt.bitWidth)
-        return Int(bitPattern:  exponent)
-    }
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -67,9 +90,7 @@ import ANKFoundation
     
     /// Branches based on whether its power is zero or not.
     @inlinable func `switch`<T>(perfect: (PerfectRadixUIntRoot) throws -> T, imperfect: (ImperfectRadixUIntRoot) throws -> T) rethrows -> T {
-        try self.power.isZero
-        ?   perfect(.init(unchecked: self))
-        : imperfect(.init(unchecked: self))
+        try self.power.isZero ? perfect(.init(unchecked: self)) : imperfect(.init(unchecked: self))
     }
         
     //=------------------------------------------------------------------------=
@@ -129,19 +150,19 @@ import ANKFoundation
 //*============================================================================*
 
 /// A ``RadixUIntRoot`` with a power that is zero.
-@dynamicMemberLookup @frozen @usableFromInline struct PerfectRadixUIntRoot {
+@frozen @usableFromInline struct PerfectRadixUIntRoot: RadixUIntRoot {
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline let root: RadixUIntRoot
+    @usableFromInline let root: AnyRadixUIntRoot
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(unchecked: RadixUIntRoot) {
+    @inlinable init(unchecked: AnyRadixUIntRoot) {
         assert(unchecked.power.isZero)
         assert([2, 4, 16].contains(unchecked.base))
         self.root = unchecked
@@ -151,12 +172,12 @@ import ANKFoundation
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @available(*, unavailable) @usableFromInline var power: UInt {
-        self.root.power
+    @_transparent @usableFromInline var base: UInt {
+        self.root.base
     }
     
-    @inlinable subscript<T>(dynamicMember keyPath: KeyPath<RadixUIntRoot, T>) -> T {
-        self.root[keyPath: keyPath]
+    @_transparent @usableFromInline var exponent: UInt {
+        self.root.exponent
     }
 }
 
@@ -165,19 +186,19 @@ import ANKFoundation
 //*============================================================================*
 
 /// A ``RadixUIntRoot`` with a power that is non-zero.
-@dynamicMemberLookup @frozen @usableFromInline struct ImperfectRadixUIntRoot {
+@frozen @usableFromInline struct ImperfectRadixUIntRoot: RadixUIntRoot {
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline let root: RadixUIntRoot
+    @usableFromInline let root: AnyRadixUIntRoot
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(unchecked: RadixUIntRoot) {
+    @inlinable init(unchecked: AnyRadixUIntRoot) {
         assert(!unchecked.power.isZero)
         assert(![2, 4, 16].contains(unchecked.base))
         self.root = unchecked
@@ -187,8 +208,16 @@ import ANKFoundation
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable subscript<T>(dynamicMember keyPath: KeyPath<RadixUIntRoot, T>) -> T {
-        self.root[keyPath: keyPath]
+    @_transparent @usableFromInline var base: UInt {
+        self.root.base
+    }
+    
+    @_transparent @usableFromInline var exponent: UInt {
+        self.root.exponent
+    }
+    
+    @_transparent @usableFromInline var power: UInt {
+        self.root.power
     }
     
     //=------------------------------------------------------------------------=

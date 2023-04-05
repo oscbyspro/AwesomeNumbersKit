@@ -61,7 +61,7 @@ extension ANKFullWidth {
     
     @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) throws -> Self {
         let components = source._bigEndianTextComponents(radix: radix)
-        let magnitude  = try RadixUIntRoot(components.radix).switch(
+        let magnitude  = try AnyRadixUIntRoot(components.radix).switch(
           perfect: { try Magnitude._decodeBigEndianDigits(components.body,  radix: $0) },
         imperfect: { try Magnitude._decodeBigEndianDigits(components.body,  radix: $0) })
         return try Self(exactly: ANKSigned(magnitude, as: components.sign)) ?? ANKError()
@@ -69,7 +69,7 @@ extension ANKFullWidth {
     
     @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
         var value = ANKSigned(source.magnitude, as: ANKSign(source.isLessThanZero))
-        return RadixUIntRoot(radix).switch(
+        return AnyRadixUIntRoot(radix).switch(
           perfect: { Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase) },
         imperfect: { Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase) })
     }
@@ -166,7 +166,7 @@ extension String {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _bigEndianText<T>(chunks: T, sign: ANKSign, radix: RadixUIntRoot, uppercase: Bool) -> Self
+    @inlinable static func _bigEndianText<T>(chunks: T, sign: ANKSign, radix: AnyRadixUIntRoot, uppercase: Bool) -> Self
     where T: BidirectionalCollection,  T.Element == UInt, T.Index == Int {
         assert(chunks.last! != 0 || chunks.count == 1)
         assert(chunks.startIndex.isZero && chunks.endIndex == chunks.count)
