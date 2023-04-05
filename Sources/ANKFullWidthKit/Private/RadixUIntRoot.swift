@@ -54,9 +54,11 @@ import ANKFoundation
     /// - Parameter radix: A value from `2` through `36`.
     ///
     @inlinable init(_ radix: Int) {
-        Swift.precondition(2 ... 36 ~= radix)
-        (self.base) = UInt(bitPattern: radix)
-        (self.exponent, self.power)  = radix.isPowerOf2 ? Perfect._root(self.base) : Self._root(self.base)
+        precondition(2 ... 36 ~= radix)
+        ( self.base) = UInt(bitPattern: radix)
+        ( self.exponent, self.power)  = radix.isPowerOf2
+        ? Self._rootWhereRadixIsPowerOf2(self.base)
+        : Self._rootWhereRadixIsWhatever(self.base)
     }
     
     //=------------------------------------------------------------------------=
@@ -64,119 +66,41 @@ import ANKFoundation
     //=------------------------------------------------------------------------=
     
     /// Branches based on whether its power is zero or not.
-    @inlinable func `switch`<T>(perfect: (Perfect) throws -> T, imperfect: (Imperfect) throws -> T) rethrows -> T {
+    @inlinable func `switch`<T>(perfect: (PerfectRadixUIntRoot) throws -> T, imperfect: (ImperfectRadixUIntRoot) throws -> T) rethrows -> T {
         try self.power.isZero
         ?   perfect(.init(unchecked: self))
         : imperfect(.init(unchecked: self))
     }
-}
-
-//*============================================================================*
-// MARK: * ANK x Radix UInt Root x Perfect
-//*============================================================================*
-
-extension RadixUIntRoot {
-    
-    //*========================================================================*
-    // MARK: * Perfect
-    //*========================================================================*
-    
-    /// A ``RadixUIntRoot`` with a power that is zero.
-    @dynamicMemberLookup @frozen @usableFromInline struct Perfect {
         
-        //=--------------------------------------------------------------------=
-        // MARK: State
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline let root: RadixUIntRoot
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Initializers
-        //=--------------------------------------------------------------------=
-        
-        @inlinable init(unchecked: RadixUIntRoot) {
-            assert(unchecked.power.isZero)
-            assert([2, 4, 16].contains(unchecked.base))
-            self.root = unchecked
-        }
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Accessors
-        //=--------------------------------------------------------------------=
-        
-        @available(*, unavailable) @usableFromInline var power: UInt {
-            self.root.power
-        }
-        
-        @inlinable subscript<T>(dynamicMember keyPath: KeyPath<RadixUIntRoot, T>) -> T {
-            self.root[keyPath: keyPath]
-        }
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Radix UInt Root x Imperfect
-//*============================================================================*
-
-extension RadixUIntRoot {
-    
-    //*========================================================================*
-    // MARK: * Imperfect
-    //*========================================================================*
-    
-    /// A ``RadixUIntRoot`` with a power that is non-zero.
-    @dynamicMemberLookup @frozen @usableFromInline struct Imperfect {
-        
-        //=--------------------------------------------------------------------=
-        // MARK: State
-        //=--------------------------------------------------------------------=
-        
-        @usableFromInline let root: RadixUIntRoot
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Initializers
-        //=--------------------------------------------------------------------=
-        
-        @inlinable init(unchecked: RadixUIntRoot) {
-            assert(!unchecked.power.isZero)
-            assert(![2, 4, 16].contains(unchecked.base))
-            self.root = unchecked
-        }
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Accessors
-        //=--------------------------------------------------------------------=
-        
-        @inlinable subscript<T>(dynamicMember keyPath: KeyPath<RadixUIntRoot, T>) -> T {
-            self.root[keyPath: keyPath]
-        }
-        
-        //=--------------------------------------------------------------------=
-        // MARK: Utilities
-        //=--------------------------------------------------------------------=
-        
-        /// Overestimates how many times its power divides the magnitude.
-        ///
-        /// [67]: https://github.com/oscbyspro/AwesomeNumbersKit/issues/67
-        ///
-        @inlinable func divisibilityByPowerUpperBound(_ magnitude: some UnsignedInteger) -> Int {
-            magnitude.bitWidth / 36.leadingZeroBitCount &+ 1
-        }
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Radix UInt Root x Algorithm
-//*============================================================================*
-
-extension RadixUIntRoot {
-    
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
     /// Returns the largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
-    @inlinable static func _root(_ radix: UInt) -> (exponent: UInt, power: UInt) {
+    @inlinable static func _rootWhereRadixIsPowerOf2(_ radix: UInt) -> (exponent: UInt, power: UInt) {
+        assert(radix >= 2)
+        assert(radix.isPowerOf2)
+        //=--------------------------------------=
+        let zeros = UInt(bitPattern: radix.trailingZeroBitCount)
+        //=--------------------------------------=
+        // Radix == 2,  4, 16, 256, ...
+        //=--------------------------------------=
+        if  zeros.isPowerOf2 {
+            let exponent = UInt(bitPattern: UInt.bitWidth &>> zeros.trailingZeroBitCount)
+            return (exponent: exponent, power: 0)
+        //=--------------------------------------=
+        // Radix == 8, 32, 64, 128, ...
+        //=--------------------------------------=
+        }   else {
+            let exponent = UInt(bitPattern: UInt.bitWidth) /  zeros
+            let shift: UInt = zeros.multipliedReportingOverflow(by: exponent).partialValue
+            let power: UInt = (1 as UInt) &<<  shift
+            return (exponent: exponent, power: power)
+        }
+    }
+    
+    /// Returns the largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
+    @inlinable static func _rootWhereRadixIsWhatever(_ radix: UInt) -> (exponent: UInt, power: UInt) {
         assert(radix >= 2)
         //=--------------------------------------=
         var exponent  = 1 as UInt
@@ -200,36 +124,82 @@ extension RadixUIntRoot {
     }
 }
 
-//=----------------------------------------------------------------------------=
-// MARK: + Perfect
-//=----------------------------------------------------------------------------=
+//*============================================================================*
+// MARK: * ANK x Radix UInt Root x Perfect
+//*============================================================================*
 
-extension RadixUIntRoot.Perfect {
+/// A ``RadixUIntRoot`` with a power that is zero.
+@dynamicMemberLookup @frozen @usableFromInline struct PerfectRadixUIntRoot {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: State
+    //=------------------------------------------------------------------------=
+    
+    @usableFromInline let root: RadixUIntRoot
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(unchecked: RadixUIntRoot) {
+        assert(unchecked.power.isZero)
+        assert([2, 4, 16].contains(unchecked.base))
+        self.root = unchecked
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @available(*, unavailable) @usableFromInline var power: UInt {
+        self.root.power
+    }
+    
+    @inlinable subscript<T>(dynamicMember keyPath: KeyPath<RadixUIntRoot, T>) -> T {
+        self.root[keyPath: keyPath]
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Radix UInt Root x Imperfect
+//*============================================================================*
+
+/// A ``RadixUIntRoot`` with a power that is non-zero.
+@dynamicMemberLookup @frozen @usableFromInline struct ImperfectRadixUIntRoot {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: State
+    //=------------------------------------------------------------------------=
+    
+    @usableFromInline let root: RadixUIntRoot
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable init(unchecked: RadixUIntRoot) {
+        assert(!unchecked.power.isZero)
+        assert(![2, 4, 16].contains(unchecked.base))
+        self.root = unchecked
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @inlinable subscript<T>(dynamicMember keyPath: KeyPath<RadixUIntRoot, T>) -> T {
+        self.root[keyPath: keyPath]
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// Returns the largest exponent such that `pow(radix, exponent) <= UInt.max + 1`.
-    @inlinable static func _root(_ radix: UInt) -> (exponent: UInt, power: UInt) {
-        assert(radix >= 2)
-        assert(radix.isPowerOf2)
-        //=--------------------------------------=
-        let zeros = UInt(bitPattern: radix.trailingZeroBitCount)
-        //=--------------------------------------=
-        // Radix == 2,  4, 16, 256, ...
-        //=--------------------------------------=
-        if  zeros.isPowerOf2 {
-            let exponent = UInt(bitPattern: UInt.bitWidth &>> zeros.trailingZeroBitCount)
-            return (exponent: exponent, power: 0)
-        //=--------------------------------------=
-        // Radix == 8, 32, 64, 128, ...
-        //=--------------------------------------=
-        }   else {
-            let exponent = UInt(bitPattern: UInt.bitWidth) /  zeros
-            let shift: UInt = zeros.multipliedReportingOverflow(by: exponent).partialValue
-            let power: UInt = (1 as UInt) &<<  shift
-            return (exponent: exponent, power: power)
-        }
+    /// Overestimates how many times its power divides the magnitude.
+    ///
+    /// [67]: https://github.com/oscbyspro/AwesomeNumbersKit/issues/67
+    ///
+    @inlinable func divisibilityByPowerUpperBound(_ magnitude: some UnsignedInteger) -> Int {
+        magnitude.bitWidth / 36.leadingZeroBitCount &+ 1
     }
 }

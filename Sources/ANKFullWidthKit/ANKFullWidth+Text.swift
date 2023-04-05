@@ -85,7 +85,7 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Decode
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: RadixUIntRoot.Perfect) throws -> Self {
+    @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: PerfectRadixUIntRoot) throws -> Self {
         try Self.fromUnsafeMutableWords  { MAGNITUDE in
             let utf8  = source.utf8.drop { $0 == 48 }
             let start = utf8.startIndex as String.Index
@@ -110,20 +110,20 @@ extension ANKFullWidth where High == High.Magnitude {
         }
     }
     
-    @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: RadixUIntRoot.Imperfect) throws -> Self {
+    @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: ImperfectRadixUIntRoot) throws -> Self {
         let utf8 = source.utf8.drop { $0 == 48 }
         var head = utf8.startIndex as String.Index
-        let alignment = utf8.count % radix.exponentInt
+        let alignment = utf8.count  % radix.exponentInt
         var magnitude = Magnitude()
         //=--------------------------------------=
         forwards: if !alignment.isZero {
-            let tail = utf8.index(head, offsetBy: alignment/*----*/);  defer { head = tail }
+            let tail = utf8.index(head, offsetBy: alignment/*----*/); defer {  head = tail }
             let word = try UInt(source[head  ..<  tail], radix: radix.baseInt) ?? ANKError()
             magnitude[unchecked:  magnitude.startIndex] = word
         }
         //=--------------------------------------=
         forwards: while head != utf8.endIndex {
-            let tail = utf8.index(head, offsetBy: radix.exponentInt);  defer { head = tail }
+            let tail = utf8.index(head, offsetBy: radix.exponentInt); defer {  head = tail }
             let word = try UInt(source[head  ..<  tail], radix: radix.baseInt) ?? ANKError()
             try !magnitude.multiplyReportingOverflow(by: radix.power  as UInt) || ANKError()
             try !magnitude.addReportingOverflow(word as  UInt)/*------------*/ || ANKError()
@@ -136,14 +136,14 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Encode
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>, radix: RadixUIntRoot.Perfect, uppercase: Bool) -> String {
+    @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>, radix: PerfectRadixUIntRoot, uppercase: Bool) -> String {
         let minLastIndex: Int = value.magnitude.minLastIndexReportingIsZeroOrMinusOne().minLastIndex
         return value.magnitude.withUnsafeWords {
             String._bigEndianText(chunks: $0[...minLastIndex], sign: value.sign, radix: radix.root, uppercase: uppercase)
         }
     }
     
-    @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>, radix: RadixUIntRoot.Imperfect, uppercase: Bool) -> String {
+    @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>, radix: ImperfectRadixUIntRoot, uppercase: Bool) -> String {
         let capacity: Int = radix.divisibilityByPowerUpperBound(value.magnitude)
         return withUnsafeTemporaryAllocation(of: UInt.self,  capacity: capacity) { CHUNKS in
             var index = CHUNKS.startIndex
