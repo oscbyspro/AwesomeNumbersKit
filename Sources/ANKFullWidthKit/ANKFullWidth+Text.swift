@@ -189,39 +189,64 @@ extension String {
         assert(chunks.startIndex.isZero && chunks.endIndex == chunks.count)
         assert(chunks.allSatisfy({ $0 < radix.power }) || radix.power == 0)
         //=--------------------------------------=
-        let map   = MaxRadixAlphabet(uppercase: uppercase)
-        var index = chunks.index(before:  chunks.endIndex)
-        var first = String(chunks[index], radix: radix.baseInt, uppercase:  uppercase)
-        let count = Int(bit: sign.bit) &+ first.utf8.count + radix.exponentInt * index
-        //=--------------------------------------=
-        self.init(unsafeUninitializedCapacity: count) { UTF8 in
-            var utf8Index = UTF8.startIndex
-            //=----------------------------------=
-            if  sign.bit {
-                UTF8.write(45, from: &utf8Index)
-            }
-            //=----------------------------------=
-            UTF8.write(&first, from: &utf8Index)
-            //=----------------------------------=
-            backwards: while index != chunks.startIndex {
-                chunks.formIndex(before: &index)
-                
-                var chunk = chunks[index] as UInt
-                let destination = UTF8.index(utf8Index, offsetBy: radix.exponentInt)
-                defer { utf8Index = destination }
-                
-                var position = destination
-                backwards: while position != utf8Index {
-                    UTF8.formIndex(before: &position)
-                    
-                    let digit: UInt
-                    (chunk, digit) = radix.dividing(chunk)
-                    UTF8[position] = map[unchecked: UInt8(_truncatingBits: digit)]
+        let map = MaxRadixAlphabet(uppercase:  uppercase)
+        var index = chunks.index(before: chunks.endIndex)
+        self = Self.withUTF8(chunk: chunks[index], radix: radix, map: map) { FIRST in
+            let count = Int(bit: sign.bit) &+ FIRST.count + radix.exponentInt * index
+            return Self(unsafeUninitializedCapacity: count) { UTF8 in
+                var utf8Index = UTF8.startIndex
+                //=----------------------------------=
+                if  sign.bit {
+                    UTF8.write(45, from: &utf8Index)
                 }
+                //=----------------------------------=
+                UTF8.write(FIRST,  from: &utf8Index)
+                //=----------------------------------=
+                backwards: while index != chunks.startIndex {
+                    chunks.formIndex(before: &index)
+                    
+                    var chunk = chunks[index] as UInt
+                    let destination = UTF8.index(utf8Index, offsetBy: radix.exponentInt)
+                    defer { utf8Index = destination }
+                    
+                    var position = destination
+                    backwards: while position != utf8Index {
+                        UTF8.formIndex(before: &position)
+                        
+                        let digit: UInt
+                        (chunk, digit) = radix.dividing(chunk)
+                        UTF8[position] = map[unchecked: UInt8(_truncatingBits: digit)]
+                    }
+                }
+                //=----------------------------------=
+                assert(UTF8.distance(from: UTF8.startIndex, to: utf8Index) == count)
+                return count
             }
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    /// Temporary allocates a `UInt` chunk converted to UTF8.
+    @_transparent @usableFromInline static func  withUTF8<T>(
+    chunk: UInt, radix: some RadixUIntRoot, map: MaxRadixAlphabet,
+    body: (UnsafeBufferPointer<UInt8>) throws -> T) rethrows -> T {
+        try withUnsafeTemporaryAllocation(of: UInt8.self, capacity: radix.exponentInt) { UTF8 in
+            assert(chunk < radix.power || radix.power == 0)
             //=----------------------------------=
-            assert(UTF8.distance(from: UTF8.startIndex, to: utf8Index) == count)
-            return count
+            var chunk = chunk as UInt
+            var position = radix.exponentInt
+            //=----------------------------------=
+            repeat {
+                UTF8.formIndex(before: &position)
+                let digit: UInt
+                (chunk, digit) = radix.dividing(chunk)
+                UTF8[position] = map[unchecked: UInt8(_truncatingBits: digit)]
+            }   while !chunk.isZero
+            //=----------------------------------=
+            return try body(UnsafeBufferPointer(rebasing: UTF8[position...]))
         }
     }
 }
