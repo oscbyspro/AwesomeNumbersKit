@@ -17,7 +17,7 @@
 /// let map =  MaxRadixAlphabet(uppercase: true)
 /// map[00] // UInt8(ascii: "0")
 /// map[20] // UInt8(ascii: "K")
-/// map[40] // precondition failure
+/// map[40] // crash
 /// ```
 ///
 @frozen @usableFromInline struct MaxRadixAlphabet {

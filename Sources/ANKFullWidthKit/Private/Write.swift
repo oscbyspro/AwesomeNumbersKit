@@ -25,6 +25,8 @@ extension UnsafeMutableBufferPointer<UInt8> {
     }
     
     @inlinable func write(_ content: some Sequence<Element>, from index: inout Index) {
-        content.forEach({  self.write($0, from: &index) })
+        for element in content {
+            self.write(element, from: &index)
+        }
     }
 }
