@@ -35,6 +35,7 @@ import ANKFoundation
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
+    /// Divides the dividend by its base.
     @inlinable func dividing(_ dividend: UInt) -> QR<UInt, UInt>
 }
 
@@ -62,7 +63,6 @@ extension RadixUIntRoot {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// Divides the dividend by its base.
     @inlinable func dividing(_ dividend: UInt) -> QR<UInt, UInt> {
         dividend.quotientAndRemainder(dividingBy: self.base)
     }

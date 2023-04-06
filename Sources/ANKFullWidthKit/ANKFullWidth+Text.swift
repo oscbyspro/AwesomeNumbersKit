@@ -155,7 +155,7 @@ extension ANKFullWidth where High == High.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>, radix: PerfectRadixUIntRoot, uppercase: Bool) -> String {
-        let minLastIndex = value.magnitude.minLastIndexReportingIsZeroOrMinusOne().minLastIndex as Int
+        let minLastIndex: Int = value.magnitude.minLastIndexReportingIsZeroOrMinusOne().minLastIndex
         return value.magnitude.withUnsafeWords {
             String(chunks: $0[...minLastIndex], sign: value.sign, radix: radix, uppercase: uppercase)
         }
@@ -189,7 +189,7 @@ extension String {
         assert(chunks.startIndex.isZero && chunks.endIndex == chunks.count)
         assert(chunks.allSatisfy({ $0 < radix.power }) || radix.power == 0)
         //=--------------------------------------=
-        let alphabet = DigitsToText(uppercase:  uppercase)
+        let map   = MaxRadixAlphabet(uppercase: uppercase)
         var index = chunks.index(before:  chunks.endIndex)
         var first = String(chunks[index], radix: radix.baseInt, uppercase:  uppercase)
         let count = Int(bit: sign.bit) &+ first.utf8.count + radix.exponentInt * index
@@ -216,7 +216,7 @@ extension String {
                     
                     let digit: UInt
                     (chunk, digit) = radix.dividing(chunk)
-                    UTF8[position] = alphabet[unchecked: digit]
+                    UTF8[position] = map[unchecked: UInt8(_truncatingBits: digit)]
                 }
             }
             //=----------------------------------=

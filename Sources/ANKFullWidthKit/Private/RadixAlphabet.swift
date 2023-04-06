@@ -8,28 +8,26 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * ANK x Digits To Text
+// MARK: * ANK x Radix Alphabet x Max
 //*============================================================================*
 
-/// Encodes digits from `0` through `36` to ASCII.
+/// Maps values from `0` through `36` to ASCII.
 ///
 /// ```swift
-/// let alphabet =  DigitsToText(uppercase: true)
-/// alphabet[00] // UInt8(ascii: "0")
-/// alphabet[10] // UInt8(ascii: "A")
-/// alphabet[20] // UInt8(ascii: "K")
-/// alphabet[30] // UInt8(ascii: "U")
-/// alphabet[40] // crash
+/// let map =  MaxRadixAlphabet(uppercase: true)
+/// map[00] // UInt8(ascii: "0")
+/// map[20] // UInt8(ascii: "K")
+/// map[40] // precondition failure
 /// ```
 ///
-@frozen @usableFromInline struct DigitsToText {
+@frozen @usableFromInline struct MaxRadixAlphabet {
     
     //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    @usableFromInline let map00To10: UInt
-    @usableFromInline let map10To37: UInt
+    @usableFromInline let map00To10: UInt8
+    @usableFromInline let map10To37: UInt8
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -44,9 +42,18 @@
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable subscript(unchecked value: UInt) -> UInt8 {
-        assert(value < 37)
-        let offset = value < 10 ? map00To10 : map10To37
-        return UInt8(_truncatingBits: value &+ offset)
+    @inlinable var uppercase: Bool {
+        self.map10To37 == 55
+    }
+    
+    @inlinable subscript(_ value: UInt8) -> UInt8 {
+        precondition(value < 37)
+        return self[unchecked: value]
+    }
+    
+    @inlinable subscript(unchecked value: UInt8) -> UInt8 {
+        Swift.assert(value < 37)
+        let offset = value < 10 ? self.map00To10 : self.map10To37
+        return value &+  offset
     }
 }
