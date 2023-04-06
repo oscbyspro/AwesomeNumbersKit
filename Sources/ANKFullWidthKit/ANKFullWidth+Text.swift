@@ -137,10 +137,11 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
-        var value = ANKSigned(source.magnitude, as: ANKSign(source.isLessThanZero))
+        let alphabet = MaxRadixAlphabet(uppercase: uppercase)
+        var value = ANKSigned(source.magnitude,as: ANKSign(source.isLessThanZero))
         return AnyRadixUIntRoot(radix).switch(
-          perfect: { Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase) },
-        imperfect: { Magnitude._encodeBigEndianText(&value, radix: $0, uppercase: uppercase) })
+          perfect: { Magnitude._encodeBigEndianText(&value, radix: $0, alphabet: alphabet) },
+        imperfect: { Magnitude._encodeBigEndianText(&value, radix: $0, alphabet: alphabet) })
     }
 }
 
@@ -154,14 +155,14 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>, radix: PerfectRadixUIntRoot, uppercase: Bool) -> String {
+    @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>, radix: PerfectRadixUIntRoot, alphabet: MaxRadixAlphabet) -> String {
         let minLastIndex: Int = value.magnitude.minLastIndexReportingIsZeroOrMinusOne().minLastIndex
         return value.magnitude.withUnsafeWords {
-            String(chunks: $0[...minLastIndex], sign: value.sign, radix: radix, uppercase: uppercase)
+            String(chunks: $0[...minLastIndex], sign: value.sign, radix: radix, alphabet: alphabet)
         }
     }
     
-    @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>, radix: ImperfectRadixUIntRoot, uppercase: Bool) -> String {
+    @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>, radix: ImperfectRadixUIntRoot, alphabet: MaxRadixAlphabet) -> String {
         let capacity: Int = radix.divisibilityByPowerUpperBound(value.magnitude)
         return withUnsafeTemporaryAllocation(of: UInt.self,  capacity: capacity) { CHUNKS in
             var index = CHUNKS.startIndex
@@ -169,7 +170,7 @@ extension ANKFullWidth where High == High.Magnitude {
                 (value.magnitude,CHUNKS[index]) = value.magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
                 CHUNKS.formIndex(after: &index)
             }   while !(value.magnitude.isZero)
-            return String(chunks:CHUNKS[..<index], sign: value.sign, radix: radix, uppercase: uppercase)
+            return String(chunks:CHUNKS[..<index], sign: value.sign, radix: radix, alphabet: alphabet)
         }
     }
 }
@@ -184,14 +185,14 @@ extension String {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init<T>(chunks: T, sign: ANKSign, radix: some RadixUIntRoot, uppercase: Bool) where T: BidirectionalCollection<UInt>, T.Index == Int {
+    @inlinable init<T>(chunks: T, sign: ANKSign, radix: some RadixUIntRoot, alphabet: MaxRadixAlphabet)
+    where T: BidirectionalCollection,  T.Element == UInt, T.Index == Int {
         assert(chunks.last! != 0 || chunks.count == 1)
         assert(chunks.startIndex.isZero && chunks.endIndex == chunks.count)
         assert(chunks.allSatisfy({ $0 < radix.power }) || radix.power == 0)
         //=--------------------------------------=
-        let map = MaxRadixAlphabet(uppercase:  uppercase)
         var index = chunks.index(before: chunks.endIndex)
-        self = Self._withUTF8(chunk: chunks[index], radix:  radix, map:  map) { FIRST in
+        self = Self._withUTF8(chunk: chunks[index], radix:  radix, alphabet: alphabet) { FIRST in
             let count = Int(bit: sign.bit) &+ FIRST.count + radix.exponentInt * index
             return Self(unsafeUninitializedCapacity: count) { UTF8 in
                 var utf8Index = UTF8.startIndex
@@ -215,7 +216,7 @@ extension String {
                         
                         let digit: UInt
                         (chunk, digit) = radix.dividing(chunk)
-                        UTF8[position] = map[unchecked: UInt8(_truncatingBits: digit)]
+                        UTF8[position] = alphabet[unchecked: UInt8(_truncatingBits: digit)]
                     }
                 }
                 //=------------------------------=
@@ -229,20 +230,21 @@ extension String {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// Temporary allocates a `UInt` chunk converted to UTF8.
+    /// Temporary allocates a `UInt` chunk as UTF8.
     @_transparent @usableFromInline static func _withUTF8<T>(chunk: UInt, radix: some RadixUIntRoot,
-    map: MaxRadixAlphabet, body: (UnsafeBufferPointer<UInt8>) throws -> T) rethrows -> T {
+    alphabet: MaxRadixAlphabet, body: (UnsafeBufferPointer<UInt8>) throws -> T) rethrows -> T {
         try withUnsafeTemporaryAllocation(of: UInt8.self, capacity: radix.exponentInt) { UTF8 in
             assert(chunk < radix.power || radix.power == 0)
             //=----------------------------------=
             var chunk = chunk as UInt
             var position = radix.exponentInt
             //=----------------------------------=
-            repeat {
+            backwards: repeat {
                 UTF8.formIndex(before: &position)
+                
                 let digit: UInt
                 (chunk, digit) = radix.dividing(chunk)
-                UTF8[position] = map[unchecked: UInt8(_truncatingBits: digit)]
+                UTF8[position] = alphabet[unchecked: UInt8(_truncatingBits: digit)]
             }   while !chunk.isZero
             //=----------------------------------=
             return try body(UnsafeBufferPointer(rebasing: UTF8[position...]))
