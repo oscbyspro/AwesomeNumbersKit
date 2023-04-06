@@ -191,17 +191,17 @@ extension String {
         //=--------------------------------------=
         let map = MaxRadixAlphabet(uppercase:  uppercase)
         var index = chunks.index(before: chunks.endIndex)
-        self = Self.withUTF8(chunk: chunks[index], radix: radix, map: map) { FIRST in
+        self = Self._withUTF8(chunk: chunks[index], radix:  radix, map:  map) { FIRST in
             let count = Int(bit: sign.bit) &+ FIRST.count + radix.exponentInt * index
             return Self(unsafeUninitializedCapacity: count) { UTF8 in
                 var utf8Index = UTF8.startIndex
-                //=----------------------------------=
+                //=------------------------------=
                 if  sign.bit {
                     UTF8.write(45, from: &utf8Index)
                 }
-                //=----------------------------------=
+                //=------------------------------=
                 UTF8.write(FIRST,  from: &utf8Index)
-                //=----------------------------------=
+                //=------------------------------=
                 backwards: while index != chunks.startIndex {
                     chunks.formIndex(before: &index)
                     
@@ -218,7 +218,7 @@ extension String {
                         UTF8[position] = map[unchecked: UInt8(_truncatingBits: digit)]
                     }
                 }
-                //=----------------------------------=
+                //=------------------------------=
                 assert(UTF8.distance(from: UTF8.startIndex, to: utf8Index) == count)
                 return count
             }
@@ -230,9 +230,8 @@ extension String {
     //=------------------------------------------------------------------------=
     
     /// Temporary allocates a `UInt` chunk converted to UTF8.
-    @_transparent @usableFromInline static func  withUTF8<T>(
-    chunk: UInt, radix: some RadixUIntRoot, map: MaxRadixAlphabet,
-    body: (UnsafeBufferPointer<UInt8>) throws -> T) rethrows -> T {
+    @_transparent @usableFromInline static func _withUTF8<T>(chunk: UInt, radix: some RadixUIntRoot,
+    map: MaxRadixAlphabet, body: (UnsafeBufferPointer<UInt8>) throws -> T) rethrows -> T {
         try withUnsafeTemporaryAllocation(of: UInt8.self, capacity: radix.exponentInt) { UTF8 in
             assert(chunk < radix.power || radix.power == 0)
             //=----------------------------------=
