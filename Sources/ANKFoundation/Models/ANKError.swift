@@ -12,7 +12,7 @@
 //*============================================================================*
 
 /// A generic error.
-@frozen public struct ANKError: Error {
+@frozen public struct ANKError: Error, Sendable {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers

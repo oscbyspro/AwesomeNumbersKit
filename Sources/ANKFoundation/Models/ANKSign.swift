@@ -12,7 +12,7 @@
 //*============================================================================*
 
 /// The sign of a numeric value.
-@frozen public enum ANKSign: CustomStringConvertible, Hashable {
+@frozen public enum ANKSign: CustomStringConvertible, Hashable, Sendable {
     
     //=------------------------------------------------------------------------=
     // MARK: State

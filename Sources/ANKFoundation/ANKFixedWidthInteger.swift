@@ -17,7 +17,7 @@
 ///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
-public protocol ANKFixedWidthInteger: FixedWidthInteger, ANKBinaryInteger where Magnitude: ANKUnsignedFixedWidthInteger {
+public protocol ANKFixedWidthInteger: ANKBinaryInteger, FixedWidthInteger where Magnitude: ANKUnsignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers

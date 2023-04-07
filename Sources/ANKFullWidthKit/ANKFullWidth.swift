@@ -54,7 +54,7 @@ import ANKFoundation
 /// - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
 @frozen public struct ANKFullWidth<High, Low>: ANKBigEndianTextCodable,
-ANKLargeFixedWidthInteger, ANKTrivialContiguousBytes, ANKWords,
+ANKLargeFixedWidthInteger,  ANKTrivialContiguousBytes, ANKWords,
 CustomStringConvertible, CustomDebugStringConvertible, MutableCollection where
 High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
 High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
