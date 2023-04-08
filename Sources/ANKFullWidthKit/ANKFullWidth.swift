@@ -31,8 +31,7 @@ import ANKFoundation
 /// its ``ANKFullWidth/High-swift.typealias`` and ``ANKFullWidth/Low-swift.typealias``
 /// parts must therefore be multiplies of `UInt.bitWidth`. This requirement makes it possible
 /// to operate on its words directly. While ``ANKFullWidth`` conforms to the `Collection`
-/// protocol, the best way to access these words is by using the following methods — based on
-/// custom, endian-sensitive, pointers:
+/// protocol, the best way to access these words is with the following methods:
 ///
 /// - ``ANKFullWidth/withUnsafeWords(_:)``
 /// - ``ANKFullWidth/withUnsafeMutableWords(_:)``

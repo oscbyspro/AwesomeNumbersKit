@@ -49,14 +49,14 @@ extension RadixUIntRoot {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline var baseInt: Int {
-        assert(self.base <= 36)
+    @_transparent @usableFromInline var base: Int {
+        assert((self.base as UInt) <= 36)
         return Int(bitPattern: self.base)
     }
     
-    @_transparent @usableFromInline var exponentInt: Int {
-        assert(self.exponent <= UInt.bitWidth)
-        return Int(bitPattern:  self.exponent)
+    @_transparent @usableFromInline var exponent: Int {
+        assert((self.exponent as UInt) <= UInt.bitWidth)
+        return Int(bitPattern: self.exponent)
     }
     
     //=------------------------------------------------------------------------=

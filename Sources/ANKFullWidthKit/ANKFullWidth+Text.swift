@@ -84,12 +84,12 @@ extension ANKFullWidth where High == High.Magnitude {
             let start = utf8.startIndex as String.Index
             var tail  = utf8.endIndex   as String.Index
             var index = MAGNITUDE.startIndex as Int
-            let step  = (-radix.exponentInt) as Int
+            let step  = -radix.exponent      as Int
             //=----------------------------------=
             backwards: while tail != start {
-                try index != MAGNITUDE.endIndex || ANKError()
-                let head = utf8.index(tail, offsetBy: step,  limitedBy: start/**/) ?? start/**/
-                let word = try UInt(source[head  ..<  tail], radix: radix.baseInt) ?? ANKError()
+                try index < MAGNITUDE.endIndex || ANKError()
+                let head  = utf8.index(tail, offsetBy: step,  limitedBy:  start) ?? start
+                let word  = try UInt(source[head  ..<  tail], radix: radix.base) ?? ANKError()
                 
                 tail = head
                 MAGNITUDE[index] = word
@@ -106,20 +106,20 @@ extension ANKFullWidth where High == High.Magnitude {
     @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: ImperfectRadixUIntRoot) throws -> Self {
         let utf8 = source.utf8.drop { $0 == 48 }
         var head = utf8.startIndex as String.Index
-        let alignment = utf8.count  % radix.exponentInt
+        let alignment = utf8.count  % radix.exponent
         var magnitude = Magnitude()
         //=--------------------------------------=
         forwards: if !alignment.isZero {
-            let tail = utf8.index(head, offsetBy: alignment/*----*/); defer {  head = tail }
-            let word = try UInt(source[head  ..<  tail], radix: radix.baseInt) ?? ANKError()
+            let tail = utf8.index(head, offsetBy: alignment/*-*/); defer  { head = tail }
+            let word = try UInt(source[head  ..<  tail], radix: radix.base) ?? ANKError()
             magnitude[unchecked:  magnitude.startIndex] = word
         }
         //=--------------------------------------=
         forwards: while head != utf8.endIndex {
-            let tail = utf8.index(head, offsetBy: radix.exponentInt); defer {  head = tail }
-            let word = try UInt(source[head  ..<  tail], radix: radix.baseInt) ?? ANKError()
-            try !magnitude.multiplyReportingOverflow(by: radix.power  as UInt) || ANKError()
-            try !magnitude.addReportingOverflow(word as  UInt)/*------------*/ || ANKError()
+            let tail = utf8.index(head, offsetBy: radix.exponent); defer  { head = tail }
+            let word = try UInt(source[head  ..<  tail], radix: radix.base) ?? ANKError()
+            try !magnitude.multiplyReportingOverflow(by: radix.power)/*--*/ || ANKError()
+            try !magnitude.addReportingOverflow(word)/*------------------*/ || ANKError()
         }
         //=--------------------------------------=
         return magnitude
@@ -169,7 +169,7 @@ extension ANKFullWidth where High == High.Magnitude {
         return withUnsafeTemporaryAllocation(of: UInt.self,  capacity: capacity) { CHUNKS in
             var index = CHUNKS.startIndex
             rebasing: repeat {
-                (value.magnitude,CHUNKS[index]) = value.magnitude.quotientAndRemainder(dividingBy: radix.power as UInt)
+                (value.magnitude,CHUNKS[index]) = value.magnitude.quotientAndRemainder(dividingBy: radix.power)
                 CHUNKS.formIndex(after: &index)
             }   while !(value.magnitude.isZero)
             return String(chunks:CHUNKS[..<index], sign: value.sign, radix: radix, alphabet: alphabet)
@@ -187,12 +187,13 @@ extension String {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(chunks: some BidirectionalCollection<UInt>, sign: ANKSign, radix: some RadixUIntRoot, alphabet: MaxRadixAlphabet) {
+    @inlinable init(chunks: some BidirectionalCollection<UInt>, sign: ANKSign,
+    radix: some RadixUIntRoot, alphabet: MaxRadixAlphabet) {
         assert(chunks.last! != 0 || chunks.count == 1)
         assert(chunks.allSatisfy({ $0 < radix.power }) || radix.power.isZero)
         //=--------------------------------------=
-        self = Self._withUTF8(chunk: chunks.last!, radix: radix, alphabet: alphabet) {  FIRST in
-            let count = Int(bit: sign.bit) &+ FIRST.count + radix.exponentInt * (chunks.count &- 1)
+        self = Self._withUTF8(chunk: chunks.last!, radix: radix, alphabet: alphabet) { FIRST in
+            let count = Int(bit: sign.bit) &+ FIRST.count + radix.exponent * (chunks.count &- 1)
             return Self(unsafeUninitializedCapacity: count) { UTF8 in
                 var index = UTF8.startIndex
                 //=------------------------------=
@@ -204,7 +205,7 @@ extension String {
                 index = UTF8[index...].update(fromContentsOf: FIRST)
                 //=------------------------------=
                 for var chunk in chunks.dropLast().reversed() {
-                    let destination = UTF8.index(index, offsetBy: radix.exponentInt)
+                    let destination = UTF8.index(index, offsetBy: radix.exponent)
                     var backtrack = destination
                     defer { index = destination }
                     
@@ -225,11 +226,11 @@ extension String {
     
     @_transparent @usableFromInline static func _withUTF8<T>(chunk: UInt, radix: some RadixUIntRoot,
     alphabet: MaxRadixAlphabet, body: (UnsafeBufferPointer<UInt8>) throws -> T) rethrows -> T {
-        try withUnsafeTemporaryAllocation(of: UInt8.self, capacity: radix.exponentInt) { UTF8 in
+        try withUnsafeTemporaryAllocation(of: UInt8.self, capacity: radix.exponent) { UTF8 in
             assert(chunk < radix.power || radix.power.isZero)
             //=----------------------------------=
             var chunk = chunk as UInt
-            var backtrack = radix.exponentInt
+            var backtrack = radix.exponent as Int
             //=----------------------------------=
             backwards: repeat {
                 UTF8.formIndex(before: &backtrack)
