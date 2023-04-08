@@ -197,10 +197,11 @@ extension String {
                 var index = UTF8.startIndex
                 //=------------------------------=
                 if  sign.bit {
-                    UTF8.write(45, from: &index)
+                    UTF8[index] = 45
+                    UTF8.formIndex(after: &index)
                 }
                 //=------------------------------=
-                UTF8.write(FIRST,  from: &index)
+                index = UTF8[index...].update(fromContentsOf: FIRST)
                 //=------------------------------=
                 for var chunk in chunks.dropLast().reversed() {
                     let destination = UTF8.index(index, offsetBy: radix.exponentInt)
