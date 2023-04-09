@@ -43,9 +43,7 @@ extension ANKFullWidth {
         self.withUnsafeMutableWords { SELF in
             var carry: Bool = true
             for index: Int in SELF.indices {
-                var word: UInt = ~SELF[index]
-                carry = word.addReportingOverflow(UInt(bit: carry))
-                SELF[index] = word
+                (SELF[index], carry) = (~SELF[index]).addingReportingOverflow(UInt(bit: carry))
             }
         }
     }

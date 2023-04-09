@@ -86,20 +86,18 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @_disfavoredOverload @inlinable public func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
-        let  divisorIsLessThanZero: Bool = divisor.isLessThanZero
         let dividendIsLessThanZero: Bool =    self.isLessThanZero
+        let  divisorIsLessThanZero: Bool = divisor.isLessThanZero
         //=--------------------------------------=
         var qr: QR<Magnitude, UInt> = self.magnitude._quotientAndRemainderAsUnsigned(dividingBy: divisor.magnitude)
         //=--------------------------------------=
         if  dividendIsLessThanZero != divisorIsLessThanZero {
-            let quotientWasLessThanZero = qr.quotient.mostSignificantBit
-            qr.quotient.formTwosComplement()
-            let overflow = quotientWasLessThanZero && qr.quotient.mostSignificantBit
+            let overflow = qr.quotient._negateReportingOverflowAsSigned()
             precondition(!overflow, "quotient overflowed during division")
         }
         
         if  dividendIsLessThanZero {
-            qr.remainder.formTwosComplement() // cannot overflow: abs <= max
+            qr.remainder.formTwosComplement()
         }
         //=--------------------------------------=
         return QR(Self(bitPattern: qr.quotient), Digit(bitPattern: qr.remainder))
@@ -123,14 +121,10 @@ extension ANKFullWidth where High == High.Magnitude {
         var remainder = UInt()
         //=--------------------------------------=
         quotient.withUnsafeMutableWords { QUOTIENT in
-            //=----------------------------------=
             var index = QUOTIENT.endIndex as Int
-            //=----------------------------------=
             backwards: while index != QUOTIENT.startIndex {
-                QUOTIENT.formIndex(before: &index)
-                let dividend = HL(remainder, QUOTIENT[index]) as HL<UInt, UInt>
-                let qr =  divisor.dividingFullWidth(dividend) as QR<UInt, UInt>
-                (QUOTIENT[index], remainder) = qr
+                (QUOTIENT.formIndex(before: &index))
+                (QUOTIENT[index], remainder) = divisor.dividingFullWidth(HL(remainder, QUOTIENT[index]))
             }
         }
         //=--------------------------------------=

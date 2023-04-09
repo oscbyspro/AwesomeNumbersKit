@@ -84,7 +84,7 @@ extension ANKFullWidth where High == High.Magnitude {
             let start = utf8.startIndex as String.Index
             var tail  = utf8.endIndex   as String.Index
             var index = MAGNITUDE.startIndex as Int
-            let step  = -radix.exponent      as Int
+            let step  = -radix.exponent/*-*/ as Int
             //=----------------------------------=
             backwards: while tail != start {
                 try index < MAGNITUDE.endIndex || ANKError()

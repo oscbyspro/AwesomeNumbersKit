@@ -52,7 +52,7 @@ extension ANKFullWidth {
         }
     }
     
-    @inlinable internal var wordSwapped: Self {
+    @inlinable var _wordSwapped: Self {
         self.withUnsafeWords { SELF in
             Self.fromUnsafeMutableWords { RESULT in
                 for index in SELF.indices {

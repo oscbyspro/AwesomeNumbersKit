@@ -12,10 +12,6 @@
 import ANKFoundation
 import XCTest
 
-internal let typesOfANKCoreInteger: [any ANKCoreInteger.Type] = [
- Int.self,  Int8.self,  Int16.self,  Int32.self,  Int64.self,
-UInt.self, UInt8.self, UInt16.self, UInt32.self, UInt64.self]
-
 //*============================================================================*
 // MARK: * ANK x Core Integer
 //*============================================================================*
@@ -25,10 +21,18 @@ final class ANKCoreIntegerTests: XCTestCase {
     typealias T = any ANKCoreInteger.Type
     
     //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    static let types: [T] =
+    [Int.self,  Int8.self,  Int16.self,  Int32.self,  Int64.self,
+    UInt.self, UInt8.self, UInt16.self, UInt32.self, UInt64.self]
+    
+    //=------------------------------------------------------------------------=
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types: [T] = typesOfANKCoreInteger
+    let types: [T] = ANKCoreIntegerTests.types
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

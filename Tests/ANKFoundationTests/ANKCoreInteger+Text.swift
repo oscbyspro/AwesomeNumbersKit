@@ -24,7 +24,7 @@ final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    let types: [T] = typesOfANKCoreInteger
+    let types: [T] = ANKCoreIntegerTests.types
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Decode

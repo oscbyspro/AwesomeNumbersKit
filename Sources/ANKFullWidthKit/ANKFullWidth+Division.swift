@@ -86,20 +86,18 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
-        let dividendIsLessThanZero: Bool = /**/self.isLessThanZero
-        let  divisorIsLessThanZero: Bool =  divisor.isLessThanZero
+        let dividendIsLessThanZero: Bool =    self.isLessThanZero
+        let  divisorIsLessThanZero: Bool = divisor.isLessThanZero
         //=--------------------------------------=
         var qr: QR<Magnitude, Magnitude> = self.magnitude._quotientAndRemainderAsUnsigned(dividingBy: divisor.magnitude)
         //=--------------------------------------=
         if  dividendIsLessThanZero != divisorIsLessThanZero {
-            let quotientWasLessThanZero = qr.quotient.mostSignificantBit
-            qr.quotient.formTwosComplement()
-            let overflow = quotientWasLessThanZero && qr.quotient.mostSignificantBit
-            precondition(!overflow, "quotient overflow during division")
+            let overflow = qr.quotient._negateReportingOverflowAsSigned()
+            precondition(!overflow, "quotient overflowed during division")
         }
         
         if  dividendIsLessThanZero {
-            qr.remainder.formTwosComplement() // cannot overflow: abs <= max
+            qr.remainder.formTwosComplement()
         }
         //=--------------------------------------=
         return QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
@@ -117,11 +115,11 @@ extension ANKFullWidth {
         var qr: QR<Magnitude, Magnitude> = self.magnitude._dividingFullWidthAsUnsigned(dividend.magnitude)
         //=--------------------------------------=
         if  dividendIsLessThanZero != divisorIsLessThanZero {
-            qr.quotient .formTwosComplement() // truncates overflow scenario
+            qr.quotient.formTwosComplement()
         }
         
         if  dividendIsLessThanZero {
-            qr.remainder.formTwosComplement() // cannot overflow: abs <= max
+            qr.remainder.formTwosComplement()
         }
         //=--------------------------------------=
         return QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))

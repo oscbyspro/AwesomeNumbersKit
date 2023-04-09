@@ -20,7 +20,7 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func &<<=(lhs: inout Self, rhs: Self) {
-        lhs._bitshiftLeft(by: rhs.moduloBitWidth)
+        lhs._bitshiftLeft(by: rhs._moduloBitWidth)
     }
     
     @_transparent public static func &<<(lhs: Self, rhs: Self) -> Self {
@@ -105,7 +105,7 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func &>>=(lhs: inout Self, rhs: Self) {
-        lhs._bitshiftRight(by: rhs.moduloBitWidth)
+        lhs._bitshiftRight(by: rhs._moduloBitWidth)
     }
     
     @_transparent public static func &>>(lhs: Self, rhs: Self) -> Self {

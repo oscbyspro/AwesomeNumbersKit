@@ -23,7 +23,7 @@ extension ANKFullWidth {
     ///
     /// - Returns: `abs(self % Self.bitWidth)`
     ///
-    @inlinable var moduloBitWidth: Int {
+    @inlinable var _moduloBitWidth: Int {
         //=--------------------------------------=
         if  Self.bitWidth.isPowerOf2 {
             return  Int(bitPattern: self.first) & (Self.bitWidth &- 1)

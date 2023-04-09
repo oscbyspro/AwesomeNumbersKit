@@ -68,7 +68,7 @@ extension ANKFullWidth {
         return HL(hl.high, hl.low)
     }
     
-    @_transparent @usableFromInline func _multipliedFullWidth(by amount: Self) -> DoubleWidth {
+    @inlinable func _multipliedFullWidth(by amount: Self) -> DoubleWidth {
         //=--------------------------------------=
         if  High.Magnitude.self == Low.self {
             return self._multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by: amount)

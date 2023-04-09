@@ -71,8 +71,8 @@ extension ANKFullWidth {
     
     @inlinable public mutating func withContiguousMutableStorageIfAvailable<T>(_ body: (inout UnsafeMutableBufferPointer<UInt>) throws -> T) rethrows -> T? {
         #if _endian(big)
-        do    { self = self.wordSwapped }
-        defer { self = self.wordSwapped }
+        do    { self = self._wordSwapped }
+        defer { self = self._wordSwapped }
         #endif
         return try self._withUnsafeMutableUIntBufferPointer(body)
     }
