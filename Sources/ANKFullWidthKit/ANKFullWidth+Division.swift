@@ -136,7 +136,7 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    /// Returns the quotient and remainder of dividing the dividend by the divisor.
+    /// Returns the quotient and remainder of dividing this value by the divisor.
     ///
     /// Performs unsigned long division with `UInt` digits.
     ///
@@ -162,25 +162,29 @@ extension ANKFullWidth where High == High.Magnitude {
             return  QR(qr.quotient,   Self(digit: qr.remainder))
         }
         //=--------------------------------------=
-        // Shift To Clamp Approximation Range
+        let dividend_ = self.minLastIndexReportingIsZeroOrMinusOne()
+        let minLastIndexGap: Int = dividend_.minLastIndex &- divisor_.minLastIndex
+        let shift: Int = divisor[unchecked: divisor_.minLastIndex].leadingZeroBitCount
         //=--------------------------------------=
-        let shift = divisor[unchecked: divisor_.minLastIndex].leadingZeroBitCount
-        let divisor = divisor._bitshiftedLeft(words: Int(), bits: shift) as Self
+        // Shift To Clamp Approximation
+        //=--------------------------------------=
+        var remainder = Plus1(descending: HL(UInt(), self))
+        remainder._bitshiftLeft(words: Int(), bits:  shift)
         
-        var remainder  = Plus1(descending: HL(UInt(), self))
-        let remainder_ = remainder.low.minLastIndexReportingIsZeroOrMinusOne()
-        remainder._bitshiftLeft(words: Int(), bits: shift)
-        //=--------------------------------------=
-        assert(divisor_.minLastIndex >= 1)
-        assert(divisor_.minLastIndex <= remainder_.minLastIndex )
-        assert(divisor[divisor_.minLastIndex].mostSignificantBit)
+        var increment = Plus1(descending: HL(UInt(), divisor))
+        increment.low._bitshiftLeft(words: minLastIndexGap, bits: shift)
+        assert(increment.high.isZero)
+        
+        let discriminant: UInt = increment.low[unchecked: dividend_.minLastIndex]
+        assert(discriminant.mostSignificantBit)
         //=--------------------------------------=
         // Division
         //=--------------------------------------=
-        var quotient = Self(); quotient.withUnsafeMutableWords { QUOTIENT in
-            var remainderIndex = remainder_.minLastIndex &+ 1
-            var  quotientIndex = remainderIndex &-  divisor_.minLastIndex
-            let   divisorLast0 = divisor[unchecked: divisor_.minLastIndex]
+        let quotient = Self.fromUnsafeMutableWords { QUOTIENT in
+            QUOTIENT.base.update(repeating: UInt(), count: QUOTIENT.count)
+            //=--------------------------------------=
+            var  quotientIndex: Int = 1 &+ minLastIndexGap
+            var remainderIndex: Int = 1 &+ dividend_.minLastIndex
             //=----------------------------------=
             backwards: while quotientIndex != QUOTIENT.startIndex {
                 QUOTIENT.formIndex(before: &quotientIndex)
@@ -189,14 +193,13 @@ extension ANKFullWidth where High == High.Magnitude {
                 //=------------------------------=
                 var digit: UInt = remainder.withUnsafeWords { REMAINDER in
                     let  remainderLast0  = REMAINDER[remainderIndex]
-                    REMAINDER.formIndex(before:/*-*/&remainderIndex)
-                    if   remainderLast0 >= divisorLast0 { return UInt.max }
+                    REMAINDER.formIndex(before:     &remainderIndex)
+                    if   remainderLast0 >= discriminant { return UInt.max }
                     let  remainderLast1  = REMAINDER[remainderIndex]
-                    return divisorLast0.dividingFullWidth(HL(remainderLast0, remainderLast1)).quotient
+                    return discriminant.dividingFullWidth(HL(remainderLast0, remainderLast1)).quotient
                 }
                 //=------------------------------=
-                let increment = Plus1(descending: HL(UInt(), divisor._bitshiftedLeft(words: quotientIndex, bits: Int())))
-                var approximation = Plus1(descending: increment.low.multipliedFullWidth(by: digit) as HL<Digit, Magnitude>)
+                var approximation = Plus1(descending: increment.low.multipliedFullWidth(by: digit))
                 //=------------------------------=
                 // Decrement If Overestimated
                 //=------------------------------=
@@ -209,6 +212,8 @@ extension ANKFullWidth where High == High.Magnitude {
                 //=------------------------------=
                 remainder &-= approximation
                 QUOTIENT[quotientIndex] = digit
+                //=------------------------------=
+                increment.low._bitshiftRight(words: 1, bits: Int())
             }
         }
         //=--------------------------------------=
