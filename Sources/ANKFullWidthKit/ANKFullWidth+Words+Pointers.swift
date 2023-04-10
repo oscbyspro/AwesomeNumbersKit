@@ -25,8 +25,11 @@ extension ANKFullWidth {
     ///   unchecked subscript access and wrapping index arithmetic. So, don't
     ///   do stupid stuff. Understood? Cool. Let's go!
     ///
-    @_transparent public func withUnsafeWords<T>(_ body: (ANKUnsafeWordsPointer<BitPattern>) throws -> T) rethrows -> T {
-        try self._withUnsafeUIntPointer({ try body(ANKUnsafeWordsPointer($0)) })
+    @_transparent public func withUnsafeWords<T>(
+    _ body: (ANKUnsafeWordsPointer<BitPattern>) throws -> T) rethrows -> T {
+        try self._withUnsafeUIntPointer {  START in
+            try body(ANKUnsafeWordsPointer(START))
+        }
     }
     
     /// Grants unsafe access to the integer's words, from least significant to most.
@@ -35,8 +38,11 @@ extension ANKFullWidth {
     ///   unchecked subscript access and wrapping index arithmetic. So, don't
     ///   do stupid stuff. Understood? Cool. Let's go!
     ///
-    @_transparent public mutating func withUnsafeMutableWords<T>(_ body: (ANKUnsafeMutableWordsPointer<BitPattern>) throws -> T) rethrows -> T {
-        try self._withUnsafeMutableUIntPointer({ try body(ANKUnsafeMutableWordsPointer($0)) })
+    @_transparent public mutating func withUnsafeMutableWords<T>(
+    _ body: (ANKUnsafeMutableWordsPointer<BitPattern>) throws -> T) rethrows -> T {
+        try self._withUnsafeMutableUIntPointer {  START in
+            try body(ANKUnsafeMutableWordsPointer(START))
+        }
     }
     
     /// Grants unsafe access to the integer's words, from least significant to most.
@@ -45,7 +51,8 @@ extension ANKFullWidth {
     ///   unchecked subscript access and wrapping index arithmetic. So, don't
     ///   do stupid stuff. Understood? Cool. Let's go!
     ///
-    @_transparent public static func fromUnsafeMutableWords(_ body: (ANKUnsafeMutableWordsPointer<BitPattern>) throws -> Void) rethrows -> Self {
+    @_transparent public static func fromUnsafeMutableWords(
+    _ body: (ANKUnsafeMutableWordsPointer<BitPattern>) throws -> Void) rethrows -> Self {
         try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { ALLOC in
             let SELF = ALLOC.baseAddress.unsafelyUnwrapped
             try SELF.withMemoryRebound(to: UInt.self, capacity: Self.count) { WORDS in
@@ -60,7 +67,8 @@ extension ANKFullWidth {
     // MARK: Utilities x Contiguous Sequence
     //=------------------------------------------------------------------------=
     
-    @inlinable public func withContiguousStorageIfAvailable<T>(_ body: (UnsafeBufferPointer<UInt>) throws -> T) rethrows -> T? {
+    @inlinable public func withContiguousStorageIfAvailable<T>(
+    _ body: (UnsafeBufferPointer<UInt>) throws -> T) rethrows -> T? {
         #if _endian(big)
         var base: Self { self.wordSwapped }
         #else
@@ -69,7 +77,8 @@ extension ANKFullWidth {
         return try base._withUnsafeUIntBufferPointer(body)
     }
     
-    @inlinable public mutating func withContiguousMutableStorageIfAvailable<T>(_ body: (inout UnsafeMutableBufferPointer<UInt>) throws -> T) rethrows -> T? {
+    @inlinable public mutating func withContiguousMutableStorageIfAvailable<T>(
+    _ body: (inout UnsafeMutableBufferPointer<UInt>) throws -> T) rethrows -> T? {
         #if _endian(big)
         do    { self = self._wordSwapped }
         defer { self = self._wordSwapped }
@@ -85,32 +94,45 @@ extension ANKFullWidth {
     ///
     /// - Note: The order of the integer's words depends on the platform's endianness.
     ///
-    @_transparent @usableFromInline func _withUnsafeUIntPointer<T>(_ body: (UnsafePointer<UInt>) throws -> T) rethrows -> T {
-        try Swift.withUnsafePointer(to: self) { try $0.withMemoryRebound(to: UInt.self, capacity: Self.count) { try body($0) } }
+    @_transparent @usableFromInline func _withUnsafeUIntPointer<T>(
+    _ body: (UnsafePointer<UInt>) throws -> T) rethrows -> T {
+        try Swift.withUnsafePointer(to: self) { START in
+            try START.withMemoryRebound(to: UInt.self, capacity: Self.count, body)
+        }
     }
     
     /// Grants unsafe access to the integer's in-memory representation.
     ///
     /// - Note: The order of the integer's words depends on the platform's endianness.
     ///
-    @_transparent @usableFromInline func _withUnsafeUIntBufferPointer<T>(_ body: (UnsafeBufferPointer<UInt>) throws -> T) rethrows -> T {
-        try self._withUnsafeUIntPointer({ try body(UnsafeBufferPointer(start: $0, count: Self.count)) })
+    @_transparent @usableFromInline func _withUnsafeUIntBufferPointer<T>(
+    _ body: (UnsafeBufferPointer<UInt>) throws -> T) rethrows -> T {
+        try self._withUnsafeUIntPointer { START in
+            try body(UnsafeBufferPointer(start: START, count: Self.count))
+        }
     }
     
     /// Grants unsafe access to the integer's in-memory representation.
     ///
     /// - Note: The order of the integer's words depends on the platform's endianness.
     ///
-    @_transparent @usableFromInline mutating func _withUnsafeMutableUIntPointer<T>(_ body: (UnsafeMutablePointer<UInt>) throws -> T) rethrows -> T {
-        try Swift.withUnsafeMutablePointer(to: &self) { try $0.withMemoryRebound(to: UInt.self, capacity: Self.count) { try body($0) } }
+    @_transparent @usableFromInline mutating func _withUnsafeMutableUIntPointer<T>(
+    _ body: (UnsafeMutablePointer<UInt>) throws -> T) rethrows -> T {
+        try Swift.withUnsafeMutablePointer(to: &self) { START in
+            try START.withMemoryRebound(to: UInt.self, capacity: Self.count, body)
+        }
     }
     
     /// Grants unsafe access to the integer's in-memory representation.
     ///
     /// - Note: The order of the integer's words depends on the platform's endianness.
     ///
-    @_transparent @usableFromInline mutating func _withUnsafeMutableUIntBufferPointer<T>(_ body: (inout UnsafeMutableBufferPointer<UInt>) throws -> T) rethrows -> T {
-        try self._withUnsafeMutableUIntPointer({ var x = UnsafeMutableBufferPointer<UInt>(start: $0, count: Self.count); return try body(&x) })
+    @_transparent @usableFromInline mutating func _withUnsafeMutableUIntBufferPointer<T>(
+    _ body: (inout UnsafeMutableBufferPointer<UInt>) throws -> T) rethrows -> T {
+        try self._withUnsafeMutableUIntPointer { START in
+            var BUFFER = UnsafeMutableBufferPointer<UInt>(start: START, count: Self.count)
+            return try body(&BUFFER)
+        }
     }
 }
 

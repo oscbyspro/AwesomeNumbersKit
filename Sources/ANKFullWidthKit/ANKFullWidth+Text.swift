@@ -137,11 +137,12 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
+        let sign = ANKSign(source.isLessThanZero)
+        var magnitude: Magnitude = source.magnitude
         let alphabet = MaxRadixAlphabet(uppercase: uppercase)
-        var value = ANKSigned(source.magnitude,as: ANKSign(source.isLessThanZero))
         return AnyRadixUIntRoot(radix).switch(
-          perfect: { Magnitude._encodeBigEndianText(&value, radix: $0, alphabet: alphabet) },
-        imperfect: { Magnitude._encodeBigEndianText(&value, radix: $0, alphabet: alphabet) })
+          perfect: { Magnitude._encodeBigEndianText(&magnitude, sign: sign, radix: $0, alphabet: alphabet) },
+        imperfect: { Magnitude._encodeBigEndianText(&magnitude, sign: sign, radix: $0, alphabet: alphabet) })
     }
 }
 
@@ -155,24 +156,24 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>,
+    @inlinable static func _encodeBigEndianText(_ magnitude: inout Self, sign: ANKSign,
     radix: PerfectRadixUIntRoot, alphabet: MaxRadixAlphabet) -> String {
-        let minLastIndex: Int = value.magnitude.minLastIndexReportingIsZeroOrMinusOne().minLastIndex
-        return value.magnitude.withUnsafeWords {
-            String(chunks: $0[...minLastIndex], sign: value.sign, radix: radix, alphabet: alphabet)
+        let minLastIndex: Int = magnitude.minLastIndexReportingIsZeroOrMinusOne().minLastIndex
+        return magnitude.withUnsafeWords {
+            String(chunks: $0[...minLastIndex], sign: sign, radix: radix, alphabet: alphabet)
         }
     }
     
-    @inlinable static func _encodeBigEndianText(_ value: inout ANKSigned<Self>,
+    @inlinable static func _encodeBigEndianText(_ magnitude: inout Self, sign: ANKSign,
     radix: ImperfectRadixUIntRoot, alphabet: MaxRadixAlphabet) -> String {
-        let capacity: Int = radix.divisibilityByPowerUpperBound(value.magnitude)
-        return withUnsafeTemporaryAllocation(of: UInt.self,  capacity: capacity) { CHUNKS in
+        let capacity: Int = radix.divisibilityByPowerUpperBound(magnitude)
+        return withUnsafeTemporaryAllocation(of: UInt.self, capacity: capacity) { CHUNKS in
             var index = CHUNKS.startIndex
             rebasing: repeat {
-                (value.magnitude,CHUNKS[index]) = value.magnitude.quotientAndRemainder(dividingBy: radix.power)
+                (magnitude, CHUNKS[index]) = magnitude.quotientAndRemainder(dividingBy: radix.power)
                 CHUNKS.formIndex(after: &index)
-            }   while !(value.magnitude.isZero)
-            return String(chunks:CHUNKS[..<index], sign: value.sign, radix: radix, alphabet: alphabet)
+            }   while !magnitude.isZero
+            return String(chunks: CHUNKS[..<index], sign: sign, radix: radix, alphabet: alphabet)
         }
     }
 }

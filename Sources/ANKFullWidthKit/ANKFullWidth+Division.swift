@@ -173,7 +173,6 @@ extension ANKFullWidth where High == High.Magnitude {
         
         var increment = Plus1(descending: HL(UInt(), divisor))
         increment.low._bitshiftLeft(words: minLastIndexGap, bits: shift)
-        assert(increment.high.isZero)
         
         let discriminant: UInt = increment.low[unchecked: dividend_.minLastIndex]
         assert(discriminant.mostSignificantBit)
