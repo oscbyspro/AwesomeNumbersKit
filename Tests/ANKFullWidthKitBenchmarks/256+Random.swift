@@ -29,11 +29,13 @@ final class Int256BenchmarksOnRandom: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testRandomInRangeUsingSystemRandomNumberGenerator() {
-        let range = _blackHoleIdentity((T.min / 2) ... (T.max / 2))
+        var range = _blackHoleIdentity((T.min / 2) ... (T.max / 2))
         var randomness = _blackHoleIdentity(SystemRandomNumberGenerator())
         
         for _ in 0 ..< 50_000 {
-            _blackHole(T.random(in: range, using: &randomness))
+            _blackHole(T.random(in:  range, using: &randomness))
+            _blackHoleInoutIdentity(&range)
+            _blackHoleInoutIdentity(&randomness)
         }
     }
 }
@@ -51,11 +53,13 @@ final class UInt256BenchmarksOnRandom: XCTestCase {
     //=------------------------------------------------------------------------=
 
     func testRandomInRangeUsingSystemRandomNumberGenerator() {
-        let range = _blackHoleIdentity((T.min / 2) ... (T.max / 2))
+        var range = _blackHoleIdentity((T.min / 2) ... (T.max / 2))
         var randomness = _blackHoleIdentity(SystemRandomNumberGenerator())
         
         for _ in 0 ..< 50_000 {
-            _blackHole(T.random(in: range, using: &randomness))
+            _blackHole(T.random(in:  range, using: &randomness))
+            _blackHoleInoutIdentity(&range)
+            _blackHoleInoutIdentity(&randomness)
         }
     }
 }

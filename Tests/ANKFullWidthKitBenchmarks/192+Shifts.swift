@@ -29,20 +29,24 @@ final class Int192BenchmarksOnShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeft() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs << rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testBitshiftingLeftByMasking() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs &<< rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -51,20 +55,24 @@ final class Int192BenchmarksOnShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingRight() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs >> rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testBitshiftingRightByMasking() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
                 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs &>> rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
 }
@@ -82,20 +90,24 @@ final class UInt192BenchmarksOnShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeft() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs << rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testBitshiftingLeftByMasking() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs &<< rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -104,20 +116,24 @@ final class UInt192BenchmarksOnShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingRight() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs >> rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testBitshiftingRightByMasking() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
                 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs &>> rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
 }

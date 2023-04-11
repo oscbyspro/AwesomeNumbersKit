@@ -46,10 +46,11 @@ final class Int256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.magnitude)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -58,10 +59,11 @@ final class Int256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.twosComplement())
+            _blackHoleInoutIdentity(&abc)
         }
     }
 }
@@ -96,10 +98,11 @@ final class UInt256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.magnitude)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -108,10 +111,11 @@ final class UInt256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.twosComplement())
+            _blackHoleInoutIdentity(&abc)
         }
     }
 }

@@ -46,10 +46,11 @@ final class Int192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.magnitude)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -58,10 +59,11 @@ final class Int192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.twosComplement())
+            _blackHoleInoutIdentity(&abc)
         }
     }
 }
@@ -96,10 +98,11 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.magnitude)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -108,10 +111,11 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.twosComplement())
+            _blackHoleInoutIdentity(&abc)
         }
     }
 }

@@ -29,45 +29,53 @@ final class Int192BenchmarksOnBitwise: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAnd() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs & rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testOr() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs | rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testXor() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs ^ rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testNot() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(~abc)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testByteSwapped() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.byteSwapped)
+            _blackHoleInoutIdentity(&abc)
         }
     }
 }
@@ -85,45 +93,53 @@ final class UInt192BenchmarksOnBitwise: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAnd() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs & rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testOr() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs | rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testXor() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs ^ rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testNot() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(~abc)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testByteSwapped() {
-        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.byteSwapped)
+            _blackHoleInoutIdentity(&abc)
         }
     }
 }

@@ -29,29 +29,35 @@ final class Int256BenchmarksOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtracting() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs - rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingWrappingAround() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs &- rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.subtractingReportingOverflow(rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -60,29 +66,35 @@ final class Int256BenchmarksOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtractingDigit() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(Int.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs - rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingDigitWrappingAround() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(Int.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(Int.max)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs &- rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingDigitReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(Int.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(Int.max)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.subtractingReportingOverflow(rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
 }
@@ -100,29 +112,35 @@ final class UInt256BenchmarksOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtracting() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs - rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingWrappingAround() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs &- rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.subtractingReportingOverflow(rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -131,29 +149,35 @@ final class UInt256BenchmarksOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtractingDigit() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(UInt.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs - rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingDigitWrappingAround() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(UInt.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(UInt.max)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs &- rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingDigitReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        let rhs = _blackHoleIdentity(UInt.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var rhs = _blackHoleIdentity(UInt.max)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.subtractingReportingOverflow(rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
 }

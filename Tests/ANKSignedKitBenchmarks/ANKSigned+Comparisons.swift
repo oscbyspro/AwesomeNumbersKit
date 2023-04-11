@@ -28,12 +28,15 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsLessThan() {
-        let lhs = _blackHoleIdentity(T(1, as: .plus ))
-        let rhs = _blackHoleIdentity(T(1, as: .minus))
+        var lhs = _blackHoleIdentity(T(1, as: .plus ))
+        var rhs = _blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs < rhs)
+            _blackHoleInoutIdentity(&lhs)
+
             _blackHole(rhs < lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -42,32 +45,41 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsZero() {
-        let abc = _blackHoleIdentity(T(1, as: .plus ))
-        let xyz = _blackHoleIdentity(T(1, as: .minus))
+        var abc = _blackHoleIdentity(T(1, as: .plus ))
+        var xyz = _blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isZero)
+            _blackHoleInoutIdentity(&abc)
+
             _blackHole(xyz.isZero)
+            _blackHoleInoutIdentity(&xyz)
         }
     }
     
     func testIsLessThanZero() {
-        let abc = _blackHoleIdentity(T(1, as: .plus ))
-        let xyz = _blackHoleIdentity(T(1, as: .minus))
+        var abc = _blackHoleIdentity(T(1, as: .plus ))
+        var xyz = _blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isLessThanZero)
+            _blackHoleInoutIdentity(&abc)
+            
             _blackHole(xyz.isLessThanZero)
+            _blackHoleInoutIdentity(&xyz)
         }
     }
     
     func testIsMoreThanZero() {
-        let abc = _blackHoleIdentity(T(1, as: .plus ))
-        let xyz = _blackHoleIdentity(T(1, as: .minus))
+        var abc = _blackHoleIdentity(T(1, as: .plus ))
+        var xyz = _blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isMoreThanZero)
+            _blackHoleInoutIdentity(&abc)
+            
             _blackHole(xyz.isMoreThanZero)
+            _blackHoleInoutIdentity(&xyz)
         }
     }
 }

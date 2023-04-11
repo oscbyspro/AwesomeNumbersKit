@@ -28,12 +28,15 @@ final class ANKSignedBenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        let abc = _blackHoleIdentity(T.max)
-        let xyz = _blackHoleIdentity(T.min)
+        var abc = _blackHoleIdentity(T.max)
+        var xyz = _blackHoleIdentity(T.min)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.magnitude)
+            _blackHoleInoutIdentity(&abc)
+            
             _blackHole(xyz.magnitude)
+            _blackHoleInoutIdentity(&xyz)
         }
     }
 }

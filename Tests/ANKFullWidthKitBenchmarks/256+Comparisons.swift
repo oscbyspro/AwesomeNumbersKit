@@ -29,11 +29,13 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsLessThan() {
-        let lhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
-        let rhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var lhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var rhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs < rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -42,26 +44,29 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsZero() {
-        let abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isZero)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testIsLessThanZero() {
-        let abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isLessThanZero)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testIsMoreThanZero() {
-        let abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isMoreThanZero)
+            _blackHoleInoutIdentity(&abc)
         }
     }
 }
@@ -79,11 +84,13 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsLessThan() {
-        let lhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
-        let rhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var lhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var rhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs < rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -92,26 +99,29 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsZero() {
-        let abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isZero)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testIsLessThanZero() {
-        let abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isLessThanZero)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testIsMoreThanZero() {
-        let abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isMoreThanZero)
+            _blackHoleInoutIdentity(&abc)
         }
     }
 }

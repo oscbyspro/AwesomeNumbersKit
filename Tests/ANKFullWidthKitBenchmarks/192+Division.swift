@@ -30,29 +30,35 @@ final class Int192BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testQuotientAndRemainder() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.quotientAndRemainder(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testQuotientReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.dividedReportingOverflow(by: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testRemainderReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.remainderReportingOverflow(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -61,29 +67,35 @@ final class Int192BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testQuotientAndRemainderDividingByDigit() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(Int.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.quotientAndRemainder(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testQuotientDividingByDigitReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(Int.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(Int.max)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.dividedReportingOverflow(by: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testRemainderDividingByDigitReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(Int.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(Int.max)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.remainderReportingOverflow(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -92,11 +104,13 @@ final class Int192BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingFullWidth() {
-        let lhs = _blackHoleIdentity((T.max))
-        let rhs = _blackHoleIdentity((T.max, M.max))
+        var lhs = _blackHoleIdentity((T.max))
+        var rhs = _blackHoleIdentity((T.max, M.max))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.dividingFullWidth(rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
 }
@@ -115,29 +129,35 @@ final class UInt192BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testQuotientAndRemainder() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.quotientAndRemainder(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testQuotientReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.dividedReportingOverflow(by: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testRemainderReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.remainderReportingOverflow(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -146,29 +166,35 @@ final class UInt192BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testQuotientAndRemainderDividingByDigit() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(UInt.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.quotientAndRemainder(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testQuotientDividingByDigitReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(UInt.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(UInt.max)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.dividedReportingOverflow(by: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testRemainderDividingByDigitReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        let rhs = _blackHoleIdentity(UInt.max)
+        var lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var rhs = _blackHoleIdentity(UInt.max)
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.remainderReportingOverflow(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -177,11 +203,13 @@ final class UInt192BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingFullWidth() {
-        let lhs = _blackHoleIdentity((T.max))
-        let rhs = _blackHoleIdentity((T.max, M.max))
+        var lhs = _blackHoleIdentity((T.max))
+        var rhs = _blackHoleIdentity((T.max, M.max))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.dividingFullWidth(rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
 }

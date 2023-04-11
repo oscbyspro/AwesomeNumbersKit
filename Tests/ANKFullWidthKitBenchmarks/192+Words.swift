@@ -29,22 +29,28 @@ final class Int192BenchmarksOnWords: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMinLastIndexReportingIsZeroOrMinusOne() {
-        let abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
-        let xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
+        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.minLastIndexReportingIsZeroOrMinusOne())
+            _blackHoleInoutIdentity(&abc)
+            
             _blackHole(xyz.minLastIndexReportingIsZeroOrMinusOne())
+            _blackHoleInoutIdentity(&xyz)
         }
     }
     
     func testMinWordCountReportingIsZeroOrMinusOne() {
-        let abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
-        let xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
+        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.minWordCountReportingIsZeroOrMinusOne())
+            _blackHoleInoutIdentity(&abc)
+            
             _blackHole(xyz.minWordCountReportingIsZeroOrMinusOne())
+            _blackHoleInoutIdentity(&xyz)
         }
     }
 }
@@ -62,22 +68,28 @@ final class UInt192BenchmarksOnWords: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMinLastIndexReportingIsZeroOrMinusOne() {
-        let abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
-        let xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
+        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.minLastIndexReportingIsZeroOrMinusOne())
+            _blackHoleInoutIdentity(&abc)
+            
             _blackHole(xyz.minLastIndexReportingIsZeroOrMinusOne())
+            _blackHoleInoutIdentity(&xyz)
         }
     }
     
     func testMinWordCountReportingIsZeroOrMinusOne() {
-        let abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
-        let xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
+        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.minWordCountReportingIsZeroOrMinusOne())
+            _blackHoleInoutIdentity(&abc)
+            
             _blackHole(xyz.minWordCountReportingIsZeroOrMinusOne())
+            _blackHoleInoutIdentity(&xyz)
         }
     }
 }

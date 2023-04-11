@@ -28,29 +28,35 @@ final class ANKSignedBenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testQuotientAndRemainder() {
-        let lhs = _blackHoleIdentity(T(7, as: .plus ))
-        let rhs = _blackHoleIdentity(T(3, as: .minus))
+        var lhs = _blackHoleIdentity(T(7, as: .plus ))
+        var rhs = _blackHoleIdentity(T(3, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.quotientAndRemainder(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testQuotientReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(7, as: .plus ))
-        let rhs = _blackHoleIdentity(T(3, as: .minus))
+        var lhs = _blackHoleIdentity(T(7, as: .plus ))
+        var rhs = _blackHoleIdentity(T(3, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.dividedReportingOverflow(by: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testRemainderReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(7, as: .plus ))
-        let rhs = _blackHoleIdentity(T(3, as: .minus))
+        var lhs = _blackHoleIdentity(T(7, as: .plus ))
+        var rhs = _blackHoleIdentity(T(3, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.remainderReportingOverflow(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -59,29 +65,35 @@ final class ANKSignedBenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testQuotientAndRemainderDividingByDigit() {
-        let lhs = _blackHoleIdentity(T(7, as: .plus ))
-        let rhs = _blackHoleIdentity(D(3, as: .minus))
+        var lhs = _blackHoleIdentity(T(7, as: .plus ))
+        var rhs = _blackHoleIdentity(D(3, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.quotientAndRemainder(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testQuotientDividingByDigitReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(7, as: .plus ))
-        let rhs = _blackHoleIdentity(D(3, as: .minus))
+        var lhs = _blackHoleIdentity(T(7, as: .plus ))
+        var rhs = _blackHoleIdentity(D(3, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.dividedReportingOverflow(by: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testRemainderDividingByDigitReportingOverflow() {
-        let lhs = _blackHoleIdentity(T(7, as: .plus ))
-        let rhs = _blackHoleIdentity(D(3, as: .minus))
+        var lhs = _blackHoleIdentity(T(7, as: .plus ))
+        var rhs = _blackHoleIdentity(D(3, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.remainderReportingOverflow(dividingBy: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -90,11 +102,13 @@ final class ANKSignedBenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingFullWidth() {
-        let lhs = _blackHoleIdentity((T.max))
-        let rhs = _blackHoleIdentity((T.max, T.max.magnitude))
+        var lhs = _blackHoleIdentity((T.max))
+        var rhs = _blackHoleIdentity((T.max, T.max.magnitude))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.dividingFullWidth(rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
 }

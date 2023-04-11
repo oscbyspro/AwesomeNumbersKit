@@ -28,29 +28,35 @@ final class ANKSignedBenchmarksOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtracting() {
-        let lhs = _blackHoleIdentity(T.max)
-        let rhs = _blackHoleIdentity(T.max)
+        var lhs = _blackHoleIdentity(T.max)
+        var rhs = _blackHoleIdentity(T.max)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs - rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingWrappingAround() {
-        let lhs = _blackHoleIdentity(T.max)
-        let rhs = _blackHoleIdentity(T.max)
+        var lhs = _blackHoleIdentity(T.max)
+        var rhs = _blackHoleIdentity(T.max)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs &- rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingReportingOverflow() {
-        let lhs = _blackHoleIdentity(T.max)
-        let rhs = _blackHoleIdentity(T.max)
+        var lhs = _blackHoleIdentity(T.max)
+        var rhs = _blackHoleIdentity(T.max)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.subtractingReportingOverflow(rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -59,29 +65,35 @@ final class ANKSignedBenchmarksOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtractingDigit() {
-        let lhs = _blackHoleIdentity(T.max)
-        let rhs = _blackHoleIdentity(D.max)
+        var lhs = _blackHoleIdentity(T.max)
+        var rhs = _blackHoleIdentity(D.max)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs - rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingDigitWrappingAround() {
-        let lhs = _blackHoleIdentity(T.max)
-        let rhs = _blackHoleIdentity(D.max)
+        var lhs = _blackHoleIdentity(T.max)
+        var rhs = _blackHoleIdentity(D.max)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs &- rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testSubtractingDigitReportingOverflow() {
-        let lhs = _blackHoleIdentity(T.max)
-        let rhs = _blackHoleIdentity(D.max)
+        var lhs = _blackHoleIdentity(T.max)
+        var rhs = _blackHoleIdentity(D.max)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs.subtractingReportingOverflow(rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
         }
     }
 }
