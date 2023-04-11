@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
@@ -27,12 +28,12 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsLessThan() {
-        let lhs = T(1, as: .plus )
-        let rhs = T(1, as: .minus)
+        let lhs = _blackHoleIdentity(T(1, as: .plus ))
+        let rhs = _blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs < rhs
-            _ = rhs < lhs
+            _blackHole(lhs < rhs)
+            _blackHole(rhs < lhs)
         }
     }
     
@@ -41,32 +42,32 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsZero() {
-        let abc = T(1, as: .plus )
-        let xyz = T(1, as: .minus)
+        let abc = _blackHoleIdentity(T(1, as: .plus ))
+        let xyz = _blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.isZero
-            _ = xyz.isZero
+            _blackHole(abc.isZero)
+            _blackHole(xyz.isZero)
         }
     }
     
     func testIsLessThanZero() {
-        let abc = T(1, as: .plus )
-        let xyz = T(1, as: .minus)
+        let abc = _blackHoleIdentity(T(1, as: .plus ))
+        let xyz = _blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.isLessThanZero
-            _ = xyz.isLessThanZero
+            _blackHole(abc.isLessThanZero)
+            _blackHole(xyz.isLessThanZero)
         }
     }
     
     func testIsMoreThanZero() {
-        let abc = T(1, as: .plus )
-        let xyz = T(1, as: .minus)
+        let abc = _blackHoleIdentity(T(1, as: .plus ))
+        let xyz = _blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.isMoreThanZero
-            _ = xyz.isMoreThanZero
+            _blackHole(abc.isMoreThanZero)
+            _blackHole(xyz.isMoreThanZero)
         }
     }
 }

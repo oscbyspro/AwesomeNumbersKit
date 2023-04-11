@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
@@ -30,13 +31,13 @@ final class Int256BenchmarksOnComplements: XCTestCase {
     
     func testInitBitPattern() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(bitPattern: M.max)
+            _blackHole(T(bitPattern: M.max))
         }
     }
     
     func testValueAsBitPattern() {
         for _ in 0 ..< 1_000_000 {
-            _ = T.max.bitPattern
+            _blackHole(T.max.bitPattern)
         }
     }
     
@@ -45,10 +46,10 @@ final class Int256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        let abc = T(x64: X(~0, ~1, ~2, ~3))
+        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.magnitude
+            _blackHole(abc.magnitude)
         }
     }
     
@@ -57,10 +58,10 @@ final class Int256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        let abc = T(x64: X(~0, ~1, ~2, ~3))
+        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.twosComplement()
+            _blackHole(abc.twosComplement())
         }
     }
 }
@@ -80,13 +81,13 @@ final class UInt256BenchmarksOnComplements: XCTestCase {
         
     func testInitBitPattern() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(bitPattern: M.max)
+            _blackHole(T(bitPattern: M.max))
         }
     }
     
     func testValueAsBitPattern() {
         for _ in 0 ..< 1_000_000 {
-            _ = T.max.bitPattern
+            _blackHole(T.max.bitPattern)
         }
     }
     
@@ -95,10 +96,10 @@ final class UInt256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        let abc = T(x64: X(~0, ~1, ~2, ~3))
+        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.magnitude
+            _blackHole(abc.magnitude)
         }
     }
     
@@ -107,10 +108,10 @@ final class UInt256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        let abc = T(x64: X(~0, ~1, ~2, ~3))
+        let abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.twosComplement()
+            _blackHole(abc.twosComplement())
         }
     }
 }

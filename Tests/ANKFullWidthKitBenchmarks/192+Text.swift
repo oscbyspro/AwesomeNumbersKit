@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
@@ -27,8 +28,8 @@ final class Int192BenchmarksOnText: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
 
-    static let number = T(decoding:    source, radix: 16)!
-    static let source = String(repeating: "1", count: 48)
+    static let number = _blackHoleIdentity(T(decoding:    source, radix: 16)!)
+    static let source = _blackHoleIdentity(String(repeating: "1", count: 48) )
 
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -36,25 +37,25 @@ final class Int192BenchmarksOnText: XCTestCase {
     
     func testDecodingRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = T(decoding: Self.source, radix: 10)!
+            _blackHole(T(decoding: Self.source, radix: 10)!)
         }
     }
     
     func testDecodingRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = T(decoding: Self.source, radix: 16)!
+            _blackHole(T(decoding: Self.source, radix: 16)!)
         }
     }
     
     func testEncodingRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = String(encoding: Self.number, radix: 10)
+            _blackHole(String(encoding: Self.number, radix: 10))
         }
     }
     
     func testEncodingRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = String(encoding: Self.number, radix: 16)
+            _blackHole(String(encoding: Self.number, radix: 16))
         }
     }
     
@@ -64,25 +65,25 @@ final class Int192BenchmarksOnText: XCTestCase {
     
     func testDecodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = T(Self.source, radix: 10)!
+            _blackHole(T(Self.source, radix: 10)!)
         }
     }
     
     func testDecodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = T(Self.source, radix: 16)!
+            _blackHole(T(Self.source, radix: 16)!)
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = String(Self.number, radix: 10)
+            _blackHole(String(Self.number, radix: 10))
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = String(Self.number, radix: 16)
+            _blackHole(String(Self.number, radix: 16))
         }
     }
 }
@@ -99,8 +100,8 @@ final class UInt192BenchmarksOnText: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
 
-    static let number = T(decoding:    source, radix: 16)!
-    static let source = String(repeating: "1", count: 48)
+    static let number = _blackHoleIdentity(T(decoding:    source, radix: 16)!)
+    static let source = _blackHoleIdentity(String(repeating: "1", count: 48) )
 
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -108,25 +109,25 @@ final class UInt192BenchmarksOnText: XCTestCase {
     
     func testDecodingRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = T(decoding: Self.source, radix: 10)!
+            _blackHole(T(decoding: Self.source, radix: 10)!)
         }
     }
     
     func testDecodingRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = T(decoding: Self.source, radix: 16)!
+            _blackHole(T(decoding: Self.source, radix: 16)!)
         }
     }
     
     func testEncodingRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = String(encoding: Self.number, radix: 10)
+            _blackHole(String(encoding: Self.number, radix: 10))
         }
     }
     
     func testEncodingRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = String(encoding: Self.number, radix: 16)
+            _blackHole(String(encoding: Self.number, radix: 16))
         }
     }
     
@@ -136,25 +137,25 @@ final class UInt192BenchmarksOnText: XCTestCase {
     
     func testDecodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = T(Self.source, radix: 10)!
+            _blackHole(T(Self.source, radix: 10)!)
         }
     }
     
     func testDecodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = T(Self.source, radix: 16)!
+            _blackHole(T(Self.source, radix: 16)!)
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = String(Self.number, radix: 10)
+            _blackHole(String(Self.number, radix: 10))
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = String(Self.number, radix: 16)
+            _blackHole(String(Self.number, radix: 16))
         }
     }
 }

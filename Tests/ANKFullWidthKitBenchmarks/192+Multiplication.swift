@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
@@ -28,29 +29,29 @@ final class Int192BenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultiplied() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = T(x64: X(3, 0, 0))
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(T(x64: X(3, 0, 0)))
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs * rhs
+            _blackHole(lhs * rhs)
         }
     }
     
     func testMultipliedReportingOverflow() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = T(x64: X(3, 0, 0))
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(T(x64: X(3, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedReportingOverflow(by: rhs)
+            _blackHole(lhs.multipliedReportingOverflow(by: rhs))
         }
     }
     
     func testMultipliedFullWidth() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = T(x64: X(3, 0, 0))
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(T(x64: X(3, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedFullWidth(by: rhs)
+            _blackHole(lhs.multipliedFullWidth(by: rhs))
         }
     }
     
@@ -59,29 +60,29 @@ final class Int192BenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultipliedByDigit() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = Int.max
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs * rhs
+            _blackHole(lhs * rhs)
         }
     }
     
     func testMultipliedByDigitReportingOverflow() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = Int.max
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedReportingOverflow(by: rhs)
+            _blackHole(lhs.multipliedReportingOverflow(by: rhs))
         }
     }
     
     func testMultipliedByDigitFullWidth() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = Int.max
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedFullWidth(by: rhs)
+            _blackHole(lhs.multipliedFullWidth(by: rhs))
         }
     }
 }
@@ -99,29 +100,29 @@ final class UInt192BenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultiplied() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = T(x64: X(3, 0, 0))
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(T(x64: X(3, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs * rhs
+            _blackHole(lhs * rhs)
         }
     }
     
     func testMultipliedReportingOverflow() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = T(x64: X(3, 0, 0))
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(T(x64: X(3, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedReportingOverflow(by: rhs)
+            _blackHole(lhs.multipliedReportingOverflow(by: rhs))
         }
     }
     
     func testMultipliedFullWidth() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = T(x64: X(3, 0, 0))
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(T(x64: X(3, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedFullWidth(by: rhs)
+            _blackHole(lhs.multipliedFullWidth(by: rhs))
         }
     }
     
@@ -130,29 +131,29 @@ final class UInt192BenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultipliedByDigit() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = UInt.max
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs * rhs
+            _blackHole(lhs * rhs)
         }
     }
     
     func testMultipliedByDigitReportingOverflow() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = UInt.max
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedReportingOverflow(by: rhs)
+            _blackHole(lhs.multipliedReportingOverflow(by: rhs))
         }
     }
     
     func testMultipliedByDigitFullWidth() {
-        let lhs = T(x64: X(3, 3, 0))
-        let rhs = UInt.max
+        let lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
+        let rhs = _blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedFullWidth(by: rhs)
+            _blackHole(lhs.multipliedFullWidth(by: rhs))
         }
     }
 }

@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
@@ -27,29 +28,29 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultiplied() {
-        let lhs = T(4, as: .plus )
-        let rhs = T(4, as: .minus)
+        let lhs = _blackHoleIdentity(T(4, as: .plus ))
+        let rhs = _blackHoleIdentity(T(4, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs * rhs
+            _blackHole(lhs * rhs)
         }
     }
     
     func testMultipliedReportingOverflow() {
-        let lhs = T(4, as: .plus )
-        let rhs = T(4, as: .minus)
+        let lhs = _blackHoleIdentity(T(4, as: .plus ))
+        let rhs = _blackHoleIdentity(T(4, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedReportingOverflow(by: rhs)
+            _blackHole(lhs.multipliedReportingOverflow(by: rhs))
         }
     }
     
     func testMultipliedFullWidth() {
-        let lhs = T(4, as: .plus )
-        let rhs = T(4, as: .minus)
+        let lhs = _blackHoleIdentity(T(4, as: .plus ))
+        let rhs = _blackHoleIdentity(T(4, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedFullWidth(by: rhs)
+            _blackHole(lhs.multipliedFullWidth(by: rhs))
         }
     }
     
@@ -58,29 +59,29 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultipliedByDigit() {
-        let lhs = T(4, as: .plus )
-        let rhs = D(4, as: .minus)
+        let lhs = _blackHoleIdentity(T(4, as: .plus ))
+        let rhs = _blackHoleIdentity(D(4, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs * rhs
+            _blackHole(lhs * rhs)
         }
     }
     
     func testMultipliedByDigitReportingOverflow() {
-        let lhs = T(4, as: .plus )
-        let rhs = D(4, as: .minus)
+        let lhs = _blackHoleIdentity(T(4, as: .plus ))
+        let rhs = _blackHoleIdentity(D(4, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedReportingOverflow(by: rhs)
+            _blackHole(lhs.multipliedReportingOverflow(by: rhs))
         }
     }
     
     func testMultipliedByDigitFullWidth() {
-        let lhs = T(4, as: .plus )
-        let rhs = D(4, as: .minus)
+        let lhs = _blackHoleIdentity(T(4, as: .plus ))
+        let rhs = _blackHoleIdentity(D(4, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.multipliedFullWidth(by: rhs)
+            _blackHole(lhs.multipliedFullWidth(by: rhs))
         }
     }
 }

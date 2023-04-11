@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
@@ -26,8 +27,8 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    static let number = T(decoding:    source, radix: 16)!
-    static let source = String(repeating: "1", count: 64)
+    static let number = _blackHoleIdentity(T(decoding:    source, radix: 16)!)
+    static let source = _blackHoleIdentity(String(repeating: "1", count: 64) )
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -35,25 +36,25 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
     
     func testDecodingRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = T(decoding: Self.source, radix: 10)!
+            _blackHole(T(decoding: Self.source, radix: 10)!)
         }
     }
     
     func testDecodingRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = T(decoding: Self.source, radix: 16)!
+            _blackHole(T(decoding: Self.source, radix: 16)!)
         }
     }
     
     func testEncodingRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = String(encoding: Self.number, radix: 10)
+            _blackHole(String(encoding: Self.number, radix: 10))
         }
     }
     
     func testEncodingRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = String(encoding: Self.number, radix: 16)
+            _blackHole(String(encoding: Self.number, radix: 16))
         }
     }
     
@@ -63,25 +64,25 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
     
     func testDecodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = T.Magnitude(Self.source, radix: 10)!
+            _blackHole(T.Magnitude(Self.source, radix: 10)!)
         }
     }
     
     func testDecodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = T.Magnitude(Self.source, radix: 16)!
+            _blackHole(T.Magnitude(Self.source, radix: 16)!)
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
-            _ = String(Self.number.magnitude, radix: 10)
+            _blackHole(String(Self.number.magnitude, radix: 10))
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
-            _ = String(Self.number.magnitude, radix: 16)
+            _blackHole(String(Self.number.magnitude, radix: 16))
         }
     }
 }

@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
@@ -27,12 +28,12 @@ final class ANKSignedBenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        let abc = T.max
-        let xyz = T.min
+        let abc = _blackHoleIdentity(T.max)
+        let xyz = _blackHoleIdentity(T.min)
 
         for _ in 0 ..< 1_000_000 {
-            _ = abc.magnitude
-            _ = xyz.magnitude
+            _blackHole(abc.magnitude)
+            _blackHole(xyz.magnitude)
         }
     }
 }

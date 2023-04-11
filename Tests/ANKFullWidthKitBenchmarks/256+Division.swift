@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
@@ -29,29 +30,29 @@ final class Int256BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testQuotientAndRemainder() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.quotientAndRemainder(dividingBy: rhs)
+            _blackHole(lhs.quotientAndRemainder(dividingBy: rhs))
         }
     }
     
     func testQuotientReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.dividedReportingOverflow(by: rhs)
+            _blackHole(lhs.dividedReportingOverflow(by: rhs))
         }
     }
     
     func testRemainderReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.remainderReportingOverflow(dividingBy: rhs)
+            _blackHole(lhs.remainderReportingOverflow(dividingBy: rhs))
         }
     }
     
@@ -60,29 +61,29 @@ final class Int256BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testQuotientAndRemainderDividingByDigit() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = Int.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.quotientAndRemainder(dividingBy: rhs)
+            _blackHole(lhs.quotientAndRemainder(dividingBy: rhs))
         }
     }
     
     func testQuotientDividingByDigitReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = Int.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(Int.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.dividedReportingOverflow(by: rhs)
+            _blackHole(lhs.dividedReportingOverflow(by: rhs))
         }
     }
     
     func testRemainderDividingByDigitReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = Int.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(Int.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.remainderReportingOverflow(dividingBy: rhs)
+            _blackHole(lhs.remainderReportingOverflow(dividingBy: rhs))
         }
     }
     
@@ -91,11 +92,11 @@ final class Int256BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingFullWidth() {
-        let lhs = (T.max)
-        let rhs = (T.max, M.max)
+        let lhs = _blackHoleIdentity((T.max))
+        let rhs = _blackHoleIdentity((T.max, M.max))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.dividingFullWidth(rhs)
+            _blackHole(lhs.dividingFullWidth(rhs))
         }
     }
 }
@@ -114,29 +115,29 @@ final class UInt256BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testQuotientAndRemainder() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.quotientAndRemainder(dividingBy: rhs)
+            _blackHole(lhs.quotientAndRemainder(dividingBy: rhs))
         }
     }
     
     func testQuotientReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.dividedReportingOverflow(by: rhs)
+            _blackHole(lhs.dividedReportingOverflow(by: rhs))
         }
     }
     
     func testRemainderReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.remainderReportingOverflow(dividingBy: rhs)
+            _blackHole(lhs.remainderReportingOverflow(dividingBy: rhs))
         }
     }
     
@@ -145,29 +146,29 @@ final class UInt256BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testQuotientAndRemainderDividingByDigit() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = UInt.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.quotientAndRemainder(dividingBy: rhs)
+            _blackHole(lhs.quotientAndRemainder(dividingBy: rhs))
         }
     }
     
     func testQuotientDividingByDigitReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = UInt.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(UInt.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.dividedReportingOverflow(by: rhs)
+            _blackHole(lhs.dividedReportingOverflow(by: rhs))
         }
     }
     
     func testRemainderDividingByDigitReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = UInt.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(UInt.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.remainderReportingOverflow(dividingBy: rhs)
+            _blackHole(lhs.remainderReportingOverflow(dividingBy: rhs))
         }
     }
     
@@ -176,11 +177,11 @@ final class UInt256BenchmarksOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingFullWidth() {
-        let lhs = (T.max)
-        let rhs = (T.max, M.max)
+        let lhs = _blackHoleIdentity((T.max))
+        let rhs = _blackHoleIdentity((T.max, M.max))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.dividingFullWidth(rhs)
+            _blackHole(lhs.dividingFullWidth(rhs))
         }
     }
 }

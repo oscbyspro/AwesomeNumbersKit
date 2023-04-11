@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
@@ -27,18 +28,18 @@ final class ANKSignedBenchmarksOnNegation: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNegated() {
-        let abc = T.max
+        let abc = _blackHoleIdentity(T.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = -abc
+            _blackHole(-abc)
         }
     }
     
     func testNegatedReportingOverflow() {
-        let abc = T.max
+        let abc = _blackHoleIdentity(T.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.negatedReportingOverflow()
+            _blackHole(abc.negatedReportingOverflow())
         }
     }
 }

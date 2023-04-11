@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
@@ -28,32 +29,32 @@ final class Int192BenchmarksOnBits: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNonzeroBitCount() {
-        let abc =  T(x64: X(0, 0, 0))
-        let xyz = ~T(x64: X(0, 0, 0))
+        let abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
+        let xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.nonzeroBitCount
-            _ = xyz.nonzeroBitCount
+            _blackHole(abc.nonzeroBitCount)
+            _blackHole(xyz.nonzeroBitCount)
         }
     }
     
     func testLeadingZeroBitCount() {
-        let abc =  T(x64: X(0, 0, 0))
-        let xyz = ~T(x64: X(0, 0, 0))
+        let abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
+        let xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.leadingZeroBitCount
-            _ = xyz.leadingZeroBitCount
+            _blackHole(abc.leadingZeroBitCount)
+            _blackHole(xyz.leadingZeroBitCount)
         }
     }
     
     func testTrailingZeroBitCount() {
-        let abc =  T(x64: X(0, 0, 0))
-        let xyz = ~T(x64: X(0, 0, 0))
+        let abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
+        let xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.trailingZeroBitCount
-            _ = xyz.trailingZeroBitCount
+            _blackHole(abc.trailingZeroBitCount)
+            _blackHole(xyz.trailingZeroBitCount)
         }
     }
 }
@@ -71,32 +72,32 @@ final class UInt192BenchmarksOnBits: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNonzeroBitCount() {
-        let abc =  T(x64: X(0, 0, 0))
-        let xyz = ~T(x64: X(0, 0, 0))
+        let abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
+        let xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.nonzeroBitCount
-            _ = xyz.nonzeroBitCount
+            _blackHole(abc.nonzeroBitCount)
+            _blackHole(xyz.nonzeroBitCount)
         }
     }
     
     func testLeadingZeroBitCount() {
-        let abc =  T(x64: X(0, 0, 0))
-        let xyz = ~T(x64: X(0, 0, 0))
+        let abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
+        let xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.leadingZeroBitCount
-            _ = xyz.leadingZeroBitCount
+            _blackHole(abc.leadingZeroBitCount)
+            _blackHole(xyz.leadingZeroBitCount)
         }
     }
     
     func testTrailingZeroBitCount() {
-        let abc =  T(x64: X(0, 0, 0))
-        let xyz = ~T(x64: X(0, 0, 0))
+        let abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
+        let xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = abc.trailingZeroBitCount
-            _ = xyz.trailingZeroBitCount
+            _blackHole(abc.trailingZeroBitCount)
+            _blackHole(xyz.trailingZeroBitCount)
         }
     }
 }

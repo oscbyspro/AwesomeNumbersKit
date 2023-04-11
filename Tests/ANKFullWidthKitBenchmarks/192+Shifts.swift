@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
@@ -28,20 +29,20 @@ final class Int192BenchmarksOnShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeft() {
-        let lhs = T(x64: X(~0, ~1, ~2))
-        let rhs = UInt.bitWidth * 3/2
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs << rhs
+            _blackHole(lhs << rhs)
         }
     }
     
     func testBitshiftingLeftByMasking() {
-        let lhs = T(x64: X(~0, ~1, ~2))
-        let rhs = UInt.bitWidth * 3/2
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs &<< rhs
+            _blackHole(lhs &<< rhs)
         }
     }
     
@@ -50,20 +51,20 @@ final class Int192BenchmarksOnShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingRight() {
-        let lhs = T(x64: X(~0, ~1, ~2))
-        let rhs = UInt.bitWidth * 3/2
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs >> rhs
+            _blackHole(lhs >> rhs)
         }
     }
     
     func testBitshiftingRightByMasking() {
-        let lhs = T(x64: X(~0, ~1, ~2))
-        let rhs = UInt.bitWidth * 3/2
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
                 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs &>> rhs
+            _blackHole(lhs &>> rhs)
         }
     }
 }
@@ -81,20 +82,20 @@ final class UInt192BenchmarksOnShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingLeft() {
-        let lhs = T(x64: X(~0, ~1, ~2))
-        let rhs = UInt.bitWidth * 3/2
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs << rhs
+            _blackHole(lhs << rhs)
         }
     }
     
     func testBitshiftingLeftByMasking() {
-        let lhs = T(x64: X(~0, ~1, ~2))
-        let rhs = UInt.bitWidth * 3/2
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs &<< rhs
+            _blackHole(lhs &<< rhs)
         }
     }
     
@@ -103,20 +104,20 @@ final class UInt192BenchmarksOnShifts: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testBitshiftingRight() {
-        let lhs = T(x64: X(~0, ~1, ~2))
-        let rhs = UInt.bitWidth * 3/2
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs >> rhs
+            _blackHole(lhs >> rhs)
         }
     }
     
     func testBitshiftingRightByMasking() {
-        let lhs = T(x64: X(~0, ~1, ~2))
-        let rhs = UInt.bitWidth * 3/2
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        let rhs = _blackHoleIdentity(UInt.bitWidth * 3/2)
                 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs &>> rhs
+            _blackHole(lhs &>> rhs)
         }
     }
 }

@@ -31,112 +31,112 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInt() {
-        let abc = Int.max
+        let abc = _blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testUInt() {
-        let abc = UInt.max
+        let abc = _blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testInt8() {
-        let abc = Int8.max
+        let abc = _blackHoleIdentity(Int8.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testUInt8() {
-        let abc = UInt8.max
+        let abc = _blackHoleIdentity(UInt8.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testInt16() {
-        let abc = Int16.max
+        let abc = _blackHoleIdentity(Int16.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testUInt16() {
-        let abc = UInt16.max
+        let abc = _blackHoleIdentity(UInt16.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testInt32() {
-        let abc = Int32.max
+        let abc = _blackHoleIdentity(Int32.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testUInt32() {
-        let abc = UInt32.max
+        let abc = _blackHoleIdentity(UInt32.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testInt64() {
-        let abc = Int64.max
+        let abc = _blackHoleIdentity(Int64.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testUInt64() {
-        let abc = UInt64.max
+        let abc = _blackHoleIdentity(UInt64.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
@@ -145,20 +145,20 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testFloat32() {
-        let abc = Float32(UInt32.max)
+        let abc = _blackHoleIdentity(Float32(UInt32.max))
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
         }
     }
     
     func testFloat64() {
-        let abc = Float64(UInt64.max)
+        let abc = _blackHoleIdentity(Float64(UInt64.max))
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
         }
     }
     
@@ -167,24 +167,24 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSignitude() {
-        let abc = S(x64: X(0, 1, 2, 3))
+        let abc = _blackHoleIdentity(S(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testMagnitude() {
-        let abc = M(x64: X(0, 1, 2, 3))
+        let abc = _blackHoleIdentity(M(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
@@ -193,21 +193,21 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSignedMagnitude() {
-        let abc = ANKSigned(M(x64: X(0, 1, 2, 3)), as: .plus )
-        let xyz = ANKSigned(M(x64: X(0, 1, 2, 3)), as: .minus)
+        let abc = _blackHoleIdentity(ANKSigned(M(x64: X(0, 1, 2, 3)), as: .plus ))
+        let xyz = _blackHoleIdentity(ANKSigned(M(x64: X(0, 1, 2, 3)), as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(xyz)
+            _blackHole(T(abc))
+            _blackHole(T(xyz))
 
-            _ = T(exactly:  abc)
-            _ = T(exactly:  xyz)
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(exactly:  xyz))
 
-            _ = T(clamping: abc)
-            _ = T(clamping: xyz)
+            _blackHole(T(clamping: abc))
+            _blackHole(T(clamping: xyz))
             
-            _ = T(truncatingIfNeeded: abc)
-            _ = T(truncatingIfNeeded: xyz)
+            _blackHole(T(truncatingIfNeeded: abc))
+            _blackHole(T(truncatingIfNeeded: xyz))
         }
     }
 }
@@ -227,112 +227,112 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInt() {
-        let abc = Int.max
+        let abc = _blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testUInt() {
-        let abc = UInt.max
+        let abc = _blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testInt8() {
-        let abc = Int8.max
+        let abc = _blackHoleIdentity(Int8.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testUInt8() {
-        let abc = UInt8.max
+        let abc = _blackHoleIdentity(UInt8.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testInt16() {
-        let abc = Int16.max
+        let abc = _blackHoleIdentity(Int16.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testUInt16() {
-        let abc = UInt16.max
+        let abc = _blackHoleIdentity(UInt16.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testInt32() {
-        let abc = Int32.max
+        let abc = _blackHoleIdentity(Int32.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testUInt32() {
-        let abc = UInt32.max
+        let abc = _blackHoleIdentity(UInt32.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testInt64() {
-        let abc = Int64.max
+        let abc = _blackHoleIdentity(Int64.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testUInt64() {
-        let abc = UInt64.max
+        let abc = _blackHoleIdentity(UInt64.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
@@ -341,20 +341,20 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testFloat32() {
-        let abc = Float32(UInt32.max)
+        let abc = _blackHoleIdentity(Float32(UInt32.max))
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
         }
     }
     
     func testFloat64() {
-        let abc = Float64(UInt64.max)
+        let abc = _blackHoleIdentity(Float64(UInt64.max))
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
         }
     }
     
@@ -363,24 +363,24 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSignitude() {
-        let abc = S(x64: X(0, 1, 2, 3))
+        let abc = _blackHoleIdentity(S(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
     func testMagnitude() {
-        let abc = M(x64: X(0, 1, 2, 3))
+        let abc = _blackHoleIdentity(M(x64: X(0, 1, 2, 3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = T(exactly:  abc)
-            _ = T(clamping: abc)
-            _ = T(truncatingIfNeeded: abc)
+            _blackHole(T(abc))
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(clamping: abc))
+            _blackHole(T(truncatingIfNeeded: abc))
         }
     }
     
@@ -389,21 +389,21 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSignedMagnitude() {
-        let abc = ANKSigned(M(x64: X(0, 1, 2, 3)), as: .plus )
-        let xyz = ANKSigned(M(x64: X(0, 1, 2, 3)), as: .minus)
+        let abc = _blackHoleIdentity(ANKSigned(M(x64: X(0, 1, 2, 3)), as: .plus ))
+        let xyz = _blackHoleIdentity(ANKSigned(M(x64: X(0, 1, 2, 3)), as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _ = T(abc)
-            _ = /*-*/
+            _blackHole(T(abc))
+            _blackHole((    ))
 
-            _ = T(exactly:  abc)
-            _ = T(exactly:  xyz)
+            _blackHole(T(exactly:  abc))
+            _blackHole(T(exactly:  xyz))
 
-            _ = T(clamping: abc)
-            _ = T(clamping: xyz)
+            _blackHole(T(clamping: abc))
+            _blackHole(T(clamping: xyz))
             
-            _ = T(truncatingIfNeeded: abc)
-            _ = T(truncatingIfNeeded: xyz)
+            _blackHole(T(truncatingIfNeeded: abc))
+            _blackHole(T(truncatingIfNeeded: xyz))
         }
     }
 }

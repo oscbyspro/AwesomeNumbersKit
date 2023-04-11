@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
@@ -28,29 +29,29 @@ final class Int256BenchmarksOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAdding() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs + rhs
+            _blackHole(lhs + rhs)
         }
     }
     
     func testAddingWrappingAround() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs &+ rhs
+            _blackHole(lhs &+ rhs)
         }
     }
     
     func testAddingReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.addingReportingOverflow(rhs)
+            _blackHole(lhs.addingReportingOverflow(rhs))
         }
     }
     
@@ -59,29 +60,29 @@ final class Int256BenchmarksOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAddingDigit() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = Int.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
-             _ = lhs + rhs
+             _blackHole(lhs + rhs)
         }
     }
     
     func testAddingDigitWrappingAround() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = Int.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(Int.max)
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs &+ rhs
+            _blackHole(lhs &+ rhs)
         }
     }
     
     func testAddingDigitReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = Int.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.addingReportingOverflow(rhs)
+            _blackHole(lhs.addingReportingOverflow(rhs))
         }
     }
 }
@@ -99,29 +100,29 @@ final class UInt256BenchmarksOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAdding() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs + rhs
+            _blackHole(lhs + rhs)
         }
     }
     
     func testAddingWrappingAround() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
 
         for _ in 0 ..< 1_000_000 {
-            _ = lhs &+ rhs
+            _blackHole(lhs &+ rhs)
         }
     }
     
     func testAddingReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = T(x64: X( 0,  1,  2,  3))
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.addingReportingOverflow(rhs)
+            _blackHole(lhs.addingReportingOverflow(rhs))
         }
     }
     
@@ -130,29 +131,29 @@ final class UInt256BenchmarksOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAddingDigit() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = UInt.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs + rhs
+            _blackHole(lhs + rhs)
         }
     }
     
     func testAddingDigitWrappingAround() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = UInt.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs &+ rhs
+            _blackHole(lhs &+ rhs)
         }
     }
     
     func testAddingDigitReportingOverflow() {
-        let lhs = T(x64: X(~0, ~1, ~2, ~3))
-        let rhs = UInt.max
+        let lhs = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        let rhs = _blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _ = lhs.addingReportingOverflow(rhs)
+            _blackHole(lhs.addingReportingOverflow(rhs))
         }
     }
 }

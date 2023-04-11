@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
@@ -28,11 +29,11 @@ final class Int256BenchmarksOnRandom: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testRandomInRangeUsingSystemRandomNumberGenerator() {
-        let range = (T.min / 2) ... (T.max / 2)
-        var randomness = SystemRandomNumberGenerator()
+        let range = _blackHoleIdentity((T.min / 2) ... (T.max / 2))
+        var randomness = _blackHoleIdentity(SystemRandomNumberGenerator())
         
         for _ in 0 ..< 50_000 {
-            _ = T.random(in: range, using: &randomness)
+            _blackHole(T.random(in: range, using: &randomness))
         }
     }
 }
@@ -50,11 +51,11 @@ final class UInt256BenchmarksOnRandom: XCTestCase {
     //=------------------------------------------------------------------------=
 
     func testRandomInRangeUsingSystemRandomNumberGenerator() {
-        let range = (T.min / 2) ... (T.max / 2)
-        var randomness = SystemRandomNumberGenerator()
+        let range = _blackHoleIdentity((T.min / 2) ... (T.max / 2))
+        var randomness = _blackHoleIdentity(SystemRandomNumberGenerator())
         
         for _ in 0 ..< 50_000 {
-            _ = T.random(in: range, using: &randomness)
+            _blackHole(T.random(in: range, using: &randomness))
         }
     }
 }

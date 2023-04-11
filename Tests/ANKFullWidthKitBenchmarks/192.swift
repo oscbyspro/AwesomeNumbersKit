@@ -9,6 +9,7 @@
 
 #if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
@@ -30,19 +31,19 @@ final class Int192Benchmarks: XCTestCase {
     
     func testInit() {
         for _ in 0 ..< 1_000_000 {
-            _ = T()
+            _blackHole(T())
         }
     }
     
     func testInitX64() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(x64: X(1, 2, 3))
+            _blackHole(T(x64: X(1, 2, 3)))
         }
     }
 
     func testInitX32() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(x32: Y(1, 2, 3, 4, 5, 6))
+            _blackHole(T(x32: Y(1, 2, 3, 4, 5, 6)))
         }
     }
     
@@ -52,13 +53,13 @@ final class Int192Benchmarks: XCTestCase {
     
     func testInitBit() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(bit: true)
+            _blackHole(T(bit: true))
         }
     }
     
     func testInitRepeatingBit() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(repeating: true)
+            _blackHole(T(repeating: true))
         }
     }
     
@@ -68,19 +69,19 @@ final class Int192Benchmarks: XCTestCase {
     
     @inlinable func testInitMin() {
         for _ in 0 ..< 1_000_000 {
-            _ = T.min
+            _blackHole(T.min)
         }
     }
     
     @inlinable func testInitMax() {
         for _ in 0 ..< 1_000_000 {
-            _ = T.max
+            _blackHole(T.max)
         }
     }
     
     @inlinable func testInitZero() {
         for _ in 0 ..< 1_000_000 {
-            _ = T.zero
+            _blackHole(T.zero)
         }
     }
     
@@ -90,13 +91,13 @@ final class Int192Benchmarks: XCTestCase {
     
     func testInitAscending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(ascending:  (T.Low(), T.High()))
+            _blackHole(T(ascending:  (T.Low(), T.High())))
         }
     }
     
     func testInitDescending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(descending: (T.High(), T.Low()))
+            _blackHole(T(descending: (T.High(), T.Low())))
         }
     }
 }
@@ -116,19 +117,19 @@ final class UInt192Benchmarks: XCTestCase {
     
     func testInit() {
         for _ in 0 ..< 1_000_000 {
-            _ = T()
+            _blackHole(T())
         }
     }
     
     func testInitX64() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(x64: X(1, 2, 3))
+            _blackHole(T(x64: X(1, 2, 3)))
         }
     }
 
     func testInitX32() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(x32: Y(1, 2, 3, 4, 5, 6))
+            _blackHole(T(x32: Y(1, 2, 3, 4, 5, 6)))
         }
     }
     
@@ -138,13 +139,13 @@ final class UInt192Benchmarks: XCTestCase {
     
     func testInitBit() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(bit: true)
+            _blackHole(T(bit: true))
         }
     }
     
     func testInitRepeatingBit() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(repeating: true)
+            _blackHole(T(repeating: true))
         }
     }
     
@@ -154,19 +155,19 @@ final class UInt192Benchmarks: XCTestCase {
     
     @inlinable func testInitMin() {
         for _ in 0 ..< 1_000_000 {
-            _ = T.min
+            _blackHole(T.min)
         }
     }
     
     @inlinable func testInitMax() {
         for _ in 0 ..< 1_000_000 {
-            _ = T.max
+            _blackHole(T.max)
         }
     }
     
     @inlinable func testInitZero() {
         for _ in 0 ..< 1_000_000 {
-            _ = T.zero
+            _blackHole(T.zero)
         }
     }
     
@@ -176,13 +177,13 @@ final class UInt192Benchmarks: XCTestCase {
 
     func testInitAscending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(ascending:  (T.Low(), T.High()))
+            _blackHole(T(ascending:  (T.Low(), T.High())))
         }
     }
     
     func testInitDescending() {
         for _ in 0 ..< 1_000_000 {
-            _ = T(descending: (T.High(), T.Low()))
+            _blackHole(T(descending: (T.High(), T.Low())))
         }
     }
 }

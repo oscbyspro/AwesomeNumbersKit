@@ -163,7 +163,7 @@ extension ANKFullWidth where High == High.Magnitude {
         }
         //=--------------------------------------=
         let dividend_ = self.minLastIndexReportingIsZeroOrMinusOne()
-        let minLastIndexGap: Int = dividend_.minLastIndex &- divisor_.minLastIndex
+        let minLastIndexGapSize: Int = dividend_.minLastIndex &- divisor_.minLastIndex
         let shift: Int = divisor[unchecked: divisor_.minLastIndex].leadingZeroBitCount
         //=--------------------------------------=
         // Shift To Clamp Approximation
@@ -172,7 +172,7 @@ extension ANKFullWidth where High == High.Magnitude {
         remainder._bitshiftLeft(words: Int(), bits:  shift)
         
         var increment = Plus1(descending: HL(UInt(), divisor))
-        increment.low._bitshiftLeft(words: minLastIndexGap, bits: shift)
+        increment.low._bitshiftLeft(words: minLastIndexGapSize, bits: shift)
         
         let discriminant: UInt = increment.low[unchecked: dividend_.minLastIndex]
         assert(discriminant.mostSignificantBit)
@@ -181,8 +181,8 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         let quotient = Self.fromUnsafeMutableWords { QUOTIENT in
             QUOTIENT.base.update(repeating: UInt(), count: QUOTIENT.count)
-            //=--------------------------------------=
-            var  quotientIndex: Int = 1 &+ minLastIndexGap
+            //=----------------------------------=
+            var  quotientIndex: Int = 1 &+ minLastIndexGapSize
             var remainderIndex: Int = 1 &+ dividend_.minLastIndex
             //=----------------------------------=
             backwards: while quotientIndex != QUOTIENT.startIndex {
@@ -192,7 +192,7 @@ extension ANKFullWidth where High == High.Magnitude {
                 //=------------------------------=
                 var digit: UInt = remainder.withUnsafeWords { REMAINDER in
                     let  remainderLast0  = REMAINDER[remainderIndex]
-                    REMAINDER.formIndex(before:     &remainderIndex)
+                    REMAINDER.formIndex(before:/*-*/&remainderIndex)
                     if   remainderLast0 >= discriminant { return UInt.max }
                     let  remainderLast1  = REMAINDER[remainderIndex]
                     return discriminant.dividingFullWidth(HL(remainderLast0, remainderLast1)).quotient
@@ -211,7 +211,6 @@ extension ANKFullWidth where High == High.Magnitude {
                 //=------------------------------=
                 remainder &-= approximation
                 QUOTIENT[quotientIndex] = digit
-                //=------------------------------=
                 increment.low._bitshiftRight(words: 1, bits: Int())
             }
         }
