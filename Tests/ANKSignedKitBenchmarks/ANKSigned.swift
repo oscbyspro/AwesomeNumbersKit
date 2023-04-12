@@ -47,11 +47,15 @@ final class ANKSignedBenchmarks: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitBit() {
-        var abc = _blackHoleIdentity(true)
+        var abc = _blackHoleIdentity(true )
+        var xyz = _blackHoleIdentity(false)
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(T(bit: abc))
+            _blackHole(T(bit: xyz))
+            
             _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&xyz)
         }
     }
     

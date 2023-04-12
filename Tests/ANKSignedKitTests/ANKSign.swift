@@ -14,7 +14,7 @@ import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * ANK x Sign x Tests
+// MARK: * ANK x Sign
 //*============================================================================*
 
 final class ANKSignTests: XCTestCase {
@@ -25,12 +25,12 @@ final class ANKSignTests: XCTestCase {
     // MARK: Tests x Initializers
     //=------------------------------------------------------------------------=
     
-    func testInitWithBit() {
+    func testInitBit() {
         XCTAssertEqual(T(false), T.plus )
         XCTAssertEqual(T(true ), T.minus)
     }
     
-    func testInitWithFloatingPointSign() {
+    func testInitFloatingPointSign() {
         XCTAssertEqual(T(FloatingPointSign.plus ), T.plus )
         XCTAssertEqual(T(FloatingPointSign.minus), T.minus)
     }
