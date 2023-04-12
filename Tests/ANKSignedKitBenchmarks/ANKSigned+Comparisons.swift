@@ -33,9 +33,9 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs < rhs)
-            _blackHoleInoutIdentity(&lhs)
-
             _blackHole(rhs < lhs)
+            
+            _blackHoleInoutIdentity(&lhs)
             _blackHoleInoutIdentity(&rhs)
         }
     }
@@ -50,9 +50,9 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isZero)
-            _blackHoleInoutIdentity(&abc)
-
             _blackHole(xyz.isZero)
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }
@@ -63,9 +63,9 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isLessThanZero)
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.isLessThanZero)
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }
@@ -76,9 +76,9 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isMoreThanZero)
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.isMoreThanZero)
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }

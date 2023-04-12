@@ -34,9 +34,9 @@ final class Int192BenchmarksOnBits: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.nonzeroBitCount)
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.nonzeroBitCount)
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }
@@ -47,9 +47,9 @@ final class Int192BenchmarksOnBits: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.leadingZeroBitCount)
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.leadingZeroBitCount)
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }
@@ -60,9 +60,9 @@ final class Int192BenchmarksOnBits: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.trailingZeroBitCount)
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.trailingZeroBitCount)
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }
@@ -86,9 +86,9 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.nonzeroBitCount)
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.nonzeroBitCount)
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }
@@ -99,9 +99,9 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.leadingZeroBitCount)
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.leadingZeroBitCount)
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }
@@ -112,9 +112,9 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.trailingZeroBitCount)
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.trailingZeroBitCount)
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }

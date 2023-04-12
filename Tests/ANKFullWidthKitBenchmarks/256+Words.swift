@@ -34,9 +34,9 @@ final class Int256BenchmarksOnWords: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.minLastIndexReportingIsZeroOrMinusOne())
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.minLastIndexReportingIsZeroOrMinusOne())
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }
@@ -47,9 +47,9 @@ final class Int256BenchmarksOnWords: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.minWordCountReportingIsZeroOrMinusOne())
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.minWordCountReportingIsZeroOrMinusOne())
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }
@@ -73,9 +73,9 @@ final class UInt256BenchmarksOnWords: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.minLastIndexReportingIsZeroOrMinusOne())
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.minLastIndexReportingIsZeroOrMinusOne())
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }
@@ -86,9 +86,9 @@ final class UInt256BenchmarksOnWords: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.minWordCountReportingIsZeroOrMinusOne())
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.minWordCountReportingIsZeroOrMinusOne())
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }

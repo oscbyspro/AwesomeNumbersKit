@@ -27,7 +27,7 @@ final class Int256TestsOnNumbers: XCTestCase {
     typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Int
+    // MARK: Tests x Int, Digit
     //=------------------------------------------------------------------------=
     
     func testFromInt() {
@@ -42,6 +42,11 @@ final class Int256TestsOnNumbers: XCTestCase {
         
         XCTAssertEqual(T(truncatingIfNeeded: Int.min), T(x64: X(UInt64(truncatingIfNeeded: Int.min), ~0, ~0, ~0)))
         XCTAssertEqual(T(truncatingIfNeeded: Int.max), T(x64: X(UInt64(truncatingIfNeeded: Int.max),  0,  0,  0)))
+    }
+    
+    func testFromIntAsDigit() {
+        XCTAssertEqual(T(digit: Int.min), T(x64: X(UInt64(truncatingIfNeeded: Int.min), ~0, ~0, ~0)))
+        XCTAssertEqual(T(digit: Int.max), T(x64: X(UInt64(truncatingIfNeeded: Int.max),  0,  0,  0)))
     }
     
     //=------------------------------------------------------------------------=
@@ -434,7 +439,7 @@ final class UInt256TestsOnNumbers: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x UInt
+    // MARK: Tests x UInt, Digit
     //=------------------------------------------------------------------------=
     
     func testFromUInt() {
@@ -449,6 +454,11 @@ final class UInt256TestsOnNumbers: XCTestCase {
         
         XCTAssertEqual(T(truncatingIfNeeded: UInt.min), T(x64: X(UInt64(truncatingIfNeeded: UInt.min), 0, 0, 0)))
         XCTAssertEqual(T(truncatingIfNeeded: UInt.max), T(x64: X(UInt64(truncatingIfNeeded: UInt.max), 0, 0, 0)))
+    }
+    
+    func testFromUIntAsDigit() {
+        XCTAssertEqual(T(digit: UInt.min), T(x64: X(UInt64(truncatingIfNeeded: UInt.min), 0, 0, 0)))
+        XCTAssertEqual(T(digit: UInt.max), T(x64: X(UInt64(truncatingIfNeeded: UInt.max), 0, 0, 0)))
     }
     
     //=------------------------------------------------------------------------=

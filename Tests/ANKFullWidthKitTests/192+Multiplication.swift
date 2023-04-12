@@ -44,9 +44,9 @@ final class Int192TestsOnMultiplication: XCTestCase {
         XCTAssertEqual( T(x64: X(1, 2, 3)) * -T(2), -T(x64: X(2, 4, 6)))
         XCTAssertEqual( T(x64: X(1, 2, 3)) *  T(2),  T(x64: X(2, 4, 6)))
 
-        XCTAssertEqual( T(x64: X(1, 2, 3)) * T(x64: X(2, 0, 0)), T(x64: X(2, 4, 6)))
-        XCTAssertEqual( T(x64: X(1, 2, 0)) * T(x64: X(0, 2, 0)), T(x64: X(0, 2, 4)))
-        XCTAssertEqual( T(x64: X(1, 0, 0)) * T(x64: X(0, 0, 2)), T(x64: X(0, 0, 2)))
+        XCTAssertEqual( T(x64: X(1, 2, 3)) *  T(x64: X(2, 0, 0)), T(x64: X(2, 4, 6)))
+        XCTAssertEqual( T(x64: X(1, 2, 0)) *  T(x64: X(0, 2, 0)), T(x64: X(0, 2, 4)))
+        XCTAssertEqual( T(x64: X(1, 0, 0)) *  T(x64: X(0, 0, 2)), T(x64: X(0, 0, 2)))
     }
     
     func testMultipliedReportingOverflow() {

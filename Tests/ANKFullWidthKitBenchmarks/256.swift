@@ -36,14 +36,20 @@ final class Int256Benchmarks: XCTestCase {
     }
     
     func testInitX64() {
+        var abc = _blackHoleIdentity(X(1, 2, 3, 4))
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(x64: X(1, 2, 3, 4)))
+            _blackHole(T(x64: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
 
     func testInitX32() {
+        var abc = _blackHoleIdentity(Y(1, 2, 3, 4, 5, 6, 7, 8))
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(x32: Y(1, 2, 3, 4, 5, 6, 7, 8)))
+            _blackHole(T(x32: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -52,14 +58,20 @@ final class Int256Benchmarks: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitBit() {
+        var abc = _blackHoleIdentity(true)
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(bit: true))
+            _blackHole(T(bit: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testInitRepeatingBit() {
+        var abc = _blackHoleIdentity(true)
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(repeating: true))
+            _blackHole(T(repeating: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -90,14 +102,20 @@ final class Int256Benchmarks: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitAscending() {
+        var abc = _blackHoleIdentity(( T.Low(), T.High() ))
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(ascending:  (T.Low(), T.High())))
+            _blackHole(T(ascending: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testInitDescending() {
+        var abc = _blackHoleIdentity(( T.High(), T.Low() ))
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(descending: (T.High(), T.Low())))
+            _blackHole(T(descending: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
 }
@@ -122,14 +140,20 @@ final class UInt256Benchmarks: XCTestCase {
     }
     
     func testInitX64() {
+        var abc = _blackHoleIdentity(X(1, 2, 3, 4))
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(x64: X(1, 2, 3, 4)))
+            _blackHole(T(x64: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
 
     func testInitX32() {
+        var abc = _blackHoleIdentity(Y(1, 2, 3, 4, 5, 6, 7, 8))
+
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(x32: Y(1, 2, 3, 4, 5, 6, 7, 8)))
+            _blackHole(T(x32: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -138,14 +162,20 @@ final class UInt256Benchmarks: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitBit() {
+        var abc = _blackHoleIdentity(true)
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(bit: true))
+            _blackHole(T(bit: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testInitRepeatingBit() {
+        var abc = _blackHoleIdentity(true)
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(repeating: true))
+            _blackHole(T(repeating: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -153,19 +183,19 @@ final class UInt256Benchmarks: XCTestCase {
     // MARK: Tests x Constants
     //=------------------------------------------------------------------------=
     
-    @inlinable func testInitMin() {
+    func testInitMin() {
         for _ in 0 ..< 1_000_000 {
             _blackHole(T.min)
         }
     }
     
-    @inlinable func testInitMax() {
+    func testInitMax() {
         for _ in 0 ..< 1_000_000 {
             _blackHole(T.max)
         }
     }
     
-    @inlinable func testInitZero() {
+    func testInitZero() {
         for _ in 0 ..< 1_000_000 {
             _blackHole(T.zero)
         }
@@ -176,14 +206,20 @@ final class UInt256Benchmarks: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitAscending() {
+        var abc = _blackHoleIdentity(( T.Low(), T.High() ))
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(ascending:  (T.Low(), T.High())))
+            _blackHole(T(ascending: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testInitDescending() {
+        var abc = _blackHoleIdentity(( T.High(), T.Low() ))
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(descending: (T.High(), T.Low())))
+            _blackHole(T(descending: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
 }

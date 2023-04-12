@@ -33,9 +33,9 @@ final class ANKSignedBenchmarksOnComplements: XCTestCase {
 
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.magnitude)
-            _blackHoleInoutIdentity(&abc)
-            
             _blackHole(xyz.magnitude)
+            
+            _blackHoleInoutIdentity(&abc)
             _blackHoleInoutIdentity(&xyz)
         }
     }

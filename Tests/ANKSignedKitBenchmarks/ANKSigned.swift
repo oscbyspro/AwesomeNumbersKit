@@ -7,8 +7,9 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if DEBUG
+#if !DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import ANKSignedKit
 import XCTest
@@ -17,7 +18,7 @@ import XCTest
 // MARK: * ANK x Signed
 //*============================================================================*
 
-final class ANKSignedTests: XCTestCase {
+final class ANKSignedBenchmarks: XCTestCase {
     
     typealias T = ANKSigned<ANKUInt256>
     typealias D = ANKSigned<UInt>
@@ -27,15 +28,18 @@ final class ANKSignedTests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInit() {
-        XCTAssertEqual(T().sign, .plus)
-        XCTAssertEqual(T().magnitude, UInt256())
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(T())
+        }
     }
     
     func testInitDigit() {
-        XCTAssertEqual(T(digit:  D(3)),  T(3))
-        XCTAssertEqual(T(digit: -D(3)), -T(3))
-        XCTAssertEqual(D(digit:  D(3)),  D(3))
-        XCTAssertEqual(D(digit: -D(3)), -D(3))
+        var abc = _blackHoleIdentity(T.Digit.max)
+
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(T(digit: abc))
+            _blackHoleInoutIdentity(&abc)
+        }
     }
     
     //=------------------------------------------------------------------------=
@@ -43,8 +47,12 @@ final class ANKSignedTests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitBit() {
-        XCTAssertEqual(T(bit: false), T( ))
-        XCTAssertEqual(T(bit: true ), T(1))
+        var abc = _blackHoleIdentity(true)
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(T(bit: abc))
+            _blackHoleInoutIdentity(&abc)
+        }
     }
     
     //=------------------------------------------------------------------------=
@@ -52,43 +60,51 @@ final class ANKSignedTests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitMin() {
-        XCTAssertEqual(T.min.sign, .minus)
-        XCTAssertEqual(T.min.magnitude, UInt256.max)
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(T.min)
+        }
     }
     
     func testInitMax() {
-        XCTAssertEqual(T.max.sign, .plus)
-        XCTAssertEqual(T.max.magnitude, UInt256.max)
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(T.max)
+        }
     }
     
     func testInitZero() {
-        XCTAssertEqual(T.zero.sign, .plus)
-        XCTAssertEqual(T.zero.magnitude, UInt256())
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(T.zero)
+        }
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Normalization
     //=------------------------------------------------------------------------=
     
-    func testSign() {
-        XCTAssertEqual(T(0, as: .plus ).sign, .plus )
-        XCTAssertEqual(T(0, as: .minus).sign, .minus)
-        XCTAssertEqual(T(1, as: .plus ).sign, .plus )
-        XCTAssertEqual(T(1, as: .minus).sign, .minus)
-    }
-    
     func testIsNormal() {
-        XCTAssertEqual(T(0, as: .plus ).isNormal, true )
-        XCTAssertEqual(T(0, as: .minus).isNormal, false)
-        XCTAssertEqual(T(1, as: .plus ).isNormal, true )
-        XCTAssertEqual(T(1, as: .minus).isNormal, true )
+        var abc = _blackHoleIdentity(T(0, as: .plus ))
+        var xyz = _blackHoleIdentity(T(0, as: .minus))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.isNormal)
+            _blackHole(xyz.isNormal)
+            
+            _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&xyz)
+        }
     }
     
     func testNormalizedSign() {
-        XCTAssertEqual(T(0, as: .plus ).normalizedSign, .plus )
-        XCTAssertEqual(T(0, as: .minus).normalizedSign, .plus )
-        XCTAssertEqual(T(1, as: .plus ).normalizedSign, .plus )
-        XCTAssertEqual(T(1, as: .minus).normalizedSign, .minus)
+        var abc = _blackHoleIdentity(T(0, as: .plus ))
+        var xyz = _blackHoleIdentity(T(0, as: .minus))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.normalizedSign)
+            _blackHole(xyz.normalizedSign)
+            
+            _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&xyz)
+        }
     }
 }
 

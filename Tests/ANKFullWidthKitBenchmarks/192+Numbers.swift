@@ -175,6 +175,19 @@ final class Int192BenchmarksOnNumbers: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
+    // MARK: Tests x Digit
+    //=------------------------------------------------------------------------=
+    
+    func testDigit() {
+        var abc = _blackHoleIdentity(T.Digit.max)
+
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(T(digit: abc))
+            _blackHoleInoutIdentity(&abc)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Tests x Complements
     //=------------------------------------------------------------------------=
     
@@ -383,6 +396,19 @@ final class UInt192BenchmarksOnNumbers: XCTestCase {
         for _ in 0 ..< 1_000_000 {
             _blackHole(T(abc))
             _blackHole(T(exactly:  abc))
+            _blackHoleInoutIdentity(&abc)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Digit
+    //=------------------------------------------------------------------------=
+    
+    func testDigit() {
+        var abc = _blackHoleIdentity(T.Digit.max)
+
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(T(digit: abc))
             _blackHoleInoutIdentity(&abc)
         }
     }

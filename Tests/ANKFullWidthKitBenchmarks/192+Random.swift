@@ -30,7 +30,7 @@ final class Int192BenchmarksOnRandom: XCTestCase {
     
     func testRandomInRangeUsingSystemRandomNumberGenerator() {
         var range = _blackHoleIdentity((T.min / 2) ... (T.max / 2))
-        var randomness = SystemRandomNumberGenerator()
+        var randomness = _blackHoleIdentity(SystemRandomNumberGenerator())
         
         for _ in 0 ..< 50_000 {
             _blackHole(T.random(in:  range, using: &randomness))

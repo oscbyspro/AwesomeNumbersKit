@@ -11,7 +11,7 @@
 // MARK: * ANK x Black Hole
 //*============================================================================*
 
-/// Opaquely consumes the argument.
+/// Opaquely uses the argument.
 ///
 /// Optimizer folklore has it that its secrets are revealed only to the supreme architect.
 ///
