@@ -30,14 +30,20 @@ final class Int192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitBitPattern() {
+        var abc = _blackHoleIdentity(M.max)
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(bitPattern: M.max))
+            _blackHole(T(bitPattern: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testValueAsBitPattern() {
+        var abc = _blackHoleIdentity(T.max)
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T.max.bitPattern)
+            _blackHole(abc.bitPattern)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -82,14 +88,20 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitBitPattern() {
+        var abc = _blackHoleIdentity(M.max)
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(bitPattern: M.max))
+            _blackHole(T(bitPattern: abc))
+            _blackHoleInoutIdentity(&abc)
         }
     }
     
     func testValueAsBitPattern() {
+        var abc = _blackHoleIdentity(T.max)
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T.max.bitPattern)
+            _blackHole(abc.bitPattern)
+            _blackHoleInoutIdentity(&abc)
         }
     }
     

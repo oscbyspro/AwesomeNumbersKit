@@ -28,6 +28,17 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testIsEqualTo() {
+        var lhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var rhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(lhs == rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
+        }
+    }
+    
     func testIsLessThan() {
         var lhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         var rhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
@@ -82,6 +93,17 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
+    
+    func testIsEqualTo() {
+        var lhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        var rhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(lhs == rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
+        }
+    }
     
     func testIsLessThan() {
         var lhs = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))

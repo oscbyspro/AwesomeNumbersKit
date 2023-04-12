@@ -27,14 +27,23 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testIsEqualTo() {
+        var lhs = _blackHoleIdentity(T(1, as: .plus ))
+        var rhs = _blackHoleIdentity(T(1, as: .minus))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(lhs == rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
+        }
+    }
+    
     func testIsLessThan() {
         var lhs = _blackHoleIdentity(T(1, as: .plus ))
         var rhs = _blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs < rhs)
-            _blackHole(rhs < lhs)
-            
             _blackHoleInoutIdentity(&lhs)
             _blackHoleInoutIdentity(&rhs)
         }
