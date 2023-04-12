@@ -40,10 +40,14 @@ extension ANKFullWidth {
     }
     
     @inlinable public var leadingZeroBitCount: Int {
-        self.high.isZero ? High.bitWidth &+ self.low.leadingZeroBitCount : self.high.leadingZeroBitCount
+        let count  = self.high.leadingZeroBitCount
+        if  count != High.bitWidth { return count }
+        return count &+ self.low.leadingZeroBitCount
     }
-    
+
     @inlinable public var trailingZeroBitCount: Int {
-        self.low.isZero ? Low.bitWidth &+ self.high.trailingZeroBitCount : self.low.trailingZeroBitCount
+        let count  = self.low.trailingZeroBitCount
+        if  count != Low.bitWidth { return count }
+        return count &+ self.high.trailingZeroBitCount
     }
 }
