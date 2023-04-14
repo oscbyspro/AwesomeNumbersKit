@@ -47,16 +47,17 @@ extension ANKFullWidth {
     
     @_disfavoredOverload @inlinable public mutating func addReportingOverflow(_ amount: Digit) -> Bool {
         self.withUnsafeMutableWords { SELF in
-            let amountIsLessThanZero: Bool =  amount.isLessThanZero
-            let extra: UInt = UInt(bitPattern: amountIsLessThanZero ? -1 : 1)
+            let amountIsLessThanZero: Bool = amount.isLessThanZero
             var carry: Bool = SELF.first.addReportingOverflow(UInt(bitPattern: amount))
             //=----------------------------------=
+            if  carry == amountIsLessThanZero { return false }
+            let extra: UInt = UInt(bitPattern: amountIsLessThanZero ? -1 : 1)
+            //=----------------------------------=
             for index in 1 ..< SELF.lastIndex {
-                if carry == amountIsLessThanZero { return false }
                 carry = SELF[index].addReportingOverflow(extra)
+                if carry == amountIsLessThanZero { return false }
             }
             //=----------------------------------=
-            if  carry == amountIsLessThanZero { return false }
             let pvo: PVO<Digit> = Digit(bitPattern: SELF.last).addingReportingOverflow(Digit(bitPattern: extra))
             SELF.last = UInt(bitPattern: pvo.partialValue)
             return pvo.overflow as Bool
