@@ -257,18 +257,17 @@ extension ANKFullWidth {
         //=--------------------------------------=
         var index = words.startIndex
         let value = Self.fromUnsafeMutableWords { VALUE in
-            //=----------------------------------=
             var valueIndex = VALUE.startIndex
             var wordsIndex = words.startIndex
             defer {  index = wordsIndex  }
-            //=----------------------------------=
+            
             while wordsIndex != words.endIndex {
                 guard valueIndex != VALUE.endIndex else { return }
                 VALUE[valueIndex] = words[wordsIndex]
                 VALUE.formIndex(after: &valueIndex)
                 words.formIndex(after: &wordsIndex)
             }
-            //=----------------------------------=
+            
             while valueIndex != VALUE.endIndex {
                 VALUE[valueIndex] = sign
                 VALUE.formIndex(after: &valueIndex)

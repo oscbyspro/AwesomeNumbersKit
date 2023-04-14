@@ -46,25 +46,21 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @_disfavoredOverload @inlinable public mutating func subtractReportingOverflow(_ amount: Digit) -> Bool {
-        let lhsWasLessThanZero: Bool =   self.isLessThanZero
-        let rhsWasLessThanZero: Bool = amount.isLessThanZero
-        //=--------------------------------------=
-        let borrow: Bool = self.withUnsafeMutableWords { LHS in
-            var index = LHS.startIndex
-            var borrow: Bool = LHS[index].subtractReportingOverflow(UInt(bitPattern: amount))
-            LHS.formIndex(after:  &index)
+        self.withUnsafeMutableWords { SELF in
+            let amountIsLessThanZero: Bool = amount.isLessThanZero
+            var borrow: Bool = SELF[SELF.startIndex].subtractReportingOverflow(UInt(bitPattern: amount))
             //=----------------------------------=
-            let decrement = rhsWasLessThanZero ? UInt(bitPattern: -1) : 1
-            while borrow != rhsWasLessThanZero, index != LHS.endIndex {
-                borrow = LHS[index].subtractReportingOverflow(decrement)
-                LHS.formIndex(after: &index)
+            let decrement = UInt(bitPattern: amountIsLessThanZero ? -1 : 1)
+            for index in  1 ..< SELF.lastIndex {
+                if borrow == amountIsLessThanZero { return false }
+                borrow = SELF[index].subtractReportingOverflow(decrement)
             }
             //=----------------------------------=
-            return borrow as Bool
+            if  borrow == amountIsLessThanZero { return false }
+            let pvo = Digit(bitPattern: SELF.last!).subtractingReportingOverflow(Digit(bitPattern: decrement))
+            SELF[SELF.lastIndex] = UInt(bitPattern: pvo.partialValue)
+            return pvo.overflow as Bool
         }
-        //=--------------------------------------=
-        if !Self.isSigned { return borrow }
-        return lhsWasLessThanZero != rhsWasLessThanZero && lhsWasLessThanZero != self.isLessThanZero
     }
     
     @_disfavoredOverload @inlinable public func subtractingReportingOverflow(_ amount: Digit) -> PVO<Self> {

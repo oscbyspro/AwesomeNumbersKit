@@ -46,25 +46,21 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @_disfavoredOverload @inlinable public mutating func addReportingOverflow(_ amount: Digit) -> Bool {
-        let lhsWasLessThanZero: Bool =   self.isLessThanZero
-        let rhsWasLessThanZero: Bool = amount.isLessThanZero
-        //=--------------------------------------=
-        let carry: Bool = self.withUnsafeMutableWords { LHS in
-            var index = LHS.startIndex
-            var carry: Bool = LHS[index].addReportingOverflow(UInt(bitPattern: amount))
-            LHS.formIndex(after: &index)
+        self.withUnsafeMutableWords { SELF in
+            let amountIsLessThanZero: Bool = amount.isLessThanZero
+            var carry: Bool = SELF[SELF.startIndex].addReportingOverflow(UInt(bitPattern: amount))
             //=----------------------------------=
-            let increment = rhsWasLessThanZero ? UInt(bitPattern: -1) : 1
-            while carry  != rhsWasLessThanZero, index != LHS.endIndex {
-                carry = LHS[index].addReportingOverflow(increment)
-                LHS.formIndex(after: &index)
+            let increment = UInt(bitPattern: amountIsLessThanZero ? -1 : 1)
+            for index in  1 ..< SELF.lastIndex {
+                if carry == amountIsLessThanZero { return false }
+                carry = SELF[index].addReportingOverflow(increment)
             }
             //=----------------------------------=
-            return carry as Bool
+            if  carry == amountIsLessThanZero { return false }
+            let pvo = Digit(bitPattern: SELF.last!).addingReportingOverflow(Digit(bitPattern: increment))
+            SELF[SELF.lastIndex] = UInt(bitPattern: pvo.partialValue)
+            return pvo.overflow as Bool
         }
-        //=--------------------------------------=
-        if !Self.isSigned { return carry }
-        return lhsWasLessThanZero == rhsWasLessThanZero && lhsWasLessThanZero != self.isLessThanZero
     }
     
     @_disfavoredOverload @inlinable public func addingReportingOverflow(_ amount: Digit) -> PVO<Self> {

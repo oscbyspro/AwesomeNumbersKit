@@ -20,7 +20,7 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static var count: Int {
-        assert(Self.bitWidth / UInt.bitWidth >= 1)
+        assert(Self.bitWidth / UInt.bitWidth >= 2)
         assert(Self.bitWidth % UInt.bitWidth == 0)
         return Self.bitWidth / UInt.bitWidth
     }
@@ -78,7 +78,7 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @_transparent public var words: some ANKWords {
-        self
+        self.bitPattern
     }
     
     /// The least significant word of this value.

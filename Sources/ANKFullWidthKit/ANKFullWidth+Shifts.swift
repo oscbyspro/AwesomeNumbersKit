@@ -145,6 +145,7 @@ extension ANKFullWidth {
                 
                 let p: UInt = /*---*/ (j < SELF.endIndex ? SELF[j] : c) &>> a
                 let q: UInt = x ? 0 : (k < SELF.endIndex ? SELF[k] : c) &<< b
+                
                 SELF[i] = p | q
                 
                 SELF.formIndex(after: &i)

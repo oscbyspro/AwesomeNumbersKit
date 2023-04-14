@@ -121,7 +121,7 @@ extension ANKFullWidth where High == High.Magnitude {
         var remainder = UInt()
         //=--------------------------------------=
         quotient.withUnsafeMutableWords { QUOTIENT in
-            var index = QUOTIENT.endIndex as Int
+            var index: Int = QUOTIENT.endIndex
             backwards: while index != QUOTIENT.startIndex {
                 (QUOTIENT.formIndex(before: &index))
                 (QUOTIENT[index], remainder) = divisor.dividingFullWidth(HL(remainder, QUOTIENT[index]))
