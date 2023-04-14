@@ -112,7 +112,7 @@ extension ANKFullWidth where High == High.Magnitude {
         forwards: if !alignment.isZero {
             let tail = utf8.index(head, offsetBy: alignment/*-*/); defer  { head = tail }
             let word = try UInt(source[head  ..<  tail], radix: radix.base) ?? ANKError()
-            magnitude[unchecked:  magnitude.startIndex] = word
+            magnitude.first = word
         }
         //=--------------------------------------=
         forwards: while head != utf8.endIndex {

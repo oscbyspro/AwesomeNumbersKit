@@ -66,11 +66,13 @@ extension ANKFullWidth {
     }
     
     @_transparent public var first: UInt {
-        self[unchecked: self.startIndex]
+        _read   { yield  self[unchecked: self.startIndex] }
+        _modify { yield &self[unchecked: self.startIndex] }
     }
     
     @_transparent public var last: UInt {
-        self[unchecked: self.lastIndex]
+        _read   { yield  self[unchecked: self.lastIndex] }
+        _modify { yield &self[unchecked: self.lastIndex] }
     }
     
     //=------------------------------------------------------------------------=

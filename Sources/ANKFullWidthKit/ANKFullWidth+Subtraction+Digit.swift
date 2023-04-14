@@ -47,18 +47,18 @@ extension ANKFullWidth {
     
     @_disfavoredOverload @inlinable public mutating func subtractReportingOverflow(_ amount: Digit) -> Bool {
         self.withUnsafeMutableWords { SELF in
-            let amountIsLessThanZero: Bool = amount.isLessThanZero
-            var borrow: Bool = SELF[SELF.startIndex].subtractReportingOverflow(UInt(bitPattern: amount))
+            let amountIsLessThanZero: Bool =  amount.isLessThanZero
+            let extra: UInt = UInt(bitPattern: amountIsLessThanZero ? -1 : 1)
+            var carry: Bool = SELF.first.subtractReportingOverflow(UInt(bitPattern: amount))
             //=----------------------------------=
-            let decrement = UInt(bitPattern: amountIsLessThanZero ? -1 : 1)
-            for index in  1 ..< SELF.lastIndex {
-                if borrow == amountIsLessThanZero { return false }
-                borrow = SELF[index].subtractReportingOverflow(decrement)
+            for index in 1 ..< SELF.lastIndex {
+                if carry == amountIsLessThanZero { return false }
+                carry = SELF[index].subtractReportingOverflow(extra)
             }
             //=----------------------------------=
-            if  borrow == amountIsLessThanZero { return false }
-            let pvo = Digit(bitPattern: SELF.last!).subtractingReportingOverflow(Digit(bitPattern: decrement))
-            SELF[SELF.lastIndex] = UInt(bitPattern: pvo.partialValue)
+            if  carry == amountIsLessThanZero { return false }
+            let pvo: PVO<Digit> = Digit(bitPattern: SELF.last).subtractingReportingOverflow(Digit(bitPattern: extra))
+            SELF.last = UInt(bitPattern: pvo.partialValue)
             return pvo.overflow as Bool
         }
     }

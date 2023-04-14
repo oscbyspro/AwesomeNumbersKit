@@ -140,12 +140,12 @@ extension ANKFullWidth {
 // MARK: * ANK x Full Width x Words x Pointers x Custom
 //*============================================================================*
 
-/// An internal, full width, unsafe words pointer protocol.
+/// An internal, full width, unsafe words pointer.
 ///
 /// ### Requirements
 ///
 /// ```swift
-/// MemoryLayout<Layout>.size / MemoryLayout<UInt>.size >= 1
+/// MemoryLayout<Layout>.size / MemoryLayout<UInt>.size >= 2
 /// MemoryLayout<Layout>.size % MemoryLayout<UInt>.size == 0
 /// ```
 ///
@@ -165,7 +165,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     
     @inlinable static var count: Int {
-        assert(MemoryLayout<Layout>.size / MemoryLayout<UInt>.size >= 1)
+        assert(MemoryLayout<Layout>.size / MemoryLayout<UInt>.size >= 2)
         assert(MemoryLayout<Layout>.size % MemoryLayout<UInt>.size == 0)
         return MemoryLayout<Layout>.size / MemoryLayout<UInt>.size
     }
@@ -272,6 +272,14 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    @_transparent public var first: UInt {
+        _read { yield self[self.startIndex] }
+    }
+    
+    @_transparent public var last: UInt {
+        _read { yield self[self.lastIndex] }
+    }
+    
     public subscript(index: Int) -> UInt {
         @_transparent _read {
             assert(self.indices ~= index)
@@ -313,6 +321,16 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
+    
+    @_transparent public var first: UInt {
+        nonmutating _read   { yield  self[self.startIndex] }
+        nonmutating _modify { yield &self[self.startIndex] }
+    }
+    
+    @_transparent public var last: UInt {
+        nonmutating _read   { yield  self[self.lastIndex] }
+        nonmutating _modify { yield &self[self.lastIndex] }
+    }
     
     public subscript(index: Int) -> UInt {
         @_transparent _read {
