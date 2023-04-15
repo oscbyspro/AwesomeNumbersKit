@@ -78,8 +78,8 @@ extension ANKFullWidth {
             let rhsWord = UInt(bitPattern: amount)
             var rhsIsLessThanZeroCarry = rhsIsLessThanZero
             //=----------------------------------=
-            for index in LHS.indices {
-                let lhsWord = LHS[index] as UInt
+            for index: Int in LHS.indices {
+                let lhsWord: UInt  = LHS[index]
                 (high, LOW[index]) = high.addingFullWidth(multiplicands:(lhsWord, rhsWord))
                 if  rhsIsLessThanZero {
                     rhsIsLessThanZeroCarry = high.addReportingOverflow(~lhsWord, rhsIsLessThanZeroCarry)

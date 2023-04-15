@@ -65,10 +65,10 @@ extension ANKFullWidth {
             backwards: while i > SELF.startIndex {
                 SELF.formIndex(before: &i)
                 
-                let j: Int  = i &- words
-                let k: Int  = j &- 1
+                let j:  Int = i &- words
+                let k:  Int = j &- 1
                 
-                let p: UInt = /*---*/ (j >= SELF.startIndex ? SELF[j] : 0) &<< a
+                let p: UInt =         (j >= SELF.startIndex ? SELF[j] : 0) &<< a
                 let q: UInt = x ? 0 : (k >= SELF.startIndex ? SELF[k] : 0) &>> b
                 
                 SELF[i] = p | q
@@ -143,7 +143,7 @@ extension ANKFullWidth {
                 let j:  Int = i &+ words
                 let k:  Int = j &+ 1
                 
-                let p: UInt = /*---*/ (j < SELF.endIndex ? SELF[j] : c) &>> a
+                let p: UInt =         (j < SELF.endIndex ? SELF[j] : c) &>> a
                 let q: UInt = x ? 0 : (k < SELF.endIndex ? SELF[k] : c) &<< b
                 
                 SELF[i] = p | q

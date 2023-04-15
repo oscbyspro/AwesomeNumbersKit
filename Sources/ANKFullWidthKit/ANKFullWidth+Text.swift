@@ -97,7 +97,7 @@ extension ANKFullWidth where High == High.Magnitude {
                 MAGNITUDE.formIndex(after: &index)
             }
             //=----------------------------------=
-            uninitialized: while index < MAGNITUDE.endIndex {
+            uninitialized: while index != MAGNITUDE.endIndex {
                 MAGNITUDE[index] = UInt()
                 MAGNITUDE.formIndex(after: &index)
             }
