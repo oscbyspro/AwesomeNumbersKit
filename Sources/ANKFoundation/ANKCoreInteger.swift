@@ -136,8 +136,9 @@ extension ANKCoreInteger {
     
     @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) throws -> Self {
         let components = source._bigEndianTextComponents(radix: radix)
-        let magnitude  = try Magnitude(components.body, radix: components.radix) ?? ANKError()
-        return      try Self(exactly: ANKSigned(magnitude, as: components.sign)) ?? ANKError()
+        guard let magnitude = Magnitude(components.body, radix: components.radix) else { throw ANKError() }
+        guard let value = Self(exactly: ANKSigned(magnitude,as: components.sign)) else { throw ANKError() }
+        return    value
     }
     
     @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {

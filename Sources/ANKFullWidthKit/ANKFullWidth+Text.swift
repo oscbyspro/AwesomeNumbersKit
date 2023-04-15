@@ -64,7 +64,8 @@ extension ANKFullWidth {
         let magnitude  = try AnyRadixUIntRoot(components.radix).switch(
           perfect: { try Magnitude._decodeBigEndianDigits(components.body,  radix: $0) },
         imperfect: { try Magnitude._decodeBigEndianDigits(components.body,  radix: $0) })
-        return try Self(exactly: ANKSigned(magnitude, as: components.sign)) ?? ANKError()
+        guard let value = Self(exactly: ANKSigned(magnitude, as: components.sign)) else { throw ANKError() }
+        return    value
     }
 }
 
@@ -84,19 +85,19 @@ extension ANKFullWidth where High == High.Magnitude {
             let start = utf8.startIndex as String.Index
             var tail  = utf8.endIndex   as String.Index
             var index = MAGNITUDE.startIndex as Int
-            let step  = -radix.exponent/*-*/ as Int
+            let step  = radix.exponent.twosComplement() as Int
             //=----------------------------------=
             backwards: while tail != start {
-                try index < MAGNITUDE.endIndex || ANKError()
-                let head  = utf8.index(tail, offsetBy: step,  limitedBy:  start) ?? start
-                let word  = try UInt(source[head  ..<  tail], radix: radix.base) ?? ANKError()
+                guard index != MAGNITUDE.endIndex else { throw ANKError() }
+                let head = utf8.index(tail, offsetBy: step,  limitedBy:  start) ?? start
+                guard let word = UInt(source[head ..< tail], radix: radix.base) else { throw ANKError() }
                 
                 tail = head
                 MAGNITUDE[index] = word
                 MAGNITUDE.formIndex(after: &index)
             }
             //=----------------------------------=
-            uninitialized: while index != MAGNITUDE.endIndex {
+            uninitialized: while index < MAGNITUDE.endIndex {
                 MAGNITUDE[index] = UInt()
                 MAGNITUDE.formIndex(after: &index)
             }
@@ -111,15 +112,15 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         forwards: if !alignment.isZero {
             let tail = utf8.index(head, offsetBy: alignment/*-*/); defer  { head = tail }
-            let word = try UInt(source[head  ..<  tail], radix: radix.base) ?? ANKError()
+            guard let word = UInt(source[head ..< tail], radix: radix.base) else { throw ANKError() }
             magnitude.first = word
         }
         //=--------------------------------------=
         forwards: while head != utf8.endIndex {
             let tail = utf8.index(head, offsetBy: radix.exponent); defer  { head = tail }
-            let word = try UInt(source[head  ..<  tail], radix: radix.base) ?? ANKError()
-            try !magnitude.multiplyReportingOverflow(by: radix.power)/*--*/ || ANKError()
-            try !magnitude.addReportingOverflow(word)/*------------------*/ || ANKError()
+            guard let word = UInt(source[head ..< tail], radix: radix.base) else { throw ANKError() }
+            guard !magnitude.multiplyReportingOverflow(by: radix.power)/**/ else { throw ANKError() }
+            guard !magnitude.addReportingOverflow(word)/*----------------*/ else { throw ANKError() }
         }
         //=--------------------------------------=
         return magnitude
