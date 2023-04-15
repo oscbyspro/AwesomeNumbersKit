@@ -273,11 +273,11 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     
     @_transparent public var first: UInt {
-        _read { yield self[self.startIndex] }
+        self[self.startIndex]
     }
     
     @_transparent public var last: UInt {
-        _read { yield self[self.lastIndex] }
+        self[self.lastIndex]
     }
     
     public subscript(index: Int) -> UInt {
@@ -323,13 +323,13 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     
     @_transparent public var first: UInt {
-        nonmutating _read   { yield  self[self.startIndex] }
-        nonmutating _modify { yield &self[self.startIndex] }
+        nonmutating get { self[self.startIndex] }
+        nonmutating set { self[self.startIndex] = newValue }
     }
     
     @_transparent public var last: UInt {
-        nonmutating _read   { yield  self[self.lastIndex] }
-        nonmutating _modify { yield &self[self.lastIndex] }
+        nonmutating get { self[self.lastIndex] }
+        nonmutating set { self[self.lastIndex] = newValue }
     }
     
     public subscript(index: Int) -> UInt {

@@ -115,19 +115,24 @@ extension ANKFullWidth where High == High.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable func _quotientAndRemainderAsUnsigned(dividingBy divisor: Digit) -> QR<Self, Digit> {
+        var quotient  = self
+        let remainder = quotient._formQuotientReportingRemainderAsUnsigned(dividingBy: divisor)
+        return QR(quotient, remainder)
+    }
+    
+    @inlinable mutating func _formQuotientReportingRemainderAsUnsigned(dividingBy divisor: Digit) -> Digit {
         precondition(!divisor.isZero)
         //=--------------------------------------=
-        var quotient  = self
         var remainder = UInt()
         //=--------------------------------------=
-        quotient.withUnsafeMutableWords { QUOTIENT in
-            var index: Int = QUOTIENT.endIndex
-            backwards: while index != QUOTIENT.startIndex {
-                (QUOTIENT.formIndex(before: &index))
-                (QUOTIENT[index], remainder) = divisor.dividingFullWidth(HL(remainder, QUOTIENT[index]))
+        self.withUnsafeMutableWords { SELF in
+            var index: Int = SELF.endIndex
+            backwards: while index != SELF.startIndex {
+                (SELF.formIndex(before: &index))
+                (SELF[index], remainder) = divisor.dividingFullWidth(HL(remainder, SELF[index]))
             }
         }
         //=--------------------------------------=
-        return QR(quotient, remainder)
+        return remainder
     }
 }

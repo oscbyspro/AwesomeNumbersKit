@@ -42,7 +42,6 @@ extension ANKFullWidth {
         let product: DoubleWidth = self._multipliedFullWidth(by: amount)
         //=--------------------------------------=
         let overflow: Bool
-        
         if !Self.isSigned {
             overflow = !product.high.isZero
         } else if self.isLessThanZero != amount.isLessThanZero {

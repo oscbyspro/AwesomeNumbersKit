@@ -51,10 +51,10 @@ extension ANKFullWidth {
             var carry: Bool = SELF.first.addReportingOverflow(UInt(bitPattern: amount))
             //=----------------------------------=
             if  carry == amountIsLessThanZero { return false }
-            let extra: UInt = UInt(bitPattern: amountIsLessThanZero ? -1 : 1)
+            let extra =  UInt(bitPattern: amountIsLessThanZero ? -1 : 1)
             //=----------------------------------=
             for index in 1 ..< SELF.lastIndex {
-                carry = SELF[index].addReportingOverflow(extra)
+                carry =  SELF[index].addReportingOverflow(extra)
                 if carry == amountIsLessThanZero { return false }
             }
             //=----------------------------------=
