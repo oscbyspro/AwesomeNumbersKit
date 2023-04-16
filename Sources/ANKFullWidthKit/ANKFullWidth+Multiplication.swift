@@ -93,27 +93,27 @@ extension ANKFullWidth {
         //=--------------------------------------=
         self   .withUnsafeWords { LHS in
         amount .withUnsafeWords { RHS in
-        product.withUnsafeMutableWords { PRO in
-            for l  in LHS.indices {
-                var x =  UInt()
-                for r in RHS.indices {
-                    x =  PRO[l &+ r].addFullWidth(x, multiplicands:(LHS[l], RHS[r]))
+        product.withUnsafeMutableWords  { PRO in
+            for lhsIndex in LHS.indices {
+                var carry = UInt()
+                for rhsIndex in RHS.indices {
+                    carry = PRO[lhsIndex &+ rhsIndex].addFullWidth(carry, multiplicands:(LHS[lhsIndex], RHS[rhsIndex]))
                 }
                 
-                PRO[RHS.endIndex &+ l] = x
+                PRO[RHS.endIndex &+ lhsIndex] = carry
             }
             
             if  lhsIsLessThanZero {
-                var x =  true
-                for r in RHS.indices {
-                    x =  PRO[LHS.endIndex &+ r].addReportingOverflow(~RHS[r], x)
+                var carry = true
+                for rhsIndex in RHS.indices {
+                    carry = PRO[LHS.endIndex &+ rhsIndex].addReportingOverflow(~RHS[rhsIndex], carry)
                 }
             }
             
             if  rhsIsLessThanZero {
-                var x = true
-                for l in LHS.indices {
-                    x =  PRO[RHS.endIndex &+ l].addReportingOverflow(~LHS[l], x)
+                var carry = true
+                for lhsIndex in LHS.indices {
+                    carry = PRO[RHS.endIndex &+ lhsIndex].addReportingOverflow(~LHS[lhsIndex], carry)
                 }
             }
         }}}

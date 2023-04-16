@@ -21,7 +21,7 @@ extension ANKSigned {
     
     @inlinable public init(_ source: some BinaryInteger) {
         guard let value = Self(exactly: source) else {
-            preconditionFailure("\(source) is not in \(Self.self)'s representable range.")
+            preconditionFailure("\(source) is not in \(Self.self)'s representable range")
         }
         
         self = value

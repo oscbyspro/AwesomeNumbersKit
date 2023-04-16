@@ -71,8 +71,8 @@ extension UInt {
     /// - Returns: A value in the range: `(high: 0, low: 0) ... (high: ~0, low: 0)`.
     ///
     @inlinable mutating func addFullWidth(multiplicands: (Self, Self)) -> Self {
-        let hl: HL<Self, Self> = multiplicands.0.multipliedFullWidth(by: multiplicands.1)
-        return self.addReportingOverflow(hl.low) ? hl.high &+ 1 : hl.high
+        let product = multiplicands.0.multipliedFullWidth(by: multiplicands.1)
+        return Self(bit: self.addReportingOverflow(product.low)) &+ product.high
     }
     
     /// Returns the sum of adding the product of the multiplicands to this value.
@@ -105,7 +105,7 @@ extension UInt {
     ///
     @inlinable mutating func addFullWidth(_ addend: Self, multiplicands: (Self, Self)) -> Self {
         let high: Self = self.addFullWidth(multiplicands: multiplicands)
-        return self.addReportingOverflow(addend) ? high &+ 1 : high
+        return Self(bit: self.addReportingOverflow(addend)) &+ high
     }
     
     /// Returns the sum of adding the addend and product of the multiplicands to this value.

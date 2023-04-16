@@ -235,7 +235,7 @@ extension ANKBinaryInteger where BitPattern == Magnitude.BitPattern {
     
     @inlinable public init(_ source: ANKSigned<Magnitude>) {
         guard let value = Self(exactly: source) else {
-            preconditionFailure("\(source) is not in \(Self.self)'s representable range.")
+            preconditionFailure("\(source) is not in \(Self.self)'s representable range")
         }
         
         self = value

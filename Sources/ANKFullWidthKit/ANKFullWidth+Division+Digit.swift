@@ -121,7 +121,7 @@ extension ANKFullWidth where High == High.Magnitude {
     }
     
     @inlinable mutating func _formQuotientReportingRemainderAsUnsigned(dividingBy divisor: Digit) -> Digit {
-        precondition(!divisor.isZero)
+        precondition(!divisor.isZero, "division by zero")
         //=--------------------------------------=
         var remainder = UInt()
         //=--------------------------------------=
