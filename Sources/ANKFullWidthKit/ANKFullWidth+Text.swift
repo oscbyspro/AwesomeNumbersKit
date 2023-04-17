@@ -81,7 +81,7 @@ extension ANKFullWidth where High == High.Magnitude {
     
     @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: PerfectRadixUIntRoot) throws -> Self {
         try Self.fromUnsafeMutableWords  { MAGNITUDE in
-            let utf8  = source.utf8.drop { $0 == 48 }
+            let utf8  = source.utf8.drop { $0 == 0x30 }
             let start = utf8.startIndex as String.Index
             var tail  = utf8.endIndex   as String.Index
             var index = MAGNITUDE.startIndex as Int
@@ -105,9 +105,9 @@ extension ANKFullWidth where High == High.Magnitude {
     }
     
     @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: ImperfectRadixUIntRoot) throws -> Self {
-        let utf8 = source.utf8.drop { $0 == 48 }
+        let utf8 = source.utf8.drop { $0 == 0x30 }
         var head = utf8.startIndex as String.Index
-        let alignment = utf8.count  % radix.exponent
+        let alignment = utf8.count  % radix.exponent as Int
         var magnitude = Magnitude()
         //=--------------------------------------=
         forwards: if !alignment.isZero {
@@ -200,11 +200,11 @@ extension String {
                 var index = UTF8.startIndex
                 //=------------------------------=
                 if  sign.bit {
-                    UTF8[index] = 45
+                    UTF8.initializeElement(at: index, to: 0x2D)
                     UTF8.formIndex(after: &index)
                 }
                 //=------------------------------=
-                index = UTF8[index...].update(fromContentsOf: FIRST)
+                index = UTF8[index...].initialize(fromContentsOf: FIRST)
                 //=------------------------------=
                 for var chunk in chunks.dropLast().reversed() {
                     let destination = UTF8.index(index, offsetBy: radix.exponent)
@@ -216,7 +216,8 @@ extension String {
                         
                         let digit: UInt
                         (chunk,  digit) = radix.dividing(chunk)
-                        UTF8[backtrack] = alphabet[unchecked: UInt8(_truncatingBits: digit)]
+                        let unit: UInt8 = alphabet[unchecked: UInt8(_truncatingBits: digit)]
+                        UTF8.initializeElement(at: backtrack, to: unit)
                     }
                 }
                 //=------------------------------=
@@ -239,10 +240,14 @@ extension String {
                 
                 let digit: UInt
                 (chunk,  digit) = radix.dividing(chunk)
-                UTF8[backtrack] = alphabet[unchecked: UInt8(_truncatingBits: digit)]
+                let unit: UInt8 = alphabet[unchecked: UInt8(_truncatingBits: digit)]
+                UTF8.initializeElement(at: backtrack, to: unit)
             }   while !chunk.isZero
             //=----------------------------------=
-            return try body(UnsafeBufferPointer(rebasing: UTF8[backtrack...]))
+            let initialized = UTF8[backtrack...]
+            defer { initialized.deinitialize() }
+            //=----------------------------------=
+            return try body(UnsafeBufferPointer(rebasing: initialized))
         }
     }
 }

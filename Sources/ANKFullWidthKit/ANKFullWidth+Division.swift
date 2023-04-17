@@ -181,21 +181,19 @@ extension ANKFullWidth where High == High.Magnitude {
         // Division
         //=--------------------------------------=
         let quotient = Self.fromUnsafeMutableWords { QUOTIENT in
-            QUOTIENT.base.update(repeating: UInt(), count: QUOTIENT.count)
+            for quotientIndex in QUOTIENT.indices  {
+                QUOTIENT[quotientIndex] = UInt()
+            }
             //=----------------------------------=
-            var  quotientIndex: Int = 1 &+ minLastIndexGapSize
-            var remainderIndex: Int = 1 &+ dividend_.minLastIndex
-            //=----------------------------------=
-            backwards: while quotientIndex != QUOTIENT.startIndex {
-                QUOTIENT.formIndex(before: &quotientIndex)
+            for quotientIndex in QUOTIENT.indices.prefix(through: minLastIndexGapSize).reversed() {
                 //=------------------------------=
                 // Approximate Quotient Digit
                 //=------------------------------=
                 var digit: UInt = remainder.withUnsafeWords { REMAINDER in
-                    let  remainderLast0  = REMAINDER[remainderIndex]
-                    REMAINDER.formIndex(before:/*-*/&remainderIndex)
+                    let  remainderIndex  = divisor_.minLastIndex &+ quotientIndex
+                    let  remainderLast0  = REMAINDER[remainderIndex &+ 1]
                     if   remainderLast0 >= discriminant { return UInt.max }
-                    let  remainderLast1  = REMAINDER[remainderIndex]
+                    let  remainderLast1  = REMAINDER[remainderIndex /**/]
                     return discriminant.dividingFullWidth(HL(remainderLast0, remainderLast1)).quotient
                 }
                 //=------------------------------=
