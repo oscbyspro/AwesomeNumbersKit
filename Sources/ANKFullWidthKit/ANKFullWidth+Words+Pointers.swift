@@ -258,7 +258,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    public let base: UnsafePointer<UInt>
+    @usableFromInline let base: UnsafePointer<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -281,12 +281,12 @@ extension ANKFullWidthUnsafeWordsPointer {
     }
     
     public subscript(index: Int) -> UInt {
-        @_transparent _read {
+        @_transparent get {
             assert(self.indices ~= index)
             #if _endian(big)
-            yield self.base[self.lastIndex &- index]
+            return self.base[self.lastIndex &- index]
             #else
-            yield self.base[index]
+            return self.base[index]
             #endif
         }
     }
@@ -308,7 +308,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    public let base: UnsafeMutablePointer<UInt>
+    @usableFromInline let base: UnsafeMutablePointer<UInt>
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -322,32 +322,42 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent public var first: UInt {
-        nonmutating get { self[self.startIndex] }
-        nonmutating set { self[self.startIndex] = newValue }
+    public var first: UInt {
+        @_transparent get  {
+            self[self.startIndex]
+        }
+        
+        @_transparent nonmutating set {
+            self[self.startIndex] = newValue
+        }
     }
     
-    @_transparent public var last: UInt {
-        nonmutating get { self[self.lastIndex] }
-        nonmutating set { self[self.lastIndex] = newValue }
+    public var last: UInt {
+        @_transparent get {
+            self[self.lastIndex]
+        }
+        
+        @_transparent nonmutating set {
+            self[self.lastIndex] = newValue
+        }
     }
     
     public subscript(index: Int) -> UInt {
-        @_transparent _read {
+        @_transparent get {
             assert(self.indices ~= index)
             #if _endian(big)
-            yield self.base[self.lastIndex &- index]
+            return self.base[self.lastIndex &- index]
             #else
-            yield self.base[index]
+            return self.base[index]
             #endif
         }
         
-        @_transparent nonmutating _modify {
+        @_transparent nonmutating set {
             assert(self.indices ~= index)
             #if _endian(big)
-            yield &self.base[self.lastIndex &- index]
+            self.base[self.lastIndex &- index] = newValue
             #else
-            yield &self.base[index]
+            self.base[index] = newValue
             #endif
         }
     }

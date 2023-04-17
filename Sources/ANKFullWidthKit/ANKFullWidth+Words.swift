@@ -97,14 +97,14 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @usableFromInline subscript(unchecked index: Int) -> UInt {
-        @_transparent _read { yield  self.withUnsafeWords({ $0[index] /*------*/ }) }
-        @_transparent  set  { self.withUnsafeMutableWords({ $0[index] = newValue }) }
+    public subscript(index: Int) -> UInt {
+        @_transparent _read   { precondition(self.indices ~= index); yield  self[unchecked: index] }
+        @_transparent _modify { precondition(self.indices ~= index); yield &self[unchecked: index] }
     }
     
-    public subscript(index: Int) -> UInt {
-        @_transparent _read { precondition(self.indices ~= index); yield self[unchecked: index] /*------*/ }
-        @_transparent  set  { precondition(self.indices ~= index); /*-*/ self[unchecked: index] = newValue }
+    @usableFromInline subscript(unchecked index: Int) -> UInt {
+        @_transparent _read { yield  self.withUnsafeWords({ $0[index]            }) }
+        @_transparent  set  { self.withUnsafeMutableWords({ $0[index] = newValue }) }
     }
 }
 
