@@ -221,7 +221,7 @@ extension String {
                     }
                 }
                 //=------------------------------=
-                assert(UTF8.distance(from: UTF8.startIndex, to: index) == count)
+                assert(UTF8[..<index].count == count)
                 return count
             }
         }

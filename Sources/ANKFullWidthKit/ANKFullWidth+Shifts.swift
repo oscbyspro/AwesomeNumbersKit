@@ -47,11 +47,11 @@ extension ANKFullWidth {
     ///   - amount: `Int.min <= amount <= Int.max`
     ///
     @inlinable mutating func _bitshiftLeftSmart(by amount: Int) {
-        let amountAbsoluteValue: Int = abs(amount)
-        switch (amount >= 0, amountAbsoluteValue < Self.bitWidth) {
-        case (true,  true ): self._bitshiftLeft(by:  amountAbsoluteValue)
+        let amountAbsoluteValue = amount.magnitude  as UInt
+        switch (amount >= 0, amountAbsoluteValue <  UInt(bitPattern: Self.bitWidth)) {
+        case (true,  true ): self._bitshiftLeft(by:  Int(bitPattern: amountAbsoluteValue))
         case (true,  false): self = Self(repeating:  false)
-        case (false, true ): self._bitshiftRight(by: amountAbsoluteValue)
+        case (false, true ): self._bitshiftRight(by: Int(bitPattern: amountAbsoluteValue))
         case (false, false): self = Self(repeating:  self.isLessThanZero)
         }
     }
@@ -155,11 +155,11 @@ extension ANKFullWidth {
     ///   - amount: `Int.min <= amount <= Int.max`
     ///
     @inlinable mutating func _bitshiftRightSmart(by amount: Int) {
-        let amountAbsoluteValue: Int = abs(amount)
-        switch (amount >= 0, amountAbsoluteValue < Self.bitWidth) {
-        case (true,  true ): self._bitshiftRight(by: amountAbsoluteValue)
+        let amountAbsoluteValue = amount.magnitude  as UInt
+        switch (amount >= 0, amountAbsoluteValue <  UInt(bitPattern: Self.bitWidth)) {
+        case (true,  true ): self._bitshiftRight(by: Int(bitPattern: amountAbsoluteValue))
         case (true,  false): self = Self(repeating:  self.isLessThanZero)
-        case (false, true ): self._bitshiftLeft(by:  amountAbsoluteValue)
+        case (false, true ): self._bitshiftLeft(by:  Int(bitPattern: amountAbsoluteValue))
         case (false, false): self = Self(repeating:  false)
         }
     }

@@ -162,7 +162,7 @@ extension ANKFullWidth where High == High.Magnitude {
             return  QR(qr.quotient,   Self(digit: qr.remainder))
         }
         //=--------------------------------------=
-        let dividend_ = self.minLastIndexReportingIsZeroOrMinusOne()
+        let dividend_  = self.minLastIndexReportingIsZeroOrMinusOne()
         let minLastIndexGapSize: Int = dividend_.minLastIndex &- divisor_.minLastIndex
         let shift: Int = divisor[unchecked: divisor_.minLastIndex].leadingZeroBitCount
         //=--------------------------------------=
@@ -185,7 +185,7 @@ extension ANKFullWidth where High == High.Magnitude {
                 QUOTIENT[quotientIndex] = UInt()
             }
             //=----------------------------------=
-            for quotientIndex in QUOTIENT.indices.prefix(through: minLastIndexGapSize).reversed() {
+            for quotientIndex in QUOTIENT.indices[...minLastIndexGapSize].reversed() {
                 //=------------------------------=
                 // Approximate Quotient Digit
                 //=------------------------------=

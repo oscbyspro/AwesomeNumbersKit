@@ -109,6 +109,11 @@ final class Int192TestsOnShifts: XCTestCase {
         }
     }
     
+    func testBitshiftingByMinAmountDoesNotTrap() {
+        XCTAssertEqual(T(repeating: true) << Int.min, T(repeating: true ))
+        XCTAssertEqual(T(repeating: true) >> Int.min, T(repeating: false))
+    }
+    
     func testBitshiftingByMaskingIsEquivalentToBitshiftingModuloBitWidth() {
         for _ in 0 ..< 100 {
             let x0 = UInt64.random(in: 0 ..< UInt64.max)
@@ -215,6 +220,11 @@ final class UInt192TestsOnShifts: XCTestCase {
             XCTAssertEqual(value << shift, value >> (-shift))
             XCTAssertEqual(value >> shift, value << (-shift))
         }
+    }
+    
+    func testBitshiftingByMinAmountDoesNotTrap() {
+        XCTAssertEqual(T(repeating: true) << Int.min, T(repeating: false))
+        XCTAssertEqual(T(repeating: true) >> Int.min, T(repeating: false))
     }
     
     func testBitshiftingByMaskingIsEquivalentToBitshiftingModuloBitWidth() {
