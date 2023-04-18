@@ -19,6 +19,18 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    @inlinable public static func <<=(lhs: inout Self, rhs: some BinaryInteger) {
+        lhs._bitshiftLeftSmart(by: Int(clamping: rhs))
+    }
+
+    @_transparent public static func <<(lhs: Self, rhs: some BinaryInteger) -> Self {
+        var lhs = lhs; lhs <<= rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable public static func &<<=(lhs: inout Self, rhs: Self) {
         lhs._bitshiftLeft(by: rhs._moduloBitWidth)
     }
@@ -30,6 +42,26 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     // MARK: Transformations x Int
     //=------------------------------------------------------------------------=
+    
+    /// - Parameters:
+    ///   - amount: `Int.min <= amount <= Int.max`
+    ///
+    @inlinable mutating func _bitshiftLeftSmart(by amount: Int) {
+        let amountAbsoluteValue: Int = abs(amount)
+        switch (amount >= 0, amountAbsoluteValue < Self.bitWidth) {
+        case (true,  true ): self._bitshiftLeft(by:  amountAbsoluteValue)
+        case (true,  false): self = Self(repeating:  false)
+        case (false, true ): self._bitshiftRight(by: amountAbsoluteValue)
+        case (false, false): self = Self(repeating:  self.isLessThanZero)
+        }
+    }
+    
+    /// - Parameters:
+    ///   - amount: `Int.min <= amount <= Int.max`
+    ///
+    @_transparent @usableFromInline func _bitshiftedLeftSmart(by amount: Int) -> Self {
+        var x = self; x._bitshiftLeftSmart(by: amount); return x
+    }
     
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
@@ -95,6 +127,18 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
+    @inlinable public static func >>=(lhs: inout Self, rhs: some BinaryInteger) {
+        lhs._bitshiftRightSmart(by: Int(clamping: rhs))
+    }
+
+    @_transparent public static func >>(lhs: Self, rhs: some BinaryInteger) -> Self {
+        var lhs = lhs; lhs >>= rhs; return lhs
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
     @inlinable public static func &>>=(lhs: inout Self, rhs: Self) {
         lhs._bitshiftRight(by: rhs._moduloBitWidth)
     }
@@ -106,6 +150,26 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     // MARK: Transformations x Int
     //=------------------------------------------------------------------------=
+    
+    /// - Parameters:
+    ///   - amount: `Int.min <= amount <= Int.max`
+    ///
+    @inlinable mutating func _bitshiftRightSmart(by amount: Int) {
+        let amountAbsoluteValue: Int = abs(amount)
+        switch (amount >= 0, amountAbsoluteValue < Self.bitWidth) {
+        case (true,  true ): self._bitshiftRight(by: amountAbsoluteValue)
+        case (true,  false): self = Self(repeating:  self.isLessThanZero)
+        case (false, true ): self._bitshiftLeft(by:  amountAbsoluteValue)
+        case (false, false): self = Self(repeating:  false)
+        }
+    }
+    
+    /// - Parameters:
+    ///   - amount: `Int.min <= amount <= Int.max`
+    ///
+    @_transparent @usableFromInline func _bitshiftedRightSmart(by amount: Int) -> Self {
+        var x = self; x._bitshiftRightSmart(by: amount); return x
+    }
     
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
