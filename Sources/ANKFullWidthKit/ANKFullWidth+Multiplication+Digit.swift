@@ -30,6 +30,18 @@ extension ANKFullWidth {
     }
     
     //=------------------------------------------------------------------------=
+    // MARK: Details x Multiplication
+    //=------------------------------------------------------------------------=
+    
+    @_disfavoredOverload @_transparent public static func &*=(lhs: inout Self, rhs: Digit) {
+        _ = lhs.multiplyReportingOverflow(by: rhs)
+    }
+    
+    @_disfavoredOverload @_transparent public static func &*(lhs: Self, rhs: Digit) -> Self {
+        lhs.multipliedReportingOverflow(by: rhs).partialValue
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     

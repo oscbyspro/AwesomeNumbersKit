@@ -9,6 +9,7 @@
 
 #if DEBUG
 
+import ANKFoundation
 import ANKFullWidthKit
 import XCTest
 
@@ -47,6 +48,23 @@ final class Int192TestsOnMultiplication: XCTestCase {
         XCTAssertEqual( T(x64: X(1, 2, 3)) *  T(x64: X(2, 0, 0)), T(x64: X(2, 4, 6)))
         XCTAssertEqual( T(x64: X(1, 2, 0)) *  T(x64: X(0, 2, 0)), T(x64: X(0, 2, 4)))
         XCTAssertEqual( T(x64: X(1, 0, 0)) *  T(x64: X(0, 0, 2)), T(x64: X(0, 0, 2)))
+    }
+    
+    func testMultipliedWrappingAround() {
+        XCTAssertEqual(T.min &* T.min, T( 0))
+        XCTAssertEqual(T.min &* T.max, T.min)
+        XCTAssertEqual(T.max &* T.min, T.min)
+        XCTAssertEqual(T.max &* T.max, T( 1))
+        
+        XCTAssertEqual(T.min &* T(-2), T( 0))
+        XCTAssertEqual(T.min &* T( 2), T( 0))
+        XCTAssertEqual(T.max &* T(-2), T( 2))
+        XCTAssertEqual(T.max &* T( 2), T(-2))
+        
+        XCTAssertEqual(T(x64: X(~1, ~2, ~3)) &* T(-2), T(x64: X( 4,  4,  6)))
+        XCTAssertEqual(T(x64: X(~1, ~2, ~3)) &* T( 2), T(x64: X(~3, ~4, ~6)))
+        XCTAssertEqual(T(x64: X( 1,  2,  3)) &* T(-2), T(x64: X(~1, ~4, ~6)))
+        XCTAssertEqual(T(x64: X( 1,  2,  3)) &* T( 2), T(x64: X( 2,  4,  6)))
     }
     
     func testMultipliedReportingOverflow() {
@@ -125,6 +143,18 @@ final class Int192TestsOnMultiplication: XCTestCase {
         XCTAssertEqual( T(x64: X(1, 2, 3)) *  Int(2),  T(x64: X(2, 4, 6)))
     }
     
+    func testMultipliedByDigitWrappingAround() {
+        XCTAssertEqual(T.min &* Int(-2), T( 0))
+        XCTAssertEqual(T.min &* Int( 2), T( 0))
+        XCTAssertEqual(T.max &* Int(-2), T( 2))
+        XCTAssertEqual(T.max &* Int( 2), T(-2))
+        
+        XCTAssertEqual(T(x64: X(~1, ~2, ~3)) &* Int(-2), T(x64: X( 4,  4,  6)))
+        XCTAssertEqual(T(x64: X(~1, ~2, ~3)) &* Int( 2), T(x64: X(~3, ~4, ~6)))
+        XCTAssertEqual(T(x64: X( 1,  2,  3)) &* Int(-2), T(x64: X(~1, ~4, ~6)))
+        XCTAssertEqual(T(x64: X( 1,  2,  3)) &* Int( 2), T(x64: X( 2,  4,  6)))
+    }
+    
     func testMultipliedByDigitReportingOverflow() {
         XCTAssert(T.min.multipliedReportingOverflow(by: Int(-2)) == (T( 0), true))
         XCTAssert(T.min.multipliedReportingOverflow(by: Int( 2)) == (T( 0), true))
@@ -170,11 +200,13 @@ final class Int192TestsOnMultiplication: XCTestCase {
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
         var x = T()
         
-        XCTAssertNotNil(x *= 0)
+        XCTAssertNotNil(x  *= 0)
+        XCTAssertNotNil(x &*= 0)
         XCTAssertNotNil(x.multiplyReportingOverflow(by: 0))
         XCTAssertNotNil(x.multiplyFullWidth(by: 0))
         
-        XCTAssertNotNil(x *  0)
+        XCTAssertNotNil(x  *  0)
+        XCTAssertNotNil(x &*  0)
         XCTAssertNotNil(x.multipliedReportingOverflow(by: 0))
         XCTAssertNotNil(x.multipliedFullWidth(by: 0))
     }
@@ -201,6 +233,14 @@ final class UInt192TestsOnMultiplication: XCTestCase {
         XCTAssertEqual(T(x64: X(1, 2, 3)) * T(x64: X(2, 0, 0)), T(x64: X(2, 4, 6)))
         XCTAssertEqual(T(x64: X(1, 2, 0)) * T(x64: X(0, 2, 0)), T(x64: X(0, 2, 4)))
         XCTAssertEqual(T(x64: X(1, 0, 0)) * T(x64: X(0, 0, 2)), T(x64: X(0, 0, 2)))
+    }
+    
+    func testMultipliedWrappingAround() {
+        XCTAssertEqual(T.max &* T( 2), ~T(1))
+        XCTAssertEqual(T.max &* T.max,  T(1))
+        
+        XCTAssertEqual(T(x64: X(~1, ~2, ~3)) &* T(2), T(x64: X(~3, ~4, ~6)))
+        XCTAssertEqual(T(x64: X( 1,  2,  3)) &* T(2), T(x64: X( 2,  4,  6)))
     }
     
     func testMultipliedReportingOverflow() {
@@ -235,6 +275,14 @@ final class UInt192TestsOnMultiplication: XCTestCase {
         XCTAssertEqual(T(x64: X(1, 2, 3)) * UInt(2), T(x64: X(2, 4, 6)))
     }
     
+    func testMultipliedByDigitWeappingAround() {
+        XCTAssertEqual(T.min &* UInt(2),  T(0))
+        XCTAssertEqual(T.max &* UInt(2), ~T(1))
+        
+        XCTAssertEqual(T(x64: X(~1, ~2, ~3)) &* UInt(2), T(x64: X(~3, ~4, ~6)))
+        XCTAssertEqual(T(x64: X( 1,  2,  3)) &* UInt(2), T(x64: X( 2,  4,  6)))
+    }
+    
     func testMultipliedByDigitReportingOverflow() {
         XCTAssert(T.min.multipliedReportingOverflow(by: UInt(2)) == ( T(0), false) as (T, Bool))
         XCTAssert(T.max.multipliedReportingOverflow(by: UInt(2)) == (~T(1), true ) as (T, Bool))
@@ -264,11 +312,13 @@ final class UInt192TestsOnMultiplication: XCTestCase {
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
         var x = T()
         
-        XCTAssertNotNil(x *= 0)
+        XCTAssertNotNil(x  *= 0)
+        XCTAssertNotNil(x &*= 0)
         XCTAssertNotNil(x.multiplyReportingOverflow(by: 0))
         XCTAssertNotNil(x.multiplyFullWidth(by: 0))
         
-        XCTAssertNotNil(x *  0)
+        XCTAssertNotNil(x  *  0)
+        XCTAssertNotNil(x &*  0)
         XCTAssertNotNil(x.multipliedReportingOverflow(by: 0))
         XCTAssertNotNil(x.multipliedFullWidth(by: 0))
     }

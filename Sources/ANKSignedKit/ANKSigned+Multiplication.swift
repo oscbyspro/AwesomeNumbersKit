@@ -37,6 +37,18 @@ extension ANKSigned where Magnitude: ANKFixedWidthInteger {
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
+
+    @_transparent public static func &*=(lhs: inout Self, rhs: Self) {
+        _ = lhs.multiplyReportingOverflow(by: rhs)
+    }
+
+    @_transparent public static func &*(lhs: Self, rhs: Self) -> Self {
+        lhs.multipliedReportingOverflow(by: rhs).partialValue
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
     
     @inlinable public mutating func multiplyReportingOverflow(by  amount: Self) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)

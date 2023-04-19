@@ -130,10 +130,8 @@ extension RadixUIntRoot {
         // Radix == 8, 32, 64, 128, ...
         //=--------------------------------------=
         }   else {
-            let exponent = UInt(bitPattern: UInt.bitWidth) /  zeros
-            let shift: UInt = zeros.multipliedReportingOverflow(by: exponent).partialValue
-            let power: UInt = (1 as UInt) &<<  shift
-            return (exponent: exponent, power: power)
+            let exponent = UInt(bitPattern: UInt.bitWidth) / zeros
+            return (exponent: exponent, power: 1 &<< (zeros &* exponent))
         }
     }
     

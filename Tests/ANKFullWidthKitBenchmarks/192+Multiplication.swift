@@ -39,6 +39,17 @@ final class Int192BenchmarksOnMultiplication: XCTestCase {
         }
     }
     
+    func testMultipliedWrappingAround() {
+        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3)))
+        var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0)))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(lhs &* rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
+        }
+    }
+    
     func testMultipliedReportingOverflow() {
         var lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
         var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0)))
@@ -71,6 +82,17 @@ final class Int192BenchmarksOnMultiplication: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs * rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
+        }
+    }
+    
+    func testMultipliedByDigitWrappingAround() {
+        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3)))
+        var rhs = _blackHoleIdentity(Int.max)
+
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(lhs &* rhs)
             _blackHoleInoutIdentity(&lhs)
             _blackHoleInoutIdentity(&rhs)
         }
@@ -122,6 +144,17 @@ final class UInt192BenchmarksOnMultiplication: XCTestCase {
         }
     }
     
+    func testMultipliedWrappingAround() {
+        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3)))
+        var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0)))
+
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(lhs &* rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
+        }
+    }
+    
     func testMultipliedReportingOverflow() {
         var lhs = _blackHoleIdentity(T(x64: X(3, 3, 0)))
         var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0)))
@@ -154,6 +187,17 @@ final class UInt192BenchmarksOnMultiplication: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs * rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
+        }
+    }
+    
+    func testMultipliedByDigitWrappingAround() {
+        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3)))
+        var rhs = _blackHoleIdentity(UInt.max)
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(lhs &* rhs)
             _blackHoleInoutIdentity(&lhs)
             _blackHoleInoutIdentity(&rhs)
         }

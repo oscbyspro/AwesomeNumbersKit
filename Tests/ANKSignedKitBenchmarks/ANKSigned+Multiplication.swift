@@ -38,6 +38,17 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         }
     }
     
+    func testMultipliedByWrappingAround() {
+        var lhs = _blackHoleIdentity(T(4, as: .plus ))
+        var rhs = _blackHoleIdentity(T(4, as: .minus))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(lhs &* rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
+        }
+    }
+    
     func testMultipliedReportingOverflow() {
         var lhs = _blackHoleIdentity(T(4, as: .plus ))
         var rhs = _blackHoleIdentity(T(4, as: .minus))
@@ -70,6 +81,17 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         
         for _ in 0 ..< 1_000_000 {
             _blackHole(lhs * rhs)
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
+        }
+    }
+    
+    func testMultipliedByDigitWrappingAround() {
+        var lhs = _blackHoleIdentity(T(4, as: .plus ))
+        var rhs = _blackHoleIdentity(D(4, as: .minus))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(lhs &* rhs)
             _blackHoleInoutIdentity(&lhs)
             _blackHoleInoutIdentity(&rhs)
         }
