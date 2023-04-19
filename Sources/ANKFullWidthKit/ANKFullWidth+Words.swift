@@ -65,16 +65,6 @@ extension ANKFullWidth {
         Self.indices
     }
     
-    @_transparent public var first: UInt {
-        _read   { yield  self[unchecked: self.startIndex] }
-        _modify { yield &self[unchecked: self.startIndex] }
-    }
-    
-    @_transparent public var last: UInt {
-        _read   { yield  self[unchecked: self.lastIndex] }
-        _modify { yield &self[unchecked: self.lastIndex] }
-    }
-    
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
@@ -97,14 +87,45 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    public subscript(index: Int) -> UInt {
-        @_transparent _read   { precondition(self.indices ~= index); yield  self[unchecked: index] }
-        @_transparent _modify { precondition(self.indices ~= index); yield &self[unchecked: index] }
+    @inlinable public var first: UInt {
+        @_transparent _read {
+            yield  self[unchecked: self.startIndex]
+        }
+        
+        @_transparent _modify {
+            yield &self[unchecked: self.startIndex]
+        }
     }
     
-    @usableFromInline subscript(unchecked index: Int) -> UInt {
-        @_transparent _read { yield  self.withUnsafeWords({ $0[index]            }) }
-        @_transparent  set  { self.withUnsafeMutableWords({ $0[index] = newValue }) }
+    @inlinable public var last: UInt {
+        @_transparent _read {
+            yield  self[unchecked: self.lastIndex]
+        }
+        
+        @_transparent _modify {
+            yield &self[unchecked: self.lastIndex]
+        }
+    }
+    
+    @inlinable public subscript(index: Int) -> UInt {
+        @_transparent _read {
+            precondition(self.indices ~= index)
+            yield  self[unchecked: index]
+        }
+        @_transparent _modify {
+            precondition(self.indices ~= index)
+            yield &self[unchecked: index]
+        }
+    }
+    
+    @inlinable subscript(unchecked index: Int) -> UInt {
+        @_transparent _read {
+            yield  self.withUnsafeWords({ $0[index] })
+        }
+        
+        @_transparent set {
+            self.withUnsafeMutableWords({ $0[index] = newValue })
+        }
     }
 }
 

@@ -214,6 +214,12 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    @inlinable public func distance(from start: Int, to end: Int) -> Int {
+        assert(self.startIndex ... self.endIndex ~= start)
+        assert(self.startIndex ... self.endIndex ~= end  )
+        return end &- start
+    }
+    
     @inlinable public func index(after index: Int) -> Int {
         let value = index &+ 1
         assert(self.startIndex ... self.endIndex ~= index)
@@ -235,10 +241,13 @@ extension ANKFullWidthUnsafeWordsPointer {
         return value  as Index
     }
     
-    @inlinable public func distance(from start: Int, to end: Int) -> Int {
-        assert(self.startIndex ... self.endIndex ~= start)
-        assert(self.startIndex ... self.endIndex ~= end  )
-        return end &- start
+    @_transparent @usableFromInline func endianSensitiveIndex(_ index: Int) -> Int {
+        assert(self.indices ~= index)
+        #if _endian(big)
+        return self.lastIndex &- index
+        #else
+        return index
+        #endif
     }
 }
 
@@ -264,7 +273,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(_ base: UnsafePointer<UInt>) {
+    @_transparent @usableFromInline init(_ base: UnsafePointer<UInt>) {
         self.base = base
     }
     
@@ -272,22 +281,21 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent public var first: UInt {
-        self[self.startIndex]
-    }
-    
-    @_transparent public var last: UInt {
-        self[self.lastIndex]
-    }
-    
-    public subscript(index: Int) -> UInt {
+    @inlinable public var first: UInt {
         @_transparent get {
-            assert(self.indices ~= index)
-            #if _endian(big)
-            return self.base[self.lastIndex &- index]
-            #else
-            return self.base[index]
-            #endif
+            self[self.startIndex]
+        }
+    }
+    
+    @inlinable public var last: UInt {
+        @_transparent get {
+            self[self.lastIndex]
+        }
+    }
+    
+    @inlinable public subscript(index: Int) -> UInt {
+        @_transparent get {
+            self.base[self.endianSensitiveIndex(index)]
         }
     }
 }
@@ -314,7 +322,7 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable init(_ base: UnsafeMutablePointer<UInt>) {
+    @_transparent @usableFromInline init(_ base: UnsafeMutablePointer<UInt>) {
         self.base = base
     }
     
@@ -322,8 +330,8 @@ extension ANKFullWidthUnsafeWordsPointer {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    public var first: UInt {
-        @_transparent get  {
+    @inlinable public var first: UInt {
+        @_transparent get {
             self[self.startIndex]
         }
         
@@ -332,7 +340,7 @@ extension ANKFullWidthUnsafeWordsPointer {
         }
     }
     
-    public var last: UInt {
+    @inlinable public var last: UInt {
         @_transparent get {
             self[self.lastIndex]
         }
@@ -342,23 +350,13 @@ extension ANKFullWidthUnsafeWordsPointer {
         }
     }
     
-    public subscript(index: Int) -> UInt {
+    @inlinable public subscript(index: Int) -> UInt {
         @_transparent get {
-            assert(self.indices ~= index)
-            #if _endian(big)
-            return self.base[self.lastIndex &- index]
-            #else
-            return self.base[index]
-            #endif
+            self.base[self.endianSensitiveIndex(index)]
         }
         
         @_transparent nonmutating set {
-            assert(self.indices ~= index)
-            #if _endian(big)
-            self.base[self.lastIndex &- index] = newValue
-            #else
-            self.base[index] = newValue
-            #endif
+            self.base[self.endianSensitiveIndex(index)] = newValue
         }
     }
 }
