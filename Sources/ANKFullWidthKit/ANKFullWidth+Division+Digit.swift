@@ -41,7 +41,8 @@ extension ANKFullWidth {
     
     @_disfavoredOverload @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool {
         let pvo: PVO<Digit> = self.remainderReportingOverflow(dividingBy: divisor)
-        self = Self(digit: pvo.partialValue); return pvo.overflow
+        self = Self(digit: pvo.partialValue)
+        return pvo.overflow as Bool
     }
     
     @_disfavoredOverload @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
