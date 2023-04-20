@@ -30,6 +30,7 @@ Large number arithmetic in Swift.
 - ``ANKSignedInteger``
 - ``ANKSignedLargeBinaryInteger``
 - ``ANKSignedLargeFixedWidthInteger``
+- ``ANKSignedMagnitudeBuildable``
 - ``ANKTrivialContiguousBytes``
 - ``ANKUnsignedFixedWidthInteger``
 - ``ANKUnsignedInteger``

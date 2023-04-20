@@ -11,6 +11,7 @@
 // MARK: * ANK x Signed Magnitude Buildable
 //*============================================================================*
 
+/// An awesome type that can be built from an ``ANKSigned`` instance.
 public protocol ANKSignedMagnitudeBuildable {
     
     associatedtype Magnitude: ANKUnsignedInteger where Magnitude.Magnitude == Magnitude
@@ -54,7 +55,7 @@ public protocol ANKSignedMagnitudeBuildable {
 extension ANKSignedMagnitudeBuildable where Self: ANKBinaryInteger, BitPattern == Magnitude.BitPattern {
     
     //=------------------------------------------------------------------------=
-    // MARK: Details x Sign & Magnitude
+    // MARK: Initializers
     //=------------------------------------------------------------------------=
     
     @inlinable public init(_ source: ANKSigned<Magnitude>) {
