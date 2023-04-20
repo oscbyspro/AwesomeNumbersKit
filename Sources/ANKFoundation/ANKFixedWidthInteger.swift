@@ -88,6 +88,178 @@ public protocol ANKFixedWidthInteger: ANKBinaryInteger, FixedWidthInteger where 
     @inlinable mutating func subtractReportingOverflow(_ amount: Self) -> Bool
 }
 
+//=----------------------------------------------------------------------------=
+// MARK: + Details
+//=----------------------------------------------------------------------------=
+
+extension ANKFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Addition
+    //=------------------------------------------------------------------------=
+    
+    /// Forms the sum of adding `rhs` to `lhs`.
+    ///
+    /// ```swift
+    /// var a = Int8(1); a += Int8(2) // a = Int8(3)
+    /// var b = Int8(2); b += Int8(3) // b = Int8(5)
+    /// var c = Int8(3); c += Int8(4) // c = Int8(7)
+    /// var d = Int8(4); d += Int8(5) // d = Int8(9)
+    /// ```
+    ///
+    @_transparent public static func +=(lhs: inout Self, rhs: Self) {
+        let overflow: Bool = lhs.addReportingOverflow(rhs)
+        precondition(!overflow)
+    }
+    
+    /// Returns the sum of adding `rhs` to `lhs`.
+    ///
+    /// ```swift
+    /// Int8(1) + Int8(2) // Int8(3)
+    /// Int8(2) + Int8(3) // Int8(5)
+    /// Int8(3) + Int8(4) // Int8(7)
+    /// Int8(4) + Int8(5) // Int8(9)
+    /// ```
+    ///
+    @_transparent public static func +(lhs: Self, rhs: Self) -> Self {
+        let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
+        precondition(!pvo.overflow)
+        return pvo.partialValue as Self
+    }
+    
+    /// Forms the truncated sum of adding `rhs` to `lhs`.
+    ///
+    /// ```swift
+    /// var a: Int8(126); a &+= Int8(1) // a = Int8( 127)
+    /// var b: Int8(127); b &+= Int8(1) // b = Int8(-128)
+    /// ```
+    ///
+    @_transparent public static func &+=(lhs: inout Self, rhs: Self) {
+        _ = lhs.addReportingOverflow(rhs) as Bool
+    }
+    
+    /// Returns the truncated sum of adding `rhs` to `lhs`.
+    ///
+    /// ```swift
+    /// Int8(126) &+ Int8(1) // Int8( 127)
+    /// Int8(127) &+ Int8(1) // Int8(-128)
+    /// ```
+    ///
+    @_transparent public static func &+(lhs: Self, rhs: Self) -> Self {
+        lhs.addingReportingOverflow(rhs).partialValue
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Multiplication
+    //=------------------------------------------------------------------------=
+    
+    /// Forms the product of multiplying `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// var a = Int8(1); a *= Int8(2) // a = Int8( 2)
+    /// var b = Int8(2); b *= Int8(3) // b = Int8( 6)
+    /// var c = Int8(3); c *= Int8(4) // c = Int8(12)
+    /// var d = Int8(4); d *= Int8(5) // d = Int8(20)
+    /// ```
+    ///
+    @_transparent public static func *=(lhs: inout Self, rhs: Self) {
+        let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
+        precondition(!overflow)
+    }
+    
+    /// Returns the product of multiplying `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// Int8(1) * Int8(2) // Int8( 2)
+    /// Int8(2) * Int8(3) // Int8( 6)
+    /// Int8(3) * Int8(4) // Int8(12)
+    /// Int8(4) * Int8(5) // Int8(20)
+    /// ```
+    ///
+    @_transparent public static func *(lhs: Self, rhs: Self) -> Self {
+        let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
+        precondition(!pvo.overflow)
+        return pvo.partialValue as Self
+    }
+    
+    /// Forms the truncated product of multiplying `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// var a = Int8(11); a &*= Int8(4) // a = Int8(44)
+    /// var b = Int8.max; b &*= Int8(4) // b = Int8(-4)
+    /// ```
+    ///
+    @_transparent public static func &*=(lhs: inout Self, rhs: Self) {
+        _ = lhs.multiplyReportingOverflow(by: rhs)
+    }
+    
+    /// Returns the truncated product of multiplying `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// Int8(11) &* Int8(4) // Int8(44)
+    /// Int8.max &* Int8(4) // Int8(-4)
+    /// ```
+    ///
+    @_transparent public static func &*(lhs: Self, rhs: Self) -> Self {
+        lhs.multipliedReportingOverflow(by: rhs).partialValue
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Subtraction
+    //=------------------------------------------------------------------------=
+    
+    /// Forms the difference of subtracting `rhs` from `lhs`.
+    ///
+    /// ```swift
+    /// var a = Int8(3); a -= Int8(2) // a = Int8(1)
+    /// var b = Int8(5); b -= Int8(3) // b = Int8(2)
+    /// var c = Int8(7); c -= Int8(4) // c = Int8(3)
+    /// var d = Int8(9); d -= Int8(5) // d = Int8(4)
+    /// ```
+    ///
+    @_transparent public static func -=(lhs: inout Self, rhs: Self) {
+        let overflow: Bool = lhs.subtractReportingOverflow(rhs)
+        precondition(!overflow)
+    }
+    
+    /// Returns the difference of subtracting `rhs` from `lhs`.
+    ///
+    /// ```swift
+    /// Int8(3) - Int8(2) // Int8(1)
+    /// Int8(5) - Int8(3) // Int8(2)
+    /// Int8(7) - Int8(4) // Int8(3)
+    /// Int8(9) - Int8(5) // Int8(4)
+    /// ```
+    ///
+    @_transparent public static func -(lhs: Self, rhs: Self) -> Self {
+        let pvo: PVO<Self> = lhs.subtractingReportingOverflow(rhs)
+        precondition(!pvo.overflow)
+        return pvo.partialValue as Self
+    }
+    
+    /// Forms the truncated difference of subtracting `rhs` from `lhs`.
+    ///
+    /// ```swift
+    /// var a: Int8(-127); a &-= Int8(1) // a = Int8(-128)
+    /// var b: Int8(-128); b &-= Int8(1) // b = Int8( 127)
+    /// ```
+    ///
+    @_transparent public static func &-=(lhs: inout Self, rhs: Self) {
+        _ = lhs.subtractReportingOverflow(rhs)
+    }
+    
+    /// Forms the truncated difference of subtracting `rhs` from `lhs`.
+    ///
+    /// ```swift
+    /// Int8(-127) &- Int8(1) // Int8(-128)
+    /// Int8(-128) &- Int8(1) // Int8( 127)
+    /// ```
+    ///
+    @_transparent public static func &-(lhs: Self, rhs: Self) -> Self {
+        lhs.subtractingReportingOverflow(rhs).partialValue
+    }
+}
+
 //*============================================================================*
 // MARK: * ANK x Fixed Width Integer x Signed
 //*============================================================================*
@@ -125,6 +297,31 @@ public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteg
     /// ```
     ///
     @inlinable func negatedReportingOverflow() -> PVO<Self>
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details
+//=----------------------------------------------------------------------------=
+
+extension ANKSignedFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    /// Returns a value with equal magnitude but opposite sign.
+    ///
+    /// ```swift
+    /// -Int8( 1) // Int8(-1)
+    /// -Int8( 0) // Int8( 0)
+    /// -Int8(-1) // Int8( 1)
+    /// ```
+    ///
+    @_transparent public static prefix func -(x: Self) -> Self {
+        let pvo: PVO<Self> = x.negatedReportingOverflow()
+        precondition(!pvo.overflow)
+        return pvo.partialValue as Self
+    }
 }
 
 //*============================================================================*

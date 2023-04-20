@@ -19,30 +19,6 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func /=(lhs: inout Self, rhs: Self) {
-        let overflow: Bool = lhs.divideReportingOverflow(by: rhs)
-        precondition(!overflow)
-    }
-    
-    @inlinable public static func /(lhs: Self, rhs: Self) -> Self {
-        let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow); return pvo.partialValue
-    }
-    
-    @inlinable public static func %=(lhs: inout Self, rhs: Self) {
-        let overflow: Bool = lhs.formRemainderReportingOverflow(dividingBy: rhs)
-        precondition(!overflow)
-    }
-    
-    @inlinable public static func %(lhs: Self, rhs: Self) -> Self {
-        let pvo: PVO<Self> = lhs.remainderReportingOverflow(dividingBy: rhs)
-        precondition(!pvo.overflow); return pvo.partialValue
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
     @inlinable public mutating func divideReportingOverflow(by divisor: Self) -> Bool {
         let pvo: PVO<Self> = self.dividedReportingOverflow(by: divisor)
         self = pvo.partialValue; return pvo.overflow

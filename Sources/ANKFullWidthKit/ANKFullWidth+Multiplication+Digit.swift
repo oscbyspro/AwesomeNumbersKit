@@ -19,32 +19,6 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_disfavoredOverload @inlinable public static func *=(lhs: inout Self, rhs: Digit) {
-        let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
-        precondition(!overflow)
-    }
-    
-    @_disfavoredOverload @inlinable public static func *(lhs: Self, rhs: Digit) -> Self {
-        let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow); return pvo.partialValue
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Details x Multiplication
-    //=------------------------------------------------------------------------=
-    
-    @_disfavoredOverload @_transparent public static func &*=(lhs: inout Self, rhs: Digit) {
-        _ = lhs.multiplyReportingOverflow(by: rhs)
-    }
-    
-    @_disfavoredOverload @_transparent public static func &*(lhs: Self, rhs: Digit) -> Self {
-        lhs.multipliedReportingOverflow(by: rhs).partialValue
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
     @_disfavoredOverload @inlinable public mutating func multiplyReportingOverflow(by  amount: Digit) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
         self = pvo.partialValue; return pvo.overflow

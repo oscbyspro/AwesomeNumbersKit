@@ -19,32 +19,6 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func *=(lhs: inout Self, rhs: Self) {
-        let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
-        precondition(!overflow)
-    }
-    
-    @inlinable public static func *(lhs: Self, rhs: Self) -> Self {
-        let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow); return pvo.partialValue
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public static func &*=(lhs: inout Self, rhs: Self) {
-        _ = lhs.multiplyReportingOverflow(by: rhs)
-    }
-    
-    @_transparent public static func &*(lhs: Self, rhs: Self) -> Self {
-        lhs.multipliedReportingOverflow(by: rhs).partialValue
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
     @inlinable public mutating func multiplyReportingOverflow(by  amount: Self) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
         self = pvo.partialValue; return pvo.overflow
@@ -82,9 +56,7 @@ extension ANKFullWidth {
     @inlinable func _multipliedFullWidth(by amount: Self) -> DoubleWidth {
         if  High.Magnitude.self == Low.self {
             return self._multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by: amount)
-        }   else {
-            return self._multipliedFullWidthAsNormal(by: amount)
-        }
+        };  return self._multipliedFullWidthAsNormal(by: amount)
     }
 }
 

@@ -17,25 +17,6 @@
 ///
 public protocol ANKIntOrUInt: ANKCoreInteger, ANKLargeFixedWidthInteger<Self> where Magnitude == UInt { }
 
-//=----------------------------------------------------------------------------=
-// MARK: + Fixes Marked As Unavailable in /Integers.swift
-//=----------------------------------------------------------------------------=
-
-extension Int {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public static func &+(lhs: Self, rhs: Self) -> Self {
-        lhs.addingReportingOverflow(rhs).partialValue
-    }
-
-    @_transparent public static func &-(lhs: Self, rhs: Self) -> Self {
-        lhs.subtractingReportingOverflow(rhs).partialValue
-    }
-}
-
 //*============================================================================*
 // MARK: * ANK x Int Or UInt x Stdlib
 //*============================================================================*

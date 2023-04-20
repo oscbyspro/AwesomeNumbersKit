@@ -23,24 +23,6 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     // MARK: Details x Addition
     //=------------------------------------------------------------------------=
-
-    /// Forms the truncated sum of adding `rhs` to `lhs`.
-    ///
-    /// ```swift
-    /// var a: Int256(32); a &+= Int(1) // a = Int256(33)
-    /// var b: Int256.max; b &+= Int(1) // b = Int256.min
-    /// ```
-    ///
-    @inlinable static func &+=(lhs: inout Self, rhs: Digit)
-
-    /// Returns the truncated sum of adding `rhs` to `lhs`.
-    ///
-    /// ```swift
-    /// Int256(32) &+ Int(1) // Int256(33)
-    /// Int256.max &+ Int(1) // Int256.min
-    /// ```
-    ///
-    @inlinable static func &+(lhs: Self, rhs: Digit) -> Self
     
     /// Forms the sum of adding the given value to this value,
     /// and returns a value indicating whether overflow occurred.
@@ -112,24 +94,6 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     //=------------------------------------------------------------------------=
     // MARK: Details x Subtraction
     //=------------------------------------------------------------------------=
-    
-    /// Forms the truncated difference of subtracting `rhs` from `lhs`.
-    ///
-    /// ```swift
-    /// var a: Int256(33); a &-= Int(1) // a = Int256(32)
-    /// var b: Int256.min; b &-= Int(1) // b = Int256.max
-    /// ```
-    ///
-    @inlinable static func &-=(lhs: inout Self, rhs: Digit)
-    
-    /// Returns the truncated difference of subtracting `rhs` from `lhs`.
-    ///
-    /// ```swift
-    /// Int256(33) &- Int(1) // Int256(32)
-    /// Int256.min &- Int(1) // Int256.max
-    /// ```
-    ///
-    @inlinable static func &-(lhs: Self, rhs: Digit) -> Self
 
     /// Forms the difference of subtracting the given value from this value,
     /// and returns a value indicating whether overflow occurred.
@@ -152,6 +116,177 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKUnsignedLargeFixedWidthInteger {
     /// ```
     ///
     @inlinable func subtractingReportingOverflow(_ amount: Digit) -> PVO<Self>
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details
+//=----------------------------------------------------------------------------=
+
+extension ANKLargeFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Addition
+    //=------------------------------------------------------------------------=
+    
+    /// Forms the sum of adding `rhs` to `lhs`.
+    ///
+    /// ```swift
+    /// var a = Int256(1); a += Int(2) // a = Int256(3)
+    /// var b = Int256(2); b += Int(3) // b = Int256(5)
+    /// var c = Int256(3); c += Int(4) // c = Int256(7)
+    /// var d = Int256(4); d += Int(5) // d = Int256(9)
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func +=(lhs: inout Self, rhs: Digit) {
+        let overflow: Bool = lhs.addReportingOverflow(rhs)
+        precondition(!overflow)
+    }
+    
+    /// Returns the sum of adding `rhs` to `lhs`.
+    ///
+    /// ```swift
+    /// Int256(1) + Int(2) // Int256(3)
+    /// Int256(2) + Int(3) // Int256(5)
+    /// Int256(3) + Int(4) // Int256(7)
+    /// Int256(4) + Int(5) // Int256(9)
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func +(lhs: Self, rhs: Digit) -> Self {
+        let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
+        precondition(!pvo.overflow)
+        return pvo.partialValue as Self
+    }
+    
+    /// Forms the truncated sum of adding `rhs` to `lhs`.
+    ///
+    /// ```swift
+    /// var a: Int256(32); a &+= Int(1) // a = Int256(33)
+    /// var b: Int256.max; b &+= Int(1) // b = Int256.min
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func &+=(lhs: inout Self, rhs: Digit) {
+        _ = lhs.addReportingOverflow(rhs)
+    }
+    
+    /// Returns the truncated sum of adding `rhs` to `lhs`.
+    ///
+    /// ```swift
+    /// Int256(32) &+ Int(1) // Int256(33)
+    /// Int256.max &+ Int(1) // Int256.min
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func &+(lhs: Self, rhs: Digit) -> Self {
+        lhs.addingReportingOverflow(rhs).partialValue
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Multiplication
+    //=------------------------------------------------------------------------=
+    
+    /// Forms the product of multiplying `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// var a = Int256(1); a *= Int(2) // a = Int256( 2)
+    /// var b = Int256(2); b *= Int(3) // b = Int256( 6)
+    /// var c = Int256(3); c *= Int(4) // c = Int256(12)
+    /// var d = Int256(4); d *= Int(5) // d = Int256(20)
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func *=(lhs: inout Self, rhs: Digit) {
+        let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
+        precondition(!overflow)
+    }
+    
+    /// Returns the product of multiplying `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// Int256(1) * Int(2) // Int256( 2)
+    /// Int256(2) * Int(3) // Int256( 6)
+    /// Int256(3) * Int(4) // Int256(12)
+    /// Int256(4) * Int(5) // Int256(20)
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func *(lhs: Self, rhs: Digit) -> Self {
+        let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
+        precondition(!pvo.overflow); return pvo.partialValue
+    }
+    
+    /// Forms the truncated product of multiplying `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// var a = Int256(11); a &*= Int(4) // a = Int256(44)
+    /// var b = Int256.max; b &*= Int(4) // b = Int256(-4)
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func &*=(lhs: inout Self, rhs: Digit) {
+        _ = lhs.multiplyReportingOverflow(by: rhs)
+    }
+    
+    /// Returns the truncated product of multiplying `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// Int256(11) &* Int(4) // Int256(44)
+    /// Int256.max &* Int(4) // Int256(-4)
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func &*(lhs: Self, rhs: Digit) -> Self {
+        lhs.multipliedReportingOverflow(by: rhs).partialValue
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Subtraction
+    //=------------------------------------------------------------------------=
+    
+    /// Forms the difference of subtracting `rhs` from `lhs`.
+    ///
+    /// ```swift
+    /// var a = Int256(3); a -= Int(2) // a = Int256(1)
+    /// var b = Int256(5); b -= Int(3) // b = Int256(2)
+    /// var c = Int256(7); c -= Int(4) // c = Int256(3)
+    /// var d = Int256(9); d -= Int(5) // d = Int256(4)
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func -=(lhs: inout Self, rhs: Digit) {
+        let overflow: Bool = lhs.subtractReportingOverflow(rhs)
+        precondition(!overflow)
+    }
+    
+    /// Returns the difference of subtracting `rhs` from `lhs`.
+    ///
+    /// ```swift
+    /// Int256(3) - Int(2) // Int256(1)
+    /// Int256(5) - Int(3) // Int256(2)
+    /// Int256(7) - Int(4) // Int256(3)
+    /// Int256(9) - Int(5) // Int256(4)
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func -(lhs: Self, rhs: Digit) -> Self {
+        let pvo: PVO<Self> = lhs.subtractingReportingOverflow(rhs)
+        precondition(!pvo.overflow)
+        return pvo.partialValue as Self
+    }
+    
+    /// Forms the truncated difference of subtracting `rhs` from `lhs`.
+    ///
+    /// ```swift
+    /// var a: Int256(33); a &-= Int(1) // a = Int256(32)
+    /// var b: Int256.min; b &-= Int(1) // b = Int256.max
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func &-=(lhs: inout Self, rhs: Digit) {
+        _ = lhs.subtractReportingOverflow(rhs)
+    }
+    
+    /// Returns the truncated difference of subtracting `rhs` from `lhs`.
+    ///
+    /// ```swift
+    /// Int256(33) &- Int(1) // Int256(32)
+    /// Int256.min &- Int(1) // Int256.max
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public static func &-(lhs: Self, rhs: Digit) -> Self {
+        lhs.subtractingReportingOverflow(rhs).partialValue
+    }
 }
 
 //*============================================================================*

@@ -19,32 +19,6 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_disfavoredOverload @inlinable public static func +=(lhs: inout Self, rhs: Digit) {
-        let overflow: Bool = lhs.addReportingOverflow(rhs)
-        precondition(!overflow)
-    }
-    
-    @_disfavoredOverload @inlinable public static func +(lhs: Self, rhs: Digit) -> Self {
-        let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
-        precondition(!pvo.overflow); return pvo.partialValue
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @_disfavoredOverload @_transparent public static func &+=(lhs: inout Self, rhs: Digit) {
-        _ = lhs.addReportingOverflow(rhs) as Bool
-    }
-    
-    @_disfavoredOverload @_transparent public static func &+(lhs: Self, rhs: Digit) -> Self {
-        lhs.addingReportingOverflow(rhs).partialValue
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
     @_disfavoredOverload @inlinable public mutating func addReportingOverflow(_ amount: Digit) -> Bool {
         self.withUnsafeMutableWords { SELF in
             let amountIsLessThanZero: Bool = amount.isLessThanZero

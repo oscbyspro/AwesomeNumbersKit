@@ -173,6 +173,164 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     @inlinable init(truncatingIfNeeded source: ANKSigned<Magnitude>)
 }
 
+//=----------------------------------------------------------------------------=
+// MARK: + Details
+//=----------------------------------------------------------------------------=
+
+extension ANKBinaryInteger where Self: FixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public var isOdd: Bool {
+        self.leastSignificantBit
+    }
+    
+    @_transparent public var isEven: Bool {
+        self.leastSignificantBit == false
+    }
+    
+    @_transparent public var isPowerOf2: Bool {
+        self.nonzeroBitCount == 1
+    }
+
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Division
+    //=------------------------------------------------------------------------=
+    
+    /// Forms the quotient of dividing `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// var a = Int8( 7); a /= Int8( 3) // a = Int8( 2)
+    /// var b = Int8( 7); b /= Int8(-3) // b = Int8(-2)
+    /// var c = Int8(-7); c /= Int8( 3) // c = Int8(-2)
+    /// var d = Int8(-7); d /= Int8(-3) // d = Int8( 2)
+    /// ```
+    ///
+    @_transparent public static func /=(lhs: inout Self, rhs: Self) {
+        let overflow: Bool = lhs.divideReportingOverflow(by: rhs)
+        precondition(!overflow)
+    }
+    
+    /// Returns the quotient of dividing `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// Int8( 7) / Int8( 3) // Int8( 2)
+    /// Int8( 7) / Int8(-3) // Int8(-2)
+    /// Int8(-7) / Int8( 3) // Int8(-2)
+    /// Int8(-7) / Int8(-3) // Int8( 2)
+    /// ```
+    ///
+    @_transparent public static func /(lhs: Self, rhs: Self) -> Self {
+        let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
+        precondition(!pvo.overflow)
+        return pvo.partialValue as Self
+    }
+    
+    /// Forms the remainder of dividing `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// var a = Int8( 7); a %= Int8( 3) // a = Int8( 1)
+    /// var b = Int8( 7); b %= Int8(-3) // b = Int8( 1)
+    /// var c = Int8(-7); c %= Int8( 3) // c = Int8(-1)
+    /// var d = Int8(-7); d %= Int8(-3) // d = Int8(-1)
+    /// ```
+    ///
+    @_transparent public static func %=(lhs: inout Self, rhs: Self) {
+        let overflow: Bool = lhs.formRemainderReportingOverflow(dividingBy: rhs)
+        precondition(!overflow)
+    }
+    
+    /// Returns the remainder of dividing `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// Int8( 7) % Int8( 3) // Int8( 1)
+    /// Int8( 7) % Int8(-3) // Int8( 1)
+    /// Int8(-7) % Int8( 3) // Int8(-1)
+    /// Int8(-7) % Int8(-3) // Int8(-1)
+    /// ```
+    ///
+    @_transparent public static func %(lhs: Self, rhs: Self) -> Self {
+        let pvo: PVO<Self> = lhs.remainderReportingOverflow(dividingBy: rhs)
+        precondition(!pvo.overflow)
+        return pvo.partialValue as Self
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details where BitPattern is Magnitude.BitPattern
+//=----------------------------------------------------------------------------=
+
+extension ANKBinaryInteger where BitPattern == Magnitude.BitPattern {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Sign & Magnitude
+    //=------------------------------------------------------------------------=
+    
+    /// Creates a new instance from the given integer.
+    ///
+    /// If the value passed as source is not representable, an error may occur.
+    ///
+    @inlinable public init(_ source: ANKSigned<Magnitude>) {
+        guard let value = Self(exactly: source) else {
+            preconditionFailure("\(source) is not in \(Self.self)'s representable range")
+        }
+        
+        self = value
+    }
+    
+    /// Creates a new instance from the given integer, if it is representable.
+    ///
+    /// If the value passed as source is not representable, the result is nil.
+    ///
+    @inlinable public init?(exactly source: ANKSigned<Magnitude>) {
+        let sourceIsLessThanZero = source.isLessThanZero
+        //=--------------------------------------=
+        if  Self.isSigned {
+            self.init(bitPattern: source.magnitude)
+            if sourceIsLessThanZero {  self.formTwosComplement()  }
+            if sourceIsLessThanZero != self.isLessThanZero { return nil }
+        //=--------------------------------------=
+        }   else {
+            if sourceIsLessThanZero {  return nil }
+            self.init(bitPattern: source.magnitude)
+        }
+    }
+    
+    /// Creates a new instance with the representable value closest to the given integer.
+    ///
+    /// If the value passed as source is greater than the maximum representable value,
+    /// the result is this type’s max value. If value passed as source is less than the
+    /// smallest representable value, the result is this type’s min value.
+    ///
+    @inlinable public init(clamping source: ANKSigned<Magnitude>) where Self: FixedWidthInteger {
+        let sourceIsLessThanZero = source.isLessThanZero
+        //=--------------------------------------=
+        if  Self.isSigned {
+            self.init(bitPattern: source.magnitude)
+            if sourceIsLessThanZero {  self.formTwosComplement()  }
+            if sourceIsLessThanZero != self.isLessThanZero { self = sourceIsLessThanZero ? Self.min : Self.max }
+        //=--------------------------------------=
+        }   else {
+            if sourceIsLessThanZero {  self.init(); return }
+            self.init(bitPattern: source.magnitude)
+        }
+    }
+    
+    /// Creates a new instance from the two's complement bit pattern of the given integer.
+    ///
+    /// - The two's complement representation of `+0` is an infinite sequence of `0s`.
+    /// - The two's complement representation of `-1` is an infinite sequence of `1s`.
+    ///
+    @inlinable public init(truncatingIfNeeded source: ANKSigned<Magnitude>) {
+        let sourceIsLessThanZero = source.isLessThanZero
+        self.init(bitPattern: source.magnitude)
+        if  sourceIsLessThanZero { self.formTwosComplement() }
+    }
+}
+
+
 //*============================================================================*
 // MARK: * ANK x Binary Integer x Signed
 //*============================================================================*
@@ -196,82 +354,3 @@ public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger { }
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
 public protocol ANKUnsignedInteger: ANKBinaryInteger, UnsignedInteger { }
-
-//*============================================================================*
-// MARK: * ANK x Binary Integer x Defaults
-//*============================================================================*
-//=----------------------------------------------------------------------------=
-// MARK: + Details
-//=----------------------------------------------------------------------------=
-
-extension ANKBinaryInteger where Self: FixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public var isOdd: Bool {
-        self.leastSignificantBit
-    }
-    
-    @_transparent public var isEven: Bool {
-        self.leastSignificantBit == false
-    }
-    
-    @_transparent public var isPowerOf2: Bool {
-        self.nonzeroBitCount == 1
-    }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details x Sign & Magnitude
-//=----------------------------------------------------------------------------=
-
-extension ANKBinaryInteger where BitPattern == Magnitude.BitPattern {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public init(_ source: ANKSigned<Magnitude>) {
-        guard let value = Self(exactly: source) else {
-            preconditionFailure("\(source) is not in \(Self.self)'s representable range")
-        }
-        
-        self = value
-    }
-    
-    @inlinable public init?(exactly source: ANKSigned<Magnitude>) {
-        let sourceIsLessThanZero = source.isLessThanZero
-        //=--------------------------------------=
-        if  Self.isSigned {
-            self.init(bitPattern: source.magnitude)
-            if sourceIsLessThanZero {  self.formTwosComplement()  }
-            if sourceIsLessThanZero != self.isLessThanZero { return nil }
-        //=--------------------------------------=
-        }   else {
-            if sourceIsLessThanZero {  return nil }
-            self.init(bitPattern: source.magnitude)
-        }
-    }
-    
-    @inlinable public init(clamping source: ANKSigned<Magnitude>) where Self: FixedWidthInteger {
-        let sourceIsLessThanZero = source.isLessThanZero
-        //=--------------------------------------=
-        if  Self.isSigned {
-            self.init(bitPattern: source.magnitude)
-            if sourceIsLessThanZero {  self.formTwosComplement()  }
-            if sourceIsLessThanZero != self.isLessThanZero { self = sourceIsLessThanZero ? Self.min : Self.max }
-        //=--------------------------------------=
-        }   else {
-            if sourceIsLessThanZero {  self.init(); return }
-            self.init(bitPattern: source.magnitude)
-        }
-    }
-    
-    @inlinable public init(truncatingIfNeeded source: ANKSigned<Magnitude>) {
-        let sourceIsLessThanZero = source.isLessThanZero
-        self.init(bitPattern: source.magnitude)
-        if  sourceIsLessThanZero { self.formTwosComplement() }
-    }
-}

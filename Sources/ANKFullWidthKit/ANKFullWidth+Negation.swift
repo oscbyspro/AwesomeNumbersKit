@@ -19,15 +19,6 @@ extension ANKFullWidth where High: SignedInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static prefix func -(x: Self) -> Self {
-        let pvo: PVO<Self> = x.negatedReportingOverflow()
-        precondition(!pvo.overflow); return pvo.partialValue
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
     @_transparent public mutating func negateReportingOverflow() -> Bool {
         self._negateReportingOverflowAsSigned()
     }
