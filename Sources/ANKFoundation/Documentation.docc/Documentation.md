@@ -26,7 +26,6 @@ Models, protocols, extensions and utilities underpinning this package.
 - ``ANKSignedInteger``
 - ``ANKSignedLargeBinaryInteger``
 - ``ANKSignedLargeFixedWidthInteger``
-- ``ANKSignedMagnitudeBuildable``
 - ``ANKTrivialContiguousBytes``
 - ``ANKUnsignedFixedWidthInteger``
 - ``ANKUnsignedInteger``

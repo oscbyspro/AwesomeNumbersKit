@@ -67,7 +67,6 @@ Models, protocols, extensions and utilities underpinning this package.
 - [ANKSignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
 - [ANKSignedLargeBinaryInteger\<Digit\>](Sources/ANKFoundation/ANKLargeBinaryInteger.swift)
 - [ANKSignedLargeFixedWidthInteger\<Digit\>](Sources/ANKFoundation/ANKLargeFixedWidthInteger.swift)
-- [ANKSignedMagnitudeBuildable](Sources/ANKFoundation/ANKSignedMagnitudeBuildable.swift)
 - [ANKTrivialContiguousBytes](Sources/ANKFoundation/ANKContiguousBytes.swift)
 - [ANKUnsignedFixedWidthInteger](Sources/ANKFoundation/ANKFixedWidthInteger.swift)
 - [ANKUnsignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)

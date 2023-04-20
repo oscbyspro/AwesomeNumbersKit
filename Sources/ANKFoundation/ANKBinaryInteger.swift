@@ -17,8 +17,7 @@
 ///
 /// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
 ///
-public protocol ANKBinaryInteger: ANKBitPatternConvertible, ANKSignedMagnitudeBuildable,
-BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger {
+public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers

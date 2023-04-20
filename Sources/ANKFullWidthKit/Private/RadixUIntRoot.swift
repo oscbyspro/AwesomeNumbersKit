@@ -182,8 +182,8 @@ extension RadixUIntRoot {
         assert(unchecked.power.isZero)
         assert([2, 4, 16].contains(unchecked.base))
         self.root = unchecked
-        self.special.quotient  = UInt(bitPattern: unchecked.base.trailingZeroBitCount)
-        self.special.remainder = unchecked.base &- 1
+        self.special.quotient  = UInt(bitPattern: self.root.base.trailingZeroBitCount)
+        self.special.remainder = self.root.base &- 1
     }
     
     //=------------------------------------------------------------------------=
