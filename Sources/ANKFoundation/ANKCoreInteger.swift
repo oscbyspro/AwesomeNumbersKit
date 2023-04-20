@@ -78,32 +78,38 @@ extension ANKCoreInteger {
     
     @_transparent public mutating func addReportingOverflow(_ amount: Self) -> Bool {
         let pvo: PVO<Self> = self.addingReportingOverflow(amount)
-        self = pvo.partialValue; return pvo.overflow
+        self = pvo.partialValue
+        return pvo.overflow as Bool
     }
     
     @_transparent public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
         let pvo: PVO<Self> = self.subtractingReportingOverflow(amount)
-        self = pvo.partialValue; return pvo.overflow
+        self = pvo.partialValue
+        return pvo.overflow as Bool
     }
     
     @_transparent public mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
-        self = pvo.partialValue; return pvo.overflow
+        self = pvo.partialValue
+        return pvo.overflow as Bool
     }
     
     @_transparent public mutating func divideReportingOverflow(by amount: Self) -> Bool {
         let pvo: PVO<Self> = self.dividedReportingOverflow(by: amount)
-        self = pvo.partialValue; return pvo.overflow
+        self = pvo.partialValue
+        return pvo.overflow as Bool
     }
     
     @_transparent public mutating func formRemainderReportingOverflow(dividingBy amount: Self) -> Bool {
         let pvo: PVO<Self> = self.remainderReportingOverflow(dividingBy: amount)
-        self = pvo.partialValue; return pvo.overflow
+        self = pvo.partialValue
+        return pvo.overflow as Bool
     }
     
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
         let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(bitPattern: hl.low); return hl.high
+        self = Self(bitPattern: hl.low)
+        return hl.high as Self
     }
     
     //=------------------------------------------------------------------------=
@@ -158,7 +164,8 @@ extension ANKCoreInteger where Self: ANKSignedFixedWidthInteger {
     
     @_transparent public mutating func negateReportingOverflow() -> Bool {
         let pvo: PVO<Self> = self.negatedReportingOverflow()
-        self = pvo.partialValue; return pvo.overflow
+        self = pvo.partialValue
+        return pvo.overflow as Bool
     }
     
     @_transparent public func negatedReportingOverflow() -> PVO<Self> {

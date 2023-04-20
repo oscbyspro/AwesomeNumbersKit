@@ -43,7 +43,8 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_transparent public mutating func negateReportingOverflow() -> Bool {
-        self.negate(); return false
+        self.negate()
+        return false
     }
     
     @_transparent public func negatedReportingOverflow() -> PVO<Self> {

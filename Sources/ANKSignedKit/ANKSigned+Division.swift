@@ -41,7 +41,8 @@ extension ANKSigned {
     
     @inlinable public mutating func divideReportingOverflow(by divisor: Self) -> Bool {
         let pvo: PVO<Self> = self.dividedReportingOverflow(by: divisor)
-        self = pvo.partialValue; return pvo.overflow
+        self = pvo.partialValue
+        return pvo.overflow as Bool
     }
     
     @inlinable public func dividedReportingOverflow(by divisor: Self) -> PVO<Self> {
@@ -50,7 +51,8 @@ extension ANKSigned {
     
     @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool {
         let pvo: PVO<Self> = self.remainderReportingOverflow(dividingBy: divisor)
-        self = pvo.partialValue; return pvo.overflow
+        self = pvo.partialValue
+        return pvo.overflow as Bool
     }
     
     @inlinable public func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self> {

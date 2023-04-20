@@ -21,7 +21,8 @@ extension ANKFullWidth {
     
     @inlinable public mutating func multiplyReportingOverflow(by  amount: Self) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
-        self = pvo.partialValue; return pvo.overflow
+        self = pvo.partialValue
+        return pvo.overflow as Bool
     }
     
     @inlinable public func multipliedReportingOverflow(by amount:  Self) -> PVO<Self> {
@@ -45,7 +46,8 @@ extension ANKFullWidth {
     
     @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
         let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(bitPattern: hl.low); return hl.high
+        self = Self(bitPattern: hl.low)
+        return hl.high as Self
     }
     
     @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
