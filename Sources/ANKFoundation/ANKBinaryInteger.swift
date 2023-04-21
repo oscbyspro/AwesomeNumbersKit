@@ -154,6 +154,37 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     
     /// Returns the two's complement of this value.
     @inlinable func twosComplement() -> Self
+    
+    //=------------------------------------------------------------------------=
+    // MARK: + Details x Sign & Magnitude
+    //=------------------------------------------------------------------------=
+    
+    /// Creates a new instance from the given integer.
+    ///
+    /// If the value passed as source is not representable, an error may occur.
+    ///
+    @inlinable init(_ source: ANKSigned<Magnitude>)
+    
+    /// Creates a new instance from the given integer, if it is representable.
+    ///
+    /// If the value passed as source is not representable, the result is nil.
+    ///
+    @inlinable init?(exactly source: ANKSigned<Magnitude>)
+    
+    /// Creates a new instance with the representable value closest to the given integer.
+    ///
+    /// If the value passed as source is greater than the maximum representable value,
+    /// the result is this type’s max value. If value passed as source is less than the
+    /// smallest representable value, the result is this type’s min value.
+    ///
+    @inlinable init(clamping source: ANKSigned<Magnitude>)
+    
+    /// Creates a new instance from the two's complement bit pattern of the given integer.
+    ///
+    /// - The two's complement representation of `+0` is an infinite sequence of `0s`.
+    /// - The two's complement representation of `-1` is an infinite sequence of `1s`.
+    ///
+    @inlinable init(truncatingIfNeeded source: ANKSigned<Magnitude>)
 }
 
 //=----------------------------------------------------------------------------=
