@@ -171,7 +171,7 @@ extension ANKFullWidth where High == High.Magnitude {
         return withUnsafeTemporaryAllocation(of: UInt.self, capacity: capacity) { CHUNKS in
             var index = CHUNKS.startIndex
             rebasing: repeat {
-                CHUNKS[index] = magnitude._formQuotientReportingRemainderAsUnsigned(dividingBy: radix.power)
+                CHUNKS[index] = magnitude._formQuotientReportingRemainderAndOverflowAsUnsigned(dividingBy: radix.power).partialValue
                 CHUNKS.formIndex(after: &index)
             }   while !magnitude.isZero
             return String(chunks: CHUNKS[..<index], sign: sign, radix: radix, alphabet: alphabet)

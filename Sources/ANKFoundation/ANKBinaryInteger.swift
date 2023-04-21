@@ -132,6 +132,29 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     ///
     @inlinable func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self>
     
+    /// Returns the quotient and remainder of this value divided by the given value,
+    /// and returns a value indicating whether overflow occurred. In the case of overflow,
+    /// the result is either truncated or, if undefined, this value.
+    ///
+    /// ```swift
+    /// let a = Int8(-128).quotientAndRemainderReportingOverflow(dividingBy: Int8( 3))
+    /// a.partialValue.quotient  // Int8( -42)
+    /// a.partialValue.remainder // Int8(   2)
+    /// a.overflow               // false
+    ///
+    /// let b = Int8(-128).quotientAndRemainderReportingOverflow(dividingBy: Int8( 0))
+    /// b.partialValue.quotient  // Int8(-128)
+    /// b.partialValue.remainder // Int8(-128)
+    /// b.overflow               // true
+    ///
+    /// let c = Int8(-128).quotientAndRemainderReportingOverflow(dividingBy: Int8(-1))
+    /// c.partialValue.quotient  // Int8(-128)
+    /// c.partialValue.remainder // Int8(   0)
+    /// c.overflow               // true
+    /// ```
+    ///
+    @inlinable func quotientAndRemainderReportingOverflow(dividingBy divisor: Self) -> PVO<QR<Self, Self>>
+    
     //=------------------------------------------------------------------------=
     // MARK: Details x Two's Complement
     //=------------------------------------------------------------------------=
@@ -259,6 +282,21 @@ extension ANKBinaryInteger where Self: FixedWidthInteger {
         let pvo: PVO<Self> = lhs.remainderReportingOverflow(dividingBy: rhs)
         precondition(!pvo.overflow)
         return pvo.partialValue as Self
+    }
+    
+    /// Returns the quotient and remainder of this value divided by the given value.
+    ///
+    /// ```swift
+    /// Int8( 7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8( 2), remainder: Int8( 1))
+    /// Int8( 7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8(-2), remainder: Int8( 1))
+    /// Int8(-7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8(-2), remainder: Int8(-1))
+    /// Int8(-7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8( 2), remainder: Int8(-1))
+    /// ```
+    ///
+    @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
+        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
+        precondition(!qro.overflow)
+        return qro.partialValue as QR<Self, Self>
     }
 }
 

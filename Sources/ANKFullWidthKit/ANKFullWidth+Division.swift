@@ -19,66 +19,59 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func divideReportingOverflow(by divisor: Self) -> Bool {
+    @_transparent public mutating func divideReportingOverflow(by divisor: Self) -> Bool {
         let pvo: PVO<Self> = self.dividedReportingOverflow(by: divisor)
         self = pvo.partialValue
         return pvo.overflow as Bool
     }
     
-    @inlinable public func dividedReportingOverflow(by divisor: Self) -> PVO<Self> {
-        //=--------------------------------------=
-        if  divisor.isZero {
-            return PVO(self, true)
-        }
-        //=--------------------------------------=
-        if  Self.isSigned, divisor == (-1 as Self), self == Self.min {
-            return PVO(self, true)
-        }
-        //=--------------------------------------=
-        let qr: QR<Self, Self> = self.quotientAndRemainder(dividingBy: divisor)
-        return PVO(qr.quotient, false)
+    @_transparent public func dividedReportingOverflow(by divisor: Self) -> PVO<Self> {
+        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
+        return   PVO(qro.partialValue.quotient, qro.overflow)
     }
     
-    @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool {
+    @_transparent public mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool {
         let pvo: PVO<Self> = self.remainderReportingOverflow(dividingBy: divisor)
         self = pvo.partialValue
         return pvo.overflow as Bool
     }
     
-    @inlinable public func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self> {
-        //=--------------------------------------=
-        if  divisor.isZero {
-            return PVO(self, true)
-        }
-        //=--------------------------------------=
-        if  Self.isSigned, divisor == (-1 as Self), self == Self.min {
-            return PVO(Self(), true)
-        }
-        //=--------------------------------------=
-        let qr: QR<Self, Self> = self.quotientAndRemainder(dividingBy: divisor)
-        return  PVO(qr.remainder, false)
+    @_transparent public func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self> {
+        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
+        return   PVO(qro.partialValue.remainder, qro.overflow)
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
+    @inlinable public func quotientAndRemainderReportingOverflow(dividingBy divisor: Self) -> PVO<QR<Self, Self>> {
         let dividendIsLessThanZero: Bool =    self.isLessThanZero
         let  divisorIsLessThanZero: Bool = divisor.isLessThanZero
         //=--------------------------------------=
-        var qr: QR<Magnitude, Magnitude> = self.magnitude._quotientAndRemainderAsUnsigned(dividingBy: divisor.magnitude)
+        let qro_ = self.magnitude._quotientAndRemainderReportingOverflowAsUnsigned(dividingBy: divisor.magnitude)
+        var qro  = PVO(QR(Self(bitPattern: qro_.partialValue.quotient), Self(bitPattern: qro_.partialValue.remainder)), qro_.overflow)
         //=--------------------------------------=
+        if  qro.overflow {
+            assert(divisor.isZero)
+            assert(qro.partialValue.quotient  == self)
+            assert(qro.partialValue.remainder == self)
+            return qro
+        }
+
         if  dividendIsLessThanZero != divisorIsLessThanZero {
-            let overflow = qr.quotient._negateReportingOverflowAsSigned()
-            precondition(!overflow, "quotient overflowed during division")
+            qro.partialValue.quotient.formTwosComplement()
+        }
+        
+        if  dividendIsLessThanZero, divisorIsLessThanZero, qro.partialValue.quotient.isLessThanZero {
+            assert(Self.isSigned && self == Self.min && divisor == -1)
+            assert(qro.partialValue.quotient  == self)
+            assert(qro.partialValue.remainder == Self())
+            qro.overflow = true
+            return qro
         }
         
         if  dividendIsLessThanZero {
-            qr.remainder.formTwosComplement()
+            qro.partialValue.remainder.formTwosComplement()
         }
         //=--------------------------------------=
-        return QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
+        return qro as PVO<QR<Self, Self>>
     }
     
     //=------------------------------------------------------------------------=
@@ -123,21 +116,23 @@ extension ANKFullWidth where High == High.Magnitude {
     @_specialize(where Self == ANKUInt256)
     @_specialize(where Self == ANKUInt384)
     @_specialize(where Self == ANKUInt512)
-    @inlinable func _quotientAndRemainderAsUnsigned(dividingBy divisor: Self) -> QR<Self, Self> {
+    @inlinable func _quotientAndRemainderReportingOverflowAsUnsigned(dividingBy divisor: Self) -> PVO<QR<Self, Self>> {
         let divisor_ = divisor.minLastIndexReportingIsZeroOrMinusOne()
-        precondition(!divisor_.isZeroOrMinusOne, "division by zero")
+        if  divisor_.isZeroOrMinusOne {
+            return PVO(QR(self, self), true)
+        }
         //=--------------------------------------=
         // Fast: Dividend <= Divisor
         //=--------------------------------------=
         if  self <= divisor {
-            return self == divisor ? QR(1, Self()) : QR(Self(), self)
+            return self == divisor ? PVO(QR(1, Self()), false) : PVO(QR(Self(), self), false)
         }
         //=--------------------------------------=
         // Fast: Divisor Is One Word
         //=--------------------------------------=
         if  divisor_.minLastIndex.isZero {
-            let qr: QR<Self, Digit> = self.quotientAndRemainder(dividingBy: divisor.first)
-            return  QR(qr.quotient,   Self(digit: qr.remainder))
+            let qro: PVO<QR<Self, Digit>> = self._quotientAndRemainderReportingOverflowAsUnsigned(dividingBy: divisor.first)
+            return   PVO(QR(qro.partialValue.quotient, Self(digit: qro.partialValue.remainder)), qro.overflow)
         }
         //=--------------------------------------=
         let dividend_  = self.minLastIndexReportingIsZeroOrMinusOne()
@@ -195,7 +190,7 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         assert(remainder.high.isZero)
         remainder.low._bitshiftRight(words: Int(), bits: shift)
-        return QR(quotient, remainder.low)
+        return PVO(QR(quotient, remainder.low), false)
     }
     
     //=------------------------------------------------------------------------=
@@ -204,7 +199,8 @@ extension ANKFullWidth where High == High.Magnitude {
     
     @inlinable func _dividingFullWidthAsUnsigned(_ dividend: DoubleWidth) -> QR<Self, Self> {
         let divisor = DoubleWidth(descending: HL(Self(), self))
-        let qr: QR<DoubleWidth, DoubleWidth> = dividend._quotientAndRemainderAsUnsigned(dividingBy: divisor)
-        return  QR(qr.quotient.low, qr.remainder.low)
+        let qro: PVO<QR<DoubleWidth, DoubleWidth>> = dividend._quotientAndRemainderReportingOverflowAsUnsigned(dividingBy: divisor)
+        precondition(!qro.overflow)
+        return QR(qro.partialValue.quotient.low, qro.partialValue.remainder.low)
     }
 }

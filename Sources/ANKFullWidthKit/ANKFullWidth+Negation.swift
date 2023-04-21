@@ -19,35 +19,16 @@ extension ANKFullWidth where High: SignedInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_transparent public mutating func negateReportingOverflow() -> Bool {
-        self._negateReportingOverflowAsSigned()
-    }
-    
-    @_transparent public func negatedReportingOverflow() -> PVO<Self> {
-        self._negatedReportingOverflowAsSigned()
-    }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Agnostic
-//=----------------------------------------------------------------------------=
-
-extension ANKFullWidth {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable mutating func _negateReportingOverflowAsSigned() -> Bool {
-        let msb0: Bool = self.mostSignificantBit
+    @inlinable public mutating func negateReportingOverflow() -> Bool {
+        let msb0: Bool = self.isLessThanZero
         self.formTwosComplement()
-        let msb1: Bool = self.mostSignificantBit
+        let msb1: Bool = self.isLessThanZero
         return msb0 && msb1
     }
     
-    @inlinable func _negatedReportingOverflowAsSigned() -> PVO<Self> {
+    @inlinable public func negatedReportingOverflow() -> PVO<Self> {
         var partialValue = self
-        let overflow: Bool = partialValue._negateReportingOverflowAsSigned()
+        let overflow: Bool = partialValue.negateReportingOverflow()
         return PVO(partialValue, overflow)
     }
 }

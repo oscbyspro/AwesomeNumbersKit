@@ -166,6 +166,29 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     ///
     @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>
     
+    /// Returns the quotient and remainder of this value divided by the given value,
+    /// and returns a value indicating whether overflow occurred. In the case of overflow,
+    /// the result is either truncated or, if undefined, this value.
+    ///
+    /// ```swift
+    /// let a = Int256( 7).quotientAndRemainderReportingOverflow(dividingBy: Int( 3))
+    /// a.partialValue.quotient  // Int256( 2)
+    /// a.partialValue.remainder // Int256( 1)
+    /// a.overflow               // false
+    ///
+    /// let b = Int256.min.quotientAndRemainderReportingOverflow(dividingBy: Int( 0))
+    /// b.partialValue.quotient  // Int256.min
+    /// b.partialValue.remainder // Int256.min
+    /// b.overflow               // true
+    ///
+    /// let c = Int256.min.quotientAndRemainderReportingOverflow(dividingBy: Int(-1))
+    /// c.partialValue.quotient  // Int256.min
+    /// c.partialValue.remainder // Int256( 0)
+    /// c.overflow               // true
+    /// ```
+    ///
+    @inlinable func quotientAndRemainderReportingOverflow(dividingBy divisor: Digit) -> PVO<QR<Self, Digit>>
+    
     //=------------------------------------------------------------------------=
     // MARK: Details x Multiplication
     //=------------------------------------------------------------------------=
@@ -293,6 +316,21 @@ extension ANKLargeBinaryInteger {
         let pvo: PVO<Digit> = lhs.remainderReportingOverflow(dividingBy: rhs)
         precondition(!pvo.overflow)
         return pvo.partialValue as Digit
+    }
+    
+    /// Returns the quotient and remainder of this value divided by the given value.
+    ///
+    /// ```swift
+    /// Int256( 7).quotientAndRemainder(dividingBy: Int( 3)) // (quotient: Int256( 2), remainder: Int( 1))
+    /// Int256( 7).quotientAndRemainder(dividingBy: Int(-3)) // (quotient: Int256(-2), remainder: Int( 1))
+    /// Int256(-7).quotientAndRemainder(dividingBy: Int( 3)) // (quotient: Int256(-2), remainder: Int(-1))
+    /// Int256(-7).quotientAndRemainder(dividingBy: Int(-3)) // (quotient: Int256( 2), remainder: Int(-1))
+    /// ```
+    ///
+    @_disfavoredOverload @_transparent public func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
+        let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
+        precondition(!qro.overflow)
+        return qro.partialValue as QR<Self, Digit>
     }
 }
 

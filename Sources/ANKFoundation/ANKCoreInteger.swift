@@ -94,6 +94,12 @@ extension ANKCoreInteger {
         return pvo.overflow as Bool
     }
     
+    @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
+        let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
+        self = Self(bitPattern: hl.low)
+        return hl.high as Self
+    }
+    
     @_transparent public mutating func divideReportingOverflow(by amount: Self) -> Bool {
         let pvo: PVO<Self> = self.dividedReportingOverflow(by: amount)
         self = pvo.partialValue
@@ -105,11 +111,12 @@ extension ANKCoreInteger {
         self = pvo.partialValue
         return pvo.overflow as Bool
     }
-    
-    @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(bitPattern: hl.low)
-        return hl.high as Self
+
+    @_transparent public func quotientAndRemainderReportingOverflow(dividingBy divisor: Self) -> PVO<QR<Self, Self>> {
+        let quotient:  PVO<Self> = self.dividedReportingOverflow(by: divisor)
+        let remainder: PVO<Self> = self.remainderReportingOverflow(dividingBy: divisor)
+        assert(quotient.overflow == remainder.overflow)
+        return PVO(QR(quotient.partialValue, remainder.partialValue), quotient.overflow)
     }
     
     //=------------------------------------------------------------------------=
