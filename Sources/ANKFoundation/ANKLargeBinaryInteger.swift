@@ -59,6 +59,50 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     // MARK: Details x Division
     //=------------------------------------------------------------------------=
     
+    /// Forms the quotient of dividing `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// var a = Int256( 7); a /= Int( 3) // a = Int256( 2)
+    /// var b = Int256( 7); b /= Int(-3) // b = Int256(-2)
+    /// var c = Int256(-7); c /= Int( 3) // c = Int256(-2)
+    /// var d = Int256(-7); d /= Int(-3) // d = Int256( 2)
+    /// ```
+    ///
+    @inlinable static func /=(lhs: inout Self, rhs: Digit)
+    
+    /// Returns the quotient of dividing `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// Int256( 7) / Int( 3) // Int256( 2)
+    /// Int256( 7) / Int(-3) // Int256(-2)
+    /// Int256(-7) / Int( 3) // Int256(-2)
+    /// Int256(-7) / Int(-3) // Int256( 2)
+    /// ```
+    ///
+    @inlinable static func /(lhs: Self, rhs: Digit) -> Self
+    
+    /// Forms the remainder of dividing `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// var a = Int256( 7); a %= Int( 3) // a = Int256( 1)
+    /// var b = Int256( 7); b %= Int(-3) // b = Int256( 1)
+    /// var c = Int256(-7); c %= Int( 3) // c = Int256(-1)
+    /// var d = Int256(-7); d %= Int(-3) // d = Int256(-1)
+    /// ```
+    ///
+    @inlinable static func %=(lhs: inout Self, rhs: Digit)
+    
+    /// Returns the remainder of dividing `lhs` by `rhs`.
+    ///
+    /// ```swift
+    /// Int256( 7) % Int( 3) // Int( 1)
+    /// Int256( 7) % Int(-3) // Int( 1)
+    /// Int256(-7) % Int( 3) // Int(-1)
+    /// Int256(-7) % Int(-3) // Int(-1)
+    /// ```
+    ///
+    @inlinable static func %(lhs: Self, rhs: Digit) -> Digit
+    
     /// Forms the quotient of this value divided by the given value,
     /// and returns a value indicating whether overflow occurred.
     /// In the case of overflow, the result is either truncated or,
