@@ -280,37 +280,31 @@ extension ANKFixedWidthInteger {
     }
     
     @inlinable public init?(exactly source: ANKSigned<Magnitude>) {
-        let sourceIsLessThanZero = source.isLessThanZero
-        //=--------------------------------------=
-        if  Self.isSigned {
+        let isLessThanZero = source.isLessThanZero
+        if  Self.isSigned  {
             self.init(bitPattern: source.magnitude)
-            if sourceIsLessThanZero {  self.formTwosComplement()  }
-            if sourceIsLessThanZero != self.isLessThanZero { return nil }
-        //=--------------------------------------=
+            if  isLessThanZero {  self.formTwosComplement()  }
+            if  isLessThanZero != self.isLessThanZero { return nil }
         }   else {
-            if sourceIsLessThanZero {  return nil }
+            if  isLessThanZero {  return nil  }
             self.init(bitPattern: source.magnitude)
         }
     }
     
     @inlinable public init(clamping source: ANKSigned<Magnitude>) {
-        let sourceIsLessThanZero = source.isLessThanZero
-        //=--------------------------------------=
         if  Self.isSigned {
+            let isLessThanZero =  source.isLessThanZero
             self.init(bitPattern: source.magnitude)
-            if sourceIsLessThanZero {  self.formTwosComplement()  }
-            if sourceIsLessThanZero != self.isLessThanZero { self = sourceIsLessThanZero ? Self.min : Self.max }
-        //=--------------------------------------=
+            if  isLessThanZero {  self.formTwosComplement()  }
+            if  isLessThanZero != self.isLessThanZero { self = isLessThanZero ? Self.min : Self.max }
         }   else {
-            if sourceIsLessThanZero {  self.init(); return }
-            self.init(bitPattern: source.magnitude)
+            self.init(bitPattern: source.sign.bit ? Magnitude() : source.magnitude)
         }
     }
     
     @inlinable public init(truncatingIfNeeded source: ANKSigned<Magnitude>) {
-        let sourceIsLessThanZero = source.isLessThanZero
         self.init(bitPattern: source.magnitude)
-        if  sourceIsLessThanZero { self.formTwosComplement() }
+        if  source.sign.bit { self.formTwosComplement() }
     }
 }
 

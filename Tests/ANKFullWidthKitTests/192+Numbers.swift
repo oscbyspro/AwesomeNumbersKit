@@ -305,6 +305,20 @@ final class Int192TestsOnNumbers: XCTestCase {
         XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .plus )), T(x64: X(~0, ~0, ~0)))
     }
     
+    func testsFromSignedMagnitudePlusMinusZero() {
+        XCTAssertEqual(T(ANKSigned(M(), as: .minus)), T())
+        XCTAssertEqual(T(ANKSigned(M(), as: .plus )), T())
+
+        XCTAssertEqual(T(exactly:  ANKSigned(M(), as: .minus)), T())
+        XCTAssertEqual(T(exactly:  ANKSigned(M(), as: .plus )), T())
+        
+        XCTAssertEqual(T(clamping: ANKSigned(M(), as: .minus)), T())
+        XCTAssertEqual(T(clamping: ANKSigned(M(), as: .plus )), T())
+        
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M(), as: .minus)), T())
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M(), as: .plus )), T())
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Float32
     //=------------------------------------------------------------------------=
@@ -695,6 +709,20 @@ final class UInt192TestsOnNumbers: XCTestCase {
 
         XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .minus)), T(x64: X( 1,  0,  0)))
         XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .plus )), T(x64: X(~0, ~0, ~0)))
+    }
+    
+    func testsFromSignedMagnitudePlusMinusZero() {
+        XCTAssertEqual(T(ANKSigned(M(), as: .minus)), T())
+        XCTAssertEqual(T(ANKSigned(M(), as: .plus )), T())
+
+        XCTAssertEqual(T(exactly:  ANKSigned(M(), as: .minus)), T())
+        XCTAssertEqual(T(exactly:  ANKSigned(M(), as: .plus )), T())
+        
+        XCTAssertEqual(T(clamping: ANKSigned(M(), as: .minus)), T())
+        XCTAssertEqual(T(clamping: ANKSigned(M(), as: .plus )), T())
+        
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M(), as: .minus)), T())
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M(), as: .plus )), T())
     }
     
     //=------------------------------------------------------------------------=
