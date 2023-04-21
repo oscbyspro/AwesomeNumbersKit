@@ -66,19 +66,6 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     @inlinable var leastSignificantBit: Bool { get }
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    /// Returns whether this value is odd.
-    @inlinable var isOdd: Bool { get }
-    
-    /// Returns whether this value is even.
-    @inlinable var isEven: Bool { get }
-    
-    /// Returns whether this value is a power of `2`.
-    @inlinable var isPowerOf2: Bool { get }
-    
-    //=------------------------------------------------------------------------=
     // MARK: Details x Division
     //=------------------------------------------------------------------------=
     
@@ -197,14 +184,17 @@ extension ANKBinaryInteger where Self: FixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    /// Returns whether this value is odd.
     @_transparent public var isOdd: Bool {
         self.leastSignificantBit
     }
     
+    /// Returns whether this value is even.
     @_transparent public var isEven: Bool {
         self.leastSignificantBit == false
     }
     
+    /// Returns whether this value is a power of `2`.
     @_transparent public var isPowerOf2: Bool {
         self.nonzeroBitCount == 1
     }
