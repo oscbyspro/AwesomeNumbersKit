@@ -83,7 +83,7 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     @inlinable mutating func divideReportingOverflow(by divisor: Self) -> Bool
     
     /// Returns the quotient of this value divided by the given value,
-    /// and returns a value indicating whether overflow occurred.
+    /// along with a value indicating whether overflow occurred.
     /// In the case of overflow, the result is either truncated or,
     /// if undefined, this value.
     ///
@@ -109,7 +109,7 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     @inlinable mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool
     
     /// Returns the remainder of this value divided by the given value,
-    /// and returns a value indicating whether overflow occurred.
+    /// along with a value indicating whether overflow occurred.
     /// In the case of overflow, the result is either the entire remainder or,
     /// if undefined, this value.
     ///
@@ -133,7 +133,7 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     @inlinable func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self>
     
     /// Returns the quotient and remainder of this value divided by the given value,
-    /// and returns a value indicating whether overflow occurred. In the case of overflow,
+    /// along with a value indicating whether overflow occurred. In the case of overflow,
     /// the result is either truncated or, if undefined, this value.
     ///
     /// ```swift

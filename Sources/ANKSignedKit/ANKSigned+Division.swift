@@ -20,19 +20,31 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @_transparent public static func /=(lhs: inout Self, rhs: Self) {
-        lhs = lhs / rhs
+        let overflow: Bool = lhs.divideReportingOverflow(by: rhs)
+        precondition(!overflow)
     }
     
     @_transparent public static func /(lhs: Self, rhs: Self) -> Self {
-        lhs.quotientAndRemainder(dividingBy: rhs).quotient
+        let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
+        precondition(!pvo.overflow)
+        return pvo.partialValue as Self
     }
     
     @_transparent public static func %=(lhs: inout Self, rhs: Self) {
-        lhs = lhs % rhs
+        let overflow: Bool = lhs.formRemainderReportingOverflow(dividingBy: rhs)
+        precondition(!overflow)
     }
     
     @_transparent public static func %(lhs: Self, rhs: Self) -> Self {
-        lhs.quotientAndRemainder(dividingBy: rhs).remainder
+        let pvo: PVO<Self> = lhs.remainderReportingOverflow(dividingBy: rhs)
+        precondition(!pvo.overflow)
+        return pvo.partialValue as Self
+    }
+    
+    @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
+        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
+        precondition(!qro.overflow)
+        return qro.partialValue as QR<Self, Self>
     }
     
     //=------------------------------------------------------------------------=
@@ -46,7 +58,9 @@ extension ANKSigned {
     }
     
     @inlinable public func dividedReportingOverflow(by divisor: Self) -> PVO<Self> {
-        divisor.isZero ? PVO(self, true) : PVO(self / divisor, false)
+        let pvo: PVO<Magnitude> = self.magnitude.dividedReportingOverflow(by: divisor.magnitude)
+        let quotient = Self(pvo.partialValue, as: self.sign ^ divisor.sign)
+        return PVO(quotient, pvo.overflow)
     }
     
     @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool {
@@ -56,16 +70,16 @@ extension ANKSigned {
     }
     
     @inlinable public func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self> {
-        divisor.isZero ? PVO(self, true) : PVO(self % divisor, false)
+        let pvo: PVO<Magnitude> = self.magnitude.remainderReportingOverflow(dividingBy: divisor.magnitude)
+        let remainder = Self(pvo.partialValue, as: self.sign)
+        return PVO(remainder, pvo.overflow)
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
-        let qr: QR<Magnitude, Magnitude> = self.magnitude.quotientAndRemainder(dividingBy: divisor.magnitude)
-        return  QR(Self(qr.quotient, as: self.sign ^ divisor.sign), Self(qr.remainder, as: self.sign))
+    @inlinable public func quotientAndRemainderReportingOverflow(dividingBy divisor: Self) -> PVO<QR<Self, Self>> {
+        let qro: PVO<QR<Magnitude, Magnitude>> = self.magnitude.quotientAndRemainderReportingOverflow(dividingBy: divisor.magnitude)
+        let quotient  = Self(qro.partialValue.quotient,  as: self.sign ^ divisor.sign)
+        let remainder = Self(qro.partialValue.remainder, as: self.sign /*----------*/)
+        return PVO(QR(quotient, remainder), qro.overflow)
     }
 }
 
@@ -81,6 +95,8 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     
     @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
         let qr: QR<Magnitude, Magnitude> = self.magnitude.dividingFullWidth(HL(dividend.high.magnitude, dividend.low))
-        return  QR(Self(qr.quotient, as: dividend.high.sign ^ self.sign), Self(qr.remainder, as:  dividend.high.sign))
+        let quotient  = Self(qr.quotient,  as: dividend.high.sign ^ self.sign)
+        let remainder = Self(qr.remainder, as: dividend.high.sign /*-------*/)
+        return  QR(quotient,  remainder)
     }
 }

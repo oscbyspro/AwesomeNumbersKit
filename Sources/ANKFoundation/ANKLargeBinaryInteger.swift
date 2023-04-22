@@ -117,7 +117,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     @inlinable mutating func divideReportingOverflow(by divisor: Digit) -> Bool
     
     /// Returns the quotient of this value divided by the given value,
-    /// and returns a value indicating whether overflow occurred.
+    /// along with a value indicating whether overflow occurred.
     /// In the case of overflow, the result is either truncated or,
     /// if undefined, this value.
     ///
@@ -143,7 +143,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     @inlinable mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool
     
     /// Returns the remainder of this value divided by the given value,
-    /// and returns a value indicating whether overflow occurred.
+    /// along with a value indicating whether overflow occurred.
     /// In the case of overflow, the result is either the entire remainder
     /// or, if undefined, zero.
     ///
@@ -167,7 +167,7 @@ public protocol ANKLargeBinaryInteger<Digit>: ANKBinaryInteger where Magnitude: 
     @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>
     
     /// Returns the quotient and remainder of this value divided by the given value,
-    /// and returns a value indicating whether overflow occurred. In the case of overflow,
+    /// along with a value indicating whether overflow occurred. In the case of overflow,
     /// the result is either truncated or, if undefined, this value.
     ///
     /// ```swift

@@ -50,13 +50,61 @@ final class ANKSignedTestsOnDivision: XCTestCase {
     }
     
     func testQuotientReportingOverflow() {
-        XCTAssert(T.min.dividedReportingOverflow(by:  T(0)) == (T.min,  true) as (T, Bool))
-        XCTAssert(T.min.dividedReportingOverflow(by: -T(1)) == (T.max, false) as (T, Bool))
+        XCTAssert((T.min).dividedReportingOverflow(by:  T(0)) == ((T.min),  true) as (T, Bool))
+        XCTAssert((T.min).dividedReportingOverflow(by: -T(1)) == ((T.max), false) as (T, Bool))
+        
+        XCTAssert(( T(7)).dividedReportingOverflow(by:  T(3)) == (( T(2)), false) as (T, Bool))
+        XCTAssert(( T(7)).dividedReportingOverflow(by: -T(3)) == ((-T(2)), false) as (T, Bool))
+        XCTAssert((-T(7)).dividedReportingOverflow(by:  T(3)) == ((-T(2)), false) as (T, Bool))
+        XCTAssert((-T(7)).dividedReportingOverflow(by: -T(3)) == (( T(2)), false) as (T, Bool))
     }
 
     func testRemainderReportingOverflow() {
-        XCTAssert(T.min.remainderReportingOverflow(dividingBy:  T(0)) == (T.min,  true) as (T, Bool))
-        XCTAssert(T.min.remainderReportingOverflow(dividingBy: -T(1)) == (T(  ), false) as (T, Bool))
+        XCTAssert((T.min).remainderReportingOverflow(dividingBy:  T(0)) == ((T.min),  true) as (T, Bool))
+        XCTAssert((T.min).remainderReportingOverflow(dividingBy: -T(1)) == (( T(0)), false) as (T, Bool))
+        
+        XCTAssert(( T(7)).remainderReportingOverflow(dividingBy:  T(3)) == (( T(1)), false) as (T, Bool))
+        XCTAssert(( T(7)).remainderReportingOverflow(dividingBy: -T(3)) == (( T(1)), false) as (T, Bool))
+        XCTAssert((-T(7)).remainderReportingOverflow(dividingBy:  T(3)) == ((-T(1)), false) as (T, Bool))
+        XCTAssert((-T(7)).remainderReportingOverflow(dividingBy: -T(3)) == ((-T(1)), false) as (T, Bool))
+    }
+    
+    func testQuotientAndRemainderReportingOverflow() {
+        var x: PVO<QR<T, T>>
+        //=--------------------------------------=
+        // Divisor: 0, -1
+        //=--------------------------------------=
+        x = T(7).quotientAndRemainderReportingOverflow(dividingBy: T( 0))
+        XCTAssertEqual(x.partialValue.quotient,  T( 7))
+        XCTAssertEqual(x.partialValue.remainder, T( 7))
+        XCTAssertEqual(x.overflow, true)
+        //=--------------------------------------=
+        x = T.min.quotientAndRemainderReportingOverflow(dividingBy: T(-1))
+        XCTAssertEqual(x.partialValue.quotient,  T.max)
+        XCTAssertEqual(x.partialValue.remainder, T( 0))
+        XCTAssertEqual(x.overflow, false)
+        //=--------------------------------------=
+        // Standard
+        //=--------------------------------------=
+        x = T( 7).quotientAndRemainderReportingOverflow(dividingBy: T( 3))
+        XCTAssertEqual(x.partialValue.quotient,  T( 2))
+        XCTAssertEqual(x.partialValue.remainder, T( 1))
+        XCTAssertEqual(x.overflow, false)
+        //=--------------------------------------=
+        x = T( 7).quotientAndRemainderReportingOverflow(dividingBy: T(-3))
+        XCTAssertEqual(x.partialValue.quotient,  T(-2))
+        XCTAssertEqual(x.partialValue.remainder, T( 1))
+        XCTAssertEqual(x.overflow, false)
+        //=--------------------------------------=
+        x = T(-7).quotientAndRemainderReportingOverflow(dividingBy: T( 3))
+        XCTAssertEqual(x.partialValue.quotient,  T(-2))
+        XCTAssertEqual(x.partialValue.remainder, T(-1))
+        XCTAssertEqual(x.overflow, false)
+        //=--------------------------------------=
+        x = T(-7).quotientAndRemainderReportingOverflow(dividingBy: T(-3))
+        XCTAssertEqual(x.partialValue.quotient,  T( 2))
+        XCTAssertEqual(x.partialValue.remainder, T(-1))
+        XCTAssertEqual(x.overflow, false)
     }
     
     //=------------------------------------------------------------------------=
@@ -86,13 +134,61 @@ final class ANKSignedTestsOnDivision: XCTestCase {
     }
     
     func testQuotientReportingOverflowDividingByDigit() {
-        XCTAssert(T.min.dividedReportingOverflow(by:  D(0)) == (T.min,  true) as (T, Bool))
-        XCTAssert(T.min.dividedReportingOverflow(by: -D(1)) == (T.max, false) as (T, Bool))
+        XCTAssert((T.min).dividedReportingOverflow(by:  D(0)) == ((T.min),  true) as (T, Bool))
+        XCTAssert((T.min).dividedReportingOverflow(by: -D(1)) == ((T.max), false) as (T, Bool))
+        
+        XCTAssert(( T(7)).dividedReportingOverflow(by:  D(3)) == (( T(2)), false) as (T, Bool))
+        XCTAssert(( T(7)).dividedReportingOverflow(by: -D(3)) == ((-T(2)), false) as (T, Bool))
+        XCTAssert((-T(7)).dividedReportingOverflow(by:  D(3)) == ((-T(2)), false) as (T, Bool))
+        XCTAssert((-T(7)).dividedReportingOverflow(by: -D(3)) == (( T(2)), false) as (T, Bool))
     }
 
     func testRemainderReportingOverflowDividingByDigit() {
-        XCTAssert(T.min.remainderReportingOverflow(dividingBy:  D(0)) == (D(),  true) as (D, Bool))
-        XCTAssert(T.min.remainderReportingOverflow(dividingBy: -D(1)) == (D(), false) as (D, Bool))
+        XCTAssert((T.min).remainderReportingOverflow(dividingBy:  D(0)) == (( D(0)),  true) as (D, Bool))
+        XCTAssert((T.min).remainderReportingOverflow(dividingBy: -D(1)) == (( D(0)), false) as (D, Bool))
+        
+        XCTAssert(( T(7)).remainderReportingOverflow(dividingBy:  D(3)) == (( D(1)), false) as (D, Bool))
+        XCTAssert(( T(7)).remainderReportingOverflow(dividingBy: -D(3)) == (( D(1)), false) as (D, Bool))
+        XCTAssert((-T(7)).remainderReportingOverflow(dividingBy:  D(3)) == ((-D(1)), false) as (D, Bool))
+        XCTAssert((-T(7)).remainderReportingOverflow(dividingBy: -D(3)) == ((-D(1)), false) as (D, Bool))
+    }
+    
+    func testQuotientAndRemainderDividingByDigitReportingOverflow() {
+        var x: PVO<QR<T, T.Digit>>
+        //=--------------------------------------=
+        // Divisor: 0, -1
+        //=--------------------------------------=
+        x = T(7).quotientAndRemainderReportingOverflow(dividingBy: D( 0))
+        XCTAssertEqual(x.partialValue.quotient,  T( 7))
+        XCTAssertEqual(x.partialValue.remainder, D( 0))
+        XCTAssertEqual(x.overflow, true)
+        //=--------------------------------------=
+        x = T.min.quotientAndRemainderReportingOverflow(dividingBy: D(-1))
+        XCTAssertEqual(x.partialValue.quotient,  T.max)
+        XCTAssertEqual(x.partialValue.remainder, D( 0))
+        XCTAssertEqual(x.overflow, false)
+        //=--------------------------------------=
+        // Standard
+        //=--------------------------------------=
+        x = T( 7).quotientAndRemainderReportingOverflow(dividingBy: D( 3))
+        XCTAssertEqual(x.partialValue.quotient,  T( 2))
+        XCTAssertEqual(x.partialValue.remainder, D( 1))
+        XCTAssertEqual(x.overflow, false)
+        //=--------------------------------------=
+        x = T( 7).quotientAndRemainderReportingOverflow(dividingBy: D(-3))
+        XCTAssertEqual(x.partialValue.quotient,  T(-2))
+        XCTAssertEqual(x.partialValue.remainder, D( 1))
+        XCTAssertEqual(x.overflow, false)
+        //=--------------------------------------=
+        x = T(-7).quotientAndRemainderReportingOverflow(dividingBy: D( 3))
+        XCTAssertEqual(x.partialValue.quotient,  T(-2))
+        XCTAssertEqual(x.partialValue.remainder, D(-1))
+        XCTAssertEqual(x.overflow, false)
+        //=--------------------------------------=
+        x = T(-7).quotientAndRemainderReportingOverflow(dividingBy: D(-3))
+        XCTAssertEqual(x.partialValue.quotient,  T( 2))
+        XCTAssertEqual(x.partialValue.remainder, D(-1))
+        XCTAssertEqual(x.overflow, false)
     }
     
     //=------------------------------------------------------------------------=
@@ -145,6 +241,7 @@ final class ANKSignedTestsOnDivision: XCTestCase {
         XCTAssertNotNil(x.dividedReportingOverflow(by: D(1)))
         XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: D(2)))
         XCTAssertNotNil(x.quotientAndRemainder(dividingBy: D(1)))
+        XCTAssertNotNil(x.quotientAndRemainderReportingOverflow(dividingBy: D(3)))
         XCTAssertNotNil(x.dividingFullWidth((D(1), UInt(2))))
     }
     
@@ -161,6 +258,7 @@ final class ANKSignedTestsOnDivision: XCTestCase {
         XCTAssertNotNil(x.dividedReportingOverflow(by: 1))
         XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 2))
         XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 1))
+        XCTAssertNotNil(x.quotientAndRemainderReportingOverflow(dividingBy: 3))
         XCTAssertNotNil(x.dividingFullWidth((1, 2)))
     }
 }
