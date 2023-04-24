@@ -27,7 +27,7 @@ public typealias HL<H,L> = (high: H, low: L)
 /// A low and a high value.
 public typealias LH<L,H> = (low: L, high: H)
 
-/// A partial value and a value indicating whether overflow occurred.
+/// A partial value and an overflow indicator.
 public typealias PVO<PV> = (partialValue: PV, overflow: Bool)
 
 /// A quotient and a remainder, relating to division.

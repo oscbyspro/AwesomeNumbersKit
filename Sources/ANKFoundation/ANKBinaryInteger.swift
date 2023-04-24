@@ -15,7 +15,12 @@
 ///
 /// ### Two's Complement
 ///
-/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
+/// Like `BinaryInteger`, it has [two's complement][2s] semantics.
+///
+/// - The two's complement representation of `+0` is an infinite sequence of `0s`.
+/// - The two's complement representation of `-1` is an infinite sequence of `1s`.
+///
+/// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
 public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger {
     
@@ -308,7 +313,12 @@ extension ANKBinaryInteger where Self: FixedWidthInteger {
 ///
 /// ### Two's Complement
 ///
-/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
+/// Like `BinaryInteger`, it has [two's complement][2s] semantics.
+///
+/// - The two's complement representation of `+0` is an infinite sequence of `0s`.
+/// - The two's complement representation of `-1` is an infinite sequence of `1s`.
+///
+/// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
 public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger { }
 
@@ -318,8 +328,13 @@ public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger { }
 
 /// An awesome, unsigned, binary integer.
 ///
-/// ### Two's Complement
+/// .### Two's Complement
 ///
-/// Like `BinaryInteger`, its bitwise operations have two's complement semantics.
+/// Like `BinaryInteger`, it has [two's complement][2s] semantics.
+///
+/// - The two's complement representation of `+0` is an infinite sequence of `0s`.
+/// - The two's complement representation of `-1` is an infinite sequence of `1s`.
+///
+/// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
 public protocol ANKUnsignedInteger: ANKBinaryInteger, UnsignedInteger { }

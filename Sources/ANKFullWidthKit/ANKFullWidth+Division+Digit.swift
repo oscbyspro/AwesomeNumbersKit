@@ -59,7 +59,7 @@ extension ANKFullWidth {
             qro.partialValue.quotient.formTwosComplement()
         }
         
-        if  dividendIsLessThanZero, divisorIsLessThanZero, qro.partialValue.quotient.isLessThanZero {
+        if  dividendIsLessThanZero && divisorIsLessThanZero && qro.partialValue.quotient.isLessThanZero {
             assert(Self.isSigned && self == Self.min && divisor == -1)
             assert(qro.partialValue.quotient  == self)
             assert(qro.partialValue.remainder == Digit())

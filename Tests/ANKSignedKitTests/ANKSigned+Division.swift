@@ -257,7 +257,7 @@ final class ANKSignedTestsOnDivision: XCTestCase {
         XCTAssertNotNil(x %  2)
         XCTAssertNotNil(x.dividedReportingOverflow(by: 1))
         XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 2))
-        XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 1))
+        XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 3))
         XCTAssertNotNil(x.quotientAndRemainderReportingOverflow(dividingBy: 3))
         XCTAssertNotNil(x.dividingFullWidth((1, 2)))
     }

@@ -37,10 +37,6 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     ///
     @inlinable init(bitPattern source: some ANKBitPatternConvertible<BitPattern>)
     
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
     /// The bit pattern of this value.
     ///
     /// ```swift
@@ -65,10 +61,6 @@ extension ANKBitPatternConvertible where BitPattern == Self {
     @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
         self = source.bitPattern
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
     
     @_transparent public var bitPattern: BitPattern {
         self
