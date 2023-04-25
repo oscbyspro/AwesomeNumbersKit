@@ -635,8 +635,7 @@ extension ANKFixedWidthInteger {
 ///
 /// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
-public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteger where
-Digit: ANKSignedFixedWidthInteger {
+public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteger where Digit: ANKSignedFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -705,5 +704,4 @@ extension ANKSignedFixedWidthInteger {
 ///
 /// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
-public protocol ANKUnsignedFixedWidthInteger: ANKFixedWidthInteger, ANKUnsignedInteger where
-Digit: ANKUnsignedFixedWidthInteger { }
+public protocol ANKUnsignedFixedWidthInteger: ANKFixedWidthInteger, ANKUnsignedInteger where Digit: ANKUnsignedFixedWidthInteger { }

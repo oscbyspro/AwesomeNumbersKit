@@ -24,54 +24,6 @@ final class Int192TestsOnPointers: XCTestCase {
     typealias T = ANKInt192
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Bytes
-    //=------------------------------------------------------------------------=
-    
-    func testWithUnsafeBytes() {
-        let x0 = T(truncatingIfNeeded:  0)
-        let x1 = T(truncatingIfNeeded: -1)
-        
-        x0.withUnsafeBytes { BYTES in
-            XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
-        }
-        
-        x1.withUnsafeBytes { BYTES in
-            XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
-        }
-    }
-    
-    func testWithUnsafeMutableBytes() {
-        var x0 = T(truncatingIfNeeded:  0)
-        let x1 = T(truncatingIfNeeded: -1)
-        
-        x0.withUnsafeMutableBytes { BYTES in
-            XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
-            BYTES.indices.forEach({ BYTES[$0] = 0xff })
-            XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
-        };  XCTAssertEqual(x0, x1)
-    }
-    
-    func testFromUnsafeMutableBytes() {
-        let x0 = T(truncatingIfNeeded:  0)
-        let x1 = T(truncatingIfNeeded: -1)
-                
-        let y0 = T.fromUnsafeMutableBytes { BYTES in
-            XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            BYTES.indices.forEach({ BYTES[$0] = 0x00 })
-            XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
-        };  XCTAssertEqual(x0, y0)
-        
-        let y1 = T.fromUnsafeMutableBytes { BYTES in
-            XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            BYTES.indices.forEach({ BYTES[$0] = 0xff })
-            XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
-        };  XCTAssertEqual(x1, y1)
-    }
-    
-    //=------------------------------------------------------------------------=
     // MARK: Tests x Words
     //=------------------------------------------------------------------------=
     
@@ -158,54 +110,6 @@ final class Int192TestsOnPointers: XCTestCase {
 final class UInt192TestsOnPointers: XCTestCase {
     
     typealias T = ANKUInt192
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bytes
-    //=------------------------------------------------------------------------=
-
-    func testWithUnsafeBytes() {
-        let x0 = T(truncatingIfNeeded:  0)
-        let x1 = T(truncatingIfNeeded: -1)
-        
-        x0.withUnsafeBytes { BYTES in
-            XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
-        }
-        
-        x1.withUnsafeBytes { BYTES in
-            XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
-        }
-    }
-        
-    func testWithUnsafeMutableBytes() {
-        var x0 = T(truncatingIfNeeded:  0)
-        let x1 = T(truncatingIfNeeded: -1)
-                
-        x0.withUnsafeMutableBytes { BYTES in
-            XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
-            BYTES.indices.forEach({ BYTES[$0] = 0xff })
-            XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
-        };  XCTAssertEqual(x0, x1)
-    }
-    
-    func testFromUnsafeMutableBytes() {
-        let x0 = T(truncatingIfNeeded:  0)
-        let x1 = T(truncatingIfNeeded: -1)
-                
-        let y0 = T.fromUnsafeMutableBytes { BYTES in
-            XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            BYTES.indices.forEach({ BYTES[$0] = 0x00 })
-            XCTAssert(BYTES.allSatisfy({  $0 == 0x00 }))
-        };  XCTAssertEqual(x0, y0)
-        
-        let y1 = T.fromUnsafeMutableBytes { BYTES in
-            XCTAssertEqual(BYTES.count, T.bitWidth/8)
-            BYTES.indices.forEach({ BYTES[$0] = 0xff })
-            XCTAssert(BYTES.allSatisfy({  $0 == 0xff }))
-        };  XCTAssertEqual(x1, y1)
-    }
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Words

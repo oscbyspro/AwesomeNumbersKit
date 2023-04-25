@@ -35,9 +35,9 @@ fit in a machine word. See the following for more details:
 
 - ``ANKBinaryInteger``
 - ``ANKFixedWidthInteger``
-- ``ANKSignedBinaryInteger``
+- ``ANKSignedInteger``
 - ``ANKSignedFixedWidthInteger``
-- ``ANKUnsignedBinaryInteger``
+- ``ANKUnsignedInteger``
 - ``ANKUnsignedFixedWidthInteger``
 
 - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
