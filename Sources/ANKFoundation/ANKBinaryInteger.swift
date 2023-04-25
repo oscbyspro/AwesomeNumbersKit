@@ -25,7 +25,7 @@
 public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger {
     
     /// A machine word of some kind, or this type.
-    associatedtype Digit: ANKBinaryInteger = Self
+    associatedtype Digit: ANKBinaryInteger = Self where Digit.Magnitude == Magnitude.Digit
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -44,20 +44,7 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     @inlinable init(digit: Digit)
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    /// Returns whether this value is equal to zero.
-    @inlinable var isZero: Bool { get }
-    
-    /// Returns whether this value is less than zero.
-    @inlinable var isLessThanZero: Bool { get }
-    
-    /// Returns whether this value is more than zero.
-    @inlinable var isMoreThanZero: Bool { get }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
+    // MARK: Details x Bits
     //=------------------------------------------------------------------------=
     
     /// Returns the most significant bit, in two's complement form.
@@ -75,6 +62,19 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     /// ```
     ///
     @inlinable var leastSignificantBit: Bool { get }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Comparisons
+    //=------------------------------------------------------------------------=
+    
+    /// Returns whether this value is equal to zero.
+    @inlinable var isZero: Bool { get }
+    
+    /// Returns whether this value is less than zero.
+    @inlinable var isLessThanZero: Bool { get }
+    
+    /// Returns whether this value is more than zero.
+    @inlinable var isMoreThanZero: Bool { get }
     
     //=------------------------------------------------------------------------=
     // MARK: Details x Two's Complement
@@ -707,4 +707,4 @@ public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger where Digit: A
 ///
 /// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
-public protocol ANKUnsignedInteger: ANKBinaryInteger, UnsignedInteger where Digit: ANKUnsignedInteger, Digit.Magnitude == Digit { }
+public protocol ANKUnsignedInteger: ANKBinaryInteger, UnsignedInteger where Digit: ANKUnsignedInteger, Magnitude == Self { }
