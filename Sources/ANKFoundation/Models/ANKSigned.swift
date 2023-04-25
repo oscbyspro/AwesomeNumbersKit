@@ -54,8 +54,7 @@
 ///
 /// - Note: The `Digit` type is `ANKSigned<Magnitude.Digit>` when it exists.
 ///
-@frozen public struct ANKSigned<Magnitude>: Comparable, Hashable, Sendable where
-Magnitude: ANKUnsignedInteger, Magnitude == Magnitude.Magnitude {
+@frozen public struct ANKSigned<Magnitude>: Comparable, Hashable, Sendable where Magnitude: ANKUnsignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors

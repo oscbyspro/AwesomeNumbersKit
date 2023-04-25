@@ -15,7 +15,7 @@
 public typealias Sign = ANKSign
 
 /// A decorative, width agnostic, sign-and-magnitude, numeric integer.
-public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger, T == T.Magnitude
+public typealias Signed<T> = ANKSigned<T> where T: ANKUnsignedInteger
 
 //*============================================================================*
 // MARK: * Aliases x Arithmetic
