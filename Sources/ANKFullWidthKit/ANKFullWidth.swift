@@ -43,20 +43,20 @@ import ANKFoundation
 /// operations. These methods are more efficient, but they can only be used on operands that
 /// fit in a machine word. See the following for more details:
 ///
-/// - ``ANKLargeBinaryInteger``
-/// - ``ANKLargeFixedWidthInteger``
-/// - ``ANKSignedLargeBinaryInteger``
-/// - ``ANKSignedLargeFixedWidthInteger``
-/// - ``ANKUnsignedLargeBinaryInteger``
-/// - ``ANKUnsignedLargeFixedWidthInteger``
+/// - ``ANKBinaryInteger``
+/// - ``ANKFixedWidthInteger``
+/// - ``ANKSignedBinaryInteger``
+/// - ``ANKSignedFixedWidthInteger``
+/// - ``ANKUnsignedBinaryInteger``
+/// - ``ANKUnsignedFixedWidthInteger``
 ///
 /// - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
 @frozen public struct ANKFullWidth<High, Low>: ANKBigEndianTextCodable,
-ANKLargeFixedWidthInteger,  ANKTrivialContiguousBytes, ANKWords,
-CustomStringConvertible, CustomDebugStringConvertible, MutableCollection where
-High: ANKLargeFixedWidthInteger, Low: ANKUnsignedLargeFixedWidthInteger<UInt>,
-High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt, Low == Low.Magnitude {
+ANKFixedWidthInteger, ANKTrivialContiguousBytes, ANKWords, CustomStringConvertible,
+CustomDebugStringConvertible, FixedWidthInteger, MutableCollection where
+High: ANKFixedWidthInteger, High.Digit: ANKIntOrUInt, High.Magnitude.Digit == UInt,
+Low: ANKUnsignedFixedWidthInteger, Low.Digit == UInt, Low == Low.Magnitude {
     
     /// The most significant part of this type.
     public typealias High = High
@@ -161,9 +161,3 @@ extension ANKFullWidth: ANKUnsignedInteger where High: ANKUnsignedInteger { }
 
 extension ANKFullWidth:   ANKSignedFixedWidthInteger where High:   ANKSignedFixedWidthInteger { }
 extension ANKFullWidth: ANKUnsignedFixedWidthInteger where High: ANKUnsignedFixedWidthInteger { }
-
-extension ANKFullWidth:   ANKSignedLargeBinaryInteger where High:   ANKSignedLargeBinaryInteger { }
-extension ANKFullWidth: ANKUnsignedLargeBinaryInteger where High: ANKUnsignedLargeBinaryInteger { }
-
-extension ANKFullWidth:   ANKSignedLargeFixedWidthInteger where High:   ANKSignedLargeFixedWidthInteger { }
-extension ANKFullWidth: ANKUnsignedLargeFixedWidthInteger where High: ANKUnsignedLargeFixedWidthInteger { }

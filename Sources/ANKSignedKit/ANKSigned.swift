@@ -15,6 +15,8 @@ import ANKFoundation
 
 extension ANKSigned: SignedNumeric {
     
+    public typealias Digit = ANKSigned<Magnitude.Digit>
+    
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
@@ -24,19 +26,6 @@ extension ANKSigned: SignedNumeric {
         let magnitude = Magnitude(bit: bit)
         self.init(magnitude, as: sign)
     }
-}
-
-//*============================================================================*
-// MARK: * ANK x Signed x Large
-//*============================================================================*
-
-extension ANKSigned where Magnitude: ANKLargeBinaryInteger {
-    
-    public typealias Digit = ANKSigned<Magnitude.Digit>
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
     
     @inlinable public init(digit: Digit) {
         let sign = digit.sign

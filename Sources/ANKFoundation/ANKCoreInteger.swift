@@ -27,8 +27,8 @@
 /// - `UInt32`
 /// - `UInt64`
 ///
-public protocol ANKCoreInteger: ANKBigEndianTextCodable, ANKFixedWidthInteger, ANKTrivialContiguousBytes where
-Magnitude: ANKCoreInteger, Magnitude == BitPattern { }
+public protocol ANKCoreInteger: ANKBigEndianTextCodable, ANKFixedWidthInteger, ANKTrivialContiguousBytes
+where Digit == Self, Magnitude: ANKCoreInteger, Magnitude == BitPattern { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -181,7 +181,7 @@ extension ANKCoreInteger where Self: ANKSignedFixedWidthInteger {
 }
 
 //*============================================================================*
-// MARK: * ANK x Core Integer x Stdlib
+// MARK: * ANK x Core Integer x Swift
 //*============================================================================*
 
 extension Int: ANKCoreInteger, ANKSignedFixedWidthInteger {

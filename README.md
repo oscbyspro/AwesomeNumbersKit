@@ -60,18 +60,12 @@ Models, protocols, extensions and utilities underpinning this package.
 - [ANKCoreInteger](Sources/ANKFoundation/ANKCoreInteger.swift)
 - [ANKFixedWidthInteger](Sources/ANKFoundation/ANKFixedWidthInteger.swift)
 - [ANKIntOrUInt](Sources/ANKFoundation/ANKIntOrUInt.swift)
-- [ANKLargeBinaryInteger\<Digit\>](Sources/ANKFoundation/ANKLargeBinaryInteger.swift)
-- [ANKLargeFixedWidthInteger\<Digit\>](Sources/ANKFoundation/ANKLargeFixedWidthInteger.swift)
 - [ANKMutableContiguousBytes](Sources/ANKFoundation/ANKContiguousBytes.swift)
 - [ANKSignedFixedWidthInteger](Sources/ANKFoundation/ANKFixedWidthInteger.swift)
 - [ANKSignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
-- [ANKSignedLargeBinaryInteger\<Digit\>](Sources/ANKFoundation/ANKLargeBinaryInteger.swift)
-- [ANKSignedLargeFixedWidthInteger\<Digit\>](Sources/ANKFoundation/ANKLargeFixedWidthInteger.swift)
 - [ANKTrivialContiguousBytes](Sources/ANKFoundation/ANKContiguousBytes.swift)
 - [ANKUnsignedFixedWidthInteger](Sources/ANKFoundation/ANKFixedWidthInteger.swift)
 - [ANKUnsignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
-- [ANKUnsignedLargeBinaryInteger\<Digit\>](Sources/ANKFoundation/ANKLargeBinaryInteger.swift)
-- [ANKUnsignedLargeFixedWidthInteger\<Digit\>](Sources/ANKFoundation/ANKLargeFixedWidthInteger.swift)
 - [ANKWords](Sources/ANKFoundation/ANKWords.swift)
 
 <!-- Links -->

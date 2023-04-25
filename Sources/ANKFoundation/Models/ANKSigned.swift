@@ -45,12 +45,12 @@
 /// operations. These methods are more efficient, but they can only be used on operands that
 /// fit in a machine word. See the following for more details:
 ///
-/// - ``ANKLargeBinaryInteger``
-/// - ``ANKLargeFixedWidthInteger``
-/// - ``ANKSignedLargeBinaryInteger``
-/// - ``ANKSignedLargeFixedWidthInteger``
-/// - ``ANKUnsignedLargeBinaryInteger``
-/// - ``ANKUnsignedLargeFixedWidthInteger``
+/// - ``ANKBinaryInteger``
+/// - ``ANKFixedWidthInteger``
+/// - ``ANKSignedBinaryInteger``
+/// - ``ANKSignedFixedWidthInteger``
+/// - ``ANKUnsignedBinaryInteger``
+/// - ``ANKUnsignedFixedWidthInteger``
 ///
 /// - Note: The `Digit` type is `ANKSigned<Magnitude.Digit>` when it exists.
 ///

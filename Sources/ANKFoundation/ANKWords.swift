@@ -15,7 +15,7 @@
 public protocol ANKWords: RandomAccessCollection where Element == UInt, Index == Int { }
 
 //*============================================================================*
-// MARK: * ANK x Words x Stdlib
+// MARK: * ANK x Words x Swift
 //*============================================================================*
 
 extension Array<UInt>: ANKWords { }

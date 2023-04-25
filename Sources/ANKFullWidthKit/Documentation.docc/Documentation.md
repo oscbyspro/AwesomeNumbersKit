@@ -33,12 +33,12 @@ Alongside its ordinary arithmetic operations, ``ANKFullWidth`` also offers singl
 operations. These methods are more efficient, but they can only be used on operands that 
 fit in a machine word. See the following for more details:
 
-- ``ANKLargeBinaryInteger``
-- ``ANKLargeFixedWidthInteger``
-- ``ANKSignedLargeBinaryInteger``
-- ``ANKSignedLargeFixedWidthInteger``
-- ``ANKUnsignedLargeBinaryInteger``
-- ``ANKUnsignedLargeFixedWidthInteger``
+- ``ANKBinaryInteger``
+- ``ANKFixedWidthInteger``
+- ``ANKSignedBinaryInteger``
+- ``ANKSignedFixedWidthInteger``
+- ``ANKUnsignedBinaryInteger``
+- ``ANKUnsignedFixedWidthInteger``
 
 - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 

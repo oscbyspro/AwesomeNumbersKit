@@ -10,10 +10,10 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Signed x Large x Multiplication
+// MARK: * ANK x Signed x Multiplication x Digit
 //*============================================================================*
 
-extension ANKSigned where Magnitude: ANKLargeBinaryInteger {
+extension ANKSigned {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -29,10 +29,10 @@ extension ANKSigned where Magnitude: ANKLargeBinaryInteger {
 }
 
 //*============================================================================*
-// MARK: * ANK x Signed x Large x Fixed Width x Multiplication
+// MARK: * ANK x Signed x Fixed Width x Multiplication x Digit
 //*============================================================================*
 
-extension ANKSigned where Magnitude: ANKLargeFixedWidthInteger {
+extension ANKSigned where Magnitude: ANKFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

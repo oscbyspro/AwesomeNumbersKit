@@ -19,18 +19,12 @@ Models, protocols, extensions and utilities underpinning this package.
 - ``ANKCoreInteger``
 - ``ANKFixedWidthInteger``
 - ``ANKIntOrUInt``
-- ``ANKLargeBinaryInteger``
-- ``ANKLargeFixedWidthInteger``
 - ``ANKMutableContiguousBytes``
 - ``ANKSignedFixedWidthInteger``
 - ``ANKSignedInteger``
-- ``ANKSignedLargeBinaryInteger``
-- ``ANKSignedLargeFixedWidthInteger``
 - ``ANKTrivialContiguousBytes``
 - ``ANKUnsignedFixedWidthInteger``
 - ``ANKUnsignedInteger``
-- ``ANKUnsignedLargeBinaryInteger``
-- ``ANKUnsignedLargeFixedWidthInteger``
 - ``ANKWords``
 
 ### Type Aliases

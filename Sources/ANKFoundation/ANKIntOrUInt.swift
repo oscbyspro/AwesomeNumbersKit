@@ -15,11 +15,11 @@
 ///
 ///  Only `Int` and `UInt` in the standard library may conform to this protocol.
 ///
-public protocol ANKIntOrUInt: ANKCoreInteger, ANKLargeFixedWidthInteger<Self> where Magnitude == UInt { }
+public protocol ANKIntOrUInt: ANKCoreInteger, ANKFixedWidthInteger where Magnitude == UInt { }
 
 //*============================================================================*
-// MARK: * ANK x Int Or UInt x Stdlib
+// MARK: * ANK x Int Or UInt x Swift
 //*============================================================================*
 
-extension  Int: ANKIntOrUInt,   ANKSignedLargeFixedWidthInteger { }
-extension UInt: ANKIntOrUInt, ANKUnsignedLargeFixedWidthInteger { }
+extension  Int: ANKIntOrUInt { }
+extension UInt: ANKIntOrUInt { }
