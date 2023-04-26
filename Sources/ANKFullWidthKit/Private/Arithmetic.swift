@@ -128,7 +128,7 @@ extension UInt {
 // MARK: * ANK x Arithmetic x Unsigned x Fixed Width
 //*============================================================================*
 
-extension ANKUnsignedFixedWidthInteger {
+extension ANKFixedWidthInteger where Self: ANKUnsignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations

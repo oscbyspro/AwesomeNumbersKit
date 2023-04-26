@@ -22,9 +22,7 @@ Large number arithmetic in Swift.
 - ``ANKCoreInteger``
 - ``ANKFixedWidthInteger``
 - ``ANKIntOrUInt``
-- ``ANKSignedFixedWidthInteger``
 - ``ANKSignedInteger``
-- ``ANKUnsignedFixedWidthInteger``
 - ``ANKUnsignedInteger``
 - ``ANKWords``
 

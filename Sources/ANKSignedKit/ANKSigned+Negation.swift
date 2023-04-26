@@ -30,6 +30,10 @@ extension ANKSigned {
     @_transparent public mutating func negate() {
         self.sign.toggle()
     }
+    
+    @_transparent public func negated() -> Self {
+        Self(self.magnitude, as: self.sign.toggled())
+    }
 }
 
 //*============================================================================*

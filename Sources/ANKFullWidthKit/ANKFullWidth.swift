@@ -54,7 +54,7 @@ import ANKFoundation
 ///
 @frozen public struct ANKFullWidth<High, Low>: ANKBigEndianTextCodable, ANKFixedWidthInteger, ANKWords,
 CustomStringConvertible, CustomDebugStringConvertible, MutableCollection where High: ANKFixedWidthInteger,
-High.Digit: ANKIntOrUInt, Low: ANKUnsignedFixedWidthInteger, Low.Digit == UInt {
+High.Digit: ANKIntOrUInt, Low: ANKFixedWidthInteger & ANKUnsignedInteger, Low.Digit == UInt {
     
     /// The most significant part of this type.
     public typealias High = High
@@ -150,12 +150,5 @@ High.Digit: ANKIntOrUInt, Low: ANKUnsignedFixedWidthInteger, Low.Digit == UInt {
 // MARK: * ANK x Full Width x Conditional Conformances
 //*============================================================================*
 
-extension ANKFullWidth:   SignedNumeric where High:   SignedNumeric { }
-extension ANKFullWidth:   SignedInteger where High:   SignedInteger { }
-extension ANKFullWidth: UnsignedInteger where High: UnsignedInteger, High == High.Magnitude { }
-
-extension ANKFullWidth:   ANKSignedInteger where High:   ANKSignedInteger { }
-extension ANKFullWidth: ANKUnsignedInteger where High: ANKUnsignedInteger { }
-
-extension ANKFullWidth:   ANKSignedFixedWidthInteger where High:   ANKSignedFixedWidthInteger { }
-extension ANKFullWidth: ANKUnsignedFixedWidthInteger where High: ANKUnsignedFixedWidthInteger { }
+extension ANKFullWidth:   ANKSignedInteger,   SignedInteger, SignedNumeric where High:   ANKSignedInteger { }
+extension ANKFullWidth: ANKUnsignedInteger, UnsignedInteger  /*---------*/ where High: ANKUnsignedInteger { }

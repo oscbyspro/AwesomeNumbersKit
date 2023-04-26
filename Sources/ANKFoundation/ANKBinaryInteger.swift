@@ -25,7 +25,7 @@
 public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger {
     
     /// A machine word of some kind, or this type.
-    associatedtype Digit: ANKBinaryInteger = Self where Digit.Magnitude == Magnitude.Digit
+    associatedtype Digit: ANKBinaryInteger = Self where Digit.Digit == Digit, Digit.Magnitude == Magnitude.Digit
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -693,7 +693,114 @@ extension ANKBinaryInteger {
 ///
 /// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
-public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger where Digit: ANKSignedInteger { }
+public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger where Digit: ANKSignedInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    /// Returns a value with equal magnitude but opposite sign.
+    ///
+    /// ```swift
+    /// -Int8( 1) // Int8(-1)
+    /// -Int8( 0) // Int8( 0)
+    /// -Int8(-1) // Int8( 1)
+    /// ```
+    ///
+    @inlinable static prefix func -(x: Self) -> Self
+    
+    /// Forms a value with equal magnitude but opposite sign.
+    ///
+    /// ```swift
+    /// var a = Int8( 1); a.negate() // a = Int8(-1)
+    /// var b = Int8( 0); b.negate() // b = Int8( 0)
+    /// var c = Int8(-1); c.negate() // c = Int8( 1)
+    /// ```
+    ///
+    @inlinable mutating func negate()
+    
+    /// Returns a value with equal magnitude but opposite sign.
+    ///
+    /// ```swift
+    /// Int8( 1).negated() // Int8(-1)
+    /// Int8( 0).negated() // Int8( 0)
+    /// Int8(-1).negated() // Int8( 1)
+    /// ```
+    ///
+    @inlinable func negated() -> Self
+    
+    /// Forms a value with equal magnitude but opposite sign,
+    /// and returns a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
+    ///
+    /// ```swift
+    /// var a: Int8(-127); a.negateReportingOverflow() // a = Int8( 127); -> false
+    /// var b: Int8(-128); b.negateReportingOverflow() // b = Int8(-128); -> true
+    /// ```
+    ///
+    @inlinable mutating func negateReportingOverflow() -> Bool
+    
+    /// Returns a value with equal magnitude but opposite sign,
+    /// along with a value indicating whether overflow occurred.
+    /// In the case of overflow, the result is truncated.
+    ///
+    /// ```swift
+    /// Int8(-127).negatedReportingOverflow() // -> (partialValue: Int8( 127), overflow: false)
+    /// Int8(-128).negatedReportingOverflow() // -> (partialValue: Int8(-128), overflow: true )
+    /// ```
+    ///
+    @inlinable func negatedReportingOverflow() -> PVO<Self>
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details
+//=----------------------------------------------------------------------------=
+
+extension ANKSignedInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    /// Returns a value with equal magnitude but opposite sign.
+    ///
+    /// ```swift
+    /// -Int8( 1) // Int8(-1)
+    /// -Int8( 0) // Int8( 0)
+    /// -Int8(-1) // Int8( 1)
+    /// ```
+    ///
+    @_transparent public static prefix func -(x: Self) -> Self {
+        x.negated()
+    }
+    
+    /// Forms a value with equal magnitude but opposite sign.
+    ///
+    /// ```swift
+    /// var a = Int8( 1); a.negate() // a = Int8(-1)
+    /// var b = Int8( 0); b.negate() // b = Int8( 0)
+    /// var c = Int8(-1); c.negate() // c = Int8( 1)
+    /// ```
+    ///
+    @_transparent public mutating func negate() {
+        let overflow: Bool = self.negateReportingOverflow()
+        precondition(!overflow)
+    }
+    
+    /// Returns a value with equal magnitude but opposite sign.
+    ///
+    /// ```swift
+    /// Int8( 1).negated() // Int8(-1)
+    /// Int8( 0).negated() // Int8( 0)
+    /// Int8(-1).negated() // Int8( 1)
+    /// ```
+    ///
+    @_transparent public func negated() -> Self {
+        let pvo: PVO<Self> = self.negatedReportingOverflow()
+        precondition(!pvo.overflow)
+        return pvo.partialValue as Self
+    }
+}
 
 //*============================================================================*
 // MARK: * ANK x Binary Integer x Unsigned

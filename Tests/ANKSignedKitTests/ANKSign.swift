@@ -53,6 +53,20 @@ final class ANKSignTests: XCTestCase {
     // MARK: Tests x Transformations
     //=------------------------------------------------------------------------=
     
+    func testToggle() {
+        var a = T.plus;  a.toggle(); XCTAssertEqual(a, T.minus)
+        var b = T.minus; b.toggle(); XCTAssertEqual(b, T.plus )
+    }
+    
+    func testToggled() {
+        XCTAssertEqual(T.plus .toggled(), T.minus)
+        XCTAssertEqual(T.minus.toggled(), T.plus )
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Transformations
+    //=------------------------------------------------------------------------=
+    
     func testNot() {
         XCTAssertEqual(~T.plus,  T.minus)
         XCTAssertEqual(~T.minus, T.plus )

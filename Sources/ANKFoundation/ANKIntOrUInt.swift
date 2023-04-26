@@ -15,7 +15,7 @@
 ///
 ///  Only `Int` and `UInt` in the standard library may conform to this protocol.
 ///
-public protocol ANKIntOrUInt: ANKCoreInteger, ANKFixedWidthInteger where Magnitude == UInt { }
+public protocol ANKIntOrUInt: ANKCoreInteger where Magnitude == UInt { }
 
 //*============================================================================*
 // MARK: * ANK x Int Or UInt x Swift

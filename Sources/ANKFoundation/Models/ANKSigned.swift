@@ -47,10 +47,6 @@
 ///
 /// - ``ANKBinaryInteger``
 /// - ``ANKFixedWidthInteger``
-/// - ``ANKSignedInteger``
-/// - ``ANKSignedFixedWidthInteger``
-/// - ``ANKUnsignedInteger``
-/// - ``ANKUnsignedFixedWidthInteger``
 ///
 /// - Note: The `Digit` type is `ANKSigned<Magnitude.Digit>` when it exists.
 ///

@@ -18,7 +18,8 @@ import XCTest
 
 final class ANKCoreIntegerTestsOnNegation: XCTestCase {
     
-    typealias T = any ANKCoreInteger.Type
+    typealias T = any (ANKCoreInteger).Type
+    typealias S = any (ANKCoreInteger & ANKSignedInteger).Type
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -27,13 +28,28 @@ final class ANKCoreIntegerTestsOnNegation: XCTestCase {
     let types: [T] = ANKCoreIntegerTests.types
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Negation
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testNegatedReportingOverflow() {
-        for case let type as any ANKSignedFixedWidthInteger.Type in types {
+        for case let type as S in types {
             XCTAssertEqual(type.min.negatedReportingOverflow().overflow, true )
             XCTAssertEqual(type.max.negatedReportingOverflow().overflow, false)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        func becauseThisCompilesSuccessfully(_ x: inout some ANKCoreInteger & ANKSignedInteger) {
+            XCTAssertNotNil(x.negate())
+            XCTAssertNotNil(x.negateReportingOverflow())
+            
+            XCTAssertNotNil(-x)
+            XCTAssertNotNil(x.negated())
+            XCTAssertNotNil(x.negatedReportingOverflow())
         }
     }
 }

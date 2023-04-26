@@ -159,11 +159,11 @@ extension ANKCoreInteger {
     }
 }
 
-//*============================================================================*
-// MARK: * ANK x Core Integer x Signed
-//*============================================================================*
+//=----------------------------------------------------------------------------=
+// MARK: + Details where Signed
+//=----------------------------------------------------------------------------=
 
-extension ANKCoreInteger where Self: ANKSignedFixedWidthInteger {
+extension ANKCoreInteger where Self: ANKSignedInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
@@ -184,42 +184,42 @@ extension ANKCoreInteger where Self: ANKSignedFixedWidthInteger {
 // MARK: * ANK x Core Integer x Swift
 //*============================================================================*
 
-extension Int: ANKCoreInteger, ANKSignedFixedWidthInteger {
+extension Int: ANKCoreInteger, ANKSignedInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension Int8: ANKCoreInteger, ANKSignedFixedWidthInteger {
+extension Int8: ANKCoreInteger, ANKSignedInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension Int16: ANKCoreInteger, ANKSignedFixedWidthInteger {
+extension Int16: ANKCoreInteger, ANKSignedInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension Int32: ANKCoreInteger, ANKSignedFixedWidthInteger {
+extension Int32: ANKCoreInteger, ANKSignedInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension Int64: ANKCoreInteger, ANKSignedFixedWidthInteger {
+extension Int64: ANKCoreInteger, ANKSignedInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension UInt: ANKCoreInteger, ANKUnsignedFixedWidthInteger {
+extension UInt: ANKCoreInteger, ANKUnsignedInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension UInt8: ANKCoreInteger, ANKUnsignedFixedWidthInteger {
+extension UInt8: ANKCoreInteger, ANKUnsignedInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension UInt16: ANKCoreInteger, ANKUnsignedFixedWidthInteger {
+extension UInt16: ANKCoreInteger, ANKUnsignedInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension UInt32: ANKCoreInteger, ANKUnsignedFixedWidthInteger {
+extension UInt32: ANKCoreInteger, ANKUnsignedInteger {
     public typealias BitPattern = Magnitude
 }
 
-extension UInt64: ANKCoreInteger, ANKUnsignedFixedWidthInteger {
+extension UInt64: ANKCoreInteger, ANKUnsignedInteger {
     public typealias BitPattern = Magnitude
 }

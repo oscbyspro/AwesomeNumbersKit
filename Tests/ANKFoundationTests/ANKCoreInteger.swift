@@ -62,16 +62,8 @@ final class ANKCoreIntegerTests: XCTestCase {
         XCTAssertEqual(02, types.compactMap({ $0 as? any ANKIntOrUInt.Type }).count)
     }
     
-    func testANKSignedFixedWidthInteger() {
-        XCTAssertEqual(05, types.compactMap({ $0 as? any ANKSignedFixedWidthInteger.Type }).count)
-    }
-    
     func testANKSignedInteger() {
         XCTAssertEqual(05, types.compactMap({ $0 as? any ANKSignedInteger.Type }).count)
-    }
-    
-    func testANKUnsignedFixedWidthInteger() {
-        XCTAssertEqual(05, types.compactMap({ $0 as? any ANKUnsignedFixedWidthInteger.Type }).count)
     }
     
     func testANKUnsignedInteger() {

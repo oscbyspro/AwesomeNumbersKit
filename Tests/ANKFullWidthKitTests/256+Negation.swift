@@ -37,6 +37,21 @@ final class Int256TestsOnNegation: XCTestCase {
         XCTAssert(T.min.negatedReportingOverflow() == (T.min,        true ) as (T, Bool))
         XCTAssert(T.max.negatedReportingOverflow() == (T.min + T(1), false) as (T, Bool))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        func becauseThisCompilesSuccessfully(_ x: inout T) {
+            XCTAssertNotNil(x.negate())
+            XCTAssertNotNil(x.negateReportingOverflow())
+            
+            XCTAssertNotNil(-x)
+            XCTAssertNotNil(x.negated())
+            XCTAssertNotNil(x.negatedReportingOverflow())
+        }
+    }
 }
 
 #endif

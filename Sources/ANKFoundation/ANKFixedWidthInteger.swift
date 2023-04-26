@@ -23,7 +23,7 @@
 /// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
 public protocol ANKFixedWidthInteger: ANKBinaryInteger, FixedWidthInteger where Digit: ANKFixedWidthInteger,
-Magnitude: ANKUnsignedFixedWidthInteger, Magnitude.BitPattern == BitPattern {
+Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -619,89 +619,3 @@ extension ANKFixedWidthInteger {
         if  source.sign.bit { self.formTwosComplement() }
     }
 }
-
-//*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Signed
-//*============================================================================*
-
-/// An awesome, signed, fixed-width, binary integer.
-///
-/// ### Two's Complement
-///
-/// Like `BinaryInteger`, it has [two's complement][2s] semantics.
-///
-/// - The two's complement representation of `+0` is an infinite sequence of `0s`.
-/// - The two's complement representation of `-1` is an infinite sequence of `1s`.
-///
-/// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
-///
-public protocol ANKSignedFixedWidthInteger: ANKFixedWidthInteger, ANKSignedInteger where Digit: ANKSignedFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    /// Forms a value with equal magnitude but opposite sign,
-    /// and returns a value indicating whether overflow occurred.
-    /// In the case of overflow, the result is truncated.
-    ///
-    /// ```swift
-    /// var a: Int8(-127); a.negateReportingOverflow() // a = Int8( 127); -> false
-    /// var b: Int8(-128); b.negateReportingOverflow() // b = Int8(-128); -> true
-    /// ```
-    ///
-    @inlinable mutating func negateReportingOverflow() -> Bool
-    
-    /// Returns a value with equal magnitude but opposite sign,
-    /// along with a value indicating whether overflow occurred.
-    /// In the case of overflow, the result is truncated.
-    ///
-    /// ```swift
-    /// Int8(-127).negatedReportingOverflow() // -> (partialValue: Int8( 127), overflow: false)
-    /// Int8(-128).negatedReportingOverflow() // -> (partialValue: Int8(-128), overflow: true )
-    /// ```
-    ///
-    @inlinable func negatedReportingOverflow() -> PVO<Self>
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details
-//=----------------------------------------------------------------------------=
-
-extension ANKSignedFixedWidthInteger {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    /// Returns a value with equal magnitude but opposite sign.
-    ///
-    /// ```swift
-    /// -Int8( 1) // Int8(-1)
-    /// -Int8( 0) // Int8( 0)
-    /// -Int8(-1) // Int8( 1)
-    /// ```
-    ///
-    @_transparent public static prefix func -(x: Self) -> Self {
-        let pvo: PVO<Self> = x.negatedReportingOverflow()
-        precondition(!pvo.overflow)
-        return pvo.partialValue as Self
-    }
-}
-
-//*============================================================================*
-// MARK: * ANK x Fixed Width Integer x Unsigned
-//*============================================================================*
-
-/// An awesome, unsigned, fixed-width, binary integer.
-///
-/// ### Two's Complement
-///
-/// Like `BinaryInteger`, it has [two's complement][2s] semantics.
-///
-/// - The two's complement representation of `+0` is an infinite sequence of `0s`.
-/// - The two's complement representation of `-1` is an infinite sequence of `1s`.
-///
-/// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
-///
-public protocol ANKUnsignedFixedWidthInteger: ANKFixedWidthInteger, ANKUnsignedInteger where Digit: ANKUnsignedFixedWidthInteger { }

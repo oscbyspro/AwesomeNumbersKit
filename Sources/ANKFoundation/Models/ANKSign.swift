@@ -76,6 +76,14 @@
         self = ~self
     }
     
+    /// Returns the opposite sign.
+    ///
+    /// Use this method to toggle from ``ANKSign/plus`` to ``ANKSign/minus`` or from ``ANKSign/minus`` to ``ANKSign/plus``.
+    ///
+    @_transparent public func toggled() -> Self {
+        ~self
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
@@ -104,6 +112,9 @@ extension ANKSign {
     //=------------------------------------------------------------------------=
     
     /// Returns the opposite sign.
+    ///
+    /// Use this method to toggle from ``ANKSign/plus`` to ``ANKSign/minus`` or from ``ANKSign/minus`` to ``ANKSign/plus``.
+    ///
     @_transparent public static prefix func ~(x: Self) -> Self {
         x ^ minus
     }

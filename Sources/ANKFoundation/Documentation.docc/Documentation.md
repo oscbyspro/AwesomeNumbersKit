@@ -18,9 +18,7 @@ Models, protocols, extensions and utilities underpinning this package.
 - ``ANKCoreInteger``
 - ``ANKFixedWidthInteger``
 - ``ANKIntOrUInt``
-- ``ANKSignedFixedWidthInteger``
 - ``ANKSignedInteger``
-- ``ANKUnsignedFixedWidthInteger``
 - ``ANKUnsignedInteger``
 - ``ANKWords``
 
