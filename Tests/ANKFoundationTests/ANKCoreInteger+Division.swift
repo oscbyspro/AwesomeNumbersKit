@@ -92,6 +92,27 @@ final class ANKCoreIntegerTestsOnDivision: XCTestCase {
             type.isSigned ? whereIsSigned(type) : whereIsUnsigned(type)
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Miscellaneous
+    //=------------------------------------------------------------------------=
+    
+    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+        func becauseThisCompilesSuccessfully(_ x: inout some ANKCoreInteger) {
+            XCTAssertNotNil(x /= 1)
+            XCTAssertNotNil(x %= 2)
+            XCTAssertNotNil(x.divideReportingOverflow(by: 1))
+            XCTAssertNotNil(x.formRemainderReportingOverflow(dividingBy: 2))
+            
+            XCTAssertNotNil(x /  1)
+            XCTAssertNotNil(x %  2)
+            XCTAssertNotNil(x.dividedReportingOverflow(by: 1))
+            XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 2))
+            XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 3))
+            XCTAssertNotNil(x.quotientAndRemainderReportingOverflow(dividingBy: 3))
+            XCTAssertNotNil(x.dividingFullWidth((1, 2)))
+        }
+    }
 }
 
 #endif

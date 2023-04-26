@@ -76,6 +76,9 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     /// Returns whether this value is more than zero.
     @inlinable var isMoreThanZero: Bool { get }
     
+    /// Returns whether this value is a power of `2`.
+    @inlinable var isPowerOf2: Bool { get }
+    
     //=------------------------------------------------------------------------=
     // MARK: Details x Two's Complement
     //=------------------------------------------------------------------------=

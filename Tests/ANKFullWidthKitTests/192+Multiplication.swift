@@ -197,17 +197,17 @@ final class Int192TestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
-        var x = T()
-        
-        XCTAssertNotNil(x  *= 0)
-        XCTAssertNotNil(x &*= 0)
-        XCTAssertNotNil(x.multiplyReportingOverflow(by: 0))
-        XCTAssertNotNil(x.multiplyFullWidth(by: 0))
-        
-        XCTAssertNotNil(x  *  0)
-        XCTAssertNotNil(x &*  0)
-        XCTAssertNotNil(x.multipliedReportingOverflow(by: 0))
-        XCTAssertNotNil(x.multipliedFullWidth(by: 0))
+        func becauseThisCompilesSuccessfully(_ x: inout T) {
+            XCTAssertNotNil(x  *= 0)
+            XCTAssertNotNil(x &*= 0)
+            XCTAssertNotNil(x.multiplyReportingOverflow(by: 0))
+            XCTAssertNotNil(x.multiplyFullWidth(by: 0))
+            
+            XCTAssertNotNil(x  *  0)
+            XCTAssertNotNil(x &*  0)
+            XCTAssertNotNil(x.multipliedReportingOverflow(by: 0))
+            XCTAssertNotNil(x.multipliedFullWidth(by: 0))
+        }
     }
 }
 
@@ -309,17 +309,17 @@ final class UInt192TestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
-        var x = T()
-        
-        XCTAssertNotNil(x  *= 0)
-        XCTAssertNotNil(x &*= 0)
-        XCTAssertNotNil(x.multiplyReportingOverflow(by: 0))
-        XCTAssertNotNil(x.multiplyFullWidth(by: 0))
-        
-        XCTAssertNotNil(x  *  0)
-        XCTAssertNotNil(x &*  0)
-        XCTAssertNotNil(x.multipliedReportingOverflow(by: 0))
-        XCTAssertNotNil(x.multipliedFullWidth(by: 0))
+        func becauseThisCompilesSuccessfully(_ x: inout T) {
+            XCTAssertNotNil(x  *= 0)
+            XCTAssertNotNil(x &*= 0)
+            XCTAssertNotNil(x.multiplyReportingOverflow(by: 0))
+            XCTAssertNotNil(x.multiplyFullWidth(by: 0))
+            
+            XCTAssertNotNil(x  *  0)
+            XCTAssertNotNil(x &*  0)
+            XCTAssertNotNil(x.multipliedReportingOverflow(by: 0))
+            XCTAssertNotNil(x.multipliedFullWidth(by: 0))
+        }
     }
 }
 

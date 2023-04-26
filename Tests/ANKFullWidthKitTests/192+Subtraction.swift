@@ -129,15 +129,15 @@ final class Int192TestsOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
-        var x = T()
-        
-        XCTAssertNotNil(x  -= 0)
-        XCTAssertNotNil(x &-= 0)
-        XCTAssertNotNil(x.subtractReportingOverflow(0))
-        
-        XCTAssertNotNil(x  -  0)
-        XCTAssertNotNil(x &-  0)
-        XCTAssertNotNil(x.subtractingReportingOverflow(0))
+        func becauseThisCompilesSuccessfully(_ x: inout T) {
+            XCTAssertNotNil(x  -= 0)
+            XCTAssertNotNil(x &-= 0)
+            XCTAssertNotNil(x.subtractReportingOverflow(0))
+            
+            XCTAssertNotNil(x  -  0)
+            XCTAssertNotNil(x &-  0)
+            XCTAssertNotNil(x.subtractingReportingOverflow(0))
+        }
     }
 }
 
@@ -204,15 +204,15 @@ final class UInt192TestsOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
-        var x = T()
-        
-        XCTAssertNotNil(x  -= 0)
-        XCTAssertNotNil(x &-= 0)
-        XCTAssertNotNil(x.subtractReportingOverflow(0))
-        
-        XCTAssertNotNil(x  -  0)
-        XCTAssertNotNil(x &-  0)
-        XCTAssertNotNil(x.subtractingReportingOverflow(0))
+        func becauseThisCompilesSuccessfully(_ x: inout T) {
+            XCTAssertNotNil(x  -= 0)
+            XCTAssertNotNil(x &-= 0)
+            XCTAssertNotNil(x.subtractReportingOverflow(0))
+            
+            XCTAssertNotNil(x  -  0)
+            XCTAssertNotNil(x &-  0)
+            XCTAssertNotNil(x.subtractingReportingOverflow(0))
+        }
     }
 }
 

@@ -171,27 +171,27 @@ final class ANKSignedTestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
         
     func testOverloadsAreUnambiguousWhereDigitIsSelf() {
-        var x = D() as D.Digit
-        
-        XCTAssertNotNil(x  += D(0))
-        XCTAssertNotNil(x &+= D(0))
-        XCTAssertNotNil(x.addReportingOverflow(D(0)))
-        
-        XCTAssertNotNil(x  +  D(0))
-        XCTAssertNotNil(x &+  D(0))
-        XCTAssertNotNil(x.addingReportingOverflow(D(0)))
+        func becauseThisCompilesSuccessfully(_ x: inout D.Digit) {
+            XCTAssertNotNil(x  += D(0))
+            XCTAssertNotNil(x &+= D(0))
+            XCTAssertNotNil(x.addReportingOverflow(D(0)))
+            
+            XCTAssertNotNil(x  +  D(0))
+            XCTAssertNotNil(x &+  D(0))
+            XCTAssertNotNil(x.addingReportingOverflow(D(0)))
+        }
     }
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
-        var x = T()
-        
-        XCTAssertNotNil(x  += 0)
-        XCTAssertNotNil(x &+= 0)
-        XCTAssertNotNil(x.addReportingOverflow(0))
-        
-        XCTAssertNotNil(x  +  0)
-        XCTAssertNotNil(x &+  0)
-        XCTAssertNotNil(x.addingReportingOverflow(0))
+        func becauseThisCompilesSuccessfully(_ x: inout T) {
+            XCTAssertNotNil(x  += 0)
+            XCTAssertNotNil(x &+= 0)
+            XCTAssertNotNil(x.addReportingOverflow(0))
+            
+            XCTAssertNotNil(x  +  0)
+            XCTAssertNotNil(x &+  0)
+            XCTAssertNotNil(x.addingReportingOverflow(0))
+        }
     }
 }
 

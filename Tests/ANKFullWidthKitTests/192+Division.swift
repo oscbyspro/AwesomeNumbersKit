@@ -250,20 +250,20 @@ final class Int192TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
-        var x = T(1)
-        
-        XCTAssertNotNil(x /= 1)
-        XCTAssertNotNil(x %= 2)
-        XCTAssertNotNil(x.divideReportingOverflow(by: 1))
-        XCTAssertNotNil(x.formRemainderReportingOverflow(dividingBy: 2))
-        
-        XCTAssertNotNil(x /  1)
-        XCTAssertNotNil(x %  2)
-        XCTAssertNotNil(x.dividedReportingOverflow(by: 1))
-        XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 2))
-        XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 3))
-        XCTAssertNotNil(x.quotientAndRemainderReportingOverflow(dividingBy: 3))
-        XCTAssertNotNil(x.dividingFullWidth((1, 2)))
+        func becauseThisCompilesSuccessfully(_ x: inout T) {
+            XCTAssertNotNil(x /= 1)
+            XCTAssertNotNil(x %= 2)
+            XCTAssertNotNil(x.divideReportingOverflow(by: 1))
+            XCTAssertNotNil(x.formRemainderReportingOverflow(dividingBy: 2))
+            
+            XCTAssertNotNil(x /  1)
+            XCTAssertNotNil(x %  2)
+            XCTAssertNotNil(x.dividedReportingOverflow(by: 1))
+            XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 2))
+            XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 3))
+            XCTAssertNotNil(x.quotientAndRemainderReportingOverflow(dividingBy: 3))
+            XCTAssertNotNil(x.dividingFullWidth((1, 2)))
+        }
     }
 }
 
@@ -418,20 +418,20 @@ final class UInt192TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
-        var x = T(1)
-        
-        XCTAssertNotNil(x /= 1)
-        XCTAssertNotNil(x %= 2)
-        XCTAssertNotNil(x.divideReportingOverflow(by: 1))
-        XCTAssertNotNil(x.formRemainderReportingOverflow(dividingBy: 2))
-        
-        XCTAssertNotNil(x /  1)
-        XCTAssertNotNil(x %  2)
-        XCTAssertNotNil(x.dividedReportingOverflow(by: 1))
-        XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 2))
-        XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 3))
-        XCTAssertNotNil(x.quotientAndRemainderReportingOverflow(dividingBy: 3))
-        XCTAssertNotNil(x.dividingFullWidth((1, 2)))
+        func becauseThisCompilesSuccessfully(_ x: inout T) {            
+            XCTAssertNotNil(x /= 1)
+            XCTAssertNotNil(x %= 2)
+            XCTAssertNotNil(x.divideReportingOverflow(by: 1))
+            XCTAssertNotNil(x.formRemainderReportingOverflow(dividingBy: 2))
+            
+            XCTAssertNotNil(x /  1)
+            XCTAssertNotNil(x %  2)
+            XCTAssertNotNil(x.dividedReportingOverflow(by: 1))
+            XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 2))
+            XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 3))
+            XCTAssertNotNil(x.quotientAndRemainderReportingOverflow(dividingBy: 3))
+            XCTAssertNotNil(x.dividingFullWidth((1, 2)))
+        }
     }
 }
 
