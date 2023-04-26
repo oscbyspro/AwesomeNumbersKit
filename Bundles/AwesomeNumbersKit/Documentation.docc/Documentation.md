@@ -21,7 +21,6 @@ Large number arithmetic in Swift.
 - ``ANKBitPatternConvertible``
 - ``ANKCoreInteger``
 - ``ANKFixedWidthInteger``
-- ``ANKIntOrUInt``
 - ``ANKSignedInteger``
 - ``ANKUnsignedInteger``
 - ``ANKWords``

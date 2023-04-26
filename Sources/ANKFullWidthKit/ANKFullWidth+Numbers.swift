@@ -155,7 +155,7 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init?(_exactlyAsDigit source: some ANKIntOrUInt) {
+    @_transparent @usableFromInline init?(_exactlyAsDigit source: some ANKCoreInteger<UInt>) {
         //=--------------------------------------=
         // Int
         //=--------------------------------------=
@@ -163,16 +163,16 @@ extension ANKFullWidth {
             return nil
         }
         //=--------------------------------------=
-        // some ANKIntOrUInt
+        // some ANKCoreInteger<UInt>
         //=--------------------------------------=
         self.init(_truncatingIfNeededAsDigit: source)
     }
     
-    @_transparent @usableFromInline init(_clampingAsDigit source: some ANKIntOrUInt) {
+    @_transparent @usableFromInline init(_clampingAsDigit source: some ANKCoreInteger<UInt>) {
         self = Self(_exactlyAsDigit: source) ?? Self()
     }
     
-    @_transparent @usableFromInline init(_truncatingIfNeededAsDigit source: some ANKIntOrUInt) {
+    @_transparent @usableFromInline init(_truncatingIfNeededAsDigit source: some ANKCoreInteger<UInt>) {
         assert(Low.bitWidth >= source.bitWidth)
         //=--------------------------------------=
         let high = High(repeating: source.isLessThanZero)
@@ -183,7 +183,7 @@ extension ANKFullWidth {
             let low = Low(_truncatingBits: source)
             self.init(descending: HL(high, low))
         //=--------------------------------------=
-        // Int, some ANKIntOrUInt
+        // Int, some ANKCoreInteger<UInt>
         //=--------------------------------------=
         }   else {
             let low = Low(truncatingIfNeeded: source)

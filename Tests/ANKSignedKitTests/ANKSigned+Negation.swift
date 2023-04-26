@@ -51,7 +51,7 @@ final class ANKSignedTestsOnNegation: XCTestCase {
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
     
-    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+    func testOverloadsAreUnambiguous() {
         func becauseThisCompilesSuccessfully(_ x: inout T) {
             XCTAssertNotNil(x.negate())
             XCTAssertNotNil(x.negateReportingOverflow())

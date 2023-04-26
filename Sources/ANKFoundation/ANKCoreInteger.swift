@@ -27,8 +27,8 @@
 /// - `UInt32`
 /// - `UInt64`
 ///
-public protocol ANKCoreInteger: ANKBigEndianTextCodable, ANKFixedWidthInteger
-where Digit == Self, Magnitude: ANKCoreInteger, Magnitude == BitPattern { }
+public protocol ANKCoreInteger<Magnitude>: ANKBigEndianTextCodable, ANKFixedWidthInteger
+where Digit == Self, BitPattern == Magnitude, Magnitude: ANKCoreInteger { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details

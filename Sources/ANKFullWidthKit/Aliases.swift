@@ -15,7 +15,7 @@ import ANKFoundation
 
 /// A composable, large, fixed-width, two's complement, binary integer.
 public typealias FullWidth<High, Low> = ANKFullWidth<High, Low> where
-High: ANKFixedWidthInteger, High.Digit: ANKIntOrUInt,
+High: ANKFixedWidthInteger, High.Digit: ANKCoreInteger<UInt>,
 Low: ANKFixedWidthInteger & ANKUnsignedInteger, Low.Digit == UInt
 
 //*============================================================================*

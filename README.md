@@ -58,7 +58,6 @@ Models, protocols, extensions and utilities underpinning this package.
 - [ANKBitPatternConvertible\<BitPattern\>](Sources/ANKFoundation/ANKBitPatternConvertible.swift)
 - [ANKCoreInteger](Sources/ANKFoundation/ANKCoreInteger.swift)
 - [ANKFixedWidthInteger](Sources/ANKFoundation/ANKFixedWidthInteger.swift)
-- [ANKIntOrUInt](Sources/ANKFoundation/ANKIntOrUInt.swift)
 - [ANKSignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
 - [ANKUnsignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
 - [ANKWords](Sources/ANKFoundation/ANKWords.swift)

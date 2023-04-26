@@ -52,9 +52,10 @@ import ANKFoundation
 ///
 /// - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
-@frozen public struct ANKFullWidth<High, Low>: ANKBigEndianTextCodable, ANKFixedWidthInteger, ANKWords,
-CustomStringConvertible, CustomDebugStringConvertible, MutableCollection where High: ANKFixedWidthInteger,
-High.Digit: ANKIntOrUInt, Low: ANKFixedWidthInteger & ANKUnsignedInteger, Low.Digit == UInt {
+@frozen public struct ANKFullWidth<High, Low>: ANKBigEndianTextCodable,
+ANKFixedWidthInteger, ANKWords, CustomStringConvertible, CustomDebugStringConvertible,
+MutableCollection where High: ANKFixedWidthInteger, High.Digit: ANKCoreInteger<UInt>,
+Low: ANKFixedWidthInteger & ANKUnsignedInteger, Low.Digit == UInt {
     
     /// The most significant part of this type.
     public typealias High = High

@@ -17,7 +17,6 @@ Models, protocols, extensions and utilities underpinning this package.
 - ``ANKBitPatternConvertible``
 - ``ANKCoreInteger``
 - ``ANKFixedWidthInteger``
-- ``ANKIntOrUInt``
 - ``ANKSignedInteger``
 - ``ANKUnsignedInteger``
 - ``ANKWords``

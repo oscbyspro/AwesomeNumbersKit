@@ -42,7 +42,7 @@ final class ANKCoreIntegerTestsOnNegation: XCTestCase {
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
     
-    func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
+    func testOverloadsAreUnambiguous() {
         func becauseThisCompilesSuccessfully(_ x: inout some ANKCoreInteger & ANKSignedInteger) {
             XCTAssertNotNil(x.negate())
             XCTAssertNotNil(x.negateReportingOverflow())
