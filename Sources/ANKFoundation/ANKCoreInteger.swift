@@ -27,8 +27,8 @@
 /// - `UInt32`
 /// - `UInt64`
 ///
-public protocol ANKCoreInteger<Magnitude>: ANKBigEndianTextCodable, ANKFixedWidthInteger
-where Digit == Self, BitPattern == Magnitude, Magnitude: ANKCoreInteger { }
+public protocol ANKCoreInteger<Magnitude>: ANKFixedWidthInteger where
+BitPattern == Magnitude, Digit == Self, Magnitude: ANKCoreInteger { }
 
 //=----------------------------------------------------------------------------=
 // MARK: + Details
@@ -110,6 +110,12 @@ extension ANKCoreInteger {
         let pvo: PVO<Self> = self.remainderReportingOverflow(dividingBy: amount)
         self = pvo.partialValue
         return pvo.overflow as Bool
+    }
+    
+    @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
+        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
+        precondition(!qro.overflow)
+        return qro.partialValue as QR<Self, Self>
     }
 
     @_transparent public func quotientAndRemainderReportingOverflow(dividingBy divisor: Self) -> PVO<QR<Self, Self>> {

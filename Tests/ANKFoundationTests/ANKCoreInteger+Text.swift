@@ -13,10 +13,10 @@ import ANKFoundation
 import XCTest
 
 //*============================================================================*
-// MARK: * Types x ANKBigEndianTextCodable
+// MARK: * ANK x Core Integer x Text
 //*============================================================================*
 
-final class TypesTestsOnANKBigEndianTextCodable: XCTestCase {
+final class ANKCoreIntegerTestsOnText: XCTestCase {
     
     typealias T = any ANKCoreInteger.Type
     
