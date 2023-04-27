@@ -56,7 +56,7 @@ Models, protocols, extensions and utilities underpinning this package.
 - [ANKBigEndianTextCodable](Sources/ANKFoundation/ANKBigEndianTextCodable.swift)
 - [ANKBinaryInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
 - [ANKBitPatternConvertible\<BitPattern\>](Sources/ANKFoundation/ANKBitPatternConvertible.swift)
-- [ANKCoreInteger](Sources/ANKFoundation/ANKCoreInteger.swift)
+- [ANKCoreInteger\<Magnitude\>](Sources/ANKFoundation/ANKCoreInteger.swift)
 - [ANKFixedWidthInteger](Sources/ANKFoundation/ANKFixedWidthInteger.swift)
 - [ANKSignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
 - [ANKUnsignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)

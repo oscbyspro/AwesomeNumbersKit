@@ -325,10 +325,8 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     ///
     @_disfavoredOverload @inlinable static func %(lhs: Self, rhs: Digit) -> Digit
     
-    /// Forms the quotient of this value divided by the given value,
-    /// and returns a value indicating whether overflow occurred.
-    /// In the case of overflow, the result is either truncated or,
-    /// if undefined, this value.
+    /// Forms the quotient of this value divided by the given value, and returns an overflow indicator.
+    /// In the case of overflow, the result is either truncated or, if undefined, this value.
     ///
     /// ```swift
     /// var a = Int8(-128); a.divideReportingOverflow(by:  3)) // a = Int8( -42); -> false
@@ -338,10 +336,8 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     ///
     @inlinable mutating func divideReportingOverflow(by divisor: Self) -> Bool
     
-    /// Forms the quotient of this value divided by the given value,
-    /// and returns a value indicating whether overflow occurred.
-    /// In the case of overflow, the result is either truncated or,
-    /// if undefined, this value.
+    /// Forms the quotient of this value divided by the given value, and returns an overflow indicator.
+    /// In the case of overflow, the result is either truncated or, if undefined, this value.
     ///
     /// ```swift
     /// var a = Int256( 7); a.divideReportingOverflow(by: Int( 3)) // a = Int256( 2); -> false
@@ -351,10 +347,8 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     ///
     @_disfavoredOverload @inlinable mutating func divideReportingOverflow(by divisor: Digit) -> Bool
     
-    /// Returns the quotient of this value divided by the given value,
-    /// along with a value indicating whether overflow occurred.
-    /// In the case of overflow, the result is either truncated or,
-    /// if undefined, this value.
+    /// Returns the quotient of this value divided by the given value, along with an overflow indicator.
+    /// In the case of overflow, the result is either truncated or, if undefined, this value.
     ///
     /// ```swift
     /// Int8(-128).dividedReportingOverflow(by: Int8( 3)) // (partialValue: Int8( -42), overflow: false)
@@ -364,10 +358,8 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     ///
     @inlinable func dividedReportingOverflow(by divisor: Self) -> PVO<Self>
     
-    /// Returns the quotient of this value divided by the given value,
-    /// along with a value indicating whether overflow occurred.
-    /// In the case of overflow, the result is either truncated or,
-    /// if undefined, this value.
+    /// Returns the quotient of this value divided by the given value, along with an overflow indicator.
+    /// In the case of overflow, the result is either truncated or, if undefined, this value.
     ///
     /// ```swift
     /// Int256( 7).dividedReportingOverflow(by: Int( 3)) // (partialValue: Int256( 2), overflow: false)
@@ -377,10 +369,8 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     ///
     @_disfavoredOverload @inlinable func dividedReportingOverflow(by divisor: Digit) -> PVO<Self>
     
-    /// Forms the remainder of this value divided by the given value,
-    /// and returns a value indicating whether overflow occurred.
-    /// In the case of overflow, the result is either the entire remainder or,
-    /// if undefined, this value.
+    /// Forms the remainder of this value divided by the given value, and returns an overflow indicator.
+    /// In the case of overflow, the result is either the entire remainder or, if undefined, this value.
     ///
     /// ```swift
     /// var a = Int8(-128); a.formRemainderReportingOverflow(dividingBy:  3) // a = Int8(   2); -> false
@@ -390,10 +380,8 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     ///
     @inlinable mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool
     
-    /// Forms the remainder of this value divided by the given value,
-    /// and returns a value indicating whether overflow occurred.
-    /// In the case of overflow, the result is either the entire remainder or,
-    /// if undefined, zero.
+    /// Forms the remainder of this value divided by the given value, and returns an overflow indicator.
+    /// In the case of overflow, the result is either the entire remainder or, if undefined, zero.
     ///
     /// ```swift
     /// var a = Int256( 7); a.formRemainderReportingOverflow(dividingBy: Int( 3)) // a = Int256(1); -> false
@@ -403,10 +391,8 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     ///
     @_disfavoredOverload @inlinable mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool
     
-    /// Returns the remainder of this value divided by the given value,
-    /// along with a value indicating whether overflow occurred.
-    /// In the case of overflow, the result is either the entire remainder or,
-    /// if undefined, this value.
+    /// Returns the remainder of this value divided by the given value, along with an overflow indicator.
+    /// In the case of overflow, the result is either the entire remainder or, if undefined, this value.
     ///
     /// ```swift
     /// Int8(-128).remainderReportingOverflow(dividingBy:  3) // (partialValue: Int8(   2), overflow: false)
@@ -416,10 +402,8 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     ///
     @inlinable func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self>
     
-    /// Returns the remainder of this value divided by the given value,
-    /// along with a value indicating whether overflow occurred.
-    /// In the case of overflow, the result is either the entire remainder
-    /// or, if undefined, zero.
+    /// Returns the remainder of this value divided by the given value, along with an overflow indicator.
+    /// In the case of overflow, the result is either the entire remainder or, if undefined, zero.
     ///
     /// ```swift
     /// Int256( 7).remainderReportingOverflow(dividingBy: Int( 3)) // (partialValue: Int(1), overflow: false)
@@ -451,9 +435,8 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     ///
     @_disfavoredOverload @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>
     
-    /// Returns the quotient and remainder of this value divided by the given value,
-    /// along with a value indicating whether overflow occurred. In the case of overflow,
-    /// the result is either truncated or, if undefined, this value.
+    /// Returns the quotient and remainder of this value divided by the given value, along with an overflow indicator.
+    /// In the case of overflow, the result is either truncated or, if undefined, this value.
     ///
     /// ```swift
     /// let a = Int8(-128).quotientAndRemainderReportingOverflow(dividingBy: Int8( 3))
@@ -474,9 +457,8 @@ public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Senda
     ///
     @inlinable func quotientAndRemainderReportingOverflow(dividingBy divisor: Self) -> PVO<QR<Self, Self>>
     
-    /// Returns the quotient and remainder of this value divided by the given value,
-    /// along with a value indicating whether overflow occurred. In the case of overflow,
-    /// the result is either truncated or, if undefined, this value.
+    /// Returns the quotient and remainder of this value divided by the given value, along with an overflow indicator.
+    /// In the case of overflow, the result is either truncated or, if undefined, this value.
     ///
     /// ```swift
     /// let a = Int256( 7).quotientAndRemainderReportingOverflow(dividingBy: Int( 3))
@@ -729,8 +711,7 @@ public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger where Digit: A
     ///
     @inlinable func negated() -> Self
     
-    /// Forms a value with equal magnitude but opposite sign,
-    /// and returns a value indicating whether overflow occurred.
+    /// Forms a value with equal magnitude but opposite sign, and returns an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -740,8 +721,7 @@ public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger where Digit: A
     ///
     @inlinable mutating func negateReportingOverflow() -> Bool
     
-    /// Returns a value with equal magnitude but opposite sign,
-    /// along with a value indicating whether overflow occurred.
+    /// Returns a value with equal magnitude but opposite sign, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
