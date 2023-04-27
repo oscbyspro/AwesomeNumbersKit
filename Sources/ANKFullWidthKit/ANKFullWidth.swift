@@ -45,16 +45,12 @@ import ANKFoundation
 ///
 /// - ``ANKBinaryInteger``
 /// - ``ANKFixedWidthInteger``
-/// - ``ANKSignedInteger``
-/// - ``ANKSignedFixedWidthInteger``
-/// - ``ANKUnsignedInteger``
-/// - ``ANKUnsignedFixedWidthInteger``
 ///
 /// - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
-@frozen public struct ANKFullWidth<High, Low>: ANKBigEndianTextCodable,
-ANKFixedWidthInteger, ANKWords, CustomStringConvertible, CustomDebugStringConvertible,
-MutableCollection where High: ANKFixedWidthInteger, High.Digit: ANKCoreInteger<UInt>,
+@frozen public struct ANKFullWidth<High, Low>: ANKBigEndianTextCodable, ANKFixedWidthInteger,
+CustomStringConvertible, CustomDebugStringConvertible, MutableCollection, RandomAccessCollection
+where High: ANKFixedWidthInteger, High.Digit: ANKCoreInteger<UInt>,
 Low: ANKFixedWidthInteger & ANKUnsignedInteger, Low.Digit == UInt {
     
     /// The most significant part of this type.

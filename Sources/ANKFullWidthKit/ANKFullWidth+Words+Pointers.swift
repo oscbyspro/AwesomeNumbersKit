@@ -70,7 +70,7 @@ extension ANKFullWidth {
     @inlinable public func withContiguousStorageIfAvailable<T>(
     _ body: (UnsafeBufferPointer<UInt>) throws -> T) rethrows -> T? {
         #if _endian(big)
-        var base: Self { self.wordSwapped }
+        var base: Self { self._wordSwapped }
         #else
         var base: Self { self }
         #endif
@@ -149,7 +149,7 @@ extension ANKFullWidth {
 /// MemoryLayout<Layout>.size % MemoryLayout<UInt>.size == 0
 /// ```
 ///
-@usableFromInline protocol ANKFullWidthUnsafeWordsPointer: ANKWords {
+@usableFromInline protocol ANKFullWidthUnsafeWordsPointer: RandomAccessCollection where Element == UInt, Index == Int {
     
     associatedtype Layout: ANKBitPatternConvertible<Layout>
 }

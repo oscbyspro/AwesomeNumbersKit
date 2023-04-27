@@ -60,7 +60,6 @@ Models, protocols, extensions and utilities underpinning this package.
 - [ANKFixedWidthInteger](Sources/ANKFoundation/ANKFixedWidthInteger.swift)
 - [ANKSignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
 - [ANKUnsignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
-- [ANKWords](Sources/ANKFoundation/ANKWords.swift)
 
 <!-- Links -->
 

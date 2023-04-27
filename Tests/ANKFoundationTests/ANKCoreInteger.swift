@@ -66,10 +66,6 @@ final class ANKCoreIntegerTests: XCTestCase {
         XCTAssertEqual(05, types.compactMap({ $0 as? any ANKUnsignedInteger.Type }).count)
     }
     
-    func testANKWords() {
-        XCTAssertEqual(00, types.compactMap({ $0 as? any ANKWords.Type }).count)
-    }
-    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Bit
     //=------------------------------------------------------------------------=

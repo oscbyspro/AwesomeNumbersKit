@@ -23,7 +23,6 @@ Large number arithmetic in Swift.
 - ``ANKFixedWidthInteger``
 - ``ANKSignedInteger``
 - ``ANKUnsignedInteger``
-- ``ANKWords``
 
 ### Type Aliases
 

@@ -69,7 +69,7 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent public var words: some ANKWords {
+    @_transparent public var words: BitPattern {
         self.bitPattern
     }
     

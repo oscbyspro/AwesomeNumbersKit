@@ -19,7 +19,6 @@ Models, protocols, extensions and utilities underpinning this package.
 - ``ANKFixedWidthInteger``
 - ``ANKSignedInteger``
 - ``ANKUnsignedInteger``
-- ``ANKWords``
 
 ### Type Aliases
 

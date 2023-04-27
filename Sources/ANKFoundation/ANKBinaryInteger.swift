@@ -22,7 +22,7 @@
 ///
 /// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
-public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger {
+public protocol ANKBinaryInteger: ANKBitPatternConvertible, BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     
     /// A machine word of some kind, or this type.
     associatedtype Digit: ANKBinaryInteger = Self where Digit.Digit == Digit, Digit.Magnitude == Magnitude.Digit

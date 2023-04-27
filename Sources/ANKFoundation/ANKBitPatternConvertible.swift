@@ -21,7 +21,7 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     ///
     /// Types with compatible bit patterns should have the same bit pattern type.
     ///
-    associatedtype BitPattern: ANKBitPatternConvertible<BitPattern>
+    associatedtype BitPattern: ANKBitPatternConvertible<BitPattern> & Sendable
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
