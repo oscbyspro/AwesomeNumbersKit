@@ -42,8 +42,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     // MARK: Details x Addition
     //=------------------------------------------------------------------------=
     
-    /// Forms the sum of adding the given value to this value,
-    /// and returns a value indicating whether overflow occurred.
+    /// Forms the sum of adding the given value to this value, and returns an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -53,8 +52,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     ///
     @inlinable mutating func addReportingOverflow(_ amount: Self) -> Bool
     
-    /// Forms the sum of adding the given value to this value,
-    /// and returns a value indicating whether overflow occurred.
+    /// Forms the sum of adding the given value to this value, and returns an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -64,8 +62,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     ///
     @_disfavoredOverload @inlinable mutating func addReportingOverflow(_ amount: Digit) -> Bool
     
-    /// Returns the sum of adding the given value to this value,
-    /// along with a value indicating whether overflow occurred.
+    /// Returns the sum of adding the given value to this value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -75,8 +72,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     ///
     @inlinable func addingReportingOverflow(_ amount: Self) -> PVO<Self>
     
-    /// Returns the sum of adding the given value to this value,
-    /// along with a value indicating whether overflow occurred.
+    /// Returns the sum of adding the given value to this value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -90,8 +86,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     // MARK: Details x Subtraction
     //=------------------------------------------------------------------------=
     
-    /// Forms the difference of subtracting the given value from this value,
-    /// and returns a value indicating whether overflow occurred.
+    /// Forms the difference of subtracting the given value from this value, and returns an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -101,8 +96,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     ///
     @inlinable mutating func subtractReportingOverflow(_ amount: Self) -> Bool
     
-    /// Forms the difference of subtracting the given value from this value,
-    /// and returns a value indicating whether overflow occurred.
+    /// Forms the difference of subtracting the given value from this value, and returns an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -112,8 +106,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     ///
     @_disfavoredOverload @inlinable mutating func subtractReportingOverflow(_ amount: Digit) -> Bool
     
-    /// Returns the difference of subtracting the given value from this value,
-    /// along with a value indicating whether overflow occurred.
+    /// Returns the difference of subtracting the given value from this value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -123,8 +116,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     ///
     @inlinable func subtractingReportingOverflow(_ amount: Self) -> PVO<Self>
     
-    /// Returns the difference of subtracting the given value from this value,
-    /// along with a value indicating whether overflow occurred.
+    /// Returns the difference of subtracting the given value from this value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -138,8 +130,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     // MARK: Details x Multiplication
     //=------------------------------------------------------------------------=
     
-    /// Forms the product of multiplying this value by the given value,
-    /// and returns a value indicating whether overflow occurred.
+    /// Forms the product of multiplying this value by the given value, and returns an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -149,8 +140,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     ///
     @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool
     
-    /// Forms the product of multiplying this value by the given value,
-    /// and returns a value indicating whether overflow occurred.
+    /// Forms the product of multiplying this value by the given value, and returns an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -160,8 +150,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     ///
     @_disfavoredOverload @inlinable mutating func multiplyReportingOverflow(by amount: Digit) -> Bool
     
-    /// Returns the product of multiplying this value by the given value,
-    /// along with a value indicating whether overflow occurred.
+    /// Returns the product of multiplying this value by the given value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -171,8 +160,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     ///
     @inlinable func multipliedReportingOverflow(by amount: Self) -> PVO<Self>
     
-    /// Returns the product of multiplying this value by the given value,
-    /// along with a value indicating whether overflow occurred.
+    /// Returns the product of multiplying this value by the given value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -182,8 +170,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     ///
     @_disfavoredOverload @inlinable func multipliedReportingOverflow(by amount: Digit) -> PVO<Self>
     
-    /// Forms the low part of multiplying this value by the given value,
-    /// and returns the high.
+    /// Forms the low part of multiplying this value by the given value, and returns the high.
     ///
     /// ```swift
     /// var a = Int8(11); a.multiplyFullWidth(by: Int8(4)) // a = Int8(44); -> Int8(0)
@@ -192,8 +179,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     ///
     @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self
     
-    /// Forms the low part of multiplying this value by the given value,
-    /// and returns the high.
+    /// Forms the low part of multiplying this value by the given value, and returns the high.
     ///
     /// ```swift
     /// var a = Int256(11); a.multiplyFullWidth(by: Int(4)) // a = Int256(44); -> Int(0)

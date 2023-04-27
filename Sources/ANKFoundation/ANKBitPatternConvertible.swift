@@ -58,10 +58,26 @@ extension ANKBitPatternConvertible where BitPattern == Self {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    /// Creates a new instance from the given bit pattern.
+    ///
+    /// ```swift
+    /// Int8(bitPattern: UInt8(255)) // Int8(-1)
+    /// Int8(bitPattern: UInt8(254)) // Int8(-2)
+    /// Int8(bitPattern: UInt8(253)) // Int8(-3)
+    /// ```
+    ///
     @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
         self = source.bitPattern
     }
     
+    /// The bit pattern of this value.
+    ///
+    /// ```swift
+    /// Int8(-1).bitPattern // UInt8(255)
+    /// Int8(-2).bitPattern // UInt8(254)
+    /// Int8(-3).bitPattern // UInt8(253)
+    /// ```
+    ///
     @_transparent public var bitPattern: BitPattern {
         self
     }

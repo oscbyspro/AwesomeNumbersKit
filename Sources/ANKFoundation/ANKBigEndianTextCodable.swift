@@ -52,7 +52,7 @@ extension ANKBigEndianTextCodable {
     /// If the given radix is `nil`, it is either decoded from the string or assigned the value `10`.
     ///
     @_transparent public init?(decoding source: some StringProtocol, radix: Int? = nil) {
-        if let value = try? Self.decodeBigEndianText(source,  radix: radix) { self = value } else { return nil }
+        do { self = try Self.decodeBigEndianText(source, radix: radix) } catch { return nil }
     }
 }
 

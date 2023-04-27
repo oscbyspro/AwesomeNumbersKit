@@ -19,8 +19,7 @@ extension UInt {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    /// Forms the sum of adding both values to this value,
-    /// and returns a value indicating whether overflow occured.
+    /// Forms the sum of adding both values to this value, and returns an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
@@ -38,8 +37,7 @@ extension UInt {
         return a || b
     }
     
-    /// Returns the sum of adding both values to this value,
-    /// along with a value indicating whether overflow occured.
+    /// Returns the sum of adding both values to this value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
     ///
     /// ```swift
