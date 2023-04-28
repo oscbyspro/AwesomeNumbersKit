@@ -50,19 +50,9 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     //=------------------------------------------------------------------------=
     
     /// Returns the most significant bit, in two's complement form.
-    ///
-    /// ```swift
-    /// mostSignificantBit == words.last!.mostSignificantBit // true
-    /// ```
-    ///
     @inlinable var mostSignificantBit: Bool { get }
     
     /// Returns the least significant bit, in two's complement form.
-    ///
-    /// ```swift
-    /// leastSignificantBit == words.first!.leastSignificantBit // true
-    /// ```
-    ///
     @inlinable var leastSignificantBit: Bool { get }
     
     //=------------------------------------------------------------------------=
@@ -689,6 +679,28 @@ extension ANKBinaryInteger {
         let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
         precondition(!qro.overflow)
         return qro.partialValue as QR<Self, Digit>
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details where Digit is Self
+//=----------------------------------------------------------------------------=
+
+extension ANKBinaryInteger where Digit == Self {
+    
+    /// Returns the quotient and remainder of this value divided by the given value.
+    ///
+    /// ```swift
+    /// Int8( 7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8( 2), remainder: Int8( 1))
+    /// Int8( 7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8(-2), remainder: Int8( 1))
+    /// Int8(-7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8(-2), remainder: Int8(-1))
+    /// Int8(-7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8( 2), remainder: Int8(-1))
+    /// ```
+    ///
+    @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
+        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
+        precondition(!qro.overflow)
+        return qro.partialValue as QR<Self, Self>
     }
 }
 

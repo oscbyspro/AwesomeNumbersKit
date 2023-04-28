@@ -38,7 +38,7 @@ public protocol ANKBigEndianTextCodable {
 }
 
 //=----------------------------------------------------------------------------=
-// MARK: + Details
+// MARK: + Details x Decode
 //=----------------------------------------------------------------------------=
 
 extension ANKBigEndianTextCodable {
@@ -57,7 +57,7 @@ extension ANKBigEndianTextCodable {
 }
 
 //=----------------------------------------------------------------------------=
-// MARK: + Details x String
+// MARK: + Details x Encode
 //=----------------------------------------------------------------------------=
 
 extension String {

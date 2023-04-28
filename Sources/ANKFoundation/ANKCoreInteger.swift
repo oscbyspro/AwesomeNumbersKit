@@ -112,12 +112,6 @@ extension ANKCoreInteger {
         return pvo.overflow as Bool
     }
     
-    @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
-        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
-        precondition(!qro.overflow)
-        return qro.partialValue as QR<Self, Self>
-    }
-
     @_transparent public func quotientAndRemainderReportingOverflow(dividingBy divisor: Self) -> PVO<QR<Self, Self>> {
         let quotient:  PVO<Self> = self.dividedReportingOverflow(by: divisor)
         let remainder: PVO<Self> = self.remainderReportingOverflow(dividingBy: divisor)
@@ -147,21 +141,6 @@ extension ANKCoreInteger {
     
     @_transparent public func twosComplement() -> Self {
         ~self &+ (1 as Self)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Details x Big Endian Text Codable
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) throws -> Self {
-        let components = source._bigEndianTextComponents(radix: radix)
-        guard let magnitude = Magnitude(components.body, radix: components.radix) else { throw ANKError() }
-        guard let value = Self(exactly: ANKSigned(magnitude,as: components.sign)) else { throw ANKError() }
-        return    value
-    }
-    
-    @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
-        String(source, radix: radix, uppercase: uppercase)
     }
 }
 

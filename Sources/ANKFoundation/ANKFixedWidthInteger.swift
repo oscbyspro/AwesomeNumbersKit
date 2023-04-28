@@ -538,16 +538,9 @@ extension ANKFixedWidthInteger {
     @_disfavoredOverload @_transparent public static func &*(lhs: Self, rhs: Digit) -> Self {
         lhs.multipliedReportingOverflow(by: rhs).partialValue
     }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Details x Sign & Magnitude
-//=----------------------------------------------------------------------------=
-
-extension ANKFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Initializers
+    // MARK: Details x Sign & Magnitude
     //=------------------------------------------------------------------------=
     
     /// Creates a new instance from the given integer.
@@ -603,5 +596,25 @@ extension ANKFixedWidthInteger {
     @inlinable public init(truncatingIfNeeded source: ANKSigned<Magnitude>) {
         self.init(bitPattern: source.magnitude)
         if  source.sign.bit { self.formTwosComplement() }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Text
+    //=------------------------------------------------------------------------=
+    
+    /// Creates a new instance from the given string and optional radix.
+    ///
+    /// If the given radix is `nil`, it is either decoded from the string or assigned the value `10`.
+    ///
+    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) throws -> Self {
+        let components = source._bigEndianTextComponents(radix: radix)
+        guard let magnitude = Magnitude(components.body, radix: components.radix) else { throw ANKError() }
+        guard let value = Self(exactly: ANKSigned(magnitude,as: components.sign)) else { throw ANKError() }
+        return    value
+    }
+    
+    /// Creates a string representing the given value, using the given format.
+    @_transparent public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
+        String(source, radix: radix, uppercase: uppercase)
     }
 }
