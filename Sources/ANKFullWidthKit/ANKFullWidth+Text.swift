@@ -26,7 +26,7 @@ extension ANKFullWidth {
     /// FullWidth<UInt256, UInt256>.description // "UInt512"
     /// ```
     ///
-    @inlinable static var description: String {
+    @inlinable public static var description: String {
         let signedness = !Self.isSigned ? "U" : ""
         let size = String(Self.bitWidth)
         return "\(signedness)Int\(size)"

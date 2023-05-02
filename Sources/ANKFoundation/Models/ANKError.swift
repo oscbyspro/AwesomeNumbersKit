@@ -11,13 +11,13 @@
 // MARK: * ANK x Error
 //*============================================================================*
 
-/// A generic error.
+/// An unspecific error.
 @frozen public struct ANKError: Error, Sendable {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    /// Creates a generic error.
+    /// Creates an unspecific error.
     @_transparent public init() { }
 }

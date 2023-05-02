@@ -48,7 +48,7 @@
 /// - ``ANKBinaryInteger``
 /// - ``ANKFixedWidthInteger``
 ///
-/// - Note: The `Digit` type is `ANKSigned<Magnitude.Digit>` when it exists.
+/// - Note: The `Digit` type is `ANKSigned<Magnitude.Digit>`.
 ///
 @frozen public struct ANKSigned<Magnitude>: Comparable, Hashable, Sendable where Magnitude: ANKUnsignedInteger {
     

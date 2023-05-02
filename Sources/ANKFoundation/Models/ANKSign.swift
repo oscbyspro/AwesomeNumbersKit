@@ -96,7 +96,14 @@
     // MARK: Details x Text
     //=------------------------------------------------------------------------=
     
-    @inlinable public var description: String {
+    /// The description of this value.
+    ///
+    /// ```swift
+    /// plus .description // "+"
+    /// minus.description // "-"
+    /// ```
+    ///
+    @_transparent public var description: String {
         self.bit ? "-" : "+"
     }
 }
