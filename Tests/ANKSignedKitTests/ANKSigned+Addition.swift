@@ -27,71 +27,40 @@ final class ANKSignedTestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAdding() {
-        XCTAssertEqual( T(1)  +  T(2),  T(3))
-        XCTAssertEqual( T(1)  +  T(1),  T(2))
-        XCTAssertEqual( T(1)  +  T(0),  T(1))
-        XCTAssertEqual( T(1)  + -T(0),  T(1))
-        XCTAssertEqual( T(1)  + -T(1),  T(0))
-        XCTAssertEqual( T(1)  + -T(2), -T(1))
+        ANKAssertAddition( T(1),  T(2),  T(3))
+        ANKAssertAddition( T(1),  T(1),  T(2))
+        ANKAssertAddition( T(1),  T(0),  T(1))
+        ANKAssertAddition( T(1), -T(0),  T(1))
+        ANKAssertAddition( T(1), -T(1),  T(0))
+        ANKAssertAddition( T(1), -T(2), -T(1))
         
-        XCTAssertEqual( T(0)  +  T(2),  T(2))
-        XCTAssertEqual( T(0)  +  T(1),  T(1))
-        XCTAssertEqual( T(0)  +  T(0),  T(0))
-        XCTAssertEqual( T(0)  + -T(0),  T(0))
-        XCTAssertEqual( T(0)  + -T(1), -T(1))
-        XCTAssertEqual( T(0)  + -T(2), -T(2))
+        ANKAssertAddition( T(0),  T(2),  T(2))
+        ANKAssertAddition( T(0),  T(1),  T(1))
+        ANKAssertAddition( T(0),  T(0),  T(0))
+        ANKAssertAddition( T(0), -T(0),  T(0))
+        ANKAssertAddition( T(0), -T(1), -T(1))
+        ANKAssertAddition( T(0), -T(2), -T(2))
         
-        XCTAssertEqual(-T(0)  +  T(2),  T(2))
-        XCTAssertEqual(-T(0)  +  T(1),  T(1))
-        XCTAssertEqual(-T(0)  +  T(0),  T(0))
-        XCTAssertEqual(-T(0)  + -T(0),  T(0))
-        XCTAssertEqual(-T(0)  + -T(1), -T(1))
-        XCTAssertEqual(-T(0)  + -T(2), -T(2))
+        ANKAssertAddition(-T(0),  T(2),  T(2))
+        ANKAssertAddition(-T(0),  T(1),  T(1))
+        ANKAssertAddition(-T(0),  T(0), -T(0))
+        ANKAssertAddition(-T(0), -T(0), -T(0))
+        ANKAssertAddition(-T(0), -T(1), -T(1))
+        ANKAssertAddition(-T(0), -T(2), -T(2))
 
-        XCTAssertEqual(-T(1)  +  T(2),  T(1))
-        XCTAssertEqual(-T(1)  +  T(1),  T(0))
-        XCTAssertEqual(-T(1)  +  T(0), -T(1))
-        XCTAssertEqual(-T(1)  + -T(0), -T(1))
-        XCTAssertEqual(-T(1)  + -T(1), -T(2))
-        XCTAssertEqual(-T(1)  + -T(2), -T(3))
-    }
-    
-    func testAddingWrappingAround() {
-        XCTAssertEqual( T(1) &+  T(2),  T(3))
-        XCTAssertEqual( T(1) &+  T(1),  T(2))
-        XCTAssertEqual( T(1) &+  T(0),  T(1))
-        XCTAssertEqual( T(1) &+ -T(0),  T(1))
-        XCTAssertEqual( T(1) &+ -T(1),  T(0))
-        XCTAssertEqual( T(1) &+ -T(2), -T(1))
-        
-        XCTAssertEqual( T(0) &+  T(2),  T(2))
-        XCTAssertEqual( T(0) &+  T(1),  T(1))
-        XCTAssertEqual( T(0) &+  T(0),  T(0))
-        XCTAssertEqual( T(0) &+ -T(0),  T(0))
-        XCTAssertEqual( T(0) &+ -T(1), -T(1))
-        XCTAssertEqual( T(0) &+ -T(2), -T(2))
-        
-        XCTAssertEqual(-T(0) &+  T(2),  T(2))
-        XCTAssertEqual(-T(0) &+  T(1),  T(1))
-        XCTAssertEqual(-T(0) &+  T(0),  T(0))
-        XCTAssertEqual(-T(0) &+ -T(0),  T(0))
-        XCTAssertEqual(-T(0) &+ -T(1), -T(1))
-        XCTAssertEqual(-T(0) &+ -T(2), -T(2))
-
-        XCTAssertEqual(-T(1) &+  T(2),  T(1))
-        XCTAssertEqual(-T(1) &+  T(1),  T(0))
-        XCTAssertEqual(-T(1) &+  T(0), -T(1))
-        XCTAssertEqual(-T(1) &+ -T(0), -T(1))
-        XCTAssertEqual(-T(1) &+ -T(1), -T(2))
-        XCTAssertEqual(-T(1) &+ -T(2), -T(3))
+        ANKAssertAddition(-T(1),  T(2),  T(1))
+        ANKAssertAddition(-T(1),  T(1), -T(0))
+        ANKAssertAddition(-T(1),  T(0), -T(1))
+        ANKAssertAddition(-T(1), -T(0), -T(1))
+        ANKAssertAddition(-T(1), -T(1), -T(2))
+        ANKAssertAddition(-T(1), -T(2), -T(3))
     }
     
     func testAddingReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow( T(2)) == (T.min + T(2), false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow( T(2)) == (T(  ) + T(1), true ) as (T, Bool))
-        
-        XCTAssert(T.min.addingReportingOverflow(-T(2)) == (T(  ) - T(1), true ) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(-T(2)) == (T.max - T(2), false) as (T, Bool))
+        ANKAssertAddition(T.min,  T(2), T.min + T(2), false)
+        ANKAssertAddition(T.max,  T(2), T(  ) + T(1), true )
+        ANKAssertAddition(T.min, -T(2), T(  ) - T(1), true )
+        ANKAssertAddition(T.max, -T(2), T.max - T(2), false)
     }
     
     //=------------------------------------------------------------------------=
@@ -99,88 +68,45 @@ final class ANKSignedTestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAddingDigit() {
-        XCTAssertEqual( T(1)  +  D(2),  T(3))
-        XCTAssertEqual( T(1)  +  D(1),  T(2))
-        XCTAssertEqual( T(1)  +  D(0),  T(1))
-        XCTAssertEqual( T(1)  + -D(0),  T(1))
-        XCTAssertEqual( T(1)  + -D(1),  T(0))
-        XCTAssertEqual( T(1)  + -D(2), -T(1))
+        ANKAssertAdditionByDigit( T(1),  D(2),  T(3))
+        ANKAssertAdditionByDigit( T(1),  D(1),  T(2))
+        ANKAssertAdditionByDigit( T(1),  D(0),  T(1))
+        ANKAssertAdditionByDigit( T(1), -D(0),  T(1))
+        ANKAssertAdditionByDigit( T(1), -D(1),  T(0))
+        ANKAssertAdditionByDigit( T(1), -D(2), -T(1))
         
-        XCTAssertEqual( T(0)  +  D(2),  T(2))
-        XCTAssertEqual( T(0)  +  D(1),  T(1))
-        XCTAssertEqual( T(0)  +  D(0),  T(0))
-        XCTAssertEqual( T(0)  + -D(0),  T(0))
-        XCTAssertEqual( T(0)  + -D(1), -T(1))
-        XCTAssertEqual( T(0)  + -D(2), -T(2))
+        ANKAssertAdditionByDigit( T(0),  D(2),  T(2))
+        ANKAssertAdditionByDigit( T(0),  D(1),  T(1))
+        ANKAssertAdditionByDigit( T(0),  D(0),  T(0))
+        ANKAssertAdditionByDigit( T(0), -D(0),  T(0))
+        ANKAssertAdditionByDigit( T(0), -D(1), -T(1))
+        ANKAssertAdditionByDigit( T(0), -D(2), -T(2))
         
-        XCTAssertEqual(-T(0)  +  D(2),  T(2))
-        XCTAssertEqual(-T(0)  +  D(1),  T(1))
-        XCTAssertEqual(-T(0)  +  D(0),  T(0))
-        XCTAssertEqual(-T(0)  + -D(0),  T(0))
-        XCTAssertEqual(-T(0)  + -D(1), -T(1))
-        XCTAssertEqual(-T(0)  + -D(2), -T(2))
+        ANKAssertAdditionByDigit(-T(0),  D(2),  T(2))
+        ANKAssertAdditionByDigit(-T(0),  D(1),  T(1))
+        ANKAssertAdditionByDigit(-T(0),  D(0), -T(0))
+        ANKAssertAdditionByDigit(-T(0), -D(0), -T(0))
+        ANKAssertAdditionByDigit(-T(0), -D(1), -T(1))
+        ANKAssertAdditionByDigit(-T(0), -D(2), -T(2))
 
-        XCTAssertEqual(-T(1)  +  D(2),  T(1))
-        XCTAssertEqual(-T(1)  +  D(1),  T(0))
-        XCTAssertEqual(-T(1)  +  D(0), -T(1))
-        XCTAssertEqual(-T(1)  + -D(0), -T(1))
-        XCTAssertEqual(-T(1)  + -D(1), -T(2))
-        XCTAssertEqual(-T(1)  + -D(2), -T(3))
-    }
-    
-    func testAddingDigitWrappingAround() {
-        XCTAssertEqual( T(1) &+  D(2),  T(3))
-        XCTAssertEqual( T(1) &+  D(1),  T(2))
-        XCTAssertEqual( T(1) &+  D(0),  T(1))
-        XCTAssertEqual( T(1) &+ -D(0),  T(1))
-        XCTAssertEqual( T(1) &+ -D(1),  T(0))
-        XCTAssertEqual( T(1) &+ -D(2), -T(1))
-
-        XCTAssertEqual( T(0) &+  D(2),  T(2))
-        XCTAssertEqual( T(0) &+  D(1),  T(1))
-        XCTAssertEqual( T(0) &+  D(0),  T(0))
-        XCTAssertEqual( T(0) &+ -D(0),  T(0))
-        XCTAssertEqual( T(0) &+ -D(1), -T(1))
-        XCTAssertEqual( T(0) &+ -D(2), -T(2))
-
-        XCTAssertEqual(-T(0) &+  D(2),  T(2))
-        XCTAssertEqual(-T(0) &+  D(1),  T(1))
-        XCTAssertEqual(-T(0) &+  D(0),  T(0))
-        XCTAssertEqual(-T(0) &+ -D(0),  T(0))
-        XCTAssertEqual(-T(0) &+ -D(1), -T(1))
-        XCTAssertEqual(-T(0) &+ -D(2), -T(2))
-
-        XCTAssertEqual(-T(1) &+  D(2),  T(1))
-        XCTAssertEqual(-T(1) &+  D(1),  T(0))
-        XCTAssertEqual(-T(1) &+  D(0), -T(1))
-        XCTAssertEqual(-T(1) &+ -D(0), -T(1))
-        XCTAssertEqual(-T(1) &+ -D(1), -T(2))
-        XCTAssertEqual(-T(1) &+ -D(2), -T(3))
+        ANKAssertAdditionByDigit(-T(1),  D(2),  T(1))
+        ANKAssertAdditionByDigit(-T(1),  D(1), -T(0))
+        ANKAssertAdditionByDigit(-T(1),  D(0), -T(1))
+        ANKAssertAdditionByDigit(-T(1), -D(0), -T(1))
+        ANKAssertAdditionByDigit(-T(1), -D(1), -T(2))
+        ANKAssertAdditionByDigit(-T(1), -D(2), -T(3))
     }
     
     func testAddingDigitReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow( D(2)) == (T.min + D(2), false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow( D(2)) == (T(  ) + D(1), true ) as (T, Bool))
-
-        XCTAssert(T.min.addingReportingOverflow(-D(2)) == (T(  ) - D(1), true ) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(-D(2)) == (T.max - D(2), false) as (T, Bool))
+        ANKAssertAdditionByDigit(T.min,  D(2), T.min + T(2), false)
+        ANKAssertAdditionByDigit(T.min, -D(2), T(  ) - T(1), true )
+        ANKAssertAdditionByDigit(T.max,  D(2), T(  ) + T(1), true )
+        ANKAssertAdditionByDigit(T.max, -D(2), T.max - T(2), false)
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
-        
-    func testOverloadsAreUnambiguousWhereDigitIsSelf() {
-        func becauseThisCompilesSuccessfully(_ x: inout D.Digit) {
-            XCTAssertNotNil(x  += D(0))
-            XCTAssertNotNil(x &+= D(0))
-            XCTAssertNotNil(x.addReportingOverflow(D(0)))
-            
-            XCTAssertNotNil(x  +  D(0))
-            XCTAssertNotNil(x &+  D(0))
-            XCTAssertNotNil(x.addingReportingOverflow(D(0)))
-        }
-    }
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
         func becauseThisCompilesSuccessfully(_ x: inout T) {
@@ -191,6 +117,18 @@ final class ANKSignedTestsOnAddition: XCTestCase {
             XCTAssertNotNil(x  +  0)
             XCTAssertNotNil(x &+  0)
             XCTAssertNotNil(x.addingReportingOverflow(0))
+        }
+    }
+    
+    func testOverloadsAreUnambiguousWhereDigitIsSelf() {
+        func becauseThisCompilesSuccessfully(_ x: inout D.Digit) {
+            XCTAssertNotNil(x  += D(0))
+            XCTAssertNotNil(x &+= D(0))
+            XCTAssertNotNil(x.addReportingOverflow(D(0)))
+            
+            XCTAssertNotNil(x  +  D(0))
+            XCTAssertNotNil(x &+  D(0))
+            XCTAssertNotNil(x.addingReportingOverflow(D(0)))
         }
     }
 }

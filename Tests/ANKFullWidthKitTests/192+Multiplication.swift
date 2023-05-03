@@ -63,7 +63,7 @@ final class Int192TestsOnMultiplication: XCTestCase {
         ANKAssertMultiplication(T(x64: X(~1, ~2, ~3)), -T(x64: X(0, 0, 2)), T(x64: X( 0,  0,  4)), T(x64: X( 4,  6,  0)), true)
     }
     
-    func testMultiplyingAtEdges() {
+    func testMultiplyingReportingOverflow() {
         ANKAssertMultiplication(T.min, T(-2), T( 0), T( 1), true)
         ANKAssertMultiplication(T.min, T( 2), T( 0), T(-1), true)
         ANKAssertMultiplication(T.max, T(-2), T( 2), T(-1), true)
@@ -103,7 +103,7 @@ final class Int192TestsOnMultiplication: XCTestCase {
         ANKAssertMultiplicationByDigit(T(x64: X(~1, ~2, ~3)), -Int(2), T(x64: X( 4,  4,  6)),  Int(0))
     }
     
-    func testMultiplyingByDigitAtEdges() {
+    func testMultiplyingByDigitReportingOverflow() {
         ANKAssertMultiplicationByDigit(T.min, Int(-2), T( 0), Int( 1), true)
         ANKAssertMultiplicationByDigit(T.min, Int( 2), T( 0), Int(-1), true)
         ANKAssertMultiplicationByDigit(T.max, Int(-2), T( 2), Int(-1), true)
@@ -158,7 +158,7 @@ final class UInt192TestsOnMultiplication: XCTestCase {
         ANKAssertMultiplication(T(x64: X(~1, ~2, ~3)),  T(x64: X(0, 0, 2)), T(x64: X( 0,  0, ~3)), T(x64: X(~4, ~6,  1)), true)
     }
     
-    func testMultiplyingAtEdges() {
+    func testMultiplyingReportingOverflow() {
         ANKAssertMultiplication(T.max, T( 2), ~T(1),  T(1), true)
         ANKAssertMultiplication(T.max, T.max,  T(1), ~T(1), true)
     }
@@ -178,7 +178,7 @@ final class UInt192TestsOnMultiplication: XCTestCase {
         ANKAssertMultiplicationByDigit(T(x64: X( 1,  2,  3)), UInt(2), T(x64: X( 2,  4,  6)), UInt(0), false)
     }
     
-    func testMultipliedByDigitAtEdges() {
+    func testMultipliedByDigitReportingOverflow() {
         ANKAssertMultiplicationByDigit(T.min, UInt(2),  T(0), UInt(0), false)
         ANKAssertMultiplicationByDigit(T.max, UInt(2), ~T(1), UInt(1), true )
     }

@@ -69,12 +69,12 @@ final class Int256TestsOnSubtraction: XCTestCase {
         ANKAssertSubtraction(T(x64: X( 0,  0,  0, ~0)),  T(x64: X(0, 0, 0, 3)), T(x64: X( 0,  0,  0, ~3)))
     }
     
-    func testSubtractingAtEdges() {
-        ANKAssertSubtraction(T.min, T( 2), T.max - T(1), true)
-        ANKAssertSubtraction(T.max, T( 2), T.max - T(2))
+    func testSubtractingReportingOverflow() {
+        ANKAssertSubtraction(T.min, T( 2), T.max - T(1), true )
+        ANKAssertSubtraction(T.max, T( 2), T.max - T(2), false)
         
-        ANKAssertSubtraction(T.min, T(-2), T.min + T(2))
-        ANKAssertSubtraction(T.max, T(-2), T.min + T(1), true)
+        ANKAssertSubtraction(T.min, T(-2), T.min + T(2), false)
+        ANKAssertSubtraction(T.max, T(-2), T.min + T(1), true )
     }
     
     //=------------------------------------------------------------------------=
@@ -108,12 +108,11 @@ final class Int256TestsOnSubtraction: XCTestCase {
         ANKAssertSubtractionByDigit(T(x64: X( 0,  0,  0, ~0)),  Int(3), T(x64: X(~2, ~0, ~0, ~1)))
     }
     
-    func testSubtractingDigitAtEdges() {
-        ANKAssertSubtractionByDigit(T.min, Int( 2), T.max - T(1), true)
-        ANKAssertSubtractionByDigit(T.max, Int( 2), T.max - T(2))
-        
-        ANKAssertSubtractionByDigit(T.min, Int(-2), T.min + T(2))
-        ANKAssertSubtractionByDigit(T.max, Int(-2), T.min + T(1), true)
+    func testSubtractingDigitReportingOverflow() {
+        ANKAssertSubtractionByDigit(T.min, Int( 2), T.max - T(1), true )
+        ANKAssertSubtractionByDigit(T.min, Int(-2), T.min + T(2), false)
+        ANKAssertSubtractionByDigit(T.max, Int( 2), T.max - T(2), false)
+        ANKAssertSubtractionByDigit(T.max, Int(-2), T.min + T(1), true )
     }
     
     //=------------------------------------------------------------------------=
@@ -159,9 +158,9 @@ final class UInt256TestsOnSubtraction: XCTestCase {
         ANKAssertSubtraction(T(x64: X(0, ~0, ~0, ~0)), T(x64: X(0, 0, 0, 3)), T(x64: X( 0, ~0, ~0, ~3)))
     }
     
-    func testSubtractingAtEdges() {
-        ANKAssertSubtraction(T.min, T(2), T.max - T(1), true)
-        ANKAssertSubtraction(T.max, T(2), T.max - T(2))
+    func testSubtractingReportingOverflow() {
+        ANKAssertSubtraction(T.min, T(2), T.max - T(1), true )
+        ANKAssertSubtraction(T.max, T(2), T.max - T(2), false)
     }
     
     //=------------------------------------------------------------------------=
@@ -182,9 +181,9 @@ final class UInt256TestsOnSubtraction: XCTestCase {
         ANKAssertSubtractionByDigit(T(x64: X( 0,  0,  0, ~0)), UInt(3), T(x64: X(~2, ~0, ~0, ~1)))
     }
     
-    func testSubtractingDigitAtEdges() {
-        ANKAssertSubtractionByDigit(T.min, UInt(2), T.max - T(1), true)
-        ANKAssertSubtractionByDigit(T.max, UInt(2), T.max - T(2))
+    func testSubtractingDigitReportingOverflow() {
+        ANKAssertSubtractionByDigit(T.min, UInt(2), T.max - T(1), true )
+        ANKAssertSubtractionByDigit(T.max, UInt(2), T.max - T(2), false)
     }
     
     //=------------------------------------------------------------------------=

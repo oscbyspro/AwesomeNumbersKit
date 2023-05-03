@@ -65,7 +65,7 @@ final class Int192TestsOnAddition: XCTestCase {
         ANKAssertAddition(T(x64: X( 0,  0, ~0)), -T(x64: X(0, 0, 3)), T(x64: X( 0,  0, ~3)))
     }
     
-    func testAddingAtEdges() {
+    func testAddingReportingOverflow() {
         ANKAssertAddition(T.min, T( 1), T.min + T(1))
         ANKAssertAddition(T.min, T(-1), T.max,  true)
         
@@ -104,10 +104,9 @@ final class Int192TestsOnAddition: XCTestCase {
         ANKAssertAdditionByDigit(T(x64: X( 0,  0, ~0)), -Int(3), T(x64: X(~2, ~0, ~1)))
     }
     
-    func testAddingDigitAtEdges() {
+    func testAddingDigitReportingOverflow() {
         ANKAssertAdditionByDigit(T.min, Int( 1), T.min + T(1))
         ANKAssertAdditionByDigit(T.min, Int(-1), T.max,  true)
-        
         ANKAssertAdditionByDigit(T.max, Int( 1), T.min,  true)
         ANKAssertAdditionByDigit(T.max, Int(-1), T.max - T(1))
     }
@@ -157,7 +156,7 @@ final class UInt192TestsOnAddition: XCTestCase {
         ANKAssertAddition(T(x64: X(~0, ~0, 0)), T(x64: X(0, 0, 3)), T(x64: X(~0, ~0, 3)))
     }
     
-    func testAddingAtEdges() {
+    func testAddingReportingOverflow() {
         ANKAssertAddition(T.min, T(1), T.min + T(1))
         ANKAssertAddition(T.max, T(1), T.min,  true)
     }
@@ -177,12 +176,12 @@ final class UInt192TestsOnAddition: XCTestCase {
     }
     
     func testAddingDigitUsingLargeValues() {
-        ANKAssertAdditionByDigit(T(x64: X(~0, ~0, 0)), UInt(3), T(x64: X(2, 0, 1)))
-        ANKAssertAdditionByDigit(T(x64: X(~0,  0, 0)), UInt(3), T(x64: X(2, 1, 0)))
-        ANKAssertAdditionByDigit(T(x64: X( 0,  0, 0)), UInt(3), T(x64: X(3, 0, 0)))
+        ANKAssertAdditionByDigit(T(x64: X( 0,  0,  0)), UInt(3), T(x64: X(3, 0, 0)))
+        ANKAssertAdditionByDigit(T(x64: X(~0,  0,  0)), UInt(3), T(x64: X(2, 1, 0)))
+        ANKAssertAdditionByDigit(T(x64: X(~0, ~0,  0)), UInt(3), T(x64: X(2, 0, 1)))
     }
     
-    func testAddingDigitAtEdges() {
+    func testAddingDigitReportingOverflow() {
         ANKAssertAdditionByDigit(T.min, UInt(1), T.min + T(1))
         ANKAssertAdditionByDigit(T.max, UInt(1), T.min,  true)
     }

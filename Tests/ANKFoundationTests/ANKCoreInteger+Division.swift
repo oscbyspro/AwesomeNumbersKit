@@ -99,18 +99,18 @@ final class ANKCoreIntegerTestsOnDivision: XCTestCase {
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
         func becauseThisCompilesSuccessfully(_ x: inout some ANKCoreInteger) {
-            XCTAssertNotNil(x /= 1)
-            XCTAssertNotNil(x %= 2)
-            XCTAssertNotNil(x.divideReportingOverflow(by: 1))
-            XCTAssertNotNil(x.formRemainderReportingOverflow(dividingBy: 2))
+            XCTAssertNotNil(x /= 0)
+            XCTAssertNotNil(x %= 0)
+            XCTAssertNotNil(x.divideReportingOverflow(by: 0))
+            XCTAssertNotNil(x.formRemainderReportingOverflow(dividingBy: 0))
             
-            XCTAssertNotNil(x /  1)
-            XCTAssertNotNil(x %  2)
-            XCTAssertNotNil(x.dividedReportingOverflow(by: 1))
-            XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 2))
-            XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 3))
-            XCTAssertNotNil(x.quotientAndRemainderReportingOverflow(dividingBy: 3))
-            XCTAssertNotNil(x.dividingFullWidth((1, 2)))
+            XCTAssertNotNil(x /  0)
+            XCTAssertNotNil(x %  0)
+            XCTAssertNotNil(x.dividedReportingOverflow(by: 0))
+            XCTAssertNotNil(x.remainderReportingOverflow(dividingBy: 0))
+            XCTAssertNotNil(x.quotientAndRemainder(dividingBy: 0))
+            XCTAssertNotNil(x.quotientAndRemainderReportingOverflow(dividingBy: 0))
+            XCTAssertNotNil(x.dividingFullWidth((0, 0)))
         }
     }
 }

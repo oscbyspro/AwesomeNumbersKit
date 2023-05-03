@@ -27,71 +27,40 @@ final class ANKSignedTestsOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtracting() {
-        XCTAssertEqual( T(1)  -  T(2), -T(1))
-        XCTAssertEqual( T(1)  -  T(1),  T(0))
-        XCTAssertEqual( T(1)  -  T(0),  T(1))
-        XCTAssertEqual( T(1)  - -T(0),  T(1))
-        XCTAssertEqual( T(1)  - -T(1),  T(2))
-        XCTAssertEqual( T(1)  - -T(2),  T(3))
+        ANKAssertSubtraction( T(1),  T(2), -T(1))
+        ANKAssertSubtraction( T(1),  T(1),  T(0))
+        ANKAssertSubtraction( T(1),  T(0),  T(1))
+        ANKAssertSubtraction( T(1), -T(0),  T(1))
+        ANKAssertSubtraction( T(1), -T(1),  T(2))
+        ANKAssertSubtraction( T(1), -T(2),  T(3))
         
-        XCTAssertEqual( T(0)  -  T(2), -T(2))
-        XCTAssertEqual( T(0)  -  T(1), -T(1))
-        XCTAssertEqual( T(0)  -  T(0),  T(0))
-        XCTAssertEqual( T(0)  - -T(0),  T(0))
-        XCTAssertEqual( T(0)  - -T(1),  T(1))
-        XCTAssertEqual( T(0)  - -T(2),  T(2))
+        ANKAssertSubtraction( T(0),  T(2), -T(2))
+        ANKAssertSubtraction( T(0),  T(1), -T(1))
+        ANKAssertSubtraction( T(0),  T(0),  T(0))
+        ANKAssertSubtraction( T(0), -T(0),  T(0))
+        ANKAssertSubtraction( T(0), -T(1),  T(1))
+        ANKAssertSubtraction( T(0), -T(2),  T(2))
         
-        XCTAssertEqual(-T(0)  -  T(2), -T(2))
-        XCTAssertEqual(-T(0)  -  T(1), -T(1))
-        XCTAssertEqual(-T(0)  -  T(0),  T(0))
-        XCTAssertEqual(-T(0)  - -T(0),  T(0))
-        XCTAssertEqual(-T(0)  - -T(1),  T(1))
-        XCTAssertEqual(-T(0)  - -T(2),  T(2))
+        ANKAssertSubtraction(-T(0),  T(2), -T(2))
+        ANKAssertSubtraction(-T(0),  T(1), -T(1))
+        ANKAssertSubtraction(-T(0),  T(0), -T(0))
+        ANKAssertSubtraction(-T(0), -T(0), -T(0))
+        ANKAssertSubtraction(-T(0), -T(1),  T(1))
+        ANKAssertSubtraction(-T(0), -T(2),  T(2))
         
-        XCTAssertEqual(-T(1)  -  T(2), -T(3))
-        XCTAssertEqual(-T(1)  -  T(1), -T(2))
-        XCTAssertEqual(-T(1)  -  T(0), -T(1))
-        XCTAssertEqual(-T(1)  - -T(0), -T(1))
-        XCTAssertEqual(-T(1)  - -T(1),  T(0))
-        XCTAssertEqual(-T(1)  - -T(2),  T(1))
-    }
-    
-    func testSubtractingWrappingAround() {
-        XCTAssertEqual( T(1) &-  T(2), -T(1))
-        XCTAssertEqual( T(1) &-  T(1),  T(0))
-        XCTAssertEqual( T(1) &-  T(0),  T(1))
-        XCTAssertEqual( T(1) &- -T(0),  T(1))
-        XCTAssertEqual( T(1) &- -T(1),  T(2))
-        XCTAssertEqual( T(1) &- -T(2),  T(3))
-        
-        XCTAssertEqual( T(0) &-  T(2), -T(2))
-        XCTAssertEqual( T(0) &-  T(1), -T(1))
-        XCTAssertEqual( T(0) &-  T(0),  T(0))
-        XCTAssertEqual( T(0) &- -T(0),  T(0))
-        XCTAssertEqual( T(0) &- -T(1),  T(1))
-        XCTAssertEqual( T(0) &- -T(2),  T(2))
-        
-        XCTAssertEqual(-T(0) &-  T(2), -T(2))
-        XCTAssertEqual(-T(0) &-  T(1), -T(1))
-        XCTAssertEqual(-T(0) &-  T(0),  T(0))
-        XCTAssertEqual(-T(0) &- -T(0),  T(0))
-        XCTAssertEqual(-T(0) &- -T(1),  T(1))
-        XCTAssertEqual(-T(0) &- -T(2),  T(2))
-        
-        XCTAssertEqual(-T(1) &-  T(2), -T(3))
-        XCTAssertEqual(-T(1) &-  T(1), -T(2))
-        XCTAssertEqual(-T(1) &-  T(0), -T(1))
-        XCTAssertEqual(-T(1) &- -T(0), -T(1))
-        XCTAssertEqual(-T(1) &- -T(1),  T(0))
-        XCTAssertEqual(-T(1) &- -T(2),  T(1))
+        ANKAssertSubtraction(-T(1),  T(2), -T(3))
+        ANKAssertSubtraction(-T(1),  T(1), -T(2))
+        ANKAssertSubtraction(-T(1),  T(0), -T(1))
+        ANKAssertSubtraction(-T(1), -T(0), -T(1))
+        ANKAssertSubtraction(-T(1), -T(1), -T(0))
+        ANKAssertSubtraction(-T(1), -T(2),  T(1))
     }
     
     func testSubtractingReportingOverflow() {
-        XCTAssert(T.min.subtractingReportingOverflow( T(2)) == (T(  ) - T(1), true ) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow( T(2)) == (T.max - T(2), false) as (T, Bool))
-        
-        XCTAssert(T.min.subtractingReportingOverflow(-T(2)) == (T.min + T(2), false) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(-T(2)) == (T(  ) + T(1), true ) as (T, Bool))
+        ANKAssertSubtraction(T.min,  T(2), T(  ) - T(1), true )
+        ANKAssertSubtraction(T.min, -T(2), T.min + T(2), false)
+        ANKAssertSubtraction(T.max,  T(2), T.max - T(2), false)
+        ANKAssertSubtraction(T.max, -T(2), T(  ) + T(1), true )
     }
     
     //=------------------------------------------------------------------------=
@@ -99,88 +68,45 @@ final class ANKSignedTestsOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtractingDigit() {
-        XCTAssertEqual( T(1)  -  D(2), -T(1))
-        XCTAssertEqual( T(1)  -  D(1),  T(0))
-        XCTAssertEqual( T(1)  -  D(0),  T(1))
-        XCTAssertEqual( T(1)  - -D(0),  T(1))
-        XCTAssertEqual( T(1)  - -D(1),  T(2))
-        XCTAssertEqual( T(1)  - -D(2),  T(3))
+        ANKAssertSubtractionByDigit( T(1),  D(2), -T(1))
+        ANKAssertSubtractionByDigit( T(1),  D(1),  T(0))
+        ANKAssertSubtractionByDigit( T(1),  D(0),  T(1))
+        ANKAssertSubtractionByDigit( T(1), -D(0),  T(1))
+        ANKAssertSubtractionByDigit( T(1), -D(1),  T(2))
+        ANKAssertSubtractionByDigit( T(1), -D(2),  T(3))
         
-        XCTAssertEqual( T(0)  -  D(2), -T(2))
-        XCTAssertEqual( T(0)  -  D(1), -T(1))
-        XCTAssertEqual( T(0)  -  D(0),  T(0))
-        XCTAssertEqual( T(0)  - -D(0),  T(0))
-        XCTAssertEqual( T(0)  - -D(1),  T(1))
-        XCTAssertEqual( T(0)  - -D(2),  T(2))
+        ANKAssertSubtractionByDigit( T(0),  D(2), -T(2))
+        ANKAssertSubtractionByDigit( T(0),  D(1), -T(1))
+        ANKAssertSubtractionByDigit( T(0),  D(0),  T(0))
+        ANKAssertSubtractionByDigit( T(0), -D(0),  T(0))
+        ANKAssertSubtractionByDigit( T(0), -D(1),  T(1))
+        ANKAssertSubtractionByDigit( T(0), -D(2),  T(2))
         
-        XCTAssertEqual(-T(0)  -  D(2), -T(2))
-        XCTAssertEqual(-T(0)  -  D(1), -T(1))
-        XCTAssertEqual(-T(0)  -  D(0),  T(0))
-        XCTAssertEqual(-T(0)  - -D(0),  T(0))
-        XCTAssertEqual(-T(0)  - -D(1),  T(1))
-        XCTAssertEqual(-T(0)  - -D(2),  T(2))
+        ANKAssertSubtractionByDigit(-T(0),  D(2), -T(2))
+        ANKAssertSubtractionByDigit(-T(0),  D(1), -T(1))
+        ANKAssertSubtractionByDigit(-T(0),  D(0), -T(0))
+        ANKAssertSubtractionByDigit(-T(0), -D(0), -T(0))
+        ANKAssertSubtractionByDigit(-T(0), -D(1),  T(1))
+        ANKAssertSubtractionByDigit(-T(0), -D(2),  T(2))
         
-        XCTAssertEqual(-T(1)  -  D(2), -T(3))
-        XCTAssertEqual(-T(1)  -  D(1), -T(2))
-        XCTAssertEqual(-T(1)  -  D(0), -T(1))
-        XCTAssertEqual(-T(1)  - -D(0), -T(1))
-        XCTAssertEqual(-T(1)  - -D(1),  T(0))
-        XCTAssertEqual(-T(1)  - -D(2),  T(1))
-    }
-    
-    func testSubtractingDigitWrappingAround() {
-        XCTAssertEqual( T(1) &-  D(2), -T(1))
-        XCTAssertEqual( T(1) &-  D(1),  T(0))
-        XCTAssertEqual( T(1) &-  D(0),  T(1))
-        XCTAssertEqual( T(1) &- -D(0),  T(1))
-        XCTAssertEqual( T(1) &- -D(1),  T(2))
-        XCTAssertEqual( T(1) &- -D(2),  T(3))
-        
-        XCTAssertEqual( T(0) &-  D(2), -T(2))
-        XCTAssertEqual( T(0) &-  D(1), -T(1))
-        XCTAssertEqual( T(0) &-  D(0),  T(0))
-        XCTAssertEqual( T(0) &- -D(0),  T(0))
-        XCTAssertEqual( T(0) &- -D(1),  T(1))
-        XCTAssertEqual( T(0) &- -D(2),  T(2))
-        
-        XCTAssertEqual(-T(0) &-  D(2), -T(2))
-        XCTAssertEqual(-T(0) &-  D(1), -T(1))
-        XCTAssertEqual(-T(0) &-  D(0),  T(0))
-        XCTAssertEqual(-T(0) &- -D(0),  T(0))
-        XCTAssertEqual(-T(0) &- -D(1),  T(1))
-        XCTAssertEqual(-T(0) &- -D(2),  T(2))
-        
-        XCTAssertEqual(-T(1) &-  D(2), -T(3))
-        XCTAssertEqual(-T(1) &-  D(1), -T(2))
-        XCTAssertEqual(-T(1) &-  D(0), -T(1))
-        XCTAssertEqual(-T(1) &- -D(0), -T(1))
-        XCTAssertEqual(-T(1) &- -D(1),  T(0))
-        XCTAssertEqual(-T(1) &- -D(2),  T(1))
+        ANKAssertSubtractionByDigit(-T(1),  D(2), -T(3))
+        ANKAssertSubtractionByDigit(-T(1),  D(1), -T(2))
+        ANKAssertSubtractionByDigit(-T(1),  D(0), -T(1))
+        ANKAssertSubtractionByDigit(-T(1), -D(0), -T(1))
+        ANKAssertSubtractionByDigit(-T(1), -D(1), -T(0))
+        ANKAssertSubtractionByDigit(-T(1), -D(2),  T(1))
     }
     
     func testSubtractingDigitReportingOverflow() {
-        XCTAssert(T.min.subtractingReportingOverflow( D(2)) == (T(  ) - D(1), true ) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow( D(2)) == (T.max - D(2), false) as (T, Bool))
-        
-        XCTAssert(T.min.subtractingReportingOverflow(-D(2)) == (T.min + D(2), false) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(-D(2)) == (T(  ) + D(1), true ) as (T, Bool))
+        ANKAssertSubtractionByDigit(T.min,  D(2), T(  ) - T(1), true )
+        ANKAssertSubtractionByDigit(T.min, -D(2), T.min + T(2), false)
+        ANKAssertSubtractionByDigit(T.max,  D(2), T.max - T(2), false)
+        ANKAssertSubtractionByDigit(T.max, -D(2), T(  ) + T(1), true )
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
-    
-    func testOverloadsAreUnambiguousWhereDigitIsSelf() {
-        func becauseThisCompilesSuccessfully(_ x: inout D.Digit) {
-            XCTAssertNotNil(x  -= D(0))
-            XCTAssertNotNil(x &-= D(0))
-            XCTAssertNotNil(x.subtractReportingOverflow(D(0)))
-            
-            XCTAssertNotNil(x  -  D(0))
-            XCTAssertNotNil(x &-  D(0))
-            XCTAssertNotNil(x.subtractingReportingOverflow(D(0)))
-        }
-    }
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
         func becauseThisCompilesSuccessfully(_ x: inout T) {
@@ -191,6 +117,18 @@ final class ANKSignedTestsOnSubtraction: XCTestCase {
             XCTAssertNotNil(x  -  0)
             XCTAssertNotNil(x &-  0)
             XCTAssertNotNil(x.subtractingReportingOverflow(0))
+        }
+    }
+    
+    func testOverloadsAreUnambiguousWhereDigitIsSelf() {
+        func becauseThisCompilesSuccessfully(_ x: inout D.Digit) {
+            XCTAssertNotNil(x  -= D(0))
+            XCTAssertNotNil(x &-= D(0))
+            XCTAssertNotNil(x.subtractReportingOverflow(D(0)))
+            
+            XCTAssertNotNil(x  -  D(0))
+            XCTAssertNotNil(x &-  D(0))
+            XCTAssertNotNil(x.subtractingReportingOverflow(D(0)))
         }
     }
 }

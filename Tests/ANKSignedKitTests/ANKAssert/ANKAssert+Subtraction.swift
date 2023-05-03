@@ -8,6 +8,7 @@
 //=----------------------------------------------------------------------------=
 
 import ANKFoundation
+import ANKSignedKit
 import XCTest
 
 //*============================================================================*
@@ -15,39 +16,39 @@ import XCTest
 //*============================================================================*
 
 func ANKAssertSubtraction<T: ANKFixedWidthInteger>(
-_ lhs: T, _ rhs: T, _ partialValue: T, _ overflow: Bool = false,
+_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>, _ partialValue: ANKSigned<T>, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     //=------------------------------------------=
     if !overflow {
-        XCTAssertEqual(                 lhs -  rhs,                 partialValue, file: file, line: line)
-        XCTAssertEqual({ var lhs = lhs; lhs -= rhs; return lhs }(), partialValue, file: file, line: line)
+        ANKAssertEqual(                 lhs -  rhs,                 partialValue, file: file, line: line)
+        ANKAssertEqual({ var lhs = lhs; lhs -= rhs; return lhs }(), partialValue, file: file, line: line)
     }
     //=------------------------------------------=
-    XCTAssertEqual(                 lhs &-  rhs,                 partialValue, file: file, line: line)
-    XCTAssertEqual({ var lhs = lhs; lhs &-= rhs; return lhs }(), partialValue, file: file, line: line)
+    ANKAssertEqual(                 lhs &-  rhs,                  partialValue, file: file, line: line)
+    ANKAssertEqual({ var lhs = lhs; lhs &-= rhs; return lhs }(),  partialValue, file: file, line: line)
         
-    XCTAssertEqual(lhs.subtractingReportingOverflow(rhs).partialValue, partialValue, file: file, line: line)
+    ANKAssertEqual(lhs.subtractingReportingOverflow(rhs).partialValue, partialValue, file: file, line: line)
     XCTAssertEqual(lhs.subtractingReportingOverflow(rhs).overflow,     overflow,     file: file, line: line)
     
-    XCTAssertEqual({ var x = lhs; let _ = x.subtractReportingOverflow(rhs); return x }(), partialValue, file: file, line: line)
+    ANKAssertEqual({ var x = lhs; let _ = x.subtractReportingOverflow(rhs); return x }(), partialValue, file: file, line: line)
     XCTAssertEqual({ var x = lhs; let o = x.subtractReportingOverflow(rhs); return o }(), overflow,     file: file, line: line)
 }
 
 func ANKAssertSubtractionByDigit<T: ANKFixedWidthInteger>(
-_ lhs: T, _ rhs: T.Digit, _ partialValue: T, _ overflow: Bool = false,
+_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>.Digit, _ partialValue: ANKSigned<T>, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     //=------------------------------------------=
     if !overflow {
-        XCTAssertEqual(                 lhs -  rhs,                 partialValue, file: file, line: line)
-        XCTAssertEqual({ var lhs = lhs; lhs -= rhs; return lhs }(), partialValue, file: file, line: line)
+        ANKAssertEqual(                 lhs -  rhs,                 partialValue, file: file, line: line)
+        ANKAssertEqual({ var lhs = lhs; lhs -= rhs; return lhs }(), partialValue, file: file, line: line)
     }
     //=------------------------------------------=
-    XCTAssertEqual(                 lhs &-  rhs,                 partialValue, file: file, line: line)
-    XCTAssertEqual({ var lhs = lhs; lhs &-= rhs; return lhs }(), partialValue, file: file, line: line)
+    ANKAssertEqual(                 lhs &-  rhs,                  partialValue, file: file, line: line)
+    ANKAssertEqual({ var lhs = lhs; lhs &-= rhs; return lhs }(),  partialValue, file: file, line: line)
         
-    XCTAssertEqual(lhs.subtractingReportingOverflow(rhs).partialValue, partialValue, file: file, line: line)
+    ANKAssertEqual(lhs.subtractingReportingOverflow(rhs).partialValue, partialValue, file: file, line: line)
     XCTAssertEqual(lhs.subtractingReportingOverflow(rhs).overflow,     overflow,     file: file, line: line)
     
-    XCTAssertEqual({ var x = lhs; let _ = x.subtractReportingOverflow(rhs); return x }(), partialValue, file: file, line: line)
+    ANKAssertEqual({ var x = lhs; let _ = x.subtractReportingOverflow(rhs); return x }(), partialValue, file: file, line: line)
     XCTAssertEqual({ var x = lhs; let o = x.subtractReportingOverflow(rhs); return o }(), overflow,     file: file, line: line)
 }
