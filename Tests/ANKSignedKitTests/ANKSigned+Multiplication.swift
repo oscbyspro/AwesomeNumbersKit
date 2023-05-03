@@ -27,98 +27,41 @@ final class ANKSignedTestsOnMultiplication: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testMultiplied() {
-        XCTAssertEqual( T(2) *  T(3),  T(6))
-        XCTAssertEqual( T(2) * -T(3), -T(6))
-        XCTAssertEqual(-T(2) *  T(3), -T(6))
-        XCTAssertEqual(-T(2) * -T(3),  T(6))
+    func testMultiplying() {
+        ANKAssertMultiplication( T(2),  T(3),  T(6))
+        ANKAssertMultiplication( T(2), -T(3), -T(6))
+        ANKAssertMultiplication(-T(2),  T(3), -T(6))
+        ANKAssertMultiplication(-T(2), -T(3),  T(6))
     }
     
-    func testMultipliedWrappingAround() {
-        XCTAssertEqual( T(2) &*  T(3),  T(6))
-        XCTAssertEqual( T(2) &* -T(3), -T(6))
-        XCTAssertEqual(-T(2) &*  T(3), -T(6))
-        XCTAssertEqual(-T(2) &* -T(3),  T(6))
-        
-        XCTAssertEqual(T.min &* T.min,  T(1))
-        XCTAssertEqual(T.min &* T.max, -T(1))
-        XCTAssertEqual(T.max &* T.min, -T(1))
-        XCTAssertEqual(T.min &* T.min,  T(1))
-    }
-    
-    func testMultipliedReportingOverflow() {
-        XCTAssert(( T(2)).multipliedReportingOverflow(by:  T(3)) == ( T(6), false) as (T, Bool))
-        XCTAssert(( T(2)).multipliedReportingOverflow(by: -T(3)) == (-T(6), false) as (T, Bool))
-        XCTAssert((-T(2)).multipliedReportingOverflow(by:  T(3)) == (-T(6), false) as (T, Bool))
-        XCTAssert((-T(2)).multipliedReportingOverflow(by: -T(3)) == ( T(6), false) as (T, Bool))
-        
-        XCTAssert(T.min.multipliedReportingOverflow(by: T.min) == ( T(1), true ) as (T, Bool))
-        XCTAssert(T.min.multipliedReportingOverflow(by: T.max) == (-T(1), true ) as (T, Bool))
-        XCTAssert(T.max.multipliedReportingOverflow(by: T.min) == (-T(1), true ) as (T, Bool))
-        XCTAssert(T.min.multipliedReportingOverflow(by: T.min) == ( T(1), true ) as (T, Bool))
-    }
-    
-    func testMultipliedFullWidth() {
-        XCTAssert(( T(2)).multipliedFullWidth(by:  T(3)) == ( T(0),  M(6)) as (T, M))
-        XCTAssert(( T(2)).multipliedFullWidth(by: -T(3)) == (-T(0),  M(6)) as (T, M))
-        XCTAssert((-T(2)).multipliedFullWidth(by:  T(3)) == (-T(0),  M(6)) as (T, M))
-        XCTAssert((-T(2)).multipliedFullWidth(by: -T(3)) == ( T(0),  M(6)) as (T, M))
-        
-        XCTAssert(T.min.multipliedFullWidth(by: T.min) == (T.max - T(1), M(1)) as (T, M))
-        XCTAssert(T.min.multipliedFullWidth(by: T.max) == (T.min + T(1), M(1)) as (T, M))
-        XCTAssert(T.max.multipliedFullWidth(by: T.min) == (T.min + T(1), M(1)) as (T, M))
-        XCTAssert(T.min.multipliedFullWidth(by: T.min) == (T.max - T(1), M(1)) as (T, M))
+    func testMultiplyingReportingOverflow() {
+        ANKAssertMultiplication(T.max, T.max,  T(1), T.max - T(1))
+        ANKAssertMultiplication(T.max, T.min, -T(1), T.min + T(1))
+        ANKAssertMultiplication(T.min, T.max, -T(1), T.min + T(1))
+        ANKAssertMultiplication(T.min, T.min,  T(1), T.max - T(1))
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Digit
     //=------------------------------------------------------------------------=
     
-    func testMultipliedByDigit() {
-        XCTAssertEqual( T(2) *  D(3),  T(6))
-        XCTAssertEqual( T(2) * -D(3), -T(6))
-        XCTAssertEqual(-T(2) *  D(3), -T(6))
-        XCTAssertEqual(-T(2) * -D(3),  T(6))
+    func testMultiplyingByDigit() {
+        ANKAssertMultiplicationByDigit( T(2),  D(3),  T(6))
+        ANKAssertMultiplicationByDigit( T(2), -D(3), -T(6))
+        ANKAssertMultiplicationByDigit(-T(2),  D(3), -T(6))
+        ANKAssertMultiplicationByDigit(-T(2), -D(3),  T(6))
     }
     
-    func testMultipliedByDigitWrappingAround() {
-        XCTAssertEqual( T(2) &*  D(3),  T(6))
-        XCTAssertEqual( T(2) &* -D(3), -T(6))
-        XCTAssertEqual(-T(2) &*  D(3), -T(6))
-        XCTAssertEqual(-T(2) &* -D(3),  T(6))
-    }
-    
-    func testMultipliedByDigitReportingOverflow() {
-        XCTAssert(( T(2)).multipliedReportingOverflow(by:  D(3)) == ( T(6), false) as (T, Bool))
-        XCTAssert(( T(2)).multipliedReportingOverflow(by: -D(3)) == (-T(6), false) as (T, Bool))
-        XCTAssert((-T(2)).multipliedReportingOverflow(by:  D(3)) == (-T(6), false) as (T, Bool))
-        XCTAssert((-T(2)).multipliedReportingOverflow(by: -D(3)) == ( T(6), false) as (T, Bool))
-    }
-    
-    func testMultipliedByDigitFullWidth() {
-        XCTAssert(( T(2)).multipliedFullWidth(by:  D(3)) == ( D(0),  M(6)) as (D, M))
-        XCTAssert(( T(2)).multipliedFullWidth(by: -D(3)) == (-D(0),  M(6)) as (D, M))
-        XCTAssert((-T(2)).multipliedFullWidth(by:  D(3)) == (-D(0),  M(6)) as (D, M))
-        XCTAssert((-T(2)).multipliedFullWidth(by: -D(3)) == ( D(0),  M(6)) as (D, M))
+    func testMultiplyingByDigitReportingOverflow() {
+        ANKAssertMultiplicationByDigit(T.max,  D(2), T.max - T(1),  D(1))
+        ANKAssertMultiplicationByDigit(T.max, -D(2), T.min + T(1), -D(1))
+        ANKAssertMultiplicationByDigit(T.min,  D(2), T.min + T(1), -D(1))
+        ANKAssertMultiplicationByDigit(T.min, -D(2), T.max - T(1),  D(1))
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
-    
-    func testOverloadsAreUnambiguousWhereDigitIsSelf() {
-        func becauseThisCompilesSuccessfully(_ x: inout D.Digit) {
-            XCTAssertNotNil(x  *= D(0))
-            XCTAssertNotNil(x &*= D(0))
-            XCTAssertNotNil(x.multiplyReportingOverflow(by: D(0)))
-            XCTAssertNotNil(x.multiplyFullWidth(by: D(0)))
-            
-            XCTAssertNotNil(x  *  D(0))
-            XCTAssertNotNil(x &*  D(0))
-            XCTAssertNotNil(x.multipliedReportingOverflow(by: D(0)))
-            XCTAssertNotNil(x.multipliedFullWidth(by: D(0)))
-        }
-    }
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
         func becauseThisCompilesSuccessfully(_ x: inout T) {
@@ -131,6 +74,20 @@ final class ANKSignedTestsOnMultiplication: XCTestCase {
             XCTAssertNotNil(x &*  0)
             XCTAssertNotNil(x.multipliedReportingOverflow(by: 0))
             XCTAssertNotNil(x.multipliedFullWidth(by: 0))
+        }
+    }
+    
+    func testOverloadsAreUnambiguousWhereDigitIsSelf() {
+        func becauseThisCompilesSuccessfully(_ x: inout D.Digit) {
+            XCTAssertNotNil(x  *= D(0))
+            XCTAssertNotNil(x &*= D(0))
+            XCTAssertNotNil(x.multiplyReportingOverflow(by: D(0)))
+            XCTAssertNotNil(x.multiplyFullWidth(by: D(0)))
+            
+            XCTAssertNotNil(x  *  D(0))
+            XCTAssertNotNil(x &*  D(0))
+            XCTAssertNotNil(x.multipliedReportingOverflow(by: D(0)))
+            XCTAssertNotNil(x.multipliedFullWidth(by: D(0)))
         }
     }
 }

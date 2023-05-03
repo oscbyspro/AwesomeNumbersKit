@@ -67,7 +67,7 @@ extension ANKSigned where Magnitude: ANKFixedWidthInteger {
     
     @_disfavoredOverload @inlinable public mutating func multiplyFullWidth(by amount: Digit) -> Digit {
         let hl: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(hl.low, as: ANKSign.plus)
+        self = Self(hl.low, as: hl.high.sign)
         return hl.high as Digit
     }
     
