@@ -17,33 +17,37 @@ import XCTest
 func ANKAssertSubtraction<T: ANKFixedWidthInteger>(
 _ lhs: T, _ rhs: T, _ partialValue: T, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
+    //=------------------------------------------=
     if !overflow {
+        XCTAssertEqual(                 lhs -  rhs,                 partialValue, file: file, line: line)
         XCTAssertEqual({ var lhs = lhs; lhs -= rhs; return lhs }(), partialValue, file: file, line: line)
-        XCTAssertEqual({                lhs -  rhs             }(), partialValue, file: file, line: line)
     }
-    
+    //=------------------------------------------=
+    XCTAssertEqual(                 lhs &-  rhs,                 partialValue, file: file, line: line)
     XCTAssertEqual({ var lhs = lhs; lhs &-= rhs; return lhs }(), partialValue, file: file, line: line)
-    XCTAssertEqual({                lhs &-  rhs             }(), partialValue, file: file, line: line)
         
-    XCTAssertEqual({ var lhs = lhs; _ =    lhs.subtractReportingOverflow(rhs); return lhs  }(), partialValue, file: file, line: line)
-    XCTAssertEqual({ var lhs = lhs; return lhs.subtractReportingOverflow(rhs)              }(), overflow,     file: file, line: line)
-    XCTAssertEqual({                    lhs.subtractingReportingOverflow(rhs).partialValue }(), partialValue, file: file, line: line)
-    XCTAssertEqual({                    lhs.subtractingReportingOverflow(rhs).overflow     }(), overflow,     file: file, line: line)
+    XCTAssertEqual(lhs.subtractingReportingOverflow(rhs).partialValue, partialValue, file: file, line: line)
+    XCTAssertEqual(lhs.subtractingReportingOverflow(rhs).overflow,     overflow,     file: file, line: line)
+    
+    XCTAssertEqual({ var lhs = lhs; let _ = lhs.subtractReportingOverflow(rhs); return lhs }(), partialValue, file: file, line: line)
+    XCTAssertEqual({ var lhs = lhs; let o = lhs.subtractReportingOverflow(rhs); return o   }(), overflow,     file: file, line: line)
 }
 
 func ANKAssertSubtractionByDigit<T: ANKFixedWidthInteger>(
 _ lhs: T, _ rhs: T.Digit, _ partialValue: T, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
+    //=------------------------------------------=
     if !overflow {
+        XCTAssertEqual(                 lhs -  rhs,                 partialValue, file: file, line: line)
         XCTAssertEqual({ var lhs = lhs; lhs -= rhs; return lhs }(), partialValue, file: file, line: line)
-        XCTAssertEqual({                lhs -  rhs             }(), partialValue, file: file, line: line)
     }
-    
+    //=------------------------------------------=
+    XCTAssertEqual(                 lhs &-  rhs,                 partialValue, file: file, line: line)
     XCTAssertEqual({ var lhs = lhs; lhs &-= rhs; return lhs }(), partialValue, file: file, line: line)
-    XCTAssertEqual({                lhs &-  rhs             }(), partialValue, file: file, line: line)
         
-    XCTAssertEqual({ var lhs = lhs; _ =    lhs.subtractReportingOverflow(rhs); return lhs  }(), partialValue, file: file, line: line)
-    XCTAssertEqual({ var lhs = lhs; return lhs.subtractReportingOverflow(rhs)              }(), overflow,     file: file, line: line)
-    XCTAssertEqual({                    lhs.subtractingReportingOverflow(rhs).partialValue }(), partialValue, file: file, line: line)
-    XCTAssertEqual({                    lhs.subtractingReportingOverflow(rhs).overflow     }(), overflow,     file: file, line: line)
+    XCTAssertEqual(lhs.subtractingReportingOverflow(rhs).partialValue, partialValue, file: file, line: line)
+    XCTAssertEqual(lhs.subtractingReportingOverflow(rhs).overflow,     overflow,     file: file, line: line)
+    
+    XCTAssertEqual({ var lhs = lhs; let _ = lhs.subtractReportingOverflow(rhs); return lhs }(), partialValue, file: file, line: line)
+    XCTAssertEqual({ var lhs = lhs; let o = lhs.subtractReportingOverflow(rhs); return o   }(), overflow,     file: file, line: line)
 }

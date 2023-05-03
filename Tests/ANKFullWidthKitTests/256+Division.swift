@@ -84,7 +84,6 @@ final class Int256TestsOnDivision: XCTestCase {
         ANKAssertDivisionByDigit(T.min, -Int(1), T.min, Int(0), true)
     }
     
-    // TODO: simultaneous non/mutating tests (#99)
     //=------------------------------------------------------------------------=
     // MARK: Tests x Full Width
     //=------------------------------------------------------------------------=
@@ -95,29 +94,20 @@ final class Int256TestsOnDivision: XCTestCase {
         x.low  = M(x64: X( 6, 17, 35, 61))
         x.high = T(x64: X(61, 52, 32,  0))
         
-        XCTAssertEqual(T(x64: X( 1,  2,  3,  4)).dividingFullWidth(x).quotient,  T(x64: X( 5,  6,  7,  8)))
-        XCTAssertEqual(T(x64: X( 1,  2,  3,  4)).dividingFullWidth(x).remainder, T(x64: X( 1,  1,  1,  1)))
-        
-        XCTAssertEqual(T(x64: X( 5,  6,  7,  8)).dividingFullWidth(x).quotient,  T(x64: X( 1,  2,  3,  4)))
-        XCTAssertEqual(T(x64: X( 5,  6,  7,  8)).dividingFullWidth(x).remainder, T(x64: X( 1,  1,  1,  1)))
+        ANKAssertDivisionFullWidth(x, T(x64: X( 1,  2,  3,  4)), T(x64: X( 5,  6,  7,  8)), T(x64: X( 1,  1,  1,  1)))
+        ANKAssertDivisionFullWidth(x, T(x64: X( 5,  6,  7,  8)), T(x64: X( 1,  2,  3,  4)), T(x64: X( 1,  1,  1,  1)))
         //=--------------------------------------=
         x.low  = M(x64: X(34, 54, 63, 62))
         x.high = T(x64: X(34, 16,  5,  0))
         
-        XCTAssertEqual(T(x64: X( 4,  3,  2,  1)).dividingFullWidth(x).quotient,  T(x64: X( 9,  7,  6,  5)))
-        XCTAssertEqual(T(x64: X( 4,  3,  2,  1)).dividingFullWidth(x).remainder, T(x64: X(~1, ~1, ~0,  0)))
-        
-        XCTAssertEqual(T(x64: X( 8,  7,  6,  5)).dividingFullWidth(x).quotient,  T(x64: X( 4,  3,  2,  1)))
-        XCTAssertEqual(T(x64: X( 8,  7,  6,  5)).dividingFullWidth(x).remainder, T(x64: X( 2,  2,  2,  2)))
+        ANKAssertDivisionFullWidth(x, T(x64: X( 4,  3,  2,  1)), T(x64: X( 9,  7,  6,  5)), T(x64: X(~1, ~1, ~0,  0)))
+        ANKAssertDivisionFullWidth(x, T(x64: X( 8,  7,  6,  5)), T(x64: X( 4,  3,  2,  1)), T(x64: X( 2,  2,  2,  2)))
         //=--------------------------------------=
         x.low  = M(x64: X(~1, ~0, ~0, ~0))
         x.high = T(x64: X(~0, ~0, ~0, ~0))
         
-        XCTAssertEqual(T(x64: X( 1,  0,  0,  0)).dividingFullWidth(x).quotient,  T(x64: X(~1, ~0, ~0, ~0)))
-        XCTAssertEqual(T(x64: X( 1,  0,  0,  0)).dividingFullWidth(x).remainder, T(x64: X( 0,  0,  0,  0)))
-        
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0, ~0)).dividingFullWidth(x).quotient,  T(x64: X( 2,  0,  0,  0)))
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0, ~0)).dividingFullWidth(x).remainder, T(x64: X( 0,  0,  0,  0)))
+        ANKAssertDivisionFullWidth(x, T(x64: X( 1,  0,  0,  0)), T(x64: X(~1, ~0, ~0, ~0)), T(x64: X( 0,  0,  0,  0)))
+        ANKAssertDivisionFullWidth(x, T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 2,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
     }
     
     func testDividingFullWidthTruncatesQuotient() {
@@ -126,10 +116,10 @@ final class Int256TestsOnDivision: XCTestCase {
         x.low  = M(x64: X( 0,  0,  0,  0))
         x.high = T(x64: X(~0, ~0, ~0, ~0))
         
-        XCTAssert(T(1).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 0), T(0)) as (T, T))
-        XCTAssert(T(2).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 1), T(0)) as (T, T))
-        XCTAssert(T(4).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 2), T(0)) as (T, T))
-        XCTAssert(T(8).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 3), T(0)) as (T, T))
+        ANKAssertDivisionFullWidth(x, T(1), ~T(0) << (T.bitWidth - 0), T(0))
+        ANKAssertDivisionFullWidth(x, T(2), ~T(0) << (T.bitWidth - 1), T(0))
+        ANKAssertDivisionFullWidth(x, T(4), ~T(0) << (T.bitWidth - 2), T(0))
+        ANKAssertDivisionFullWidth(x, T(8), ~T(0) << (T.bitWidth - 3), T(0))
     }
     
     //=------------------------------------------------------------------------=
@@ -210,7 +200,6 @@ final class UInt256TestsOnDivision: XCTestCase {
         ANKAssertDivisionByDigit(T(2), UInt(0), T(2), UInt(0), true)
     }
     
-    // TODO: simultaneous non/mutating tests (#99)
     //=------------------------------------------------------------------------=
     // MARK: Tests x Full Width
     //=------------------------------------------------------------------------=
@@ -221,20 +210,14 @@ final class UInt256TestsOnDivision: XCTestCase {
         x.low  = T(x64: X( 6, 17, 35, 61))
         x.high = T(x64: X(61, 52, 32,  0))
         
-        XCTAssertEqual(T(x64: X(1, 2, 3, 4)).dividingFullWidth(x).quotient,  T(x64: X( 5,  6,  7,  8)))
-        XCTAssertEqual(T(x64: X(1, 2, 3, 4)).dividingFullWidth(x).remainder, T(x64: X( 1,  1,  1,  1)))
-        
-        XCTAssertEqual(T(x64: X(5, 6, 7, 8)).dividingFullWidth(x).quotient,  T(x64: X( 1,  2,  3,  4)))
-        XCTAssertEqual(T(x64: X(5, 6, 7, 8)).dividingFullWidth(x).remainder, T(x64: X( 1,  1,  1,  1)))
+        ANKAssertDivisionFullWidth(x, T(x64: X(1, 2, 3, 4)), T(x64: X(5, 6, 7, 8)), T(x64: X( 1,  1,  1,  1)))
+        ANKAssertDivisionFullWidth(x, T(x64: X(5, 6, 7, 8)), T(x64: X(1, 2, 3, 4)), T(x64: X( 1,  1,  1,  1)))
         //=--------------------------------------=
         x.low  = T(x64: X(34, 54, 63, 62))
         x.high = T(x64: X(34, 16,  5,  0))
         
-        XCTAssertEqual(T(x64: X(4, 3, 2, 1)).dividingFullWidth(x).quotient,  T(x64: X( 9,  7,  6,  5)))
-        XCTAssertEqual(T(x64: X(4, 3, 2, 1)).dividingFullWidth(x).remainder, T(x64: X(~1, ~1, ~0,  0)))
-        
-        XCTAssertEqual(T(x64: X(8, 7, 6, 5)).dividingFullWidth(x).quotient,  T(x64: X( 4,  3,  2,  1)))
-        XCTAssertEqual(T(x64: X(8, 7, 6, 5)).dividingFullWidth(x).remainder, T(x64: X( 2,  2,  2,  2)))
+        ANKAssertDivisionFullWidth(x, T(x64: X(4, 3, 2, 1)), T(x64: X(9, 7, 6, 5)), T(x64: X(~1, ~1, ~0,  0)))
+        ANKAssertDivisionFullWidth(x, T(x64: X(8, 7, 6, 5)), T(x64: X(4, 3, 2, 1)), T(x64: X( 2,  2,  2,  2)))
     }
     
     func testDividingFullWidthTruncatesQuotient() {
@@ -243,10 +226,10 @@ final class UInt256TestsOnDivision: XCTestCase {
         x.low  = T(x64: X( 0,  0,  0,  0))
         x.high = T(x64: X(~0, ~0, ~0, ~0))
         
-        XCTAssert(T(1).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 0), T(0)) as (T, T))
-        XCTAssert(T(2).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 1), T(0)) as (T, T))
-        XCTAssert(T(4).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 2), T(0)) as (T, T))
-        XCTAssert(T(8).dividingFullWidth(x) == (~T(0) << (T.bitWidth - 3), T(0)) as (T, T))
+        ANKAssertDivisionFullWidth(x, T(1), ~T(0) << (T.bitWidth - 0), T(0))
+        ANKAssertDivisionFullWidth(x, T(2), ~T(0) << (T.bitWidth - 1), T(0))
+        ANKAssertDivisionFullWidth(x, T(4), ~T(0) << (T.bitWidth - 2), T(0))
+        ANKAssertDivisionFullWidth(x, T(8), ~T(0) << (T.bitWidth - 3), T(0))
     }
     
     //=------------------------------------------------------------------------=
