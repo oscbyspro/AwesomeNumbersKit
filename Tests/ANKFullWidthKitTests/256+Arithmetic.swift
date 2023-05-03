@@ -40,15 +40,15 @@ final class Int256TestsOnArithmetic: XCTestCase {
         XCTAssertEqual(  ~(~x as T), x)
     }
 
+    func testStride() {
+        XCTAssertEqual(T(3).advanced(by: 2), 5)
+        XCTAssertEqual(T(3).distance(to: 5), 2)
+    }
+    
     func testAbsoluteValue() {
         XCTAssertEqual(abs(T( 3)), 3)
         XCTAssertEqual(abs(T( 0)), 0)
         XCTAssertEqual(abs(T(-3)), 3)
-    }
-
-    func testStride() {
-        XCTAssertEqual(T(3).advanced(by: 2), 5)
-        XCTAssertEqual(T(3).distance(to: 5), 2)
     }
 }
 

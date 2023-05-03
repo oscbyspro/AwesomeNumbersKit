@@ -28,55 +28,49 @@ final class Int192TestsOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtracting() {
-        XCTAssertEqual(T( 1) - T(-2), T( 3))
-        XCTAssertEqual(T( 1) - T(-1), T( 2))
-        XCTAssertEqual(T( 1) - T( 0), T( 1))
-        XCTAssertEqual(T( 1) - T( 1), T( 0))
-        XCTAssertEqual(T( 1) - T( 2), T(-1))
+        ANKAssertSubtraction(T( 1), T( 2), T(-1))
+        ANKAssertSubtraction(T( 1), T( 1), T( 0))
+        ANKAssertSubtraction(T( 1), T( 0), T( 1))
+        ANKAssertSubtraction(T( 1), T(-1), T( 2))
+        ANKAssertSubtraction(T( 1), T(-2), T( 3))
         
-        XCTAssertEqual(T( 0) - T(-2), T( 2))
-        XCTAssertEqual(T( 0) - T(-1), T( 1))
-        XCTAssertEqual(T( 0) - T( 0), T( 0))
-        XCTAssertEqual(T( 0) - T( 1), T(-1))
-        XCTAssertEqual(T( 0) - T( 2), T(-2))
+        ANKAssertSubtraction(T( 0), T( 2), T(-2))
+        ANKAssertSubtraction(T( 0), T( 1), T(-1))
+        ANKAssertSubtraction(T( 0), T( 0), T( 0))
+        ANKAssertSubtraction(T( 0), T(-1), T( 1))
+        ANKAssertSubtraction(T( 0), T(-2), T( 2))
         
-        XCTAssertEqual(T(-1) - T(-2), T( 1))
-        XCTAssertEqual(T(-1) - T(-1), T( 0))
-        XCTAssertEqual(T(-1) - T( 0), T(-1))
-        XCTAssertEqual(T(-1) - T( 1), T(-2))
-        XCTAssertEqual(T(-1) - T( 2), T(-3))
-        
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) - -T(x64: X(3, 0, 0)), T(x64: X( 2,  0,  1)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) - -T(x64: X(0, 3, 0)), T(x64: X(~0,  2,  1)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) - -T(x64: X(0, 0, 3)), T(x64: X(~0, ~0,  3)))
-        
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) -  T(x64: X(3, 0, 0)), T(x64: X(~3, ~0,  0)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) -  T(x64: X(0, 3, 0)), T(x64: X(~0, ~3,  0)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) -  T(x64: X(0, 0, 3)), T(x64: X(~0, ~0, ~2)))
-        
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) - -T(x64: X(3, 0, 0)), T(x64: X( 3,  0, ~0)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) - -T(x64: X(0, 3, 0)), T(x64: X( 0,  3, ~0)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) - -T(x64: X(0, 0, 3)), T(x64: X( 0,  0,  2)))
-        
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) -  T(x64: X(3, 0, 0)), T(x64: X(~2, ~0, ~1)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) -  T(x64: X(0, 3, 0)), T(x64: X( 0, ~2, ~1)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) -  T(x64: X(0, 0, 3)), T(x64: X( 0,  0, ~3)))
+        ANKAssertSubtraction(T(-1), T( 2), T(-3))
+        ANKAssertSubtraction(T(-1), T( 1), T(-2))
+        ANKAssertSubtraction(T(-1), T( 0), T(-1))
+        ANKAssertSubtraction(T(-1), T(-1), T( 0))
+        ANKAssertSubtraction(T(-1), T(-2), T( 1))
     }
     
-    func testSubtractingWrappingAround() {
-        XCTAssertEqual(T.min &- T( 2), T.max - T(1))
-        XCTAssertEqual(T.max &- T( 2), T.max - T(2))
+    func testSubtractingUsingLargeValues() {
+        ANKAssertSubtraction(T(x64: X(~0, ~0,  0)), -T(x64: X(3, 0, 0)), T(x64: X( 2,  0,  1)))
+        ANKAssertSubtraction(T(x64: X(~0, ~0,  0)), -T(x64: X(0, 3, 0)), T(x64: X(~0,  2,  1)))
+        ANKAssertSubtraction(T(x64: X(~0, ~0,  0)), -T(x64: X(0, 0, 3)), T(x64: X(~0, ~0,  3)))
         
-        XCTAssertEqual(T.min &- T(-2), T.min + T(2))
-        XCTAssertEqual(T.max &- T(-2), T.min + T(1))
+        ANKAssertSubtraction(T(x64: X(~0, ~0,  0)),  T(x64: X(3, 0, 0)), T(x64: X(~3, ~0,  0)))
+        ANKAssertSubtraction(T(x64: X(~0, ~0,  0)),  T(x64: X(0, 3, 0)), T(x64: X(~0, ~3,  0)))
+        ANKAssertSubtraction(T(x64: X(~0, ~0,  0)),  T(x64: X(0, 0, 3)), T(x64: X(~0, ~0, ~2)))
+        
+        ANKAssertSubtraction(T(x64: X( 0,  0, ~0)), -T(x64: X(3, 0, 0)), T(x64: X( 3,  0, ~0)))
+        ANKAssertSubtraction(T(x64: X( 0,  0, ~0)), -T(x64: X(0, 3, 0)), T(x64: X( 0,  3, ~0)))
+        ANKAssertSubtraction(T(x64: X( 0,  0, ~0)), -T(x64: X(0, 0, 3)), T(x64: X( 0,  0,  2)))
+        
+        ANKAssertSubtraction(T(x64: X( 0,  0, ~0)),  T(x64: X(3, 0, 0)), T(x64: X(~2, ~0, ~1)))
+        ANKAssertSubtraction(T(x64: X( 0,  0, ~0)),  T(x64: X(0, 3, 0)), T(x64: X( 0, ~2, ~1)))
+        ANKAssertSubtraction(T(x64: X( 0,  0, ~0)),  T(x64: X(0, 0, 3)), T(x64: X( 0,  0, ~3)))
     }
     
-    func testSubtractingReportingOverflow() {
-        XCTAssert(T.min.subtractingReportingOverflow(T( 2)) == (T.max - T(1), true ) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(T( 2)) == (T.max - T(2), false) as (T, Bool))
+    func testSubtractingAtEdges() {
+        ANKAssertSubtraction(T.min, T( 2), T.max - T(1), true)
+        ANKAssertSubtraction(T.max, T( 2), T.max - T(2))
         
-        XCTAssert(T.min.subtractingReportingOverflow(T(-2)) == (T.min + T(2), false) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(T(-2)) == (T.min + T(1), true ) as (T, Bool))
+        ANKAssertSubtraction(T.min, T(-2), T.min + T(2))
+        ANKAssertSubtraction(T.max, T(-2), T.min + T(1), true)
     }
     
     //=------------------------------------------------------------------------=
@@ -84,44 +78,38 @@ final class Int192TestsOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtractingDigit() {
-        XCTAssertEqual(T( 1) - Int(-2), T( 3))
-        XCTAssertEqual(T( 1) - Int(-1), T( 2))
-        XCTAssertEqual(T( 1) - Int( 0), T( 1))
-        XCTAssertEqual(T( 1) - Int( 1), T( 0))
-        XCTAssertEqual(T( 1) - Int( 2), T(-1))
+        ANKAssertSubtraction(T( 1), Int( 2), T(-1))
+        ANKAssertSubtraction(T( 1), Int( 1), T( 0))
+        ANKAssertSubtraction(T( 1), Int( 0), T( 1))
+        ANKAssertSubtraction(T( 1), Int(-1), T( 2))
+        ANKAssertSubtraction(T( 1), Int(-2), T( 3))
         
-        XCTAssertEqual(T( 0) - Int(-2), T( 2))
-        XCTAssertEqual(T( 0) - Int(-1), T( 1))
-        XCTAssertEqual(T( 0) - Int( 0), T( 0))
-        XCTAssertEqual(T( 0) - Int( 1), T(-1))
-        XCTAssertEqual(T( 0) - Int( 2), T(-2))
+        ANKAssertSubtraction(T( 0), Int( 2), T(-2))
+        ANKAssertSubtraction(T( 0), Int( 1), T(-1))
+        ANKAssertSubtraction(T( 0), Int( 0), T( 0))
+        ANKAssertSubtraction(T( 0), Int(-1), T( 1))
+        ANKAssertSubtraction(T( 0), Int(-2), T( 2))
         
-        XCTAssertEqual(T(-1) - Int(-2), T( 1))
-        XCTAssertEqual(T(-1) - Int(-1), T( 0))
-        XCTAssertEqual(T(-1) - Int( 0), T(-1))
-        XCTAssertEqual(T(-1) - Int( 1), T(-2))
-        XCTAssertEqual(T(-1) - Int( 2), T(-3))
-        
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) - -Int(3), T(x64: X( 2,  0,  1)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) -  Int(3), T(x64: X(~3, ~0,  0)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) - -Int(3), T(x64: X( 3,  0, ~0)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) -  Int(3), T(x64: X(~2, ~0, ~1)))
+        ANKAssertSubtraction(T(-1), Int( 2), T(-3))
+        ANKAssertSubtraction(T(-1), Int( 1), T(-2))
+        ANKAssertSubtraction(T(-1), Int( 0), T(-1))
+        ANKAssertSubtraction(T(-1), Int(-1), T( 0))
+        ANKAssertSubtraction(T(-1), Int(-2), T( 1))
     }
     
-    func testSubtractingDigitWrappingAround() {
-        XCTAssertEqual(T.min &- Int( 2), T.max - Int(1))
-        XCTAssertEqual(T.max &- Int( 2), T.max - Int(2))
-        
-        XCTAssertEqual(T.min &- Int(-2), T.min + Int(2))
-        XCTAssertEqual(T.max &- Int(-2), T.min + Int(1))
+    func testSubtractingDigitUsingLargeValues() {
+        ANKAssertSubtraction(T(x64: X(~0, ~0,  0)), -Int(3), T(x64: X( 2,  0,  1)))
+        ANKAssertSubtraction(T(x64: X(~0, ~0,  0)),  Int(3), T(x64: X(~3, ~0,  0)))
+        ANKAssertSubtraction(T(x64: X( 0,  0, ~0)), -Int(3), T(x64: X( 3,  0, ~0)))
+        ANKAssertSubtraction(T(x64: X( 0,  0, ~0)),  Int(3), T(x64: X(~2, ~0, ~1)))
     }
     
-    func testSubtractingDigitReportingOverflow() {
-        XCTAssert(T.min.subtractingReportingOverflow(Int( 2)) == (T.max - Int(1), true ) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(Int( 2)) == (T.max - Int(2), false) as (T, Bool))
+    func testSubtractingDigitAtEdges() {
+        ANKAssertSubtraction(T.min, Int( 2), T.max - T(1), true)
+        ANKAssertSubtraction(T.max, Int( 2), T.max - T(2))
         
-        XCTAssert(T.min.subtractingReportingOverflow(Int(-2)) == (T.min + Int(2), false) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(Int(-2)) == (T.min + Int(1), true ) as (T, Bool))
+        ANKAssertSubtraction(T.min, Int(-2), T.min + T(2))
+        ANKAssertSubtraction(T.max, Int(-2), T.min + T(1), true)
     }
     
     //=------------------------------------------------------------------------=
@@ -153,25 +141,23 @@ final class UInt192TestsOnSubtraction: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    
     func testSubtracting() {
-        XCTAssertEqual(T(3) - T(0), T(3))
-        XCTAssertEqual(T(3) - T(1), T(2))
-        XCTAssertEqual(T(3) - T(2), T(1))
-        XCTAssertEqual(T(3) - T(3), T(0))
-        
-        XCTAssertEqual(T(x64: X(0, ~0, ~0)) - T(x64: X(3, 0, 0)), T(x64: X(~2, ~1, ~0)))
-        XCTAssertEqual(T(x64: X(0, ~0, ~0)) - T(x64: X(0, 3, 0)), T(x64: X( 0, ~3, ~0)))
-        XCTAssertEqual(T(x64: X(0, ~0, ~0)) - T(x64: X(0, 0, 3)), T(x64: X( 0, ~0, ~3)))
+        ANKAssertSubtraction(T(3), T(0), T(3))
+        ANKAssertSubtraction(T(3), T(1), T(2))
+        ANKAssertSubtraction(T(3), T(2), T(1))
+        ANKAssertSubtraction(T(3), T(3), T(0))
     }
     
-    func testSubtractingWrappingAround() {
-        XCTAssertEqual(T.min &- T(2), T.max - T(1))
-        XCTAssertEqual(T.max &- T(2), T.max - T(2))
+    func testSubtractingUsingLargeValues() {
+        ANKAssertSubtraction(T(x64: X(0, ~0, ~0)), T(x64: X(3, 0, 0)), T(x64: X(~2, ~1, ~0)))
+        ANKAssertSubtraction(T(x64: X(0, ~0, ~0)), T(x64: X(0, 3, 0)), T(x64: X( 0, ~3, ~0)))
+        ANKAssertSubtraction(T(x64: X(0, ~0, ~0)), T(x64: X(0, 0, 3)), T(x64: X( 0, ~0, ~3)))
     }
     
-    func testSubtractingReportingOverflow() {
-        XCTAssert(T.min.subtractingReportingOverflow(T(2)) == (T.max - T(1), true ) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(T(2)) == (T.max - T(2), false) as (T, Bool))
+    func testSubtractingAtEdges() {
+        ANKAssertSubtraction(T.min, T(2), T.max - T(1), true)
+        ANKAssertSubtraction(T.max, T(2), T.max - T(2))
     }
     
     //=------------------------------------------------------------------------=
@@ -179,24 +165,21 @@ final class UInt192TestsOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtractingDigit() {
-        XCTAssertEqual(T(3) - UInt(0), T(3))
-        XCTAssertEqual(T(3) - UInt(1), T(2))
-        XCTAssertEqual(T(3) - UInt(2), T(1))
-        XCTAssertEqual(T(3) - UInt(3), T(0))
-        
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0)) - UInt(3), T(x64: X(~3, ~0, ~0)))
-        XCTAssertEqual(T(x64: X( 0, ~0, ~0)) - UInt(3), T(x64: X(~2, ~1, ~0)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) - UInt(3), T(x64: X(~2, ~0, ~1)))
+        ANKAssertSubtraction(T(3), UInt(0), T(3))
+        ANKAssertSubtraction(T(3), UInt(1), T(2))
+        ANKAssertSubtraction(T(3), UInt(2), T(1))
+        ANKAssertSubtraction(T(3), UInt(3), T(0))
     }
     
-    func testSubtractingDigitWrappingAround() {
-        XCTAssertEqual(T.min &- UInt(2), T.max - UInt(1))
-        XCTAssertEqual(T.max &- UInt(2), T.max - UInt(2))
+    func testSubtractingDigitUsingLargeValues() {
+        ANKAssertSubtraction(T(x64: X(~0, ~0, ~0)), UInt(3), T(x64: X(~3, ~0, ~0)))
+        ANKAssertSubtraction(T(x64: X( 0, ~0, ~0)), UInt(3), T(x64: X(~2, ~1, ~0)))
+        ANKAssertSubtraction(T(x64: X( 0,  0, ~0)), UInt(3), T(x64: X(~2, ~0, ~1)))
     }
     
-    func testSubtractingDigitReportingOverflow() {
-        XCTAssert(T.min.subtractingReportingOverflow(UInt(2)) == (T.max - UInt(1), true ) as (T, Bool))
-        XCTAssert(T.max.subtractingReportingOverflow(UInt(2)) == (T.max - UInt(2), false) as (T, Bool))
+    func testSubtractingDigitAtEdges() {
+        ANKAssertSubtraction(T.min, UInt(2), T.max - T(1), true)
+        ANKAssertSubtraction(T.max, UInt(2), T.max - T(2))
     }
     
     //=------------------------------------------------------------------------=

@@ -28,55 +28,49 @@ final class Int192TestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAdding() {
-        XCTAssertEqual(T( 1) + T(-2), T(-1))
-        XCTAssertEqual(T( 1) + T(-1), T( 0))
-        XCTAssertEqual(T( 1) + T( 0), T( 1))
-        XCTAssertEqual(T( 1) + T( 1), T( 2))
-        XCTAssertEqual(T( 1) + T( 2), T( 3))
+        ANKAssertAddition(T( 1), T( 2), T( 3))
+        ANKAssertAddition(T( 1), T( 1), T( 2))
+        ANKAssertAddition(T( 1), T( 0), T( 1))
+        ANKAssertAddition(T( 1), T(-1), T( 0))
+        ANKAssertAddition(T( 1), T(-2), T(-1))
         
-        XCTAssertEqual(T( 0) + T(-2), T(-2))
-        XCTAssertEqual(T( 0) + T(-1), T(-1))
-        XCTAssertEqual(T( 0) + T( 0), T( 0))
-        XCTAssertEqual(T( 0) + T( 1), T( 1))
-        XCTAssertEqual(T( 0) + T( 2), T( 2))
-
-        XCTAssertEqual(T(-1) + T(-2), T(-3))
-        XCTAssertEqual(T(-1) + T(-1), T(-2))
-        XCTAssertEqual(T(-1) + T( 0), T(-1))
-        XCTAssertEqual(T(-1) + T( 1), T( 0))
-        XCTAssertEqual(T(-1) + T( 2), T( 1))
+        ANKAssertAddition(T( 0), T( 2), T( 2))
+        ANKAssertAddition(T( 0), T( 1), T( 1))
+        ANKAssertAddition(T( 0), T( 0), T( 0))
+        ANKAssertAddition(T( 0), T(-1), T(-1))
+        ANKAssertAddition(T( 0), T(-2), T(-2))
         
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) +  T(x64: X(3, 0, 0)), T(x64: X( 2,  0,  1)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) +  T(x64: X(0, 3, 0)), T(x64: X(~0,  2,  1)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) +  T(x64: X(0, 0, 3)), T(x64: X(~0, ~0,  3)))
-        
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) + -T(x64: X(3, 0, 0)), T(x64: X(~3, ~0,  0)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) + -T(x64: X(0, 3, 0)), T(x64: X(~0, ~3,  0)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) + -T(x64: X(0, 0, 3)), T(x64: X(~0, ~0, ~2)))
-        
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) +  T(x64: X(3, 0, 0)), T(x64: X( 3,  0, ~0)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) +  T(x64: X(0, 3, 0)), T(x64: X( 0,  3, ~0)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) +  T(x64: X(0, 0, 3)), T(x64: X( 0,  0,  2)))
-        
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) + -T(x64: X(3, 0, 0)), T(x64: X(~2, ~0, ~1)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) + -T(x64: X(0, 3, 0)), T(x64: X( 0, ~2, ~1)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) + -T(x64: X(0, 0, 3)), T(x64: X( 0,  0, ~3)))
+        ANKAssertAddition(T(-1), T( 2), T( 1))
+        ANKAssertAddition(T(-1), T( 1), T( 0))
+        ANKAssertAddition(T(-1), T( 0), T(-1))
+        ANKAssertAddition(T(-1), T(-1), T(-2))
+        ANKAssertAddition(T(-1), T(-2), T(-3))
     }
     
-    func testAddingWrappingAround() {
-        XCTAssertEqual(T.min &+ T( 1), T.min + T(1))
-        XCTAssertEqual(T.max &+ T( 1), T.min)
-
-        XCTAssertEqual(T.min &+ T(-1), T.max)
-        XCTAssertEqual(T.max &+ T(-1), T.max - T(1))
+    func testAddingUsingLargeValues() {
+        ANKAssertAddition(T(x64: X(~0, ~0,  0)),  T(x64: X(3, 0, 0)), T(x64: X( 2,  0,  1)))
+        ANKAssertAddition(T(x64: X(~0, ~0,  0)),  T(x64: X(0, 3, 0)), T(x64: X(~0,  2,  1)))
+        ANKAssertAddition(T(x64: X(~0, ~0,  0)),  T(x64: X(0, 0, 3)), T(x64: X(~0, ~0,  3)))
+        
+        ANKAssertAddition(T(x64: X(~0, ~0,  0)), -T(x64: X(3, 0, 0)), T(x64: X(~3, ~0,  0)))
+        ANKAssertAddition(T(x64: X(~0, ~0,  0)), -T(x64: X(0, 3, 0)), T(x64: X(~0, ~3,  0)))
+        ANKAssertAddition(T(x64: X(~0, ~0,  0)), -T(x64: X(0, 0, 3)), T(x64: X(~0, ~0, ~2)))
+        
+        ANKAssertAddition(T(x64: X( 0,  0, ~0)),  T(x64: X(3, 0, 0)), T(x64: X( 3,  0, ~0)))
+        ANKAssertAddition(T(x64: X( 0,  0, ~0)),  T(x64: X(0, 3, 0)), T(x64: X( 0,  3, ~0)))
+        ANKAssertAddition(T(x64: X( 0,  0, ~0)),  T(x64: X(0, 0, 3)), T(x64: X( 0,  0,  2)))
+        
+        ANKAssertAddition(T(x64: X( 0,  0, ~0)), -T(x64: X(3, 0, 0)), T(x64: X(~2, ~0, ~1)))
+        ANKAssertAddition(T(x64: X( 0,  0, ~0)), -T(x64: X(0, 3, 0)), T(x64: X( 0, ~2, ~1)))
+        ANKAssertAddition(T(x64: X( 0,  0, ~0)), -T(x64: X(0, 0, 3)), T(x64: X( 0,  0, ~3)))
     }
     
-    func testAddingReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow(T( 1)) == (T.min + T(1), false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(T( 1)) == (T.min,        true ) as (T, Bool))
-
-        XCTAssert(T.min.addingReportingOverflow(T(-1)) == (T.max,        true ) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(T(-1)) == (T.max - T(1), false) as (T, Bool))
+    func testAddingAtEdges() {
+        ANKAssertAddition(T.min, T( 1), T.min + T(1))
+        ANKAssertAddition(T.min, T(-1), T.max,  true)
+        
+        ANKAssertAddition(T.max, T( 1), T.min,  true)
+        ANKAssertAddition(T.max, T(-1), T.max - T(1))
     }
     
     //=------------------------------------------------------------------------=
@@ -84,44 +78,38 @@ final class Int192TestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAddingDigit() {
-        XCTAssertEqual(T( 1) + Int(-2), T(-1))
-        XCTAssertEqual(T( 1) + Int(-1), T( 0))
-        XCTAssertEqual(T( 1) + Int( 0), T( 1))
-        XCTAssertEqual(T( 1) + Int( 1), T( 2))
-        XCTAssertEqual(T( 1) + Int( 2), T( 3))
+        ANKAssertAddition(T( 1), Int( 2), T( 3))
+        ANKAssertAddition(T( 1), Int( 1), T( 2))
+        ANKAssertAddition(T( 1), Int( 0), T( 1))
+        ANKAssertAddition(T( 1), Int(-1), T( 0))
+        ANKAssertAddition(T( 1), Int(-2), T(-1))
         
-        XCTAssertEqual(T( 0) + Int(-2), T(-2))
-        XCTAssertEqual(T( 0) + Int(-1), T(-1))
-        XCTAssertEqual(T( 0) + Int( 0), T( 0))
-        XCTAssertEqual(T( 0) + Int( 1), T( 1))
-        XCTAssertEqual(T( 0) + Int( 2), T( 2))
-
-        XCTAssertEqual(T(-1) + Int(-2), T(-3))
-        XCTAssertEqual(T(-1) + Int(-1), T(-2))
-        XCTAssertEqual(T(-1) + Int( 0), T(-1))
-        XCTAssertEqual(T(-1) + Int( 1), T( 0))
-        XCTAssertEqual(T(-1) + Int( 2), T( 1))
+        ANKAssertAddition(T( 0), Int( 2), T( 2))
+        ANKAssertAddition(T( 0), Int( 1), T( 1))
+        ANKAssertAddition(T( 0), Int( 0), T( 0))
+        ANKAssertAddition(T( 0), Int(-1), T(-1))
+        ANKAssertAddition(T( 0), Int(-2), T(-2))
         
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) +  Int(3), T(x64: X( 2,  0,  1)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0)) + -Int(3), T(x64: X(~3, ~0,  0)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) +  Int(3), T(x64: X( 3,  0, ~0)))
-        XCTAssertEqual(T(x64: X( 0,  0, ~0)) + -Int(3), T(x64: X(~2, ~0, ~1)))
+        ANKAssertAddition(T(-1), Int( 2), T( 1))
+        ANKAssertAddition(T(-1), Int( 1), T( 0))
+        ANKAssertAddition(T(-1), Int( 0), T(-1))
+        ANKAssertAddition(T(-1), Int(-1), T(-2))
+        ANKAssertAddition(T(-1), Int(-2), T(-3))
     }
     
-    func testAddingDigitWrappingAround() {
-        XCTAssertEqual(T.min &+ Int( 1), T.min + Int(1))
-        XCTAssertEqual(T.max &+ Int( 1), T.min)
-
-        XCTAssertEqual(T.min &+ Int(-1), T.max)
-        XCTAssertEqual(T.max &+ Int(-1), T.max - Int(1))
+    func testAddingDigitUsingLargeValues() {
+        ANKAssertAddition(T(x64: X(~0, ~0,  0)),  Int(3), T(x64: X( 2,  0,  1)))
+        ANKAssertAddition(T(x64: X(~0, ~0,  0)), -Int(3), T(x64: X(~3, ~0,  0)))
+        ANKAssertAddition(T(x64: X( 0,  0, ~0)),  Int(3), T(x64: X( 3,  0, ~0)))
+        ANKAssertAddition(T(x64: X( 0,  0, ~0)), -Int(3), T(x64: X(~2, ~0, ~1)))
     }
     
-    func testAddingDigitReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow(Int( 1)) == (T.min + Int(1), false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(Int( 1)) == (T.min,          true ) as (T, Bool))
-
-        XCTAssert(T.min.addingReportingOverflow(Int(-1)) == (T.max,          true ) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(Int(-1)) == (T.max - Int(1), false) as (T, Bool))
+    func testAddingDigitAtEdges() {
+        ANKAssertAddition(T.min, Int( 1), T.min + T(1))
+        ANKAssertAddition(T.min, Int(-1), T.max,  true)
+        
+        ANKAssertAddition(T.max, Int( 1), T.min,  true)
+        ANKAssertAddition(T.max, Int(-1), T.max - T(1))
     }
     
     //=------------------------------------------------------------------------=
@@ -154,27 +142,24 @@ final class UInt192TestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
 
     func testAdding() {
-        XCTAssertEqual(T(0) + T(0), T(0))
-        XCTAssertEqual(T(0) + T(1), T(1))
-        XCTAssertEqual(T(0) + T(2), T(2))
-
-        XCTAssertEqual(T(1) + T(0), T(1))
-        XCTAssertEqual(T(1) + T(1), T(2))
-        XCTAssertEqual(T(1) + T(2), T(3))
-
-        XCTAssertEqual(T(x64: X(~0, ~0, 0)) + T(x64: X(3, 0, 0)), T(x64: X( 2,  0, 1)))
-        XCTAssertEqual(T(x64: X(~0, ~0, 0)) + T(x64: X(0, 3, 0)), T(x64: X(~0,  2, 1)))
-        XCTAssertEqual(T(x64: X(~0, ~0, 0)) + T(x64: X(0, 0, 3)), T(x64: X(~0, ~0, 3)))
+        ANKAssertAddition(T(0), T(0), T(0))
+        ANKAssertAddition(T(0), T(1), T(1))
+        ANKAssertAddition(T(0), T(2), T(2))
+        
+        ANKAssertAddition(T(1), T(0), T(1))
+        ANKAssertAddition(T(1), T(1), T(2))
+        ANKAssertAddition(T(1), T(2), T(3))
     }
-
-    func testAddingWrappingAround() {
-        XCTAssertEqual(T.min &+ T(1), T.min + T(1))
-        XCTAssertEqual(T.max &+ T(1), T.min)
+    
+    func testAddingUsingLargeValues() {
+        ANKAssertAddition(T(x64: X(~0, ~0, 0)), T(x64: X(3, 0, 0)), T(x64: X( 2,  0, 1)))
+        ANKAssertAddition(T(x64: X(~0, ~0, 0)), T(x64: X(0, 3, 0)), T(x64: X(~0,  2, 1)))
+        ANKAssertAddition(T(x64: X(~0, ~0, 0)), T(x64: X(0, 0, 3)), T(x64: X(~0, ~0, 3)))
     }
-
-    func testAddingReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow(T(1)) == (T.min + T(1), false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(T(1)) == (T.min,        true ) as (T, Bool))
+    
+    func testAddingAtEdges() {
+        ANKAssertAddition(T.min, T(1), T.min + T(1))
+        ANKAssertAddition(T.max, T(1), T.min,  true)
     }
 
     //=------------------------------------------------------------------------=
@@ -182,27 +167,24 @@ final class UInt192TestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
 
     func testAddingDigit() {
-        XCTAssertEqual(T(0) + UInt(0), T(0))
-        XCTAssertEqual(T(0) + UInt(1), T(1))
-        XCTAssertEqual(T(0) + UInt(2), T(2))
-
-        XCTAssertEqual(T(1) + UInt(0), T(1))
-        XCTAssertEqual(T(1) + UInt(1), T(2))
-        XCTAssertEqual(T(1) + UInt(2), T(3))
-
-        XCTAssertEqual(T(x64: X(~0, ~0, 0)) + UInt(3), T(x64: X(2, 0, 1)))
-        XCTAssertEqual(T(x64: X(~0,  0, 0)) + UInt(3), T(x64: X(2, 1, 0)))
-        XCTAssertEqual(T(x64: X( 0,  0, 0)) + UInt(3), T(x64: X(3, 0, 0)))
+        ANKAssertAddition(T(0), UInt(0), T(0))
+        ANKAssertAddition(T(0), UInt(1), T(1))
+        ANKAssertAddition(T(0), UInt(2), T(2))
+        
+        ANKAssertAddition(T(1), UInt(0), T(1))
+        ANKAssertAddition(T(1), UInt(1), T(2))
+        ANKAssertAddition(T(1), UInt(2), T(3))
     }
-
-    func testAddingDigitWrappingAround() {
-        XCTAssertEqual(T.min &+ UInt(1), T.min + UInt(1))
-        XCTAssertEqual(T.max &+ UInt(1), T.min)
+    
+    func testAddingDigitUsingLargeValues() {
+        ANKAssertAddition(T(x64: X(~0, ~0, 0)), UInt(3), T(x64: X(2, 0, 1)))
+        ANKAssertAddition(T(x64: X(~0,  0, 0)), UInt(3), T(x64: X(2, 1, 0)))
+        ANKAssertAddition(T(x64: X( 0,  0, 0)), UInt(3), T(x64: X(3, 0, 0)))
     }
-
-    func testAddingDigitReportingOverflow() {
-        XCTAssert(T.min.addingReportingOverflow(UInt(1)) == (T.min + UInt(1), false) as (T, Bool))
-        XCTAssert(T.max.addingReportingOverflow(UInt(1)) == (T.min,           true ) as (T, Bool))
+    
+    func testAddingDigitAtEdges() {
+        ANKAssertAddition(T.min, UInt(1), T.min + T(1))
+        ANKAssertAddition(T.max, UInt(1), T.min,  true)
     }
     
     //=------------------------------------------------------------------------=
