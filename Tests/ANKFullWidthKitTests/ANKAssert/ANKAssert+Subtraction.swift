@@ -14,7 +14,7 @@ import XCTest
 // MARK: * ANK x Assert x Subtraction
 //*============================================================================*
 
-public func ANKAssertSubtraction<T: ANKFixedWidthInteger>(
+func ANKAssertSubtraction<T: ANKFixedWidthInteger>(
 _ lhs: T, _ rhs: T, _ partialValue: T, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     if !overflow {
@@ -31,7 +31,7 @@ file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual({                    lhs.subtractingReportingOverflow(rhs).overflow     }(), overflow,     file: file, line: line)
 }
 
-public func ANKAssertSubtraction<T: ANKFixedWidthInteger>(
+func ANKAssertSubtractionByDigit<T: ANKFixedWidthInteger>(
 _ lhs: T, _ rhs: T.Digit, _ partialValue: T, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     if !overflow {

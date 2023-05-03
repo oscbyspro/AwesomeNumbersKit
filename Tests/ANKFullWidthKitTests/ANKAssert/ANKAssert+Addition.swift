@@ -14,7 +14,7 @@ import XCTest
 // MARK: * ANK x Assert x Addition
 //*============================================================================*
 
-public func ANKAssertAddition<T: ANKFixedWidthInteger>(
+func ANKAssertAddition<T: ANKFixedWidthInteger>(
 _ lhs: T, _ rhs: T, _ partialValue: T, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     if !overflow {
@@ -31,7 +31,7 @@ file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual({                    lhs.addingReportingOverflow(rhs).overflow     }(), overflow,     file: file, line: line)
 }
 
-public func ANKAssertAddition<T: ANKFixedWidthInteger>(
+func ANKAssertAdditionByDigit<T: ANKFixedWidthInteger>(
 _ lhs: T, _ rhs: T.Digit, _ partialValue: T, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     if !overflow {

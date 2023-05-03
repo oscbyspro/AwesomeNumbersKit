@@ -84,34 +84,34 @@ final class Int256TestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultiplyingByDigit() {
-        ANKAssertMultiplication( T(x64: X(1, 2, 3, 4)),  Int(0),  T(x64: X(0, 0, 0, 0)))
-        ANKAssertMultiplication( T(x64: X(1, 2, 3, 4)), -Int(0), -T(x64: X(0, 0, 0, 0)))
-        ANKAssertMultiplication(-T(x64: X(1, 2, 3, 4)),  Int(0), -T(x64: X(0, 0, 0, 0)))
-        ANKAssertMultiplication(-T(x64: X(1, 2, 3, 4)), -Int(0),  T(x64: X(0, 0, 0, 0)))
+        ANKAssertMultiplicationByDigit( T(x64: X(1, 2, 3, 4)),  Int(0),  T(x64: X(0, 0, 0, 0)))
+        ANKAssertMultiplicationByDigit( T(x64: X(1, 2, 3, 4)), -Int(0), -T(x64: X(0, 0, 0, 0)))
+        ANKAssertMultiplicationByDigit(-T(x64: X(1, 2, 3, 4)),  Int(0), -T(x64: X(0, 0, 0, 0)))
+        ANKAssertMultiplicationByDigit(-T(x64: X(1, 2, 3, 4)), -Int(0),  T(x64: X(0, 0, 0, 0)))
         
-        ANKAssertMultiplication( T(x64: X(1, 2, 3, 4)),  Int(1),  T(x64: X(1, 2, 3, 4)))
-        ANKAssertMultiplication( T(x64: X(1, 2, 3, 4)), -Int(1), -T(x64: X(1, 2, 3, 4)))
-        ANKAssertMultiplication(-T(x64: X(1, 2, 3, 4)),  Int(1), -T(x64: X(1, 2, 3, 4)))
-        ANKAssertMultiplication(-T(x64: X(1, 2, 3, 4)), -Int(1),  T(x64: X(1, 2, 3, 4)))
+        ANKAssertMultiplicationByDigit( T(x64: X(1, 2, 3, 4)),  Int(1),  T(x64: X(1, 2, 3, 4)))
+        ANKAssertMultiplicationByDigit( T(x64: X(1, 2, 3, 4)), -Int(1), -T(x64: X(1, 2, 3, 4)))
+        ANKAssertMultiplicationByDigit(-T(x64: X(1, 2, 3, 4)),  Int(1), -T(x64: X(1, 2, 3, 4)))
+        ANKAssertMultiplicationByDigit(-T(x64: X(1, 2, 3, 4)), -Int(1),  T(x64: X(1, 2, 3, 4)))
         
-        ANKAssertMultiplication( T(x64: X(1, 2, 3, 4)),  Int(2),  T(x64: X(2, 4, 6, 8)))
-        ANKAssertMultiplication( T(x64: X(1, 2, 3, 4)), -Int(2), -T(x64: X(2, 4, 6, 8)))
-        ANKAssertMultiplication(-T(x64: X(1, 2, 3, 4)),  Int(2), -T(x64: X(2, 4, 6, 8)))
-        ANKAssertMultiplication(-T(x64: X(1, 2, 3, 4)), -Int(2),  T(x64: X(2, 4, 6, 8)))
+        ANKAssertMultiplicationByDigit( T(x64: X(1, 2, 3, 4)),  Int(2),  T(x64: X(2, 4, 6, 8)))
+        ANKAssertMultiplicationByDigit( T(x64: X(1, 2, 3, 4)), -Int(2), -T(x64: X(2, 4, 6, 8)))
+        ANKAssertMultiplicationByDigit(-T(x64: X(1, 2, 3, 4)),  Int(2), -T(x64: X(2, 4, 6, 8)))
+        ANKAssertMultiplicationByDigit(-T(x64: X(1, 2, 3, 4)), -Int(2),  T(x64: X(2, 4, 6, 8)))
     }
     
     func testMultiplyingByDigitUsingLargeValues() {
-        ANKAssertMultiplication(T(x64: X( 1,  2,  3,  4)),  Int(2), T(x64: X( 2,  4,  6,  8)),  Int(0))
-        ANKAssertMultiplication(T(x64: X( 1,  2,  3,  4)), -Int(2), T(x64: X(~1, ~4, ~6, ~8)), -Int(1))
-        ANKAssertMultiplication(T(x64: X(~1, ~2, ~3, ~4)),  Int(2), T(x64: X(~3, ~4, ~6, ~8)), -Int(1))
-        ANKAssertMultiplication(T(x64: X(~1, ~2, ~3, ~4)), -Int(2), T(x64: X( 4,  4,  6,  8)),  Int(0))
+        ANKAssertMultiplicationByDigit(T(x64: X( 1,  2,  3,  4)),  Int(2), T(x64: X( 2,  4,  6,  8)),  Int(0))
+        ANKAssertMultiplicationByDigit(T(x64: X( 1,  2,  3,  4)), -Int(2), T(x64: X(~1, ~4, ~6, ~8)), -Int(1))
+        ANKAssertMultiplicationByDigit(T(x64: X(~1, ~2, ~3, ~4)),  Int(2), T(x64: X(~3, ~4, ~6, ~8)), -Int(1))
+        ANKAssertMultiplicationByDigit(T(x64: X(~1, ~2, ~3, ~4)), -Int(2), T(x64: X( 4,  4,  6,  8)),  Int(0))
     }
     
     func testMultiplyingByDigitAtEdges() {
-        ANKAssertMultiplication(T.min, Int(-2), T( 0), Int( 1), true)
-        ANKAssertMultiplication(T.min, Int( 2), T( 0), Int(-1), true)
-        ANKAssertMultiplication(T.max, Int(-2), T( 2), Int(-1), true)
-        ANKAssertMultiplication(T.max, Int( 2), T(-2), Int( 0), true)
+        ANKAssertMultiplicationByDigit(T.min, Int(-2), T( 0), Int( 1), true)
+        ANKAssertMultiplicationByDigit(T.min, Int( 2), T( 0), Int(-1), true)
+        ANKAssertMultiplicationByDigit(T.max, Int(-2), T( 2), Int(-1), true)
+        ANKAssertMultiplicationByDigit(T.max, Int( 2), T(-2), Int( 0), true)
     }
     
     //=------------------------------------------------------------------------=
@@ -174,19 +174,19 @@ final class UInt256TestsOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultipliedByDigit() {
-        ANKAssertMultiplication(T(x64: X(1, 2, 3, 4)), UInt(0), T(x64: X(0, 0, 0, 0)))
-        ANKAssertMultiplication(T(x64: X(1, 2, 3, 4)), UInt(1), T(x64: X(1, 2, 3, 4)))
-        ANKAssertMultiplication(T(x64: X(1, 2, 3, 4)), UInt(2), T(x64: X(2, 4, 6, 8)))
+        ANKAssertMultiplicationByDigit(T(x64: X(1, 2, 3, 4)), UInt(0), T(x64: X(0, 0, 0, 0)))
+        ANKAssertMultiplicationByDigit(T(x64: X(1, 2, 3, 4)), UInt(1), T(x64: X(1, 2, 3, 4)))
+        ANKAssertMultiplicationByDigit(T(x64: X(1, 2, 3, 4)), UInt(2), T(x64: X(2, 4, 6, 8)))
     }
     
     func testMultiplyingByDigitUsingLargeValues() {
-        ANKAssertMultiplication(T(x64: X(~1, ~2, ~3, ~4)), UInt(2), T(x64: X(~3, ~4, ~6, ~8)), UInt(1), true )
-        ANKAssertMultiplication(T(x64: X( 1,  2,  3,  4)), UInt(2), T(x64: X( 2,  4,  6,  8)), UInt(0), false)
+        ANKAssertMultiplicationByDigit(T(x64: X(~1, ~2, ~3, ~4)), UInt(2), T(x64: X(~3, ~4, ~6, ~8)), UInt(1), true )
+        ANKAssertMultiplicationByDigit(T(x64: X( 1,  2,  3,  4)), UInt(2), T(x64: X( 2,  4,  6,  8)), UInt(0), false)
     }
     
     func testMultipliedByDigitAtEdges() {
-        ANKAssertMultiplication(T.min, UInt(2),  T(0), UInt(0), false)
-        ANKAssertMultiplication(T.max, UInt(2), ~T(1), UInt(1), true )
+        ANKAssertMultiplicationByDigit(T.min, UInt(2),  T(0), UInt(0), false)
+        ANKAssertMultiplicationByDigit(T.max, UInt(2), ~T(1), UInt(1), true )
     }
     
     //=------------------------------------------------------------------------=

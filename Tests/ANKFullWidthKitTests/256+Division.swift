@@ -29,86 +29,29 @@ final class Int256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividing() {
-        XCTAssertEqual(T( 0) / T( 1),  0 as T)
-        XCTAssertEqual(T( 0) / T( 2),  0 as T)
-        XCTAssertEqual(T( 0) % T( 1),  0 as T)
-        XCTAssertEqual(T( 0) % T( 2),  0 as T)
-
-        XCTAssertEqual(T( 7) / T( 1),  7 as T)
-        XCTAssertEqual(T( 7) / T( 2),  3 as T)
-        XCTAssertEqual(T( 7) % T( 1),  0 as T)
-        XCTAssertEqual(T( 7) % T( 2),  1 as T)
+        ANKAssertDivision( T(0),  T(1),  T(0),  T(0))
+        ANKAssertDivision( T(0),  T(2),  T(0),  T(0))
+        ANKAssertDivision( T(7),  T(1),  T(7),  T(0))
+        ANKAssertDivision( T(7),  T(2),  T(3),  T(1))
                 
-        XCTAssertEqual(T( 7) / T( 3),  2 as T)
-        XCTAssertEqual(T( 7) / T(-3), -2 as T)
-        XCTAssertEqual(T(-7) / T( 3), -2 as T)
-        XCTAssertEqual(T(-7) / T(-3),  2 as T)
-        
-        XCTAssertEqual(T( 7) % T( 3),  1 as T)
-        XCTAssertEqual(T( 7) % T(-3),  1 as T)
-        XCTAssertEqual(T(-7) % T( 3), -1 as T)
-        XCTAssertEqual(T(-7) % T(-3), -1 as T)
-        
-        XCTAssertEqual(T(x64: X(~2, ~0, ~0, 2)) / T(3), T(x64: X(~0, ~0, ~0, 0)))
-        XCTAssertEqual(T(x64: X(~5, ~6, ~9, 2)) / T(3), T(x64: X(~1, ~2, ~3, 0)))
+        ANKAssertDivision( T(7),  T(3),  T(2),  T(1))
+        ANKAssertDivision( T(7), -T(3), -T(2),  T(1))
+        ANKAssertDivision(-T(7),  T(3), -T(2), -T(1))
+        ANKAssertDivision(-T(7), -T(3),  T(2), -T(1))
     }
     
-    func testQuotientReportingOverflow() {
-        XCTAssert(T.min.dividedReportingOverflow(by:  T(0)) == (T.min, true) as (T, Bool))
-        XCTAssert(T.min.dividedReportingOverflow(by: -T(1)) == (T.min, true) as (T, Bool))
-
-        XCTAssert(( T(x64: X(1, 2, 3, 4))).dividedReportingOverflow(by: T( 2)) == ( T(x64: X(0, ~0/2 + 2, 1, 2)), false) as (T, Bool))
-        XCTAssert(( T(x64: X(1, 2, 3, 4))).dividedReportingOverflow(by: T(-2)) == (-T(x64: X(0, ~0/2 + 2, 1, 2)), false) as (T, Bool))
-        XCTAssert((-T(x64: X(1, 2, 3, 4))).dividedReportingOverflow(by: T( 2)) == (-T(x64: X(0, ~0/2 + 2, 1, 2)), false) as (T, Bool))
-        XCTAssert((-T(x64: X(1, 2, 3, 4))).dividedReportingOverflow(by: T(-2)) == ( T(x64: X(0, ~0/2 + 2, 1, 2)), false) as (T, Bool))
+    func testDividingUsingLargeValues() {
+        ANKAssertDivision( T(x64: X(1, 2, 3, 4)),  T(2),  T(x64: X(0, ~0/2 + 2, 1, 2)),  T(1))
+        ANKAssertDivision( T(x64: X(1, 2, 3, 4)), -T(2), -T(x64: X(0, ~0/2 + 2, 1, 2)),  T(1))
+        ANKAssertDivision(-T(x64: X(1, 2, 3, 4)),  T(2), -T(x64: X(0, ~0/2 + 2, 1, 2)), -T(1))
+        ANKAssertDivision(-T(x64: X(1, 2, 3, 4)), -T(2),  T(x64: X(0, ~0/2 + 2, 1, 2)), -T(1))
     }
     
-    func testRemainderReportingOverflow() {
-        XCTAssert(T.min.remainderReportingOverflow(dividingBy:  T(0)) == (T.min, true) as (T, Bool))
-        XCTAssert(T.min.remainderReportingOverflow(dividingBy: -T(1)) == (T(  ), true) as (T, Bool))
-        
-        XCTAssert(( T(x64: X(1, 2, 3, 4))).remainderReportingOverflow(dividingBy: T( 2)) == ( T(x64: X(1, 0, 0, 0)), false) as (T, Bool))
-        XCTAssert(( T(x64: X(1, 2, 3, 4))).remainderReportingOverflow(dividingBy: T(-2)) == ( T(x64: X(1, 0, 0, 0)), false) as (T, Bool))
-        XCTAssert((-T(x64: X(1, 2, 3, 4))).remainderReportingOverflow(dividingBy: T( 2)) == (-T(x64: X(1, 0, 0, 0)), false) as (T, Bool))
-        XCTAssert((-T(x64: X(1, 2, 3, 4))).remainderReportingOverflow(dividingBy: T(-2)) == (-T(x64: X(1, 0, 0, 0)), false) as (T, Bool))
-    }
-    
-    func testQuotientAndRemainderReportingOverflow() {
-        var x: PVO<QR<T, T>>
-        //=--------------------------------------=
-        // Divisor: 0, -1
-        //=--------------------------------------=
-        x = T.min.quotientAndRemainderReportingOverflow(dividingBy: T( 0))
-        XCTAssertEqual(x.partialValue.quotient,   T.min)
-        XCTAssertEqual(x.partialValue.remainder,  T.min)
-        XCTAssertEqual(x.overflow, true)
-        //=--------------------------------------=
-        x = T.min.quotientAndRemainderReportingOverflow(dividingBy: T(-1))
-        XCTAssertEqual(x.partialValue.quotient,   T.min)
-        XCTAssertEqual(x.partialValue.remainder,  T(  ))
-        XCTAssertEqual(x.overflow, true)
-        //=--------------------------------------=
-        // Standard
-        //=--------------------------------------=
-        x = ( T(x64: X(1, 2, 3, 4))).quotientAndRemainderReportingOverflow(dividingBy: T( 2))
-        XCTAssertEqual(x.partialValue.quotient,   T(x64: X(0, ~0/2 + 2, 1, 2)))
-        XCTAssertEqual(x.partialValue.remainder,  T(1))
-        XCTAssertEqual(x.overflow, false)
-        //=--------------------------------------=
-        x = ( T(x64: X(1, 2, 3, 4))).quotientAndRemainderReportingOverflow(dividingBy: T(-2))
-        XCTAssertEqual(x.partialValue.quotient,  -T(x64: X(0, ~0/2 + 2, 1, 2)))
-        XCTAssertEqual(x.partialValue.remainder,  T(1))
-        XCTAssertEqual(x.overflow, false)
-        //=--------------------------------------=
-        x = (-T(x64: X(1, 2, 3, 4))).quotientAndRemainderReportingOverflow(dividingBy: T( 2))
-        XCTAssertEqual(x.partialValue.quotient,  -T(x64: X(0, ~0/2 + 2, 1, 2)))
-        XCTAssertEqual(x.partialValue.remainder, -T(1))
-        XCTAssertEqual(x.overflow, false)
-        //=--------------------------------------=
-        x = (-T(x64: X(1, 2, 3, 4))).quotientAndRemainderReportingOverflow(dividingBy: T(-2))
-        XCTAssertEqual(x.partialValue.quotient,   T(x64: X(0, ~0/2 + 2, 1, 2)))
-        XCTAssertEqual(x.partialValue.remainder, -T(1))
-        XCTAssertEqual(x.overflow, false)
+    func testDividingReportingOverflow() {
+        ANKAssertDivision(T( 0),  T(0), T( 0), T(0), true)
+        ANKAssertDivision(T( 1),  T(0), T( 1), T(1), true)
+        ANKAssertDivision(T( 2),  T(0), T( 2), T(2), true)
+        ANKAssertDivision(T.min, -T(1), T.min, T(0), true)
     }
     
     //=------------------------------------------------------------------------=
@@ -116,88 +59,32 @@ final class Int256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingByDigit() {
-        XCTAssertEqual(T( 0) / Int( 1),  0 as T)
-        XCTAssertEqual(T( 0) / Int( 2),  0 as T)
-        XCTAssertEqual(T( 0) % Int( 1),  0 as Int)
-        XCTAssertEqual(T( 0) % Int( 2),  0 as Int)
-
-        XCTAssertEqual(T( 7) / Int( 1),  7 as T)
-        XCTAssertEqual(T( 7) / Int( 2),  3 as T)
-        XCTAssertEqual(T( 7) % Int( 1),  0 as Int)
-        XCTAssertEqual(T( 7) % Int( 2),  1 as Int)
+        ANKAssertDivisionByDigit( T(0),  Int(1),  T(0),  Int(0))
+        ANKAssertDivisionByDigit( T(0),  Int(2),  T(0),  Int(0))
+        ANKAssertDivisionByDigit( T(7),  Int(1),  T(7),  Int(0))
+        ANKAssertDivisionByDigit( T(7),  Int(2),  T(3),  Int(1))
                 
-        XCTAssertEqual(T( 7) / Int( 3),  2 as T)
-        XCTAssertEqual(T( 7) / Int(-3), -2 as T)
-        XCTAssertEqual(T(-7) / Int( 3), -2 as T)
-        XCTAssertEqual(T(-7) / Int(-3),  2 as T)
-        
-        XCTAssertEqual(T( 7) % Int( 3),  1 as Int)
-        XCTAssertEqual(T( 7) % Int(-3),  1 as Int)
-        XCTAssertEqual(T(-7) % Int( 3), -1 as Int)
-        XCTAssertEqual(T(-7) % Int(-3), -1 as Int)
-        
-        XCTAssertEqual(T(x64: X(~2, ~0, ~0, 2)) / Int(3), T(x64: X(~0, ~0, ~0, 0)))
-        XCTAssertEqual(T(x64: X(~5, ~6, ~9, 2)) / Int(3), T(x64: X(~1, ~2, ~3, 0)))
+        ANKAssertDivisionByDigit( T(7),  Int(3),  T(2),  Int(1))
+        ANKAssertDivisionByDigit( T(7), -Int(3), -T(2),  Int(1))
+        ANKAssertDivisionByDigit(-T(7),  Int(3), -T(2), -Int(1))
+        ANKAssertDivisionByDigit(-T(7), -Int(3),  T(2), -Int(1))
     }
     
-    func testQuotientDividingByDigitReportingOverflow() {
-        XCTAssert(T.min.dividedReportingOverflow(by:  Int(0)) == (T.min, true) as (T, Bool))
-        XCTAssert(T.min.dividedReportingOverflow(by: -Int(1)) == (T.min, true) as (T, Bool))
-
-        XCTAssert(( T(x64: X(1, 2, 3, 4))).dividedReportingOverflow(by: Int( 2)) == ( T(x64: X(0, ~0/2 + 2, 1, 2)), false) as (T, Bool))
-        XCTAssert(( T(x64: X(1, 2, 3, 4))).dividedReportingOverflow(by: Int(-2)) == (-T(x64: X(0, ~0/2 + 2, 1, 2)), false) as (T, Bool))
-        XCTAssert((-T(x64: X(1, 2, 3, 4))).dividedReportingOverflow(by: Int( 2)) == (-T(x64: X(0, ~0/2 + 2, 1, 2)), false) as (T, Bool))
-        XCTAssert((-T(x64: X(1, 2, 3, 4))).dividedReportingOverflow(by: Int(-2)) == ( T(x64: X(0, ~0/2 + 2, 1, 2)), false) as (T, Bool))
-    }
-
-    func testRemainderDividingByDigitReportingOverflow() {
-        XCTAssert(T.min.remainderReportingOverflow(dividingBy:  Int(0)) == (Int(0), true) as (Int, Bool))
-        XCTAssert(T.min.remainderReportingOverflow(dividingBy: -Int(1)) == (Int(0), true) as (Int, Bool))
-        
-        XCTAssert(( T(x64: X(1, 2, 3, 4))).remainderReportingOverflow(dividingBy: Int( 2)) == ( Int(1), false) as (Int, Bool))
-        XCTAssert(( T(x64: X(1, 2, 3, 4))).remainderReportingOverflow(dividingBy: Int(-2)) == ( Int(1), false) as (Int, Bool))
-        XCTAssert((-T(x64: X(1, 2, 3, 4))).remainderReportingOverflow(dividingBy: Int( 2)) == (-Int(1), false) as (Int, Bool))
-        XCTAssert((-T(x64: X(1, 2, 3, 4))).remainderReportingOverflow(dividingBy: Int(-2)) == (-Int(1), false) as (Int, Bool))
+    func testDividingByDigitUsingLargeValues() {
+        ANKAssertDivisionByDigit( T(x64: X(1, 2, 3, 4)),  Int(2),  T(x64: X(0, ~0/2 + 2, 1, 2)),  Int(1))
+        ANKAssertDivisionByDigit( T(x64: X(1, 2, 3, 4)), -Int(2), -T(x64: X(0, ~0/2 + 2, 1, 2)),  Int(1))
+        ANKAssertDivisionByDigit(-T(x64: X(1, 2, 3, 4)),  Int(2), -T(x64: X(0, ~0/2 + 2, 1, 2)), -Int(1))
+        ANKAssertDivisionByDigit(-T(x64: X(1, 2, 3, 4)), -Int(2),  T(x64: X(0, ~0/2 + 2, 1, 2)), -Int(1))
     }
     
-    func testQuotientAndRemainderDividingByDigitReportingOverflow() {
-        var x: PVO<QR<T, T.Digit>>
-        //=--------------------------------------=
-        // Divisor: 0, -1
-        //=--------------------------------------=
-        x = T.min.quotientAndRemainderReportingOverflow(dividingBy: Int( 0))
-        XCTAssertEqual(x.partialValue.quotient,   T.min)
-        XCTAssertEqual(x.partialValue.remainder,  Int(0))
-        XCTAssertEqual(x.overflow, true)
-        //=--------------------------------------=
-        x = T.min.quotientAndRemainderReportingOverflow(dividingBy: Int(-1))
-        XCTAssertEqual(x.partialValue.quotient,   T.min)
-        XCTAssertEqual(x.partialValue.remainder,  Int(0))
-        XCTAssertEqual(x.overflow, true)
-        //=--------------------------------------=
-        // Standard
-        //=--------------------------------------=
-        x = ( T(x64: X(1, 2, 3, 4))).quotientAndRemainderReportingOverflow(dividingBy: Int( 2))
-        XCTAssertEqual(x.partialValue.quotient,   T(x64: X(0, ~0/2 + 2, 1, 2)))
-        XCTAssertEqual(x.partialValue.remainder,  Int(1))
-        XCTAssertEqual(x.overflow, false)
-        //=--------------------------------------=
-        x = ( T(x64: X(1, 2, 3, 4))).quotientAndRemainderReportingOverflow(dividingBy: Int(-2))
-        XCTAssertEqual(x.partialValue.quotient,  -T(x64: X(0, ~0/2 + 2, 1, 2)))
-        XCTAssertEqual(x.partialValue.remainder,  Int(1))
-        XCTAssertEqual(x.overflow, false)
-        //=--------------------------------------=
-        x = (-T(x64: X(1, 2, 3, 4))).quotientAndRemainderReportingOverflow(dividingBy: Int( 2))
-        XCTAssertEqual(x.partialValue.quotient,  -T(x64: X(0, ~0/2 + 2, 1, 2)))
-        XCTAssertEqual(x.partialValue.remainder, -Int(1))
-        XCTAssertEqual(x.overflow, false)
-        //=--------------------------------------=
-        x = (-T(x64: X(1, 2, 3, 4))).quotientAndRemainderReportingOverflow(dividingBy: Int(-2))
-        XCTAssertEqual(x.partialValue.quotient,   T(x64: X(0, ~0/2 + 2, 1, 2)))
-        XCTAssertEqual(x.partialValue.remainder, -Int(1))
-        XCTAssertEqual(x.overflow, false)
+    func testDividingByDigitReportingOverflow() {
+        ANKAssertDivisionByDigit(T( 0),  Int(0), T( 0), Int(0), true)
+        ANKAssertDivisionByDigit(T( 1),  Int(0), T( 1), Int(0), true)
+        ANKAssertDivisionByDigit(T( 2),  Int(0), T( 2), Int(0), true)
+        ANKAssertDivisionByDigit(T.min, -Int(1), T.min, Int(0), true)
     }
     
+    // TODO: simultaneous non/mutating tests (#99)
     //=------------------------------------------------------------------------=
     // MARK: Tests x Full Width
     //=------------------------------------------------------------------------=
@@ -280,49 +167,23 @@ final class UInt256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividing() {
-        XCTAssertEqual(T(0) / T(1), 0 as T)
-        XCTAssertEqual(T(0) / T(2), 0 as T)
-        XCTAssertEqual(T(0) % T(1), 0 as T)
-        XCTAssertEqual(T(0) % T(2), 0 as T)
-
-        XCTAssertEqual(T(7) / T(1), 7 as T)
-        XCTAssertEqual(T(7) / T(2), 3 as T)
-        XCTAssertEqual(T(7) % T(1), 0 as T)
-        XCTAssertEqual(T(7) % T(2), 1 as T)
-                
-        XCTAssertEqual(T(x64: X(~2, ~0, ~0, 2)) / T(3), T(x64: X(~0, ~0, ~0, 0)))
-        XCTAssertEqual(T(x64: X(~5, ~6, ~9, 2)) / T(3), T(x64: X(~1, ~2, ~3, 0)))
+        ANKAssertDivision(T(0), T(1), T(0), T(0))
+        ANKAssertDivision(T(0), T(2), T(0), T(0))
+        ANKAssertDivision(T(7), T(1), T(7), T(0))
+        ANKAssertDivision(T(7), T(2), T(3), T(1))
     }
     
-    func testQuotientReportingOverflow() {
-        XCTAssert(T(x64: X(1, 2, 3, 4)).dividedReportingOverflow(by: T(0)) == (T(x64: X(1,        2, 3, 4)), true ) as (T, Bool))
-        XCTAssert(T(x64: X(1, 2, 3, 4)).dividedReportingOverflow(by: T(1)) == (T(x64: X(1,        2, 3, 4)), false) as (T, Bool))
-        XCTAssert(T(x64: X(1, 2, 3, 4)).dividedReportingOverflow(by: T(2)) == (T(x64: X(0, ~0/2 + 2, 1, 2)), false) as (T, Bool))
+    func testDividingUsingLargeValues() {
+        ANKAssertDivision(T(x64: X(~2,  ~4,  ~6,  9)), T(2), T(x64: X(~1, ~2, ~3, 4)), T(1))
+        ANKAssertDivision(T(x64: X(~3,  ~6,  ~9, 14)), T(3), T(x64: X(~1, ~2, ~3, 4)), T(2))
+        ANKAssertDivision(T(x64: X(~4,  ~8, ~12, 19)), T(4), T(x64: X(~1, ~2, ~3, 4)), T(3))
+        ANKAssertDivision(T(x64: X(~5, ~10, ~15, 24)), T(5), T(x64: X(~1, ~2, ~3, 4)), T(4))
     }
     
-    func testRemainderReportingOverflow() {
-        XCTAssert(T(x64: X(1, 2, 3, 4)).remainderReportingOverflow(dividingBy: T(0)) == (T(x64: X(1, 2, 3, 4)), true ) as (T, Bool))
-        XCTAssert(T(x64: X(1, 2, 3, 4)).remainderReportingOverflow(dividingBy: T(1)) == (T(x64: X(0, 0, 0, 0)), false) as (T, Bool))
-        XCTAssert(T(x64: X(1, 2, 3, 4)).remainderReportingOverflow(dividingBy: T(2)) == (T(x64: X(1, 0, 0, 0)), false) as (T, Bool))
-    }
-    
-    func testQuotientAndRemainderReportingOverflow() {
-        var x: PVO<QR<T, T>>
-        //=--------------------------------------=
-        x = T(x64: X(1, 2, 3, 4)).quotientAndRemainderReportingOverflow(dividingBy: T(0))
-        XCTAssertEqual(x.partialValue.quotient,   T(x64: X(1, 2, 3, 4)))
-        XCTAssertEqual(x.partialValue.remainder,  T(x64: X(1, 2, 3, 4)))
-        XCTAssertEqual(x.overflow, true)
-        //=--------------------------------------=
-        x = T(x64: X(1, 2, 3, 4)).quotientAndRemainderReportingOverflow(dividingBy: T(1))
-        XCTAssertEqual(x.partialValue.quotient,   T(x64: X(1, 2, 3, 4)))
-        XCTAssertEqual(x.partialValue.remainder,  T(0))
-        XCTAssertEqual(x.overflow, false)
-        //=--------------------------------------=
-        x = T(x64: X(1, 2, 3, 4)).quotientAndRemainderReportingOverflow(dividingBy: T(2))
-        XCTAssertEqual(x.partialValue.quotient,   T(x64: X(0, ~0/2 + 2, 1, 2)))
-        XCTAssertEqual(x.partialValue.remainder,  T(1))
-        XCTAssertEqual(x.overflow, false)
+    func testDividingReportingOverflow() {
+        ANKAssertDivision(T(0), T(0), T(0), T(0), true)
+        ANKAssertDivision(T(1), T(0), T(1), T(1), true)
+        ANKAssertDivision(T(2), T(0), T(2), T(2), true)
     }
     
     //=------------------------------------------------------------------------=
@@ -330,51 +191,26 @@ final class UInt256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingByDigit() {
-        XCTAssertEqual(T(0) / UInt(1), 0 as T)
-        XCTAssertEqual(T(0) / UInt(2), 0 as T)
-        XCTAssertEqual(T(0) % UInt(1), 0 as UInt)
-        XCTAssertEqual(T(0) % UInt(2), 0 as UInt)
-
-        XCTAssertEqual(T(7) / UInt(1), 7 as T)
-        XCTAssertEqual(T(7) / UInt(2), 3 as T)
-        XCTAssertEqual(T(7) % UInt(1), 0 as UInt)
-        XCTAssertEqual(T(7) % UInt(2), 1 as UInt)
-                
-        XCTAssertEqual(T(x64: X(~2, ~0, ~0, 2)) / UInt(3), T(x64: X(~0, ~0, ~0, 0)))
-        XCTAssertEqual(T(x64: X(~5, ~6, ~9, 2)) / UInt(3), T(x64: X(~1, ~2, ~3, 0)))
+        ANKAssertDivisionByDigit(T(0), UInt(1), T(0), UInt(0))
+        ANKAssertDivisionByDigit(T(0), UInt(2), T(0), UInt(0))
+        ANKAssertDivisionByDigit(T(7), UInt(1), T(7), UInt(0))
+        ANKAssertDivisionByDigit(T(7), UInt(2), T(3), UInt(1))
     }
     
-    func testQuotientDividingByDigitReportingOverflow() {
-        XCTAssert(T(x64: X(1, 2, 3, 4)).dividedReportingOverflow(by: UInt(0)) == (T(x64: X(1,        2, 3, 4)), true ) as (T, Bool))
-        XCTAssert(T(x64: X(1, 2, 3, 4)).dividedReportingOverflow(by: UInt(1)) == (T(x64: X(1,        2, 3, 4)), false) as (T, Bool))
-        XCTAssert(T(x64: X(1, 2, 3, 4)).dividedReportingOverflow(by: UInt(2)) == (T(x64: X(0, ~0/2 + 2, 1, 2)), false) as (T, Bool))
+    func testDividingByDigitUsingLargeValues() {
+        ANKAssertDivisionByDigit(T(x64: X(~2,  ~4,  ~6,  9)), UInt(2), T(x64: X(~1, ~2, ~3, 4)), UInt(1))
+        ANKAssertDivisionByDigit(T(x64: X(~3,  ~6,  ~9, 14)), UInt(3), T(x64: X(~1, ~2, ~3, 4)), UInt(2))
+        ANKAssertDivisionByDigit(T(x64: X(~4,  ~8, ~12, 19)), UInt(4), T(x64: X(~1, ~2, ~3, 4)), UInt(3))
+        ANKAssertDivisionByDigit(T(x64: X(~5, ~10, ~15, 24)), UInt(5), T(x64: X(~1, ~2, ~3, 4)), UInt(4))
     }
     
-    func testRemainderDividingByDigitReportingOverflow() {
-        XCTAssert(T(x64: X(1, 2, 3, 4)).remainderReportingOverflow(dividingBy: UInt(0)) == (UInt(0), true ) as (UInt, Bool))
-        XCTAssert(T(x64: X(1, 2, 3, 4)).remainderReportingOverflow(dividingBy: UInt(1)) == (UInt(0), false) as (UInt, Bool))
-        XCTAssert(T(x64: X(1, 2, 3, 4)).remainderReportingOverflow(dividingBy: UInt(2)) == (UInt(1), false) as (UInt, Bool))
+    func testDividingByDigitReportingOverflow() {
+        ANKAssertDivisionByDigit(T(0), UInt(0), T(0), UInt(0), true)
+        ANKAssertDivisionByDigit(T(1), UInt(0), T(1), UInt(0), true)
+        ANKAssertDivisionByDigit(T(2), UInt(0), T(2), UInt(0), true)
     }
     
-    func testQuotientAndRemainderDividingByDigitReportingOverflow() {
-        var x: PVO<QR<T, T.Digit>>
-        //=--------------------------------------=
-        x = T(x64: X(1, 2, 3, 4)).quotientAndRemainderReportingOverflow(dividingBy: UInt(0))
-        XCTAssertEqual(x.partialValue.quotient,   T(x64: X(1, 2, 3, 4)))
-        XCTAssertEqual(x.partialValue.remainder,  UInt(0))
-        XCTAssertEqual(x.overflow, true)
-        //=--------------------------------------=
-        x = T(x64: X(1, 2, 3, 4)).quotientAndRemainderReportingOverflow(dividingBy: UInt(1))
-        XCTAssertEqual(x.partialValue.quotient,   T(x64: X(1, 2, 3, 4)))
-        XCTAssertEqual(x.partialValue.remainder,  UInt(0))
-        XCTAssertEqual(x.overflow, false)
-        //=--------------------------------------=
-        x = T(x64: X(1, 2, 3, 4)).quotientAndRemainderReportingOverflow(dividingBy: UInt(2))
-        XCTAssertEqual(x.partialValue.quotient,   T(x64: X(0, ~0/2 + 2, 1, 2)))
-        XCTAssertEqual(x.partialValue.remainder,  UInt(1))
-        XCTAssertEqual(x.overflow, false)
-    }
-    
+    // TODO: simultaneous non/mutating tests (#99)
     //=------------------------------------------------------------------------=
     // MARK: Tests x Full Width
     //=------------------------------------------------------------------------=

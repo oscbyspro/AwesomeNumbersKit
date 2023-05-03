@@ -82,38 +82,38 @@ final class Int256TestsOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtractingDigit() {
-        ANKAssertSubtraction(T( 1), Int( 2), T(-1))
-        ANKAssertSubtraction(T( 1), Int( 1), T( 0))
-        ANKAssertSubtraction(T( 1), Int( 0), T( 1))
-        ANKAssertSubtraction(T( 1), Int(-1), T( 2))
-        ANKAssertSubtraction(T( 1), Int(-2), T( 3))
+        ANKAssertSubtractionByDigit(T( 1), Int( 2), T(-1))
+        ANKAssertSubtractionByDigit(T( 1), Int( 1), T( 0))
+        ANKAssertSubtractionByDigit(T( 1), Int( 0), T( 1))
+        ANKAssertSubtractionByDigit(T( 1), Int(-1), T( 2))
+        ANKAssertSubtractionByDigit(T( 1), Int(-2), T( 3))
         
-        ANKAssertSubtraction(T( 0), Int( 2), T(-2))
-        ANKAssertSubtraction(T( 0), Int( 1), T(-1))
-        ANKAssertSubtraction(T( 0), Int( 0), T( 0))
-        ANKAssertSubtraction(T( 0), Int(-1), T( 1))
-        ANKAssertSubtraction(T( 0), Int(-2), T( 2))
+        ANKAssertSubtractionByDigit(T( 0), Int( 2), T(-2))
+        ANKAssertSubtractionByDigit(T( 0), Int( 1), T(-1))
+        ANKAssertSubtractionByDigit(T( 0), Int( 0), T( 0))
+        ANKAssertSubtractionByDigit(T( 0), Int(-1), T( 1))
+        ANKAssertSubtractionByDigit(T( 0), Int(-2), T( 2))
         
-        ANKAssertSubtraction(T(-1), Int( 2), T(-3))
-        ANKAssertSubtraction(T(-1), Int( 1), T(-2))
-        ANKAssertSubtraction(T(-1), Int( 0), T(-1))
-        ANKAssertSubtraction(T(-1), Int(-1), T( 0))
-        ANKAssertSubtraction(T(-1), Int(-2), T( 1))
+        ANKAssertSubtractionByDigit(T(-1), Int( 2), T(-3))
+        ANKAssertSubtractionByDigit(T(-1), Int( 1), T(-2))
+        ANKAssertSubtractionByDigit(T(-1), Int( 0), T(-1))
+        ANKAssertSubtractionByDigit(T(-1), Int(-1), T( 0))
+        ANKAssertSubtractionByDigit(T(-1), Int(-2), T( 1))
     }
     
     func testSubtractingDigitUsingLargeValues() {
-        ANKAssertSubtraction(T(x64: X(~0, ~0, ~0,  0)), -Int(3), T(x64: X( 2,  0,  0,  1)))
-        ANKAssertSubtraction(T(x64: X(~0, ~0, ~0,  0)),  Int(3), T(x64: X(~3, ~0, ~0,  0)))
-        ANKAssertSubtraction(T(x64: X( 0,  0,  0, ~0)), -Int(3), T(x64: X( 3,  0,  0, ~0)))
-        ANKAssertSubtraction(T(x64: X( 0,  0,  0, ~0)),  Int(3), T(x64: X(~2, ~0, ~0, ~1)))
+        ANKAssertSubtractionByDigit(T(x64: X(~0, ~0, ~0,  0)), -Int(3), T(x64: X( 2,  0,  0,  1)))
+        ANKAssertSubtractionByDigit(T(x64: X(~0, ~0, ~0,  0)),  Int(3), T(x64: X(~3, ~0, ~0,  0)))
+        ANKAssertSubtractionByDigit(T(x64: X( 0,  0,  0, ~0)), -Int(3), T(x64: X( 3,  0,  0, ~0)))
+        ANKAssertSubtractionByDigit(T(x64: X( 0,  0,  0, ~0)),  Int(3), T(x64: X(~2, ~0, ~0, ~1)))
     }
     
     func testSubtractingDigitAtEdges() {
-        ANKAssertSubtraction(T.min, Int( 2), T.max - T(1), true)
-        ANKAssertSubtraction(T.max, Int( 2), T.max - T(2))
+        ANKAssertSubtractionByDigit(T.min, Int( 2), T.max - T(1), true)
+        ANKAssertSubtractionByDigit(T.max, Int( 2), T.max - T(2))
         
-        ANKAssertSubtraction(T.min, Int(-2), T.min + T(2))
-        ANKAssertSubtraction(T.max, Int(-2), T.min + T(1), true)
+        ANKAssertSubtractionByDigit(T.min, Int(-2), T.min + T(2))
+        ANKAssertSubtractionByDigit(T.max, Int(-2), T.min + T(1), true)
     }
     
     //=------------------------------------------------------------------------=
@@ -169,22 +169,22 @@ final class UInt256TestsOnSubtraction: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSubtractingDigit() {
-        ANKAssertSubtraction(T(3), UInt(0), T(3))
-        ANKAssertSubtraction(T(3), UInt(1), T(2))
-        ANKAssertSubtraction(T(3), UInt(2), T(1))
-        ANKAssertSubtraction(T(3), UInt(3), T(0))
+        ANKAssertSubtractionByDigit(T(3), UInt(0), T(3))
+        ANKAssertSubtractionByDigit(T(3), UInt(1), T(2))
+        ANKAssertSubtractionByDigit(T(3), UInt(2), T(1))
+        ANKAssertSubtractionByDigit(T(3), UInt(3), T(0))
     }
     
     func testSubtractingDigitUsingLargeValues() {
-        ANKAssertSubtraction(T(x64: X(~0, ~0, ~0, ~0)), UInt(3), T(x64: X(~3, ~0, ~0, ~0)))
-        ANKAssertSubtraction(T(x64: X( 0, ~0, ~0, ~0)), UInt(3), T(x64: X(~2, ~1, ~0, ~0)))
-        ANKAssertSubtraction(T(x64: X( 0,  0, ~0, ~0)), UInt(3), T(x64: X(~2, ~0, ~1, ~0)))
-        ANKAssertSubtraction(T(x64: X( 0,  0,  0, ~0)), UInt(3), T(x64: X(~2, ~0, ~0, ~1)))
+        ANKAssertSubtractionByDigit(T(x64: X(~0, ~0, ~0, ~0)), UInt(3), T(x64: X(~3, ~0, ~0, ~0)))
+        ANKAssertSubtractionByDigit(T(x64: X( 0, ~0, ~0, ~0)), UInt(3), T(x64: X(~2, ~1, ~0, ~0)))
+        ANKAssertSubtractionByDigit(T(x64: X( 0,  0, ~0, ~0)), UInt(3), T(x64: X(~2, ~0, ~1, ~0)))
+        ANKAssertSubtractionByDigit(T(x64: X( 0,  0,  0, ~0)), UInt(3), T(x64: X(~2, ~0, ~0, ~1)))
     }
     
     func testSubtractingDigitAtEdges() {
-        ANKAssertSubtraction(T.min, UInt(2), T.max - T(1), true)
-        ANKAssertSubtraction(T.max, UInt(2), T.max - T(2))
+        ANKAssertSubtractionByDigit(T.min, UInt(2), T.max - T(1), true)
+        ANKAssertSubtractionByDigit(T.max, UInt(2), T.max - T(2))
     }
     
     //=------------------------------------------------------------------------=

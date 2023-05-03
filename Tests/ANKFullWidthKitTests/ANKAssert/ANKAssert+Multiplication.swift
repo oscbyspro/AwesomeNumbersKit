@@ -14,7 +14,7 @@ import XCTest
 // MARK: * ANK x Assert x Multiplication
 //*============================================================================*
 
-public func ANKAssertMultiplication<T: ANKFixedWidthInteger>(
+func ANKAssertMultiplication<T: ANKFixedWidthInteger>(
 _ lhs: T, _ rhs: T, _ low: T, _ high: T? = nil, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     let high = high ?? T(repeating: low.isLessThanZero)
@@ -38,7 +38,7 @@ file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual({                     lhs.multipliedFullWidth(by: rhs).high         }(), high, file: file, line: line)
 }
 
-public func ANKAssertMultiplication<T: ANKFixedWidthInteger>(
+func ANKAssertMultiplicationByDigit<T: ANKFixedWidthInteger>(
 _ lhs: T, _ rhs: T.Digit, _ low: T, _ high: T.Digit? = nil, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     let high = high ?? T.Digit(repeating: low.isLessThanZero)

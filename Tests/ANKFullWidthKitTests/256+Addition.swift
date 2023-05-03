@@ -82,38 +82,38 @@ final class Int256TestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAddingDigit() {
-        ANKAssertAddition(T( 1), Int( 2), T( 3))
-        ANKAssertAddition(T( 1), Int( 1), T( 2))
-        ANKAssertAddition(T( 1), Int( 0), T( 1))
-        ANKAssertAddition(T( 1), Int(-1), T( 0))
-        ANKAssertAddition(T( 1), Int(-2), T(-1))
+        ANKAssertAdditionByDigit(T( 1), Int( 2), T( 3))
+        ANKAssertAdditionByDigit(T( 1), Int( 1), T( 2))
+        ANKAssertAdditionByDigit(T( 1), Int( 0), T( 1))
+        ANKAssertAdditionByDigit(T( 1), Int(-1), T( 0))
+        ANKAssertAdditionByDigit(T( 1), Int(-2), T(-1))
         
-        ANKAssertAddition(T( 0), Int( 2), T( 2))
-        ANKAssertAddition(T( 0), Int( 1), T( 1))
-        ANKAssertAddition(T( 0), Int( 0), T( 0))
-        ANKAssertAddition(T( 0), Int(-1), T(-1))
-        ANKAssertAddition(T( 0), Int(-2), T(-2))
+        ANKAssertAdditionByDigit(T( 0), Int( 2), T( 2))
+        ANKAssertAdditionByDigit(T( 0), Int( 1), T( 1))
+        ANKAssertAdditionByDigit(T( 0), Int( 0), T( 0))
+        ANKAssertAdditionByDigit(T( 0), Int(-1), T(-1))
+        ANKAssertAdditionByDigit(T( 0), Int(-2), T(-2))
         
-        ANKAssertAddition(T(-1), Int( 2), T( 1))
-        ANKAssertAddition(T(-1), Int( 1), T( 0))
-        ANKAssertAddition(T(-1), Int( 0), T(-1))
-        ANKAssertAddition(T(-1), Int(-1), T(-2))
-        ANKAssertAddition(T(-1), Int(-2), T(-3))
+        ANKAssertAdditionByDigit(T(-1), Int( 2), T( 1))
+        ANKAssertAdditionByDigit(T(-1), Int( 1), T( 0))
+        ANKAssertAdditionByDigit(T(-1), Int( 0), T(-1))
+        ANKAssertAdditionByDigit(T(-1), Int(-1), T(-2))
+        ANKAssertAdditionByDigit(T(-1), Int(-2), T(-3))
     }
     
     func testAddingDigitUsingLargeValues() {
-        ANKAssertAddition(T(x64: X(~0, ~0, ~0,  0)),  Int(3), T(x64: X( 2,  0,  0,  1)))
-        ANKAssertAddition(T(x64: X(~0, ~0, ~0,  0)), -Int(3), T(x64: X(~3, ~0, ~0,  0)))
-        ANKAssertAddition(T(x64: X( 0,  0,  0, ~0)),  Int(3), T(x64: X( 3,  0,  0, ~0)))
-        ANKAssertAddition(T(x64: X( 0,  0,  0, ~0)), -Int(3), T(x64: X(~2, ~0, ~0, ~1)))
+        ANKAssertAdditionByDigit(T(x64: X(~0, ~0, ~0,  0)),  Int(3), T(x64: X( 2,  0,  0,  1)))
+        ANKAssertAdditionByDigit(T(x64: X(~0, ~0, ~0,  0)), -Int(3), T(x64: X(~3, ~0, ~0,  0)))
+        ANKAssertAdditionByDigit(T(x64: X( 0,  0,  0, ~0)),  Int(3), T(x64: X( 3,  0,  0, ~0)))
+        ANKAssertAdditionByDigit(T(x64: X( 0,  0,  0, ~0)), -Int(3), T(x64: X(~2, ~0, ~0, ~1)))
     }
     
     func testAddingDigitAtEdges() {
-        ANKAssertAddition(T.min, Int( 1), T.min + T(1))
-        ANKAssertAddition(T.min, Int(-1), T.max,  true)
+        ANKAssertAdditionByDigit(T.min, Int( 1), T.min + T(1))
+        ANKAssertAdditionByDigit(T.min, Int(-1), T.max,  true)
         
-        ANKAssertAddition(T.max, Int( 1), T.min,  true)
-        ANKAssertAddition(T.max, Int(-1), T.max - T(1))
+        ANKAssertAdditionByDigit(T.max, Int( 1), T.min,  true)
+        ANKAssertAdditionByDigit(T.max, Int(-1), T.max - T(1))
     }
     
     //=------------------------------------------------------------------------=
@@ -172,25 +172,25 @@ final class UInt256TestsOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
 
     func testAddingDigit() {
-        ANKAssertAddition(T(0), UInt(0), T(0))
-        ANKAssertAddition(T(0), UInt(1), T(1))
-        ANKAssertAddition(T(0), UInt(2), T(2))
+        ANKAssertAdditionByDigit(T(0), UInt(0), T(0))
+        ANKAssertAdditionByDigit(T(0), UInt(1), T(1))
+        ANKAssertAdditionByDigit(T(0), UInt(2), T(2))
         
-        ANKAssertAddition(T(1), UInt(0), T(1))
-        ANKAssertAddition(T(1), UInt(1), T(2))
-        ANKAssertAddition(T(1), UInt(2), T(3))
+        ANKAssertAdditionByDigit(T(1), UInt(0), T(1))
+        ANKAssertAdditionByDigit(T(1), UInt(1), T(2))
+        ANKAssertAdditionByDigit(T(1), UInt(2), T(3))
     }
     
     func testAddingDigitUsingLargeValues() {
-        ANKAssertAddition(T(x64: X(~0, ~0, ~0,  0)), UInt(3), T(x64: X(2, 0, 0, 1)))
-        ANKAssertAddition(T(x64: X(~0, ~0,  0,  0)), UInt(3), T(x64: X(2, 0, 1, 0)))
-        ANKAssertAddition(T(x64: X(~0,  0,  0,  0)), UInt(3), T(x64: X(2, 1, 0, 0)))
-        ANKAssertAddition(T(x64: X( 0,  0,  0,  0)), UInt(3), T(x64: X(3, 0, 0, 0)))
+        ANKAssertAdditionByDigit(T(x64: X(~0, ~0, ~0,  0)), UInt(3), T(x64: X(2, 0, 0, 1)))
+        ANKAssertAdditionByDigit(T(x64: X(~0, ~0,  0,  0)), UInt(3), T(x64: X(2, 0, 1, 0)))
+        ANKAssertAdditionByDigit(T(x64: X(~0,  0,  0,  0)), UInt(3), T(x64: X(2, 1, 0, 0)))
+        ANKAssertAdditionByDigit(T(x64: X( 0,  0,  0,  0)), UInt(3), T(x64: X(3, 0, 0, 0)))
     }
     
     func testAddingDigitAtEdges() {
-        ANKAssertAddition(T.min, UInt(1), T.min + T(1))
-        ANKAssertAddition(T.max, UInt(1), T.min,  true)
+        ANKAssertAdditionByDigit(T.min, UInt(1), T.min + T(1))
+        ANKAssertAdditionByDigit(T.max, UInt(1), T.min,  true)
     }
     
     //=------------------------------------------------------------------------=
