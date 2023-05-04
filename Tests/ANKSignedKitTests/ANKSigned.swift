@@ -21,21 +21,22 @@ final class ANKSignedTests: XCTestCase {
     
     typealias T = ANKSigned<ANKUInt256>
     typealias D = ANKSigned<UInt>
+    typealias M = ANKUInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testInit() {
-        XCTAssertEqual(T().sign, .plus)
-        XCTAssertEqual(T().magnitude, UInt256())
+        XCTAssertEqual(T().sign, ANKSign.plus)
+        XCTAssertEqual(T().magnitude, M())
     }
     
     func testInitDigit() {
-        XCTAssertEqual(T(digit:  D(3)),  T(3))
-        XCTAssertEqual(T(digit: -D(3)), -T(3))
-        XCTAssertEqual(D(digit:  D(3)),  D(3))
-        XCTAssertEqual(D(digit: -D(3)), -D(3))
+        ANKAssertIdentical(T(digit:  D(3)),  T(3))
+        ANKAssertIdentical(T(digit: -D(3)), -T(3))
+        ANKAssertIdentical(D(digit:  D(3)),  D(3))
+        ANKAssertIdentical(D(digit: -D(3)), -D(3))
     }
     
     //=------------------------------------------------------------------------=
@@ -43,8 +44,8 @@ final class ANKSignedTests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitBit() {
-        XCTAssertEqual(T(bit: false), T( ))
-        XCTAssertEqual(T(bit: true ), T(1))
+        ANKAssertIdentical(T(bit: false), T( ))
+        ANKAssertIdentical(T(bit: true ), T(1))
     }
     
     //=------------------------------------------------------------------------=
@@ -52,18 +53,18 @@ final class ANKSignedTests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitMin() {
-        XCTAssertEqual(T.min.sign, .minus)
-        XCTAssertEqual(T.min.magnitude, UInt256.max)
+        XCTAssertEqual(T.min.sign, ANKSign.minus)
+        XCTAssertEqual(T.min.magnitude, M.max)
     }
     
     func testInitMax() {
-        XCTAssertEqual(T.max.sign, .plus)
-        XCTAssertEqual(T.max.magnitude, UInt256.max)
+        XCTAssertEqual(T.max.sign, ANKSign.plus)
+        XCTAssertEqual(T.max.magnitude, M.max)
     }
     
     func testInitZero() {
-        XCTAssertEqual(T.zero.sign, .plus)
-        XCTAssertEqual(T.zero.magnitude, UInt256())
+        XCTAssertEqual(T.zero.sign, ANKSign.plus)
+        XCTAssertEqual(T.zero.magnitude, M())
     }
     
     //=------------------------------------------------------------------------=
@@ -71,10 +72,10 @@ final class ANKSignedTests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSign() {
-        XCTAssertEqual(T(0, as: .plus ).sign, .plus )
-        XCTAssertEqual(T(0, as: .minus).sign, .minus)
-        XCTAssertEqual(T(1, as: .plus ).sign, .plus )
-        XCTAssertEqual(T(1, as: .minus).sign, .minus)
+        XCTAssertEqual(T(0, as: .plus ).sign, ANKSign.plus )
+        XCTAssertEqual(T(0, as: .minus).sign, ANKSign.minus)
+        XCTAssertEqual(T(1, as: .plus ).sign, ANKSign.plus )
+        XCTAssertEqual(T(1, as: .minus).sign, ANKSign.minus)
     }
     
     func testIsNormal() {
@@ -85,10 +86,10 @@ final class ANKSignedTests: XCTestCase {
     }
     
     func testNormalizedSign() {
-        XCTAssertEqual(T(0, as: .plus ).normalizedSign, .plus )
-        XCTAssertEqual(T(0, as: .minus).normalizedSign, .plus )
-        XCTAssertEqual(T(1, as: .plus ).normalizedSign, .plus )
-        XCTAssertEqual(T(1, as: .minus).normalizedSign, .minus)
+        XCTAssertEqual(T(0, as: .plus ).normalizedSign, ANKSign.plus )
+        XCTAssertEqual(T(0, as: .minus).normalizedSign, ANKSign.plus )
+        XCTAssertEqual(T(1, as: .plus ).normalizedSign, ANKSign.plus )
+        XCTAssertEqual(T(1, as: .minus).normalizedSign, ANKSign.minus)
     }
 }
 

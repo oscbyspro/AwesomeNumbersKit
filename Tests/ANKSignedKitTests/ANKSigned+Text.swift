@@ -26,65 +26,65 @@ final class ANKSignedTestsOnText: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDecodingRadix02() {
-        XCTAssertEqual(T.min, T(decoding: "-" + String(repeating: "1", count: M.bitWidth / 1), radix: 2))
-        XCTAssertEqual(T.max, T(decoding:       String(repeating: "1", count: M.bitWidth / 1), radix: 2))
+        ANKAssertIdentical(T.min, T(decoding: "-" + String(repeating: "1", count: M.bitWidth / 1), radix: 2))
+        ANKAssertIdentical(T.max, T(decoding:       String(repeating: "1", count: M.bitWidth / 1), radix: 2))
     }
     
     func testDecodingRadix04() {
-        XCTAssertEqual(T.min, T(decoding: "-" + String(repeating: "3", count: M.bitWidth / 2), radix: 4))
-        XCTAssertEqual(T.max, T(decoding:       String(repeating: "3", count: M.bitWidth / 2), radix: 4))
+        ANKAssertIdentical(T.min, T(decoding: "-" + String(repeating: "3", count: M.bitWidth / 2), radix: 4))
+        ANKAssertIdentical(T.max, T(decoding:       String(repeating: "3", count: M.bitWidth / 2), radix: 4))
     }
     
     func testDecodingRadix08() {
-        XCTAssertEqual(T.min, T(decoding: "-1" + String(repeating: "7", count: 21), radix: 8))
-        XCTAssertEqual(T.max, T(decoding:  "1" + String(repeating: "7", count: 21), radix: 8))
+        ANKAssertIdentical(T.min, T(decoding: "-1" + String(repeating: "7", count: 21), radix: 8))
+        ANKAssertIdentical(T.max, T(decoding:  "1" + String(repeating: "7", count: 21), radix: 8))
     }
     
     func testDecodingRadix10() {
-        XCTAssertEqual(T.min, T(decoding: "-18446744073709551615", radix: 10))
-        XCTAssertEqual(T.max, T(decoding:  "18446744073709551615", radix: 10))
+        ANKAssertIdentical(T.min, T(decoding: "-18446744073709551615", radix: 10))
+        ANKAssertIdentical(T.max, T(decoding:  "18446744073709551615", radix: 10))
     }
 
     func testDecodingRadix16() {
-        XCTAssertEqual(T.min, T(decoding: "-" + String(repeating: "f", count: M.bitWidth / 4), radix: 16))
-        XCTAssertEqual(T.max, T(decoding:       String(repeating: "f", count: M.bitWidth / 4), radix: 16))
+        ANKAssertIdentical(T.min, T(decoding: "-" + String(repeating: "f", count: M.bitWidth / 4), radix: 16))
+        ANKAssertIdentical(T.max, T(decoding:       String(repeating: "f", count: M.bitWidth / 4), radix: 16))
     }
     
     func testDecodingRadix32() {
-        XCTAssertEqual(T.min, T(decoding: "-f" + String(repeating: "v", count: 12), radix: 32))
-        XCTAssertEqual(T.max, T(decoding:  "f" + String(repeating: "v", count: 12), radix: 32))
+        ANKAssertIdentical(T.min, T(decoding: "-f" + String(repeating: "v", count: 12), radix: 32))
+        ANKAssertIdentical(T.max, T(decoding:  "f" + String(repeating: "v", count: 12), radix: 32))
     }
     
     func testDecodingRadix36() {
-        XCTAssertEqual(T.min, T(decoding: "-3w5e11264sgsf", radix: 36))
-        XCTAssertEqual(T.max, T(decoding:  "3w5e11264sgsf", radix: 36))
+        ANKAssertIdentical(T.min, T(decoding: "-3w5e11264sgsf", radix: 36))
+        ANKAssertIdentical(T.max, T(decoding:  "3w5e11264sgsf", radix: 36))
     }
     
     func testDecodingRadixLiteralAsNumber() {
-        XCTAssertEqual(T(decoding:  "0x", radix: 36),  (33))
-        XCTAssertEqual(T(decoding:  "0o", radix: 36),  (24))
-        XCTAssertEqual(T(decoding:  "0b", radix: 36),  (11))
+        ANKAssertIdentical(T(decoding:  "0x", radix: 36),  33)
+        ANKAssertIdentical(T(decoding:  "0o", radix: 36),  24)
+        ANKAssertIdentical(T(decoding:  "0b", radix: 36),  11)
         
-        XCTAssertEqual(T(decoding: "-0x", radix: 36), -(33))
-        XCTAssertEqual(T(decoding: "-0o", radix: 36), -(24))
-        XCTAssertEqual(T(decoding: "-0b", radix: 36), -(11))
+        ANKAssertIdentical(T(decoding: "-0x", radix: 36), -33)
+        ANKAssertIdentical(T(decoding: "-0o", radix: 36), -24)
+        ANKAssertIdentical(T(decoding: "-0b", radix: 36), -11)
     }
     
     func testDecodingStringsWithOrWithoutSignAndRadixLiteral() {
-        XCTAssertEqual(T(decoding:  "1234567890"),         T( 1234567890         as Int64))
-        XCTAssertEqual(T(decoding:  "0x123456789abcdef0"), T( 0x123456789abcdef0 as Int64))
-        XCTAssertEqual(T(decoding:  "0o1234567012345670"), T( 0o1234567012345670 as Int64))
-        XCTAssertEqual(T(decoding:  "0b1010101010101010"), T( 0b1010101010101010 as Int64))
+        ANKAssertIdentical(T(decoding:  "1234567890"),         T( 1234567890         as Int64))
+        ANKAssertIdentical(T(decoding:  "0x123456789abcdef0"), T( 0x123456789abcdef0 as Int64))
+        ANKAssertIdentical(T(decoding:  "0o1234567012345670"), T( 0o1234567012345670 as Int64))
+        ANKAssertIdentical(T(decoding:  "0b1010101010101010"), T( 0b1010101010101010 as Int64))
         
-        XCTAssertEqual(T(decoding: "+1234567890"),         T(+1234567890         as Int64))
-        XCTAssertEqual(T(decoding: "+0x123456789abcdef0"), T(+0x123456789abcdef0 as Int64))
-        XCTAssertEqual(T(decoding: "+0o1234567012345670"), T(+0o1234567012345670 as Int64))
-        XCTAssertEqual(T(decoding: "+0b1010101010101010"), T(+0b1010101010101010 as Int64))
+        ANKAssertIdentical(T(decoding: "+1234567890"),         T(+1234567890         as Int64))
+        ANKAssertIdentical(T(decoding: "+0x123456789abcdef0"), T(+0x123456789abcdef0 as Int64))
+        ANKAssertIdentical(T(decoding: "+0o1234567012345670"), T(+0o1234567012345670 as Int64))
+        ANKAssertIdentical(T(decoding: "+0b1010101010101010"), T(+0b1010101010101010 as Int64))
         
-        XCTAssertEqual(T(decoding: "-1234567890"),         T(-1234567890         as Int64))
-        XCTAssertEqual(T(decoding: "-0x123456789abcdef0"), T(-0x123456789abcdef0 as Int64))
-        XCTAssertEqual(T(decoding: "-0o1234567012345670"), T(-0o1234567012345670 as Int64))
-        XCTAssertEqual(T(decoding: "-0b1010101010101010"), T(-0b1010101010101010 as Int64))
+        ANKAssertIdentical(T(decoding: "-1234567890"),         T(-1234567890         as Int64))
+        ANKAssertIdentical(T(decoding: "-0x123456789abcdef0"), T(-0x123456789abcdef0 as Int64))
+        ANKAssertIdentical(T(decoding: "-0o1234567012345670"), T(-0o1234567012345670 as Int64))
+        ANKAssertIdentical(T(decoding: "-0b1010101010101010"), T(-0b1010101010101010 as Int64))
     }
     
     func testDecodingPrefixingZerosHasNoEffect() {
@@ -92,8 +92,8 @@ final class ANKSignedTestsOnText: XCTestCase {
         let one  = String(repeating: "0", count: M.bitWidth) + "1"
         
         for radix in 2 ... 36 {
-            XCTAssertEqual(T(decoding: zero, radix: radix), T(0))
-            XCTAssertEqual(T(decoding: one,  radix: radix), T(1))
+            ANKAssertIdentical(T(decoding: zero, radix: radix), T(0))
+            ANKAssertIdentical(T(decoding: one,  radix: radix), T(1))
         }
     }
     

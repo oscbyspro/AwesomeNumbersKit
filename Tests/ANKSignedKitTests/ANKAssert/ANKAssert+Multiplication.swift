@@ -23,24 +23,24 @@ file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual(overflow, !high.isZero, file: file, line: line)
     //=------------------------------------------=
     if !overflow {
-        ANKAssertEqual(                 lhs *  rhs,                 low, file: file, line: line)
-        ANKAssertEqual({ var lhs = lhs; lhs *= rhs; return lhs }(), low, file: file, line: line)
+        ANKAssertIdentical(                 lhs *  rhs,                 low, file: file, line: line)
+        ANKAssertIdentical({ var lhs = lhs; lhs *= rhs; return lhs }(), low, file: file, line: line)
     }
     //=------------------------------------------=
-    ANKAssertEqual(                 lhs &*  rhs,                 low, file: file, line: line)
-    ANKAssertEqual({ var lhs = lhs; lhs &*= rhs; return lhs }(), low, file: file, line: line)
+    ANKAssertIdentical(                 lhs &*  rhs,                 low, file: file, line: line)
+    ANKAssertIdentical({ var lhs = lhs; lhs &*= rhs; return lhs }(), low, file: file, line: line)
         
-    ANKAssertEqual(lhs.multipliedReportingOverflow(by: rhs).partialValue, low,      file: file, line: line)
-    XCTAssertEqual(lhs.multipliedReportingOverflow(by: rhs).overflow,     overflow, file: file, line: line)
+    ANKAssertIdentical(lhs.multipliedReportingOverflow(by: rhs).partialValue, low,      file: file, line: line)
+    XCTAssertEqual(/**/lhs.multipliedReportingOverflow(by: rhs).overflow,     overflow, file: file, line: line)
     
-    ANKAssertEqual({ var x = lhs; let _ = x.multiplyReportingOverflow(by: rhs); return x }(), low,      file: file, line: line)
-    XCTAssertEqual({ var x = lhs; let o = x.multiplyReportingOverflow(by: rhs); return o }(), overflow, file: file, line: line)
+    ANKAssertIdentical({ var x = lhs; let _ = x.multiplyReportingOverflow(by: rhs); return x }(), low,      file: file, line: line)
+    XCTAssertEqual(/**/{ var x = lhs; let o = x.multiplyReportingOverflow(by: rhs); return o }(), overflow, file: file, line: line)
     
-    XCTAssertEqual(lhs.multipliedFullWidth(by: rhs).low,  low.magnitude,  file: file, line: line)
-    ANKAssertEqual(lhs.multipliedFullWidth(by: rhs).high, high,           file: file, line: line)
+    XCTAssertEqual(/**/lhs.multipliedFullWidth(by: rhs).low,  low.magnitude,  file: file, line: line)
+    ANKAssertIdentical(lhs.multipliedFullWidth(by: rhs).high, high,           file: file, line: line)
     
-    ANKAssertEqual({ var x = lhs; let _ = x.multiplyFullWidth(by: rhs); return x }(), low,  file: file, line: line)
-    XCTAssertEqual({ var x = lhs; let o = x.multiplyFullWidth(by: rhs); return o }(), high, file: file, line: line)
+    ANKAssertIdentical({ var x = lhs; let _ = x.multiplyFullWidth(by: rhs); return x }(), low,  file: file, line: line)
+    XCTAssertEqual(/**/{ var x = lhs; let o = x.multiplyFullWidth(by: rhs); return o }(), high, file: file, line: line)
 }
 
 func ANKAssertMultiplicationByDigit<T: ANKFixedWidthInteger>(
@@ -51,22 +51,22 @@ file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual(overflow, !high.isZero, file: file, line: line)
     //=------------------------------------------=
     if !overflow {
-        ANKAssertEqual(                 lhs *  rhs,                 low, file: file, line: line)
-        ANKAssertEqual({ var lhs = lhs; lhs *= rhs; return lhs }(), low, file: file, line: line)
+        ANKAssertIdentical(                 lhs *  rhs,                 low, file: file, line: line)
+        ANKAssertIdentical({ var lhs = lhs; lhs *= rhs; return lhs }(), low, file: file, line: line)
     }
     //=------------------------------------------=
-    ANKAssertEqual(                 lhs &*  rhs,                 low, file: file, line: line)
-    ANKAssertEqual({ var lhs = lhs; lhs &*= rhs; return lhs }(), low, file: file, line: line)
+    ANKAssertIdentical(                 lhs &*  rhs,                 low, file: file, line: line)
+    ANKAssertIdentical({ var lhs = lhs; lhs &*= rhs; return lhs }(), low, file: file, line: line)
         
-    ANKAssertEqual(lhs.multipliedReportingOverflow(by: rhs).partialValue, low,      file: file, line: line)
-    XCTAssertEqual(lhs.multipliedReportingOverflow(by: rhs).overflow,     overflow, file: file, line: line)
+    ANKAssertIdentical(lhs.multipliedReportingOverflow(by: rhs).partialValue, low,      file: file, line: line)
+    XCTAssertEqual(/**/lhs.multipliedReportingOverflow(by: rhs).overflow,     overflow, file: file, line: line)
     
-    ANKAssertEqual({ var x = lhs; let _ = x.multiplyReportingOverflow(by: rhs); return x }(), low,      file: file, line: line)
-    XCTAssertEqual({ var x = lhs; let o = x.multiplyReportingOverflow(by: rhs); return o }(), overflow, file: file, line: line)
+    ANKAssertIdentical({ var x = lhs; let _ = x.multiplyReportingOverflow(by: rhs); return x }(), low,      file: file, line: line)
+    XCTAssertEqual(/**/{ var x = lhs; let o = x.multiplyReportingOverflow(by: rhs); return o }(), overflow, file: file, line: line)
     
-    XCTAssertEqual(lhs.multipliedFullWidth(by: rhs).low,  low.magnitude,  file: file, line: line)
-    ANKAssertEqual(lhs.multipliedFullWidth(by: rhs).high, high,           file: file, line: line)
+    XCTAssertEqual(/**/lhs.multipliedFullWidth(by: rhs).low,  low.magnitude,  file: file, line: line)
+    ANKAssertIdentical(lhs.multipliedFullWidth(by: rhs).high, high,           file: file, line: line)
     
-    ANKAssertEqual({ var x = lhs; let _ = x.multiplyFullWidth(by: rhs); return x }(), low,  file: file, line: line)
-    XCTAssertEqual({ var x = lhs; let o = x.multiplyFullWidth(by: rhs); return o }(), high, file: file, line: line)
+    ANKAssertIdentical({ var x = lhs; let _ = x.multiplyFullWidth(by: rhs); return x }(), low,  file: file, line: line)
+    XCTAssertEqual(/**/{ var x = lhs; let o = x.multiplyFullWidth(by: rhs); return o }(), high, file: file, line: line)
 }

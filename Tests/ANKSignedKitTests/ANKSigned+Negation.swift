@@ -32,8 +32,8 @@ final class ANKSignedTestsOnNegation: XCTestCase {
     }
     
     func testNegatingReportingOverflow() {
-        ANKAssertNegation(T.max, T.min, false)
-        ANKAssertNegation(T.min, T.max, false)
+        ANKAssertNegation(T.max, T.min)
+        ANKAssertNegation(T.min, T.max)
     }
     
     //=------------------------------------------------------------------------=

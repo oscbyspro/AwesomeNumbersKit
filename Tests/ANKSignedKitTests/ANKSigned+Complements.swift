@@ -26,9 +26,9 @@ final class ANKSignedTestsOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        XCTAssertEqual((-T(1)).magnitude, M(1))
-        XCTAssertEqual(( T(0)).magnitude, M(0))
         XCTAssertEqual(( T(1)).magnitude, M(1))
+        XCTAssertEqual(( T(0)).magnitude, M(0))
+        XCTAssertEqual((-T(1)).magnitude, M(1))
     }
 }
 

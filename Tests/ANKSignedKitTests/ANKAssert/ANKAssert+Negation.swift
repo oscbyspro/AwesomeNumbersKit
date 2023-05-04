@@ -20,14 +20,14 @@ _ operand: ANKSigned<T>, _ partialValue: ANKSigned<T>, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     //=------------------------------------------=
     if !overflow {
-        ANKAssertEqual(-operand,                                    partialValue, file: file, line: line)
-        ANKAssertEqual((operand).negated(),                         partialValue, file: file, line: line)
-        ANKAssertEqual({ var x = operand; x.negate(); return x }(), partialValue, file: file, line: line)
+        ANKAssertIdentical(-operand,                                    partialValue, file: file, line: line)
+        ANKAssertIdentical((operand).negated(),                         partialValue, file: file, line: line)
+        ANKAssertIdentical({ var x = operand; x.negate(); return x }(), partialValue, file: file, line: line)
     }
     //=------------------------------------------=
-    ANKAssertEqual(operand.negatedReportingOverflow().partialValue, partialValue, file: file, line: line)
-    XCTAssertEqual(operand.negatedReportingOverflow().overflow,     overflow,     file: file, line: line)
+    ANKAssertIdentical(operand.negatedReportingOverflow().partialValue, partialValue, file: file, line: line)
+    XCTAssertEqual(/**/operand.negatedReportingOverflow().overflow,     overflow,     file: file, line: line)
     
-    ANKAssertEqual({ var x = operand; let _ = x.negateReportingOverflow(); return x }(), partialValue, file: file, line: line)
-    XCTAssertEqual({ var x = operand; let o = x.negateReportingOverflow(); return o }(), overflow,     file: file, line: line)
+    ANKAssertIdentical({ var x = operand; let _ = x.negateReportingOverflow(); return x }(), partialValue, file: file, line: line)
+    XCTAssertEqual(/**/{ var x = operand; let o = x.negateReportingOverflow(); return o }(), overflow,     file: file, line: line)
 }
