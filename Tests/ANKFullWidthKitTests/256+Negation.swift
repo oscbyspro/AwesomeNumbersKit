@@ -27,15 +27,15 @@ final class Int256TestsOnNegation: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testNegated() {
-        XCTAssertEqual(-T( 0), T( 0))
-        XCTAssertEqual(-T( 1), T(-1))
-        XCTAssertEqual(-T(-1), T( 1))
+    func testNegating() {
+        ANKAssertNegation( T(1), -T(1))
+        ANKAssertNegation( T(0),  T(0))
+        ANKAssertNegation(-T(1),  T(1))
     }
     
-    func testNegatedReportingOverflow() {
-        XCTAssert(T.min.negatedReportingOverflow() == (T.min,        true ) as (T, Bool))
-        XCTAssert(T.max.negatedReportingOverflow() == (T.min + T(1), false) as (T, Bool))
+    func testNegatingReportingOverflow() {
+        ANKAssertNegation(T.min, T.min,  true)
+        ANKAssertNegation(T.max, T.min + T(1))
     }
     
     //=------------------------------------------------------------------------=
