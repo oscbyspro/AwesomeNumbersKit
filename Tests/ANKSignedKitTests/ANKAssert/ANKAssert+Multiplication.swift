@@ -16,10 +16,11 @@ import XCTest
 //*============================================================================*
 
 func ANKAssertMultiplication<T: ANKFixedWidthInteger>(
-_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>, _ low: ANKSigned<T>, _ high: ANKSigned<T>? = nil,
+_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>, _ low: ANKSigned<T>, _ high: ANKSigned<T>? = nil, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
-    let high = high ?? ANKSigned(T(), as: ANKSign(low.isLessThanZero))
-    let overflow: Bool = !high.magnitude.isZero
+    let high = high ?? ANKSigned(T(), as: low.sign)
+    //=------------------------------------------=
+    XCTAssertEqual(overflow, !high.isZero, file: file, line: line)
     //=------------------------------------------=
     if !overflow {
         ANKAssertEqual(                 lhs *  rhs,                 low, file: file, line: line)
@@ -43,10 +44,11 @@ file: StaticString = #file, line: UInt = #line) {
 }
 
 func ANKAssertMultiplicationByDigit<T: ANKFixedWidthInteger>(
-_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>.Digit, _ low: ANKSigned<T>, _ high: ANKSigned<T.Digit>? = nil,
+_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>.Digit, _ low: ANKSigned<T>, _ high: ANKSigned<T.Digit>? = nil, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
-    let high = high ?? ANKSigned(T.Digit(), as: ANKSign(low.isLessThanZero))
-    let overflow: Bool = !high.magnitude.isZero
+    let high = high ?? ANKSigned(T.Digit(), as: low.sign)
+    //=------------------------------------------=
+    XCTAssertEqual(overflow, !high.isZero, file: file, line: line)
     //=------------------------------------------=
     if !overflow {
         ANKAssertEqual(                 lhs *  rhs,                 low, file: file, line: line)

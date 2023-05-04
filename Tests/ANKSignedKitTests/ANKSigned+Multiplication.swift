@@ -35,10 +35,10 @@ final class ANKSignedTestsOnMultiplication: XCTestCase {
     }
     
     func testMultiplyingReportingOverflow() {
-        ANKAssertMultiplication(T.max, T.max,  T(1), T.max - T(1))
-        ANKAssertMultiplication(T.max, T.min, -T(1), T.min + T(1))
-        ANKAssertMultiplication(T.min, T.max, -T(1), T.min + T(1))
-        ANKAssertMultiplication(T.min, T.min,  T(1), T.max - T(1))
+        ANKAssertMultiplication(T.max, T.max,  T(1), T.max - T(1), true)
+        ANKAssertMultiplication(T.max, T.min, -T(1), T.min + T(1), true)
+        ANKAssertMultiplication(T.min, T.max, -T(1), T.min + T(1), true)
+        ANKAssertMultiplication(T.min, T.min,  T(1), T.max - T(1), true)
     }
     
     //=------------------------------------------------------------------------=
@@ -53,10 +53,10 @@ final class ANKSignedTestsOnMultiplication: XCTestCase {
     }
     
     func testMultiplyingByDigitReportingOverflow() {
-        ANKAssertMultiplicationByDigit(T.max,  D(2), T.max - T(1),  D(1))
-        ANKAssertMultiplicationByDigit(T.max, -D(2), T.min + T(1), -D(1))
-        ANKAssertMultiplicationByDigit(T.min,  D(2), T.min + T(1), -D(1))
-        ANKAssertMultiplicationByDigit(T.min, -D(2), T.max - T(1),  D(1))
+        ANKAssertMultiplicationByDigit(T.max,  D(2), T.max - T(1),  D(1), true)
+        ANKAssertMultiplicationByDigit(T.max, -D(2), T.min + T(1), -D(1), true)
+        ANKAssertMultiplicationByDigit(T.min,  D(2), T.min + T(1), -D(1), true)
+        ANKAssertMultiplicationByDigit(T.min, -D(2), T.max - T(1),  D(1), true)
     }
     
     //=------------------------------------------------------------------------=

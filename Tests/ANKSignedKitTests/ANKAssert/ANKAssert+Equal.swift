@@ -15,6 +15,6 @@ import XCTest
 //*============================================================================*
 
 func ANKAssertEqual<T>(_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>, file: StaticString = #file, line: UInt = #line) {
-    XCTAssertEqual(lhs.sign,      rhs.sign,      file: file, line: line)
-    XCTAssertEqual(lhs.magnitude, rhs.magnitude, file: file, line: line)
+    let success: Bool = lhs.sign == rhs.sign && lhs.magnitude == rhs.magnitude
+    XCTAssert(success, "(\(lhs.sign)\(lhs.magnitude)) is not equal to (\(rhs.sign)\(rhs.magnitude))", file: file, line: line)
 }
