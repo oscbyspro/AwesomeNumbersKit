@@ -31,10 +31,10 @@ extension ANKFullWidth {
         let overflow: Bool
         if !Self.isSigned {
             overflow = !product.high.isZero
-        } else if self.isLessThanZero != amount.isLessThanZero {
-            overflow = product < Plus1(descending: HL(~Digit(), Magnitude(bitPattern: Self.min)))
-        } else {
-            overflow = product > Plus1(descending: HL( Digit(), Magnitude(bitPattern: Self.max)))
+        }   else if self.isLessThanZero == amount.isLessThanZero {
+            overflow = !product.high.isZero || product.low.mostSignificantBit
+        }   else {
+            overflow = product.high.isLessThanZero && (!product.low.mostSignificantBit || product.high.nonzeroBitCount != product.high.bitWidth)
         }
         //=--------------------------------------=
         return PVO(Self(bitPattern: product.low), overflow)

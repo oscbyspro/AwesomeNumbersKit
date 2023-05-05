@@ -19,8 +19,8 @@ extension ANKSigned {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static prefix func -(x: Self) -> Self {
-        Self(x.magnitude, as: ~x.sign)
+    @_transparent public static prefix func -(x: Self) -> Self {
+        x.negated()
     }
     
     //=------------------------------------------------------------------------=
