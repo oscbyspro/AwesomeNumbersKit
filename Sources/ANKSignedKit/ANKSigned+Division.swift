@@ -52,34 +52,27 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func divideReportingOverflow(by divisor: Self) -> Bool {
-        let pvo: PVO<Self> = self.dividedReportingOverflow(by: divisor)
-        self = pvo.partialValue
-        return pvo.overflow as Bool
+        self.sign = self.sign ^ divisor.sign
+        return self.magnitude.divideReportingOverflow(by: divisor.magnitude)
     }
     
     @inlinable public func dividedReportingOverflow(by divisor: Self) -> PVO<Self> {
         let pvo: PVO<Magnitude> = self.magnitude.dividedReportingOverflow(by: divisor.magnitude)
-        let quotient = Self(pvo.partialValue, as: self.sign ^ divisor.sign)
-        return PVO(quotient, pvo.overflow)
+        return PVO(Self(pvo.partialValue, as: self.sign ^ divisor.sign), pvo.overflow)
     }
     
     @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool {
-        let pvo: PVO<Self> = self.remainderReportingOverflow(dividingBy: divisor)
-        self = pvo.partialValue
-        return pvo.overflow as Bool
+        self.magnitude.formRemainderReportingOverflow(dividingBy: divisor.magnitude)
     }
     
     @inlinable public func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self> {
         let pvo: PVO<Magnitude> = self.magnitude.remainderReportingOverflow(dividingBy: divisor.magnitude)
-        let remainder = Self(pvo.partialValue, as: self.sign)
-        return PVO(remainder, pvo.overflow)
+        return PVO(Self(pvo.partialValue, as: self.sign), pvo.overflow)
     }
     
     @inlinable public func quotientAndRemainderReportingOverflow(dividingBy divisor: Self) -> PVO<QR<Self, Self>> {
         let qro: PVO<QR<Magnitude, Magnitude>> = self.magnitude.quotientAndRemainderReportingOverflow(dividingBy: divisor.magnitude)
-        let quotient  = Self(qro.partialValue.quotient,  as: self.sign ^ divisor.sign)
-        let remainder = Self(qro.partialValue.remainder, as: self.sign /*----------*/)
-        return PVO(QR(quotient, remainder), qro.overflow)
+        return PVO(QR(Self(qro.partialValue.quotient, as: self.sign ^ divisor.sign), Self(qro.partialValue.remainder, as: self.sign)), qro.overflow)
     }
 }
 
@@ -95,8 +88,6 @@ extension ANKSigned where Magnitude: FixedWidthInteger {
     
     @inlinable public func dividingFullWidth(_ dividend: HL<Self, Magnitude>) -> QR<Self, Self> {
         let qr: QR<Magnitude, Magnitude> = self.magnitude.dividingFullWidth(HL(dividend.high.magnitude, dividend.low))
-        let quotient  = Self(qr.quotient,  as: dividend.high.sign ^ self.sign)
-        let remainder = Self(qr.remainder, as: dividend.high.sign /*-------*/)
-        return  QR(quotient,  remainder)
+        return  QR(Self(qr.quotient, as: dividend.high.sign ^ self.sign), Self(qr.remainder, as:  dividend.high.sign))
     }
 }

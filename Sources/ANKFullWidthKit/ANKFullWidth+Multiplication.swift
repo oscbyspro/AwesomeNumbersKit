@@ -45,14 +45,14 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(bitPattern: hl.low)
-        return hl.high as Self
+        let product: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
+        self = Self(bitPattern: product.low)
+        return product.high as Self
     }
     
     @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        let hl: DoubleWidth = self._multipliedFullWidth(by: amount)
-        return HL(hl.high, hl.low)
+        let product: DoubleWidth = self._multipliedFullWidth(by: amount)
+        return HL(product.high, product.low)
     }
     
     @inlinable func _multipliedFullWidth(by amount: Self) -> DoubleWidth {

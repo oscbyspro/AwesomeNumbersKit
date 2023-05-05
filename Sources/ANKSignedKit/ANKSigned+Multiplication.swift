@@ -19,8 +19,9 @@ extension ANKSigned {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
         
-    @_transparent public static func *=(lhs: inout Self, rhs: Self) {
-        lhs = lhs * rhs
+    @inlinable public static func *=(lhs: inout Self, rhs: Self) {
+        lhs.sign = lhs.sign ^ rhs.sign
+        lhs.magnitude *= rhs.magnitude
     }
     
     @inlinable public static func *(lhs: Self, rhs: Self) -> Self {
@@ -50,10 +51,9 @@ extension ANKSigned where Magnitude: ANKFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyReportingOverflow(by  amount: Self) -> Bool {
-        let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
-        self = pvo.partialValue
-        return pvo.overflow as Bool
+    @inlinable public mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
+        self.sign = self.sign ^ amount.sign
+        return self.magnitude.multiplyReportingOverflow(by: amount.magnitude)
     }
     
     @inlinable public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
@@ -66,13 +66,13 @@ extension ANKSigned where Magnitude: ANKFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(hl.low, as: hl.high.sign)
-        return hl.high as Self
+        self.sign = self.sign ^ amount.sign
+        let high: Magnitude = self.magnitude.multiplyFullWidth(by: amount.magnitude)
+        return Self(high, as: self.sign)
     }
     
     @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        let hl: HL<Magnitude, Magnitude> = self.magnitude.multipliedFullWidth(by: amount.magnitude)
-        return  HL(Self(hl.high, as: self.sign ^ amount.sign), hl.low)
+        let product: HL<Magnitude, Magnitude> = self.magnitude.multipliedFullWidth(by: amount.magnitude)
+        return HL(Self(product.high, as: self.sign ^ amount.sign), product.low)
     }
 }

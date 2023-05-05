@@ -95,9 +95,9 @@ extension ANKCoreInteger {
     }
     
     @_transparent public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        let hl: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(bitPattern: hl.low)
-        return hl.high as Self
+        let product: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
+        self = Self(bitPattern: product.low)
+        return product.high as Self
     }
     
     @_transparent public mutating func divideReportingOverflow(by amount: Self) -> Bool {

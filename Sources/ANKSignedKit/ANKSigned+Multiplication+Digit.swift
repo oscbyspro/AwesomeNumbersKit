@@ -19,8 +19,9 @@ extension ANKSigned {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
         
-    @_disfavoredOverload @_transparent public static func *=(lhs: inout Self, rhs: Digit) {
-        lhs = lhs * rhs
+    @_disfavoredOverload @inlinable public static func *=(lhs: inout Self, rhs: Digit) {
+        lhs.sign = lhs.sign ^ rhs.sign
+        lhs.magnitude *= rhs.magnitude
     }
     
     @_disfavoredOverload @inlinable public static func *(lhs: Self, rhs: Digit) -> Self {
@@ -51,9 +52,8 @@ extension ANKSigned where Magnitude: ANKFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_disfavoredOverload @inlinable public mutating func multiplyReportingOverflow(by amount: Digit) -> Bool {
-        let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
-        self = pvo.partialValue
-        return pvo.overflow as Bool
+        self.sign = self.sign ^ amount.sign
+        return self.magnitude.multiplyReportingOverflow(by: amount.magnitude)
     }
     
     @_disfavoredOverload @inlinable public func multipliedReportingOverflow(by amount: Digit) -> PVO<Self> {
@@ -66,13 +66,13 @@ extension ANKSigned where Magnitude: ANKFixedWidthInteger {
     //=------------------------------------------------------------------------=
     
     @_disfavoredOverload @inlinable public mutating func multiplyFullWidth(by amount: Digit) -> Digit {
-        let hl: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(hl.low, as: hl.high.sign)
-        return hl.high as Digit
+        self.sign = self.sign ^ amount.sign
+        let high: Magnitude.Digit = self.magnitude.multiplyFullWidth(by: amount.magnitude)
+        return Digit(high, as: self.sign)
     }
     
     @_disfavoredOverload @inlinable public func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {
-        let hl: HL<Magnitude.Digit, Magnitude> = self.magnitude.multipliedFullWidth(by: amount.magnitude)
-        return  HL(Digit(hl.high, as: self.sign ^ amount.sign), hl.low)
+        let product: HL<Magnitude.Digit, Magnitude> = self.magnitude.multipliedFullWidth(by: amount.magnitude)
+        return HL(Digit(product.high, as: self.sign ^ amount.sign), product.low)
     }
 }

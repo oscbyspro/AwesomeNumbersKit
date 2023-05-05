@@ -45,9 +45,9 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @_disfavoredOverload @inlinable public mutating func multiplyFullWidth(by amount: Digit) -> Digit {
-        let hl: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
-        self = Self(bitPattern: hl.low)
-        return hl.high as Digit
+        let product: HL<Digit, Magnitude> = self.multipliedFullWidth(by: amount)
+        self = Self(bitPattern: product.low)
+        return product.high as  Digit
     }
     
     @_disfavoredOverload @inlinable public func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude> {

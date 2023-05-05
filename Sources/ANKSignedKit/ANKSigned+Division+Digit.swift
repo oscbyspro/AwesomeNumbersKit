@@ -52,33 +52,26 @@ extension ANKSigned {
     //=------------------------------------------------------------------------=
     
     @_disfavoredOverload @inlinable public mutating func divideReportingOverflow(by divisor: Digit) -> Bool {
-        let pvo: PVO<Self> = self.dividedReportingOverflow(by: divisor)
-        self = pvo.partialValue
-        return pvo.overflow as Bool
+        self.sign = self.sign ^ divisor.sign
+        return self.magnitude.divideReportingOverflow(by: divisor.magnitude)
     }
     
     @_disfavoredOverload @inlinable public func dividedReportingOverflow(by divisor: Digit) -> PVO<Self> {
         let pvo: PVO<Magnitude> = self.magnitude.dividedReportingOverflow(by: divisor.magnitude)
-        let quotient = Self(pvo.partialValue, as: self.sign ^ divisor.sign)
-        return PVO(quotient, pvo.overflow)
+        return PVO(Self(pvo.partialValue, as: self.sign ^ divisor.sign), pvo.overflow)
     }
     
     @_disfavoredOverload @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool {
-        let pvo: PVO<Digit> = self.remainderReportingOverflow(dividingBy: divisor)
-        self = Self(digit: pvo.partialValue)
-        return pvo.overflow as Bool
+        self.magnitude.formRemainderReportingOverflow(dividingBy: divisor.magnitude)
     }
     
-    @_disfavoredOverload @_transparent public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
+    @_disfavoredOverload @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
         let pvo: PVO<Magnitude.Digit> = self.magnitude.remainderReportingOverflow(dividingBy: divisor.magnitude)
-        let remainder = Digit(pvo.partialValue, as: self.sign)
-        return PVO(remainder, pvo.overflow)
+        return PVO(Digit(pvo.partialValue, as: self.sign), pvo.overflow)
     }
     
     @_disfavoredOverload @inlinable public func quotientAndRemainderReportingOverflow(dividingBy divisor: Digit) -> PVO<QR<Self, Digit>> {
         let qro: PVO<QR<Magnitude, Magnitude.Digit>> = self.magnitude.quotientAndRemainderReportingOverflow(dividingBy: divisor.magnitude)
-        let quotient  =  Self(qro.partialValue.quotient,  as: self.sign ^ divisor.sign)
-        let remainder = Digit(qro.partialValue.remainder, as: self.sign /*----------*/)
-        return PVO(QR(quotient, remainder), qro.overflow)
+        return PVO(QR(Self(qro.partialValue.quotient, as: self.sign ^ divisor.sign), Digit(qro.partialValue.remainder, as: self.sign)), qro.overflow)
     }
 }
