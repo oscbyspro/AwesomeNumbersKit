@@ -39,6 +39,22 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     @inlinable init(repeating bit: Bool)
     
     //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
+    /// Returns whether all of its bits are set, in two's complement form.
+    ///
+    /// The return value can be viewed as the bitwise inverse of ``isZero``.
+    ///
+    /// ```swift
+    /// UInt8(0b_0000_0000).isFull // false
+    /// UInt8(0b_0000_1111).isFull // false
+    /// UInt8(0b_1111_1111).isFull // true
+    /// ```
+    ///
+    @inlinable var isFull: Bool { get }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Details x Addition
     //=------------------------------------------------------------------------=
     
@@ -217,9 +233,40 @@ extension ANKFixedWidthInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    /// Returns whether all of its bits are set, in two's complement form.
+    ///
+    /// The return value can be viewed as the bitwise inverse of ``isZero``.
+    ///
+    /// ```swift
+    /// UInt8(0b_0000_0000).isFull // false
+    /// UInt8(0b_0000_1111).isFull // false
+    /// UInt8(0b_1111_1111).isFull // true
+    /// ```
+    ///
+    @_transparent public var isFull: Bool {
+        self.nonzeroBitCount == self.bitWidth
+    }
+    
     /// Returns whether this value is a power of `2`.
     @_transparent public var isPowerOf2: Bool {
         self.nonzeroBitCount == 1
+    }
+    
+    /// Returns whether this value matches the given bit pattern, in two's complement form.
+    ///
+    /// ```swift
+    /// UInt8(0b_0000_0000).matches(repeating: true ) // false
+    /// UInt8(0b_0000_0000).matches(repeating: false) // true
+    ///
+    /// UInt8(0b_0000_1111).matches(repeating: true ) // false
+    /// UInt8(0b_0000_1111).matches(repeating: false) // false
+    ///
+    /// UInt8(0b_1111_1111).matches(repeating: true ) // true
+    /// UInt8(0b_1111_1111).matches(repeating: false) // false
+    /// ```
+    ///
+    @_transparent public func matches(repeating bit: Bool) -> Bool {
+        bit ? self.isFull : self.isZero
     }
     
     //=------------------------------------------------------------------------=

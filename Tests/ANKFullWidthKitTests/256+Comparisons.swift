@@ -91,60 +91,81 @@ final class Int256TestsOnComparisons: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testSignum() {
-        XCTAssertEqual(T(-1).signum(), -1)
-        XCTAssertEqual(T( 0).signum(),  0)
-        XCTAssertEqual(T( 1).signum(),  1)
+    func testIsFull() {
+        XCTAssertFalse(( T(0)).isFull)
+        XCTAssertFalse(( T(1)).isFull)
+        XCTAssertFalse(( T(2)).isFull)
+        
+        XCTAssertTrue ((~T(0)).isFull)
+        XCTAssertFalse((~T(1)).isFull)
+        XCTAssertFalse((~T(2)).isFull)
     }
     
     func testIsZero() {
-        XCTAssertTrue (T( 0).isZero)
-        XCTAssertFalse(T( 1).isZero)
-        XCTAssertFalse(T( 2).isZero)
+        XCTAssertTrue (( T(0)).isZero)
+        XCTAssertFalse(( T(1)).isZero)
+        XCTAssertFalse(( T(2)).isZero)
         
-        XCTAssertFalse(T(-1).isZero)
-        XCTAssertFalse(T(-2).isZero)
-        XCTAssertFalse(T(-3).isZero)
+        XCTAssertFalse((~T(0)).isZero)
+        XCTAssertFalse((~T(1)).isZero)
+        XCTAssertFalse((~T(2)).isZero)
     }
     
     func testIsLessThanZero() {
-        XCTAssertFalse(T( 0).isLessThanZero)
-        XCTAssertFalse(T( 1).isLessThanZero)
-        XCTAssertFalse(T( 2).isLessThanZero)
+        XCTAssertFalse(( T(0)).isLessThanZero)
+        XCTAssertFalse(( T(1)).isLessThanZero)
+        XCTAssertFalse(( T(2)).isLessThanZero)
         
-        XCTAssertTrue (T(-1).isLessThanZero)
-        XCTAssertTrue (T(-2).isLessThanZero)
-        XCTAssertTrue (T(-3).isLessThanZero)
+        XCTAssertTrue ((~T(0)).isLessThanZero)
+        XCTAssertTrue ((~T(1)).isLessThanZero)
+        XCTAssertTrue ((~T(2)).isLessThanZero)
     }
     
     func testIsMoreThanZero() {
-        XCTAssertFalse(T( 0).isMoreThanZero)
-        XCTAssertTrue (T( 1).isMoreThanZero)
-        XCTAssertTrue (T( 2).isMoreThanZero)
+        XCTAssertFalse(( T(0)).isMoreThanZero)
+        XCTAssertTrue (( T(1)).isMoreThanZero)
+        XCTAssertTrue (( T(2)).isMoreThanZero)
         
-        XCTAssertFalse(T(-1).isMoreThanZero)
-        XCTAssertFalse(T(-2).isMoreThanZero)
-        XCTAssertFalse(T(-3).isMoreThanZero)
+        XCTAssertFalse((~T(0)).isMoreThanZero)
+        XCTAssertFalse((~T(1)).isMoreThanZero)
+        XCTAssertFalse((~T(2)).isMoreThanZero)
     }
     
     func testIsOdd() {
-        XCTAssertFalse(T( 0).isOdd)
-        XCTAssertTrue (T( 1).isOdd)
-        XCTAssertFalse(T( 2).isOdd)
+        XCTAssertFalse(( T(0)).isOdd)
+        XCTAssertTrue (( T(1)).isOdd)
+        XCTAssertFalse(( T(2)).isOdd)
         
-        XCTAssertTrue (T(-1).isOdd)
-        XCTAssertFalse(T(-2).isOdd)
-        XCTAssertTrue (T(-3).isOdd)
+        XCTAssertTrue ((~T(0)).isOdd)
+        XCTAssertFalse((~T(1)).isOdd)
+        XCTAssertTrue ((~T(2)).isOdd)
     }
     
     func testIsEven() {
-        XCTAssertTrue (T( 0).isEven)
-        XCTAssertFalse(T( 1).isEven)
-        XCTAssertTrue (T( 2).isEven)
+        XCTAssertTrue (( T(0)).isEven)
+        XCTAssertFalse(( T(1)).isEven)
+        XCTAssertTrue (( T(2)).isEven)
         
-        XCTAssertFalse(T(-1).isEven)
-        XCTAssertTrue (T(-2).isEven)
-        XCTAssertFalse(T(-3).isEven)
+        XCTAssertFalse((~T(0)).isEven)
+        XCTAssertTrue ((~T(1)).isEven)
+        XCTAssertFalse((~T(2)).isEven)
+    }
+    
+    func testSignum() {
+        XCTAssertEqual(( T(0)).signum(), Int( 0))
+        XCTAssertEqual(( T(1)).signum(), Int( 1))
+        XCTAssertEqual(( T(2)).signum(), Int( 1))
+        
+        XCTAssertEqual((~T(0)).signum(), Int(-1))
+        XCTAssertEqual((~T(1)).signum(), Int(-1))
+        XCTAssertEqual((~T(2)).signum(), Int(-1))
+    }
+    
+    func testMatchesRepeatingBit() {
+        XCTAssertFalse(( T(0)).matches(repeating: true ))
+        XCTAssertTrue (( T(0)).matches(repeating: false))
+        XCTAssertTrue ((~T(0)).matches(repeating: true ))
+        XCTAssertFalse((~T(0)).matches(repeating: false))
     }
 }
 
@@ -211,40 +232,81 @@ final class UInt256TestsOnComparisons: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testSignum() {
-        XCTAssertEqual(T(0).signum(), 0)
-        XCTAssertEqual(T(1).signum(), 1)
-        XCTAssertEqual(T(2).signum(), 1)
+    func testIsFull() {
+        XCTAssertFalse(( T(0)).isFull)
+        XCTAssertFalse(( T(1)).isFull)
+        XCTAssertFalse(( T(2)).isFull)
+        
+        XCTAssertTrue ((~T(0)).isFull)
+        XCTAssertFalse((~T(1)).isFull)
+        XCTAssertFalse((~T(2)).isFull)
     }
     
     func testIsZero() {
-        XCTAssertTrue (T(0).isZero)
-        XCTAssertFalse(T(1).isZero)
-        XCTAssertFalse(T(2).isZero)
+        XCTAssertTrue (( T(0)).isZero)
+        XCTAssertFalse(( T(1)).isZero)
+        XCTAssertFalse(( T(2)).isZero)
+        
+        XCTAssertFalse((~T(0)).isZero)
+        XCTAssertFalse((~T(1)).isZero)
+        XCTAssertFalse((~T(2)).isZero)
     }
     
     func testIsLessThanZero() {
-        XCTAssertFalse(T(0).isLessThanZero)
-        XCTAssertFalse(T(1).isLessThanZero)
-        XCTAssertFalse(T(2).isLessThanZero)
+        XCTAssertFalse(( T(0)).isLessThanZero)
+        XCTAssertFalse(( T(1)).isLessThanZero)
+        XCTAssertFalse(( T(2)).isLessThanZero)
+        
+        XCTAssertFalse((~T(0)).isLessThanZero)
+        XCTAssertFalse((~T(1)).isLessThanZero)
+        XCTAssertFalse((~T(2)).isLessThanZero)
     }
     
     func testIsMoreThanZero() {
-        XCTAssertFalse(T(0).isMoreThanZero)
-        XCTAssertTrue (T(1).isMoreThanZero)
-        XCTAssertTrue (T(2).isMoreThanZero)
+        XCTAssertFalse(( T(0)).isMoreThanZero)
+        XCTAssertTrue (( T(1)).isMoreThanZero)
+        XCTAssertTrue (( T(2)).isMoreThanZero)
+        
+        XCTAssertTrue ((~T(0)).isMoreThanZero)
+        XCTAssertTrue ((~T(1)).isMoreThanZero)
+        XCTAssertTrue ((~T(2)).isMoreThanZero)
     }
     
     func testIsOdd() {
-        XCTAssertFalse(T(0).isOdd)
-        XCTAssertTrue (T(1).isOdd)
-        XCTAssertFalse(T(2).isOdd)
+        XCTAssertFalse(( T(0)).isOdd)
+        XCTAssertTrue (( T(1)).isOdd)
+        XCTAssertFalse(( T(2)).isOdd)
+        
+        XCTAssertTrue ((~T(0)).isOdd)
+        XCTAssertFalse((~T(1)).isOdd)
+        XCTAssertTrue ((~T(2)).isOdd)
     }
     
     func testIsEven() {
-        XCTAssertTrue (T(0).isEven)
-        XCTAssertFalse(T(1).isEven)
-        XCTAssertTrue (T(2).isEven)
+        XCTAssertTrue (( T(0)).isEven)
+        XCTAssertFalse(( T(1)).isEven)
+        XCTAssertTrue (( T(2)).isEven)
+        
+        XCTAssertFalse((~T(0)).isEven)
+        XCTAssertTrue ((~T(1)).isEven)
+        XCTAssertFalse((~T(2)).isEven)
+    }
+    
+    func testSignum() {
+        XCTAssertEqual(( T(0)).signum(), Int(0))
+        XCTAssertEqual(( T(1)).signum(), Int(1))
+        XCTAssertEqual(( T(2)).signum(), Int(1))
+        
+        XCTAssertEqual((~T(0)).signum(), Int(1))
+        XCTAssertEqual((~T(1)).signum(), Int(1))
+        XCTAssertEqual((~T(2)).signum(), Int(1))
+    }
+    
+    func testMatchesRepeatingBit() {
+        XCTAssertFalse(( T(0)).matches(repeating: true ))
+        XCTAssertTrue (( T(0)).matches(repeating: false))
+        XCTAssertTrue ((~T(0)).matches(repeating: true ))
+        XCTAssertFalse((~T(0)).matches(repeating: false))
     }
 }
 

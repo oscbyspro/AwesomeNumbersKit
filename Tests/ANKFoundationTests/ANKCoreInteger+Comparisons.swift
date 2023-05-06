@@ -30,30 +30,84 @@ final class ANKCoreIntegerTestsOnComparisons: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testIsFull() {
+        for type: T in types {
+            XCTAssertEqual(type.init(truncatingIfNeeded:  0).isFull, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded:  1).isFull, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded:  2).isFull, false)
+            
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~0).isFull, true )
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~1).isFull, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~2).isFull, false)
+        }
+    }
+    
     func testIsZero() {
         for type: T in types {
-            XCTAssertFalse(type.init( 1).isZero)
-            XCTAssertTrue (type.init( 0).isZero)
-            guard type.isSigned else { continue }
-            XCTAssertFalse(type.init(-1).isZero)
+            XCTAssertEqual(type.init(truncatingIfNeeded:  0).isZero, true )
+            XCTAssertEqual(type.init(truncatingIfNeeded:  1).isZero, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded:  2).isZero, false)
+            
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~0).isZero, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~1).isZero, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~2).isZero, false)
         }
     }
     
     func testIsLessThanZero() {
         for type: T in types {
-            XCTAssertFalse(type.init( 1).isLessThanZero)
-            XCTAssertFalse(type.init( 0).isLessThanZero)
-            guard type.isSigned else { continue }
-            XCTAssertTrue (type.init(-1).isLessThanZero)
+            XCTAssertEqual(type.init(truncatingIfNeeded:  0).isLessThanZero, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded:  1).isLessThanZero, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded:  2).isLessThanZero, false)
+            
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~0).isLessThanZero, type.isSigned)
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~1).isLessThanZero, type.isSigned)
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~2).isLessThanZero, type.isSigned)
         }
     }
     
     func testIsMoreThanZero() {
         for type: T in types {
-            XCTAssertTrue (type.init( 1).isMoreThanZero)
-            XCTAssertFalse(type.init( 0).isMoreThanZero)
-            guard type.isSigned else { continue }
-            XCTAssertFalse(type.init(-1).isMoreThanZero)
+            XCTAssertEqual(type.init(truncatingIfNeeded:  0).isMoreThanZero, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded:  1).isMoreThanZero, true )
+            XCTAssertEqual(type.init(truncatingIfNeeded:  2).isMoreThanZero, true )
+            
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~0).isMoreThanZero, !type.isSigned)
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~1).isMoreThanZero, !type.isSigned)
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~2).isMoreThanZero, !type.isSigned)
+        }
+    }
+    
+    func testIsOdd() {
+        for type: T in types {
+            XCTAssertEqual(type.init(truncatingIfNeeded:  0).isOdd, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded:  1).isOdd, true )
+            XCTAssertEqual(type.init(truncatingIfNeeded:  2).isOdd, false)
+            
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~0).isOdd, true )
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~1).isOdd, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~2).isOdd, true )
+        }
+    }
+    
+    func testIsEven() {
+        for type: T in types {
+            XCTAssertEqual(type.init(truncatingIfNeeded:  0).isEven, true )
+            XCTAssertEqual(type.init(truncatingIfNeeded:  1).isEven, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded:  2).isEven, true )
+            
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~0).isEven, false)
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~1).isEven, true )
+            XCTAssertEqual(type.init(truncatingIfNeeded: ~2).isEven, false)
+        }
+    }
+    
+    func testMatchesRepeatingBit() {
+        for type: T in types {
+            XCTAssertEqual((type.init(truncatingIfNeeded:  0)).matches(repeating: true ), false)
+            XCTAssertEqual((type.init(truncatingIfNeeded:  0)).matches(repeating: false), true )
+            XCTAssertEqual((type.init(truncatingIfNeeded: ~0)).matches(repeating: true ), true )
+            XCTAssertEqual((type.init(truncatingIfNeeded: ~0)).matches(repeating: false), false)
         }
     }
 }

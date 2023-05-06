@@ -52,8 +52,12 @@ extension ANKCoreInteger {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    @_transparent public var isFull: Bool {
+        self == ~(0 as Self)
+    }
+    
     @_transparent public var isZero: Bool {
-        self == (0 as Self)
+        self ==  (0 as Self)
     }
     
     @_transparent public var isLessThanZero: Bool {

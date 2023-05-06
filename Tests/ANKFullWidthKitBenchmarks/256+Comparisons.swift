@@ -54,6 +54,15 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
     // MARK: Tests x Zero
     //=------------------------------------------------------------------------=
     
+    func testIsFull() {
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.isFull)
+            _blackHoleInoutIdentity(&abc)
+        }
+    }
+    
     func testIsZero() {
         var abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
@@ -119,6 +128,15 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     // MARK: Tests x Zero
     //=------------------------------------------------------------------------=
+    
+    func testIsFull() {
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.isFull)
+            _blackHoleInoutIdentity(&abc)
+        }
+    }
     
     func testIsZero() {
         var abc = _blackHoleIdentity(T(x64: X(0, 1, 2, 3)))

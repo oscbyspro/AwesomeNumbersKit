@@ -78,32 +78,32 @@ final class ANKSignedTestsOnComparisons: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testSignum() {
-        XCTAssertEqual(T(0, as: .plus ).signum(),  0)
-        XCTAssertEqual(T(0, as: .minus).signum(),  0)
-        XCTAssertEqual(T(1, as: .plus ).signum(),  1)
-        XCTAssertEqual(T(1, as: .minus).signum(), -1)
-    }
-    
     func testIsZero() {
-        XCTAssertEqual(T(0, as: .plus ).isZero, true )
-        XCTAssertEqual(T(0, as: .minus).isZero, true )
-        XCTAssertEqual(T(1, as: .plus ).isZero, false)
-        XCTAssertEqual(T(1, as: .minus).isZero, false)
+        XCTAssertTrue (T(0, as: .plus ).isZero)
+        XCTAssertTrue (T(0, as: .minus).isZero)
+        XCTAssertFalse(T(1, as: .plus ).isZero)
+        XCTAssertFalse(T(1, as: .minus).isZero)
     }
     
     func testIsLessThanZero() {
-        XCTAssertEqual(T(0, as: .plus ).isLessThanZero, false)
-        XCTAssertEqual(T(0, as: .minus).isLessThanZero, false)
-        XCTAssertEqual(T(1, as: .plus ).isLessThanZero, false)
-        XCTAssertEqual(T(1, as: .minus).isLessThanZero, true )
+        XCTAssertFalse(T(0, as: .plus ).isLessThanZero)
+        XCTAssertFalse(T(0, as: .minus).isLessThanZero)
+        XCTAssertFalse(T(1, as: .plus ).isLessThanZero)
+        XCTAssertTrue (T(1, as: .minus).isLessThanZero)
     }
     
     func testIsMoreThanZero() {
-        XCTAssertEqual(T(0, as: .plus ).isMoreThanZero, false)
-        XCTAssertEqual(T(0, as: .minus).isMoreThanZero, false)
-        XCTAssertEqual(T(1, as: .plus ).isMoreThanZero, true )
-        XCTAssertEqual(T(1, as: .minus).isMoreThanZero, false)
+        XCTAssertFalse(T(0, as: .plus ).isMoreThanZero)
+        XCTAssertFalse(T(0, as: .minus).isMoreThanZero)
+        XCTAssertTrue (T(1, as: .plus ).isMoreThanZero)
+        XCTAssertFalse(T(1, as: .minus).isMoreThanZero)
+    }
+    
+    func testSignum() {
+        XCTAssertEqual(T(0, as: .plus ).signum(), Int( 0))
+        XCTAssertEqual(T(0, as: .minus).signum(), Int( 0))
+        XCTAssertEqual(T(1, as: .plus ).signum(), Int( 1))
+        XCTAssertEqual(T(1, as: .minus).signum(), Int(-1))
     }
 }
 

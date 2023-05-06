@@ -27,8 +27,8 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public func signum() -> Int {
-        self.isLessThanZero ? -1 : self.isZero ? 0 : 1
+    @inlinable public var isFull: Bool {
+        self.low.isFull && self.high.isFull
     }
     
     @inlinable public var isZero: Bool {
@@ -41,6 +41,10 @@ extension ANKFullWidth {
     
     @inlinable public var isMoreThanZero: Bool {
         !self.isLessThanZero && !self.isZero
+    }
+    
+    @inlinable public func signum() -> Int {
+        self.isLessThanZero ? -1 : self.isZero ? 0 : 1
     }
     
     //=------------------------------------------------------------------------=
