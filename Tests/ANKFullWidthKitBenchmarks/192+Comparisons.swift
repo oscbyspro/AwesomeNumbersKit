@@ -51,7 +51,7 @@ final class Int192BenchmarksOnComparisons: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Zero
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testIsFull() {
@@ -87,6 +87,26 @@ final class Int192BenchmarksOnComparisons: XCTestCase {
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isMoreThanZero)
             _blackHoleInoutIdentity(&abc)
+        }
+    }
+    
+    func testIsPowerOf2() {
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2)))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.isPowerOf2)
+            _blackHoleInoutIdentity(&abc)
+        }
+    }
+    
+    func testMatchesRepeatingBit() {
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2)))
+        var bit = _blackHoleIdentity(true)
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.matches(repeating: bit))
+            _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&bit)
         }
     }
 }
@@ -126,7 +146,7 @@ final class UInt192BenchmarksOnComparisons: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Zero
+    // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testIsFull() {
@@ -162,6 +182,26 @@ final class UInt192BenchmarksOnComparisons: XCTestCase {
         for _ in 0 ..< 1_000_000 {
             _blackHole(abc.isMoreThanZero)
             _blackHoleInoutIdentity(&abc)
+        }
+    }
+    
+    func testIsPowerOf2() {
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2)))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.isPowerOf2)
+            _blackHoleInoutIdentity(&abc)
+        }
+    }
+    
+    func testMatchesRepeatingBit() {
+        var abc = _blackHoleIdentity(T(x64: X(0, 1, 2)))
+        var bit = _blackHoleIdentity(true)
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.matches(repeating: bit))
+            _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&bit)
         }
     }
 }

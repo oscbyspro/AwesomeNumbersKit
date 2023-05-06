@@ -47,9 +47,9 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// The return value can be viewed as the bitwise inverse of ``isZero``.
     ///
     /// ```swift
-    /// UInt8(0b_0000_0000).isFull // false
-    /// UInt8(0b_0000_1111).isFull // false
-    /// UInt8(0b_1111_1111).isFull // true
+    /// UInt8(0b00000000).isFull // false
+    /// UInt8(0b00001111).isFull // false
+    /// UInt8(0b11111111).isFull // true
     /// ```
     ///
     @inlinable var isFull: Bool { get }
@@ -238,9 +238,9 @@ extension ANKFixedWidthInteger {
     /// The return value can be viewed as the bitwise inverse of ``isZero``.
     ///
     /// ```swift
-    /// UInt8(0b_0000_0000).isFull // false
-    /// UInt8(0b_0000_1111).isFull // false
-    /// UInt8(0b_1111_1111).isFull // true
+    /// UInt8(0b00000000).isFull // false
+    /// UInt8(0b00001111).isFull // false
+    /// UInt8(0b11111111).isFull // true
     /// ```
     ///
     @_transparent public var isFull: Bool {
@@ -255,14 +255,14 @@ extension ANKFixedWidthInteger {
     /// Returns whether this value matches the given bit pattern, in two's complement form.
     ///
     /// ```swift
-    /// UInt8(0b_0000_0000).matches(repeating: true ) // false
-    /// UInt8(0b_0000_0000).matches(repeating: false) // true
+    /// UInt8(0b00000000).matches(repeating: true ) // false
+    /// UInt8(0b00000000).matches(repeating: false) // true
     ///
-    /// UInt8(0b_0000_1111).matches(repeating: true ) // false
-    /// UInt8(0b_0000_1111).matches(repeating: false) // false
+    /// UInt8(0b00001111).matches(repeating: true ) // false
+    /// UInt8(0b00001111).matches(repeating: false) // false
     ///
-    /// UInt8(0b_1111_1111).matches(repeating: true ) // true
-    /// UInt8(0b_1111_1111).matches(repeating: false) // false
+    /// UInt8(0b11111111).matches(repeating: true ) // true
+    /// UInt8(0b11111111).matches(repeating: false) // false
     /// ```
     ///
     @_transparent public func matches(repeating bit: Bool) -> Bool {

@@ -28,6 +28,32 @@ final class Int256BenchmarksOnBits: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testMostSignificantBit() {
+        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0, 0)))
+        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0, 0)))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.mostSignificantBit)
+            _blackHole(xyz.mostSignificantBit)
+            
+            _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&xyz)
+        }
+    }
+    
+    func testLeastSignificantBit() {
+        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0, 0)))
+        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0, 0)))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.leastSignificantBit)
+            _blackHole(xyz.leastSignificantBit)
+            
+            _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&xyz)
+        }
+    }
+    
     func testNonzeroBitCount() {
         var abc = _blackHoleIdentity( T(x64: X(0, 0, 0, 0)))
         var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0, 0)))
@@ -79,6 +105,32 @@ final class UInt256BenchmarksOnBits: XCTestCase {
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
+    
+    func testMostSignificantBit() {
+        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0, 0)))
+        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0, 0)))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.mostSignificantBit)
+            _blackHole(xyz.mostSignificantBit)
+            
+            _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&xyz)
+        }
+    }
+    
+    func testLeastSignificantBit() {
+        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0, 0)))
+        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0, 0)))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(abc.leastSignificantBit)
+            _blackHole(xyz.leastSignificantBit)
+            
+            _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&xyz)
+        }
+    }
     
     func testNonzeroBitCount() {
         var abc = _blackHoleIdentity( T(x64: X(0, 0, 0, 0)))
