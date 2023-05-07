@@ -71,6 +71,24 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// Returns whether this value is a power of `2`.
     @inlinable var isPowerOf2: Bool { get }
     
+    /// Performs a [three-way comparison][3s] and returns: `0`, `1` or `-1`.
+    ///
+    /// It is semantically equivalent to the following expression:
+    ///
+    /// ```swift
+    /// self < other ? -1 : self == other ? 0 : 1
+    /// ```
+    ///
+    /// The return value also be thought of as the ``signum()`` of the difference:
+    ///
+    /// ```swift
+    /// (self - other).signum() // without errors
+    /// ```
+    ///
+    /// [3s]: https://en.wikipedia.org/wiki/Three-way_comparison
+    ///
+    @inlinable func compared(to other: Self) -> Int
+    
     //=------------------------------------------------------------------------=
     // MARK: Details x Two's Complement
     //=------------------------------------------------------------------------=

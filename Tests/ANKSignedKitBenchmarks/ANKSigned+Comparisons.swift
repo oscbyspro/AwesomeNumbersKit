@@ -49,6 +49,17 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
         }
     }
     
+    func testComparedTo() {
+        var lhs = _blackHoleIdentity(T(1, as: .plus ))
+        var rhs = _blackHoleIdentity(T(1, as: .minus))
+        
+        for _ in 0 ..< 1_000_000 {
+            _blackHole(lhs.compared(to: rhs))
+            _blackHoleInoutIdentity(&lhs)
+            _blackHoleInoutIdentity(&rhs)
+        }
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Zero
     //=------------------------------------------------------------------------=

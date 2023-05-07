@@ -27,63 +27,51 @@ final class Int192TestsOnComparisons: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testEquating() {
-        XCTAssert(T(-1) == T(-1))
-        XCTAssert(T( 0) == T( 0))
-        XCTAssert(T( 1) == T( 1))
-        
-        XCTAssert(T( 0) != T( 1))
-        XCTAssert(T( 1) != T( 0))
-        
-        XCTAssert(T( 0) != T(-1))
-        XCTAssert(T(-1) != T(-0))
-        
-        XCTAssert(T( 1) != T(-1))
-        XCTAssert(T(-1) != T( 1))
-        
-        XCTAssert(T.min == T.min)
-        XCTAssert(T.min != T.max)
-        XCTAssert(T.max != T.min)
-        XCTAssert(T.max == T.max)
-
-        XCTAssertEqual(T(x64: X( 0,  0,  0)), T(x64: X( 0,  0,  0)))
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0)), T(x64: X(~0, ~0, ~0)))
+    func testHashing() {
+        var union = Set<T>()
+        union.insert(T(x64: X(0, 0, 0)))
+        union.insert(T(x64: X(1, 0, 0)))
+        union.insert(T(x64: X(0, 1, 0)))
+        union.insert(T(x64: X(0, 0, 1)))
+        union.insert(T(x64: X(0, 0, 0)))
+        XCTAssertEqual(union.count, 4)
     }
     
     func testComparing() {
-        XCTAssertFalse(T( 0) < T( 0))
-        XCTAssertFalse(T( 0) > T( 0))
-        XCTAssertFalse(T( 1) < T( 1))
-        XCTAssertFalse(T( 1) > T( 1))
-        XCTAssertFalse(T(-1) < T(-1))
-        XCTAssertFalse(T(-1) > T(-1))
+        ANKAssertComparisons( T(0),  T(0),  Int(0))
+        ANKAssertComparisons( T(0), -T(0),  Int(0))
+        ANKAssertComparisons(-T(0),  T(0),  Int(0))
+        ANKAssertComparisons(-T(0), -T(0),  Int(0))
         
-        XCTAssertLessThan(T( 0), T( 1))
-        XCTAssertLessThan(T(-1), T( 0))
-        XCTAssertLessThan(T( 1), T( 2))
-        XCTAssertLessThan(T(-2), T(-1))
-        XCTAssertLessThan(T(-1), T( 1))
+        ANKAssertComparisons( T(1),  T(1),  Int(0))
+        ANKAssertComparisons( T(1), -T(1),  Int(1))
+        ANKAssertComparisons(-T(1),  T(1), -Int(1))
+        ANKAssertComparisons(-T(1), -T(1),  Int(0))
         
-        XCTAssert(T.min == T.min)
-        XCTAssert(T.min <  T.max)
-        XCTAssert(T.max >  T.min)
-        XCTAssert(T.max == T.max)
+        ANKAssertComparisons( T(2),  T(3), -Int(1))
+        ANKAssertComparisons( T(2), -T(3),  Int(1))
+        ANKAssertComparisons(-T(2),  T(3), -Int(1))
+        ANKAssertComparisons(-T(2), -T(3),  Int(1))
         
-        XCTAssert(T(x64: X(~0,  0,  0)) < T(x64: X(~0, ~0,  0)))
-        XCTAssert(T(x64: X(~0, ~0,  0)) > T(x64: X(~0,  0,  0)))
+        ANKAssertComparisons( T(3),  T(2),  Int(1))
+        ANKAssertComparisons( T(3), -T(2),  Int(1))
+        ANKAssertComparisons(-T(3),  T(2), -Int(1))
+        ANKAssertComparisons(-T(3), -T(2), -Int(1))
         
-        XCTAssert(T(x64: X(~0, ~0,  0)) > T(x64: X(~0, ~0, ~0)))
-        XCTAssert(T(x64: X(~0, ~0, ~0)) < T(x64: X(~0, ~0,  0)))
-    }
-    
-    func testHashing() {
-        var set = Set<T>()
-        set.insert(T(x64: X(0, 0, 0)))
-        set.insert(T(x64: X(1, 0, 0)))
-        set.insert(T(x64: X(0, 1, 0)))
-        set.insert(T(x64: X(0, 0, 1)))
-        set.insert(T(x64: X(0, 0, 0)))
-        XCTAssertEqual(set.count, 4)
+        ANKAssertComparisons(T.max, T.max,  Int(0))
+        ANKAssertComparisons(T.max, T.min,  Int(1))
+        ANKAssertComparisons(T.min, T.max, -Int(1))
+        ANKAssertComparisons(T.min, T.min,  Int(0))
+        
+        ANKAssertComparisons(T(x64: X(0, 2, 3)), T(x64: X(1, 2, 3)), -1)
+        ANKAssertComparisons(T(x64: X(1, 0, 3)), T(x64: X(1, 2, 3)), -1)
+        ANKAssertComparisons(T(x64: X(1, 2, 0)), T(x64: X(1, 2, 3)), -1)
+        ANKAssertComparisons(T(x64: X(0, 2, 3)), T(x64: X(0, 2, 3)),  0)
+        ANKAssertComparisons(T(x64: X(1, 0, 3)), T(x64: X(1, 0, 3)),  0)
+        ANKAssertComparisons(T(x64: X(1, 2, 0)), T(x64: X(1, 2, 0)),  0)
+        ANKAssertComparisons(T(x64: X(1, 2, 3)), T(x64: X(0, 2, 3)),  1)
+        ANKAssertComparisons(T(x64: X(1, 2, 3)), T(x64: X(1, 0, 3)),  1)
+        ANKAssertComparisons(T(x64: X(1, 2, 3)), T(x64: X(1, 2, 0)),  1)
     }
     
     //=------------------------------------------------------------------------=
@@ -180,50 +168,36 @@ final class UInt192TestsOnComparisons: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testEquating() {
-        XCTAssert(T(0) == T(0))
-        XCTAssert(T(1) == T(1))
-        
-        XCTAssert(T(0) != T(1))
-        XCTAssert(T(1) != T(0))
-        
-        XCTAssert(T.min == T.min)
-        XCTAssert(T.min != T.max)
-        XCTAssert(T.max != T.min)
-        XCTAssert(T.max == T.max)
-        
-        XCTAssertEqual(T(x64: X( 0,  0,  0)), T(x64: X( 0,  0,  0)))
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0)), T(x64: X(~0, ~0, ~0)))
+    func testHashing() {
+        var union = Set<T>()
+        union.insert(T(x64: X(0, 0, 0)))
+        union.insert(T(x64: X(1, 0, 0)))
+        union.insert(T(x64: X(0, 1, 0)))
+        union.insert(T(x64: X(0, 0, 1)))
+        union.insert(T(x64: X(0, 0, 0)))
+        XCTAssertEqual(union.count, 4)
     }
     
     func testComparing() {
-        XCTAssert(T(0) < T(1))
-        XCTAssert(T(1) > T(0))
-        XCTAssert(T(1) < T(2))
-        XCTAssert(T(2) > T(1))
+        ANKAssertComparisons( T(0),  T(0),  Int(0))
+        ANKAssertComparisons( T(1),  T(1),  Int(0))
+        ANKAssertComparisons( T(2),  T(3), -Int(1))
+        ANKAssertComparisons( T(3),  T(2),  Int(1))
         
-        XCTAssertFalse(T(0) < T(0))
-        XCTAssertFalse(T(0) > T(0))
-        XCTAssertFalse(T(1) < T(1))
-        XCTAssertFalse(T(1) > T(1))
+        ANKAssertComparisons(T.max, T.max,  Int(0))
+        ANKAssertComparisons(T.max, T.min,  Int(1))
+        ANKAssertComparisons(T.min, T.max, -Int(1))
+        ANKAssertComparisons(T.min, T.min,  Int(0))
         
-        XCTAssert(T.min == T.min)
-        XCTAssert(T.min <  T.max)
-        XCTAssert(T.max >  T.min)
-        XCTAssert(T.max == T.max)
-        
-        XCTAssert(T(x64: X(~0, ~0,  0)) < T(x64: X(~0, ~0, ~0)))
-        XCTAssert(T(x64: X(~0, ~0, ~0)) > T(x64: X(~0, ~0,  0)))
-    }
-    
-    func testHashing() {
-        var set = Set<T>()
-        set.insert(T(x64: X(0, 0, 0)))
-        set.insert(T(x64: X(1, 0, 0)))
-        set.insert(T(x64: X(0, 1, 0)))
-        set.insert(T(x64: X(0, 0, 1)))
-        set.insert(T(x64: X(0, 0, 0)))
-        XCTAssertEqual(set.count, 4)
+        ANKAssertComparisons(T(x64: X(0, 2, 3)), T(x64: X(1, 2, 3)), -1)
+        ANKAssertComparisons(T(x64: X(1, 0, 3)), T(x64: X(1, 2, 3)), -1)
+        ANKAssertComparisons(T(x64: X(1, 2, 0)), T(x64: X(1, 2, 3)), -1)
+        ANKAssertComparisons(T(x64: X(0, 2, 3)), T(x64: X(0, 2, 3)),  0)
+        ANKAssertComparisons(T(x64: X(1, 0, 3)), T(x64: X(1, 0, 3)),  0)
+        ANKAssertComparisons(T(x64: X(1, 2, 0)), T(x64: X(1, 2, 0)),  0)
+        ANKAssertComparisons(T(x64: X(1, 2, 3)), T(x64: X(0, 2, 3)),  1)
+        ANKAssertComparisons(T(x64: X(1, 2, 3)), T(x64: X(1, 0, 3)),  1)
+        ANKAssertComparisons(T(x64: X(1, 2, 3)), T(x64: X(1, 2, 0)),  1)
     }
     
     //=------------------------------------------------------------------------=

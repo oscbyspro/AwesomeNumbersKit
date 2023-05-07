@@ -17,93 +17,78 @@ import XCTest
 //*============================================================================*
 
 final class ANKSignedTestsOnComparisons: XCTestCase {
-    
+
     typealias T = ANKSigned<UInt>
-    
+
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
-    
-    func testEquating() {
-        XCTAssert(T(0, as: .plus ) == T(0, as: .plus ))
-        XCTAssert(T(0, as: .plus ) == T(0, as: .minus))
-        XCTAssert(T(0, as: .minus) == T(0, as: .plus ))
-        XCTAssert(T(0, as: .minus) == T(0, as: .minus))
-        
-        XCTAssert(T(0, as: .plus ) != T(1, as: .plus ))
-        XCTAssert(T(0, as: .plus ) != T(1, as: .minus))
-        XCTAssert(T(0, as: .minus) != T(1, as: .plus ))
-        XCTAssert(T(0, as: .minus) != T(1, as: .minus))
-        
-        XCTAssert(T(1, as: .plus ) == T(1, as: .plus ))
-        XCTAssert(T(1, as: .plus ) != T(1, as: .minus))
-        XCTAssert(T(1, as: .minus) != T(1, as: .plus ))
-        XCTAssert(T(1, as: .minus) == T(1, as: .minus))
-        
-        XCTAssert(T(1, as: .plus ) != T(0, as: .plus ))
-        XCTAssert(T(1, as: .plus ) != T(0, as: .minus))
-        XCTAssert(T(1, as: .minus) != T(0, as: .plus ))
-        XCTAssert(T(1, as: .minus) != T(0, as: .minus))
-    }
-    
-    func testComparing() {
-        XCTAssert(T(0, as: .plus ) < T(1, as: .plus ))
-        XCTAssert(T(0, as: .plus ) > T(1, as: .minus))
-        XCTAssert(T(0, as: .minus) < T(1, as: .plus ))
-        XCTAssert(T(0, as: .minus) > T(1, as: .minus))
-        
-        XCTAssert(T(1, as: .plus ) > T(1, as: .minus))
-        XCTAssert(T(1, as: .minus) < T(1, as: .plus ))
-        
-        XCTAssert(T(1, as: .plus ) > T(0, as: .plus ))
-        XCTAssert(T(1, as: .plus ) > T(0, as: .minus))
-        XCTAssert(T(1, as: .minus) < T(0, as: .plus ))
-        XCTAssert(T(1, as: .minus) < T(0, as: .minus))
-    }
     
     func testHashing() {
-        var set = Set<T>()
-        set.insert(T(0, as: .plus ))
-        set.insert(T(0, as: .plus ))
-        set.insert(T(0, as: .minus))
-        set.insert(T(0, as: .minus))
-        set.insert(T(1, as: .plus ))
-        set.insert(T(1, as: .plus ))
-        set.insert(T(1, as: .minus))
-        set.insert(T(1, as: .minus))
-        XCTAssertEqual(set.count, 3)
+        var union = Set<T>()
+        union.insert( T(0))
+        union.insert( T(0))
+        union.insert(-T(0))
+        union.insert(-T(0))
+        union.insert( T(1))
+        union.insert( T(1))
+        union.insert(-T(1))
+        union.insert(-T(1))
+        XCTAssertEqual(union.count, 3)
+    }
+
+    func testComparing() {
+        ANKAssertComparisons( T(0),  T(0),  Int(0))
+        ANKAssertComparisons( T(0), -T(0),  Int(0))
+        ANKAssertComparisons(-T(0),  T(0),  Int(0))
+        ANKAssertComparisons(-T(0), -T(0),  Int(0))
+        
+        ANKAssertComparisons( T(1),  T(1),  Int(0))
+        ANKAssertComparisons( T(1), -T(1),  Int(1))
+        ANKAssertComparisons(-T(1),  T(1), -Int(1))
+        ANKAssertComparisons(-T(1), -T(1),  Int(0))
+        
+        ANKAssertComparisons( T(2),  T(3), -Int(1))
+        ANKAssertComparisons( T(2), -T(3),  Int(1))
+        ANKAssertComparisons(-T(2),  T(3), -Int(1))
+        ANKAssertComparisons(-T(2), -T(3),  Int(1))
+        
+        ANKAssertComparisons( T(3),  T(2),  Int(1))
+        ANKAssertComparisons( T(3), -T(2),  Int(1))
+        ANKAssertComparisons(-T(3),  T(2), -Int(1))
+        ANKAssertComparisons(-T(3), -T(2), -Int(1))
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
-    
+
     func testIsZero() {
-        XCTAssertTrue (T(0, as: .plus ).isZero)
-        XCTAssertTrue (T(0, as: .minus).isZero)
-        XCTAssertFalse(T(1, as: .plus ).isZero)
-        XCTAssertFalse(T(1, as: .minus).isZero)
+        XCTAssertTrue (( T(0)).isZero)
+        XCTAssertTrue ((-T(0)).isZero)
+        XCTAssertFalse(( T(1)).isZero)
+        XCTAssertFalse((-T(1)).isZero)
     }
-    
+
     func testIsLessThanZero() {
-        XCTAssertFalse(T(0, as: .plus ).isLessThanZero)
-        XCTAssertFalse(T(0, as: .minus).isLessThanZero)
-        XCTAssertFalse(T(1, as: .plus ).isLessThanZero)
-        XCTAssertTrue (T(1, as: .minus).isLessThanZero)
+        XCTAssertFalse(( T(0)).isLessThanZero)
+        XCTAssertFalse((-T(0)).isLessThanZero)
+        XCTAssertFalse(( T(1)).isLessThanZero)
+        XCTAssertTrue ((-T(1)).isLessThanZero)
     }
-    
+
     func testIsMoreThanZero() {
-        XCTAssertFalse(T(0, as: .plus ).isMoreThanZero)
-        XCTAssertFalse(T(0, as: .minus).isMoreThanZero)
-        XCTAssertTrue (T(1, as: .plus ).isMoreThanZero)
-        XCTAssertFalse(T(1, as: .minus).isMoreThanZero)
+        XCTAssertFalse(( T(0)).isMoreThanZero)
+        XCTAssertFalse((-T(0)).isMoreThanZero)
+        XCTAssertTrue (( T(1)).isMoreThanZero)
+        XCTAssertFalse((-T(1)).isMoreThanZero)
     }
-    
+
     func testSignum() {
-        XCTAssertEqual(T(0, as: .plus ).signum(), Int( 0))
-        XCTAssertEqual(T(0, as: .minus).signum(), Int( 0))
-        XCTAssertEqual(T(1, as: .plus ).signum(), Int( 1))
-        XCTAssertEqual(T(1, as: .minus).signum(), Int(-1))
+        XCTAssertEqual(( T(0)).signum(), Int( 0))
+        XCTAssertEqual((-T(0)).signum(), Int( 0))
+        XCTAssertEqual(( T(1)).signum(), Int( 1))
+        XCTAssertEqual((-T(1)).signum(), Int(-1))
     }
 }
 

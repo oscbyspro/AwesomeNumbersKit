@@ -29,6 +29,45 @@ final class ANKCoreIntegerTestsOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
+        
+    func testComparing() {
+        func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertComparisons(T( 0), T( 0), Int( 0))
+            ANKAssertComparisons(T( 0), T(-0), Int( 0))
+            ANKAssertComparisons(T(-0), T( 0), Int( 0))
+            ANKAssertComparisons(T(-0), T(-0), Int( 0))
+            
+            ANKAssertComparisons(T( 1), T( 1), Int( 0))
+            ANKAssertComparisons(T( 1), T(-1), Int( 1))
+            ANKAssertComparisons(T(-1), T( 1), Int(-1))
+            ANKAssertComparisons(T(-1), T(-1), Int( 0))
+            
+            ANKAssertComparisons(T( 2), T( 3), Int(-1))
+            ANKAssertComparisons(T( 2), T(-3), Int( 1))
+            ANKAssertComparisons(T(-2), T( 3), Int(-1))
+            ANKAssertComparisons(T(-2), T(-3), Int( 1))
+            
+            ANKAssertComparisons(T( 3), T( 2), Int( 1))
+            ANKAssertComparisons(T( 3), T(-2), Int( 1))
+            ANKAssertComparisons(T(-3), T( 2), Int(-1))
+            ANKAssertComparisons(T(-3), T(-2), Int(-1))
+        }
+        
+        func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertComparisons(T( 0), T( 0), Int( 0))
+            ANKAssertComparisons(T( 1), T( 1), Int( 0))
+            ANKAssertComparisons(T( 2), T( 3), Int(-1))
+            ANKAssertComparisons(T( 3), T( 2), Int( 1))
+        }
+                
+        for type: T in types {
+            type.isSigned ? whereIsSigned(type) : whereIsUnsigned(type)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests
+    //=------------------------------------------------------------------------=
     
     func testIsFull() {
         for type: T in types {

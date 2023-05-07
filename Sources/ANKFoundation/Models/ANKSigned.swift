@@ -137,15 +137,6 @@ extension ANKSigned {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.magnitude)
-        hasher.combine(self.normalizedSign)
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
     @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
         //=--------------------------------------=
         if  lhs.sign != rhs.sign {
@@ -161,7 +152,29 @@ extension ANKSigned {
             return (lhs.sign != ANKSign.plus) && !(lhs.isZero && rhs.isZero)
         }
         //=--------------------------------------=
-        return (lhs.sign == ANKSign.plus) == (lhs.magnitude < rhs.magnitude)
+        return lhs.sign == ANKSign.plus
+        ? lhs.magnitude < rhs.magnitude
+        : rhs.magnitude < lhs.magnitude
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.magnitude)
+        hasher.combine(self.normalizedSign)
+    }
+    
+    @inlinable public func compared(to other: Self) -> Int {
+        //=--------------------------------------=
+        if  self.sign != other.sign {
+            if self.isZero && other.isZero { return 0 }
+            return self.sign == ANKSign.plus ? 1 : -1
+        }
+        //=--------------------------------------=
+        let m = self.magnitude.compared(to: other.magnitude)
+        return  self.sign == ANKSign.plus ? m : -(m)
     }
 }
 

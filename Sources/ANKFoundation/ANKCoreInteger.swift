@@ -49,34 +49,6 @@ extension ANKCoreInteger {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    @_transparent public var isFull: Bool {
-        self == ~(0 as Self)
-    }
-    
-    @_transparent public var isZero: Bool {
-        self ==  (0 as Self)
-    }
-    
-    @_transparent public var isLessThanZero: Bool {
-        Self.isSigned && self < (0 as Self)
-    }
-    
-    @_transparent public var isMoreThanZero: Bool {
-        self > (0 as Self)
-    }
-    
-    @_transparent public var mostSignificantBit: Bool {
-        self & ((1 as Self) &<< (Self.bitWidth &- 1)) != (0 as Self)
-    }
-    
-    @_transparent public var leastSignificantBit: Bool {
-        self & (1 as Self) != (0 as Self)
-    }
-    
-    //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
@@ -124,15 +96,39 @@ extension ANKCoreInteger {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Details x Bit Pattern
+    // MARK: Details x Bits
     //=------------------------------------------------------------------------=
     
-    @_transparent public var bitPattern: BitPattern {
-        unsafeBitCast(self, to: BitPattern.self)
+    @_transparent public var mostSignificantBit: Bool {
+        self & ((1 as Self) &<< (Self.bitWidth &- 1)) != (0 as Self)
     }
     
-    @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
-        self = unsafeBitCast(source.bitPattern, to: Self.self)
+    @_transparent public var leastSignificantBit: Bool {
+        self & (1 as Self) != (0 as Self)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Comparisons
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public var isFull: Bool {
+        self == ~(0 as Self)
+    }
+    
+    @_transparent public var isZero: Bool {
+        self ==  (0 as Self)
+    }
+    
+    @_transparent public var isLessThanZero: Bool {
+        Self.isSigned && self < (0 as Self)
+    }
+    
+    @_transparent public var isMoreThanZero: Bool {
+        self > (0 as Self)
+    }
+    
+    @inlinable public func compared(to other: Self) -> Int {
+        self < other ? -1 : self == other ? 0 : 1
     }
     
     //=------------------------------------------------------------------------=
@@ -145,6 +141,18 @@ extension ANKCoreInteger {
     
     @_transparent public func twosComplement() -> Self {
         ~self &+ (1 as Self)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Bit Pattern
+    //=------------------------------------------------------------------------=
+    
+    @_transparent public var bitPattern: BitPattern {
+        unsafeBitCast(self, to: BitPattern.self)
+    }
+    
+    @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
+        self = unsafeBitCast(source.bitPattern, to: Self.self)
     }
 }
 

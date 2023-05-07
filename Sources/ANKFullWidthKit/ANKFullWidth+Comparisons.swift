@@ -51,20 +51,42 @@ extension ANKFullWidth {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.low )
-        hasher.combine(self.high)
+    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
+        lhs.low == rhs.low && lhs.high == rhs.high
+    }
+    
+    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
+        lhs.compared(to: rhs).isLessThanZero
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
-        lhs.low == rhs.low && lhs.high == rhs.high
+    @inlinable public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.low )
+        hasher.combine(self.high)
     }
     
-    @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
-        lhs.high < rhs.high || lhs.high == rhs.high && lhs.low < rhs.low
+    @inlinable public func compared(to other: Self) -> Int {
+        self .withUnsafeWords { LHS in
+        other.withUnsafeWords { RHS in
+            var index = LHS.lastIndex
+            
+            backwards: do {
+                let lhsWord  = Digit(bitPattern: LHS[index])
+                let rhsWord  = Digit(bitPattern: RHS[index])
+                if  lhsWord != rhsWord { return lhsWord < rhsWord ? -1 : 1 }
+            }
+            
+            backwards: while !index.isZero {
+                LHS.formIndex(before: &index)
+                let lhsWord  = LHS[index]
+                let rhsWord  = RHS[index]
+                if  lhsWord != rhsWord { return lhsWord < rhsWord ? -1 : 1 }
+            }
+            
+            return Int.zero
+        }}
     }
 }
