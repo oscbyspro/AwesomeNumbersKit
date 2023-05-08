@@ -79,7 +79,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// self < other ? -1 : self == other ? 0 : 1
     /// ```
     ///
-    /// The return value also be thought of as the ``signum()`` of the difference:
+    /// The return value can also be thought of as the ``signum()`` of the difference:
     ///
     /// ```swift
     /// (self - other).signum() // without errors

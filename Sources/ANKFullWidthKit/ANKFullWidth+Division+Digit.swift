@@ -98,7 +98,7 @@ extension ANKFullWidth where High == High.Magnitude {
         }
         //=--------------------------------------=
         var remainder = UInt()
-        //=--------------------------------------=
+        
         self.withUnsafeMutableWords { SELF in
             var index: Int = SELF.endIndex
             backwards: while index != SELF.startIndex {
@@ -106,7 +106,7 @@ extension ANKFullWidth where High == High.Magnitude {
                 (SELF[index], remainder) = divisor.dividingFullWidth(HL(remainder, SELF[index]))
             }
         }
-        //=--------------------------------------=
+        
         return PVO(remainder, false)
     }
 }
