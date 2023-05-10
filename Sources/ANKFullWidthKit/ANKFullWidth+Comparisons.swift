@@ -76,14 +76,14 @@ extension ANKFullWidth {
             backwards: do {
                 let lhsWord  = Digit(bitPattern: LHS[index])
                 let rhsWord  = Digit(bitPattern: RHS[index])
-                if  lhsWord != rhsWord { return lhsWord < rhsWord ? -1 : 1 }
+                if  lhsWord != rhsWord { return  lhsWord < rhsWord ? -1 : 1 }
             }
             
             backwards: while !index.isZero {
                 LHS.formIndex(before: &index)
                 let lhsWord  = LHS[index]
                 let rhsWord  = RHS[index]
-                if  lhsWord != rhsWord { return lhsWord < rhsWord ? -1 : 1 }
+                if  lhsWord != rhsWord { return  lhsWord < rhsWord ? -1 : 1 }
             }
             
             return Int.zero

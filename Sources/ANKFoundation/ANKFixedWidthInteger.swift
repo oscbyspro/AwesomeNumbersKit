@@ -284,7 +284,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func +=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.addReportingOverflow(rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in +=")
     }
     
     /// Forms the sum of adding `rhs` to `lhs`.
@@ -298,7 +298,7 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func +=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.addReportingOverflow(rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in +=")
     }
     
     /// Returns the sum of adding `rhs` to `lhs`.
@@ -312,7 +312,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func +(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in +")
         return pvo.partialValue as Self
     }
     
@@ -327,7 +327,7 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func +(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in +")
         return pvo.partialValue as Self
     }
     
@@ -390,7 +390,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func -=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.subtractReportingOverflow(rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in -=")
     }
     
     /// Forms the difference of subtracting `rhs` from `lhs`.
@@ -404,7 +404,7 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func -=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.subtractReportingOverflow(rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in -=")
     }
     
     /// Returns the difference of subtracting `rhs` from `lhs`.
@@ -418,7 +418,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func -(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.subtractingReportingOverflow(rhs)
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in -")
         return pvo.partialValue as Self
     }
     
@@ -433,7 +433,7 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func -(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.subtractingReportingOverflow(rhs)
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in -")
         return pvo.partialValue as Self
     }
     
@@ -496,7 +496,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func *=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in *=")
     }
     
     /// Forms the product of multiplying `lhs` by `rhs`.
@@ -510,7 +510,7 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func *=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in *=")
     }
     
     /// Returns the product of multiplying `lhs` by `rhs`.
@@ -524,7 +524,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func *(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in *")
         return pvo.partialValue as Self
     }
     
@@ -539,7 +539,8 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func *(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow); return pvo.partialValue
+        precondition(!pvo.overflow, "overflow in *")
+        return pvo.partialValue as Self
     }
     
     /// Forms the truncated product of multiplying `lhs` by `rhs`.

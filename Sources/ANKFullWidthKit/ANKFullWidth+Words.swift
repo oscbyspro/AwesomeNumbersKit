@@ -20,8 +20,8 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static var count: Int {
-        assert(Self.bitWidth / UInt.bitWidth >= 2)
-        assert(Self.bitWidth % UInt.bitWidth == 0)
+        assert(Self.bitWidth / UInt.bitWidth >= 2, "invalid memory layout")
+        assert(Self.bitWidth % UInt.bitWidth == 0, "invalid memory layout")
         return Self.bitWidth / UInt.bitWidth
     }
     
@@ -109,11 +109,11 @@ extension ANKFullWidth {
     
     @inlinable public subscript(index: Int) -> UInt {
         @_transparent _read {
-            precondition(self.indices ~= index)
+            precondition(self.indices ~= index, "index out of range")
             yield  self[unchecked: index]
         }
         @_transparent _modify {
-            precondition(self.indices ~= index)
+            precondition(self.indices ~= index, "index out of range")
             yield &self[unchecked: index]
         }
     }

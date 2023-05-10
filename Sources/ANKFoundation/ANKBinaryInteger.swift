@@ -76,13 +76,13 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// It is semantically equivalent to the following expression:
     ///
     /// ```swift
-    /// self < other ? -1 : self == other ? 0 : 1
+    /// (self < other) ? -1 : (self == other) ? 0 : 1
     /// ```
     ///
     /// The return value can also be thought of as the ``signum()`` of the difference:
     ///
     /// ```swift
-    /// (self - other).signum() // without errors
+    /// (self - other).signum() // but without errors
     /// ```
     ///
     /// [3s]: https://en.wikipedia.org/wiki/Three-way_comparison
@@ -564,7 +564,7 @@ extension ANKBinaryInteger {
     ///
     @_transparent public static func /=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.divideReportingOverflow(by: rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in /=")
     }
     
     /// Forms the quotient of dividing `lhs` by `rhs`.
@@ -578,7 +578,7 @@ extension ANKBinaryInteger {
     ///
     @_disfavoredOverload @_transparent public static func /=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.divideReportingOverflow(by: rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in /=")
     }
     
     /// Returns the quotient of dividing `lhs` by `rhs`.
@@ -592,7 +592,7 @@ extension ANKBinaryInteger {
     ///
     @_transparent public static func /(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in /")
         return pvo.partialValue as Self
     }
     
@@ -607,7 +607,7 @@ extension ANKBinaryInteger {
     ///
     @_disfavoredOverload @_transparent public static func /(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in /")
         return pvo.partialValue as Self
     }
     
@@ -622,7 +622,7 @@ extension ANKBinaryInteger {
     ///
     @_transparent public static func %=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.formRemainderReportingOverflow(dividingBy: rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in %=")
     }
     
     /// Forms the remainder of dividing `lhs` by `rhs`.
@@ -636,7 +636,7 @@ extension ANKBinaryInteger {
     ///
     @_disfavoredOverload @_transparent public static func %=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.formRemainderReportingOverflow(dividingBy: rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in %=")
     }
     
     /// Returns the remainder of dividing `lhs` by `rhs`.
@@ -650,7 +650,7 @@ extension ANKBinaryInteger {
     ///
     @_transparent public static func %(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.remainderReportingOverflow(dividingBy: rhs)
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in %")
         return pvo.partialValue as Self
     }
     
@@ -665,7 +665,7 @@ extension ANKBinaryInteger {
     ///
     @_disfavoredOverload @_transparent public static func %(lhs: Self, rhs: Digit) -> Digit {
         let pvo: PVO<Digit> = lhs.remainderReportingOverflow(dividingBy: rhs)
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in %")
         return pvo.partialValue as Digit
     }
     
@@ -680,7 +680,7 @@ extension ANKBinaryInteger {
     ///
     @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
         let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
-        precondition(!qro.overflow)
+        precondition(!qro.overflow, "overflow in division")
         return qro.partialValue as QR<Self, Self>
     }
     
@@ -695,7 +695,7 @@ extension ANKBinaryInteger {
     ///
     @_disfavoredOverload @_transparent public func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
         let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
-        precondition(!qro.overflow)
+        precondition(!qro.overflow, "overflow in division")
         return qro.partialValue as QR<Self, Digit>
     }
 }
@@ -717,7 +717,7 @@ extension ANKBinaryInteger where Digit == Self {
     ///
     @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
         let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
-        precondition(!qro.overflow)
+        precondition(!qro.overflow, "overflow in division")
         return qro.partialValue as QR<Self, Self>
     }
 }
@@ -826,7 +826,7 @@ extension ANKSignedInteger {
     ///
     @_transparent public mutating func negate() {
         let overflow: Bool = self.negateReportingOverflow()
-        precondition(!overflow)
+        precondition(!overflow, "overflow in negation")
     }
     
     /// Returns a value with equal magnitude but opposite sign.
@@ -839,7 +839,7 @@ extension ANKSignedInteger {
     ///
     @_transparent public func negated() -> Self {
         let pvo: PVO<Self> = self.negatedReportingOverflow()
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in negation")
         return pvo.partialValue as Self
     }
 }

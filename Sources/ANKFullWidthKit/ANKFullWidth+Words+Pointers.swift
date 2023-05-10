@@ -165,8 +165,8 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     
     @inlinable static var count: Int {
-        assert(MemoryLayout<Layout>.size / MemoryLayout<UInt>.size >= 2)
-        assert(MemoryLayout<Layout>.size % MemoryLayout<UInt>.size == 0)
+        assert(MemoryLayout<Layout>.size / MemoryLayout<UInt>.size >= 2, "invalid memory layout")
+        assert(MemoryLayout<Layout>.size % MemoryLayout<UInt>.size == 0, "invalid memory layout")
         return MemoryLayout<Layout>.size / MemoryLayout<UInt>.size
     }
     
@@ -215,34 +215,34 @@ extension ANKFullWidthUnsafeWordsPointer {
     //=------------------------------------------------------------------------=
     
     @inlinable public func distance(from start: Int, to end: Int) -> Int {
-        assert(self.startIndex ... self.endIndex ~= start)
-        assert(self.startIndex ... self.endIndex ~= end  )
+        assert(self.startIndex ... self.endIndex ~= start, "index out of range")
+        assert(self.startIndex ... self.endIndex ~= end  , "index out of range")
         return end &- start
     }
     
     @inlinable public func index(after index: Int) -> Int {
         let value = index &+ 1
-        assert(self.startIndex ... self.endIndex ~= index)
-        assert(self.startIndex ... self.endIndex ~= value)
+        assert(self.startIndex ... self.endIndex ~= index, "index out of range")
+        assert(self.startIndex ... self.endIndex ~= value, "index out of range")
         return value  as Index
     }
     
     @inlinable public func index(before index: Int) -> Int {
         let value = index &- 1
-        assert(self.startIndex ... self.endIndex ~= index)
-        assert(self.startIndex ... self.endIndex ~= value)
+        assert(self.startIndex ... self.endIndex ~= index, "index out of range")
+        assert(self.startIndex ... self.endIndex ~= value, "index out of range")
         return value  as Index
     }
     
     @inlinable public func index(_ index: Int, offsetBy distance: Int) -> Int {
         let value = index &+ distance
-        assert(self.startIndex ... self.endIndex ~= index)
-        assert(self.startIndex ... self.endIndex ~= value)
+        assert(self.startIndex ... self.endIndex ~= index, "index out of range")
+        assert(self.startIndex ... self.endIndex ~= value, "index out of range")
         return value  as Index
     }
     
     @_transparent @usableFromInline func endianSensitiveIndex(_ index: Int) -> Int {
-        assert(self.indices ~= index)
+        assert(self.indices ~= index, "index out of range")
         #if _endian(big)
         return self.lastIndex &- index
         #else

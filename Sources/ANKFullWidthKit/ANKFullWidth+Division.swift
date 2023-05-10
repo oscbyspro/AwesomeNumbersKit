@@ -200,7 +200,7 @@ extension ANKFullWidth where High == High.Magnitude {
     @inlinable func _dividingFullWidthAsUnsigned(_ dividend: DoubleWidth) -> QR<Self, Self> {
         let divisor = DoubleWidth(descending: HL(Self(), self))
         let qro: PVO<QR<DoubleWidth, DoubleWidth>> = dividend._quotientAndRemainderReportingOverflowAsUnsigned(dividingBy: divisor)
-        precondition(!qro.overflow)
+        precondition(!qro.overflow, "overflow in division")
         return QR(qro.partialValue.quotient.low, qro.partialValue.remainder.low)
     }
 }

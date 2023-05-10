@@ -47,12 +47,12 @@
     }
     
     @inlinable subscript(_ value: UInt8) -> UInt8 {
-        precondition(value < 37)
+        precondition(value < 37, "digit is not in alphabet")
         return self[unchecked: value]
     }
     
     @inlinable subscript(unchecked value: UInt8) -> UInt8 {
-        Swift.assert(value < 37)
+        Swift.assert(value < 37, "digit is not in alphabet")
         let offset = value < 10 ? self.map00To10 : self.map10To37
         return value &+  offset
     }

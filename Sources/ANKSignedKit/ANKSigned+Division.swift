@@ -21,29 +21,29 @@ extension ANKSigned {
     
     @_transparent public static func /=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.divideReportingOverflow(by: rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in /=")
     }
     
     @_transparent public static func /(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in /")
         return pvo.partialValue as Self
     }
     
     @_transparent public static func %=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.formRemainderReportingOverflow(dividingBy: rhs)
-        precondition(!overflow)
+        precondition(!overflow, "overflow in %=")
     }
     
     @_transparent public static func %(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.remainderReportingOverflow(dividingBy: rhs)
-        precondition(!pvo.overflow)
+        precondition(!pvo.overflow, "overflow in %")
         return pvo.partialValue as Self
     }
     
     @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
         let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
-        precondition(!qro.overflow)
+        precondition(!qro.overflow, "overflow in division")
         return qro.partialValue as QR<Self, Self>
     }
     

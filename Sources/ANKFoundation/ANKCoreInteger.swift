@@ -104,7 +104,7 @@ extension ANKCoreInteger {
     }
     
     @_transparent public var leastSignificantBit: Bool {
-        self & (1 as Self) != (0 as Self)
+        self & ((1 as Self)) != (0 as Self)
     }
     
     //=------------------------------------------------------------------------=

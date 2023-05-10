@@ -67,7 +67,7 @@ extension ANKFullWidth {
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable mutating func _bitshiftLeft(by amount: Int) {
-        assert(0 ..< Self.bitWidth ~= amount)
+        assert(0 ..< Self.bitWidth ~= amount, "invalid shift amount")
         let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
         let bits:  Int = amount &  (UInt.bitWidth &- 1)
         return self._bitshiftLeft(words: words, bits: bits)
@@ -85,8 +85,8 @@ extension ANKFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitshiftLeft(words: Int, bits: Int) {
-        assert(0 ..< Self.endIndex ~= words)
-        assert(0 ..< UInt.bitWidth ~= bits )
+        assert(0 ..< Self.endIndex ~= words, "invalid shift amount")
+        assert(0 ..< UInt.bitWidth ~= bits,  "invalid shift amount")
         //=--------------------------------------=
         let a = UInt(bitPattern: bits)
         let b = UInt(bitPattern: UInt.bitWidth &- bits)
@@ -175,7 +175,7 @@ extension ANKFullWidth {
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable mutating func _bitshiftRight(by amount: Int) {
-        assert(0 ..< Self.bitWidth ~= amount)
+        assert(0 ..< Self.bitWidth ~= amount, "invalid shift amount")
         let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
         let bits:  Int = amount &  (UInt.bitWidth &- 1)
         return self._bitshiftRight(words: words, bits: bits)
@@ -193,8 +193,8 @@ extension ANKFullWidth {
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable mutating func _bitshiftRight(words: Int, bits: Int) {
-        assert(0 ..< Self.endIndex ~= words)
-        assert(0 ..< UInt.bitWidth ~= bits )
+        assert(0 ..< Self.endIndex ~= words, "invalid shift amount")
+        assert(0 ..< UInt.bitWidth ~= bits,  "invalid shift amount")
         //=--------------------------------------=
         let a = UInt(bitPattern: bits)
         let b = UInt(bitPattern: UInt.bitWidth &- bits)

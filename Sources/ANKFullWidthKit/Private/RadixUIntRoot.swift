@@ -94,7 +94,7 @@ extension RadixUIntRoot {
     /// - Parameter radix: A value from `2` through `36`.
     ///
     @inlinable init(_ radix: Int) {
-        precondition(2 ... 36 ~= radix)
+        precondition(2 ... 36 ~= radix, "radix must be in 2 through 36")
         ( self.base) = UInt(bitPattern: radix)
         ( self.exponent, self.power)  = radix.isPowerOf2
         ? Self._rootWhereRadixIsPowerOf2(self.base)
