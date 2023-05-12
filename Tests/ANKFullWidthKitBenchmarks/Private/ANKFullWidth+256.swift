@@ -7,20 +7,10 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import ANKFoundation
+import ANKFullWidthKit
 
 //*============================================================================*
 // MARK: * ANK x [U]Int256
-//*============================================================================*
-
-/// A 256-bit signed integer value type.
-public typealias ANKInt256 = ANKFullWidth<ANKInt128, ANKUInt128>
-
-/// A 256-bit unsigned integer value type.
-public typealias ANKUInt256 = ANKFullWidth<ANKUInt128, ANKUInt128>
-
-//*============================================================================*
-// MARK: * ANK x [U]Int256 x (32/64)
 //*============================================================================*
 
 extension ANKFullWidth where Magnitude == ANKUInt256 {

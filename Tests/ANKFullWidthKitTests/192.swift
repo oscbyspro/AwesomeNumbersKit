@@ -54,8 +54,8 @@ final class Int192Tests: XCTestCase {
     }
     
     func testInitComponents() {
-        XCTAssertEqual(T(x64: X(1, 2, 3)), T(ascending:  LH(T.Low(x64:(1, 2)), T.High(3))))
-        XCTAssertEqual(T(x64: X(1, 2, 3)), T(descending: HL(T.High(3), T.Low(x64:(1, 2)))))
+        XCTAssertEqual(T(x64: X(1, 0, 2)), T(ascending:  LH(T.Low (1), T.High(2))))
+        XCTAssertEqual(T(x64: X(1, 0, 2)), T(descending: HL(T.High(2), T.Low (1))))
     }
 }
 
@@ -98,8 +98,8 @@ final class UInt192Tests: XCTestCase {
     }
     
     func testInitComponents() {
-        XCTAssertEqual(T(x64: X(1, 2, 3)), T(ascending:  LH(T.Low(x64:(1, 2)), T.High(3))))
-        XCTAssertEqual(T(x64: X(1, 2, 3)), T(descending: HL(T.High(3), T.Low(x64:(1, 2)))))
+        XCTAssertEqual(T(x64: X(1, 0, 2)), T(ascending:  LH(T.Low (1), T.High(2))))
+        XCTAssertEqual(T(x64: X(1, 0, 2)), T(descending: HL(T.High(2), T.Low (1))))
     }
 }
 
