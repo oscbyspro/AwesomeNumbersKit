@@ -55,8 +55,7 @@ let package = Package(
         //=--------------------------------------=
         .target(
         name: "AwesomeNumbersKit",
-        dependencies: ["ANKFoundation", "ANKFullWidthKit", "ANKSignedKit"],
-        path: "Bundles/AwesomeNumbersKit"),
+        dependencies: ["ANKFoundation", "ANKFullWidthKit", "ANKSignedKit"]),
         //=--------------------------------------=
         // ANK x Foundation
         //=--------------------------------------=
