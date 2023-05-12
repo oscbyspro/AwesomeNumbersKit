@@ -24,6 +24,18 @@ extension ANKFullWidth {
     }
     
     //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public init(bit: Bool) {
+        self.init(descending: HL(High(), Low(bit: bit)))
+    }
+    
+    @inlinable public init(repeating bit: Bool) {
+        self.init(bitPattern: bit ? Magnitude.max : Magnitude.min)
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     

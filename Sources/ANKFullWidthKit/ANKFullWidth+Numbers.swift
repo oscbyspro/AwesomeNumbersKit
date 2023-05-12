@@ -27,8 +27,24 @@ extension ANKFullWidth {
         Self(descending: HL(High.max, Low.max))
     }
     
-    @inlinable public static var zero: Self {
-        Self()
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public init(integerLiteral source: StaticBigInt) {
+        guard let value = Self(_exactlyIntegerLiteral: source) else {
+            preconditionFailure("integer literal \(source) overflows when stored into \(Self.description)")
+        }
+        
+        self = value
+    }
+    
+    @inlinable init?(_exactlyIntegerLiteral source: StaticBigInt) {
+        guard  Self.isSigned
+        ? source.bitWidth <= Self.bitWidth
+        : source.bitWidth <= Self.bitWidth + 1 && source.signum() >= 0
+        else { return nil  }
+        self = Self.fromUnsafeMutableWords({ for i in $0.indices { $0[i] = source[i] } })
     }
     
     //=------------------------------------------------------------------------=
@@ -283,32 +299,5 @@ extension ANKFullWidth {
         }
         //=--------------------------------------=
         return (value: value, words: words[wordsIndex...], sign: sign)
-    }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Literal
-//=----------------------------------------------------------------------------=
-
-extension ANKFullWidth {
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public init(integerLiteral source: StaticBigInt) {
-        guard let value = Self(_exactlyIntegerLiteral: source) else {
-            preconditionFailure("integer literal \(source) overflows when stored into \(Self.description)")
-        }
-        
-        self = value
-    }
-    
-    @inlinable init?(_exactlyIntegerLiteral source: StaticBigInt) {
-        guard  Self.isSigned
-        ? source.bitWidth <= Self.bitWidth
-        : source.bitWidth <= Self.bitWidth + 1 && source.signum() >= 0
-        else { return nil  }
-        self = Self.fromUnsafeMutableWords({ for i in $0.indices { $0[i] = source[i] } })
     }
 }

@@ -116,22 +116,6 @@ High.Digit: ANKCoreInteger<UInt>, Low: ANKFixedWidthInteger & ANKUnsignedInteger
     @inlinable public init(descending partition: HL<High, Low>) {
         (self.high, self.low) = partition
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public init() {
-        self.init(descending: HL(High(), Low()))
-    }
-    
-    @inlinable public init(bit: Bool) {
-        self.init(descending: HL(High(), Low(bit: bit)))
-    }
-    
-    @inlinable public init(repeating bit: Bool) {
-        self.init(bitPattern: bit ? Magnitude.max : Magnitude.min)
-    }
 }
 
 //*============================================================================*
