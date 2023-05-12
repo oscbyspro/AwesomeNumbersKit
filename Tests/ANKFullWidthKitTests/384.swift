@@ -28,10 +28,6 @@ final class Int384Tests: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInit() {
-        XCTAssertEqual(T(x64: X(0, 0, 0, 0, 0, 0)), T())
-    }
-    
     func testInitX64() {
         XCTAssertEqual(T(x64: X(1, 0, 0, 0, 0, 0)), T(1) <<   0)
         XCTAssertEqual(T(x64: X(0, 1, 0, 0, 0, 0)), T(1) <<  64)
@@ -56,46 +52,19 @@ final class Int384Tests: XCTestCase {
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)), T(1) << 352)
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit
-    //=------------------------------------------------------------------------=
-    
-    func testInitBit() {
-        XCTAssertEqual(T(bit: false), T( ))
-        XCTAssertEqual(T(bit: true ), T(1))
-    }
-    
-    func testInitRepeatingBit() {
-        XCTAssertEqual(T(repeating: false),  T( ))
-        XCTAssertEqual(T(repeating: true ), ~T( ))
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Constants
-    //=------------------------------------------------------------------------=
-    
-    func testInitMin() {
-        XCTAssertEqual(T.min,  (T(1) << (T.bitWidth - 1)))
-    }
-    
-    func testInitMax() {
-        XCTAssertEqual(T.max, ~(T(1) << (T.bitWidth - 1)))
-    }
-    
     func testInitZero() {
-        XCTAssertEqual(T.zero,  T( ))
+        XCTAssertEqual(T(   ), T(x64: X(0, 0, 0, 0, 0, 0)))
+        XCTAssertEqual(T.zero, T(x64: X(0, 0, 0, 0, 0, 0)))
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Components
-    //=------------------------------------------------------------------------=
-    
-    func testInitAscending() {
-        XCTAssertEqual(T(ascending:  (T.Low(x64:(1, 2, 3)), T.High(x64:(4, 5, 6)))), T(x64: X(1, 2, 3, 4, 5, 6)))
+    func testInitEdges() {
+        XCTAssertEqual(T.min,  T(x64: X(0, 0, 0, 0, 0, 1 << 63)))
+        XCTAssertEqual(T.max, ~T(x64: X(0, 0, 0, 0, 0, 1 << 63)))
     }
-
-    func testInitDescending() {
-        XCTAssertEqual(T(descending: (T.High(x64:(4, 5, 6)), T.Low(x64:(1, 2, 3)))), T(x64: X(1, 2, 3, 4, 5, 6)))
+    
+    func testInitComponents() {
+        XCTAssertEqual(T(x64: X(1, 2, 3, 4, 5, 6)), T(ascending:  LH(T.Low (x64:(1, 2, 3)), T.High(x64:(4, 5, 6)))))
+        XCTAssertEqual(T(x64: X(1, 2, 3, 4, 5, 6)), T(descending: HL(T.High(x64:(4, 5, 6)), T.Low (x64:(1, 2, 3)))))
     }
 }
 
@@ -112,10 +81,6 @@ final class UInt384Tests: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInit() {
-        XCTAssertEqual(T(x64: X(0, 0, 0, 0, 0, 0)), T())
-    }
-    
     func testInitX64() {
         XCTAssertEqual(T(x64: X(1, 0, 0, 0, 0, 0)), T(1) <<   0)
         XCTAssertEqual(T(x64: X(0, 1, 0, 0, 0, 0)), T(1) <<  64)
@@ -140,46 +105,19 @@ final class UInt384Tests: XCTestCase {
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)), T(1) << 352)
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit
-    //=------------------------------------------------------------------------=
-    
-    func testInitBit() {
-        XCTAssertEqual(T(bit: false), T( ))
-        XCTAssertEqual(T(bit: true ), T(1))
-    }
-    
-    func testInitRepeatingBit() {
-        XCTAssertEqual(T(repeating: false),  T( ))
-        XCTAssertEqual(T(repeating: true ), ~T( ))
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Constants
-    //=------------------------------------------------------------------------=
-    
-    func testInitMin() {
-        XCTAssertEqual(T.min,  T( ))
-    }
-    
-    func testInitMax() {
-        XCTAssertEqual(T.max, ~T( ))
-    }
-    
     func testInitZero() {
-        XCTAssertEqual(T.zero, T( ))
+        XCTAssertEqual(T(   ), T(x64: X(0, 0, 0, 0, 0, 0)))
+        XCTAssertEqual(T.zero, T(x64: X(0, 0, 0, 0, 0, 0)))
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Components
-    //=------------------------------------------------------------------------=
-    
-    func testInitAscending() {
-        XCTAssertEqual(T(ascending:  (T.Low(x64:(1, 2, 3)), T.High(x64:(4, 5, 6)))), T(x64: X(1, 2, 3, 4, 5, 6)))
+    func testInitEdges() {
+        XCTAssertEqual(T.min,  T(x64: X(0, 0, 0, 0, 0, 0)))
+        XCTAssertEqual(T.max, ~T(x64: X(0, 0, 0, 0, 0, 0)))
     }
-
-    func testInitDescending() {
-        XCTAssertEqual(T(descending: (T.High(x64:(4, 5, 6)), T.Low(x64:(1, 2, 3)))), T(x64: X(1, 2, 3, 4, 5, 6)))
+    
+    func testInitComponents() {
+        XCTAssertEqual(T(x64: X(1, 2, 3, 4, 5, 6)), T(ascending:  LH(T.Low (x64:(1, 2, 3)), T.High(x64:(4, 5, 6)))))
+        XCTAssertEqual(T(x64: X(1, 2, 3, 4, 5, 6)), T(descending: HL(T.High(x64:(4, 5, 6)), T.Low (x64:(1, 2, 3)))))
     }
 }
 

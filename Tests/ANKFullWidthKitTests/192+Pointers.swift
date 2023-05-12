@@ -72,7 +72,7 @@ final class Int192TestsOnPointers: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Words x Contiguous Sequence
+    // MARK: Tests x Words x Contiguous UInt Sequence
     //=------------------------------------------------------------------------=
     
     func testWithContiguousStorageIfAvailable() {
@@ -160,7 +160,7 @@ final class UInt192TestsOnPointers: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Words x Contiguous Sequence
+    // MARK: Tests x Words x Contiguous UInt Sequence
     //=------------------------------------------------------------------------=
     
     func testWithContiguousStorageIfAvailable() {

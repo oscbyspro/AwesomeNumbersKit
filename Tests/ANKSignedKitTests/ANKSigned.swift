@@ -27,44 +27,26 @@ final class ANKSignedTests: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInit() {
-        XCTAssertEqual(T().sign, ANKSign.plus)
-        XCTAssertEqual(T().magnitude, M())
+    func testInitZero() {
+        ANKAssertIdentical(T(   ), T(M(  ), as: ANKSign.plus ))
+        ANKAssertIdentical(T.zero, T(M(  ), as: ANKSign.plus ))
+    }
+    
+    func testInitEdges() {
+        ANKAssertIdentical(T.max,  T(M.max, as: ANKSign.plus ))
+        ANKAssertIdentical(T.min,  T(M.max, as: ANKSign.minus))
+    }
+    
+    func testInitBit() {
+        ANKAssertIdentical(T(bit: false), T(M(bit: false), as: ANKSign.plus ))
+        ANKAssertIdentical(T(bit: true ), T(M(bit: true ), as: ANKSign.plus ))
     }
     
     func testInitDigit() {
-        ANKAssertIdentical(T(digit:  D(3)),  T(3))
-        ANKAssertIdentical(T(digit: -D(3)), -T(3))
-        ANKAssertIdentical(D(digit:  D(3)),  D(3))
-        ANKAssertIdentical(D(digit: -D(3)), -D(3))
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit
-    //=------------------------------------------------------------------------=
-    
-    func testInitBit() {
-        ANKAssertIdentical(T(bit: false), T( ))
-        ANKAssertIdentical(T(bit: true ), T(1))
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Constants
-    //=------------------------------------------------------------------------=
-    
-    func testInitMin() {
-        XCTAssertEqual(T.min.sign, ANKSign.minus)
-        XCTAssertEqual(T.min.magnitude, M.max)
-    }
-    
-    func testInitMax() {
-        XCTAssertEqual(T.max.sign, ANKSign.plus)
-        XCTAssertEqual(T.max.magnitude, M.max)
-    }
-    
-    func testInitZero() {
-        XCTAssertEqual(T.zero.sign, ANKSign.plus)
-        XCTAssertEqual(T.zero.magnitude, M())
+        ANKAssertIdentical(T(digit:  D(4)),  T(4))
+        ANKAssertIdentical(T(digit: -D(4)), -T(4))
+        ANKAssertIdentical(D(digit:  D(4)),  D(4))
+        ANKAssertIdentical(D(digit: -D(4)), -D(4))
     }
     
     //=------------------------------------------------------------------------=

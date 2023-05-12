@@ -27,24 +27,19 @@ final class ANKSignedBenchmarks: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInit() {
+    func testInitZero() {
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T())
+            _blackHole(T(   ))
+            _blackHole(T.zero)
         }
     }
     
-    func testInitDigit() {
-        var abc = _blackHoleIdentity(T.Digit.max)
-
+    func testInitEdges() {
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(digit: abc))
-            _blackHoleInoutIdentity(&abc)
+            _blackHole(T.min )
+            _blackHole(T.max )
         }
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit
-    //=------------------------------------------------------------------------=
     
     func testInitBit() {
         var abc = _blackHoleIdentity(true )
@@ -59,25 +54,16 @@ final class ANKSignedBenchmarks: XCTestCase {
         }
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Constants
-    //=------------------------------------------------------------------------=
-    
-    func testInitMin() {
+    func testInitDigit() {
+        var abc = _blackHoleIdentity(D.min)
+        var xyz = _blackHoleIdentity(D.max)
+        
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T.min)
-        }
-    }
-    
-    func testInitMax() {
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T.max)
-        }
-    }
-    
-    func testInitZero() {
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T.zero)
+            _blackHole(T(digit: abc))
+            _blackHole(T(digit: xyz))
+            
+            _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&xyz)
         }
     }
     

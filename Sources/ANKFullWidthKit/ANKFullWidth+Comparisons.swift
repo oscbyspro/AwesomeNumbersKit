@@ -19,14 +19,6 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent public static var isSigned: Bool {
-        High.isSigned
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
     @inlinable public var isFull: Bool {
         self.low.isFull && self.high.isFull
     }
@@ -56,7 +48,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
-        lhs.compared(to: rhs).isLessThanZero
+        lhs.compared(to: rhs) == -1
     }
     
     //=------------------------------------------------------------------------=

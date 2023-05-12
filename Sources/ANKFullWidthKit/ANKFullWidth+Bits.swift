@@ -27,14 +27,6 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent public var mostSignificantBit: Bool {
-        self.high.mostSignificantBit
-    }
-    
-    @_transparent public var leastSignificantBit: Bool {
-        self.low.leastSignificantBit
-    }
-    
     @inlinable public var nonzeroBitCount: Int {
         self.low.nonzeroBitCount &+ self.high.nonzeroBitCount
     }
@@ -49,5 +41,13 @@ extension ANKFullWidth {
         let count  = self.low.trailingZeroBitCount
         if  count != Low.bitWidth { return count }
         return count &+ self.high.trailingZeroBitCount
+    }
+    
+    @_transparent public var mostSignificantBit: Bool {
+        self.high.mostSignificantBit
+    }
+    
+    @_transparent public var leastSignificantBit: Bool {
+        self.low.leastSignificantBit
     }
 }

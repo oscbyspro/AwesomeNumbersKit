@@ -30,6 +30,28 @@ final class ANKCoreIntegerTestsOnBits: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testInitBit() {
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
+            XCTAssertEqual(T(bit: false), T( ))
+            XCTAssertEqual(T(bit: true ), T(1))
+        }
+        
+        for type in types {
+            whereIs(type)
+        }
+    }
+    
+    func testInitRepeatingBit() {
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
+            XCTAssertEqual(T(repeating: false),  T( ))
+            XCTAssertEqual(T(repeating: true ), ~T( ))
+        }
+        
+        for type in types {
+            whereIs(type)
+        }
+    }
+    
     func testMostSignificantBit() {
         for type: T in types {
             XCTAssertEqual(type.min .mostSignificantBit,  type.isSigned)

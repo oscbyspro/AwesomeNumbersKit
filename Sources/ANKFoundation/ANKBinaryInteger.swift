@@ -700,28 +700,6 @@ extension ANKBinaryInteger {
     }
 }
 
-//=----------------------------------------------------------------------------=
-// MARK: + Details where Digit is Self
-//=----------------------------------------------------------------------------=
-
-extension ANKBinaryInteger where Digit == Self {
-    
-    /// Returns the quotient and remainder of this value divided by the given value.
-    ///
-    /// ```swift
-    /// Int8( 7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8( 2), remainder: Int8( 1))
-    /// Int8( 7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8(-2), remainder: Int8( 1))
-    /// Int8(-7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8(-2), remainder: Int8(-1))
-    /// Int8(-7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8( 2), remainder: Int8(-1))
-    /// ```
-    ///
-    @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
-        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
-        precondition(!qro.overflow, "overflow in division")
-        return qro.partialValue as QR<Self, Self>
-    }
-}
-
 //*============================================================================*
 // MARK: * ANK x Binary Integer x Signed
 //*============================================================================*

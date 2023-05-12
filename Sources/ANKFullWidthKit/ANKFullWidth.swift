@@ -77,16 +77,8 @@ High.Digit: ANKCoreInteger<UInt>, Low: ANKFixedWidthInteger & ANKUnsignedInteger
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public static var min: Self {
-        Self(descending: HL(High.min, Low.min))
-    }
-    
-    @inlinable public static var max: Self {
-        Self(descending: HL(High.max, Low.max))
-    }
-    
-    @inlinable public static var zero: Self {
-        Self()
+    @_transparent public static var isSigned: Bool {
+        High.isSigned
     }
     
     //=------------------------------------------------------------------------=

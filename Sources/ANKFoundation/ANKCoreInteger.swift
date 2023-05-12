@@ -95,6 +95,12 @@ extension ANKCoreInteger {
         return PVO(QR(quotient.partialValue, remainder.partialValue), quotient.overflow)
     }
     
+    @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
+        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
+        precondition(!qro.overflow, "overflow in division")
+        return qro.partialValue as QR<Self, Self>
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Details x Bits
     //=------------------------------------------------------------------------=

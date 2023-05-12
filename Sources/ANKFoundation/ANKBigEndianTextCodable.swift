@@ -8,7 +8,7 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * ANK x Binary Integer x Big Endian Text Codable
+// MARK: * ANK x Big Endian Text Codable
 //*============================================================================*
 
 /// An integer type than can be converted to and from big-endian text.

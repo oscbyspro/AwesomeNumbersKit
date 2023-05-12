@@ -29,101 +29,30 @@ final class Int192Benchmarks: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInit() {
+    func testInitZero() {
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T())
-        }
-    }
-    
-    func testInitX64() {
-        var abc = _blackHoleIdentity(X(1, 2, 3))
-        
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T(x64: abc))
-            _blackHoleInoutIdentity(&abc)
-        }
-    }
-
-    func testInitX32() {
-        var abc = _blackHoleIdentity(Y(1, 2, 3, 4, 5, 6))
-
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T(x32: abc))
-            _blackHoleInoutIdentity(&abc)
-        }
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit
-    //=------------------------------------------------------------------------=
-    
-    func testInitBit() {
-        var abc = _blackHoleIdentity(true )
-        var xyz = _blackHoleIdentity(false)
-        
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T(bit: abc))
-            _blackHole(T(bit: xyz))
-            
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
-        }
-    }
-    
-    func testInitRepeatingBit() {
-        var abc = _blackHoleIdentity(true )
-        var xyz = _blackHoleIdentity(false)
-        
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T(repeating: abc))
-            _blackHole(T(repeating: xyz))
-            
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
-        }
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Constants
-    //=------------------------------------------------------------------------=
-    
-    @inlinable func testInitMin() {
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T.min)
-        }
-    }
-    
-    @inlinable func testInitMax() {
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T.max)
-        }
-    }
-    
-    @inlinable func testInitZero() {
-        for _ in 0 ..< 1_000_000 {
+            _blackHole(T(   ))
             _blackHole(T.zero)
         }
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Components
-    //=------------------------------------------------------------------------=
-    
-    func testInitAscending() {
-        var abc = _blackHoleIdentity(( T.Low(), T.High() ))
-        
+    func testInitEdges() {
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(ascending: abc))
-            _blackHoleInoutIdentity(&abc)
+            _blackHole(T.min )
+            _blackHole(T.max )
         }
     }
     
-    func testInitDescending() {
-        var abc = _blackHoleIdentity(( T.High(), T.Low() ))
-        
+    func testInitComponents() {
+        var abc = _blackHoleIdentity(LH( T.Low (), T.High() ))
+        var xyz = _blackHoleIdentity(HL( T.High(), T.Low () ))
+
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(descending: abc))
+            _blackHole(T(ascending:  abc))
+            _blackHole(T(descending: xyz))
+            
             _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&xyz)
         }
     }
 }
@@ -141,101 +70,30 @@ final class UInt192Benchmarks: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInit() {
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T())
-        }
-    }
-    
-    func testInitX64() {
-        var abc = _blackHoleIdentity(X(1, 2, 3))
-        
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T(x64: abc))
-            _blackHoleInoutIdentity(&abc)
-        }
-    }
-
-    func testInitX32() {
-        var abc = _blackHoleIdentity(Y(1, 2, 3, 4, 5, 6))
-
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T(x32: abc))
-            _blackHoleInoutIdentity(&abc)
-        }
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit
-    //=------------------------------------------------------------------------=
-    
-    func testInitBit() {
-        var abc = _blackHoleIdentity(true )
-        var xyz = _blackHoleIdentity(false)
-        
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T(bit: abc))
-            _blackHole(T(bit: xyz))
-            
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
-        }
-    }
-    
-    func testInitRepeatingBit() {
-        var abc = _blackHoleIdentity(true )
-        var xyz = _blackHoleIdentity(false)
-        
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T(repeating: abc))
-            _blackHole(T(repeating: xyz))
-            
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
-        }
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Constants
-    //=------------------------------------------------------------------------=
-    
-    func testInitMin() {
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T.min)
-        }
-    }
-    
-    func testInitMax() {
-        for _ in 0 ..< 1_000_000 {
-            _blackHole(T.max)
-        }
-    }
-    
     func testInitZero() {
         for _ in 0 ..< 1_000_000 {
+            _blackHole(T(   ))
             _blackHole(T.zero)
         }
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Components
-    //=------------------------------------------------------------------------=
-
-    func testInitAscending() {
-        var abc = _blackHoleIdentity(( T.Low(), T.High() ))
-        
+    func testInitEdges() {
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(ascending: abc))
-            _blackHoleInoutIdentity(&abc)
+            _blackHole(T.min )
+            _blackHole(T.max )
         }
     }
     
-    func testInitDescending() {
-        var abc = _blackHoleIdentity(( T.High(), T.Low() ))
-        
+    func testInitComponents() {
+        var abc = _blackHoleIdentity(LH( T.Low (), T.High() ))
+        var xyz = _blackHoleIdentity(HL( T.High(), T.Low () ))
+
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(descending: abc))
+            _blackHole(T(ascending:  abc))
+            _blackHole(T(descending: xyz))
+            
             _blackHoleInoutIdentity(&abc)
+            _blackHoleInoutIdentity(&xyz)
         }
     }
 }

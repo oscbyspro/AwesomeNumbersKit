@@ -10,10 +10,26 @@
 import ANKFoundation
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Numbers x Integer
+// MARK: * ANK x Full Width x Numbers
 //*============================================================================*
 
 extension ANKFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public static var min: Self {
+        Self(descending: HL(High.min, Low.min))
+    }
+    
+    @inlinable public static var max: Self {
+        Self(descending: HL(High.max, Low.max))
+    }
+    
+    @inlinable public static var zero: Self {
+        Self()
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -231,35 +247,27 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @_transparent @usableFromInline init?(_exactlyAsBinaryInteger source: some BinaryInteger) {
-        let (value, words, index, sign, isLessThanZero) = Self._copy(source)
-        let isOK = value.isLessThanZero == isLessThanZero && words[index...].allSatisfy({ $0 == sign })
+        let (value, words, sign) = Self._copy(source)
+        let isOK = value.isLessThanZero == sign.isFull && words.allSatisfy({ $0 == sign })
         if  isOK { self = value } else { return nil }
     }
-    
+
     @_transparent @usableFromInline init(_clampingAsBinaryInteger source: some BinaryInteger) {
-        let (value, words, index, sign, isLessThanZero) = Self._copy(source)
-        let isOK = value.isLessThanZero == isLessThanZero && words[index...].allSatisfy({ $0 == sign })
-        self = isOK ? value : isLessThanZero ? Self.min : Self.max
+        let (value, words, sign) = Self._copy(source)
+        let isOK = value.isLessThanZero == sign.isFull && words.allSatisfy({ $0 == sign })
+        self = isOK ? value : sign.isFull ? Self.min : Self.max
     }
-    
+
     @_transparent @usableFromInline init(_truncatingIfNeededAsBinaryInteger source: some BinaryInteger) {
         self = Self._copy(source).value
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Initializers
-    //=------------------------------------------------------------------------=
-    
-    @inlinable static func _copy<T>(_ source: T) -> (value: Self, words: T.Words, index: Int, sign: UInt, isLessThanZero: Bool) where T: BinaryInteger {
+
+    @inlinable static func _copy<T>(_ source: T) -> (value: Self, words: T.Words.SubSequence, sign: UInt) where T: BinaryInteger {
         let words: T.Words = source.words
-        let isLessThanZero: Bool = T.isSigned && words.last?.mostSignificantBit == true
-        let sign = UInt(repeating: isLessThanZero)
-        //=--------------------------------------=
-        var index = words.startIndex
+        var wordsIndex = words.startIndex
+        let sign  = UInt(repeating: T.isSigned && words.last?.mostSignificantBit == true)
         let value = Self.fromUnsafeMutableWords { VALUE in
             var valueIndex = VALUE.startIndex
-            var wordsIndex = words.startIndex
-            defer {  index = wordsIndex  }
             
             while wordsIndex != words.endIndex {
                 guard valueIndex != VALUE.endIndex else { return }
@@ -274,7 +282,7 @@ extension ANKFullWidth {
             }
         }
         //=--------------------------------------=
-        return (value: value, words: words, index: index, sign: sign, isLessThanZero: isLessThanZero)
+        return (value: value, words: words[wordsIndex...], sign: sign)
     }
 }
 

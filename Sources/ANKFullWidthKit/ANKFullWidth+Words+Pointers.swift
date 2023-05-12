@@ -64,7 +64,7 @@ extension ANKFullWidth {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities x Contiguous Sequence
+    // MARK: Utilities x Contiguous UInt Sequence
     //=------------------------------------------------------------------------=
     
     @inlinable public func withContiguousStorageIfAvailable<T>(

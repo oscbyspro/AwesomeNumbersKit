@@ -53,23 +53,15 @@ final class ANKSignTests: XCTestCase {
     // MARK: Tests x Transformations
     //=------------------------------------------------------------------------=
     
-    func testToggle() {
-        var a = T.plus;  a.toggle(); XCTAssertEqual(a, T.minus)
-        var b = T.minus; b.toggle(); XCTAssertEqual(b, T.plus )
-    }
-    
-    func testToggled() {
-        XCTAssertEqual(T.plus .toggled(), T.minus)
-        XCTAssertEqual(T.minus.toggled(), T.plus )
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Transformations
-    //=------------------------------------------------------------------------=
-    
     func testNot() {
         XCTAssertEqual(~T.plus,  T.minus)
         XCTAssertEqual(~T.minus, T.plus )
+        
+        XCTAssertEqual(T.plus .toggled(), T.minus)
+        XCTAssertEqual(T.minus.toggled(), T.plus )
+        
+        XCTAssertEqual({ var x = T.plus;  x.toggle(); return x }(), T.minus)
+        XCTAssertEqual({ var x = T.minus; x.toggle(); return x }(), T.plus )
     }
     
     func testAnd() {
@@ -77,6 +69,11 @@ final class ANKSignTests: XCTestCase {
         XCTAssertEqual(T.plus  & T.minus, T.plus )
         XCTAssertEqual(T.minus & T.plus,  T.plus )
         XCTAssertEqual(T.minus & T.minus, T.minus)
+        
+        XCTAssertEqual({ var x = T.plus;  x &= T.plus;  return x }(), T.plus )
+        XCTAssertEqual({ var x = T.plus;  x &= T.minus; return x }(), T.plus )
+        XCTAssertEqual({ var x = T.minus; x &= T.plus;  return x }(), T.plus )
+        XCTAssertEqual({ var x = T.minus; x &= T.minus; return x }(), T.minus)
     }
     
     func testOr() {
@@ -84,6 +81,11 @@ final class ANKSignTests: XCTestCase {
         XCTAssertEqual(T.plus  | T.minus, T.minus)
         XCTAssertEqual(T.minus | T.plus,  T.minus)
         XCTAssertEqual(T.minus | T.minus, T.minus)
+        
+        XCTAssertEqual({ var x = T.plus;  x |= T.plus;  return x }(), T.plus )
+        XCTAssertEqual({ var x = T.plus;  x |= T.minus; return x }(), T.minus)
+        XCTAssertEqual({ var x = T.minus; x |= T.plus;  return x }(), T.minus)
+        XCTAssertEqual({ var x = T.minus; x |= T.minus; return x }(), T.minus)
     }
     
     func testXor() {
@@ -91,6 +93,11 @@ final class ANKSignTests: XCTestCase {
         XCTAssertEqual(T.plus  ^ T.minus, T.minus)
         XCTAssertEqual(T.minus ^ T.plus,  T.minus)
         XCTAssertEqual(T.minus ^ T.minus, T.plus )
+        
+        XCTAssertEqual({ var x = T.plus;  x ^= T.plus;  return x }(), T.plus )
+        XCTAssertEqual({ var x = T.plus;  x ^= T.minus; return x }(), T.minus)
+        XCTAssertEqual({ var x = T.minus; x ^= T.plus;  return x }(), T.minus)
+        XCTAssertEqual({ var x = T.minus; x ^= T.minus; return x }(), T.plus )
     }
 }
 

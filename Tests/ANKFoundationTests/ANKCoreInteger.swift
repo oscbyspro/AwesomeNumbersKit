@@ -65,32 +65,6 @@ final class ANKCoreIntegerTests: XCTestCase {
     func testANKUnsignedInteger() {
         XCTAssertEqual(05, types.compactMap({ $0 as? any ANKUnsignedInteger.Type }).count)
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Bit
-    //=------------------------------------------------------------------------=
-    
-    func testInitBit() {
-        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertEqual(T(bit: false), T( ))
-            XCTAssertEqual(T(bit: true ), T(1))
-        }
-        
-        for type in types {
-            whereIs(type)
-        }
-    }
-    
-    func testInitRepeatingBit() {
-        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertEqual(T(repeating: false),  T( ))
-            XCTAssertEqual(T(repeating: true ), ~T( ))
-        }
-        
-        for type in types {
-            whereIs(type)
-        }
-    }
 }
 
 #endif

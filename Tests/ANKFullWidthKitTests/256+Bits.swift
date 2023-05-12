@@ -27,6 +27,16 @@ final class Int256TestsOnBits: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
+    func testInitBit() {
+        XCTAssertEqual(T(bit: false), T( ))
+        XCTAssertEqual(T(bit: true ), T(1))
+    }
+    
+    func testInitRepeatingBit() {
+        XCTAssertEqual(T(repeating: false),  T( ))
+        XCTAssertEqual(T(repeating: true ), ~T( ))
+    }
+    
     func testBitWidth() {
         XCTAssertEqual(T(x64: X( 0,  0,  0,  0)).bitWidth, 64 * 4)
         XCTAssertEqual(T(x64: X(~0, ~0, ~0, ~0)).bitWidth, 64 * 4)
@@ -89,6 +99,16 @@ final class UInt256TestsOnBits: XCTestCase {
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
+    
+    func testInitBit() {
+        XCTAssertEqual(T(bit: false), T( ))
+        XCTAssertEqual(T(bit: true ), T(1))
+    }
+    
+    func testInitRepeatingBit() {
+        XCTAssertEqual(T(repeating: false),  T( ))
+        XCTAssertEqual(T(repeating: true ), ~T( ))
+    }
     
     func testBitWidth() {
         XCTAssertEqual(T(x64: X( 0,  0,  0,  0)).bitWidth, 64 * 4)
