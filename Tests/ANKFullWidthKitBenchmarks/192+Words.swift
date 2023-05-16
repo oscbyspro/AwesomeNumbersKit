@@ -29,28 +29,28 @@ final class Int192BenchmarksOnWords: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMinLastIndexReportingIsZeroOrMinusOne() {
-        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
-        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.minLastIndexReportingIsZeroOrMinusOne())
-            _blackHole(xyz.minLastIndexReportingIsZeroOrMinusOne())
+            ANK.blackHole(abc.minLastIndexReportingIsZeroOrMinusOne())
+            ANK.blackHole(xyz.minLastIndexReportingIsZeroOrMinusOne())
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
     func testMinWordCountReportingIsZeroOrMinusOne() {
-        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
-        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.minWordCountReportingIsZeroOrMinusOne())
-            _blackHole(xyz.minWordCountReportingIsZeroOrMinusOne())
+            ANK.blackHole(abc.minWordCountReportingIsZeroOrMinusOne())
+            ANK.blackHole(xyz.minWordCountReportingIsZeroOrMinusOne())
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
 }
@@ -68,28 +68,28 @@ final class UInt192BenchmarksOnWords: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMinLastIndexReportingIsZeroOrMinusOne() {
-        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
-        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.minLastIndexReportingIsZeroOrMinusOne())
-            _blackHole(xyz.minLastIndexReportingIsZeroOrMinusOne())
+            ANK.blackHole(abc.minLastIndexReportingIsZeroOrMinusOne())
+            ANK.blackHole(xyz.minLastIndexReportingIsZeroOrMinusOne())
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
     func testMinWordCountReportingIsZeroOrMinusOne() {
-        var abc = _blackHoleIdentity( T(x64: X(0, 0, 0)))
-        var xyz = _blackHoleIdentity(~T(x64: X(0, 0, 0)))
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.minWordCountReportingIsZeroOrMinusOne())
-            _blackHole(xyz.minWordCountReportingIsZeroOrMinusOne())
+            ANK.blackHole(abc.minWordCountReportingIsZeroOrMinusOne())
+            ANK.blackHole(xyz.minWordCountReportingIsZeroOrMinusOne())
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
 }

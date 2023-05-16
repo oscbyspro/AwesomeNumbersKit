@@ -11,7 +11,7 @@
 // MARK: * ANK x Text
 //*============================================================================*
 
-extension StringProtocol {
+extension ANK {
     
     //=------------------------------------------------------------------------=
     // MARK: Utilities
@@ -25,10 +25,11 @@ extension StringProtocol {
     /// "-0x???"._bigEndianTextComponents(radix:   2) // (sign: minus, radix:  2, body:  "0x???")
     /// ```
     ///
-    @inlinable public func _bigEndianTextComponents(radix: Int?) -> (sign: ANKSign, radix: Int, body: SubSequence) {
-        var body  = self[...]
-        let sign  = body._removeSignPrefix() ?? .plus
-        let radix = radix ?? body._removeRadixLiteralPrefix() ?? 10
+    @inlinable public static func bigEndianTextComponents<T>(_ text: T, radix: Int?)
+    -> (sign: ANKSign, radix: Int, body: T.SubSequence) where T: StringProtocol {
+        var body  = text[...]
+        let sign  = body.removeSignPrefix() ?? .plus
+        let radix = radix ?? body.removeRadixLiteralPrefix() ?? 10
         return (sign: sign, radix: radix, body: body)
     }
 }
@@ -46,32 +47,32 @@ extension StringProtocol where Self == SubSequence {
     /// Removes and returns a sign prefix, if it exists.
     ///
     /// ```swift
-    /// var a = "+?"[...]; a._removeSignPrefix() // a = "?"; -> plus
-    /// var b = "-?"[...]; b._removeSignPrefix() // b = "?"; -> minus
-    /// var c = "??"[...]; c._removeSignPrefix() // nil
+    /// var a = "+?"[...]; a.removeSignPrefix() // a = "?"; -> false
+    /// var b = "-?"[...]; b.removeSignPrefix() // b = "?"; -> true
+    /// var c = "??"[...]; c.removeSignPrefix() // nil
     /// ```
     ///
-    @inlinable public mutating func _removeSignPrefix() -> ANKSign? {
+    @inlinable internal mutating func removeSignPrefix() -> ANKSign? {
         switch true {
-        case hasPrefix("+"): removeFirst(); return .plus
         case hasPrefix("-"): removeFirst(); return .minus
+        case hasPrefix("+"): removeFirst(); return .plus
         default: return nil }
     }
     
     /// Removes and returns a radix literal prefix, if it exists.
     ///
     /// ```swift
-    /// var a = "0x?"[...]; a._removeRadixLiteralPrefix() // a = "?"; -> 16
-    /// var b = "0o?"[...]; b._removeRadixLiteralPrefix() // b = "?"; -> 08
-    /// var c = "0b?"[...]; c._removeRadixLiteralPrefix() // c = "?"; -> 02
-    /// var d = "???"[...]; d._removeRadixLiteralPrefix() // nil
+    /// var a = "0x?"[...]; a.removeRadixLiteralPrefix() // a = "?"; -> 16
+    /// var b = "0o?"[...]; b.removeRadixLiteralPrefix() // b = "?"; -> 08
+    /// var c = "0b?"[...]; c.removeRadixLiteralPrefix() // c = "?"; -> 02
+    /// var d = "???"[...]; d.removeRadixLiteralPrefix() // nil
     /// ```
     ///
-    @inlinable public mutating func _removeRadixLiteralPrefix() -> Int? {
+    @inlinable internal mutating func removeRadixLiteralPrefix() -> Int? {
         switch true {
         case hasPrefix("0x"): removeFirst(2); return 0x10
-        case hasPrefix("0o"): removeFirst(2); return 0o10
         case hasPrefix("0b"): removeFirst(2); return 0b10
+        case hasPrefix("0o"): removeFirst(2); return 0o10
         default: return nil }
     }
 }

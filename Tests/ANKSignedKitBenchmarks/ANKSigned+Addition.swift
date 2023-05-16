@@ -28,35 +28,35 @@ final class ANKSignedBenchmarksOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAdding() {
-        var lhs = _blackHoleIdentity(T.max)
-        var rhs = _blackHoleIdentity(T.min)
+        var lhs = ANK.blackHoleIdentity(T.max)
+        var rhs = ANK.blackHoleIdentity(T.min)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs + rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs + rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testAddingWrappingAround() {
-        var lhs = _blackHoleIdentity(T.max)
-        var rhs = _blackHoleIdentity(T.min)
+        var lhs = ANK.blackHoleIdentity(T.max)
+        var rhs = ANK.blackHoleIdentity(T.min)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs &+ rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs &+ rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testAddingReportingOverflow() {
-        var lhs = _blackHoleIdentity(T.max)
-        var rhs = _blackHoleIdentity(T.min)
+        var lhs = ANK.blackHoleIdentity(T.max)
+        var rhs = ANK.blackHoleIdentity(T.min)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs.addingReportingOverflow(rhs))
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs.addingReportingOverflow(rhs))
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -65,35 +65,35 @@ final class ANKSignedBenchmarksOnAddition: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testAddingDigit() {
-        var lhs = _blackHoleIdentity(T.max)
-        var rhs = _blackHoleIdentity(D.min)
+        var lhs = ANK.blackHoleIdentity(T.max)
+        var rhs = ANK.blackHoleIdentity(D.min)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs + rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs + rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testAddingDigitWrappingAround() {
-        var lhs = _blackHoleIdentity(T.max)
-        var rhs = _blackHoleIdentity(D.min)
+        var lhs = ANK.blackHoleIdentity(T.max)
+        var rhs = ANK.blackHoleIdentity(D.min)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs &+ rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs &+ rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testAddingDigitReportingOverflow() {
-        var lhs = _blackHoleIdentity(T.max)
-        var rhs = _blackHoleIdentity(D.min)
+        var lhs = ANK.blackHoleIdentity(T.max)
+        var rhs = ANK.blackHoleIdentity(D.min)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs.addingReportingOverflow(rhs))
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs.addingReportingOverflow(rhs))
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
 }

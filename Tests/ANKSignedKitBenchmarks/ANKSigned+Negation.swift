@@ -28,20 +28,20 @@ final class ANKSignedBenchmarksOnNegation: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNegated() {
-        var abc = _blackHoleIdentity(T.max)
+        var abc = ANK.blackHoleIdentity(T.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(-abc)
-            _blackHoleInoutIdentity(&abc)
+            ANK.blackHole(-abc)
+            ANK.blackHoleInoutIdentity(&abc)
         }
     }
     
     func testNegatedReportingOverflow() {
-        var abc = _blackHoleIdentity(T.max)
+        var abc = ANK.blackHoleIdentity(T.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.negatedReportingOverflow())
-            _blackHoleInoutIdentity(&abc)
+            ANK.blackHole(abc.negatedReportingOverflow())
+            ANK.blackHoleInoutIdentity(&abc)
         }
     }
 }

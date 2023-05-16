@@ -59,8 +59,8 @@ extension ANKFullWidth {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) throws -> Self {
-        let components = source._bigEndianTextComponents(radix: radix)
+    @inlinable public static func decodeBigEndianText(_ text: some StringProtocol, radix: Int?) throws -> Self {
+        let components = ANK.bigEndianTextComponents(text, radix: radix)
         let magnitude  = try AnyRadixUIntRoot(components.radix).switch(
           perfect: { try Magnitude._decodeBigEndianDigits(components.body,  radix: $0) },
         imperfect: { try Magnitude._decodeBigEndianDigits(components.body,  radix: $0) })

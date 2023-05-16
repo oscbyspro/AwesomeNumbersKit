@@ -28,35 +28,35 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsEqualTo() {
-        var lhs = _blackHoleIdentity(T(1, as: .plus ))
-        var rhs = _blackHoleIdentity(T(1, as: .minus))
+        var lhs = ANK.blackHoleIdentity(T(1, as: .plus ))
+        var rhs = ANK.blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs == rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs == rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testIsLessThan() {
-        var lhs = _blackHoleIdentity(T(1, as: .plus ))
-        var rhs = _blackHoleIdentity(T(1, as: .minus))
+        var lhs = ANK.blackHoleIdentity(T(1, as: .plus ))
+        var rhs = ANK.blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs < rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs < rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testComparedTo() {
-        var lhs = _blackHoleIdentity(T(1, as: .plus ))
-        var rhs = _blackHoleIdentity(T(1, as: .minus))
+        var lhs = ANK.blackHoleIdentity(T(1, as: .plus ))
+        var rhs = ANK.blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs.compared(to: rhs))
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs.compared(to: rhs))
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -65,41 +65,41 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsZero() {
-        var abc = _blackHoleIdentity(T(1, as: .plus ))
-        var xyz = _blackHoleIdentity(T(1, as: .minus))
+        var abc = ANK.blackHoleIdentity(T(1, as: .plus ))
+        var xyz = ANK.blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.isZero)
-            _blackHole(xyz.isZero)
+            ANK.blackHole(abc.isZero)
+            ANK.blackHole(xyz.isZero)
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
     func testIsLessThanZero() {
-        var abc = _blackHoleIdentity(T(1, as: .plus ))
-        var xyz = _blackHoleIdentity(T(1, as: .minus))
+        var abc = ANK.blackHoleIdentity(T(1, as: .plus ))
+        var xyz = ANK.blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.isLessThanZero)
-            _blackHole(xyz.isLessThanZero)
+            ANK.blackHole(abc.isLessThanZero)
+            ANK.blackHole(xyz.isLessThanZero)
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
     func testIsMoreThanZero() {
-        var abc = _blackHoleIdentity(T(1, as: .plus ))
-        var xyz = _blackHoleIdentity(T(1, as: .minus))
+        var abc = ANK.blackHoleIdentity(T(1, as: .plus ))
+        var xyz = ANK.blackHoleIdentity(T(1, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.isMoreThanZero)
-            _blackHole(xyz.isMoreThanZero)
+            ANK.blackHole(abc.isMoreThanZero)
+            ANK.blackHole(xyz.isMoreThanZero)
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
 }

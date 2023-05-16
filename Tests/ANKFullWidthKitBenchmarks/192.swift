@@ -31,28 +31,28 @@ final class Int192Benchmarks: XCTestCase {
     
     func testInitZero() {
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(   ))
-            _blackHole(T.zero)
+            ANK.blackHole(T(   ))
+            ANK.blackHole(T.zero)
         }
     }
     
     func testInitEdges() {
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T.min )
-            _blackHole(T.max )
+            ANK.blackHole(T.min )
+            ANK.blackHole(T.max )
         }
     }
     
     func testInitComponents() {
-        var abc = _blackHoleIdentity(LH( T.Low (), T.High() ))
-        var xyz = _blackHoleIdentity(HL( T.High(), T.Low () ))
+        var abc = ANK.blackHoleIdentity(LH( T.Low (), T.High() ))
+        var xyz = ANK.blackHoleIdentity(HL( T.High(), T.Low () ))
 
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(ascending:  abc))
-            _blackHole(T(descending: xyz))
+            ANK.blackHole(T(ascending:  abc))
+            ANK.blackHole(T(descending: xyz))
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
 }
@@ -72,28 +72,28 @@ final class UInt192Benchmarks: XCTestCase {
     
     func testInitZero() {
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(   ))
-            _blackHole(T.zero)
+            ANK.blackHole(T(   ))
+            ANK.blackHole(T.zero)
         }
     }
     
     func testInitEdges() {
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T.min )
-            _blackHole(T.max )
+            ANK.blackHole(T.min )
+            ANK.blackHole(T.max )
         }
     }
     
     func testInitComponents() {
-        var abc = _blackHoleIdentity(LH( T.Low (), T.High() ))
-        var xyz = _blackHoleIdentity(HL( T.High(), T.Low () ))
+        var abc = ANK.blackHoleIdentity(LH( T.Low (), T.High() ))
+        var xyz = ANK.blackHoleIdentity(HL( T.High(), T.Low () ))
 
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(ascending:  abc))
-            _blackHole(T(descending: xyz))
+            ANK.blackHole(T(ascending:  abc))
+            ANK.blackHole(T(descending: xyz))
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
 }

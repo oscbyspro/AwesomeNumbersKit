@@ -29,13 +29,13 @@ final class Int192BenchmarksOnRandom: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testRandomInRangeUsingSystemRandomNumberGenerator() {
-        var range = _blackHoleIdentity((T.min / 2) ... (T.max / 2))
-        var randomness = _blackHoleIdentity(SystemRandomNumberGenerator())
+        var range = ANK.blackHoleIdentity((T.min / 2) ... (T.max / 2))
+        var randomness = ANK.blackHoleIdentity(SystemRandomNumberGenerator())
         
         for _ in 0 ..< 50_000 {
-            _blackHole(T.random(in:  range, using: &randomness))
-            _blackHoleInoutIdentity(&range)
-            _blackHoleInoutIdentity(&randomness)
+            ANK.blackHole(T.random(in:  range, using: &randomness))
+            ANK.blackHoleInoutIdentity(&range)
+            ANK.blackHoleInoutIdentity(&randomness)
         }
     }
 }
@@ -53,13 +53,13 @@ final class UInt192BenchmarksOnRandom: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testRandomInRangeUsingSystemRandomNumberGenerator() {
-        var range = _blackHoleIdentity((T.min / 2) ... (T.max / 2))
-        var randomness = _blackHoleIdentity(SystemRandomNumberGenerator())
+        var range = ANK.blackHoleIdentity((T.min / 2) ... (T.max / 2))
+        var randomness = ANK.blackHoleIdentity(SystemRandomNumberGenerator())
         
         for _ in 0 ..< 50_000 {
-            _blackHole(T.random(in:  range, using: &randomness))
-            _blackHoleInoutIdentity(&range)
-            _blackHoleInoutIdentity(&randomness)
+            ANK.blackHole(T.random(in:  range, using: &randomness))
+            ANK.blackHoleInoutIdentity(&range)
+            ANK.blackHoleInoutIdentity(&randomness)
         }
     }
 }

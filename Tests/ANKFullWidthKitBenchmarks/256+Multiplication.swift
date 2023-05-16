@@ -29,46 +29,46 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultiplied() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
 
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs * rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs * rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedWrappingAround() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs &* rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs &* rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedReportingOverflow() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs.multipliedReportingOverflow(by: rhs))
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs.multipliedReportingOverflow(by: rhs))
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedFullWidth() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs.multipliedFullWidth(by: rhs))
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs.multipliedFullWidth(by: rhs))
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -77,46 +77,46 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultipliedByDigit() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(Int.max)
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs * rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs * rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedByDigitWrappingAround() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(Int.max)
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(Int.max)
 
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs &* rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs &* rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedByDigitReportingOverflow() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(Int.max)
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs.multipliedReportingOverflow(by: rhs))
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs.multipliedReportingOverflow(by: rhs))
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedByDigitFullWidth() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(Int.max)
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(Int.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs.multipliedFullWidth(by: rhs))
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs.multipliedFullWidth(by: rhs))
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
 }
@@ -134,46 +134,46 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultiplied() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs * rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs * rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedWrappingAround() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs &* rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs &* rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedReportingOverflow() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs.multipliedReportingOverflow(by: rhs))
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs.multipliedReportingOverflow(by: rhs))
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedFullWidth() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs.multipliedFullWidth(by: rhs))
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs.multipliedFullWidth(by: rhs))
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
@@ -182,46 +182,46 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMultipliedByDigit() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(UInt.max)
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs * rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs * rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedByDigitWrappingAround() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(UInt.max)
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(UInt.max)
 
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs &* rhs)
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs &* rhs)
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedByDigitReportingOverflow() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(UInt.max)
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs.multipliedReportingOverflow(by: rhs))
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs.multipliedReportingOverflow(by: rhs))
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
     
     func testMultipliedByDigitFullWidth() {
-        var lhs = _blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
-        var rhs = _blackHoleIdentity(UInt.max)
+        var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
+        var rhs = ANK.blackHoleIdentity(UInt.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(lhs.multipliedFullWidth(by: rhs))
-            _blackHoleInoutIdentity(&lhs)
-            _blackHoleInoutIdentity(&rhs)
+            ANK.blackHole(lhs.multipliedFullWidth(by: rhs))
+            ANK.blackHoleInoutIdentity(&lhs)
+            ANK.blackHoleInoutIdentity(&rhs)
         }
     }
 }

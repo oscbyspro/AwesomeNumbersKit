@@ -7,38 +7,24 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-#if !DEBUG
-
-import ANKFoundation
-import ANKFullWidthKit
-import ANKSignedKit
-import XCTest
-
 //*============================================================================*
-// MARK: * ANK x Signed x Complements
+// MARK: * ANK x Messages
 //*============================================================================*
 
-final class ANKSignedBenchmarksOnComplements: XCTestCase {
-    
-    typealias T = ANKSigned<ANKUInt256>
-    typealias D = ANKSigned<UInt>
+extension ANK {
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Magnitude
+    // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    func testMagnitude() {
-        var abc = ANK.blackHoleIdentity(T.max)
-        var xyz = ANK.blackHoleIdentity(T.min)
-
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(abc.magnitude)
-            ANK.blackHole(xyz.magnitude)
-            
-            ANK.blackHoleInoutIdentity(&abc)
-            ANK.blackHoleInoutIdentity(&xyz)
-        }
+    /// A callsite overflow description.
+    ///
+    /// ```swift
+    /// precondition(!overflow, ANK.callsiteOverflowInfo())
+    /// ```
+    ///
+    @inlinable public static func callsiteOverflowInfo(
+    function: StaticString = #function, file: StaticString = #file, line: UInt = #line) -> String {
+        "overflow in \(function) at \(file):\(line)"
     }
 }
-
-#endif

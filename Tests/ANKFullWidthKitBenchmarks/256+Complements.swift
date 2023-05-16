@@ -30,20 +30,20 @@ final class Int256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitBitPattern() {
-        var abc = _blackHoleIdentity(M.max)
+        var abc = ANK.blackHoleIdentity(M.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(bitPattern: abc))
-            _blackHoleInoutIdentity(&abc)
+            ANK.blackHole(T(bitPattern: abc))
+            ANK.blackHoleInoutIdentity(&abc)
         }
     }
     
     func testValueAsBitPattern() {
-        var abc = _blackHoleIdentity(T.max)
+        var abc = ANK.blackHoleIdentity(T.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.bitPattern)
-            _blackHoleInoutIdentity(&abc)
+            ANK.blackHole(abc.bitPattern)
+            ANK.blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -52,11 +52,11 @@ final class Int256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.magnitude)
-            _blackHoleInoutIdentity(&abc)
+            ANK.blackHole(abc.magnitude)
+            ANK.blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -65,11 +65,11 @@ final class Int256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.twosComplement())
-            _blackHoleInoutIdentity(&abc)
+            ANK.blackHole(abc.twosComplement())
+            ANK.blackHoleInoutIdentity(&abc)
         }
     }
 }
@@ -88,20 +88,20 @@ final class UInt256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
         
     func testInitBitPattern() {
-        var abc = _blackHoleIdentity(M.max)
+        var abc = ANK.blackHoleIdentity(M.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(bitPattern: abc))
-            _blackHoleInoutIdentity(&abc)
+            ANK.blackHole(T(bitPattern: abc))
+            ANK.blackHoleInoutIdentity(&abc)
         }
     }
     
     func testValueAsBitPattern() {
-        var abc = _blackHoleIdentity(T.max)
+        var abc = ANK.blackHoleIdentity(T.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.bitPattern)
-            _blackHoleInoutIdentity(&abc)
+            ANK.blackHole(abc.bitPattern)
+            ANK.blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -110,11 +110,11 @@ final class UInt256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.magnitude)
-            _blackHoleInoutIdentity(&abc)
+            ANK.blackHole(abc.magnitude)
+            ANK.blackHoleInoutIdentity(&abc)
         }
     }
     
@@ -123,11 +123,11 @@ final class UInt256BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        var abc = _blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.twosComplement())
-            _blackHoleInoutIdentity(&abc)
+            ANK.blackHole(abc.twosComplement())
+            ANK.blackHoleInoutIdentity(&abc)
         }
     }
 }

@@ -21,29 +21,29 @@ extension ANKSigned {
     
     @_disfavoredOverload @_transparent public static func /=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.divideReportingOverflow(by: rhs)
-        precondition(!overflow, "overflow in /=")
+        precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
     @_disfavoredOverload @_transparent public static func /(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow, "overflow in /")
+        precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
     @_disfavoredOverload @_transparent public static func %=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.formRemainderReportingOverflow(dividingBy: rhs)
-        precondition(!overflow, "overflow in %=")
+        precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
     @_disfavoredOverload @_transparent public static func %(lhs: Self, rhs: Digit) -> Digit {
         let pvo: PVO<Digit> = lhs.remainderReportingOverflow(dividingBy: rhs)
-        precondition(!pvo.overflow, "overflow in %")
+        precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Digit
     }
     
     @_disfavoredOverload @_transparent public func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
         let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
-        precondition(!qro.overflow, "overflow in division")
+        precondition(!qro.overflow, ANK.callsiteOverflowInfo())
         return qro.partialValue as QR<Self, Digit>
     }
     

@@ -29,41 +29,41 @@ final class ANKSignedBenchmarks: XCTestCase {
     
     func testInitZero() {
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(   ))
-            _blackHole(T.zero)
+            ANK.blackHole(T(   ))
+            ANK.blackHole(T.zero)
         }
     }
     
     func testInitEdges() {
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T.min )
-            _blackHole(T.max )
+            ANK.blackHole(T.min )
+            ANK.blackHole(T.max )
         }
     }
     
     func testInitBit() {
-        var abc = _blackHoleIdentity(true )
-        var xyz = _blackHoleIdentity(false)
+        var abc = ANK.blackHoleIdentity(true )
+        var xyz = ANK.blackHoleIdentity(false)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(bit: abc))
-            _blackHole(T(bit: xyz))
+            ANK.blackHole(T(bit: abc))
+            ANK.blackHole(T(bit: xyz))
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
     func testInitDigit() {
-        var abc = _blackHoleIdentity(D.min)
-        var xyz = _blackHoleIdentity(D.max)
+        var abc = ANK.blackHoleIdentity(D.min)
+        var xyz = ANK.blackHoleIdentity(D.max)
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(T(digit: abc))
-            _blackHole(T(digit: xyz))
+            ANK.blackHole(T(digit: abc))
+            ANK.blackHole(T(digit: xyz))
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
@@ -72,28 +72,28 @@ final class ANKSignedBenchmarks: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testIsNormal() {
-        var abc = _blackHoleIdentity(T(0, as: .plus ))
-        var xyz = _blackHoleIdentity(T(0, as: .minus))
+        var abc = ANK.blackHoleIdentity(T(0, as: .plus ))
+        var xyz = ANK.blackHoleIdentity(T(0, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.isNormal)
-            _blackHole(xyz.isNormal)
+            ANK.blackHole(abc.isNormal)
+            ANK.blackHole(xyz.isNormal)
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
     func testNormalizedSign() {
-        var abc = _blackHoleIdentity(T(0, as: .plus ))
-        var xyz = _blackHoleIdentity(T(0, as: .minus))
+        var abc = ANK.blackHoleIdentity(T(0, as: .plus ))
+        var xyz = ANK.blackHoleIdentity(T(0, as: .minus))
         
         for _ in 0 ..< 1_000_000 {
-            _blackHole(abc.normalizedSign)
-            _blackHole(xyz.normalizedSign)
+            ANK.blackHole(abc.normalizedSign)
+            ANK.blackHole(xyz.normalizedSign)
             
-            _blackHoleInoutIdentity(&abc)
-            _blackHoleInoutIdentity(&xyz)
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
 }

@@ -284,7 +284,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func +=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.addReportingOverflow(rhs)
-        precondition(!overflow, "overflow in +=")
+        precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
     /// Forms the sum of adding `rhs` to `lhs`.
@@ -298,7 +298,7 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func +=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.addReportingOverflow(rhs)
-        precondition(!overflow, "overflow in +=")
+        precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
     /// Returns the sum of adding `rhs` to `lhs`.
@@ -312,7 +312,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func +(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
-        precondition(!pvo.overflow, "overflow in +")
+        precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
@@ -327,7 +327,7 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func +(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
-        precondition(!pvo.overflow, "overflow in +")
+        precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
@@ -390,7 +390,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func -=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.subtractReportingOverflow(rhs)
-        precondition(!overflow, "overflow in -=")
+        precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
     /// Forms the difference of subtracting `rhs` from `lhs`.
@@ -404,7 +404,7 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func -=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.subtractReportingOverflow(rhs)
-        precondition(!overflow, "overflow in -=")
+        precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
     /// Returns the difference of subtracting `rhs` from `lhs`.
@@ -418,7 +418,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func -(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.subtractingReportingOverflow(rhs)
-        precondition(!pvo.overflow, "overflow in -")
+        precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
@@ -433,7 +433,7 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func -(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.subtractingReportingOverflow(rhs)
-        precondition(!pvo.overflow, "overflow in -")
+        precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
@@ -496,7 +496,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func *=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
-        precondition(!overflow, "overflow in *=")
+        precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
     /// Forms the product of multiplying `lhs` by `rhs`.
@@ -510,7 +510,7 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func *=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
-        precondition(!overflow, "overflow in *=")
+        precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
     /// Returns the product of multiplying `lhs` by `rhs`.
@@ -524,7 +524,7 @@ extension ANKFixedWidthInteger {
     ///
     @_transparent public static func *(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow, "overflow in *")
+        precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
@@ -539,7 +539,7 @@ extension ANKFixedWidthInteger {
     ///
     @_disfavoredOverload @_transparent public static func *(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
-        precondition(!pvo.overflow, "overflow in *")
+        precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
@@ -655,7 +655,7 @@ extension ANKFixedWidthInteger {
     /// If the given radix is `nil`, it is either decoded from the string or assigned the value `10`.
     ///
     @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) throws -> Self {
-        let components = source._bigEndianTextComponents(radix: radix)
+        let components = ANK.bigEndianTextComponents(source, radix: radix)
         guard let magnitude = Magnitude(components.body, radix: components.radix) else { throw ANKError() }
         guard let value = Self(exactly: ANKSigned(magnitude,as: components.sign)) else { throw ANKError() }
         return    value
