@@ -20,9 +20,9 @@ extension ANK {
     /// Returns the sign and radix, along with any remaining characters.
     ///
     /// ```swift
-    /// "+0x???"._bigEndianTextComponents(radix: nil) // (sign: plus,  radix: 16, body:    "???")
-    /// "??????"._bigEndianTextComponents(radix: nil) // (sign: plus,  radix: 10, body: "??????")
-    /// "-0x???"._bigEndianTextComponents(radix:   2) // (sign: minus, radix:  2, body:  "0x???")
+    /// ANK.bigEndianTextComponents("+0x???", radix: nil) // (sign: plus,  radix: 16, body:    "???")
+    /// ANK.bigEndianTextComponents("??????", radix: nil) // (sign: plus,  radix: 10, body: "??????")
+    /// ANK.bigEndianTextComponents("-0x???", radix:   2) // (sign: minus, radix:  2, body:  "0x???")
     /// ```
     ///
     @inlinable public static func bigEndianTextComponents<T>(_ text: T, radix: Int?)

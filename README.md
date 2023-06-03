@@ -61,7 +61,13 @@ Models, protocols, extensions and utilities underpinning this package.
 - [ANKSignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
 - [ANKUnsignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
 
+## Check out my other projects
+
+[**Numberick**][Oscar/Numberick] is a more pragmatic solution to the same problem.
+
 <!-- Links -->
+
+[Oscar/Numberick]: https://github.com/oscbyspro/Numberick
 
 [ANK/D]: https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit
 [FUL/D]: https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit/ankfullwidth
