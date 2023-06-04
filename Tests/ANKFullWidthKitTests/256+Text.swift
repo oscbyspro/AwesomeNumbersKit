@@ -99,6 +99,18 @@ final class Int256TestsOnText: XCTestCase {
         }
     }
     
+    func testDecodingStringWithoutDigitsReturnsNil() {
+        XCTAssertNil(T(decoding:  "", radix: 10))
+        XCTAssertNil(T(decoding: "+", radix: 10))
+        XCTAssertNil(T(decoding: "-", radix: 10))
+        XCTAssertNil(T(decoding: "~", radix: 10))
+
+        XCTAssertNil(T(decoding:  "", radix: 16))
+        XCTAssertNil(T(decoding: "+", radix: 16))
+        XCTAssertNil(T(decoding: "-", radix: 16))
+        XCTAssertNil(T(decoding: "~", radix: 16))
+    }
+    
     func testDecodingValueOutsideOfRepresentableRangeReturnsNil() {
         let positive = "+" + String(repeating: "1", count: T.bitWidth)
         let negative = "-" + String(repeating: "1", count: T.bitWidth)
@@ -232,6 +244,18 @@ final class UInt256TestsOnText: XCTestCase {
             XCTAssertEqual(T(decoding: zero, radix: radix), T(0))
             XCTAssertEqual(T(decoding: one,  radix: radix), T(1))
         }
+    }
+    
+    func testDecodingStringWithoutDigitsReturnsNil() {
+        XCTAssertNil(T(decoding:  "", radix: 10))
+        XCTAssertNil(T(decoding: "+", radix: 10))
+        XCTAssertNil(T(decoding: "-", radix: 10))
+        XCTAssertNil(T(decoding: "~", radix: 10))
+
+        XCTAssertNil(T(decoding:  "", radix: 16))
+        XCTAssertNil(T(decoding: "+", radix: 16))
+        XCTAssertNil(T(decoding: "-", radix: 16))
+        XCTAssertNil(T(decoding: "~", radix: 16))
     }
     
     func testDecodingValueOutsideOfRepresentableRangeReturnsNil() {

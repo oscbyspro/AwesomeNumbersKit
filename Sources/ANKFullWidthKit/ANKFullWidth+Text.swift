@@ -80,8 +80,11 @@ extension ANKFullWidth where High == High.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: PerfectRadixUIntRoot) throws -> Self {
-        try Self.fromUnsafeMutableWords  { MAGNITUDE in
+        guard !source.isEmpty else { throw ANKError() }
+        //=--------------------------------------=
+        return try Self.fromUnsafeMutableWords { MAGNITUDE in
             let utf8  = source.utf8.drop { $0 == 0x30 }
+            //=----------------------------------=
             let start = utf8.startIndex as String.Index
             var tail  = utf8.endIndex   as String.Index
             var index = MAGNITUDE.startIndex as Int
@@ -105,6 +108,8 @@ extension ANKFullWidth where High == High.Magnitude {
     }
     
     @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: ImperfectRadixUIntRoot) throws -> Self {
+        guard !source.isEmpty else { throw ANKError() }
+        //=--------------------------------------=
         let utf8 = source.utf8.drop { $0 == 0x30 }
         var head = utf8.startIndex as String.Index
         let alignment = utf8.count  % radix.exponent as Int
