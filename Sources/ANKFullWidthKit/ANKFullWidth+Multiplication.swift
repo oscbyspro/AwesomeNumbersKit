@@ -19,19 +19,19 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyReportingOverflow(by  amount: Self) -> Bool {
-        let pvo: PVO<Self> = self.multipliedReportingOverflow(by: amount)
+    @inlinable public mutating func multiplyReportingOverflow(by  other: Self) -> Bool {
+        let pvo: PVO<Self> = self.multipliedReportingOverflow(by: other)
         self = pvo.partialValue
         return pvo.overflow as Bool
     }
     
-    @inlinable public func multipliedReportingOverflow(by amount:  Self) -> PVO<Self> {
-        let product: DoubleWidth = self._multipliedFullWidth(by: amount)
+    @inlinable public func multipliedReportingOverflow(by other:  Self) -> PVO<Self> {
+        let product: DoubleWidth = self._multipliedFullWidth(by: other)
         //=--------------------------------------=
         let overflow: Bool
         if !Self.isSigned {
             overflow = !(product.high.isZero)
-        }   else if self.isLessThanZero == amount.isLessThanZero {
+        }   else if self.isLessThanZero == other.isLessThanZero {
             // overflow = product > Self.max, but more efficient
             overflow = !(product.high.isZero && !product.low.mostSignificantBit)
         }   else {
@@ -46,21 +46,21 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        let product: HL<Self, Magnitude> = self.multipliedFullWidth(by: amount)
+    @inlinable public mutating func multiplyFullWidth(by other: Self) -> Self {
+        let product: HL<Self, Magnitude> = self.multipliedFullWidth(by: other)
         self = Self(bitPattern: product.low)
         return product.high as Self
     }
     
-    @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        let product: DoubleWidth = self._multipliedFullWidth(by: amount)
+    @inlinable public func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {
+        let product: DoubleWidth = self._multipliedFullWidth(by: other)
         return HL(product.high, product.low)
     }
     
-    @inlinable func _multipliedFullWidth(by amount: Self) -> DoubleWidth {
+    @inlinable func _multipliedFullWidth(by other: Self) -> DoubleWidth {
         if  High.Magnitude.self == Low.self {
-            return self._multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by: amount)
-        };  return self._multipliedFullWidthAsNormal(by: amount)
+            return self._multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by: other)
+        };  return self._multipliedFullWidthAsNormal(by: other)
     }
 }
 
@@ -74,13 +74,13 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable func _multipliedFullWidthAsNormal(by amount: Self) -> DoubleWidth {
+    @inlinable func _multipliedFullWidthAsNormal(by other: Self) -> DoubleWidth {
         var product = DoubleWidth()
-        let lhsIsLessThanZero: Bool =   self.isLessThanZero
-        let rhsIsLessThanZero: Bool = amount.isLessThanZero
+        let lhsIsLessThanZero: Bool = self .isLessThanZero
+        let rhsIsLessThanZero: Bool = other.isLessThanZero
         //=--------------------------------------=
         self   .withUnsafeWords { LHS in
-        amount .withUnsafeWords { RHS in
+        other  .withUnsafeWords { RHS in
         product.withUnsafeMutableWords  { PRO in
             for lhsIndex in LHS.indices {
                 var carry = UInt()
@@ -120,30 +120,31 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable func _multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by amount: Self) -> DoubleWidth {
+    @inlinable func _multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by other: Self) -> DoubleWidth {
         assert(High.Magnitude.self == Low.self)
-        let negate: Bool = self.isLessThanZero != amount.isLessThanZero
-        let lhs =   self.magnitude as! ANKFullWidth<Low, Low>
-        let rhs = amount.magnitude as! ANKFullWidth<Low, Low>
+        let minus: Bool = self.isLessThanZero != other.isLessThanZero
+        let lhs = self .magnitude as! ANKFullWidth<Low, Low>
+        let rhs = other.magnitude as! ANKFullWidth<Low, Low>
         let product = lhs._multipliedFullWidthAsKaratsubaAsUnsigned(by: rhs) as! Magnitude.DoubleWidth
-        return DoubleWidth(bitPattern: negate ? product.twosComplement() : product)
+        return DoubleWidth(bitPattern: minus ? product.twosComplement() : product)
     }
     
-    @inlinable func _multipliedFullWidthAsKaratsubaAsUnsigned(by amount: Self) -> DoubleWidth where High == Low {
+    @inlinable func _multipliedFullWidthAsKaratsubaAsUnsigned(by other: Self) -> DoubleWidth where High == Low {
         //=--------------------------------------=
-        let m0 = self.low .multipliedFullWidth(by: amount.low ) as HL<Low, Low>
-        let m1 = self.low .multipliedFullWidth(by: amount.high) as HL<Low, Low>
-        let m2 = self.high.multipliedFullWidth(by: amount.low ) as HL<Low, Low>
-        let m3 = self.high.multipliedFullWidth(by: amount.high) as HL<Low, Low>
+        let m0 = self.low .multipliedFullWidth(by: other.low ) as HL<Low, Low>
+        let m1 = self.low .multipliedFullWidth(by: other.high) as HL<Low, Low>
+        let m2 = self.high.multipliedFullWidth(by: other.low ) as HL<Low, Low>
+        let m3 = self.high.multipliedFullWidth(by: other.high) as HL<Low, Low>
         //=--------------------------------------=
         let s0 = Low.sum(m0.high, m1.low,  m2.low) as HL<UInt, Low>
         let s1 = Low.sum(m1.high, m2.high, m3.low) as HL<UInt, Low>
         //=--------------------------------------=
         let r0 = Magnitude(descending: HL(s0.low,  m0.low))
         var r1 = Magnitude(descending: HL(m3.high, Low(digit: s0.high)))
+        
         let o0 = r1.low .addReportingOverflow(s1.low) as Bool
-        let o1 = r1.high.addReportingOverflow(s1.high &+ UInt(bit:  o0)) as Bool
+        let _  = r1.high.addReportingOverflow(s1.high &+ UInt(bit:  o0)) as Bool
         //=--------------------------------------=
-        assert(!o1); return DoubleWidth(descending: HL(r1, r0))
+        return DoubleWidth(descending: HL(r1, r0))
     }
 }

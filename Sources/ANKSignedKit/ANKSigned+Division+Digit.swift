@@ -41,8 +41,8 @@ extension ANKSigned {
         return pvo.partialValue as Digit
     }
     
-    @_disfavoredOverload @_transparent public func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
-        let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
+    @_disfavoredOverload @_transparent public func quotientAndRemainder(dividingBy other: Digit) -> QR<Self, Digit> {
+        let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: other)
         precondition(!qro.overflow, ANK.callsiteOverflowInfo())
         return qro.partialValue as QR<Self, Digit>
     }
@@ -51,27 +51,27 @@ extension ANKSigned {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_disfavoredOverload @inlinable public mutating func divideReportingOverflow(by divisor: Digit) -> Bool {
-        self.sign = self.sign ^ divisor.sign
-        return self.magnitude.divideReportingOverflow(by: divisor.magnitude)
+    @_disfavoredOverload @inlinable public mutating func divideReportingOverflow(by other: Digit) -> Bool {
+        self.sign = self.sign ^ other.sign
+        return self.magnitude.divideReportingOverflow(by: other.magnitude)
     }
     
-    @_disfavoredOverload @inlinable public func dividedReportingOverflow(by divisor: Digit) -> PVO<Self> {
-        let pvo: PVO<Magnitude> = self.magnitude.dividedReportingOverflow(by: divisor.magnitude)
-        return PVO(Self(pvo.partialValue, as: self.sign ^ divisor.sign), pvo.overflow)
+    @_disfavoredOverload @inlinable public func dividedReportingOverflow(by other: Digit) -> PVO<Self> {
+        let pvo: PVO<Magnitude> = self.magnitude.dividedReportingOverflow(by: other.magnitude)
+        return PVO(Self(pvo.partialValue, as: self.sign ^ other.sign), pvo.overflow)
     }
     
-    @_disfavoredOverload @inlinable public mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool {
-        self.magnitude.formRemainderReportingOverflow(dividingBy: divisor.magnitude)
+    @_disfavoredOverload @inlinable public mutating func formRemainderReportingOverflow(dividingBy other: Digit) -> Bool {
+        self.magnitude.formRemainderReportingOverflow(dividingBy: other.magnitude)
     }
     
-    @_disfavoredOverload @inlinable public func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit> {
-        let pvo: PVO<Magnitude.Digit> = self.magnitude.remainderReportingOverflow(dividingBy: divisor.magnitude)
+    @_disfavoredOverload @inlinable public func remainderReportingOverflow(dividingBy other: Digit) -> PVO<Digit> {
+        let pvo: PVO<Magnitude.Digit> = self.magnitude.remainderReportingOverflow(dividingBy: other.magnitude)
         return PVO(Digit(pvo.partialValue, as: self.sign), pvo.overflow)
     }
     
-    @_disfavoredOverload @inlinable public func quotientAndRemainderReportingOverflow(dividingBy divisor: Digit) -> PVO<QR<Self, Digit>> {
-        let qro: PVO<QR<Magnitude, Magnitude.Digit>> = self.magnitude.quotientAndRemainderReportingOverflow(dividingBy: divisor.magnitude)
-        return PVO(QR(Self(qro.partialValue.quotient, as: self.sign ^ divisor.sign), Digit(qro.partialValue.remainder, as: self.sign)), qro.overflow)
+    @_disfavoredOverload @inlinable public func quotientAndRemainderReportingOverflow(dividingBy other: Digit) -> PVO<QR<Self, Digit>> {
+        let qro: PVO<QR<Magnitude, Magnitude.Digit>> = self.magnitude.quotientAndRemainderReportingOverflow(dividingBy: other.magnitude)
+        return PVO(QR(Self(qro.partialValue.quotient, as: self.sign ^ other.sign), Digit(qro.partialValue.remainder, as: self.sign)), qro.overflow)
     }
 }

@@ -60,24 +60,24 @@ extension ANKSigned where Magnitude: ANKFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func addReportingOverflow(_ amount: Self) -> Bool {
+    @inlinable public mutating func addReportingOverflow(_ other: Self) -> Bool {
         //=--------------------------------------=
-        if  self.sign == amount.sign {
-            return self.magnitude.addReportingOverflow(amount.magnitude)
+        if  self.sign == other.sign {
+            return self.magnitude.addReportingOverflow(other.magnitude)
         }
         //=--------------------------------------=
-        let magnitudeSubtractionOverflow = self.magnitude.subtractReportingOverflow(amount.magnitude)
+        let magnitudeSubtractionOverflow = self.magnitude.subtractReportingOverflow(other.magnitude)
         if  magnitudeSubtractionOverflow {
-            self.sign  = amount.sign
+            self.sign  = other.sign
             self.magnitude.formTwosComplement()
         }
         
         return false
     }
     
-    @inlinable public func addingReportingOverflow(_ amount: Self) -> PVO<Self> {
+    @inlinable public func addingReportingOverflow(_ other: Self) -> PVO<Self> {
         var partialValue = self
-        let overflow: Bool = partialValue.addReportingOverflow(amount)
+        let overflow: Bool = partialValue.addReportingOverflow(other)
         return PVO(partialValue, overflow)
     }
 }

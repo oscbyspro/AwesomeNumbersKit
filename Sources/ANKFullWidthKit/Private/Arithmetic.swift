@@ -31,8 +31,8 @@ extension UInt {
     ///
     /// - Returns: A truncated value in the range: `(high: 0, low: 0) ... (high: 1, low: ~0)`.
     ///
-    @inlinable mutating func addReportingOverflow(_ amount: Self, _ bit: Bool) -> Bool {
-        let a: Bool = self.addReportingOverflow(amount)
+    @inlinable mutating func addReportingOverflow(_ other: Self, _ bit: Bool) -> Bool {
+        let a: Bool = self.addReportingOverflow(other)
         let b: Bool = self.addReportingOverflow(Self(bit: bit))
         return a || b
     }
@@ -49,9 +49,9 @@ extension UInt {
     ///
     /// - Returns: A truncated value in the range: `(high: 0, low: 0) ... (high: 1, low: ~0)`.
     ///
-    @inlinable func addingReportingOverflow(_ amount: Self, _ bit: Bool) -> PVO<Self> {
+    @inlinable func addingReportingOverflow(_ other: Self, _ bit: Bool) -> PVO<Self> {
         var partialValue = self
-        let overflow: Bool = partialValue.addReportingOverflow(amount, bit)
+        let overflow: Bool = partialValue.addReportingOverflow(other, bit)
         return PVO(partialValue, overflow)
     }
     

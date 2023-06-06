@@ -51,28 +51,28 @@ extension ANKSigned where Magnitude: ANKFixedWidthInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyReportingOverflow(by amount: Self) -> Bool {
-        self.sign = self.sign ^ amount.sign
-        return self.magnitude.multiplyReportingOverflow(by: amount.magnitude)
+    @inlinable public mutating func multiplyReportingOverflow(by other: Self) -> Bool {
+        self.sign = self.sign ^ other.sign
+        return self.magnitude.multiplyReportingOverflow(by: other.magnitude)
     }
     
-    @inlinable public func multipliedReportingOverflow(by amount: Self) -> PVO<Self> {
-        let pvo: PVO<Magnitude> = self.magnitude.multipliedReportingOverflow(by: amount.magnitude)
-        return   PVO(Self(pvo.partialValue, as: self.sign ^ amount.sign), pvo.overflow)
+    @inlinable public func multipliedReportingOverflow(by other: Self) -> PVO<Self> {
+        let pvo: PVO<Magnitude> = self.magnitude.multipliedReportingOverflow(by: other.magnitude)
+        return   PVO(Self(pvo.partialValue, as: self.sign ^ other.sign), pvo.overflow)
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func multiplyFullWidth(by amount: Self) -> Self {
-        self.sign = self.sign ^ amount.sign
-        let high: Magnitude = self.magnitude.multiplyFullWidth(by: amount.magnitude)
+    @inlinable public mutating func multiplyFullWidth(by other: Self) -> Self {
+        self.sign = self.sign ^ other.sign
+        let high: Magnitude = self.magnitude.multiplyFullWidth(by: other.magnitude)
         return Self(high, as: self.sign)
     }
     
-    @inlinable public func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude> {
-        let product: HL<Magnitude, Magnitude> = self.magnitude.multipliedFullWidth(by: amount.magnitude)
-        return HL(Self(product.high, as: self.sign ^ amount.sign), product.low)
+    @inlinable public func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {
+        let product: HL<Magnitude, Magnitude> = self.magnitude.multipliedFullWidth(by: other.magnitude)
+        return HL(Self(product.high, as: self.sign ^ other.sign), product.low)
     }
 }

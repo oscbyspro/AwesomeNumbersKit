@@ -47,11 +47,11 @@ extension ANKFullWidth {
     ///   - amount: `Int.min <= amount <= Int.max`
     ///
     @inlinable mutating func _bitshiftLeftSmart(by amount: Int) {
-        let amountAbsoluteValue = amount.magnitude  as UInt
-        switch (amount >= 0, amountAbsoluteValue <  UInt(bitPattern: Self.bitWidth)) {
-        case (true,  true ): self._bitshiftLeft(by:  Int(bitPattern: amountAbsoluteValue))
+        let unsigned = amount.magnitude as UInt
+        switch (amount >= 0, unsigned < UInt(bitPattern: Self.bitWidth)) {
+        case (true,  true ): self._bitshiftLeft(by:  Int(bitPattern: unsigned))
         case (true,  false): self = Self(repeating:  false)
-        case (false, true ): self._bitshiftRight(by: Int(bitPattern: amountAbsoluteValue))
+        case (false, true ): self._bitshiftRight(by: Int(bitPattern: unsigned))
         case (false, false): self = Self(repeating:  self.isLessThanZero)
         }
     }
@@ -67,7 +67,7 @@ extension ANKFullWidth {
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable mutating func _bitshiftLeft(by amount: Int) {
-        assert(0 ..< Self.bitWidth ~= amount, "invalid shift amount")
+        assert(0 ..< Self.bitWidth ~= amount, "invalid left shift amount")
         let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
         let bits:  Int = amount &  (UInt.bitWidth &- 1)
         return self._bitshiftLeft(words: words, bits: bits)
@@ -84,20 +84,20 @@ extension ANKFullWidth {
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
-    @inlinable mutating func _bitshiftLeft(words: Int, bits: Int) {
-        assert(0 ..< Self.endIndex ~= words, "invalid shift amount")
-        assert(0 ..< UInt.bitWidth ~= bits,  "invalid shift amount")
+    @inlinable mutating func _bitshiftLeft(words major: Int, bits minor: Int) {
+        assert(0 ..< Self.endIndex ~= major, "invalid major left shift amount")
+        assert(0 ..< UInt.bitWidth ~= minor, "invalid minor left shift amount")
         //=--------------------------------------=
-        let a = UInt(bitPattern: bits)
-        let b = UInt(bitPattern: UInt.bitWidth &- bits)
-        let x = bits.isZero  as  Bool
+        let a = UInt(bitPattern: minor)
+        let b = UInt(bitPattern: UInt.bitWidth &- minor)
+        let x = minor.isZero  as  Bool
         //=--------------------------------------=
         self.withUnsafeMutableWords { SELF in
             var i: Int = SELF.endIndex
             backwards: while i > SELF.startIndex {
                 SELF.formIndex(before: &i)
                 
-                let j:  Int = i &- words
+                let j:  Int = i &- major
                 let k:  Int = j &- 1
                 
                 let p: UInt =         (j >= SELF.startIndex ? SELF[j] : 0) &<< a
@@ -155,11 +155,11 @@ extension ANKFullWidth {
     ///   - amount: `Int.min <= amount <= Int.max`
     ///
     @inlinable mutating func _bitshiftRightSmart(by amount: Int) {
-        let amountAbsoluteValue = amount.magnitude  as UInt
-        switch (amount >= 0, amountAbsoluteValue <  UInt(bitPattern: Self.bitWidth)) {
-        case (true,  true ): self._bitshiftRight(by: Int(bitPattern: amountAbsoluteValue))
+        let unsigned = amount.magnitude as UInt
+        switch (amount >= 0, unsigned < UInt(bitPattern: Self.bitWidth)) {
+        case (true,  true ): self._bitshiftRight(by: Int(bitPattern: unsigned))
         case (true,  false): self = Self(repeating:  self.isLessThanZero)
-        case (false, true ): self._bitshiftLeft(by:  Int(bitPattern: amountAbsoluteValue))
+        case (false, true ): self._bitshiftLeft(by:  Int(bitPattern: unsigned))
         case (false, false): self = Self(repeating:  false)
         }
     }
@@ -175,7 +175,7 @@ extension ANKFullWidth {
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
     @inlinable mutating func _bitshiftRight(by amount: Int) {
-        assert(0 ..< Self.bitWidth ~= amount, "invalid shift amount")
+        assert(0 ..< Self.bitWidth ~= amount, "invalid right shift amount")
         let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
         let bits:  Int = amount &  (UInt.bitWidth &- 1)
         return self._bitshiftRight(words: words, bits: bits)
@@ -192,19 +192,19 @@ extension ANKFullWidth {
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
-    @inlinable mutating func _bitshiftRight(words: Int, bits: Int) {
-        assert(0 ..< Self.endIndex ~= words, "invalid shift amount")
-        assert(0 ..< UInt.bitWidth ~= bits,  "invalid shift amount")
+    @inlinable mutating func _bitshiftRight(words major: Int, bits minor: Int) {
+        assert(0 ..< Self.endIndex ~= major, "invalid major right shift amount")
+        assert(0 ..< UInt.bitWidth ~= minor, "invalid minor right shift amount")
         //=--------------------------------------=
-        let a = UInt(bitPattern: bits)
-        let b = UInt(bitPattern: UInt.bitWidth &- bits)
+        let a = UInt(bitPattern: minor)
+        let b = UInt(bitPattern: UInt.bitWidth &- minor)
         let c = UInt(repeating:  self.isLessThanZero)
-        let x = bits.isZero  as  Bool
+        let x = minor.isZero  as  Bool
         //=--------------------------------------=
         self.withUnsafeMutableWords { SELF in
             var i: Int = SELF.startIndex
             forwards: while i < SELF.endIndex {
-                let j:  Int = i &+ words
+                let j:  Int = i &+ major
                 let k:  Int = j &+ 1
                 
                 let p: UInt =         (j < SELF.endIndex ? SELF[j] : c) &>> a

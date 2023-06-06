@@ -20,9 +20,6 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     /// The absolute value of the remainder of dividing this value by its bit width.
-    ///
-    /// - Returns: `abs(self % Self.bitWidth)`
-    ///
     @inlinable var _moduloBitWidth: Int {
         //=--------------------------------------=
         if  Self.bitWidth.isPowerOf2 {

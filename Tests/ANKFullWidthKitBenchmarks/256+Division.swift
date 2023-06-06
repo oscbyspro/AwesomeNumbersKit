@@ -105,7 +105,7 @@ final class Int256BenchmarksOnDivision: XCTestCase {
     
     func testDividingFullWidth() {
         var lhs = ANK.blackHoleIdentity((T.max))
-        var rhs = ANK.blackHoleIdentity((T.max, M.max))
+        var rhs = ANK.blackHoleIdentity((T.max / 2, M(bitPattern: T.max)))
         
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(lhs.dividingFullWidth(rhs))
@@ -204,7 +204,7 @@ final class UInt256BenchmarksOnDivision: XCTestCase {
     
     func testDividingFullWidth() {
         var lhs = ANK.blackHoleIdentity((T.max))
-        var rhs = ANK.blackHoleIdentity((T.max, M.max))
+        var rhs = ANK.blackHoleIdentity((T.max - 1, M.max))
         
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(lhs.dividingFullWidth(rhs))

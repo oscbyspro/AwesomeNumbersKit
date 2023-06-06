@@ -33,7 +33,7 @@ extension ANKFullWidth {
     
     @inlinable public init(integerLiteral source: StaticBigInt) {
         guard let value = Self(_exactlyIntegerLiteral: source) else {
-            preconditionFailure("integer literal \(source) overflows when stored into \(Self.description)")
+            preconditionFailure("\(Self.description) cannot represent \(source)")
         }
         
         self = value
@@ -65,7 +65,7 @@ extension ANKFullWidth {
     
     @inlinable public init(_ source: some BinaryInteger) {
         guard let value = Self(exactly: source) else {
-            preconditionFailure("\(source) is not in \(Self.description)'s representable range")
+            preconditionFailure("\(Self.description) cannot represent \(source)")
         }
         
         self = value

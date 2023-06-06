@@ -109,11 +109,11 @@ extension ANKFullWidth {
     
     @inlinable public subscript(index: Int) -> UInt {
         @_transparent _read {
-            precondition(self.indices ~= index, "index out of range")
+            precondition(self.indices ~= index, ANK.callsiteIndexOutOfBoundsInfo())
             yield  self[unchecked: index]
         }
         @_transparent _modify {
-            precondition(self.indices ~= index, "index out of range")
+            precondition(self.indices ~= index, ANK.callsiteIndexOutOfBoundsInfo())
             yield &self[unchecked: index]
         }
     }

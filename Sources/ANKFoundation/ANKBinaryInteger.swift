@@ -344,7 +344,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// var c = Int8(-128); c.divideReportingOverflow(by: -1)) // c = Int8(-128); -> true
     /// ```
     ///
-    @inlinable mutating func divideReportingOverflow(by divisor: Self) -> Bool
+    @inlinable mutating func divideReportingOverflow(by other: Self) -> Bool
     
     /// Forms the quotient of this value divided by the given value, and returns an overflow indicator.
     /// In the case of overflow, the result is either truncated or, if undefined, this value.
@@ -355,7 +355,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// var c = Int256.min; c.divideReportingOverflow(by: Int(-1)) // c = Int256.min; -> true
     /// ```
     ///
-    @_disfavoredOverload @inlinable mutating func divideReportingOverflow(by divisor: Digit) -> Bool
+    @_disfavoredOverload @inlinable mutating func divideReportingOverflow(by other: Digit) -> Bool
     
     /// Returns the quotient of this value divided by the given value, along with an overflow indicator.
     /// In the case of overflow, the result is either truncated or, if undefined, this value.
@@ -366,7 +366,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// Int8(-128).dividedReportingOverflow(by: Int8(-1)) // (partialValue: Int8(-128), overflow: true )
     /// ```
     ///
-    @inlinable func dividedReportingOverflow(by divisor: Self) -> PVO<Self>
+    @inlinable func dividedReportingOverflow(by other: Self) -> PVO<Self>
     
     /// Returns the quotient of this value divided by the given value, along with an overflow indicator.
     /// In the case of overflow, the result is either truncated or, if undefined, this value.
@@ -377,7 +377,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// Int256.min.dividedReportingOverflow(by: Int(-1)) // (partialValue: Int256.min, overflow: true )
     /// ```
     ///
-    @_disfavoredOverload @inlinable func dividedReportingOverflow(by divisor: Digit) -> PVO<Self>
+    @_disfavoredOverload @inlinable func dividedReportingOverflow(by other: Digit) -> PVO<Self>
     
     /// Forms the remainder of this value divided by the given value, and returns an overflow indicator.
     /// In the case of overflow, the result is either the entire remainder or, if undefined, this value.
@@ -388,7 +388,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// var c = Int8(-128); c.formRemainderReportingOverflow(dividingBy: -1) // c = Int8(   0); -> true
     /// ```
     ///
-    @inlinable mutating func formRemainderReportingOverflow(dividingBy divisor: Self) -> Bool
+    @inlinable mutating func formRemainderReportingOverflow(dividingBy other: Self) -> Bool
     
     /// Forms the remainder of this value divided by the given value, and returns an overflow indicator.
     /// In the case of overflow, the result is either the entire remainder or, if undefined, zero.
@@ -399,7 +399,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// var c = Int256.min; c.formRemainderReportingOverflow(dividingBy: Int(-1)) // c = Int256(0); -> true
     /// ```
     ///
-    @_disfavoredOverload @inlinable mutating func formRemainderReportingOverflow(dividingBy divisor: Digit) -> Bool
+    @_disfavoredOverload @inlinable mutating func formRemainderReportingOverflow(dividingBy other: Digit) -> Bool
     
     /// Returns the remainder of this value divided by the given value, along with an overflow indicator.
     /// In the case of overflow, the result is either the entire remainder or, if undefined, this value.
@@ -410,7 +410,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// Int8(-128).remainderReportingOverflow(dividingBy: -1) // (partialValue: Int8(   0), overflow: true )
     /// ```
     ///
-    @inlinable func remainderReportingOverflow(dividingBy divisor: Self) -> PVO<Self>
+    @inlinable func remainderReportingOverflow(dividingBy other: Self) -> PVO<Self>
     
     /// Returns the remainder of this value divided by the given value, along with an overflow indicator.
     /// In the case of overflow, the result is either the entire remainder or, if undefined, zero.
@@ -421,7 +421,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// Int256.min.remainderReportingOverflow(dividingBy: Int(-1)) // (partialValue: Int(0), overflow: true )
     /// ```
     ///
-    @_disfavoredOverload @inlinable func remainderReportingOverflow(dividingBy divisor: Digit) -> PVO<Digit>
+    @_disfavoredOverload @inlinable func remainderReportingOverflow(dividingBy other: Digit) -> PVO<Digit>
     
     /// Returns the quotient and remainder of this value divided by the given value.
     ///
@@ -432,7 +432,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// Int8(-7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8( 2), remainder: Int8(-1))
     /// ```
     ///
-    @inlinable func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self>
+    @inlinable func quotientAndRemainder(dividingBy other: Self) -> QR<Self, Self>
     
     /// Returns the quotient and remainder of this value divided by the given value.
     ///
@@ -443,7 +443,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// Int256(-7).quotientAndRemainder(dividingBy: Int(-3)) // (quotient: Int256( 2), remainder: Int(-1))
     /// ```
     ///
-    @_disfavoredOverload @inlinable func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit>
+    @_disfavoredOverload @inlinable func quotientAndRemainder(dividingBy other: Digit) -> QR<Self, Digit>
     
     /// Returns the quotient and remainder of this value divided by the given value, along with an overflow indicator.
     /// In the case of overflow, the result is either truncated or, if undefined, this value.
@@ -465,7 +465,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// c.overflow               // true
     /// ```
     ///
-    @inlinable func quotientAndRemainderReportingOverflow(dividingBy divisor: Self) -> PVO<QR<Self, Self>>
+    @inlinable func quotientAndRemainderReportingOverflow(dividingBy other: Self) -> PVO<QR<Self, Self>>
     
     /// Returns the quotient and remainder of this value divided by the given value, along with an overflow indicator.
     /// In the case of overflow, the result is either truncated or, if undefined, this value.
@@ -487,7 +487,7 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     /// c.overflow               // true
     /// ```
     ///
-    @_disfavoredOverload @inlinable func quotientAndRemainderReportingOverflow(dividingBy divisor: Digit) -> PVO<QR<Self, Digit>>
+    @_disfavoredOverload @inlinable func quotientAndRemainderReportingOverflow(dividingBy other: Digit) -> PVO<QR<Self, Digit>>
     
     //=------------------------------------------------------------------------=
     // MARK: + Details x Sign & Magnitude
@@ -678,8 +678,8 @@ extension ANKBinaryInteger {
     /// Int8(-7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8( 2), remainder: Int8(-1))
     /// ```
     ///
-    @_transparent public func quotientAndRemainder(dividingBy divisor: Self) -> QR<Self, Self> {
-        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
+    @_transparent public func quotientAndRemainder(dividingBy other: Self) -> QR<Self, Self> {
+        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: other)
         precondition(!qro.overflow, ANK.callsiteOverflowInfo())
         return qro.partialValue as QR<Self, Self>
     }
@@ -693,8 +693,8 @@ extension ANKBinaryInteger {
     /// Int256(-7).quotientAndRemainder(dividingBy: Int(-3)) // (quotient: Int256( 2), remainder: Int(-1))
     /// ```
     ///
-    @_disfavoredOverload @_transparent public func quotientAndRemainder(dividingBy divisor: Digit) -> QR<Self, Digit> {
-        let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: divisor)
+    @_disfavoredOverload @_transparent public func quotientAndRemainder(dividingBy other: Digit) -> QR<Self, Digit> {
+        let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: other)
         precondition(!qro.overflow, ANK.callsiteOverflowInfo())
         return qro.partialValue as QR<Self, Digit>
     }

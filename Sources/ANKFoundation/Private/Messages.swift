@@ -17,14 +17,15 @@ extension ANK {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// A callsite overflow description.
-    ///
-    /// ```swift
-    /// precondition(!overflow, ANK.callsiteOverflowInfo())
-    /// ```
-    ///
+    /// A message describing the source code location of an overflow occurrence.
     @inlinable public static func callsiteOverflowInfo(
     function: StaticString = #function, file: StaticString = #file, line: UInt = #line) -> String {
         "overflow in \(function) at \(file):\(line)"
+    }
+    
+    /// A message describing the source code location of an index-out-of-bounds occurrence.
+    @inlinable public static func callsiteIndexOutOfBoundsInfo(
+    function: StaticString = #function, file: StaticString = #file, line: UInt = #line) -> String {
+        "index out of bounds in \(function) at \(file):\(line)"
     }
 }

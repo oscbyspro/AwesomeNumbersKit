@@ -66,7 +66,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// var b: Int8(127); b.addReportingOverflow(Int8(1)) // b = Int8(-128); -> true
     /// ```
     ///
-    @inlinable mutating func addReportingOverflow(_ amount: Self) -> Bool
+    @inlinable mutating func addReportingOverflow(_ other: Self) -> Bool
     
     /// Forms the sum of adding the given value to this value, and returns an overflow indicator.
     /// In the case of overflow, the result is truncated.
@@ -76,7 +76,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// var b: Int256.max; b.addReportingOverflow(Int(1)) // b = Int256.min; -> true
     /// ```
     ///
-    @_disfavoredOverload @inlinable mutating func addReportingOverflow(_ amount: Digit) -> Bool
+    @_disfavoredOverload @inlinable mutating func addReportingOverflow(_ other: Digit) -> Bool
     
     /// Returns the sum of adding the given value to this value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
@@ -86,7 +86,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// Int256.max.addingReportingOverflow(Int256(1)) // (partialValue: Int256.min, overflow: true )
     /// ```
     ///
-    @inlinable func addingReportingOverflow(_ amount: Self) -> PVO<Self>
+    @inlinable func addingReportingOverflow(_ other: Self) -> PVO<Self>
     
     /// Returns the sum of adding the given value to this value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
@@ -96,7 +96,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// Int256.max.addingReportingOverflow(Int(1)) // (partialValue: Int256.min, overflow: true )
     /// ```
     ///
-    @_disfavoredOverload @inlinable func addingReportingOverflow(_ amount: Digit) -> PVO<Self>
+    @_disfavoredOverload @inlinable func addingReportingOverflow(_ other: Digit) -> PVO<Self>
     
     //=------------------------------------------------------------------------=
     // MARK: Details x Subtraction
@@ -110,7 +110,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// var b: Int8(-128); b.subtractReportingOverflow(1) // b =  127; -> true
     /// ```
     ///
-    @inlinable mutating func subtractReportingOverflow(_ amount: Self) -> Bool
+    @inlinable mutating func subtractReportingOverflow(_ other: Self) -> Bool
     
     /// Forms the difference of subtracting the given value from this value, and returns an overflow indicator.
     /// In the case of overflow, the result is truncated.
@@ -120,7 +120,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// var b: Int256.min; b.subtractReportingOverflow(Int(1)) // b = Int256.max; -> true
     /// ```
     ///
-    @_disfavoredOverload @inlinable mutating func subtractReportingOverflow(_ amount: Digit) -> Bool
+    @_disfavoredOverload @inlinable mutating func subtractReportingOverflow(_ other: Digit) -> Bool
     
     /// Returns the difference of subtracting the given value from this value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
@@ -130,7 +130,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// Int256.min.subtractingReportingOverflow(Int256(1)) // (partialValue: Int256.max, overflow: true )
     /// ```
     ///
-    @inlinable func subtractingReportingOverflow(_ amount: Self) -> PVO<Self>
+    @inlinable func subtractingReportingOverflow(_ other: Self) -> PVO<Self>
     
     /// Returns the difference of subtracting the given value from this value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
@@ -140,7 +140,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// Int256.min.subtractingReportingOverflow(Int(1)) // (partialValue: Int256.max, overflow: true )
     /// ```
     ///
-    @_disfavoredOverload @inlinable func subtractingReportingOverflow(_ amount: Digit) -> PVO<Self>
+    @_disfavoredOverload @inlinable func subtractingReportingOverflow(_ other: Digit) -> PVO<Self>
     
     //=------------------------------------------------------------------------=
     // MARK: Details x Multiplication
@@ -154,7 +154,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// var b = Int8.max; b.multiplyReportingOverflow(by: Int8(4)) // b = Int8(-4); -> true
     /// ```
     ///
-    @inlinable mutating func multiplyReportingOverflow(by amount: Self) -> Bool
+    @inlinable mutating func multiplyReportingOverflow(by other: Self) -> Bool
     
     /// Forms the product of multiplying this value by the given value, and returns an overflow indicator.
     /// In the case of overflow, the result is truncated.
@@ -164,7 +164,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// var b = Int256.max; b.multiplyReportingOverflow(by: Int(4)) // b = Int256(-4); -> true
     /// ```
     ///
-    @_disfavoredOverload @inlinable mutating func multiplyReportingOverflow(by amount: Digit) -> Bool
+    @_disfavoredOverload @inlinable mutating func multiplyReportingOverflow(by other: Digit) -> Bool
     
     /// Returns the product of multiplying this value by the given value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
@@ -174,7 +174,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// Int256.max.multipliedReportingOverflow(by: Int256(4)) // (partialValue: Int256(-4), overflow: true )
     /// ```
     ///
-    @inlinable func multipliedReportingOverflow(by amount: Self) -> PVO<Self>
+    @inlinable func multipliedReportingOverflow(by other: Self) -> PVO<Self>
     
     /// Returns the product of multiplying this value by the given value, along with an overflow indicator.
     /// In the case of overflow, the result is truncated.
@@ -184,7 +184,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// Int256.max.multipliedReportingOverflow(by: Int(4)) // (partialValue: Int256(-4), overflow: true )
     /// ```
     ///
-    @_disfavoredOverload @inlinable func multipliedReportingOverflow(by amount: Digit) -> PVO<Self>
+    @_disfavoredOverload @inlinable func multipliedReportingOverflow(by other: Digit) -> PVO<Self>
     
     /// Forms the low part of multiplying this value by the given value, and returns the high.
     ///
@@ -193,7 +193,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// var b = Int8.max; b.multiplyFullWidth(by: Int8(4)) // b = Int8(-4); -> Int8(1)
     /// ```
     ///
-    @inlinable mutating func multiplyFullWidth(by amount: Self) -> Self
+    @inlinable mutating func multiplyFullWidth(by other: Self) -> Self
     
     /// Forms the low part of multiplying this value by the given value, and returns the high.
     ///
@@ -202,7 +202,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// var b = Int256.max; b.multiplyFullWidth(by: Int(4)) // b = Int256(-4); -> Int(1)
     /// ```
     ///
-    @_disfavoredOverload @inlinable mutating func multiplyFullWidth(by amount: Digit) -> Digit
+    @_disfavoredOverload @inlinable mutating func multiplyFullWidth(by other: Digit) -> Digit
     
     /// Returns the low and high part of multiplying this value by the given value.
     ///
@@ -211,7 +211,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// Int256.max.multipliedFullWidth(by: Int256(4)) // (high: Int(1), low: ~UInt256( 3))
     /// ```
     ///
-    @inlinable func multipliedFullWidth(by amount: Self) -> HL<Self, Magnitude>
+    @inlinable func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude>
     
     /// Returns the low and high part of multiplying this value by the given value.
     ///
@@ -220,7 +220,7 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     /// Int256.max.multipliedFullWidth(by: Int(4)) // (high: Int(1), low: ~UInt256( 3))
     /// ```
     ///
-    @_disfavoredOverload @inlinable func multipliedFullWidth(by amount: Digit) -> HL<Digit, Magnitude>
+    @_disfavoredOverload @inlinable func multipliedFullWidth(by other: Digit) -> HL<Digit, Magnitude>
 }
 
 //=----------------------------------------------------------------------------=
