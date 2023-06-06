@@ -20,10 +20,9 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public mutating func subtractReportingOverflow(_ amount: Self) -> Bool {
-        let a: Bool = self.low .subtractReportingOverflow(amount.low )
-        let b: Bool = self.high.subtractReportingOverflow(amount.high)
-        let c: Bool = a && self.high.subtractReportingOverflow(1 as Digit)
-        return b || c
+        var overflow = self.low.subtractReportingOverflow(amount.low) as Bool
+        overflow = overflow && self.high.subtractReportingOverflow(1 as Digit)
+        return overflow != self.high.subtractReportingOverflow(amount.high)
     }
     
     @inlinable public func subtractingReportingOverflow(_ amount: Self) -> PVO<Self> {

@@ -71,6 +71,9 @@ final class Int192TestsOnSubtraction: XCTestCase {
         
         ANKAssertSubtraction(T.min, T(-2), T.min + T(2), false)
         ANKAssertSubtraction(T.max, T(-2), T.min + T(1), true )
+        
+        ANKAssertSubtraction(T(descending: HL(.min, .min)), T(-1), T(descending: HL(.min, .min + 1)), false) // carry 1st
+        ANKAssertSubtraction(T(descending: HL(.max, .min)), T(-1), T(descending: HL(.max, .min + 1)), false) // carry 2nd
     }
     
     //=------------------------------------------------------------------------=

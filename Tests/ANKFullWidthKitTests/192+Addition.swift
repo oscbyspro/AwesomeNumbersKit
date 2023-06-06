@@ -71,6 +71,9 @@ final class Int192TestsOnAddition: XCTestCase {
         
         ANKAssertAddition(T.max, T( 1), T.min,  true)
         ANKAssertAddition(T.max, T(-1), T.max - T(1))
+        
+        ANKAssertAddition(T(descending: HL(.max, .max)), T(-1), T(descending: HL(.max, .max - 1)), false) // carry 1st
+        ANKAssertAddition(T(descending: HL(.min, .max)), T(-1), T(descending: HL(.min, .max - 1)), false) // carry 2nd
     }
     
     //=------------------------------------------------------------------------=
