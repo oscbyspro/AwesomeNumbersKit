@@ -11,8 +11,8 @@
 // MARK: * ANK x Namespace
 //*============================================================================*
 
-/// An awesome namespace.
+/// A namespace for `AwesomeNumbersKit` development.
 ///
-/// - Warning: Do not use this namespace outside of AwesomeNumbersKit.
+/// - Warning: Do not use this namespace outside of `AwesomeNumbersKit` development.
 ///
 @frozen public enum ANK { }

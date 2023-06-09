@@ -26,6 +26,10 @@ final class Int256TestsOnNumbers: XCTestCase {
     typealias T =  ANKInt256
     typealias M = ANKUInt256
     
+    typealias S2 = S.DoubleWidth
+    typealias T2 = T.DoubleWidth
+    typealias M2 = M.DoubleWidth
+    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Literal
     //=------------------------------------------------------------------------=
@@ -306,7 +310,53 @@ final class Int256TestsOnNumbers: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Signed<Magnitude>
+    // MARK: Tests x Double Width
+    //=------------------------------------------------------------------------=
+    
+    func testToDoubleWidth() {
+        XCTAssertEqual(T2(T(x64: X( 1,  0,  0,  0))), T2(high:  0, low: M(x64: X( 1,  0,  0,  0))))
+        XCTAssertEqual(T2(T(x64: X(~0,  0,  0,  0))), T2(high:  0, low: M(x64: X(~0,  0,  0,  0))))
+        XCTAssertEqual(T2(T(x64: X( 1,  1,  1,  1))), T2(high:  0, low: M(x64: X( 1,  1,  1,  1))))
+        XCTAssertEqual(T2(T(x64: X(~0, ~0, ~0, ~0))), T2(high: -1, low: M(x64: X(~0, ~0, ~0, ~0))))
+        
+        XCTAssertEqual(T2(exactly:  T(x64: X( 1,  0,  0,  0))), T2(high:  0, low: M(x64: X( 1,  0,  0,  0))))
+        XCTAssertEqual(T2(exactly:  T(x64: X(~0,  0,  0,  0))), T2(high:  0, low: M(x64: X(~0,  0,  0,  0))))
+        XCTAssertEqual(T2(exactly:  T(x64: X( 1,  1,  1,  1))), T2(high:  0, low: M(x64: X( 1,  1,  1,  1))))
+        XCTAssertEqual(T2(exactly:  T(x64: X(~0, ~0, ~0, ~0))), T2(high: -1, low: M(x64: X(~0, ~0, ~0, ~0))))
+        
+        XCTAssertEqual(T2(clamping: T(x64: X( 1,  0,  0,  0))), T2(high:  0, low: M(x64: X( 1,  0,  0,  0))))
+        XCTAssertEqual(T2(clamping: T(x64: X(~0,  0,  0,  0))), T2(high:  0, low: M(x64: X(~0,  0,  0,  0))))
+        XCTAssertEqual(T2(clamping: T(x64: X( 1,  1,  1,  1))), T2(high:  0, low: M(x64: X( 1,  1,  1,  1))))
+        XCTAssertEqual(T2(clamping: T(x64: X(~0, ~0, ~0, ~0))), T2(high: -1, low: M(x64: X(~0, ~0, ~0, ~0))))
+        
+        XCTAssertEqual(T2(truncatingIfNeeded: T(x64: X( 1,  0,  0,  0))), T2(high:  0, low: M(x64: X( 1,  0,  0,  0))))
+        XCTAssertEqual(T2(truncatingIfNeeded: T(x64: X(~0,  0,  0,  0))), T2(high:  0, low: M(x64: X(~0,  0,  0,  0))))
+        XCTAssertEqual(T2(truncatingIfNeeded: T(x64: X( 1,  1,  1,  1))), T2(high:  0, low: M(x64: X( 1,  1,  1,  1))))
+        XCTAssertEqual(T2(truncatingIfNeeded: T(x64: X(~0, ~0, ~0, ~0))), T2(high: -1, low: M(x64: X(~0, ~0, ~0, ~0))))
+    }
+    
+    func testFromDoubleWidth() {
+        XCTAssertEqual(T(T2(high: T(-1), low: M(bitPattern: T.min))), T.min)
+        XCTAssertEqual(T(T2(high: T( 0), low: M(bitPattern: T.max))), T.max)
+        
+        XCTAssertEqual(T(exactly:  T2(high: T.min, low: M(bitPattern: T.min))),   nil)
+        XCTAssertEqual(T(exactly:  T2(high: T(-1), low: M(bitPattern: T.min))), T.min)
+        XCTAssertEqual(T(exactly:  T2(high: T( 0), low: M(bitPattern: T.max))), T.max)
+        XCTAssertEqual(T(exactly:  T2(high: T.max, low: M(bitPattern: T.max))),   nil)
+        
+        XCTAssertEqual(T(clamping: T2(high: T.min, low: M(bitPattern: T.min))), T.min)
+        XCTAssertEqual(T(clamping: T2(high: T(-1), low: M(bitPattern: T.min))), T.min)
+        XCTAssertEqual(T(clamping: T2(high: T( 0), low: M(bitPattern: T.max))), T.max)
+        XCTAssertEqual(T(clamping: T2(high: T.max, low: M(bitPattern: T.max))), T.max)
+        
+        XCTAssertEqual(T(truncatingIfNeeded: T2(high: T.min, low: M(bitPattern: T.min))), T.min)
+        XCTAssertEqual(T(truncatingIfNeeded: T2(high: T(-1), low: M(bitPattern: T.min))), T.min)
+        XCTAssertEqual(T(truncatingIfNeeded: T2(high: T( 0), low: M(bitPattern: T.max))), T.max)
+        XCTAssertEqual(T(truncatingIfNeeded: T2(high: T.max, low: M(bitPattern: T.max))), T.max)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Sign & Magnitude
     //=------------------------------------------------------------------------=
     
     func testsFromSignedMagnitude() {
@@ -433,6 +483,10 @@ final class UInt256TestsOnNumbers: XCTestCase {
     typealias S =  ANKInt256
     typealias T = ANKUInt256
     typealias M = ANKUInt256
+    
+    typealias S2 = S.DoubleWidth
+    typealias T2 = T.DoubleWidth
+    typealias M2 = M.DoubleWidth
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Literal
@@ -711,7 +765,53 @@ final class UInt256TestsOnNumbers: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Signed<Magnitude>
+    // MARK: Tests x Double Width
+    //=------------------------------------------------------------------------=
+    
+    func testToDoubleWidth() {
+        XCTAssertEqual(T2(T(x64: X( 1,  0,  0,  0))), T2(low: M(x64: X( 1,  0,  0,  0))))
+        XCTAssertEqual(T2(T(x64: X(~0,  0,  0,  0))), T2(low: M(x64: X(~0,  0,  0,  0))))
+        XCTAssertEqual(T2(T(x64: X( 1,  1,  1,  1))), T2(low: M(x64: X( 1,  1,  1,  1))))
+        XCTAssertEqual(T2(T(x64: X(~0, ~0, ~0, ~0))), T2(low: M(x64: X(~0, ~0, ~0, ~0))))
+        
+        XCTAssertEqual(T2(exactly:  T(x64: X( 1,  0,  0,  0))), T2(low: M(x64: X( 1,  0,  0,  0))))
+        XCTAssertEqual(T2(exactly:  T(x64: X(~0,  0,  0,  0))), T2(low: M(x64: X(~0,  0,  0,  0))))
+        XCTAssertEqual(T2(exactly:  T(x64: X( 1,  1,  1,  1))), T2(low: M(x64: X( 1,  1,  1,  1))))
+        XCTAssertEqual(T2(exactly:  T(x64: X(~0, ~0, ~0, ~0))), T2(low: M(x64: X(~0, ~0, ~0, ~0))))
+        
+        XCTAssertEqual(T2(clamping: T(x64: X( 1,  0,  0,  0))), T2(low: M(x64: X( 1,  0,  0,  0))))
+        XCTAssertEqual(T2(clamping: T(x64: X(~0,  0,  0,  0))), T2(low: M(x64: X(~0,  0,  0,  0))))
+        XCTAssertEqual(T2(clamping: T(x64: X( 1,  1,  1,  1))), T2(low: M(x64: X( 1,  1,  1,  1))))
+        XCTAssertEqual(T2(clamping: T(x64: X(~0, ~0, ~0, ~0))), T2(low: M(x64: X(~0, ~0, ~0, ~0))))
+        
+        XCTAssertEqual(T2(truncatingIfNeeded: T(x64: X( 1,  0,  0,  0))), T2(low: M(x64: X( 1,  0,  0,  0))))
+        XCTAssertEqual(T2(truncatingIfNeeded: T(x64: X(~0,  0,  0,  0))), T2(low: M(x64: X(~0,  0,  0,  0))))
+        XCTAssertEqual(T2(truncatingIfNeeded: T(x64: X( 1,  1,  1,  1))), T2(low: M(x64: X( 1,  1,  1,  1))))
+        XCTAssertEqual(T2(truncatingIfNeeded: T(x64: X(~0, ~0, ~0, ~0))), T2(low: M(x64: X(~0, ~0, ~0, ~0))))
+    }
+    
+    func testFromDoubleWidth() {
+        XCTAssertEqual(T(T2(high: T(  ), low: M.min)), T.min)
+        XCTAssertEqual(T(T2(high: T(  ), low: M.max)), T.max)
+        
+        XCTAssertEqual(T(exactly:  T2(high: T.min, low: M.min)), T(  ))
+        XCTAssertEqual(T(exactly:  T2(high: T(  ), low: M.min)), T.min)
+        XCTAssertEqual(T(exactly:  T2(high: T(  ), low: M.max)), T.max)
+        XCTAssertEqual(T(exactly:  T2(high: T.max, low: M.max)),   nil)
+        
+        XCTAssertEqual(T(clamping: T2(high: T.min, low: M.min)), T(  ))
+        XCTAssertEqual(T(clamping: T2(high: T(  ), low: M.min)), T.min)
+        XCTAssertEqual(T(clamping: T2(high: T(  ), low: M.max)), T.max)
+        XCTAssertEqual(T(clamping: T2(high: T.max, low: M.max)), T.max)
+        
+        XCTAssertEqual(T(truncatingIfNeeded: T2(high: T.min, low: M.min)), T(  ))
+        XCTAssertEqual(T(truncatingIfNeeded: T2(high: T(  ), low: M.min)), T.min)
+        XCTAssertEqual(T(truncatingIfNeeded: T2(high: T(  ), low: M.max)), T.max)
+        XCTAssertEqual(T(truncatingIfNeeded: T2(high: T.max, low: M.max)), T.max)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Sign & Magnitude
     //=------------------------------------------------------------------------=
 
     func testsFromSignedMagnitude() {

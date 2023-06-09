@@ -54,14 +54,14 @@ final class Int192Tests: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Parts
+    // MARK: Tests x Components
     //=------------------------------------------------------------------------=
     
-    func testPartsGetSetInit() {
-        ANKAssertPartsGetSetInit(T(x64: X(0, 0, 0)), T.Low(x64:(0, 0)), T.High(0))
-        ANKAssertPartsGetSetInit(T(x64: X(1, 2, 0)), T.Low(x64:(1, 2)), T.High(0))
-        ANKAssertPartsGetSetInit(T(x64: X(0, 0, 3)), T.Low(x64:(0, 0)), T.High(3))
-        ANKAssertPartsGetSetInit(T(x64: X(1, 2, 3)), T.Low(x64:(1, 2)), T.High(3))
+    func testComponentsGetSetInit() {
+        ANKAssertComponentsGetSetInit(T(x64: X(0, 0, 0)), T.Low(x64:(0, 0)), T.High(0))
+        ANKAssertComponentsGetSetInit(T(x64: X(1, 2, 0)), T.Low(x64:(1, 2)), T.High(0))
+        ANKAssertComponentsGetSetInit(T(x64: X(0, 0, 3)), T.Low(x64:(0, 0)), T.High(3))
+        ANKAssertComponentsGetSetInit(T(x64: X(1, 2, 3)), T.Low(x64:(1, 2)), T.High(3))
     }
 }
 
@@ -104,14 +104,14 @@ final class UInt192Tests: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Parts
+    // MARK: Tests x Components
     //=------------------------------------------------------------------------=
     
-    func testPartsGetSetInit() {
-        ANKAssertPartsGetSetInit(T(x64: X(0, 0, 0)), T.Low(x64:(0, 0)), T.High(0))
-        ANKAssertPartsGetSetInit(T(x64: X(1, 2, 0)), T.Low(x64:(1, 2)), T.High(0))
-        ANKAssertPartsGetSetInit(T(x64: X(0, 0, 3)), T.Low(x64:(0, 0)), T.High(3))
-        ANKAssertPartsGetSetInit(T(x64: X(1, 2, 3)), T.Low(x64:(1, 2)), T.High(3))
+    func testComponentsGetSetInit() {
+        ANKAssertComponentsGetSetInit(T(x64: X(0, 0, 0)), T.Low(x64:(0, 0)), T.High(0))
+        ANKAssertComponentsGetSetInit(T(x64: X(1, 2, 0)), T.Low(x64:(1, 2)), T.High(0))
+        ANKAssertComponentsGetSetInit(T(x64: X(0, 0, 3)), T.Low(x64:(0, 0)), T.High(3))
+        ANKAssertComponentsGetSetInit(T(x64: X(1, 2, 3)), T.Low(x64:(1, 2)), T.High(3))
     }
 }
 

@@ -15,7 +15,7 @@ import XCTest
 // MARK: * ANK x Assert
 //*============================================================================*
 
-func ANKAssertPartsGetSetInit<H, L>(
+func ANKAssertComponentsGetSetInit<H, L>(
 _ value: ANKFullWidth<H, L>, _ low: L, _ high: H,
 file: StaticString = #file, line: UInt = #line) {
     typealias T = ANKFullWidth<H, L>

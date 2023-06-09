@@ -17,7 +17,7 @@ import ANKFoundation
 ///
 /// ``ANKFullWidth`` is a generic model for working with fixed-width integers larger than 64
 /// bits. Its bit width is the combined bit width of its ``ANKFullWidth/High-swift.typealias``
-/// and ``ANKFullWidth/Low-swift.typealias`` parts. In this way, you may construct any integer
+/// and ``ANKFullWidth/Low-swift.typealias`` components. In this way, you may construct any integer
 /// size that is a multiple of `UInt.bitWidth`.
 ///
 /// ```swift
@@ -29,7 +29,7 @@ import ANKFoundation
 ///
 /// ``ANKFullWidth`` models a `UInt` collection with inline storage. The bit width of
 /// its ``ANKFullWidth/High-swift.typealias`` and ``ANKFullWidth/Low-swift.typealias``
-/// parts must therefore be multiplies of `UInt.bitWidth`. This requirement makes it possible
+/// components must therefore be multiplies of `UInt.bitWidth`. This requirement makes it possible
 /// to operate on its words directly. While ``ANKFullWidth`` conforms to the `Collection`
 /// protocol, the best way to access these words is with the following methods:
 ///
@@ -52,10 +52,10 @@ import ANKFoundation
 CustomDebugStringConvertible, MutableCollection, RandomAccessCollection where High: ANKFixedWidthInteger,
 High.Digit: ANKCoreInteger<UInt>, Low: ANKFixedWidthInteger & ANKUnsignedInteger, Low.Digit == UInt {
     
-    /// The most significant part of this type.
+    /// The most significant component of this type.
     public typealias High = High
     
-    /// The least significant part of this type.
+    /// The least significant component of this type.
     public typealias Low = Low
     
     /// The digit of this type.
@@ -86,82 +86,82 @@ High.Digit: ANKCoreInteger<UInt>, Low: ANKFixedWidthInteger & ANKUnsignedInteger
     //=------------------------------------------------------------------------=
     
     #if _endian(big)
-    /// The most  significant part of this value.
+    /// The most  significant component of this value.
     public var high: High
-    /// The least significant part of this value.
+    /// The least significant component of this value.
     public var low:  Low
     #else
-    /// The least significant part of this value.
+    /// The least significant component of this value.
     public var low:  Low
-    /// The most  significant part of this value.
+    /// The most  significant component of this value.
     public var high: High
     #endif
     
     //=------------------------------------------------------------------------=
-    // MARK: Initializers x Parts
+    // MARK: Initializers x Components
     //=------------------------------------------------------------------------=
     
-    /// Creates a new instance from the given `low` part.
+    /// Creates a new instance from the given `low` component.
     ///
-    /// - Parameter low:  The least significant part of this value.
+    /// - Parameter low:  The least significant component of this value.
     ///
     @inlinable public init(low: Low) {
         self.init(low: low, high: High.zero)
     }
     
-    /// Creates a new instance from the given `low` and `high` parts.
+    /// Creates a new instance from the given `low` and `high` components.
     ///
-    /// - Parameter low:  The least significant part of this value.
-    /// - Parameter high: The most  significant part of this value.
+    /// - Parameter low:  The least significant component of this value.
+    /// - Parameter high: The most  significant component of this value.
     ///
     @inlinable public init(low: Low, high: High) {
         self.init(ascending: LH(low: low,  high: high))
     }
     
-    /// Creates a new instance from the given `low` and `high` parts.
+    /// Creates a new instance from the given `low` and `high` components.
     ///
-    /// - Parameter ascending: Both parts of this value, from least significant to most.
+    /// - Parameter ascending: Both components of this value, from least significant to most.
     ///
-    @inlinable public init(ascending parts: LH<Low, High>) {
-        (self.low, self.high) = parts
+    @inlinable public init(ascending components: LH<Low, High>) {
+        (self.low, self.high) = components
     }
     
-    /// Creates a new instance from the given `high` part.
+    /// Creates a new instance from the given `high` component.
     ///
-    /// - Parameter high: The most  significant part of this value.
+    /// - Parameter high: The most  significant component of this value.
     ///
     @inlinable public init(high: High) {
         self.init(high: high, low: Low.zero)
     }
     
-    /// Creates a new instance from the given `high` and `low` parts.
+    /// Creates a new instance from the given `high` and `low` components.
     ///
-    /// - Parameter high: The most  significant part of this value.
-    /// - Parameter low:  The least significant part of this value.
+    /// - Parameter high: The most  significant component of this value.
+    /// - Parameter low:  The least significant component of this value.
     ///
     @inlinable public init(high: High, low:  Low) {
         self.init(descending: HL(high: high, low: low))
     }
     
-    /// Creates a new instance from the given `high` and `low` parts.
+    /// Creates a new instance from the given `high` and `low` components.
     ///
-    /// - Parameter descending: Both parts of this value, from most significant to least.
+    /// - Parameter descending: Both components of this value, from most significant to least.
     ///
-    @inlinable public init(descending parts: HL<High, Low>) {
-        (self.high, self.low) = parts
+    @inlinable public init(descending components: HL<High, Low>) {
+        (self.high, self.low) = components
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors x Parts
+    // MARK: Accessors x Components
     //=------------------------------------------------------------------------=
     
-    /// The `low` and `high` parts of this value.
+    /// The `low` and `high` components of this value.
     @inlinable public var ascending: LH<Low, High> {
         get { (low: self.low, high: self.high) }
         set { (self.low, self.high) = newValue }
     }
     
-    /// The `high` and `low` parts of this value.
+    /// The `high` and `low` components of this value.
     @inlinable public var descending: HL<High, Low> {
         get { (high: self.high, low: self.low) }
         set { (self.high, self.low) = newValue }
