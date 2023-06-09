@@ -20,7 +20,7 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static prefix func ~(x: Self) -> Self {
-        Self(descending: HL(~x.high, ~x.low))
+        Self(high: ~x.high, low: ~x.low)
     }
     
     @inlinable public static func &=(lhs: inout Self, rhs: Self) {

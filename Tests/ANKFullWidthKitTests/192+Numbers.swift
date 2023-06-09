@@ -27,6 +27,23 @@ final class Int192TestsOnNumbers: XCTestCase {
     typealias M = ANKUInt192
     
     //=------------------------------------------------------------------------=
+    // MARK: Tests x Literal
+    //=------------------------------------------------------------------------=
+    
+    func testFromLiteral() {
+        XCTAssertEqual(T(x64:( 0,  0,  0)),  0)
+        XCTAssertEqual(T(x64:(~0,  0,  0)),  18446744073709551615)
+        XCTAssertEqual(T(x64:(~0, ~0,  0)),  340282366920938463463374607431768211455)
+        XCTAssertEqual(T(x64:(~0, ~0, ~0)), -1)
+        
+        XCTAssertEqual(T.min, -3138550867693340381917894711603833208051177722232017256448)
+        XCTAssertEqual(T.max,  3138550867693340381917894711603833208051177722232017256447)
+        
+        XCTAssertNil(T(_exactlyIntegerLiteral: -3138550867693340381917894711603833208051177722232017256449))
+        XCTAssertNil(T(_exactlyIntegerLiteral:  3138550867693340381917894711603833208051177722232017256448))
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Tests x Int, Digit
     //=------------------------------------------------------------------------=
     
@@ -403,23 +420,6 @@ final class Int192TestsOnNumbers: XCTestCase {
         XCTAssertNil(T(exactly: Float64.leastNormalMagnitude))
         XCTAssertNil(T(exactly: Float64.leastNonzeroMagnitude))
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Literal
-    //=------------------------------------------------------------------------=
-    
-    func testFromLiteral() {
-        XCTAssertEqual(T(x64:( 0,  0,  0)),  0)
-        XCTAssertEqual(T(x64:(~0,  0,  0)),  18446744073709551615)
-        XCTAssertEqual(T(x64:(~0, ~0,  0)),  340282366920938463463374607431768211455)
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)), -1)
-        
-        XCTAssertEqual(T.min, -3138550867693340381917894711603833208051177722232017256448)
-        XCTAssertEqual(T.max,  3138550867693340381917894711603833208051177722232017256447)
-        
-        XCTAssertNil(T(_exactlyIntegerLiteral: -3138550867693340381917894711603833208051177722232017256449))
-        XCTAssertNil(T(_exactlyIntegerLiteral:  3138550867693340381917894711603833208051177722232017256448))
-    }
 }
 
 //*============================================================================*
@@ -431,6 +431,20 @@ final class UInt192TestsOnNumbers: XCTestCase {
     typealias S =  ANKInt192
     typealias T = ANKUInt192
     typealias M = ANKUInt192
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Literal
+    //=------------------------------------------------------------------------=
+    
+    func testFromLiteral() {
+        XCTAssertEqual(T(x64:( 0,  0,  0)), 0)
+        XCTAssertEqual(T(x64:(~0,  0,  0)), 18446744073709551615)
+        XCTAssertEqual(T(x64:(~0, ~0,  0)), 340282366920938463463374607431768211455)
+        XCTAssertEqual(T(x64:(~0, ~0, ~0)), 6277101735386680763835789423207666416102355444464034512895)
+        
+        XCTAssertNil(T(_exactlyIntegerLiteral: -1))
+        XCTAssertNil(T(_exactlyIntegerLiteral:  6277101735386680763835789423207666416102355444464034512896))
+    }
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Int
@@ -796,20 +810,6 @@ final class UInt192TestsOnNumbers: XCTestCase {
         XCTAssertNil(T(exactly: Float64.signalingNaN))
         XCTAssertNil(T(exactly: Float64.leastNormalMagnitude))
         XCTAssertNil(T(exactly: Float64.leastNonzeroMagnitude))
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Literal
-    //=------------------------------------------------------------------------=
-    
-    func testFromLiteral() {
-        XCTAssertEqual(T(x64:( 0,  0,  0)), 0)
-        XCTAssertEqual(T(x64:(~0,  0,  0)), 18446744073709551615)
-        XCTAssertEqual(T(x64:(~0, ~0,  0)), 340282366920938463463374607431768211455)
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)), 6277101735386680763835789423207666416102355444464034512895)
-        
-        XCTAssertNil(T(_exactlyIntegerLiteral: -1))
-        XCTAssertNil(T(_exactlyIntegerLiteral:  6277101735386680763835789423207666416102355444464034512896))
     }
 }
 

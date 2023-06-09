@@ -56,9 +56,15 @@ final class Int256Tests: XCTestCase {
         XCTAssertEqual(T.max, ~T(x64: X(0, 0, 0, 1 << 63)))
     }
     
-    func testInitComponents() {
-        XCTAssertEqual(T(x64: X(1, 0, 2, 0)), T(ascending:  LH(T.Low (1), T.High(2))))
-        XCTAssertEqual(T(x64: X(1, 0, 2, 0)), T(descending: HL(T.High(2), T.Low (1))))
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Parts
+    //=------------------------------------------------------------------------=
+    
+    func testPartsGetSetInit() {
+        ANKAssertPartsGetSetInit(T(x64: X(0, 0, 0, 0)), T.Low(x64:(0, 0)), T.High(x64:(0, 0)))
+        ANKAssertPartsGetSetInit(T(x64: X(1, 2, 0, 0)), T.Low(x64:(1, 2)), T.High(x64:(0, 0)))
+        ANKAssertPartsGetSetInit(T(x64: X(0, 0, 3, 4)), T.Low(x64:(0, 0)), T.High(x64:(3, 4)))
+        ANKAssertPartsGetSetInit(T(x64: X(1, 2, 3, 4)), T.Low(x64:(1, 2)), T.High(x64:(3, 4)))
     }
 }
 
@@ -103,9 +109,15 @@ final class UInt256Tests: XCTestCase {
         XCTAssertEqual(T.max, ~T(x64: X(0, 0, 0, 0)))
     }
     
-    func testInitComponents() {
-        XCTAssertEqual(T(x64: X(1, 0, 2, 0)), T(ascending:  LH(T.Low (1), T.High(2))))
-        XCTAssertEqual(T(x64: X(1, 0, 2, 0)), T(descending: HL(T.High(2), T.Low (1))))
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Parts
+    //=------------------------------------------------------------------------=
+    
+    func testPartsGetSetInit() {
+        ANKAssertPartsGetSetInit(T(x64: X(0, 0, 0, 0)), T.Low(x64:(0, 0)), T.High(x64:(0, 0)))
+        ANKAssertPartsGetSetInit(T(x64: X(1, 2, 0, 0)), T.Low(x64:(1, 2)), T.High(x64:(0, 0)))
+        ANKAssertPartsGetSetInit(T(x64: X(0, 0, 3, 4)), T.Low(x64:(0, 0)), T.High(x64:(3, 4)))
+        ANKAssertPartsGetSetInit(T(x64: X(1, 2, 3, 4)), T.Low(x64:(1, 2)), T.High(x64:(3, 4)))
     }
 }
 

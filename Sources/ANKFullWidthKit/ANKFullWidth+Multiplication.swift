@@ -130,21 +130,25 @@ extension ANKFullWidth {
     }
     
     @inlinable func _multipliedFullWidthAsKaratsubaAsUnsigned(by other: Self) -> DoubleWidth where High == Low {
+        var ax = self.low .multipliedFullWidth(by: other.low ) as HL<Low, Low>
+        let bx = self.low .multipliedFullWidth(by: other.high) as HL<Low, Low>
+        let ay = self.high.multipliedFullWidth(by: other.low ) as HL<Low, Low>
+        var by = self.high.multipliedFullWidth(by: other.high) as HL<Low, Low>
         //=--------------------------------------=
-        let m0 = self.low .multipliedFullWidth(by: other.low ) as HL<Low, Low>
-        let m1 = self.low .multipliedFullWidth(by: other.high) as HL<Low, Low>
-        let m2 = self.high.multipliedFullWidth(by: other.low ) as HL<Low, Low>
-        let m3 = self.high.multipliedFullWidth(by: other.high) as HL<Low, Low>
-        //=--------------------------------------=
-        let s0 = Low.sum(m0.high, m1.low,  m2.low) as HL<UInt, Low>
-        let s1 = Low.sum(m1.high, m2.high, m3.low) as HL<UInt, Low>
-        //=--------------------------------------=
-        let r0 = Magnitude(descending: HL(s0.low,  m0.low))
-        var r1 = Magnitude(descending: HL(m3.high, Low(digit: s0.high)))
+        let a0 = ax.high.addReportingOverflow(bx.low) as Bool
+        let a1 = ax.high.addReportingOverflow(ay.low) as Bool
+        let a2 = UInt(bit: a0) &+ UInt(bit: a1)
         
-        let o0 = r1.low .addReportingOverflow(s1.low) as Bool
-        let _  = r1.high.addReportingOverflow(s1.high &+ UInt(bit:  o0)) as Bool
+        let b0 = by.low.addReportingOverflow(bx.high) as Bool
+        let b1 = by.low.addReportingOverflow(ay.high) as Bool
+        let b2 = UInt(bit: b0) &+ UInt(bit: b1)
         //=--------------------------------------=
-        return DoubleWidth(descending: HL(r1, r0))
+        let lo = Magnitude(descending: ax)
+        var hi = Magnitude(descending: by)
+        
+        let o0 = hi.low .addReportingOverflow(a2) as Bool
+        let _  = hi.high.addReportingOverflow(b2  &+ UInt(bit: o0)) as Bool
+        //=--------------------------------------=
+        return DoubleWidth(high: hi, low: lo)
     }
 }

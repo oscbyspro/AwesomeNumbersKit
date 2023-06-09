@@ -20,11 +20,11 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static var min: Self {
-        Self(descending: HL(High.min, Low.min))
+        Self(high: High.min, low: Low.min)
     }
     
     @inlinable public static var max: Self {
-        Self(descending: HL(High.max, Low.max))
+        Self(high: High.max, low: Low.max)
     }
     
     //=------------------------------------------------------------------------=
@@ -213,13 +213,13 @@ extension ANKFullWidth {
         //=--------------------------------------=
         if  let source = source as? UInt {
             let low = Low(_truncatingBits: source)
-            self.init(descending: HL(high, low))
+            self.init(high: high, low: low)
         //=--------------------------------------=
         // Int, some ANKCoreInteger<UInt>
         //=--------------------------------------=
         }   else {
             let low = Low(truncatingIfNeeded: source)
-            self.init(descending: HL(high, low))
+            self.init(high: high, low: low)
         }
     }
 }
@@ -264,14 +264,14 @@ extension ANKFullWidth {
     
     @_transparent @usableFromInline init?(_exactlyAsBinaryInteger source: some BinaryInteger) {
         let (value, words, sign) = Self._copy(source)
-        let isOK = value.isLessThanZero == sign.isFull && words.allSatisfy({ $0 == sign })
+        let isOK = value.isLessThanZero != sign.isZero && words.allSatisfy({ $0 == sign })
         if  isOK { self = value } else { return nil }
     }
 
     @_transparent @usableFromInline init(_clampingAsBinaryInteger source: some BinaryInteger) {
         let (value, words, sign) = Self._copy(source)
-        let isOK = value.isLessThanZero == sign.isFull && words.allSatisfy({ $0 == sign })
-        self = isOK ? value : sign.isFull ? Self.min : Self.max
+        let isOK = value.isLessThanZero != sign.isZero && words.allSatisfy({ $0 == sign })
+        self = isOK ? value : sign.isZero ? Self.max : Self.min
     }
 
     @_transparent @usableFromInline init(_truncatingIfNeededAsBinaryInteger source: some BinaryInteger) {

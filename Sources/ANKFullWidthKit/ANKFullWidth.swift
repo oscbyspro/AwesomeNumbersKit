@@ -98,23 +98,57 @@ High.Digit: ANKCoreInteger<UInt>, Low: ANKFixedWidthInteger & ANKUnsignedInteger
     #endif
     
     //=------------------------------------------------------------------------=
-    // MARK: Initializers
+    // MARK: Initializers x Parts
     //=------------------------------------------------------------------------=
     
-    /// Creates a new instance from the given partition.
+    /// Creates a new instance from the given `low` part.
     ///
-    /// - Parameter ascending: An integer split into two parts, from least significant to most.
+    /// - Parameter low:  The least significant part of this value.
     ///
-    @inlinable public init(ascending partition: LH<Low, High>) {
-        (self.low, self.high) = partition
+    @inlinable public init(low: Low) {
+        self.init(low: low, high: High.zero)
     }
     
-    /// Creates a new instance from the given partition.
+    /// Creates a new instance from the given `low` and `high` parts.
     ///
-    /// - Parameter descending: An integer split into two parts, from most significant to least.
+    /// - Parameter low:  The least significant part of this value.
+    /// - Parameter high: The most  significant part of this value.
     ///
-    @inlinable public init(descending partition: HL<High, Low>) {
-        (self.high, self.low) = partition
+    @inlinable public init(low: Low, high: High) {
+        self.init(ascending: LH(low: low,  high: high))
+    }
+    
+    /// Creates a new instance from the given `low` and `high` parts.
+    ///
+    /// - Parameter ascending: Both parts of this value, from least significant to most.
+    ///
+    @inlinable public init(ascending parts: LH<Low, High>) {
+        (self.low, self.high) = parts
+    }
+    
+    /// Creates a new instance from the given `high` part.
+    ///
+    /// - Parameter high: The most  significant part of this value.
+    ///
+    @inlinable public init(high: High) {
+        self.init(high: high, low: Low.zero)
+    }
+    
+    /// Creates a new instance from the given `high` and `low` parts.
+    ///
+    /// - Parameter high: The most  significant part of this value.
+    /// - Parameter low:  The least significant part of this value.
+    ///
+    @inlinable public init(high: High, low:  Low) {
+        self.init(descending: HL(high: high, low: low))
+    }
+    
+    /// Creates a new instance from the given `high` and `low` parts.
+    ///
+    /// - Parameter descending: Both parts of this value, from most significant to least.
+    ///
+    @inlinable public init(descending parts: HL<High, Low>) {
+        (self.high, self.low) = parts
     }
 }
 

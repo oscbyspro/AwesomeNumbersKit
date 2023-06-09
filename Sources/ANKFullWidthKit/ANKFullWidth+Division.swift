@@ -133,10 +133,10 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         // shift to clamp approximation
         //=--------------------------------------=
-        var remainder = Plus1(descending: HL(UInt(), self))
+        var remainder = Plus1(low: self)
         remainder._bitshiftLeft(words: Int(), bits:  shift)
         
-        var increment = Plus1(descending: HL(UInt(), other))
+        var increment = Plus1(low: other)
         increment.low._bitshiftLeft(words: minLastIndexGapSize, bits: shift)
         assert(increment.high.isZero)
         
@@ -190,8 +190,8 @@ extension ANKFullWidth where High == High.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable func _dividingFullWidthAsUnsigned(_ other: DoubleWidth) -> QR<Self, Self> {
-        let this = DoubleWidth(descending: HL(Self(), self))
-        let qro: PVO<QR<DoubleWidth, DoubleWidth>> = other._quotientAndRemainderReportingOverflowAsUnsigned(dividingBy: this)
+        let this = DoubleWidth(low: self)
+        let qro  = other._quotientAndRemainderReportingOverflowAsUnsigned(dividingBy: this) as PVO<QR<DoubleWidth, DoubleWidth>>
         precondition(!qro.overflow, ANK.callsiteOverflowInfo())
         return QR(qro.partialValue.quotient.low, qro.partialValue.remainder.low)
     }

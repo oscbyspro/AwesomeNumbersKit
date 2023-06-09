@@ -27,9 +27,8 @@ extension ANKFullWidth {
     /// ```
     ///
     @inlinable public static var description: String {
-        let signedness = !Self.isSigned ? "U" : ""
-        let size = String(Self.bitWidth)
-        return "\(signedness)Int\(size)"
+        let signedness = Self.isSigned ? "" : "U"
+        return "\(signedness)Int\(Self.bitWidth)"
     }
     
     //=------------------------------------------------------------------------=

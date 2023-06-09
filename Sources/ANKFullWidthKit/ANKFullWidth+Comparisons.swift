@@ -32,7 +32,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public var isMoreThanZero: Bool {
-        !self.isLessThanZero && !self.isZero
+        !(self.isLessThanZero || self.isZero)
     }
     
     @inlinable public func signum() -> Int {
