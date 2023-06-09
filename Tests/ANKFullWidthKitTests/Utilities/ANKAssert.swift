@@ -37,5 +37,13 @@ file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual(value.low,  low,  file: file, line: line)
     XCTAssertEqual(value.high, high, file: file, line: line)
     
+    XCTAssertEqual(value.ascending.low,   low,  file: file, line: line)
+    XCTAssertEqual(value.ascending.high,  high, file: file, line: line)
+    
+    XCTAssertEqual(value.descending.low,  low,  file: file, line: line)
+    XCTAssertEqual(value.descending.high, high, file: file, line: line)
+    
     XCTAssertEqual(value, { var x = T(); x.low = low; x.high =  high;  return x }(), file: file, line: line)
+    XCTAssertEqual(value, { var x = T(); x.ascending  = LH(low, high); return x }(), file: file, line: line)
+    XCTAssertEqual(value, { var x = T(); x.descending = HL(high, low); return x }(), file: file, line: line)
 }

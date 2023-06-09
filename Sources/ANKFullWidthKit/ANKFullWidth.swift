@@ -150,6 +150,22 @@ High.Digit: ANKCoreInteger<UInt>, Low: ANKFixedWidthInteger & ANKUnsignedInteger
     @inlinable public init(descending parts: HL<High, Low>) {
         (self.high, self.low) = parts
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors x Parts
+    //=------------------------------------------------------------------------=
+    
+    /// The `low` and `high` parts of this value.
+    @inlinable public var ascending: LH<Low, High> {
+        get { (low: self.low, high: self.high) }
+        set { (self.low, self.high) = newValue }
+    }
+    
+    /// The `high` and `low` parts of this value.
+    @inlinable public var descending: HL<High, Low> {
+        get { (high: self.high, low: self.low) }
+        set { (self.high, self.low) = newValue }
+    }
 }
 
 //*============================================================================*
