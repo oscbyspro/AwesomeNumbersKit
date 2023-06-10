@@ -85,21 +85,69 @@ final class ANKSignedTestsOnDivision: XCTestCase {
         ANKAssertDivisionFullWidth((-T(1), M(1)), -T( 2),  T.max/T(2) + T(1), -T(1))
     }
     
-    func testDividingFullWidthTruncatesQuotient() {
-        ANKAssertDivisionFullWidth(( T.max, M.max),  T.max,  T(1),  T(0))
-        ANKAssertDivisionFullWidth(( T.max, M.max), -T.max, -T(1),  T(0))
-        ANKAssertDivisionFullWidth((-T.max, M.max),  T.max, -T(1), -T(0))
-        ANKAssertDivisionFullWidth((-T.max, M.max), -T.max,  T(1), -T(0))
+    func testDividingFullWidthReportingOverflow() {
+        var dividend: (high: T, low: M)
+        //=--------------------------------------=
+        dividend.high = T(  )
+        dividend.low  = M( 7)
         
-        ANKAssertDivisionFullWidth(( T.max, M.max),  T( 2),  T.max,  T(1))
-        ANKAssertDivisionFullWidth(( T.max, M.max), -T( 2), -T.max,  T(1))
-        ANKAssertDivisionFullWidth((-T.max, M.max),  T( 2), -T.max, -T(1))
-        ANKAssertDivisionFullWidth((-T.max, M.max), -T( 2),  T.max, -T(1))
+        ANKAssertDivisionFullWidth(dividend,  T(  ),  T( 7),  T( 7), true)
+        ANKAssertDivisionFullWidth(dividend, -T(  ), -T( 7),  T( 7), true)
         
-        ANKAssertDivisionFullWidth(( T( 2), M( 3)),  T( 1),  T( 3),  T(0))
-        ANKAssertDivisionFullWidth(( T( 2), M( 3)), -T( 1), -T( 3),  T(0))
-        ANKAssertDivisionFullWidth((-T( 2), M( 3)),  T( 1), -T( 3), -T(0))
-        ANKAssertDivisionFullWidth((-T( 2), M( 3)), -T( 1),  T( 3), -T(0))
+        dividend.high.negate()
+        
+        ANKAssertDivisionFullWidth(dividend,  T(  ), -T( 7), -T( 7), true)
+        ANKAssertDivisionFullWidth(dividend, -T(  ),  T( 7), -T( 7), true)
+        //=--------------------------------------=
+        dividend.high = T.max
+        dividend.low  = M( 7)
+        
+        ANKAssertDivisionFullWidth(dividend,  T(  ),  T( 7),  T( 7), true)
+        ANKAssertDivisionFullWidth(dividend, -T(  ), -T( 7),  T( 7), true)
+        
+        dividend.high.negate()
+        
+        ANKAssertDivisionFullWidth(dividend,  T(  ), -T( 7), -T( 7), true)
+        ANKAssertDivisionFullWidth(dividend, -T(  ),  T( 7), -T( 7), true)
+        //=--------------------------------------=
+        dividend.high = T.max - T(1)
+        dividend.low  = M.max
+        
+        ANKAssertDivisionFullWidth(dividend,  T.max,  T.max,  T.max - 1)
+        ANKAssertDivisionFullWidth(dividend, -T.max, -T.max,  T.max - 1)
+        
+        dividend.high.negate()
+        
+        ANKAssertDivisionFullWidth(dividend,  T.max, -T.max, -T.max + 1)
+        ANKAssertDivisionFullWidth(dividend, -T.max,  T.max, -T.max + 1)
+        //=--------------------------------------=
+        dividend.high = T.max
+        dividend.low  = M.min
+        
+        ANKAssertDivisionFullWidth(dividend,  T.max,  T(  ),  T(  ), true)
+        ANKAssertDivisionFullWidth(dividend, -T.max, -T(  ),  T(  ), true)
+        
+        dividend.high.negate()
+        
+        ANKAssertDivisionFullWidth(dividend,  T.max, -T(  ), -T(  ), true)
+        ANKAssertDivisionFullWidth(dividend, -T.max,  T(  ), -T(  ), true)
+    }
+    
+    func testDividingFullWidthReportingOverflowTruncatesQuotient() {
+        ANKAssertDivisionFullWidth(( T.max, M.max),  T.max,  T( 1),  T( ), true)
+        ANKAssertDivisionFullWidth(( T.max, M.max), -T.max, -T( 1),  T( ), true)
+        ANKAssertDivisionFullWidth((-T.max, M.max),  T.max, -T( 1), -T( ), true)
+        ANKAssertDivisionFullWidth((-T.max, M.max), -T.max,  T( 1), -T( ), true)
+        
+        ANKAssertDivisionFullWidth(( T.max, M.max),  T( 2),  T.max,  T(1), true)
+        ANKAssertDivisionFullWidth(( T.max, M.max), -T( 2), -T.max,  T(1), true)
+        ANKAssertDivisionFullWidth((-T.max, M.max),  T( 2), -T.max, -T(1), true)
+        ANKAssertDivisionFullWidth((-T.max, M.max), -T( 2),  T.max, -T(1), true)
+        
+        ANKAssertDivisionFullWidth(( T( 2), M( 3)),  T( 1),  T( 3),  T( ), true)
+        ANKAssertDivisionFullWidth(( T( 2), M( 3)), -T( 1), -T( 3),  T( ), true)
+        ANKAssertDivisionFullWidth((-T( 2), M( 3)),  T( 1), -T( 3), -T( ), true)
+        ANKAssertDivisionFullWidth((-T( 2), M( 3)), -T( 1),  T( 3), -T( ), true)
     }
     
     //=------------------------------------------------------------------------=

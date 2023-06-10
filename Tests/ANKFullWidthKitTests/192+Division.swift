@@ -93,7 +93,7 @@ final class Int192TestsOnDivision: XCTestCase {
         //=--------------------------------------=
         x.low  = M(x64: X(5,  14, 29))
         x.high = T(x64: X(27, 18,  0))
-
+        
         ANKAssertDivisionFullWidth(x, T(x64: X( 1,  2,  3)), T(x64: X( 4,  5,  6)), T(x64: X( 1,  1,  1)))
         ANKAssertDivisionFullWidth(x, T(x64: X( 4,  5,  6)), T(x64: X( 1,  2,  3)), T(x64: X( 1,  1,  1)))
         //=--------------------------------------=
@@ -110,16 +110,71 @@ final class Int192TestsOnDivision: XCTestCase {
         ANKAssertDivisionFullWidth(x, T(x64: X(~0, ~0, ~0)), T(x64: X( 2,  0,  0)), T(x64: X( 0,  0,  0)))
     }
     
-    func testDividingFullWidthTruncatesQuotient() {
-        var x: (high: T, low: M)
+    func testDividingFullWidthReportingOverflow() {
+        var dividend: (high: T, low: M)
         //=--------------------------------------=
-        x.low  = M(x64: X( 0,  0,  0))
-        x.high = T(x64: X(~0, ~0, ~0))
+        dividend.high = T(  )
+        dividend.low  = M( 7)
 
-        ANKAssertDivisionFullWidth(x, T(1), ~T(0) << (T.bitWidth - 0), T(0))
-        ANKAssertDivisionFullWidth(x, T(2), ~T(0) << (T.bitWidth - 1), T(0))
-        ANKAssertDivisionFullWidth(x, T(4), ~T(0) << (T.bitWidth - 2), T(0))
-        ANKAssertDivisionFullWidth(x, T(8), ~T(0) << (T.bitWidth - 3), T(0))
+        ANKAssertDivisionFullWidth(dividend, T( 0),  T( 7), T( 7), true)
+        //=--------------------------------------=
+        dividend.high = T(-1)
+        dividend.low  = M( 7)
+        
+        ANKAssertDivisionFullWidth(dividend, T( 0),  T( 7), T( 7), true)
+        //=--------------------------------------=
+        dividend.high = T(-1)
+        dividend.low  = M.max
+        
+        ANKAssertDivisionFullWidth(dividend, T( 2),  T(  ), T(-1))
+        //=--------------------------------------=
+        dividend.high = T(  )
+        dividend.low  = M( 1)
+        
+        ANKAssertDivisionFullWidth(dividend, T(-2),  T(  ), T( 1))
+        //=--------------------------------------=
+        dividend.high = T(  )
+        dividend.low  = M(bitPattern: T.max)
+
+        ANKAssertDivisionFullWidth(dividend, T(-1), -T.max, T(  ))
+        //=--------------------------------------=
+        dividend.high = T(-1)
+        dividend.low  = M(bitPattern: T.min)
+        
+        ANKAssertDivisionFullWidth(dividend, T(-1),  T.min, T(  ), true)
+        //=--------------------------------------=
+        dividend.high = T.max >> 1
+        dividend.low  = M.max >> 1
+        
+        ANKAssertDivisionFullWidth(dividend, T.max,  T.max, T.max - 1)
+        //=--------------------------------------=
+        dividend.high = T.max >> 1
+        dividend.low  = M.max >> 1 + 1
+        
+        ANKAssertDivisionFullWidth(dividend, T.max,  T.min, T(  ), true)
+        //=--------------------------------------=
+        dividend.high = T.max >> 1 + 1
+        dividend.low  = M.max >> 1
+        
+        ANKAssertDivisionFullWidth(dividend, T.min,  T.min, T.max)
+        //=--------------------------------------=
+        dividend.high = T.max >> 1 + 1
+        dividend.low  = M.max >> 1 + 1
+        
+        ANKAssertDivisionFullWidth(dividend, T.min,  T.max, T(  ), true)
+    }
+    
+    func testDividingFullWidthReportingOverflowTruncatesQuotient() {
+        let dividend: (high: T, low: M)
+        //=--------------------------------------=
+        dividend.high = T(repeating: true )
+        dividend.low  = M(repeating: false)
+        
+        ANKAssertDivisionFullWidth(dividend, T( ), ~T( ) << (T.bitWidth - 0), T( ), true)
+        ANKAssertDivisionFullWidth(dividend, T(1), ~T( ) << (T.bitWidth - 0), T( ), true)
+        ANKAssertDivisionFullWidth(dividend, T(2), ~T( ) << (T.bitWidth - 1), T( ))
+        ANKAssertDivisionFullWidth(dividend, T(4), ~T( ) << (T.bitWidth - 2), T( ))
+        ANKAssertDivisionFullWidth(dividend, T(8), ~T( ) << (T.bitWidth - 3), T( ))
     }
     
     //=------------------------------------------------------------------------=
@@ -151,6 +206,7 @@ final class Int192TestsOnDivision: XCTestCase {
 final class UInt192TestsOnDivision: XCTestCase {
     
     typealias T = ANKUInt192
+    typealias M = ANKUInt192
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -220,16 +276,41 @@ final class UInt192TestsOnDivision: XCTestCase {
         ANKAssertDivisionFullWidth(x, T(x64: X(6, 5, 4)), T(x64: X(3, 2, 1)), T(x64: X( 2,  2,  2)))
     }
     
-    func testDividingFullWidthTruncatesQuotient() {
-        var x: (high: T, low: T)
+    func testDividingFullWidthReportingOverflow() {
+        var dividend: (high: T, low: M)
         //=--------------------------------------=
-        x.low  = T(x64: X( 0,  0,  0))
-        x.high = T(x64: X(~0, ~0, ~0))
-
-        ANKAssertDivisionFullWidth(x, T(1), ~T(0) << (T.bitWidth - 0), T(0))
-        ANKAssertDivisionFullWidth(x, T(2), ~T(0) << (T.bitWidth - 1), T(0))
-        ANKAssertDivisionFullWidth(x, T(4), ~T(0) << (T.bitWidth - 2), T(0))
-        ANKAssertDivisionFullWidth(x, T(8), ~T(0) << (T.bitWidth - 3), T(0))
+        dividend.high = T(  )
+        dividend.low  = M( 7)
+        
+        ANKAssertDivisionFullWidth(dividend, T(  ), T( 7), T( 7), true)
+        //=--------------------------------------=
+        dividend.high = T.max
+        dividend.low  = M( 7)
+        
+        ANKAssertDivisionFullWidth(dividend, T(  ), T( 7), T( 7), true)
+        //=--------------------------------------=
+        dividend.high = T.max - 1
+        dividend.low  = M.max
+        
+        ANKAssertDivisionFullWidth(dividend, T.max, T.max, T.max - 1)
+        //=--------------------------------------=
+        dividend.high = T.max
+        dividend.low  = M.min
+        
+        ANKAssertDivisionFullWidth(dividend, T.max, T(  ), T(  ), true)
+    }
+    
+    func testDividingFullWidthReportingOverflowTruncatesQuotient() {
+        let dividend: (high: T, low: M)
+        //=--------------------------------------=
+        dividend.high = T(repeating: true )
+        dividend.low  = M(repeating: false)
+        
+        ANKAssertDivisionFullWidth(dividend, T(0), ~T(0) << (T.bitWidth - 0), T(0), true)
+        ANKAssertDivisionFullWidth(dividend, T(1), ~T(0) << (T.bitWidth - 0), T(0), true)
+        ANKAssertDivisionFullWidth(dividend, T(2), ~T(0) << (T.bitWidth - 1), T(0), true)
+        ANKAssertDivisionFullWidth(dividend, T(4), ~T(0) << (T.bitWidth - 2), T(0), true)
+        ANKAssertDivisionFullWidth(dividend, T(8), ~T(0) << (T.bitWidth - 3), T(0), true)
     }
     
     //=------------------------------------------------------------------------=

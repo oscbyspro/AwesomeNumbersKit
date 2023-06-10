@@ -39,7 +39,7 @@ extension ANKFullWidth {
             overflow = !(product.high.isFull &&  product.low.mostSignificantBit) && product.high.mostSignificantBit
         }
         //=--------------------------------------=
-        return PVO(Self(bitPattern: product.low), overflow)
+        return ANK.bitCast(PVO(product.low, overflow)) as PVO<Self>
     }
     
     //=------------------------------------------------------------------------=
@@ -55,7 +55,7 @@ extension ANKFullWidth {
     @_disfavoredOverload @inlinable public func multipliedFullWidth(by other: Digit) -> HL<Digit, Magnitude> {
         //=--------------------------------------=
         if  other.isZero {
-            return HL(Digit(), Magnitude())
+            return HL(Digit.zero, Magnitude.zero)
         }
         //=--------------------------------------=
         let lhsIsLessThanZero: Bool =  self.isLessThanZero
@@ -80,6 +80,6 @@ extension ANKFullWidth {
             }
         }
         //=--------------------------------------=
-        return HL(Digit(bitPattern: high), low)
+        return ANK.bitCast(HL(high, low)) as HL<Digit, Magnitude>
     }
 }

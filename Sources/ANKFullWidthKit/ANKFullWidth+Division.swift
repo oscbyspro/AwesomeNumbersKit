@@ -44,22 +44,23 @@ extension ANKFullWidth {
     @inlinable public func quotientAndRemainderReportingOverflow(dividingBy other: Self) -> PVO<QR<Self, Self>> {
         let lhsIsLessThanZero: Bool = self .isLessThanZero
         let rhsIsLessThanZero: Bool = other.isLessThanZero
+        let minus = lhsIsLessThanZero != rhsIsLessThanZero
         //=--------------------------------------=
-        var qro = self.magnitude._quotientAndRemainderReportingOverflowAsUnsigned(dividingBy: other.magnitude)
+        var qro = ANK.bitCast(self.magnitude.quotientAndRemainderReportingOverflow(dividingBy: other.magnitude)) as PVO<QR<Self, Self>>
         //=--------------------------------------=
-        if  lhsIsLessThanZero != rhsIsLessThanZero {
+        if  minus {
             qro.partialValue.quotient.formTwosComplement()
         }
-
+        
         if  lhsIsLessThanZero {
             qro.partialValue.remainder.formTwosComplement()
         }
-
-        if  lhsIsLessThanZero, rhsIsLessThanZero, qro.partialValue.quotient.mostSignificantBit {
+        
+        if  lhsIsLessThanZero && rhsIsLessThanZero && qro.partialValue.quotient.isLessThanZero {
             qro.overflow = true
         }
         //=--------------------------------------=
-        return PVO(QR(Self(bitPattern: qro.partialValue.quotient), Self(bitPattern: qro.partialValue.remainder)), qro.overflow)
+        return qro as PVO<QR<Self, Self>>
     }
     
     //=------------------------------------------------------------------------=
@@ -67,22 +68,39 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public func dividingFullWidth(_ other: HL<Self, Magnitude>) -> QR<Self, Self> {
-        let lhs = DoubleWidth(descending: other)
+        self.dividingFullWidth(DoubleWidth(descending: other))
+    }
+
+    @inlinable public func dividingFullWidth(_ other: DoubleWidth) -> QR<Self, Self> {
+        let pvo: PVO<QR<Self, Self>> = self.dividingFullWidthReportingOverflow(other)
+        precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
+        return pvo.partialValue as  QR<Self, Self>
+    }
+
+    @inlinable public func dividingFullWidthReportingOverflow(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>> {
+        self.dividingFullWidthReportingOverflow(DoubleWidth(descending: other))
+    }
+    
+    @inlinable public func dividingFullWidthReportingOverflow(_ other: DoubleWidth) -> PVO<QR<Self, Self>> {
+        let lhsIsLessThanZero: Bool = other.isLessThanZero
+        let rhsIsLessThanZero: Bool = self .isLessThanZero
+        let minus = lhsIsLessThanZero != rhsIsLessThanZero
         //=--------------------------------------=
-        let lhsIsLessThanZero: Bool = lhs .isLessThanZero
-        let rhsIsLessThanZero: Bool = self.isLessThanZero
+        var qro = ANK.bitCast(self.magnitude.dividingFullWidthReportingOverflow(other.magnitude)) as PVO<QR<Self, Self>>
         //=--------------------------------------=
-        var qr: QR<Magnitude, Magnitude> = self.magnitude._dividingFullWidthAsUnsigned(lhs.magnitude)
-        //=--------------------------------------=
-        if  lhsIsLessThanZero != rhsIsLessThanZero {
-            qr.quotient.formTwosComplement()
+        if  minus {
+            qro.partialValue.quotient.formTwosComplement()
         }
         
         if  lhsIsLessThanZero {
-            qr.remainder.formTwosComplement()
+            qro.partialValue.remainder.formTwosComplement()
+        }
+        
+        if  minus != qro.partialValue.quotient.isLessThanZero {
+            qro.overflow = qro.overflow || !(minus && qro.partialValue.quotient.isZero)
         }
         //=--------------------------------------=
-        return QR(Self(bitPattern: qr.quotient), Self(bitPattern: qr.remainder))
+        return qro as PVO<QR<Self, Self>>
     }
 }
 
@@ -105,7 +123,7 @@ extension ANKFullWidth where High == High.Magnitude {
     @_specialize(where Self == ANKUInt256)
     @_specialize(where Self == ANKUInt384)
     @_specialize(where Self == ANKUInt512)
-    @inlinable func _quotientAndRemainderReportingOverflowAsUnsigned(dividingBy other: Self) -> PVO<QR<Self, Self>> {
+    @inlinable func quotientAndRemainderReportingOverflow(dividingBy other: Self) -> PVO<QR<Self, Self>> {
         let other_ = other.minLastIndexReportingIsZeroOrMinusOne()
         //=--------------------------------------=
         // divisor is zero
@@ -117,24 +135,24 @@ extension ANKFullWidth where High == High.Magnitude {
         // divisor is greater than or equal
         //=--------------------------------------=
         if  self <= other {
-            return self == other ? PVO(QR(1, Self()), false) : PVO(QR(Self(), self), false)
+            return self == other ? PVO(QR(1, Self.zero), false) : PVO(QR(Self.zero, self), false)
         }
         //=--------------------------------------=
         // divisor is one word
         //=--------------------------------------=
         if  other_.minLastIndex.isZero {
-            let qro: PVO<QR<Self, Digit>> = self._quotientAndRemainderReportingOverflowAsUnsigned(dividingBy: other.first)
-            return   PVO(QR(qro.partialValue.quotient, Self(digit: qro.partialValue.remainder)), qro.overflow)
+            let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: other.first)
+            return   PVO(QR(qro.partialValue.quotient, Self(digit: qro.partialValue.remainder)),  qro.overflow)
         }
         //=--------------------------------------=
         let self_ = self.minLastIndexReportingIsZeroOrMinusOne()
-        let minLastIndexGapSize: Int = self_.minLastIndex &- other_.minLastIndex
+        let minLastIndexGapSize = self_.minLastIndex &- other_.minLastIndex as Int
         let shift: Int = other[unchecked: other_.minLastIndex].leadingZeroBitCount
         //=--------------------------------------=
         // shift to clamp approximation
         //=--------------------------------------=
         var remainder = Plus1(low: self)
-        remainder._bitshiftLeft(words: Int(), bits:  shift)
+        remainder._bitshiftLeft(words: Int.zero, bits: shift)
         
         var increment = Plus1(low: other)
         increment.low._bitshiftLeft(words: minLastIndexGapSize, bits: shift)
@@ -158,7 +176,7 @@ extension ANKFullWidth where High == High.Magnitude {
                     let  remainderIndex  = other_.minLastIndex &+ quotientIndex
                     let  remainderLast0  = REMAINDER[remainderIndex &+ 1]
                     if   remainderLast0 >= discriminant { return UInt.max }
-                    let  remainderLast1  = REMAINDER[remainderIndex /**/]
+                    let  remainderLast1  = REMAINDER[remainderIndex]
                     return discriminant.dividingFullWidth(HL(remainderLast0, remainderLast1)).quotient
                 }
                 //=------------------------------=
@@ -174,14 +192,14 @@ extension ANKFullWidth where High == High.Magnitude {
                 assert(approximation <= remainder)
                 remainder &-= approximation
                 QUOTIENT[quotientIndex] = digit
-                increment.low._bitshiftRight(words: 1, bits: Int())
+                increment.low._bitshiftRight(words: 1, bits: Int.zero)
             }
         }
         //=--------------------------------------=
         // undo shift before division
         //=--------------------------------------=
         assert(remainder.high.isZero)
-        remainder.low._bitshiftRight(words: Int(), bits: shift)
+        remainder.low._bitshiftRight(words: Int.zero, bits: shift)
         return PVO(QR(quotient, remainder.low), false)
     }
     
@@ -189,10 +207,9 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Transformations x Full Width
     //=------------------------------------------------------------------------=
     
-    @inlinable func _dividingFullWidthAsUnsigned(_ other: DoubleWidth) -> QR<Self, Self> {
-        let this = DoubleWidth(low: self)
-        let qro  = other._quotientAndRemainderReportingOverflowAsUnsigned(dividingBy: this) as PVO<QR<DoubleWidth, DoubleWidth>>
-        precondition(!qro.overflow, ANK.callsiteOverflowInfo())
-        return QR(qro.partialValue.quotient.low, qro.partialValue.remainder.low)
+    @inlinable func dividingFullWidthReportingOverflow(_ other: DoubleWidth) -> PVO<QR<Self, Self>> {
+        let extended = other.quotientAndRemainderReportingOverflow(dividingBy: DoubleWidth(low: self))
+        let overflow = extended.overflow || !extended.partialValue.quotient.high.isZero
+        return PVO(QR(extended.partialValue.quotient.low, extended.partialValue.remainder.low), overflow)
     }
 }

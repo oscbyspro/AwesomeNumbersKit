@@ -27,6 +27,65 @@ final class ANKCoreIntegerTestsOnAddition: XCTestCase {
     let types: [T] = ANKCoreIntegerTests.types
     
     //=------------------------------------------------------------------------=
+    // MARK: Tests
+    //=------------------------------------------------------------------------=
+    
+    func testAdding() {
+        func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertAddition(T( 1), T( 2), T( 3))
+            ANKAssertAddition(T( 1), T( 1), T( 2))
+            ANKAssertAddition(T( 1), T( 0), T( 1))
+            ANKAssertAddition(T( 1), T(-1), T( 0))
+            ANKAssertAddition(T( 1), T(-2), T(-1))
+            
+            ANKAssertAddition(T( 0), T( 2), T( 2))
+            ANKAssertAddition(T( 0), T( 1), T( 1))
+            ANKAssertAddition(T( 0), T( 0), T( 0))
+            ANKAssertAddition(T( 0), T(-1), T(-1))
+            ANKAssertAddition(T( 0), T(-2), T(-2))
+            
+            ANKAssertAddition(T(-1), T( 2), T( 1))
+            ANKAssertAddition(T(-1), T( 1), T( 0))
+            ANKAssertAddition(T(-1), T( 0), T(-1))
+            ANKAssertAddition(T(-1), T(-1), T(-2))
+            ANKAssertAddition(T(-1), T(-2), T(-3))
+        }
+
+        func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertAddition(T(0), T(0), T(0))
+            ANKAssertAddition(T(0), T(1), T(1))
+            ANKAssertAddition(T(0), T(2), T(2))
+            
+            ANKAssertAddition(T(1), T(0), T(1))
+            ANKAssertAddition(T(1), T(1), T(2))
+            ANKAssertAddition(T(1), T(2), T(3))
+        }
+        
+        for type: T in types {
+            type.isSigned ? whereIsSigned(type) : whereIsUnsigned(type)
+        }
+    }
+    
+    func testAddingReportingOverflow() {
+        func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertAddition(T.min, T( 1), T.min + T(1))
+            ANKAssertAddition(T.min, T(-1), T.max,  true)
+            
+            ANKAssertAddition(T.max, T( 1), T.min,  true)
+            ANKAssertAddition(T.max, T(-1), T.max - T(1))
+        }
+
+        func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertAddition(T.min, T(1), T.min + T(1))
+            ANKAssertAddition(T.max, T(1), T.min,  true)
+        }
+        
+        for type: T in types {
+            type.isSigned ? whereIsSigned(type) : whereIsUnsigned(type)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Tests x Miscellaneous
     //=------------------------------------------------------------------------=
     

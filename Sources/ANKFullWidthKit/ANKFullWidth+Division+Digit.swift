@@ -44,10 +44,11 @@ extension ANKFullWidth {
     @_disfavoredOverload @inlinable public func quotientAndRemainderReportingOverflow(dividingBy other: Digit) -> PVO<QR<Self, Digit>> {
         let lhsIsLessThanZero: Bool = self .isLessThanZero
         let rhsIsLessThanZero: Bool = other.isLessThanZero
+        let minus = lhsIsLessThanZero != rhsIsLessThanZero
         //=--------------------------------------=
-        var qro = self.magnitude._quotientAndRemainderReportingOverflowAsUnsigned(dividingBy: other.magnitude)
+        var qro = ANK.bitCast(self.magnitude.quotientAndRemainderReportingOverflow(dividingBy: other.magnitude)) as PVO<QR<Self, Digit>>
         //=--------------------------------------=
-        if  lhsIsLessThanZero != rhsIsLessThanZero {
+        if  minus {
             qro.partialValue.quotient.formTwosComplement()
         }
         
@@ -59,7 +60,7 @@ extension ANKFullWidth {
             qro.overflow = true
         }
         //=--------------------------------------=
-        return PVO(QR(Self(bitPattern: qro.partialValue.quotient), Digit(bitPattern: qro.partialValue.remainder)), qro.overflow)
+        return qro as PVO<QR<Self, Digit>>
     }
 }
 
@@ -73,13 +74,13 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable func _quotientAndRemainderReportingOverflowAsUnsigned(dividingBy other: Digit) -> PVO<QR<Self, Digit>> {
+    @inlinable func quotientAndRemainderReportingOverflow(dividingBy other: Digit) -> PVO<QR<Self, Digit>> {
         var quotient  = self
-        let remainder = quotient._formQuotientReportingRemainderAndOverflowAsUnsigned(dividingBy: other)
+        let remainder = quotient.formQuotientWithRemainderReportingOverflow(dividingBy: other)
         return PVO(QR(quotient, remainder.partialValue), remainder.overflow)
     }
     
-    @inlinable mutating func _formQuotientReportingRemainderAndOverflowAsUnsigned(dividingBy other: Digit) -> PVO<Digit> {
+    @inlinable mutating func formQuotientWithRemainderReportingOverflow(dividingBy other: Digit) -> PVO<Digit> {
         //=--------------------------------------=
         if  other.isZero {
             return PVO(UInt(), true)

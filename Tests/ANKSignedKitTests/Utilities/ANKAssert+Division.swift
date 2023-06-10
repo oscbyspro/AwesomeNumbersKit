@@ -15,8 +15,8 @@ import XCTest
 // MARK: * ANK x Assert x Division
 //*============================================================================*
 
-func ANKAssertDivision<T: ANKFixedWidthInteger>(
-_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>, _ quotient: ANKSigned<T>, _ remainder: ANKSigned<T>, _ overflow: Bool = false,
+func ANKAssertDivision<M: ANKFixedWidthInteger>(
+_ lhs: ANKSigned<M>, _ rhs: ANKSigned<M>, _ quotient: ANKSigned<M>, _ remainder: ANKSigned<M>, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     //=------------------------------------------=
     XCTAssertEqual(overflow, rhs.isZero, file: file, line: line)
@@ -49,10 +49,10 @@ file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual(/**/lhs.quotientAndRemainderReportingOverflow(dividingBy: rhs).overflow,               overflow,  file: file, line: line)
 }
 
-func ANKAssertDivisionByDigit<T: ANKFixedWidthInteger>(
-_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T.Digit>, _ quotient: ANKSigned<T>, _ remainder: ANKSigned<T.Digit>, _ overflow: Bool = false,
+func ANKAssertDivisionByDigit<M: ANKFixedWidthInteger>(
+_ lhs: ANKSigned<M>, _ rhs: ANKSigned<M.Digit>, _ quotient: ANKSigned<M>, _ remainder: ANKSigned<M.Digit>, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
-    let remainder_ = ANKSigned<T>(digit: remainder)
+    let remainder_ = ANKSigned<M>(digit: remainder)
     //=------------------------------------------=
     XCTAssertEqual(overflow, rhs.isZero, file: file, line: line)
     //=------------------------------------------=
@@ -88,10 +88,19 @@ file: StaticString = #file, line: UInt = #line) {
 // MARK: * ANK x Assert x Division x Full Width
 //*============================================================================*
 
-func ANKAssertDivisionFullWidth<T: ANKFixedWidthInteger>(
-_ lhs: HL<ANKSigned<T>, T.Magnitude>, _ rhs: ANKSigned<T>, _ quotient: ANKSigned<T>, _ remainder: ANKSigned<T>,
+func ANKAssertDivisionFullWidth<M: ANKFixedWidthInteger>(
+_ lhs: HL<ANKSigned<M>, M>, _ rhs: ANKSigned<M>, _ quotient: ANKSigned<M>, _ remainder: ANKSigned<M>, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
-    let qr: QR<ANKSigned<T>, ANKSigned<T>> = rhs.dividingFullWidth(lhs)
-    ANKAssertIdentical(qr.quotient,  quotient,  file: file, line: line)
-    ANKAssertIdentical(qr.remainder, remainder, file: file, line: line)
+    typealias T = ANKSigned<M>
+    //=------------------------------------------=
+    if !overflow {
+        let qr: QR<T, T> = rhs.dividingFullWidth(lhs)
+        ANKAssertIdentical(qr.quotient,  quotient,  file: file, line: line)
+        ANKAssertIdentical(qr.remainder, remainder, file: file, line: line)
+    }
+    //=------------------------------------------=
+    let qro: PVO<QR<T, T>> = rhs.dividingFullWidthReportingOverflow(lhs)
+    ANKAssertIdentical(qro.partialValue.quotient,  quotient,  file: file, line: line)
+    ANKAssertIdentical(qro.partialValue.remainder, remainder, file: file, line: line)
+    XCTAssertEqual/**/(qro.overflow,               overflow,  file: file, line: line)
 }

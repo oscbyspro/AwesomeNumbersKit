@@ -26,7 +26,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public func multipliedReportingOverflow(by other:  Self) -> PVO<Self> {
-        let product: DoubleWidth = self._multipliedFullWidth(by: other)
+        let product = self._multipliedFullWidth(by: other) as DoubleWidth
         //=--------------------------------------=
         let overflow: Bool
         if !Self.isSigned {
@@ -39,7 +39,7 @@ extension ANKFullWidth {
             overflow = !(product.high.isFull &&  product.low.mostSignificantBit) && product.high.mostSignificantBit
         }
         //=--------------------------------------=
-        return PVO(Self(bitPattern: product.low), overflow)
+        return ANK.bitCast(PVO(product.low, overflow)) as PVO<Self>
     }
     
     //=------------------------------------------------------------------------=

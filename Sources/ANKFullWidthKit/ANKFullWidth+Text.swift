@@ -61,8 +61,8 @@ extension ANKFullWidth {
     @inlinable public static func decodeBigEndianText(_ text: some StringProtocol, radix: Int?) throws -> Self {
         let components = ANK.bigEndianTextComponents(text, radix: radix)
         let magnitude  = try AnyRadixUIntRoot(components.radix).switch(
-          perfect: { try Magnitude._decodeBigEndianDigits(components.body,  radix: $0) },
-        imperfect: { try Magnitude._decodeBigEndianDigits(components.body,  radix: $0) })
+          perfect: { try Magnitude.decodeBigEndianDigits(components.body,  radix: $0) },
+        imperfect: { try Magnitude.decodeBigEndianDigits(components.body,  radix: $0) })
         guard let value = Self(exactly: ANKSigned(magnitude, as: components.sign)) else { throw ANKError() }
         return    value
     }
@@ -78,7 +78,7 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: PerfectRadixUIntRoot) throws -> Self {
+    @inlinable static func decodeBigEndianDigits(_ source: some StringProtocol, radix: PerfectRadixUIntRoot) throws -> Self {
         guard !source.isEmpty else { throw ANKError() }
         //=--------------------------------------=
         return try Self.fromUnsafeMutableWords { MAGNITUDE in
@@ -106,7 +106,7 @@ extension ANKFullWidth where High == High.Magnitude {
         }
     }
     
-    @inlinable static func _decodeBigEndianDigits(_ source: some StringProtocol, radix: ImperfectRadixUIntRoot) throws -> Self {
+    @inlinable static func decodeBigEndianDigits(_ source: some StringProtocol, radix: ImperfectRadixUIntRoot) throws -> Self {
         guard !source.isEmpty else { throw ANKError() }
         //=--------------------------------------=
         let utf8 = source.utf8.drop { $0 == 0x30 }
@@ -146,8 +146,8 @@ extension ANKFullWidth {
         var magnitude: Magnitude = source.magnitude
         let alphabet = MaxRadixAlphabet(uppercase: uppercase)
         return AnyRadixUIntRoot(radix).switch(
-          perfect: { Magnitude._encodeBigEndianText(&magnitude, sign: sign, radix: $0, alphabet: alphabet) },
-        imperfect: { Magnitude._encodeBigEndianText(&magnitude, sign: sign, radix: $0, alphabet: alphabet) })
+          perfect: { Magnitude.encodeBigEndianText(&magnitude, sign: sign, radix: $0, alphabet: alphabet) },
+        imperfect: { Magnitude.encodeBigEndianText(&magnitude, sign: sign, radix: $0, alphabet: alphabet) })
     }
 }
 
@@ -161,7 +161,7 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    @inlinable static func _encodeBigEndianText(_ magnitude: inout Self, sign: ANKSign,
+    @inlinable static func encodeBigEndianText(_ magnitude: inout Self, sign: ANKSign,
     radix: PerfectRadixUIntRoot, alphabet: MaxRadixAlphabet) -> String {
         let minLastIndex: Int = magnitude.minLastIndexReportingIsZeroOrMinusOne().minLastIndex
         return magnitude.withUnsafeWords {
@@ -169,13 +169,13 @@ extension ANKFullWidth where High == High.Magnitude {
         }
     }
     
-    @inlinable static func _encodeBigEndianText(_ magnitude: inout Self, sign: ANKSign,
+    @inlinable static func encodeBigEndianText(_ magnitude: inout Self, sign: ANKSign,
     radix: ImperfectRadixUIntRoot, alphabet: MaxRadixAlphabet) -> String {
         let capacity: Int = radix.divisibilityByPowerUpperBound(magnitude)
         return withUnsafeTemporaryAllocation(of: UInt.self, capacity: capacity) { CHUNKS in
             var index = CHUNKS.startIndex
             rebasing: repeat {
-                CHUNKS[index] = magnitude._formQuotientReportingRemainderAndOverflowAsUnsigned(dividingBy: radix.power).partialValue
+                CHUNKS[index] = magnitude.formQuotientWithRemainderReportingOverflow(dividingBy: radix.power).partialValue
                 CHUNKS.formIndex(after: &index)
             }   while !magnitude.isZero
             return String(chunks: CHUNKS[..<index], sign: sign, radix: radix, alphabet: alphabet)
@@ -198,7 +198,7 @@ extension String {
         assert(chunks.last! != 0 || chunks.count == 1)
         assert(chunks.allSatisfy({ $0 < radix.power }) || radix.power.isZero)
         //=--------------------------------------=
-        self = Self._withUTF8(chunk: chunks.last!, radix: radix, alphabet: alphabet) { FIRST in
+        self = Self.withUTF8(chunk: chunks.last!, radix: radix, alphabet: alphabet) { FIRST in
             let count = Int(bit: sign.bit) &+ FIRST.count + radix.exponent * (chunks.count &- 1)
             return Self(unsafeUninitializedCapacity: count) { UTF8 in
                 var index = UTF8.startIndex
@@ -231,7 +231,7 @@ extension String {
         }
     }
     
-    @_transparent @usableFromInline static func _withUTF8<T>(chunk: UInt, radix: some RadixUIntRoot,
+    @_transparent @usableFromInline static func withUTF8<T>(chunk: UInt, radix: some RadixUIntRoot,
     alphabet: MaxRadixAlphabet, body: (UnsafeBufferPointer<UInt8>) throws -> T) rethrows -> T {
         try withUnsafeTemporaryAllocation(of: UInt8.self, capacity: radix.exponent) { UTF8 in
             assert(chunk < radix.power || radix.power.isZero)

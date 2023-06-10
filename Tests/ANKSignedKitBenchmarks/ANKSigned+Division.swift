@@ -103,7 +103,7 @@ final class ANKSignedBenchmarksOnDivision: XCTestCase {
     
     func testDividingFullWidth() {
         var lhs = ANK.blackHoleIdentity((T.max))
-        var rhs = ANK.blackHoleIdentity((T.max, T.max.magnitude))
+        var rhs = ANK.blackHoleIdentity((T.max - 1, T.max.magnitude))
         
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(lhs.dividingFullWidth(rhs))

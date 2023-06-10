@@ -31,10 +31,28 @@ final class ANKCoreIntegerTestsOnNegation: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testNegatedReportingOverflow() {
+    func testNegating() {
+        func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger & ANKSignedInteger {
+            ANKAssertNegation( T(1), -T(1))
+            ANKAssertNegation( T( ),  T( ))
+            ANKAssertNegation(-T(1),  T(1))
+        }
+        
         for case let type as S in types {
-            XCTAssertEqual(type.min.negatedReportingOverflow().overflow, true )
-            XCTAssertEqual(type.max.negatedReportingOverflow().overflow, false)
+            whereIsSigned(type)
+        }
+    }
+    
+    func testNegatingReportingOverflow() {
+        func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger & ANKSignedInteger {
+            ANKAssertNegation(T.max - T( ), T.min + T(1))
+            ANKAssertNegation(T.max - T(1), T.min + T(2))
+            ANKAssertNegation(T.min + T(1), T.max - T( ))
+            ANKAssertNegation(T.min + T( ), T.min,  true)
+        }
+        
+        for case let type as S in types {
+            whereIsSigned(type)
         }
     }
     

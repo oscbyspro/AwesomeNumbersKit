@@ -80,14 +80,23 @@ extension ANKSigned {
 // MARK: * ANK x Signed x Fixed Width x Division
 //*============================================================================*
 
-extension ANKSigned where Magnitude: FixedWidthInteger {
+extension ANKSigned where Magnitude: ANKFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
     @inlinable public func dividingFullWidth(_ other: HL<Self, Magnitude>) -> QR<Self, Self> {
-        let qr: QR<Magnitude, Magnitude> = self.magnitude.dividingFullWidth(HL(other.high.magnitude, other.low))
-        return  QR(Self(qr.quotient, as: other.high.sign ^ self.sign), Self(qr.remainder, as:  other.high.sign))
+        let unsigned  = self.magnitude.dividingFullWidth(HL(other.high.magnitude, other.low))
+        let quotient  = Self(unsigned.quotient,  as: other.high.sign ^ self.sign)
+        let remainder = Self(unsigned.remainder, as: other.high.sign   /*-----*/)
+        return QR(quotient, remainder)
+    }
+    
+    @inlinable public func dividingFullWidthReportingOverflow(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>> {
+        let unsigned  = self.magnitude.dividingFullWidthReportingOverflow(HL(other.high.magnitude, other.low))
+        let quotient  = Self(unsigned.partialValue.quotient,  as: other.high.sign ^ self.sign)
+        let remainder = Self(unsigned.partialValue.remainder, as: other.high.sign   /*-----*/)
+        return PVO(QR(quotient, remainder), unsigned.overflow)
     }
 }
