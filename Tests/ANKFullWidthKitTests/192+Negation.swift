@@ -21,7 +21,7 @@ private typealias Y = ANK192X32
 
 final class Int192TestsOnNegation: XCTestCase {
     
-    typealias T = ANKInt192
+    typealias T = Int192
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

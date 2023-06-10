@@ -22,7 +22,7 @@ private typealias Y = ANK256X32
 
 final class Int256BenchmarksOnWords: XCTestCase {
     
-    typealias T = ANKInt256
+    typealias T = Int256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Min Two's Complement
@@ -61,7 +61,7 @@ final class Int256BenchmarksOnWords: XCTestCase {
 
 final class UInt256BenchmarksOnWords: XCTestCase {
     
-    typealias T = ANKUInt256
+    typealias T = UInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Min Two's Complement

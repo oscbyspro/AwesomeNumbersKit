@@ -21,7 +21,7 @@ private typealias Y = ANK256X32
 
 final class Int256TestsOnEndianness: XCTestCase {
     
-    typealias T = ANKInt256
+    typealias T = Int256
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -59,7 +59,7 @@ final class Int256TestsOnEndianness: XCTestCase {
 
 final class UInt256TestsOnEndianness: XCTestCase {
     
-    typealias T = ANKUInt256
+    typealias T = UInt256
     
     //=------------------------------------------------------------------------=
     // MARK: State

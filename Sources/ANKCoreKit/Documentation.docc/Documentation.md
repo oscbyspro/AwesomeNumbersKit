@@ -20,12 +20,7 @@ Models, protocols, extensions and utilities underpinning this package.
 - ``ANKSignedInteger``
 - ``ANKUnsignedInteger``
 
-### Type Aliases
-
-- ``Sign``
-- ``Signed``
-
-### Type Aliases — Arithmetic
+### Aliases — Arithmetic
 
 - ``HL``
 - ``LH``

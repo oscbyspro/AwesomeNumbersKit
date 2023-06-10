@@ -22,9 +22,9 @@ private typealias Y = ANK192X32
 
 final class Int192TestsOnNumbers: XCTestCase {
     
-    typealias S =  ANKInt192
-    typealias T =  ANKInt192
-    typealias M = ANKUInt192
+    typealias S =  Int192
+    typealias T =  Int192
+    typealias M = UInt192
     
     typealias S2 = S.DoubleWidth
     typealias T2 = T.DoubleWidth
@@ -359,17 +359,17 @@ final class Int192TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testsFromSignedMagnitude() {
-        XCTAssertEqual(T(Signed(M(44), as: .minus)), -T(44))
-        XCTAssertEqual(T(Signed(M(44), as: .plus )),  T(44))
+        XCTAssertEqual(T(ANKSigned(M(44), as: .minus)), -T(44))
+        XCTAssertEqual(T(ANKSigned(M(44), as: .plus )),  T(44))
         
-        XCTAssertEqual(T(exactly:  Signed(M.max, as: .minus)), nil)
-        XCTAssertEqual(T(exactly:  Signed(M.max, as: .plus )), nil)
+        XCTAssertEqual(T(exactly:  ANKSigned(M.max, as: .minus)), nil)
+        XCTAssertEqual(T(exactly:  ANKSigned(M.max, as: .plus )), nil)
 
-        XCTAssertEqual(T(clamping: Signed(M.max, as: .minus)), T.min)
-        XCTAssertEqual(T(clamping: Signed(M.max, as: .plus )), T.max)
+        XCTAssertEqual(T(clamping: ANKSigned(M.max, as: .minus)), T.min)
+        XCTAssertEqual(T(clamping: ANKSigned(M.max, as: .plus )), T.max)
 
-        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .minus)), T(x64: X( 1,  0,  0)))
-        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .plus )), T(x64: X(~0, ~0, ~0)))
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .minus)), T(x64: X( 1,  0,  0)))
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .plus )), T(x64: X(~0, ~0, ~0)))
     }
     
     func testsFromSignedMagnitudePlusMinusZero() {
@@ -478,9 +478,9 @@ final class Int192TestsOnNumbers: XCTestCase {
 
 final class UInt192TestsOnNumbers: XCTestCase {
     
-    typealias S =  ANKInt192
-    typealias T = ANKUInt192
-    typealias M = ANKUInt192
+    typealias S =  Int192
+    typealias T = UInt192
+    typealias M = UInt192
     
     typealias S2 = S.DoubleWidth
     typealias T2 = T.DoubleWidth

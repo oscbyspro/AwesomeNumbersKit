@@ -22,9 +22,9 @@ private typealias Y = ANK256X32
 
 final class Int256TestsOnNumbers: XCTestCase {
     
-    typealias S =  ANKInt256
-    typealias T =  ANKInt256
-    typealias M = ANKUInt256
+    typealias S =  Int256
+    typealias T =  Int256
+    typealias M = UInt256
     
     typealias S2 = S.DoubleWidth
     typealias T2 = T.DoubleWidth
@@ -360,17 +360,17 @@ final class Int256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testsFromSignedMagnitude() {
-        XCTAssertEqual(T(Signed(M(44), as: .minus)), -T(44))
-        XCTAssertEqual(T(Signed(M(44), as: .plus )),  T(44))
+        XCTAssertEqual(T(ANKSigned(M(44), as: .minus)), -T(44))
+        XCTAssertEqual(T(ANKSigned(M(44), as: .plus )),  T(44))
         
-        XCTAssertEqual(T(exactly:  Signed(M.max, as: .minus)), nil)
-        XCTAssertEqual(T(exactly:  Signed(M.max, as: .plus )), nil)
+        XCTAssertEqual(T(exactly:  ANKSigned(M.max, as: .minus)), nil)
+        XCTAssertEqual(T(exactly:  ANKSigned(M.max, as: .plus )), nil)
 
-        XCTAssertEqual(T(clamping: Signed(M.max, as: .minus)), T.min)
-        XCTAssertEqual(T(clamping: Signed(M.max, as: .plus )), T.max)
+        XCTAssertEqual(T(clamping: ANKSigned(M.max, as: .minus)), T.min)
+        XCTAssertEqual(T(clamping: ANKSigned(M.max, as: .plus )), T.max)
         
-        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .minus)), T(x64: X( 1,  0,  0,  0)))
-        XCTAssertEqual(T(truncatingIfNeeded: Signed(M.max, as: .plus )), T(x64: X(~0, ~0, ~0, ~0)))
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .minus)), T(x64: X( 1,  0,  0,  0)))
+        XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(M.max, as: .plus )), T(x64: X(~0, ~0, ~0, ~0)))
     }
     
     func testsFromSignedMagnitudePlusMinusZero() {
@@ -480,9 +480,9 @@ final class Int256TestsOnNumbers: XCTestCase {
 
 final class UInt256TestsOnNumbers: XCTestCase {
     
-    typealias S =  ANKInt256
-    typealias T = ANKUInt256
-    typealias M = ANKUInt256
+    typealias S =  Int256
+    typealias T = UInt256
+    typealias M = UInt256
     
     typealias S2 = S.DoubleWidth
     typealias T2 = T.DoubleWidth

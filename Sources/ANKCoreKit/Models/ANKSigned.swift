@@ -15,8 +15,8 @@
 ///
 /// ```swift
 /// typealias Magnitude = UInt
-/// let min = Signed(Magnitude.max, as: Sign.minus)
-/// let max = Signed(Magnitude.max, as: Sign.plus )
+/// let min = ANKSigned(Magnitude.max, as: ANKSign.minus)
+/// let max = ANKSigned(Magnitude.max, as: ANKSign.plus )
 /// ```
 ///
 /// ### Sign & Magnitude
@@ -26,8 +26,8 @@
 /// illustrates its behavior:
 ///
 /// ```swift
-/// Signed<UInt8>(255, as: .minus) &- 1 // Signed<UInt8>(0, as: .minus)
-/// Signed<UInt8>(255, as: .plus ) &+ 1 // Signed<UInt8>(0, as: .plus )
+/// ANKSigned<UInt8>(255, as: .minus) &- 1 // ANKSigned<UInt8>(0, as: .minus)
+/// ANKSigned<UInt8>(255, as: .plus ) &+ 1 // ANKSigned<UInt8>(0, as: .plus )
 /// ```
 ///
 /// ### Positive Zero & Negative Zero

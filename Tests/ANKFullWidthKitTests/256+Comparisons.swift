@@ -21,7 +21,7 @@ private typealias Y = ANK256X32
 
 final class Int256TestsOnComparisons: XCTestCase {
     
-    typealias T = ANKInt256
+    typealias T = Int256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -166,7 +166,7 @@ final class Int256TestsOnComparisons: XCTestCase {
 
 final class UInt256TestsOnComparisons: XCTestCase {
     
-    typealias T = ANKUInt256
+    typealias T = UInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

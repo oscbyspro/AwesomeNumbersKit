@@ -24,21 +24,7 @@ Large number arithmetic in Swift.
 - ``ANKSignedInteger``
 - ``ANKUnsignedInteger``
 
-### Type Aliases
-
-- ``Sign``
-- ``Signed``
-
-- ``FullWidth``
-
-### Type Aliases — Arithmetic
-
-- ``HL``
-- ``LH``
-- ``PVO``
-- ``QR``
-
-### Type Aliases — Integers
+### Aliases
 
 - ``Int128``
 - ``Int192``
@@ -58,35 +44,9 @@ Large number arithmetic in Swift.
 - ``UInt2048``
 - ``UInt4096``
 
-- ``ANKInt64``
-- ``ANKInt128``
-- ``ANKInt192``
-- ``ANKInt256``
-- ``ANKInt384``
-- ``ANKInt512``
-- ``ANKInt1024``
-- ``ANKInt2048``
-- ``ANKInt4096``
+### Aliases — Arithmetic
 
-- ``ANKUInt64``
-- ``ANKUInt128``
-- ``ANKUInt192``
-- ``ANKUInt256``
-- ``ANKUInt384``
-- ``ANKUInt512``
-- ``ANKUInt1024``
-- ``ANKUInt2048``
-- ``ANKUInt4096``
-
-### Type Aliases — Patterns
-
-- ``ANK128X32``
-- ``ANK128X64``
-- ``ANK192X32``
-- ``ANK192X64``
-- ``ANK256X32``
-- ``ANK256X64``
-- ``ANK384X32``
-- ``ANK384X64``
-- ``ANK512X32``
-- ``ANK512X64``
+- ``HL``
+- ``LH``
+- ``PVO``
+- ``QR``

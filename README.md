@@ -20,8 +20,8 @@ A composable, large, fixed-width, two's complement, binary integer.
 </table>
 
 ```swift
-typealias  Int256 = FullWidth< Int128, UInt128>
-typealias UInt256 = FullWidth<UInt128, UInt128>
+typealias  Int256 = ANKFullWidth< Int128, UInt128>
+typealias UInt256 = ANKFullWidth<UInt128, UInt128>
 ```
 
 ## [ANKSignedKit][SIGN/D] ([Sources][SIGN/S], [Tests][SIGN/T], [Benchmarks][SIGN/B])
@@ -37,8 +37,8 @@ A decorative, width agnostic, sign-and-magnitude, numeric integer.
 
 ```swift
 typealias Magnitude = UInt
-let min = Signed(Magnitude.max, as: Sign.minus)
-let max = Signed(Magnitude.max, as: Sign.plus )
+let min = ANKSigned(Magnitude.max, as: ANKSign.minus)
+let max = ANKSigned(Magnitude.max, as: ANKSign.plus )
 ```
 
 ## ANKCoreKit ([Sources][CORE/S], [Tests][CORE/T], [Benchmarks][CORE/B])

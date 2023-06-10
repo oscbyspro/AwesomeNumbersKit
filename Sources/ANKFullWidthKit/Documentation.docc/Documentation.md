@@ -10,8 +10,8 @@ and ``ANKFullWidth/Low-swift.typealias`` parts. In this way, you may construct a
 size that is a multiple of `UInt.bitWidth`.
 
 ```swift
-typealias  Int256 = FullWidth< Int128, UInt128>
-typealias UInt256 = FullWidth<UInt128, UInt128>
+typealias  Int256 = ANKFullWidth< Int128, UInt128>
+typealias UInt256 = ANKFullWidth<UInt128, UInt128>
 ```
 
 #### Trivial UInt Collection
@@ -50,11 +50,7 @@ fit in a machine word. See the following for more details:
 - ``ANKUnsafeWordsPointer``
 - ``ANKUnsafeMutableWordsPointer``
 
-### Type Aliases
-
-- ``FullWidth``
-
-### Type Aliases — Integers
+### Aliases
 
 - ``Int128``
 - ``Int192``
@@ -73,36 +69,3 @@ fit in a machine word. See the following for more details:
 - ``UInt1024``
 - ``UInt2048``
 - ``UInt4096``
-
-- ``ANKInt64``
-- ``ANKInt128``
-- ``ANKInt192``
-- ``ANKInt256``
-- ``ANKInt384``
-- ``ANKInt512``
-- ``ANKInt1024``
-- ``ANKInt2048``
-- ``ANKInt4096``
-
-- ``ANKUInt64``
-- ``ANKUInt128``
-- ``ANKUInt192``
-- ``ANKUInt256``
-- ``ANKUInt384``
-- ``ANKUInt512``
-- ``ANKUInt1024``
-- ``ANKUInt2048``
-- ``ANKUInt4096``
-
-### Type Aliases — Patterns
-
-- ``ANK128X32``
-- ``ANK128X64``
-- ``ANK192X32``
-- ``ANK192X64``
-- ``ANK256X32``
-- ``ANK256X64``
-- ``ANK384X32``
-- ``ANK384X64``
-- ``ANK512X32``
-- ``ANK512X64``

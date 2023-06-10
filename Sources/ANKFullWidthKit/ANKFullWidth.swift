@@ -21,8 +21,8 @@ import ANKCoreKit
 /// size that is a multiple of `UInt.bitWidth`.
 ///
 /// ```swift
-/// typealias  Int256 = FullWidth< Int128, UInt128>
-/// typealias UInt256 = FullWidth<UInt128, UInt128>
+/// typealias  Int256 = ANKFullWidth< Int128, UInt128>
+/// typealias UInt256 = ANKFullWidth<UInt128, UInt128>
 /// ```
 ///
 /// ### Trivial UInt Collection
@@ -179,104 +179,107 @@ extension ANKFullWidth: ANKUnsignedInteger, UnsignedInteger  /*---------*/ where
 // MARK: * ANK x [U]Int64
 //*============================================================================*
 
-#if arch(i386) || arch(arm) || arch(arm64_32) || arch(wasm32) || arch(powerpc)
-
-/// A 64-bit signed integer value type.
-public typealias ANKInt64 = ANKFullWidth<Int, UInt>
-
-/// A 64-bit unsigned integer value type.
-public typealias ANKUInt64 = ANKFullWidth<UInt, UInt>
-
-#elseif arch(x86_64) || arch(arm64) || arch(powerpc64) || arch(powerpc64le) || arch(s390x)
-
-/// A 64-bit signed integer value type.
-public typealias ANKInt64 = Int
-
-/// A 64-bit unsigned integer value type.
-public typealias ANKUInt64 = UInt
-
-#else
-
-#error("ANKFullWidth can only be used on a 32-bit or 64-bit platform.")
-
-#endif
+extension ANK {
+    
+    #if arch(i386) || arch(arm) || arch(arm64_32) || arch(wasm32) || arch(powerpc)
+    
+    /// A 64-bit signed integer value type.
+    public typealias Int64 = ANKFullWidth<Int, UInt>
+    
+    /// A 64-bit unsigned integer value type.
+    public typealias UInt64 = ANKFullWidth<UInt, UInt>
+    
+    #elseif arch(x86_64) || arch(arm64) || arch(powerpc64) || arch(powerpc64le) || arch(s390x)
+    
+    /// A 64-bit signed integer value type.
+    public typealias Int64 = Int
+    
+    /// A 64-bit unsigned integer value type.
+    public typealias UInt64 = UInt
+    
+    #else
+        
+    #error("ANKFullWidth can only be used on a 32-bit or 64-bit platform.")
+        
+    #endif
+}
 
 //*============================================================================*
 // MARK: * ANK x [U]Int128
 //*============================================================================*
 
 /// A 128-bit signed integer value type.
-public typealias ANKInt128 = ANKFullWidth<ANKInt64, ANKUInt64>
+public typealias Int128 = ANKFullWidth<ANK.Int64, ANK.UInt64>
 
 /// A 128-bit unsigned integer value type.
-public typealias ANKUInt128 = ANKFullWidth<ANKUInt64, ANKUInt64>
+public typealias UInt128 = ANKFullWidth<ANK.UInt64, ANK.UInt64>
 
 //*============================================================================*
 // MARK: * ANK x [U]Int128
 //*============================================================================*
 
 /// A 192-bit signed integer value type.
-public typealias ANKInt192 = ANKFullWidth<ANKInt64, ANKUInt128>
+public typealias Int192 = ANKFullWidth<ANK.Int64, UInt128>
 
 /// A 192-bit unsigned integer value type.
-public typealias ANKUInt192 = ANKFullWidth<ANKUInt64, ANKUInt128>
+public typealias UInt192 = ANKFullWidth<ANK.UInt64, UInt128>
 
 //*============================================================================*
 // MARK: * ANK x [U]Int256
 //*============================================================================*
 
 /// A 256-bit signed integer value type.
-public typealias ANKInt256 = ANKFullWidth<ANKInt128, ANKUInt128>
+public typealias Int256 = ANKFullWidth<Int128, UInt128>
 
 /// A 256-bit unsigned integer value type.
-public typealias ANKUInt256 = ANKFullWidth<ANKUInt128, ANKUInt128>
+public typealias UInt256 = ANKFullWidth<UInt128, UInt128>
 
 //*============================================================================*
 // MARK: * ANK x [U]Int384
 //*============================================================================*
 
 /// A 384-bit signed integer value type.
-public typealias ANKInt384 = ANKFullWidth<ANKInt192, ANKUInt192>
+public typealias Int384 = ANKFullWidth<Int192, UInt192>
 
 /// A 384-bit unsigned integer value type.
-public typealias ANKUInt384 = ANKFullWidth<ANKUInt192, ANKUInt192>
+public typealias UInt384 = ANKFullWidth<UInt192, UInt192>
 
 //*============================================================================*
 // MARK: * ANK x [U]Int512
 //*============================================================================*
 
 /// A 512-bit signed integer value type.
-public typealias ANKInt512 = ANKFullWidth<ANKInt256, ANKUInt256>
+public typealias Int512 = ANKFullWidth<Int256, UInt256>
 
 /// A 512-bit signed integer value type.
-public typealias ANKUInt512 = ANKFullWidth<ANKUInt256, ANKUInt256>
+public typealias UInt512 = ANKFullWidth<UInt256, UInt256>
 
 //*============================================================================*
 // MARK: * ANK x [U]Int1024
 //*============================================================================*
 
 /// A 1024-bit signed integer value type.
-public typealias ANKInt1024 = ANKFullWidth<ANKInt512, ANKUInt512>
+public typealias Int1024 = ANKFullWidth<Int512, UInt512>
 
 /// A 1024-bit unsigned integer value type.
-public typealias ANKUInt1024 = ANKFullWidth<ANKUInt512, ANKUInt512>
+public typealias UInt1024 = ANKFullWidth<UInt512, UInt512>
 
 //*============================================================================*
 // MARK: * ANK x [U]Int2048
 //*============================================================================*
 
 /// A 2048-bit signed integer value type.
-public typealias ANKInt2048 = ANKFullWidth<ANKInt1024, ANKUInt1024>
+public typealias Int2048 = ANKFullWidth<Int1024, UInt1024>
 
 /// A 2048-bit unsigned integer value type.
-public typealias ANKUInt2048 = ANKFullWidth<ANKUInt1024, ANKUInt1024>
+public typealias UInt2048 = ANKFullWidth<UInt1024, UInt1024>
 
 //*============================================================================*
 // MARK: * ANK x [U]Int4096
 //*============================================================================*
 
 /// A 4096-bit signed integer value type.
-public typealias ANKInt4096 = ANKFullWidth<ANKInt2048, ANKUInt2048>
+public typealias Int4096 = ANKFullWidth<Int2048, UInt2048>
 
 /// A 4096-bit unsigned integer value type.
-public typealias ANKUInt4096 = ANKFullWidth<ANKUInt2048, ANKUInt2048>
+public typealias UInt4096 = ANKFullWidth<UInt2048, UInt2048>

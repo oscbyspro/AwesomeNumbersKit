@@ -27,22 +27,22 @@ final class ANKCoreIntegerTestsOnNumbers: XCTestCase {
     let types: [T] = ANKCoreIntegerTests.types
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests x Signed<Magnitude>
+    // MARK: Tests x Sign & Magnitude
     //=------------------------------------------------------------------------=
     
     func testsFromSignedMagnitude() {
         func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertEqual(T(Signed(T.Magnitude(44), as: .minus)), T(-44))
-            XCTAssertEqual(T(Signed(T.Magnitude(44), as: .plus )), T( 44))
+            XCTAssertEqual(T(ANKSigned(T.Magnitude(44), as: .minus)), T(-44))
+            XCTAssertEqual(T(ANKSigned(T.Magnitude(44), as: .plus )), T( 44))
             
-            XCTAssertEqual(T(exactly:  Signed(T.Magnitude.max, as: .minus)), nil)
-            XCTAssertEqual(T(exactly:  Signed(T.Magnitude.max, as: .plus )), nil)
+            XCTAssertEqual(T(exactly:  ANKSigned(T.Magnitude.max, as: .minus)), nil)
+            XCTAssertEqual(T(exactly:  ANKSigned(T.Magnitude.max, as: .plus )), nil)
             
-            XCTAssertEqual(T(clamping: Signed(T.Magnitude.max, as: .minus)), T.min)
-            XCTAssertEqual(T(clamping: Signed(T.Magnitude.max, as: .plus )), T.max)
+            XCTAssertEqual(T(clamping: ANKSigned(T.Magnitude.max, as: .minus)), T.min)
+            XCTAssertEqual(T(clamping: ANKSigned(T.Magnitude.max, as: .plus )), T.max)
             
-            XCTAssertEqual(T(truncatingIfNeeded: Signed(T.Magnitude.max, as: .minus)),  T( 1))
-            XCTAssertEqual(T(truncatingIfNeeded: Signed(T.Magnitude.max, as: .plus )), ~T(  ))
+            XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(T.Magnitude.max, as: .minus)),  T( 1))
+            XCTAssertEqual(T(truncatingIfNeeded: ANKSigned(T.Magnitude.max, as: .plus )), ~T(  ))
         }
         
         func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {

@@ -19,9 +19,9 @@ import XCTest
 
 final class ANKSignedTests: XCTestCase {
     
-    typealias T = ANKSigned<ANKUInt256>
+    typealias T = ANKSigned<UInt256>
     typealias D = ANKSigned<UInt>
-    typealias M = ANKUInt256
+    typealias M = UInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

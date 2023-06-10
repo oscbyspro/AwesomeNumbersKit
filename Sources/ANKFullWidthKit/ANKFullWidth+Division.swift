@@ -118,11 +118,11 @@ extension ANKFullWidth where High == High.Magnitude {
     ///
     /// Performs unsigned long division with `UInt` digits.
     ///
-    @_specialize(where Self == ANKUInt128)
-    @_specialize(where Self == ANKUInt192)
-    @_specialize(where Self == ANKUInt256)
-    @_specialize(where Self == ANKUInt384)
-    @_specialize(where Self == ANKUInt512)
+    @_specialize(where Self == UInt128)
+    @_specialize(where Self == UInt192)
+    @_specialize(where Self == UInt256)
+    @_specialize(where Self == UInt384)
+    @_specialize(where Self == UInt512)
     @inlinable func quotientAndRemainderReportingOverflow(dividingBy other: Self) -> PVO<QR<Self, Self>> {
         let other_ = other.minLastIndexReportingIsZeroOrMinusOne()
         //=--------------------------------------=

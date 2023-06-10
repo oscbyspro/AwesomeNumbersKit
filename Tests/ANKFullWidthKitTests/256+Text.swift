@@ -21,7 +21,7 @@ private typealias Y = ANK256X32
 
 final class Int256TestsOnText: XCTestCase {
     
-    typealias T = ANKInt256
+    typealias T = Int256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Decode
@@ -173,7 +173,7 @@ final class Int256TestsOnText: XCTestCase {
 
 final class UInt256TestsOnText: XCTestCase {
     
-    typealias T = ANKUInt256
+    typealias T = UInt256
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Decode

@@ -20,7 +20,7 @@ import XCTest
 
 final class ANKSignedBenchmarksOnAddition: XCTestCase {
     
-    typealias T = ANKSigned<ANKUInt256>
+    typealias T = ANKSigned<UInt256>
     typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=

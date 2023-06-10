@@ -21,7 +21,7 @@ private typealias Y = ANK192X32
 
 final class Int192TestsOnAddition: XCTestCase {
     
-    typealias T = ANKInt192
+    typealias T = Int192
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -137,7 +137,7 @@ final class Int192TestsOnAddition: XCTestCase {
 
 final class UInt192TestsOnAddition: XCTestCase {
 
-    typealias T = ANKUInt192
+    typealias T = UInt192
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

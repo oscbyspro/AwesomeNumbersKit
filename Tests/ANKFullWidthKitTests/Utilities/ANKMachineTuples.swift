@@ -57,7 +57,7 @@ extension ANKFullWidth {
         #endif
     }
     
-    init(x64: ANK192X64) where Magnitude == ANKUInt192 {
+    init(x64: ANK192X64) where Magnitude == UInt192 {
         #if _endian(big)
         self = unsafeBitCast(ANK192X64(x64.2, x64.1, x64.0), to: Self.self)
         #else
@@ -65,7 +65,7 @@ extension ANKFullWidth {
         #endif
     }
     
-    init(x32: ANK192X32) where Magnitude == ANKUInt192 {
+    init(x32: ANK192X32) where Magnitude == UInt192 {
         #if _endian(big)
         self = unsafeBitCast(ANK192X32(x32.5, x32.4, x32.3, x32.2, x32.1, x32.0), to: Self.self)
         #else
@@ -73,7 +73,7 @@ extension ANKFullWidth {
         #endif
     }
     
-    init(x64: ANK256X64) where Magnitude == ANKUInt256 {
+    init(x64: ANK256X64) where Magnitude == UInt256 {
         #if _endian(big)
         self = unsafeBitCast(ANK256X64(x64.3, x64.2, x64.1, x64.0), to: Self.self)
         #else
@@ -81,7 +81,7 @@ extension ANKFullWidth {
         #endif
     }
     
-    init(x32: ANK256X32) where Magnitude == ANKUInt256 {
+    init(x32: ANK256X32) where Magnitude == UInt256 {
         #if _endian(big)
         self = unsafeBitCast(ANK256X32(x32.7, x32.6, x32.5, x32.4, x32.3, x32.2, x32.1, x32.0), to: Self.self)
         #else
