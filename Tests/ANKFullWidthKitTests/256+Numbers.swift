@@ -9,7 +9,7 @@
 
 #if DEBUG
 
-import ANKFoundation
+import ANKCoreKit
 @testable import ANKFullWidthKit
 import XCTest
 

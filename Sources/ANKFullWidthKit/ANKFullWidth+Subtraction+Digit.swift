@@ -7,7 +7,7 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import ANKFoundation
+import ANKCoreKit
 
 //*============================================================================*
 // MARK: * ANK x Full Width x Subtraction x Digit

@@ -1,4 +1,4 @@
-# [AwesomeNumbersKit][ANK/D]
+# [AwesomeNumbersKit][MAIN/D]
 
 Large number arithmetic in Swift.
 
@@ -7,7 +7,7 @@ Large number arithmetic in Swift.
 | 0.6.2   | 5.7   | 13.0 | 13.0   | 13.0         | 10.15 | 13.0 | 6.0     |
 | 2.2.0   | 5.8   | 16.4 | 16.4   | 16.4         | 13.3  | 16.4 | 9.4     |
 
-## [ANKFullWidthKit][FUL/D] ([Sources][FUL/S], [Tests][FUL/T], [Benchmarks][FUL/B])
+## [ANKFullWidthKit][FULL/D] ([Sources][FULL/S], [Tests][FULL/T], [Benchmarks][FULL/B])
 
 A composable, large, fixed-width, two's complement, binary integer.
 
@@ -24,7 +24,7 @@ typealias  Int256 = FullWidth< Int128, UInt128>
 typealias UInt256 = FullWidth<UInt128, UInt128>
 ```
 
-## [ANKSignedKit][SIG/D] ([Sources][SIG/S], [Tests][SIG/T], [Benchmarks][SIG/B])
+## [ANKSignedKit][SIGN/D] ([Sources][SIGN/S], [Tests][SIGN/T], [Benchmarks][SIGN/B])
 
 A decorative, width agnostic, sign-and-magnitude, numeric integer.
 
@@ -41,25 +41,25 @@ let min = Signed(Magnitude.max, as: Sign.minus)
 let max = Signed(Magnitude.max, as: Sign.plus )
 ```
 
-## ANKFoundation ([Sources][FDN/S], [Tests][FDN/T], [Benchmarks][FDN/B])
+## ANKCoreKit ([Sources][CORE/S], [Tests][CORE/T], [Benchmarks][CORE/B])
 
 Models, protocols, extensions and utilities underpinning this package.
 
 ### Models
 
-- [ANKError](Sources/ANKFoundation/Models/ANKError.swift)
-- [ANKSign](Sources/ANKFoundation/Models/ANKSign.swift)
-- [ANKSigned\<Magnitude\>](Sources/ANKFoundation/Models/ANKSigned.swift)
+- [ANKError](Sources/ANKCoreKit/Models/ANKError.swift)
+- [ANKSign](Sources/ANKCoreKit/Models/ANKSign.swift)
+- [ANKSigned\<Magnitude\>](Sources/ANKCoreKit/Models/ANKSigned.swift)
 
 ### Protocols
 
-- [ANKBigEndianTextCodable](Sources/ANKFoundation/ANKBigEndianTextCodable.swift)
-- [ANKBinaryInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
-- [ANKBitPatternConvertible\<BitPattern\>](Sources/ANKFoundation/ANKBitPatternConvertible.swift)
-- [ANKCoreInteger\<Magnitude\>](Sources/ANKFoundation/ANKCoreInteger.swift)
-- [ANKFixedWidthInteger](Sources/ANKFoundation/ANKFixedWidthInteger.swift)
-- [ANKSignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
-- [ANKUnsignedInteger](Sources/ANKFoundation/ANKBinaryInteger.swift)
+- [ANKBigEndianTextCodable](Sources/ANKCoreKit/ANKBigEndianTextCodable.swift)
+- [ANKBinaryInteger](Sources/ANKCoreKit/ANKBinaryInteger.swift)
+- [ANKBitPatternConvertible\<BitPattern\>](Sources/ANKCoreKit/ANKBitPatternConvertible.swift)
+- [ANKCoreInteger\<Magnitude\>](Sources/ANKCoreKit/ANKCoreInteger.swift)
+- [ANKFixedWidthInteger](Sources/ANKCoreKit/ANKFixedWidthInteger.swift)
+- [ANKSignedInteger](Sources/ANKCoreKit/ANKBinaryInteger.swift)
+- [ANKUnsignedInteger](Sources/ANKCoreKit/ANKBinaryInteger.swift)
 
 ## Check out my other projects
 
@@ -69,18 +69,18 @@ Models, protocols, extensions and utilities underpinning this package.
 
 [Oscar/Numberick]: https://github.com/oscbyspro/Numberick
 
-[ANK/D]: https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit
-[FUL/D]: https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit/ankfullwidth
-[SIG/D]: https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit/anksigned
+[MAIN/D]: https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit
+[FULL/D]: https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit/ankfullwidth
+[SIGN/D]: https://oscbyspro.github.io/AwesomeNumbersKit/documentation/awesomenumberskit/anksigned
 
-[FDN/S]: Sources/ANKFoundation
-[FUL/S]: Sources/ANKFullWidthKit
-[SIG/S]: Sources/ANKSignedKit
+[CORE/S]: Sources/ANKCoreKit
+[FULL/S]: Sources/ANKFullWidthKit
+[SIGN/S]: Sources/ANKSignedKit
 
-[FDN/T]: Tests/ANKFoundationTests
-[FUL/T]: Tests/ANKFullWidthKitTests
-[SIG/T]: Tests/ANKSignedKitTests
+[CORE/T]: Tests/ANKCoreKitTests
+[FULL/T]: Tests/ANKFullWidthKitTests
+[SIGN/T]: Tests/ANKSignedKitTests
 
-[FDN/B]: Tests/ANKFoundationBenchmarks
-[FUL/B]: Tests/ANKFullWidthKitBenchmarks
-[SIG/B]: Tests/ANKSignedKitBenchmarks
+[CORE/B]: Tests/ANKCoreKitBenchmarks
+[FULL/B]: Tests/ANKFullWidthKitBenchmarks
+[SIGN/B]: Tests/ANKSignedKitBenchmarks

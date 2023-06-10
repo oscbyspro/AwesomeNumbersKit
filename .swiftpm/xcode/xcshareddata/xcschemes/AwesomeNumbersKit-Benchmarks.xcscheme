@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ANKFoundationBenchmarks"
-               BuildableName = "ANKFoundationBenchmarks"
-               BlueprintName = "ANKFoundationBenchmarks"
+               BlueprintIdentifier = "ANKCoreKitBenchmarks"
+               BuildableName = "ANKCoreKitBenchmarks"
+               BlueprintName = "ANKCoreKitBenchmarks"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -66,17 +66,17 @@
    </BuildAction>
    <TestAction
       buildConfiguration = "Release"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ANKFoundationBenchmarks"
-               BuildableName = "ANKFoundationBenchmarks"
-               BlueprintName = "ANKFoundationBenchmarks"
+               BlueprintIdentifier = "ANKCoreKitBenchmarks"
+               BuildableName = "ANKCoreKitBenchmarks"
+               BlueprintName = "ANKCoreKitBenchmarks"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

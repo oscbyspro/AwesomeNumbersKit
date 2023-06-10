@@ -31,11 +31,11 @@ let package = Package(
         name: "AwesomeNumbersKit",
         targets: ["AwesomeNumbersKit"]),
         //=--------------------------------------=
-        // ANK x Foundation
+        // ANK x Core Kit
         //=--------------------------------------=
         .library(
-        name: "ANKFoundation",
-        targets: ["ANKFoundation"]),
+        name: "ANKCoreKit",
+        targets: ["ANKCoreKit"]),
         //=--------------------------------------=
         // ANK x Full Width Kit
         //=--------------------------------------=
@@ -55,27 +55,27 @@ let package = Package(
         //=--------------------------------------=
         .target(
         name: "AwesomeNumbersKit",
-        dependencies: ["ANKFoundation", "ANKFullWidthKit", "ANKSignedKit"]),
+        dependencies: ["ANKCoreKit", "ANKFullWidthKit", "ANKSignedKit"]),
         //=--------------------------------------=
-        // ANK x Foundation
+        // ANK x Core Kit
         //=--------------------------------------=
         .target(
-        name: "ANKFoundation",
+        name: "ANKCoreKit",
         dependencies: []),
         
         .testTarget(
-        name: "ANKFoundationTests",
-        dependencies: ["ANKFoundation"]),
+        name: "ANKCoreKitTests",
+        dependencies: ["ANKCoreKit"]),
         
         .testTarget(
-        name: "ANKFoundationBenchmarks",
-        dependencies: ["ANKFoundation"]),
+        name: "ANKCoreKitBenchmarks",
+        dependencies: ["ANKCoreKit"]),
         //=--------------------------------------=
         // ANK x Full Width Kit
         //=--------------------------------------=
         .target(
         name: "ANKFullWidthKit",
-        dependencies: ["ANKFoundation"]),
+        dependencies: ["ANKCoreKit"]),
         
         .testTarget(
         name: "ANKFullWidthKitTests",
@@ -89,7 +89,7 @@ let package = Package(
         //=--------------------------------------=
         .target(
         name: "ANKSignedKit",
-        dependencies: ["ANKFoundation"]),
+        dependencies: ["ANKCoreKit"]),
         
         .testTarget(
         name: "ANKSignedKitTests",

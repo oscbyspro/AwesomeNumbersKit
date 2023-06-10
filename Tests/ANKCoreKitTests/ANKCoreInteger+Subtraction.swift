@@ -9,14 +9,14 @@
 
 #if DEBUG
 
-import ANKFoundation
+import ANKCoreKit
 import XCTest
 
 //*============================================================================*
-// MARK: * ANK x Core Integer x Addition
+// MARK: * ANK x Core Integer x Subtraction
 //*============================================================================*
 
-final class ANKCoreIntegerTestsOnAddition: XCTestCase {
+final class ANKCoreIntegerTestsOnSubtraction: XCTestCase {
     
     typealias T = any ANKCoreInteger.Type
     
@@ -30,35 +30,32 @@ final class ANKCoreIntegerTestsOnAddition: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testAdding() {
+    func testSubtracting() {
         func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            ANKAssertAddition(T( 1), T( 2), T( 3))
-            ANKAssertAddition(T( 1), T( 1), T( 2))
-            ANKAssertAddition(T( 1), T( 0), T( 1))
-            ANKAssertAddition(T( 1), T(-1), T( 0))
-            ANKAssertAddition(T( 1), T(-2), T(-1))
+            ANKAssertSubtraction(T( 1), T( 2), T(-1))
+            ANKAssertSubtraction(T( 1), T( 1), T( 0))
+            ANKAssertSubtraction(T( 1), T( 0), T( 1))
+            ANKAssertSubtraction(T( 1), T(-1), T( 2))
+            ANKAssertSubtraction(T( 1), T(-2), T( 3))
             
-            ANKAssertAddition(T( 0), T( 2), T( 2))
-            ANKAssertAddition(T( 0), T( 1), T( 1))
-            ANKAssertAddition(T( 0), T( 0), T( 0))
-            ANKAssertAddition(T( 0), T(-1), T(-1))
-            ANKAssertAddition(T( 0), T(-2), T(-2))
+            ANKAssertSubtraction(T( 0), T( 2), T(-2))
+            ANKAssertSubtraction(T( 0), T( 1), T(-1))
+            ANKAssertSubtraction(T( 0), T( 0), T( 0))
+            ANKAssertSubtraction(T( 0), T(-1), T( 1))
+            ANKAssertSubtraction(T( 0), T(-2), T( 2))
             
-            ANKAssertAddition(T(-1), T( 2), T( 1))
-            ANKAssertAddition(T(-1), T( 1), T( 0))
-            ANKAssertAddition(T(-1), T( 0), T(-1))
-            ANKAssertAddition(T(-1), T(-1), T(-2))
-            ANKAssertAddition(T(-1), T(-2), T(-3))
+            ANKAssertSubtraction(T(-1), T( 2), T(-3))
+            ANKAssertSubtraction(T(-1), T( 1), T(-2))
+            ANKAssertSubtraction(T(-1), T( 0), T(-1))
+            ANKAssertSubtraction(T(-1), T(-1), T( 0))
+            ANKAssertSubtraction(T(-1), T(-2), T( 1))
         }
 
         func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            ANKAssertAddition(T(0), T(0), T(0))
-            ANKAssertAddition(T(0), T(1), T(1))
-            ANKAssertAddition(T(0), T(2), T(2))
-            
-            ANKAssertAddition(T(1), T(0), T(1))
-            ANKAssertAddition(T(1), T(1), T(2))
-            ANKAssertAddition(T(1), T(2), T(3))
+            ANKAssertSubtraction(T(3), T(0), T(3))
+            ANKAssertSubtraction(T(3), T(1), T(2))
+            ANKAssertSubtraction(T(3), T(2), T(1))
+            ANKAssertSubtraction(T(3), T(3), T(0))
         }
         
         for type: T in types {
@@ -66,18 +63,18 @@ final class ANKCoreIntegerTestsOnAddition: XCTestCase {
         }
     }
     
-    func testAddingReportingOverflow() {
+    func testSubtractingReportingOverflow() {
         func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            ANKAssertAddition(T.min, T( 1), T.min + T(1))
-            ANKAssertAddition(T.min, T(-1), T.max,  true)
+            ANKAssertSubtraction(T.min, T( 2), T.max - T(1), true )
+            ANKAssertSubtraction(T.max, T( 2), T.max - T(2), false)
             
-            ANKAssertAddition(T.max, T( 1), T.min,  true)
-            ANKAssertAddition(T.max, T(-1), T.max - T(1))
+            ANKAssertSubtraction(T.min, T(-2), T.min + T(2), false)
+            ANKAssertSubtraction(T.max, T(-2), T.min + T(1), true )
         }
 
         func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            ANKAssertAddition(T.min, T(1), T.min + T(1))
-            ANKAssertAddition(T.max, T(1), T.min,  true)
+            ANKAssertSubtraction(T.min, T(2), T.max - T(1), true )
+            ANKAssertSubtraction(T.max, T(2), T.max - T(2), false)
         }
         
         for type: T in types {
@@ -91,13 +88,13 @@ final class ANKCoreIntegerTestsOnAddition: XCTestCase {
     
     func testOverloadsAreUnambiguousWhenUsingIntegerLiterals() {
         func becauseThisCompilesSuccessfully(_ x: inout some ANKCoreInteger) {
-            XCTAssertNotNil(x  += 0)
-            XCTAssertNotNil(x &+= 0)
-            XCTAssertNotNil(x.addReportingOverflow(0))
+            XCTAssertNotNil(x  -= 0)
+            XCTAssertNotNil(x &-= 0)
+            XCTAssertNotNil(x.subtractReportingOverflow(0))
             
-            XCTAssertNotNil(x  +  0)
-            XCTAssertNotNil(x &+  0)
-            XCTAssertNotNil(x.addingReportingOverflow(0))
+            XCTAssertNotNil(x  -  0)
+            XCTAssertNotNil(x &-  0)
+            XCTAssertNotNil(x.subtractingReportingOverflow(0))
         }
     }
 }

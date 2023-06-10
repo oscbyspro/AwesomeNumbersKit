@@ -11,6 +11,6 @@
 // MARK: * ANK x Exports
 //*============================================================================*
 
-@_exported import ANKFoundation
+@_exported import ANKCoreKit
 @_exported import ANKFullWidthKit
 @_exported import ANKSignedKit

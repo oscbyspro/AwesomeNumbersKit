@@ -11,5 +11,5 @@
 // MARK: * ANK x Exports
 //*============================================================================*
 
-@_exported import enum   ANKFoundation.ANKSign
-@_exported import struct ANKFoundation.ANKSigned
+@_exported import enum   ANKCoreKit.ANKSign
+@_exported import struct ANKCoreKit.ANKSigned
