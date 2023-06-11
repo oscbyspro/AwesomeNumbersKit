@@ -14,7 +14,6 @@ Models, protocols, extensions and utilities underpinning this package.
 
 ### Protocols
 
-- [ANKBigEndianTextCodable](Sources/ANKCoreKit/ANKBigEndianTextCodable.swift)
 - [ANKBinaryInteger](Sources/ANKCoreKit/ANKBinaryInteger.swift)
 - [ANKBitPatternConvertible\<BitPattern\>](Sources/ANKCoreKit/ANKBitPatternConvertible.swift)
 - [ANKCoreInteger\<Magnitude\>](Sources/ANKCoreKit/ANKCoreInteger.swift)
@@ -52,8 +51,8 @@ A decorative, width agnostic, sign-and-magnitude, numeric integer.
 
 ```swift
 typealias Magnitude = UInt
-let min = ANKSigned(Magnitude.max, as: ANKSign.minus)
-let max = ANKSigned(Magnitude.max, as: ANKSign.plus )
+let min = ANKSigned(Magnitude.max, as: FloatingPointSign.minus)
+let max = ANKSigned(Magnitude.max, as: FloatingPointSign.plus )
 ```
 
 ## Check out my other projects

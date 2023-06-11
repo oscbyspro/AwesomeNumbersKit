@@ -17,8 +17,8 @@ import ANKCoreKit
 ///
 /// ```swift
 /// typealias Magnitude = UInt
-/// let min = ANKSigned(Magnitude.max, as: ANKSign.minus)
-/// let max = ANKSigned(Magnitude.max, as: ANKSign.plus )
+/// let min = ANKSigned(Magnitude.max, as: FloatingPointSign.minus)
+/// let max = ANKSigned(Magnitude.max, as: FloatingPointSign.plus )
 /// ```
 ///
 /// ### Sign & Magnitude
@@ -28,15 +28,15 @@ import ANKCoreKit
 /// illustrates its behavior:
 ///
 /// ```swift
-/// ANKSigned<UInt8>(255, as: .minus) &- 1 // ANKSigned<UInt8>(0, as: .minus)
-/// ANKSigned<UInt8>(255, as: .plus ) &+ 1 // ANKSigned<UInt8>(0, as: .plus )
+/// ANKSigned<UInt8>(255, as: FloatingPointSign.plus ) &+ 1 // +T.zero
+/// ANKSigned<UInt8>(255, as: FloatingPointSign.minus) &- 1 // -T.zero
 /// ```
 ///
 /// ### Positive Zero & Negative Zero
 ///
 /// Zero is signed, meaning that it can be either positive or negative. These values
 /// are comparatively equal and have the same `hashValue`. This makes it possible to
-/// ``ANKSign/toggle()`` the sign without checking for zero.
+/// toggle the sign without checking for zero.
 ///
 /// - use ``isLessThanZero`` to check if a value is `negative` and non-zero
 /// - use ``isMoreThanZero`` to check if a value is `positive` and non-zero
@@ -104,7 +104,7 @@ Sendable, SignedNumeric where Magnitude: ANKUnsignedInteger {
         self.sign == Sign.plus || !self.isZero
     }
     
-    /// Returns the ``ANKSigned/sign`` when ``ANKSigned/isNormal``, and ``ANKSign/plus`` otherwise.
+    /// Returns the ``ANKSigned/sign`` when ``ANKSigned/isNormal``, and `plus` otherwise.
     @inlinable public var normalizedSign: Sign {
         self.isNormal ? self.sign : Sign.plus
     }

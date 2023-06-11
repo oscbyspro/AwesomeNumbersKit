@@ -6,16 +6,14 @@ Large number arithmetic in Swift.
 
 ### Models
 
-- ``ANKSign``
-- ``ANKSigned``
-
 - ``ANKFullWidth``
 - ``ANKUnsafeWordsPointer``
 - ``ANKUnsafeMutableWordsPointer``
 
+- ``ANKSigned``
+
 ### Protocols
 
-- ``ANKBigEndianTextCodable``
 - ``ANKBinaryInteger``
 - ``ANKBitPatternConvertible``
 - ``ANKCoreInteger``

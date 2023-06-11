@@ -815,7 +815,7 @@ public protocol ANKBinaryInteger: BinaryInteger, Sendable where Magnitude: ANKUn
     /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
     /// ```
     ///
-    /// - Note: In the case of `overflow`, the result is either truncated or, if undefined, `self` and `self`.
+    /// - Note: In the case of `overflow`, the result is either truncated or, if undefined, `self`.
     ///
     @inlinable func remainderReportingOverflow(dividingBy other: Self) -> PVO<Self>
     
