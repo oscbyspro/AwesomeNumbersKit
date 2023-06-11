@@ -10,7 +10,7 @@
 import ANKCoreKit
 
 //*============================================================================*
-// MARK: * ANK x Signed x Numbers
+// MARK: * ANK x Signed x Numbers x Decode
 //*============================================================================*
 
 extension ANKSigned {
@@ -56,8 +56,8 @@ extension ANKSigned {
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        guard let magnitude = Magnitude(exactly: source.magnitude) else { return nil }
         let sign = Sign(source < 0)
+        guard let magnitude = Magnitude(exactly: source.magnitude) else { return nil }
         self.init(magnitude, as: sign)
     }
     
@@ -96,5 +96,32 @@ extension ANKSigned where Magnitude: ANKFixedWidthInteger {
     /// The maximum representable value in this type.
     @inlinable public static var max: Self {
         Self(Magnitude.max, as: Sign.plus)
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Signed x Numbers x Encode
+//*============================================================================*
+
+extension ANKFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public init(_ source: ANKSigned<Magnitude>) {
+        guard let value = Self(exactly: source) else {
+            preconditionFailure("\(Self.self) cannot represent \(source)")
+        }
+        
+        self = value
+    }
+    
+    @inlinable public init?(exactly source: ANKSigned<Magnitude>) {
+        if let value = Self.exactly(sign: source.sign, magnitude: source.magnitude) { self = value } else { return nil }
+    }
+    
+    @inlinable public init(clamping source: ANKSigned<Magnitude>) {
+        self = Self.clamping(sign: source.sign, magnitude: source.magnitude)
     }
 }
