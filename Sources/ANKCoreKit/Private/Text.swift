@@ -17,7 +17,7 @@ extension ANK {
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// Returns the integer's sign, along with all other code points.
+    /// Returns an `UTF-8` encoded integer's `sign` and `body`.
     ///
     /// ```
     /// ┌─────── → ──────┬────────┐

@@ -23,9 +23,9 @@ extension ANKFullWidth {
         var description = String(description)
         
         let value: Optional<Self> = description.withUTF8 { utf8 in
-            let components = ANK.integerComponents(utf8: utf8)
-            let magnitude  = Magnitude(digits: ANK.UnsafeUTF8(rebasing: components.body), radix: radix)
-            return magnitude.flatMap({  Self.exactly(sign: components.sign, magnitude: $0) })
+            let (sign,body) = ANK.integerComponents(utf8:  utf8)
+            let (magnitude) = Magnitude(digits: ANK.UnsafeUTF8(rebasing: body), radix: radix)
+            return magnitude.flatMap({ Self.exactly(sign: sign, magnitude: $0) })
         }
         
         if let value { self = value } else { return nil }

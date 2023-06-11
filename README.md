@@ -4,7 +4,6 @@ Large number arithmetic in Swift.
 
 | Package | Swift | iOS  | iPadOS | Mac Catalyst | macOS | tvOS | watchOS |
 |:-------:|:-----:|:----:|:------:|:------------:|:-----:|:----:|:-------:|
-| 0.6.2   | 5.7   | 13.0 | 13.0   | 13.0         | 10.15 | 13.0 | 6.0     |
 | 2.2.0   | 5.8   | 16.4 | 16.4   | 16.4         | 13.3  | 16.4 | 9.4     |
 
 
@@ -15,8 +14,8 @@ Models, protocols, extensions and utilities underpinning this package.
 ### Protocols
 
 - [ANKBinaryInteger](Sources/ANKCoreKit/ANKBinaryInteger.swift)
-- [ANKBitPatternConvertible\<BitPattern\>](Sources/ANKCoreKit/ANKBitPatternConvertible.swift)
-- [ANKCoreInteger\<Magnitude\>](Sources/ANKCoreKit/ANKCoreInteger.swift)
+- [ANKBitPatternConvertible](Sources/ANKCoreKit/ANKBitPatternConvertible.swift)
+- [ANKCoreInteger](Sources/ANKCoreKit/ANKCoreInteger.swift)
 - [ANKFixedWidthInteger](Sources/ANKCoreKit/ANKFixedWidthInteger.swift)
 - [ANKSignedInteger](Sources/ANKCoreKit/ANKBinaryInteger.swift)
 - [ANKUnsignedInteger](Sources/ANKCoreKit/ANKBinaryInteger.swift)

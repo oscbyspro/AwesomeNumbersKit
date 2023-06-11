@@ -27,9 +27,7 @@ extension ANKFullWidth {
     ///
     @_transparent public func withUnsafeWords<T>(
     _ body: (ANKUnsafeWordsPointer<BitPattern>) throws -> T) rethrows -> T {
-        try self._withUnsafeUIntPointer {  START in
-            try body(ANKUnsafeWordsPointer(START))
-        }
+        try self.withUnsafeUIntPointer({ try body(ANKUnsafeWordsPointer($0)) })
     }
     
     /// Grants unsafe access to the integer's words, from least significant to most.
@@ -40,9 +38,7 @@ extension ANKFullWidth {
     ///
     @_transparent public mutating func withUnsafeMutableWords<T>(
     _ body: (ANKUnsafeMutableWordsPointer<BitPattern>) throws -> T) rethrows -> T {
-        try self._withUnsafeMutableUIntPointer {  START in
-            try body(ANKUnsafeMutableWordsPointer(START))
-        }
+        try self.withUnsafeMutableUIntPointer({ try body(ANKUnsafeMutableWordsPointer($0)) })
     }
     
     /// Grants unsafe access to the integer's words, from least significant to most.
@@ -64,75 +60,87 @@ extension ANKFullWidth {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities x Contiguous UInt Sequence
+    // MARK: Details x Trivial UInt Collection
     //=------------------------------------------------------------------------=
     
-    @inlinable public func withContiguousStorageIfAvailable<T>(
-    _ body: (UnsafeBufferPointer<UInt>) throws -> T) rethrows -> T? {
+    /// Grants unsafe access to the collection's contiguous storage.
+    ///
+    /// The elements of the contiguous storage appear in the order of the collection.
+    ///
+    @inlinable public func withContiguousStorage<T>(_ body: (ANK.UnsafeWords) throws -> T) rethrows -> T {
+        var base = self
         #if _endian(big)
-        var base: Self { self._wordSwapped }
-        #else
-        var base: Self { self }
+        base.reverse()
         #endif
-        return try base._withUnsafeUIntBufferPointer(body)
+        return try base.withUnsafeUIntBufferPointer(body)
+    }
+        
+    /// Grants unsafe access to the collection's contiguous storage.
+    ///
+    /// The elements of the contiguous storage appear in the order of the collection.
+    ///
+    /// - Note: This member is required by `Swift.Sequence`.
+    ///
+    @inlinable public func withContiguousStorageIfAvailable<T>(_ body: (ANK.UnsafeWords) throws -> T) rethrows -> T? {
+        try self.withContiguousStorage(body)
     }
     
-    @inlinable public mutating func withContiguousMutableStorageIfAvailable<T>(
-    _ body: (inout UnsafeMutableBufferPointer<UInt>) throws -> T) rethrows -> T? {
+    /// Grants unsafe access to the collection's contiguous mutable storage.
+    ///
+    /// The elements of the contiguous mutable storage appear in the order of the collection.
+    ///
+    @inlinable public mutating func withContiguousMutableStorage<T>(_ body: (inout ANK.UnsafeMutableWords) throws -> T) rethrows -> T {
         #if _endian(big)
-        do    { self = self._wordSwapped }
-        defer { self = self._wordSwapped }
+        do    { self.reverse() }
+        defer { self.reverse() }
         #endif
-        return try self._withUnsafeMutableUIntBufferPointer(body)
+        return try self.withUnsafeMutableUIntBufferPointer(body)
+    }
+    
+    /// Grants unsafe access to the collection's contiguous mutable storage.
+    ///
+    /// The elements of the contiguous mutable storage appear in the order of the collection.
+    ///
+    /// - Note: This member is required by `Swift.MutableCollection`.
+    ///
+    @inlinable public mutating func withContiguousMutableStorageIfAvailable<T>(_ body: (inout ANK.UnsafeMutableWords) throws -> T) rethrows -> T? {
+        try self.withContiguousMutableStorage(body)
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities x Trivial UInt Collection
+    // MARK: Details x Trivial UInt Collection x Private
     //=------------------------------------------------------------------------=
     
     /// Grants unsafe access to the integer's in-memory representation.
     ///
     /// - Note: The order of the integer's words depends on the platform's endianness.
     ///
-    @_transparent @usableFromInline func _withUnsafeUIntPointer<T>(
-    _ body: (UnsafePointer<UInt>) throws -> T) rethrows -> T {
-        try Swift.withUnsafePointer(to: self) { START in
-            try START.withMemoryRebound(to: UInt.self, capacity: Self.count, body)
-        }
+    @inlinable func withUnsafeUIntPointer<T>(_ body: (UnsafePointer<UInt>) throws -> T) rethrows -> T {
+        try Swift.withUnsafePointer(to: self, { try $0.withMemoryRebound(to: UInt.self, capacity: Self.count, body) })
     }
     
     /// Grants unsafe access to the integer's in-memory representation.
     ///
     /// - Note: The order of the integer's words depends on the platform's endianness.
     ///
-    @_transparent @usableFromInline func _withUnsafeUIntBufferPointer<T>(
-    _ body: (UnsafeBufferPointer<UInt>) throws -> T) rethrows -> T {
-        try self._withUnsafeUIntPointer { START in
-            try body(UnsafeBufferPointer(start: START, count: Self.count))
-        }
+    @inlinable func withUnsafeUIntBufferPointer<T>(_ body: (ANK.UnsafeWords) throws -> T) rethrows -> T {
+        try self.withUnsafeUIntPointer({ try body(UnsafeBufferPointer(start: $0, count: Self.count)) })
     }
     
     /// Grants unsafe access to the integer's in-memory representation.
     ///
     /// - Note: The order of the integer's words depends on the platform's endianness.
     ///
-    @_transparent @usableFromInline mutating func _withUnsafeMutableUIntPointer<T>(
-    _ body: (UnsafeMutablePointer<UInt>) throws -> T) rethrows -> T {
-        try Swift.withUnsafeMutablePointer(to: &self) { START in
-            try START.withMemoryRebound(to: UInt.self, capacity: Self.count, body)
-        }
+    @inlinable mutating func withUnsafeMutableUIntPointer<T>(_ body: (UnsafeMutablePointer<UInt>) throws -> T) rethrows -> T {
+        try Swift.withUnsafeMutablePointer(to: &self, { try $0.withMemoryRebound(to: UInt.self, capacity: Self.count, body) })
     }
     
     /// Grants unsafe access to the integer's in-memory representation.
     ///
     /// - Note: The order of the integer's words depends on the platform's endianness.
     ///
-    @_transparent @usableFromInline mutating func _withUnsafeMutableUIntBufferPointer<T>(
-    _ body: (inout UnsafeMutableBufferPointer<UInt>) throws -> T) rethrows -> T {
-        try self._withUnsafeMutableUIntPointer { START in
-            var BUFFER = UnsafeMutableBufferPointer<UInt>(start: START, count: Self.count)
-            return try body(&BUFFER)
-        }
+    @inlinable mutating func withUnsafeMutableUIntBufferPointer<T>(_ body: (inout ANK.UnsafeMutableWords) throws -> T) rethrows -> T {
+        try self.withUnsafeMutableUIntPointer({ var x = UnsafeMutableBufferPointer(start: $0, count: Self.count); return try body(&x) })
     }
 }
 

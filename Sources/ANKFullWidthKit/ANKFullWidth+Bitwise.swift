@@ -51,14 +51,4 @@ extension ANKFullWidth {
             }
         }
     }
-    
-    @inlinable var _wordSwapped: Self {
-        self.withUnsafeWords { SELF in
-            Self.fromUnsafeMutableWords { RESULT in
-                for index in SELF.indices {
-                    RESULT[RESULT.lastIndex &- index] = SELF[index]
-                }
-            }
-        }
-    }
 }
