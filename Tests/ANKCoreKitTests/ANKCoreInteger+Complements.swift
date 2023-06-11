@@ -32,16 +32,23 @@ final class ANKCoreIntegerTestsOnComplements: XCTestCase {
     
     func testInitBitPattern() {
         func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertEqual(T(bitPattern: T.Magnitude.min), T( 0))
-            XCTAssertEqual(T(bitPattern: T.Magnitude.max), T(-1))
+            typealias M = T.Magnitude
             
-            XCTAssertEqual(T(bitPattern:  (T.Magnitude(1) << (T.bitWidth - 1))), T.min)
-            XCTAssertEqual(T(bitPattern: ~(T.Magnitude(1) << (T.bitWidth - 1))), T.max)
+            XCTAssertEqual(M(bitPattern: T( 0)), M.min)
+            XCTAssertEqual(M(bitPattern: T(-1)), M.max)
+            
+            XCTAssertEqual(T(bitPattern: M.min), T( 0))
+            XCTAssertEqual(T(bitPattern: M.max), T(-1))
+            
+            XCTAssertEqual(T(bitPattern:  (M(1) << (T.bitWidth - 1))), T.min)
+            XCTAssertEqual(T(bitPattern: ~(M(1) << (T.bitWidth - 1))), T.max)
         }
         
         func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertEqual(T(bitPattern: T.Magnitude.min), T.min)
-            XCTAssertEqual(T(bitPattern: T.Magnitude.max), T.max)
+            typealias M = T.Magnitude
+            
+            XCTAssertEqual(T(bitPattern: M.min), T.min)
+            XCTAssertEqual(T(bitPattern: M.max), T.max)
         }
         
         for type: T in types {
@@ -51,16 +58,48 @@ final class ANKCoreIntegerTestsOnComplements: XCTestCase {
     
     func testValueAsBitPattern() {
         func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertEqual(T( 0).bitPattern, T.Magnitude.min)
-            XCTAssertEqual(T(-1).bitPattern, T.Magnitude.max)
+            typealias M = T.Magnitude
             
-            XCTAssertEqual(T.min.bitPattern,  (T.Magnitude(1) << (T.bitWidth - 1)))
-            XCTAssertEqual(T.max.bitPattern, ~(T.Magnitude(1) << (T.bitWidth - 1)))
+            XCTAssertEqual(T( 0).bitPattern, M.min)
+            XCTAssertEqual(T(-1).bitPattern, M.max)
+            
+            XCTAssertEqual(T.min.bitPattern,  (M(1) << (T.bitWidth - 1)))
+            XCTAssertEqual(T.max.bitPattern, ~(M(1) << (T.bitWidth - 1)))
         }
         
         func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertEqual(T.min.bitPattern, T.Magnitude.min)
-            XCTAssertEqual(T.max.bitPattern, T.Magnitude.max)
+            typealias M = T.Magnitude
+            
+            XCTAssertEqual(T.min.bitPattern, M.min)
+            XCTAssertEqual(T.max.bitPattern, M.max)
+        }
+        
+        for type: T in types {
+            type.isSigned ? whereIsSigned(type) : whereIsUnsigned(type)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Two's Complement
+    //=------------------------------------------------------------------------=
+    
+    func testTwosComplement() {
+        func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertTwosComplement(T(-1), T( 1))
+            ANKAssertTwosComplement(T( 0), T( 0))
+            ANKAssertTwosComplement(T( 1), T(-1))
+            
+            ANKAssertTwosComplement(T.min, T.min,  true)
+            ANKAssertTwosComplement(T.max, T.min + 1)
+        }
+        
+        func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertTwosComplement(T( 1), T.max - 0)
+            ANKAssertTwosComplement(T( 2), T.max - 1)
+            ANKAssertTwosComplement(T( 3), T.max - 2)
+            
+            ANKAssertTwosComplement(T.min, T.min,  true)
+            ANKAssertTwosComplement(T.max, T.min + 1)
         }
         
         for type: T in types {

@@ -10,16 +10,15 @@
 #if DEBUG
 
 import ANKCoreKit
-import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * ANK x Sign
+// MARK: * ANK x Swift x Floating Point Sign
 //*============================================================================*
 
-final class ANKSignTests: XCTestCase {
+final class ANKSwiftTestsOnFloatingPointSign: XCTestCase {
     
-    typealias T = ANKSign
+    typealias T = FloatingPointSign
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Initializers
@@ -30,11 +29,6 @@ final class ANKSignTests: XCTestCase {
         XCTAssertEqual(T(true ), T.minus)
     }
     
-    func testInitFloatingPointSign() {
-        XCTAssertEqual(T(FloatingPointSign.plus ), T.plus )
-        XCTAssertEqual(T(FloatingPointSign.minus), T.minus)
-    }
-    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Accessors
     //=------------------------------------------------------------------------=
@@ -42,11 +36,6 @@ final class ANKSignTests: XCTestCase {
     func testBit() {
         XCTAssertEqual(T.plus .bit, false)
         XCTAssertEqual(T.minus.bit, true )
-    }
-    
-    func testDescription() {
-        XCTAssertEqual(T.plus .description, "+")
-        XCTAssertEqual(T.minus.description, "-")
     }
     
     //=------------------------------------------------------------------------=

@@ -20,7 +20,7 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func <<=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs._bitshiftLeftSmart(by: Int(clamping: rhs))
+        lhs.bitshiftLeftSmart(by: Int(clamping: rhs))
     }
 
     @_transparent public static func <<(lhs: Self, rhs: some BinaryInteger) -> Self {
@@ -31,11 +31,11 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func &<<=(lhs: inout Self, rhs: Self) {
-        lhs._bitshiftLeft(by: rhs._moduloBitWidth)
+    @inlinable public static func &<<=(lhs: inout Self, rhs: some BinaryInteger) {
+        lhs.bitshiftLeftUnchecked(by: rhs.moduloBitWidth(of: Self.self))
     }
-    
-    @_transparent public static func &<<(lhs: Self, rhs: Self) -> Self {
+
+    @_transparent public static func &<<(lhs: Self, rhs: some BinaryInteger) -> Self {
         var lhs = lhs; lhs &<<= rhs; return lhs
     }
     
@@ -43,48 +43,58 @@ extension ANKFullWidth {
     // MARK: Transformations x Int
     //=------------------------------------------------------------------------=
     
+    /// Performs a smart left shift.
+    ///
     /// - Parameters:
     ///   - amount: `Int.min <= amount <= Int.max`
     ///
-    @inlinable mutating func _bitshiftLeftSmart(by amount: Int) {
+    @inlinable mutating func bitshiftLeftSmart(by amount: Int) {
         let unsigned = amount.magnitude as UInt
         switch (amount >= 0, unsigned < UInt(bitPattern: Self.bitWidth)) {
-        case (true,  true ): self._bitshiftLeft(by:  Int(bitPattern: unsigned))
+        case (true,  true ): self.bitshiftLeftUnchecked(by:  Int(bitPattern: unsigned))
         case (true,  false): self = Self(repeating:  false)
-        case (false, true ): self._bitshiftRight(by: Int(bitPattern: unsigned))
+        case (false, true ): self.bitshiftRightUnchecked(by: Int(bitPattern: unsigned))
         case (false, false): self = Self(repeating:  self.isLessThanZero)
         }
     }
     
+    /// Performs a smart left shift.
+    ///
     /// - Parameters:
     ///   - amount: `Int.min <= amount <= Int.max`
     ///
-    @_transparent @usableFromInline func _bitshiftedLeftSmart(by amount: Int) -> Self {
-        var x = self; x._bitshiftLeftSmart(by: amount); return x
+    @_transparent @usableFromInline func bitshiftedLeftSmart(by amount: Int) -> Self {
+        var result = self; result.bitshiftLeftSmart(by: amount); return result
     }
     
+    /// Performs an unchecked left shift.
+    ///
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
-    @inlinable mutating func _bitshiftLeft(by amount: Int) {
+    @inlinable mutating func bitshiftLeftUnchecked(by amount: Int) {
         assert(0 ..< Self.bitWidth ~= amount, "invalid left shift amount")
         let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
         let bits:  Int = amount &  (UInt.bitWidth &- 1)
-        return self._bitshiftLeft(words: words, bits: bits)
+        return self.bitshiftLeftUnchecked(words: words, bits: bits)
     }
     
+    /// Performs an unchecked left shift.
+    ///
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
-    @_transparent @usableFromInline func _bitshiftedLeft(by amount: Int) -> Self {
-        var x = self; x._bitshiftLeft(by: amount); return x
+    @_transparent @usableFromInline func bitshiftedLeftUnchecked(by amount: Int) -> Self {
+        var result = self; result.bitshiftLeftUnchecked(by: amount); return result
     }
     
+    /// Performs an unchecked left shift.
+    ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
-    @inlinable mutating func _bitshiftLeft(words major: Int, bits minor: Int) {
+    @inlinable mutating func bitshiftLeftUnchecked(words major: Int, bits minor: Int) {
         assert(0 ..< Self.endIndex ~= major, "invalid major left shift amount")
         assert(0 ..< UInt.bitWidth ~= minor, "invalid minor left shift amount")
         //=--------------------------------------=
@@ -108,12 +118,14 @@ extension ANKFullWidth {
         }
     }
     
+    /// Performs an unchecked left shift.
+    ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
-    @_transparent @usableFromInline func _bitshiftedLeft(words: Int, bits: Int) -> Self {
-        var x = self; x._bitshiftLeft(words: words, bits: bits); return x
+    @_transparent @usableFromInline func bitshiftedLeftUnchecked(words: Int, bits: Int) -> Self {
+        var result = self; result.bitshiftLeftUnchecked(words: words, bits: bits); return result
     }
 }
 
@@ -128,7 +140,7 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public static func >>=(lhs: inout Self, rhs: some BinaryInteger) {
-        lhs._bitshiftRightSmart(by: Int(clamping: rhs))
+        lhs.bitshiftRightSmart(by: Int(clamping: rhs))
     }
 
     @_transparent public static func >>(lhs: Self, rhs: some BinaryInteger) -> Self {
@@ -139,11 +151,11 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func &>>=(lhs: inout Self, rhs: Self) {
-        lhs._bitshiftRight(by: rhs._moduloBitWidth)
+    @inlinable public static func &>>=(lhs: inout Self,  rhs: some BinaryInteger) {
+        lhs.bitshiftRightUnchecked(by: rhs.moduloBitWidth(of: Self.self))
     }
     
-    @_transparent public static func &>>(lhs: Self, rhs: Self) -> Self {
+    @_transparent public static func &>>(lhs: Self, rhs: some BinaryInteger) -> Self {
         var lhs = lhs; lhs &>>= rhs; return lhs
     }
     
@@ -151,48 +163,58 @@ extension ANKFullWidth {
     // MARK: Transformations x Int
     //=------------------------------------------------------------------------=
     
+    /// Performs a smart, signed, right shift.
+    ///
     /// - Parameters:
     ///   - amount: `Int.min <= amount <= Int.max`
     ///
-    @inlinable mutating func _bitshiftRightSmart(by amount: Int) {
+    @inlinable mutating func bitshiftRightSmart(by amount: Int) {
         let unsigned = amount.magnitude as UInt
         switch (amount >= 0, unsigned < UInt(bitPattern: Self.bitWidth)) {
-        case (true,  true ): self._bitshiftRight(by: Int(bitPattern: unsigned))
+        case (true,  true ): self.bitshiftRightUnchecked(by: Int(bitPattern: unsigned))
         case (true,  false): self = Self(repeating:  self.isLessThanZero)
-        case (false, true ): self._bitshiftLeft(by:  Int(bitPattern: unsigned))
+        case (false, true ): self.bitshiftLeftUnchecked(by:  Int(bitPattern: unsigned))
         case (false, false): self = Self(repeating:  false)
         }
     }
     
+    /// Performs a smart, signed, right shift.
+    ///
     /// - Parameters:
     ///   - amount: `Int.min <= amount <= Int.max`
     ///
-    @_transparent @usableFromInline func _bitshiftedRightSmart(by amount: Int) -> Self {
-        var x = self; x._bitshiftRightSmart(by: amount); return x
+    @_transparent @usableFromInline func bitshiftedRightSmart(by amount: Int) -> Self {
+        var result = self; result.bitshiftRightSmart(by: amount); return result
     }
     
+    /// Performs an unchecked, signed, right shift.
+    ///
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
-    @inlinable mutating func _bitshiftRight(by amount: Int) {
+    @inlinable mutating func bitshiftRightUnchecked(by amount: Int) {
         assert(0 ..< Self.bitWidth ~= amount, "invalid right shift amount")
         let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
         let bits:  Int = amount &  (UInt.bitWidth &- 1)
-        return self._bitshiftRight(words: words, bits: bits)
+        return self.bitshiftRightUnchecked(words: words, bits: bits)
     }
     
+    /// Performs an unchecked, signed, right shift.
+    ///
     /// - Parameters:
     ///   - amount: `0 <= amount < Self.bitWidth`
     ///
-    @_transparent @usableFromInline func _bitshiftedRight(by amount: Int) -> Self {
-        var x = self; x._bitshiftRight(by: amount); return x
+    @_transparent @usableFromInline func bitshiftedRightUnchecked(by amount: Int) -> Self {
+        var result = self; result.bitshiftRightUnchecked(by: amount); return result
     }
     
+    /// Performs an unchecked, signed, right shift.
+    ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
-    @inlinable mutating func _bitshiftRight(words major: Int, bits minor: Int) {
+    @inlinable mutating func bitshiftRightUnchecked(words major: Int, bits minor: Int) {
         assert(0 ..< Self.endIndex ~= major, "invalid major right shift amount")
         assert(0 ..< UInt.bitWidth ~= minor, "invalid minor right shift amount")
         //=--------------------------------------=
@@ -217,11 +239,13 @@ extension ANKFullWidth {
         }
     }
     
+    /// Performs an unchecked, signed, right shift.
+    ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
-    @_transparent @usableFromInline func _bitshiftedRight(words: Int, bits: Int) -> Self {
-        var x = self; x._bitshiftRight(words: words, bits: bits); return x
+    @_transparent @usableFromInline func bitshiftedRightUnchecked(words: Int, bits: Int) -> Self {
+        var result = self; result.bitshiftRightUnchecked(words: words, bits: bits); return result
     }
 }

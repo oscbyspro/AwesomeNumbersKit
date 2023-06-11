@@ -63,10 +63,10 @@ final class ANKSignedTestsOnDivision: XCTestCase {
     }
     
     func testDividingByDigitReportingOverflow() {
-        ANKAssertDivisionByDigit( T(7),  D(0),  T(7),  D(0), true)
-        ANKAssertDivisionByDigit( T(7), -D(0), -T(7),  D(0), true)
-        ANKAssertDivisionByDigit(-T(7),  D(0), -T(7), -D(0), true)
-        ANKAssertDivisionByDigit(-T(7), -D(0),  T(7), -D(0), true)
+        ANKAssertDivisionByDigit( T(7),  D(0),  T(7),  D(7), true)
+        ANKAssertDivisionByDigit( T(7), -D(0), -T(7),  D(7), true)
+        ANKAssertDivisionByDigit(-T(7),  D(0), -T(7), -D(7), true)
+        ANKAssertDivisionByDigit(-T(7), -D(0),  T(7), -D(7), true)
     }
     
     //=------------------------------------------------------------------------=

@@ -26,20 +26,20 @@ extension ANKFullWidth {
     }
     
     @inlinable public func multipliedReportingOverflow(by other:  Self) -> PVO<Self> {
-        let product = self._multipliedFullWidth(by: other) as DoubleWidth
+        let lhsIsLessThanZero: Bool = self .isLessThanZero
+        let rhsIsLessThanZero: Bool = other.isLessThanZero
+        let minus = lhsIsLessThanZero != rhsIsLessThanZero
         //=--------------------------------------=
-        let overflow: Bool
-        if !Self.isSigned {
-            overflow = !(product.high.isZero)
-        }   else if self.isLessThanZero == other.isLessThanZero {
-            // overflow = product > Self.max, but more efficient
-            overflow = !(product.high.isZero && !product.low.mostSignificantBit)
-        }   else {
-            // overflow = product < Self.min, but more efficient
-            overflow = !(product.high.isFull &&  product.low.mostSignificantBit) && product.high.mostSignificantBit
+        var pvo = ANK.bitCast(self.magnitude.multipliedReportingOverflow(by: other.magnitude)) as PVO<Self>
+        //=--------------------------------------=
+        var suboverflow = (pvo.partialValue.isLessThanZero)
+        if  minus {
+            suboverflow = !pvo.partialValue.formTwosComplementSubsequence(true) && suboverflow
         }
+        
+        pvo.overflow = pvo.overflow || suboverflow as Bool
         //=--------------------------------------=
-        return ANK.bitCast(PVO(product.low, overflow)) as PVO<Self>
+        return pvo as PVO<Self>
     }
     
     //=------------------------------------------------------------------------=
@@ -53,31 +53,77 @@ extension ANKFullWidth {
     }
     
     @inlinable public func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {
-        let product: DoubleWidth = self._multipliedFullWidth(by: other)
-        return HL(product.high, product.low)
-    }
-    
-    @inlinable func _multipliedFullWidth(by other: Self) -> DoubleWidth {
-        if  High.Magnitude.self == Low.self {
-            return self._multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by: other)
-        };  return self._multipliedFullWidthAsNormal(by: other)
+        let lhsIsLessThanZero: Bool = self .isLessThanZero
+        let rhsIsLessThanZero: Bool = other.isLessThanZero
+        var minus = lhsIsLessThanZero != rhsIsLessThanZero
+        //=--------------------------------------=
+        var product = self.magnitude.multipliedFullWidth(by: other.magnitude)
+        //=--------------------------------------=
+        if  minus {
+            minus = product.low .formTwosComplementSubsequence(minus)
+            minus = product.high.formTwosComplementSubsequence(minus)
+        }
+        //=--------------------------------------=
+        return ANK.bitCast(product) as HL<Self, Magnitude>
     }
 }
 
 //=----------------------------------------------------------------------------=
-// MARK: + Normal
+// MARK: + Unsigned
 //=----------------------------------------------------------------------------=
 
-extension ANKFullWidth {
+extension ANKFullWidth where High == High.Magnitude {
     
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable func _multipliedFullWidthAsNormal(by other: Self) -> DoubleWidth {
+    @inlinable func multipliedReportingOverflow(by other: Self) -> PVO<Self> {
+        switch High.Magnitude.self == Low.self {
+        case  true: return self.multipliedReportingOverflowAsKaratsubaAsDoubleWidthOrCrash(by: other)
+        case false: return self.multipliedReportingOverflowAsNormal(by: other) }
+    }
+    
+    @inlinable func multipliedReportingOverflowAsKaratsubaAsDoubleWidthOrCrash(by other: Self) -> PVO<Self> {
+        (self as! ANKFullWidth<Low, Low>).multipliedReportingOverflowAsKaratsuba(by:(other as! ANKFullWidth<Low, Low>)) as! PVO<Self>
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Full Width
+    //=------------------------------------------------------------------------=
+    
+    @inlinable func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {
+        switch High.Magnitude.self == Low.self {
+        case  true: return self.multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by: other)
+        case false: return self.multipliedFullWidthAsNormal(by: other) }
+    }
+    
+    @inlinable func multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by other: Self) -> HL<Self, Magnitude> {
+        (self as! ANKFullWidth<Low, Low>).multipliedFullWidthAsKaratsuba(by:(other as! ANKFullWidth<Low, Low>)) as! HL<Self, Magnitude>
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Unsigned x Normal
+//=----------------------------------------------------------------------------=
+
+extension ANKFullWidth where High == High.Magnitude {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @inlinable func multipliedReportingOverflowAsNormal(by other: Self) -> PVO<Self> {
+        let product = self.multipliedFullWidthAsNormal(by: other) as HL<Self, Magnitude>
+        return PVO(product.low, !product.high.isZero)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Full Width
+    //=------------------------------------------------------------------------=
+    
+    @inlinable func multipliedFullWidthAsNormal(by other: Self) -> HL<Self, Magnitude> {
         var product = DoubleWidth()
-        let lhsIsLessThanZero: Bool = self .isLessThanZero
-        let rhsIsLessThanZero: Bool = other.isLessThanZero
         //=--------------------------------------=
         self   .withUnsafeWords { LHS in
         other  .withUnsafeWords { RHS in
@@ -90,46 +136,48 @@ extension ANKFullWidth {
                 
                 PRO[RHS.endIndex &+ lhsIndex] = carry
             }
-            
-            if  lhsIsLessThanZero {
-                var carry = true
-                for rhsIndex in RHS.indices {
-                    carry = PRO[LHS.endIndex &+ rhsIndex].addReportingOverflow(~RHS[rhsIndex], carry)
-                }
-            }
-            
-            if  rhsIsLessThanZero {
-                var carry = true
-                for lhsIndex in LHS.indices {
-                    carry = PRO[RHS.endIndex &+ lhsIndex].addReportingOverflow(~LHS[lhsIndex], carry)
-                }
-            }
         }}}
         //=--------------------------------------=
-        return product
+        return product.descending
     }
 }
 
 //=----------------------------------------------------------------------------=
-// MARK: + Karatsuba
+// MARK: + Unsigned x Karatsuba
 //=----------------------------------------------------------------------------=
 
-extension ANKFullWidth {
+extension ANKFullWidth where High == Low {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Transformations x Transformations
     //=------------------------------------------------------------------------=
     
-    @inlinable func _multipliedFullWidthAsKaratsubaAsDoubleWidthOrCrash(by other: Self) -> DoubleWidth {
-        assert(High.Magnitude.self == Low.self)
-        let minus: Bool = self.isLessThanZero != other.isLessThanZero
-        let lhs = self .magnitude as! ANKFullWidth<Low, Low>
-        let rhs = other.magnitude as! ANKFullWidth<Low, Low>
-        let product = lhs._multipliedFullWidthAsKaratsubaAsUnsigned(by: rhs) as! Magnitude.DoubleWidth
-        return DoubleWidth(bitPattern: minus ? product.twosComplement() : product)
+    /// An adaptation of Anatoly Karatsuba's multiplication algorithm.
+    @inlinable func multipliedReportingOverflowAsKaratsuba(by other: Self) -> PVO<Self> {
+        var ax = self.low .multipliedFullWidth(by: other.low)
+        let ay = self.low .multipliedReportingOverflow(by: other.high)
+        let bx = self.high.multipliedReportingOverflow(by: other.low )
+        let by = !(self.high.isZero || other.high.isZero)
+        //=--------------------------------------=
+        let o0 = ax.high.addReportingOverflow(ay.partialValue) as Bool
+        let o1 = ax.high.addReportingOverflow(bx.partialValue) as Bool
+        //=--------------------------------------=
+        let overflow = by || ay.overflow || bx.overflow || o0 || o1
+        //=--------------------------------------=
+        return PVO(Self(descending: ax), overflow)
     }
     
-    @inlinable func _multipliedFullWidthAsKaratsubaAsUnsigned(by other: Self) -> DoubleWidth where High == Low {
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Full Width
+    //=------------------------------------------------------------------------=
+    
+    /// An adaptation of Anatoly Karatsuba's multiplication algorithm.
+    ///
+    /// ### Order of operations
+    ///
+    /// The order of operations matters a lot, so don't reorder it without a profiler.
+    ///
+    @inlinable func multipliedFullWidthAsKaratsuba(by other: Self) -> HL<Self, Magnitude> {
         var ax = self.low .multipliedFullWidth(by: other.low ) as HL<Low, Low>
         let bx = self.low .multipliedFullWidth(by: other.high) as HL<Low, Low>
         let ay = self.high.multipliedFullWidth(by: other.low ) as HL<Low, Low>
@@ -149,6 +197,6 @@ extension ANKFullWidth {
         let o0 = hi.low .addReportingOverflow(a2) as Bool
         let _  = hi.high.addReportingOverflow(b2  &+ UInt(bit: o0)) as Bool
         //=--------------------------------------=
-        return DoubleWidth(high: hi, low: lo)
+        return HL(high: hi, low: lo)
     }
 }

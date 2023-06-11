@@ -16,7 +16,7 @@ private typealias X = ANK192X64
 private typealias Y = ANK192X32
 
 //*============================================================================*
-// MARK: * Int192 x Comparisons
+// MARK: * ANK x Int192 x Comparisons
 //*============================================================================*
 
 final class Int192TestsOnComparisons: XCTestCase {
@@ -78,16 +78,6 @@ final class Int192TestsOnComparisons: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testIsFull() {
-        XCTAssertFalse(( T(0)).isFull)
-        XCTAssertFalse(( T(1)).isFull)
-        XCTAssertFalse(( T(2)).isFull)
-        
-        XCTAssertTrue ((~T(0)).isFull)
-        XCTAssertFalse((~T(1)).isFull)
-        XCTAssertFalse((~T(2)).isFull)
-    }
-    
     func testIsZero() {
         XCTAssertTrue (( T(0)).isZero)
         XCTAssertFalse(( T(1)).isZero)
@@ -147,17 +137,10 @@ final class Int192TestsOnComparisons: XCTestCase {
         XCTAssertEqual((~T(1)).signum(), Int(-1))
         XCTAssertEqual((~T(2)).signum(), Int(-1))
     }
-    
-    func testMatchesRepeatingBit() {
-        XCTAssertFalse(( T(0)).matches(repeating: true ))
-        XCTAssertTrue (( T(0)).matches(repeating: false))
-        XCTAssertTrue ((~T(0)).matches(repeating: true ))
-        XCTAssertFalse((~T(0)).matches(repeating: false))
-    }
 }
 
 //*============================================================================*
-// MARK: * UInt192 x Comparisons
+// MARK: * ANK x UInt192 x Comparisons
 //*============================================================================*
 
 final class UInt192TestsOnComparisons: XCTestCase {
@@ -203,16 +186,6 @@ final class UInt192TestsOnComparisons: XCTestCase {
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
-    
-    func testIsFull() {
-        XCTAssertFalse(( T(0)).isFull)
-        XCTAssertFalse(( T(1)).isFull)
-        XCTAssertFalse(( T(2)).isFull)
-        
-        XCTAssertTrue ((~T(0)).isFull)
-        XCTAssertFalse((~T(1)).isFull)
-        XCTAssertFalse((~T(2)).isFull)
-    }
     
     func testIsZero() {
         XCTAssertTrue (( T(0)).isZero)
@@ -272,13 +245,6 @@ final class UInt192TestsOnComparisons: XCTestCase {
         XCTAssertEqual((~T(0)).signum(), Int(1))
         XCTAssertEqual((~T(1)).signum(), Int(1))
         XCTAssertEqual((~T(2)).signum(), Int(1))
-    }
-    
-    func testMatchesRepeatingBit() {
-        XCTAssertFalse(( T(0)).matches(repeating: true ))
-        XCTAssertTrue (( T(0)).matches(repeating: false))
-        XCTAssertTrue ((~T(0)).matches(repeating: true ))
-        XCTAssertFalse((~T(0)).matches(repeating: false))
     }
 }
 

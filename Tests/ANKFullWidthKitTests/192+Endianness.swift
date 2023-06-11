@@ -16,7 +16,7 @@ private typealias X = ANK192X64
 private typealias Y = ANK192X32
 
 //*============================================================================*
-// MARK: * Int192 x Endianness
+// MARK: * ANK x Int192 x Endianness
 //*============================================================================*
 
 final class Int192TestsOnEndianness: XCTestCase {
@@ -53,7 +53,7 @@ final class Int192TestsOnEndianness: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt192 x Endianness
+// MARK: * ANK x UInt192 x Endianness
 //*============================================================================*
 
 final class UInt192TestsOnEndianness: XCTestCase {

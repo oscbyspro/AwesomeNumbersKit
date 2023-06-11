@@ -17,7 +17,7 @@ private typealias X = ANK256X64
 private typealias Y = ANK256X32
 
 //*============================================================================*
-// MARK: * Int256 x Bits
+// MARK: * ANK x Int256 x Bits
 //*============================================================================*
 
 final class Int256BenchmarksOnBits: XCTestCase {
@@ -134,7 +134,7 @@ final class Int256BenchmarksOnBits: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Bits
+// MARK: * ANK x UInt256 x Bits
 //*============================================================================*
 
 final class UInt256BenchmarksOnBits: XCTestCase {

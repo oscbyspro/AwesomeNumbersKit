@@ -8,137 +8,268 @@
 //=----------------------------------------------------------------------------=
 
 //*============================================================================*
-// MARK: * ANK x Fixed Width Integer
+// MARK: * ANK x Fixed-Width Integer
 //*============================================================================*
 
-/// An awesome, fixed-width, binary integer.
+/// An integer type with a fixed bit width for every instance.
 ///
 /// ### Two's Complement
 ///
 /// Like `BinaryInteger`, it has [two's complement][2s] semantics.
 ///
-/// - The two's complement representation of `+0` is an infinite sequence of `0s`.
-/// - The two's complement representation of `-1` is an infinite sequence of `1s`.
+/// ```
+/// The two's complement representation of  0 is an infinite sequence of 0s.
+/// The two's complement representation of -1 is an infinite sequence of 1s.
+/// ```
 ///
 /// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
-public protocol ANKFixedWidthInteger: ANKBinaryInteger, FixedWidthInteger where Digit: ANKFixedWidthInteger,
-Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
+public protocol ANKFixedWidthInteger: ANKBinaryInteger, ANKBitPatternConvertible, FixedWidthInteger where
+Digit: ANKFixedWidthInteger, Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     
     //=------------------------------------------------------------------------=
-    // MARK: Initializers
+    // MARK: Details x Bits
     //=------------------------------------------------------------------------=
     
-    /// Creates a new instance repeating the given bit, in two's complement form.
+    /// Creates a new instance repeating the given bit.
     ///
-    /// ```swift
-    /// Int8(repeating: false) // Int8( 0)
-    /// Int8(repeating: true ) // Int8(-1)
     /// ```
+    /// ┌────── → ─────────────────────────┐
+    /// │ bit   │ self                     │
+    /// ├────── → ────────── = ────────────┤
+    /// │ false │ Int256( 0) │ 0.......... │
+    /// │ true  │ Int256(-1) │ 1.......... │
+    /// └────── → ────────── = ────────────┘
+    /// ```
+    ///
+    /// - Note: This member has two's complement semantics.
     ///
     @inlinable init(repeating bit: Bool)
     
-    //=------------------------------------------------------------------------=
-    // MARK: Accessors
-    //=------------------------------------------------------------------------=
-    
-    /// Returns whether all of its bits are set, in two's complement form.
+    /// Returns the most significant bit (`MSB`).
     ///
-    /// The return value can be viewed as the bitwise inverse of ``isZero``.
-    ///
-    /// ```swift
-    /// UInt8(0b00000000).isFull // false
-    /// UInt8(0b00001111).isFull // false
-    /// UInt8(0b11111111).isFull // true
+    /// ```
+    /// ┌───────────────────────── → ──────┐
+    /// │ self                     │ MSB   │
+    /// ├─────────── = ─────────── → ──────┤
+    /// │ Int256( 3) │ 0........11 │ false │
+    /// │ Int256( 2) │ 0........10 │ false │
+    /// │ Int256( 1) │ 0.........1 │ false │
+    /// │ Int256( 0) │ 0.......... │ false │
+    /// │ Int256(-1) │ 1.......... │ true  │
+    /// │ Int256(-2) │ 1.........0 │ true  │
+    /// │ Int256(-3) │ 1........01 │ true  │
+    /// │ Int256(-4) │ 1........00 │ true  │
+    /// └─────────── = ─────────── → ──────┘
     /// ```
     ///
-    @inlinable var isFull: Bool { get }
+    /// - Note: This member has two's complement semantics.
+    ///
+    @inlinable var mostSignificantBit: Bool { get }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Complements
+    //=------------------------------------------------------------------------=
+    
+    /// Forms the two's complement subsequence of `self` and `carry`, and returns an `overflow` indicator.
+    ///
+    /// The subsequence is equal to the two's complement when the `carry` bit is set:
+    ///
+    /// ```swift
+    /// formTwosComplementSubsequence(true ) // two's complement
+    /// formTwosComplementSubsequence(false) // one's complement
+    /// ```
+    ///
+    /// The following example shows a two's complement formation of a composite integer:
+    ///
+    /// ```swift
+    /// var carry = true
+    /// carry = low .formTwosComplementSubsequence(carry)
+    /// carry = high.formTwosComplementSubsequence(carry)
+    /// ```
+    ///
+    @inlinable mutating func formTwosComplementSubsequence(_ carry: Bool) -> Bool
+    
+    /// Returns the two's complement subsequence of `self` and `carry`, along with an `overflow` indicator.
+    ///
+    /// The subsequence is equal to the two's complement when the `carry` bit is set:
+    ///
+    /// ```swift
+    /// twosComplementSubsequence(true ) // two's complement
+    /// twosComplementSubsequence(false) // one's complement
+    /// ```
+    ///
+    /// The following example shows a two's complement formation of a composite integer:
+    ///
+    /// ```swift
+    /// var carry = true
+    /// (low,  carry) = low .twosComplementSubsequence(carry)
+    /// (high, carry) = high.twosComplementSubsequence(carry)
+    /// ```
+    ///
+    @inlinable func twosComplementSubsequence(_ carry: Bool) -> PVO<Self>
     
     //=------------------------------------------------------------------------=
     // MARK: Details x Addition
     //=------------------------------------------------------------------------=
     
-    /// Forms the sum of adding the given value to this value, and returns an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Forms the `sum` of `self` and `other`, and returns an `overflow` indicator.
     ///
-    /// ```swift
-    /// var a: Int8(126); a.addReportingOverflow(Int8(1)) // a = Int8( 127); -> false
-    /// var b: Int8(127); b.addReportingOverflow(Int8(1)) // b = Int8(-128); -> true
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ self       │ other      │ sum        │ overflow │
+    /// ├────────────┼─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256( 5) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256(-1) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-1) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256(-5) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int256( 1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @inlinable mutating func addReportingOverflow(_ other: Self) -> Bool
     
-    /// Forms the sum of adding the given value to this value, and returns an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Forms the `sum` of `self` and `other`, and returns an `overflow` indicator.
     ///
-    /// ```swift
-    /// var a: Int256(32); a.addReportingOverflow(Int(1)) // a = Int256(33); -> false
-    /// var b: Int256.max; b.addReportingOverflow(Int(1)) // b = Int256.min; -> true
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ self       │ other      │ sum        │ overflow │
+    /// ├────────────┼─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int256( 5) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int256(-1) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int256(-1) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int256(-5) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int(    1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @_disfavoredOverload @inlinable mutating func addReportingOverflow(_ other: Digit) -> Bool
     
-    /// Returns the sum of adding the given value to this value, along with an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Returns the `sum` of `self` and `other`, along with an `overflow` indicator.
     ///
-    /// ```swift
-    /// Int256(32).addingReportingOverflow(Int256(1)) // (partialValue: Int256(33), overflow: false)
-    /// Int256.max.addingReportingOverflow(Int256(1)) // (partialValue: Int256.min, overflow: true )
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ self       │ other      │ sum        │ overflow │
+    /// ├────────────┼─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256( 5) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256(-1) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-1) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256(-5) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int256( 1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @inlinable func addingReportingOverflow(_ other: Self) -> PVO<Self>
     
-    /// Returns the sum of adding the given value to this value, along with an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Returns the `sum` of `self` and `other`, along with an `overflow` indicator.
     ///
-    /// ```swift
-    /// Int256(32).addingReportingOverflow(Int(1)) // (partialValue: Int256(33), overflow: false)
-    /// Int256.max.addingReportingOverflow(Int(1)) // (partialValue: Int256.min, overflow: true )
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ self       │ other      │ sum        │ overflow │
+    /// ├────────────┼─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int256( 5) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int256(-1) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int256(-1) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int256(-5) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int(    1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @_disfavoredOverload @inlinable func addingReportingOverflow(_ other: Digit) -> PVO<Self>
     
-    //=------------------------------------------------------------------------=
-    // MARK: Details x Subtraction
-    //=------------------------------------------------------------------------=
-    
-    /// Forms the difference of subtracting the given value from this value, and returns an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Forms the `difference` of `self` and `other`, and returns an `overflow` indicator.
     ///
-    /// ```swift
-    /// var a: Int8(-127); a.subtractReportingOverflow(1) // a = -128; -> false
-    /// var b: Int8(-128); b.subtractReportingOverflow(1) // b =  127; -> true
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ self       │ other      │ difference │ overflow │
+    /// ├────────────┼─────────── → ───────────┤──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256(-3) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256( 5) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-5) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256(-3) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int256(-1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int256( 1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @inlinable mutating func subtractReportingOverflow(_ other: Self) -> Bool
     
-    /// Forms the difference of subtracting the given value from this value, and returns an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Forms the `difference` of `self` and `other`, and returns an `overflow` indicator.
     ///
-    /// ```swift
-    /// var a: Int256(33); a.subtractReportingOverflow(Int(1)) // a = Int256(32); -> false
-    /// var b: Int256.min; b.subtractReportingOverflow(Int(1)) // b = Int256.max; -> true
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ self       │ other      │ difference │ overflow │
+    /// ├────────────┼─────────── → ───────────┤──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int256(-3) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int256( 5) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int256(-5) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int256(-3) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int(   -1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int(    1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @_disfavoredOverload @inlinable mutating func subtractReportingOverflow(_ other: Digit) -> Bool
     
-    /// Returns the difference of subtracting the given value from this value, along with an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Returns the `difference` of `self` and `other`, along with an `overflow` indicator.
     ///
-    /// ```swift
-    /// Int256(33).subtractingReportingOverflow(Int256(1)) // (partialValue: Int256(32), overflow: false)
-    /// Int256.min.subtractingReportingOverflow(Int256(1)) // (partialValue: Int256.max, overflow: true )
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ self       │ other      │ difference │ overflow │
+    /// ├────────────┼─────────── → ───────────┤──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256(-3) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256( 5) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-5) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256(-3) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int256(-1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int256( 1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @inlinable func subtractingReportingOverflow(_ other: Self) -> PVO<Self>
     
-    /// Returns the difference of subtracting the given value from this value, along with an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Returns the `difference` of `self` and `other`, along with an `overflow` indicator.
     ///
-    /// ```swift
-    /// Int256(33).subtractingReportingOverflow(Int(1)) // (partialValue: Int256(32), overflow: false)
-    /// Int256.min.subtractingReportingOverflow(Int(1)) // (partialValue: Int256.max, overflow: true )
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ self       │ other      │ difference │ overflow │
+    /// ├────────────┼─────────── → ───────────┤──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int256(-3) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int256( 5) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int256(-5) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int256(-3) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int(   -1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int(    1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @_disfavoredOverload @inlinable func subtractingReportingOverflow(_ other: Digit) -> PVO<Self>
     
@@ -146,79 +277,163 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
     // MARK: Details x Multiplication
     //=------------------------------------------------------------------------=
     
-    /// Forms the product of multiplying this value by the given value, and returns an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Forms the `low` product of `self` and `other`, and returns an `overflow` indicator.
     ///
-    /// ```swift
-    /// var a = Int8(11); a.multiplyReportingOverflow(by: Int8(4)) // a = Int8(44); -> false
-    /// var b = Int8.max; b.multiplyReportingOverflow(by: Int8(4)) // b = Int8(-4); -> true
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int256( 2) │ Int256( 0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int256( 2) │ Int256(-1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @inlinable mutating func multiplyReportingOverflow(by other: Self) -> Bool
     
-    /// Forms the product of multiplying this value by the given value, and returns an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Forms the `low` product of `self` and `other`, and returns an `overflow` indicator.
     ///
-    /// ```swift
-    /// var a = Int256(11); a.multiplyReportingOverflow(by: Int(4)) // a = Int256(44); -> false
-    /// var b = Int256.max; b.multiplyReportingOverflow(by: Int(4)) // b = Int256(-4); -> true
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int(    0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int(    0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int(    2) │ Int(    0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int(    2) │ Int(   -1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @_disfavoredOverload @inlinable mutating func multiplyReportingOverflow(by other: Digit) -> Bool
     
-    /// Returns the product of multiplying this value by the given value, along with an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Returns the `low` product of `self` and `other`, along with an `overflow` indicator.
     ///
-    /// ```swift
-    /// Int256(11).multipliedReportingOverflow(by: Int256(4)) // (partialValue: Int256(44), overflow: false)
-    /// Int256.max.multipliedReportingOverflow(by: Int256(4)) // (partialValue: Int256(-4), overflow: true )
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int256( 2) │ Int256( 0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int256( 2) │ Int256(-1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @inlinable func multipliedReportingOverflow(by other: Self) -> PVO<Self>
     
-    /// Returns the product of multiplying this value by the given value, along with an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Returns the `low` product of `self` and `other`, along with an `overflow` indicator.
     ///
-    /// ```swift
-    /// Int256(11).multipliedReportingOverflow(by: Int(4)) // (partialValue: Int256(44), overflow: false)
-    /// Int256.max.multipliedReportingOverflow(by: Int(4)) // (partialValue: Int256(-4), overflow: true )
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int(    0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int(    0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int(    2) │ Int(    0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int(    2) │ Int(   -1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @_disfavoredOverload @inlinable func multipliedReportingOverflow(by other: Digit) -> PVO<Self>
     
-    /// Forms the low part of multiplying this value by the given value, and returns the high.
+    /// Forms the `low` product of `self` and `other`, and returns the `high`.
     ///
-    /// ```swift
-    /// var a = Int8(11); a.multiplyFullWidth(by: Int8(4)) // a = Int8(44); -> Int8(0)
-    /// var b = Int8.max; b.multiplyFullWidth(by: Int8(4)) // b = Int8(-4); -> Int8(1)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int256( 2) │ Int256( 0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int256( 2) │ Int256(-1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: The `high` and `low` product contain the entire `overflow` from `low` to `high`.
     ///
     @inlinable mutating func multiplyFullWidth(by other: Self) -> Self
     
-    /// Forms the low part of multiplying this value by the given value, and returns the high.
+    /// Forms the `low` product of `self` and `other`, and returns the `high`.
     ///
-    /// ```swift
-    /// var a = Int256(11); a.multiplyFullWidth(by: Int(4)) // a = Int256(44); -> Int(0)
-    /// var b = Int256.max; b.multiplyFullWidth(by: Int(4)) // b = Int256(-4); -> Int(1)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int(    0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int(    0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int(    2) │ Int(    0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int(    2) │ Int(   -1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: The `high` and `low` product contain the entire `overflow` from `low` to `high`.
     ///
     @_disfavoredOverload @inlinable mutating func multiplyFullWidth(by other: Digit) -> Digit
     
-    /// Returns the low and high part of multiplying this value by the given value.
+    /// Returns the `high` and `low` product of `self` and `other`.
     ///
-    /// ```swift
-    /// Int256(11).multipliedFullWidth(by: Int256(4)) // (high: Int(0), low:  UInt256(44))
-    /// Int256.max.multipliedFullWidth(by: Int256(4)) // (high: Int(1), low: ~UInt256( 3))
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int256( 2) │ Int256( 0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int256( 2) │ Int256(-1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: The `high` and `low` product contain the entire `overflow` from `low` to `high`.
     ///
     @inlinable func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude>
     
-    /// Returns the low and high part of multiplying this value by the given value.
+    /// Returns the `high` and `low` product of `self` and `other`.
     ///
-    /// ```swift
-    /// Int256(11).multipliedFullWidth(by: Int(4)) // (high: Int(0), low:  UInt256(44))
-    /// Int256.max.multipliedFullWidth(by: Int(4)) // (high: Int(1), low: ~UInt256( 3))
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int(    0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int(    0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int(    2) │ Int(    0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int(    2) │ Int(   -1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: The `high` and `low` product contain the entire `overflow` from `low` to `high`.
     ///
     @_disfavoredOverload @inlinable func multipliedFullWidth(by other: Digit) -> HL<Digit, Magnitude>
     
@@ -276,254 +491,138 @@ Magnitude: ANKFixedWidthInteger, Magnitude.BitPattern == BitPattern {
 extension ANKFixedWidthInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
+    // MARK: Details x Bits
     //=------------------------------------------------------------------------=
     
-    /// Returns whether all of its bits are set, in two's complement form.
-    ///
-    /// The return value can be viewed as the bitwise inverse of ``isZero``.
-    ///
-    /// ```swift
-    /// UInt8(0b00000000).isFull // false
-    /// UInt8(0b00001111).isFull // false
-    /// UInt8(0b11111111).isFull // true
-    /// ```
-    ///
-    @_transparent public var isFull: Bool {
-        self.nonzeroBitCount == self.bitWidth
+    @inlinable public init(bit: Bool) {
+        self = bit ?  (1 as Self) : (0 as Self)
     }
     
-    /// Returns whether this value is a power of `2`.
-    @_transparent public var isPowerOf2: Bool {
+    @inlinable public init(repeating bit: Bool) {
+        self = bit ? ~(0 as Self) : (0 as Self)
+    }
+    
+    @inlinable public var mostSignificantBit: Bool {
+        self & ((1 as Self) &<< (Self.bitWidth &- 1)) != (0 as Self)
+    }
+    
+    @inlinable public var leastSignificantBit: Bool {
+        self & ((1 as Self)) != (0 as Self)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Comparisons
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public var isZero: Bool {
+        self == (0 as Self)
+    }
+    
+    @inlinable public var isLessThanZero: Bool {
+        Self.isSigned && self < (0 as Self)
+    }
+    
+    @inlinable public var isMoreThanZero: Bool {
+        self > (0 as Self)
+    }
+    
+    @inlinable public var isPowerOf2: Bool {
         self.nonzeroBitCount == 1
     }
     
-    /// Returns whether this value matches the given bit pattern, in two's complement form.
-    ///
-    /// ```swift
-    /// UInt8(0b00000000).matches(repeating: true ) // false
-    /// UInt8(0b00000000).matches(repeating: false) // true
-    ///
-    /// UInt8(0b00001111).matches(repeating: true ) // false
-    /// UInt8(0b00001111).matches(repeating: false) // false
-    ///
-    /// UInt8(0b11111111).matches(repeating: true ) // true
-    /// UInt8(0b11111111).matches(repeating: false) // false
-    /// ```
-    ///
-    @_transparent public func matches(repeating bit: Bool) -> Bool {
-        bit ? self.isFull : self.isZero
+    @inlinable public func compared(to other: Self) -> Int {
+        (self < other) ? -1 : (self == other) ? 0 : 1
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Complements
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public mutating func formTwosComplement() {
+        _ = self.formTwosComplementSubsequence(true)
+    }
+    
+    @inlinable public func twosComplement() -> Self {
+        self.twosComplementSubsequence(true).partialValue
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Details x Addition
     //=------------------------------------------------------------------------=
     
-    /// Forms the sum of adding `rhs` to `lhs`.
-    ///
-    /// ```swift
-    /// var a = Int8(1); a += Int8(2) // a = Int8(3)
-    /// var b = Int8(2); b += Int8(3) // b = Int8(5)
-    /// var c = Int8(3); c += Int8(4) // c = Int8(7)
-    /// var d = Int8(4); d += Int8(5) // d = Int8(9)
-    /// ```
-    ///
-    @_transparent public static func +=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func +=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.addReportingOverflow(rhs)
         precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
-    /// Forms the sum of adding `rhs` to `lhs`.
-    ///
-    /// ```swift
-    /// var a = Int256(1); a += Int(2) // a = Int256(3)
-    /// var b = Int256(2); b += Int(3) // b = Int256(5)
-    /// var c = Int256(3); c += Int(4) // c = Int256(7)
-    /// var d = Int256(4); d += Int(5) // d = Int256(9)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func +=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func +=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.addReportingOverflow(rhs)
         precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
-    /// Returns the sum of adding `rhs` to `lhs`.
-    ///
-    /// ```swift
-    /// Int8(1) + Int8(2) // Int8(3)
-    /// Int8(2) + Int8(3) // Int8(5)
-    /// Int8(3) + Int8(4) // Int8(7)
-    /// Int8(4) + Int8(5) // Int8(9)
-    /// ```
-    ///
-    @_transparent public static func +(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func +(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
-    /// Returns the sum of adding `rhs` to `lhs`.
-    ///
-    /// ```swift
-    /// Int256(1) + Int(2) // Int256(3)
-    /// Int256(2) + Int(3) // Int256(5)
-    /// Int256(3) + Int(4) // Int256(7)
-    /// Int256(4) + Int(5) // Int256(9)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func +(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @inlinable public static func +(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.addingReportingOverflow(rhs)
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
-    /// Forms the truncated sum of adding `rhs` to `lhs`.
-    ///
-    /// ```swift
-    /// var a: Int8(126); a &+= Int8(1) // a = Int8( 127)
-    /// var b: Int8(127); b &+= Int8(1) // b = Int8(-128)
-    /// ```
-    ///
-    @_transparent public static func &+=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func &+=(lhs: inout Self, rhs: Self) {
         _ = lhs.addReportingOverflow(rhs)
     }
     
-    /// Forms the truncated sum of adding `rhs` to `lhs`.
-    ///
-    /// ```swift
-    /// var a: Int256(32); a &+= Int(1) // a = Int256(33)
-    /// var b: Int256.max; b &+= Int(1) // b = Int256.min
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func &+=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func &+=(lhs: inout Self, rhs: Digit) {
         _ = lhs.addReportingOverflow(rhs)
     }
     
-    /// Returns the truncated sum of adding `rhs` to `lhs`.
-    ///
-    /// ```swift
-    /// Int8(126) &+ Int8(1) // Int8( 127)
-    /// Int8(127) &+ Int8(1) // Int8(-128)
-    /// ```
-    ///
-    @_transparent public static func &+(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func &+(lhs: Self, rhs: Self) -> Self {
         lhs.addingReportingOverflow(rhs).partialValue
     }
     
-    /// Returns the truncated sum of adding `rhs` to `lhs`.
-    ///
-    /// ```swift
-    /// Int256(32) &+ Int(1) // Int256(33)
-    /// Int256.max &+ Int(1) // Int256.min
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func &+(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @inlinable public static func &+(lhs: Self, rhs: Digit) -> Self {
         lhs.addingReportingOverflow(rhs).partialValue
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Details x Subtraction
-    //=------------------------------------------------------------------------=
-    
-    /// Forms the difference of subtracting `rhs` from `lhs`.
-    ///
-    /// ```swift
-    /// var a = Int8(3); a -= Int8(2) // a = Int8(1)
-    /// var b = Int8(5); b -= Int8(3) // b = Int8(2)
-    /// var c = Int8(7); c -= Int8(4) // c = Int8(3)
-    /// var d = Int8(9); d -= Int8(5) // d = Int8(4)
-    /// ```
-    ///
-    @_transparent public static func -=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func -=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.subtractReportingOverflow(rhs)
         precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
-    /// Forms the difference of subtracting `rhs` from `lhs`.
-    ///
-    /// ```swift
-    /// var a = Int256(3); a -= Int(2) // a = Int256(1)
-    /// var b = Int256(5); b -= Int(3) // b = Int256(2)
-    /// var c = Int256(7); c -= Int(4) // c = Int256(3)
-    /// var d = Int256(9); d -= Int(5) // d = Int256(4)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func -=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func -=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.subtractReportingOverflow(rhs)
         precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
-    /// Returns the difference of subtracting `rhs` from `lhs`.
-    ///
-    /// ```swift
-    /// Int8(3) - Int8(2) // Int8(1)
-    /// Int8(5) - Int8(3) // Int8(2)
-    /// Int8(7) - Int8(4) // Int8(3)
-    /// Int8(9) - Int8(5) // Int8(4)
-    /// ```
-    ///
-    @_transparent public static func -(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func -(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.subtractingReportingOverflow(rhs)
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
-    /// Returns the difference of subtracting `rhs` from `lhs`.
-    ///
-    /// ```swift
-    /// Int256(3) - Int(2) // Int256(1)
-    /// Int256(5) - Int(3) // Int256(2)
-    /// Int256(7) - Int(4) // Int256(3)
-    /// Int256(9) - Int(5) // Int256(4)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func -(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @inlinable public static func -(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.subtractingReportingOverflow(rhs)
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
-    /// Forms the truncated difference of subtracting `rhs` from `lhs`.
-    ///
-    /// ```swift
-    /// var a: Int8(-127); a &-= Int8(1) // a = Int8(-128)
-    /// var b: Int8(-128); b &-= Int8(1) // b = Int8( 127)
-    /// ```
-    ///
-    @_transparent public static func &-=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func &-=(lhs: inout Self, rhs: Self) {
         _ = lhs.subtractReportingOverflow(rhs)
     }
     
-    /// Forms the truncated difference of subtracting `rhs` from `lhs`.
-    ///
-    /// ```swift
-    /// var a: Int256(33); a &-= Int(1) // a = Int256(32)
-    /// var b: Int256.min; b &-= Int(1) // b = Int256.max
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func &-=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func &-=(lhs: inout Self, rhs: Digit) {
         _ = lhs.subtractReportingOverflow(rhs)
     }
     
-    /// Forms the truncated difference of subtracting `rhs` from `lhs`.
-    ///
-    /// ```swift
-    /// Int8(-127) &- Int8(1) // Int8(-128)
-    /// Int8(-128) &- Int8(1) // Int8( 127)
-    /// ```
-    ///
-    @_transparent public static func &-(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func &-(lhs: Self, rhs: Self) -> Self {
         lhs.subtractingReportingOverflow(rhs).partialValue
     }
     
-    /// Returns the truncated difference of subtracting `rhs` from `lhs`.
-    ///
-    /// ```swift
-    /// Int256(33) &- Int(1) // Int256(32)
-    /// Int256.min &- Int(1) // Int256.max
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func &-(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @inlinable public static func &-(lhs: Self, rhs: Digit) -> Self {
         lhs.subtractingReportingOverflow(rhs).partialValue
     }
     
@@ -531,184 +630,128 @@ extension ANKFixedWidthInteger {
     // MARK: Details x Multiplication
     //=------------------------------------------------------------------------=
     
-    /// Forms the product of multiplying `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// var a = Int8(1); a *= Int8(2) // a = Int8( 2)
-    /// var b = Int8(2); b *= Int8(3) // b = Int8( 6)
-    /// var c = Int8(3); c *= Int8(4) // c = Int8(12)
-    /// var d = Int8(4); d *= Int8(5) // d = Int8(20)
-    /// ```
-    ///
-    @_transparent public static func *=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func *=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
         precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
-    /// Forms the product of multiplying `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// var a = Int256(1); a *= Int(2) // a = Int256( 2)
-    /// var b = Int256(2); b *= Int(3) // b = Int256( 6)
-    /// var c = Int256(3); c *= Int(4) // c = Int256(12)
-    /// var d = Int256(4); d *= Int(5) // d = Int256(20)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func *=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func *=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.multiplyReportingOverflow(by: rhs)
         precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
-    /// Returns the product of multiplying `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// Int8(1) * Int8(2) // Int8( 2)
-    /// Int8(2) * Int8(3) // Int8( 6)
-    /// Int8(3) * Int8(4) // Int8(12)
-    /// Int8(4) * Int8(5) // Int8(20)
-    /// ```
-    ///
-    @_transparent public static func *(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func *(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
-    /// Returns the product of multiplying `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// Int256(1) * Int(2) // Int256( 2)
-    /// Int256(2) * Int(3) // Int256( 6)
-    /// Int256(3) * Int(4) // Int256(12)
-    /// Int256(4) * Int(5) // Int256(20)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func *(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @inlinable public static func *(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.multipliedReportingOverflow(by: rhs)
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
-    /// Forms the truncated product of multiplying `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// var a = Int8(11); a &*= Int8(4) // a = Int8(44)
-    /// var b = Int8.max; b &*= Int8(4) // b = Int8(-4)
-    /// ```
-    ///
-    @_transparent public static func &*=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func &*=(lhs: inout Self, rhs: Self) {
         _ = lhs.multiplyReportingOverflow(by: rhs)
     }
     
-    /// Forms the truncated product of multiplying `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// var a = Int256(11); a &*= Int(4) // a = Int256(44)
-    /// var b = Int256.max; b &*= Int(4) // b = Int256(-4)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func &*=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func &*=(lhs: inout Self, rhs: Digit) {
         _ = lhs.multiplyReportingOverflow(by: rhs)
     }
     
-    /// Returns the truncated product of multiplying `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// Int8(11) &* Int8(4) // Int8(44)
-    /// Int8.max &* Int8(4) // Int8(-4)
-    /// ```
-    ///
-    @_transparent public static func &*(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func &*(lhs: Self, rhs: Self) -> Self {
         lhs.multipliedReportingOverflow(by: rhs).partialValue
     }
     
-    /// Returns the truncated product of multiplying `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// Int256(11) &* Int(4) // Int256(44)
-    /// Int256.max &* Int(4) // Int256(-4)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func &*(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @inlinable public static func &*(lhs: Self, rhs: Digit) -> Self {
         lhs.multipliedReportingOverflow(by: rhs).partialValue
     }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details x Signed
+//=----------------------------------------------------------------------------=
+
+extension ANKFixedWidthInteger where Self: ANKSignedInteger {
     
     //=------------------------------------------------------------------------=
-    // MARK: Details x Sign & Magnitude
+    // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    /// Creates a new instance from the given integer.
+    @inlinable public mutating func negateReportingOverflow() -> Bool {
+        self.formTwosComplementSubsequence(true)
+    }
+
+    @inlinable public func negatedReportingOverflow() -> PVO<Self> {
+        self.twosComplementSubsequence(true)
+    }
+}
+
+//=------------------------------------------------------------------------=
+// MARK: + Details x Sign & Magnitude
+//=------------------------------------------------------------------------=
+
+extension ANKFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    /// Tries to create a representable value equal to the given `sign` and `magnitude`.
     ///
-    /// If the value passed as source is not representable, an error may occur.
+    /// If the `sign` and `magnitude` are is not representable, the result is nil.
     ///
-    @inlinable public init(_ source: ANKSigned<Magnitude>) {
-        guard let value = Self(exactly: source) else {
-            preconditionFailure("\(source) is not in \(Self.self)'s representable range")
+    /// ```
+    /// ┌───────┬───────────────────── → ───────────┐
+    /// │ sign  │ magnitude            │ self       │
+    /// │───────┤───────────────────── → ───────────┤
+    /// │ plus  │ UInt256( 1)          │ Int256( 1) │
+    /// │ minus │ UInt256( 1)          │ Int256(-1) │
+    /// │───────┤───────────────────── → ───────────┤
+    /// │ plus  │ Int256.max.magnitude │ Int256.max │
+    /// │ minus │ Int256.min.magnitude │ Int256.min │
+    /// │───────┤───────────────────── → ───────────┤
+    /// │ plus  │ UInt256.max          │ nil        │
+    /// │ minus │ UInt256.max          │ nil        │
+    /// └───────┴───────────────────── → ───────────┘
+    /// ```
+    ///
+    /// - Note: The `sign` and `magnitude` pair (minus, zero) is represented as zero.
+    ///
+    @inlinable public static func exactly(sign: FloatingPointSign, magnitude: Magnitude) -> Self? {
+        var bitPattern = magnitude as Magnitude
+        var isLessThanZero = (sign == FloatingPointSign.minus)
+        if  isLessThanZero {
+            isLessThanZero = !bitPattern.formTwosComplementSubsequence(true)
         }
         
-        self = value
+        let value = Self(bitPattern: bitPattern)
+        return value.isLessThanZero == isLessThanZero ? value : nil
     }
     
-    /// Creates a new instance from the given integer, if it is representable.
+    /// Creates the representable value closest to the given `sign` and `magnitude`.
     ///
-    /// If the value passed as source is not representable, the result is nil.
+    /// If the `sign` and `magnitude` are greater than the maximum representable value,
+    /// the result is this type’s largest value. If the `sign` and `magnitude` are less
+    /// than the smallest representable value, the result is this type’s smallest value.
     ///
-    @inlinable public init?(exactly source: ANKSigned<Magnitude>) {
-        let isLessThanZero = source.isLessThanZero
-        if  Self.isSigned  {
-            self.init(bitPattern: source.magnitude)
-            if  isLessThanZero {  self.formTwosComplement()  }
-            if  isLessThanZero != self.isLessThanZero { return nil }
-        }   else {
-            if  isLessThanZero {  return nil  }
-            self.init(bitPattern: source.magnitude)
-        }
-    }
-    
-    /// Creates a new instance with the representable value closest to the given integer.
+    /// ```
+    /// ┌───────┬───────────────────── → ───────────┐
+    /// │ sign  │ magnitude            │ self       │
+    /// │───────┤───────────────────── → ───────────┤
+    /// │ plus  │ UInt256( 1)          │ Int256( 1) │
+    /// │ minus │ UInt256( 1)          │ Int256(-1) │
+    /// │───────┤───────────────────── → ───────────┤
+    /// │ plus  │ Int256.max.magnitude │ Int256.max │
+    /// │ minus │ Int256.min.magnitude │ Int256.min │
+    /// │───────┤───────────────────── → ───────────┤
+    /// │ plus  │ UInt256.max          │ Int256.max │
+    /// │ minus │ UInt256.max          │ Int256.min │
+    /// └───────┴───────────────────── → ───────────┘
+    /// ```
     ///
-    /// If the value passed as source is greater than the maximum representable value,
-    /// the result is this type’s max value. If value passed as source is less than the
-    /// smallest representable value, the result is this type’s min value.
-    ///
-    @inlinable public init(clamping source: ANKSigned<Magnitude>) {
-        if  Self.isSigned {
-            let isLessThanZero =  source.isLessThanZero
-            self.init(bitPattern: source.magnitude)
-            if  isLessThanZero {  self.formTwosComplement()  }
-            if  isLessThanZero != self.isLessThanZero { self = isLessThanZero ? Self.min : Self.max }
-        }   else {
-            self.init(bitPattern: source.sign.bit ? Magnitude() : source.magnitude)
-        }
-    }
-    
-    /// Creates a new instance from the two's complement bit pattern of the given integer.
-    ///
-    /// - The two's complement representation of `+0` is an infinite sequence of `0s`.
-    /// - The two's complement representation of `-1` is an infinite sequence of `1s`.
-    ///
-    @inlinable public init(truncatingIfNeeded source: ANKSigned<Magnitude>) {
-        self.init(bitPattern: source.magnitude)
-        if  source.sign.bit { self.formTwosComplement() }
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Details x Text
-    //=------------------------------------------------------------------------=
-    
-    /// Creates a new instance from the given string and optional radix.
-    ///
-    /// If the given radix is `nil`, it is either decoded from the string or assigned the value `10`.
-    ///
-    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) throws -> Self {
-        let components = ANK.bigEndianTextComponents(source, radix: radix)
-        guard let magnitude = Magnitude(components.body, radix: components.radix) else { throw ANKError() }
-        guard let value = Self(exactly: ANKSigned(magnitude,as: components.sign)) else { throw ANKError() }
-        return    value
-    }
-    
-    /// Creates a string representing the given value, using the given format.
-    @_transparent public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
-        String(source, radix: radix, uppercase: uppercase)
+    @inlinable public static func clamping(sign: FloatingPointSign, magnitude: Magnitude) -> Self {
+        self.exactly(sign: sign, magnitude: magnitude) ?? (sign == FloatingPointSign.minus ? Self.min : Self.max)
     }
 }

@@ -15,4 +15,24 @@
 ///
 /// - Warning: Do not use this namespace outside of `AwesomeNumbersKit` development.
 ///
-@frozen public enum ANK { }
+@frozen public enum ANK {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Aliases
+    //=------------------------------------------------------------------------=
+    
+    /// The sign of a numeric value.
+    public typealias Sign = FloatingPointSign
+
+    /// An unsafe pointer to a collection of `UTF-8` code points.
+    public typealias UnsafeUTF8 = UnsafeBufferPointer<UInt8>
+    
+    /// An unsafe pointer to a mutable collection of `UTF-8` code points.
+    public typealias UnsafeMutableUTF8 = UnsafeMutableBufferPointer<UInt8>
+    
+    /// An unsafe pointer to a collection of `UInt` machine words.
+    public typealias UnsafeWords = UnsafeBufferPointer<UInt>
+    
+    /// An unsafe pointer to a mutable collection of `UInt` machine words.
+    public typealias UnsafeMutableWords = UnsafeMutableBufferPointer<UInt>
+}

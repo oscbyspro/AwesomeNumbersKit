@@ -14,20 +14,11 @@ import XCTest
 // MARK: * ANK x Assert x Identical
 //*============================================================================*
 
-func ANKAssertIdentical<T>(_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>, file: StaticString = #file, line: UInt = #line) {
-    let success: Bool = lhs.sign == rhs.sign && lhs.magnitude == rhs.magnitude
-    XCTAssert(success, "(\(text(lhs)) is not identical to (\(text(rhs)))", file: file, line: line)
-}
-
-func ANKAssertIdentical<T>(_ lhs: ANKSigned<T>?, _ rhs: ANKSigned<T>?, file: StaticString = #file, line: UInt = #line) {
+func ANKAssertIdentical<M>(_ lhs: ANKSigned<M>?, _ rhs: ANKSigned<M>?, file: StaticString = #file, line: UInt = #line) {
+    func text<T>(_ x: ANKSigned<T>?) -> String {
+        x.map(String.init) ?? "nil"
+    }
+    
     let success: Bool = lhs?.sign == rhs?.sign && lhs?.magnitude == rhs?.magnitude
-    XCTAssert(success, "(\(text(lhs)) is not identical to (\(text(rhs)))", file: file, line: line)
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Utilities
-//=----------------------------------------------------------------------------=
-
-private func text<T>(_ x: ANKSigned<T>?) -> String {
-    x.map({ "\($0.sign)\($0.magnitude)" }) ?? "nil"
+    XCTAssert(success, "(\(String(describing: lhs)) is not identical to (\(String(describing: rhs))", file: file, line: line)
 }

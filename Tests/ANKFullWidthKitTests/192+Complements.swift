@@ -9,6 +9,7 @@
 
 #if DEBUG
 
+import ANKCoreKit
 import ANKFullWidthKit
 import XCTest
 
@@ -16,7 +17,7 @@ private typealias X = ANK192X64
 private typealias Y = ANK192X32
 
 //*============================================================================*
-// MARK: * Int192 x Complements
+// MARK: * ANK x Int192 x Complements
 //*============================================================================*
 
 final class Int192TestsOnComplements: XCTestCase {
@@ -49,9 +50,9 @@ final class Int192TestsOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        XCTAssertEqual(T(-1).magnitude,  M(1))
-        XCTAssertEqual(T( 0).magnitude,  M(0))
-        XCTAssertEqual(T( 1).magnitude,  M(1))
+        XCTAssertEqual(T(-1).magnitude, M(1))
+        XCTAssertEqual(T( 0).magnitude, M(0))
+        XCTAssertEqual(T( 1).magnitude, M(1))
         
         XCTAssertEqual(T.min.magnitude,  (M(1) << (M.bitWidth - 1)))
         XCTAssertEqual(T.max.magnitude, ~(M(1) << (M.bitWidth - 1)))
@@ -62,13 +63,17 @@ final class Int192TestsOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        XCTAssertEqual(T.min.twosComplement(), T.min)
-        XCTAssertEqual(T.max.twosComplement(), T.min + T(1))
+        ANKAssertTwosComplement(T(-1), T( 1))
+        ANKAssertTwosComplement(T( 0), T( 0))
+        ANKAssertTwosComplement(T( 1), T(-1))
+        
+        ANKAssertTwosComplement(T.min, T.min + 0, true)
+        ANKAssertTwosComplement(T.max, T.min + 1)
     }
 }
 
 //*============================================================================*
-// MARK: * UInt192 x Complements
+// MARK: * ANK x UInt192 x Complements
 //*============================================================================*
 
 final class UInt192TestsOnComplements: XCTestCase {
@@ -91,7 +96,7 @@ final class UInt192TestsOnComplements: XCTestCase {
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
+    // MARK: Tests x Magnitude
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
@@ -107,8 +112,12 @@ final class UInt192TestsOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        XCTAssertEqual(T.min.twosComplement(), T.min)
-        XCTAssertEqual(T.max.twosComplement(), T.min + T(1))
+        ANKAssertTwosComplement(T( 1), T.max - 0)
+        ANKAssertTwosComplement(T( 2), T.max - 1)
+        ANKAssertTwosComplement(T( 3), T.max - 2)
+        
+        ANKAssertTwosComplement(T.min, T.min + 0,  true)
+        ANKAssertTwosComplement(T.max, T.min + 1)
     }
 }
 

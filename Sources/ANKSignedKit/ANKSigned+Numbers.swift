@@ -10,7 +10,7 @@
 import ANKCoreKit
 
 //*============================================================================*
-// MARK: * ANK x Signed x Numbers x Integer
+// MARK: * ANK x Signed x Numbers
 //*============================================================================*
 
 extension ANKSigned {
@@ -27,9 +27,19 @@ extension ANKSigned {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
+    @inlinable public init(digit: Digit) {
+        let sign = digit.sign
+        let magnitude = Magnitude(digit: digit.magnitude)
+        self.init(magnitude, as: sign)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
     @inlinable public init(_ source: some BinaryInteger) {
         guard let value = Self(exactly: source) else {
-            preconditionFailure("\(source) is not in \(Self.self)'s representable range")
+            preconditionFailure("\(Self.self) cannot represent \(source)")
         }
         
         self = value
@@ -40,14 +50,14 @@ extension ANKSigned {
         // Magnitude
         //=--------------------------------------=
         if  let source = source as? Magnitude {
-            self.init(source, as: ANKSign.plus)
+            self.init(source, as: FloatingPointSign.plus)
             return
         }
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
         guard let magnitude = Magnitude(exactly: source.magnitude) else { return nil }
-        let sign = ANKSign(source < 0)
+        let sign = Sign(source < 0)
         self.init(magnitude, as: sign)
     }
     
@@ -56,14 +66,35 @@ extension ANKSigned {
         // Magnitude
         //=--------------------------------------=
         if  let source = source as? Magnitude {
-            self.init(source, as: ANKSign.plus)
+            self.init(source, as: FloatingPointSign.plus)
             return
         }
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        let sign = ANKSign(source < 0)
+        let sign = Sign(source < 0)
         let magnitude = Magnitude(clamping: source.magnitude)
         self.init(magnitude, as: sign)
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Fixed Width
+//=----------------------------------------------------------------------------=
+
+extension ANKSigned where Magnitude: ANKFixedWidthInteger {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    /// The minimum representable value in this type.
+    @inlinable public static var min: Self {
+        Self(Magnitude.max, as: Sign.minus)
+    }
+    
+    /// The maximum representable value in this type.
+    @inlinable public static var max: Self {
+        Self(Magnitude.max, as: Sign.plus)
     }
 }

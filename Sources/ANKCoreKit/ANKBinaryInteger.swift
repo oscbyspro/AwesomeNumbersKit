@@ -11,19 +11,20 @@
 // MARK: * ANK x Binary Integer
 //*============================================================================*
 
-/// An awesome binary integer.
+/// An integer type with a binary representation.
 ///
 /// ### Two's Complement
 ///
 /// Like `BinaryInteger`, it has [two's complement][2s] semantics.
 ///
-/// - The two's complement representation of `+0` is an infinite sequence of `0s`.
-/// - The two's complement representation of `-1` is an infinite sequence of `1s`.
+/// ```
+/// The two's complement representation of  0 is an infinite sequence of 0s.
+/// The two's complement representation of -1 is an infinite sequence of 1s.
+/// ```
 ///
 /// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
-public protocol ANKBinaryInteger: ANKBigEndianTextCodable, ANKBitPatternConvertible,
-BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
+public protocol ANKBinaryInteger: BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     
     /// A machine word of some kind, or this type.
     associatedtype Digit: ANKBinaryInteger = Self where
@@ -33,26 +34,57 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    /// Creates a new instance from the given bit.
+    /// Creates a new instance from the given digit.
     ///
-    /// ```swift
-    /// Int8(bit: false) // Int8(0)
-    /// Int8(bit: true ) // Int8(1)
+    /// ```
+    /// ┌──────── → ─────────────────────────┐
+    /// │ digit   │ self                     │
+    /// ├──────── → ────────── = ────────────┤
+    /// │ Int( 0) │ Int256( 0) │ 0.......... │
+    /// │ Int(-1) │ Int256(-1) │ 1.......... │
+    /// └──────── → ────────── = ────────────┘
     /// ```
     ///
-    @inlinable init(bit: Bool)
-    
-    /// Creates a new instance from the given digit.
     @inlinable init(digit: Digit)
     
     //=------------------------------------------------------------------------=
     // MARK: Details x Bits
     //=------------------------------------------------------------------------=
     
-    /// Returns the most significant bit, in two's complement form.
-    @inlinable var mostSignificantBit: Bool { get }
+    /// Creates a new instance from the given bit.
+    ///
+    /// ```
+    /// ┌────── → ─────────────────────────┐
+    /// │ bit   │ self                     │
+    /// ├────── → ────────── = ────────────┤
+    /// │ false │ Int256( 0) │ 0.......... │
+    /// │ true  │ Int256( 1) │ 0.........1 │
+    /// └────── → ────────── = ────────────┘
+    /// ```
+    ///
+    /// - Note: This member has two's complement semantics.
+    ///
+    @inlinable init(bit: Bool)
     
-    /// Returns the least significant bit, in two's complement form.
+    /// Returns the least significant bit (`LSB`).
+    ///
+    /// ```
+    /// ┌───────────────────────── → ──────┐
+    /// │ self                     │ LSB   │
+    /// ├─────────── = ─────────── → ──────┤
+    /// │ Int256( 3) │ 0........11 │ true  │
+    /// │ Int256( 2) │ 0........10 │ false │
+    /// │ Int256( 1) │ 0.........1 │ true  │
+    /// │ Int256( 0) │ 0.......... │ false │
+    /// │ Int256(-1) │ 1.......... │ true  │
+    /// │ Int256(-2) │ 1.........0 │ false │
+    /// │ Int256(-3) │ 1........01 │ true  │
+    /// │ Int256(-4) │ 1........00 │ false │
+    /// └─────────── = ─────────── → ──────┘
+    /// ```
+    ///
+    /// - Note: This member has two's complement semantics.
+    ///
     @inlinable var leastSignificantBit: Bool { get }
     
     //=------------------------------------------------------------------------=
@@ -60,32 +92,98 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     //=------------------------------------------------------------------------=
     
     /// Returns whether this value is equal to zero.
+    ///
+    /// ```
+    /// ┌───────────────────────── → ───────┐
+    /// │ self                     │ x == 0 │
+    /// ├─────────── = ─────────── → ───────┤
+    /// │ Int256( 3) │ 0........11 │ false  │
+    /// │ Int256( 2) │ 0........10 │ false  │
+    /// │ Int256( 1) │ 0.........1 │ false  │
+    /// │ Int256( 0) │ 0.......... │ true   │
+    /// │ Int256(-1) │ 1.......... │ false  │
+    /// │ Int256(-2) │ 1.........0 │ false  │
+    /// │ Int256(-3) │ 1........01 │ false  │
+    /// │ Int256(-4) │ 1........00 │ false  │
+    /// └─────────── = ─────────── → ───────┘
+    /// ```
+    ///
     @inlinable var isZero: Bool { get }
     
     /// Returns whether this value is less than zero.
+    ///
+    /// ```
+    /// ┌───────────────────────── → ───────┐
+    /// │ self                     │ x <  0 │
+    /// ├─────────── = ─────────── → ───────┤
+    /// │ Int256( 3) │ 0........11 │ false  │
+    /// │ Int256( 2) │ 0........10 │ false  │
+    /// │ Int256( 1) │ 0.........1 │ false  │
+    /// │ Int256( 0) │ 0.......... │ false  │
+    /// │ Int256(-1) │ 1.......... │ true   │
+    /// │ Int256(-2) │ 1.........0 │ true   │
+    /// │ Int256(-3) │ 1........01 │ true   │
+    /// │ Int256(-4) │ 1........00 │ true   │
+    /// └─────────── = ─────────── → ───────┘
+    /// ```
+    ///
     @inlinable var isLessThanZero: Bool { get }
     
     /// Returns whether this value is more than zero.
+    ///
+    /// ```
+    /// ┌───────────────────────── → ───────┐
+    /// │ self                     │ x >  0 │
+    /// ├─────────── = ─────────── → ───────┤
+    /// │ Int256( 3) │ 0........11 │ true   │
+    /// │ Int256( 2) │ 0........10 │ true   │
+    /// │ Int256( 1) │ 0.........1 │ true   │
+    /// │ Int256( 0) │ 0.......... │ false  │
+    /// │ Int256(-1) │ 1.......... │ false  │
+    /// │ Int256(-2) │ 1.........0 │ false  │
+    /// │ Int256(-3) │ 1........01 │ false  │
+    /// │ Int256(-4) │ 1........00 │ false  │
+    /// └─────────── = ─────────── → ───────┘
+    /// ```
+    ///
     @inlinable var isMoreThanZero: Bool { get }
     
-    /// Returns whether this value is a power of `2`.
+    /// Returns whether this value is a power of two.
+    ///
+    /// ```
+    /// ┌───────────────────────── → ──────────┐
+    /// │ self                     │ pow(2, x) │
+    /// ├─────────── = ─────────── → ──────────┤
+    /// │ Int256( 3) │ 0........11 │ false     │
+    /// │ Int256( 2) │ 0........10 │ true      │
+    /// │ Int256( 1) │ 0.........1 │ true      │
+    /// │ Int256( 0) │ 0.......... │ false     │
+    /// │ Int256(-1) │ 1.......... │ false     │
+    /// │ Int256(-2) │ 1.........0 │ false     │
+    /// │ Int256(-3) │ 1........01 │ false     │
+    /// │ Int256(-4) │ 1........00 │ false     │
+    /// └─────────── = ─────────── → ──────────┘
+    /// ```
+    ///
+    /// Semantically, it is equivalent to the following expression:
+    ///
+    /// ```swift
+    /// nonzeroBitCount == 1
+    /// ```
+    ///
     @inlinable var isPowerOf2: Bool { get }
     
-    /// Performs a [three-way comparison][3s] and returns: `0`, `1` or `-1`.
+    /// A three-way comparison that returns: `-1` (less), `0` (same), or `1` (more).
     ///
-    /// It is semantically equivalent to the following expression:
-    ///
-    /// ```swift
-    /// (self < other) ? -1 : (self == other) ? 0 : 1
     /// ```
-    ///
-    /// The return value can also be thought of as the ``signum()`` of the difference:
-    ///
-    /// ```swift
-    /// (self - other).signum() // but without errors
+    /// ┌────────────┬─────────── → ────────┐
+    /// │ self       │ other      │ signum  │
+    /// ├────────────┼─────────── → ────────┤
+    /// │ Int256( 1) │ Int256( 3) │ Int(-1) │ - less
+    /// │ Int256( 2) │ Int256( 2) │ Int( 0) │ - same
+    /// │ Int256( 3) │ Int256( 1) │ Int( 1) │ - more
+    /// └────────────┴─────────── → ────────┘
     /// ```
-    ///
-    /// [3s]: https://en.wikipedia.org/wiki/Three-way_comparison
     ///
     @inlinable func compared(to other: Self) -> Int
     
@@ -93,105 +191,203 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     // MARK: Details x Two's Complement
     //=------------------------------------------------------------------------=
     
-    /// Forms the two's complement of this value.
+    /// Forms the two's complement of `self`.
+    ///
+    /// ```
+    /// ┌─────────── → ───────────┬──────────┐
+    /// │ self       │ ~self + 1  │ overflow │
+    /// ├─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int256(-1) │ false    │
+    /// │ Int256( 0) │ Int256( 0) │ false    │
+    /// │ Int256(-1) │ Int256( 1) │ false    │
+    /// ├─────────── → ───────────┼──────────┤
+    /// | Int256.min | Int256.min | true     |
+    /// └─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
+    ///
     @inlinable mutating func formTwosComplement()
     
-    /// Returns the two's complement of this value.
+    /// Returns the two's complement of `self`.
+    ///
+    /// ```
+    /// ┌─────────── → ───────────┬──────────┐
+    /// │ self       │ ~self + 1  │ overflow │
+    /// ├─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int256(-1) │ false    │
+    /// │ Int256( 0) │ Int256( 0) │ false    │
+    /// │ Int256(-1) │ Int256( 1) │ false    │
+    /// ├─────────── → ───────────┼──────────┤
+    /// | Int256.min | Int256.min | true     |
+    /// └─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
+    ///
     @inlinable func twosComplement() -> Self
     
     //=------------------------------------------------------------------------=
     // MARK: Details x Addition
     //=------------------------------------------------------------------------=
     
-    /// Forms the sum of adding `rhs` to `lhs`.
+    /// Forms the `sum` of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// var a = Int256(1); a += Int256(2) // a = Int256(3)
-    /// var b = Int256(2); b += Int256(3) // b = Int256(5)
-    /// var c = Int256(3); c += Int256(4) // c = Int256(7)
-    /// var d = Int256(4); d += Int256(5) // d = Int256(9)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ lhs        │ rhs        │ sum        │ overflow │
+    /// ├────────────┼─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256( 5) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256(-1) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-1) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256(-5) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int256( 1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable static func +=(lhs: inout Self, rhs: Self)
     
-    /// Forms the sum of adding `rhs` to `lhs`.
+    /// Forms the `sum` of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// var a = Int256(1); a += Int(2) // a = Int256(3)
-    /// var b = Int256(2); b += Int(3) // b = Int256(5)
-    /// var c = Int256(3); c += Int(4) // c = Int256(7)
-    /// var d = Int256(4); d += Int(5) // d = Int256(9)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ lhs        │ rhs        │ sum        │ overflow │
+    /// ├────────────┼─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int256( 5) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int256(-1) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int256(-1) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int256(-5) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int(    1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @_disfavoredOverload @inlinable static func +=(lhs: inout Self, rhs: Digit)
     
-    /// Returns the sum of adding `rhs` to `lhs`.
+    /// Returns the `sum` of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// Int256(1) + Int256(2) // Int256(3)
-    /// Int256(2) + Int256(3) // Int256(5)
-    /// Int256(3) + Int256(4) // Int256(7)
-    /// Int256(4) + Int256(5) // Int256(9)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ lhs        │ rhs        │ sum        │ overflow │
+    /// ├────────────┼─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256( 5) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256(-1) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-1) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256(-5) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int256( 1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable static func +(lhs: Self, rhs: Self) -> Self
-
-    /// Returns the sum of adding `rhs` to `lhs`.
+    
+    /// Returns the `sum` of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// Int256(1) + Int(2) // Int256(3)
-    /// Int256(2) + Int(3) // Int256(5)
-    /// Int256(3) + Int(4) // Int256(7)
-    /// Int256(4) + Int(5) // Int256(9)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ lhs        │ rhs        │ sum        │ overflow │
+    /// ├────────────┼─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int256( 5) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int256(-1) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int256(-1) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int256(-5) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int(    1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @_disfavoredOverload @inlinable static func +(lhs: Self, rhs: Digit) -> Self
     
-    //=------------------------------------------------------------------------=
-    // MARK: Details x Subtraction
-    //=------------------------------------------------------------------------=
-    
-    /// Forms the difference of subtracting `rhs` from `lhs`.
+    /// Forms the `difference` of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// var a = Int256(3); a -= Int256(2) // a = Int256(1)
-    /// var b = Int256(5); b -= Int256(3) // b = Int256(2)
-    /// var c = Int256(7); c -= Int256(4) // c = Int256(3)
-    /// var d = Int256(9); d -= Int256(5) // d = Int256(4)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ lhs        │ rhs        │ difference │ overflow │
+    /// ├────────────┼─────────── → ───────────┤──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256(-3) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256( 5) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-5) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256(-3) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int256(-1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int256( 1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable static func -=(lhs: inout Self, rhs: Self)
     
-    /// Forms the difference of subtracting `rhs` from `lhs`.
+    /// Forms the `difference` of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// var a = Int256(3); a -= Int(2) // a = Int256(1)
-    /// var b = Int256(5); b -= Int(3) // b = Int256(2)
-    /// var c = Int256(7); c -= Int(4) // c = Int256(3)
-    /// var d = Int256(9); d -= Int(5) // d = Int256(4)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ lhs        │ rhs        │ difference │ overflow │
+    /// ├────────────┼─────────── → ───────────┤──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int256(-3) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int256( 5) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int256(-5) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int256(-3) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int(   -1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int(    1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @_disfavoredOverload @inlinable static func -=(lhs: inout Self, rhs: Digit)
-
-    /// Returns the difference of subtracting `rhs` from `lhs`.
+    
+    /// Returns the `difference` of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// Int256(3) - Int256(2) // Int256(1)
-    /// Int256(5) - Int256(3) // Int256(2)
-    /// Int256(7) - Int256(4) // Int256(3)
-    /// Int256(9) - Int256(5) // Int256(4)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ lhs        │ rhs        │ difference │ overflow │
+    /// ├────────────┼─────────── → ───────────┤──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256(-3) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256( 5) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-5) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256(-3) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int256(-1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int256( 1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable static func -(lhs: Self, rhs: Self) -> Self
     
-    /// Returns the difference of subtracting `rhs` from `lhs`.
+    /// Returns the `difference` of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// Int256(3) - Int(2) // Int256(1)
-    /// Int256(5) - Int(3) // Int256(2)
-    /// Int256(7) - Int(4) // Int256(3)
-    /// Int256(9) - Int(5) // Int256(4)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬──────────┐
+    /// │ lhs        │ rhs        │ difference │ overflow │
+    /// ├────────────┼─────────── → ───────────┤──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int256(-3) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int256( 5) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int256(-5) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int256(-3) │ false    │
+    /// │────────────┤─────────── → ───────────┤──────────┤
+    /// │ Int256.max │ Int(   -1) │ Int256.min │ true     │
+    /// │ Int256.min │ Int(    1) │ Int256.max │ true     │
+    /// └────────────┴─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @_disfavoredOverload @inlinable static func -(lhs: Self, rhs: Digit) -> Self
     
@@ -199,47 +395,83 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     // MARK: Details x Multiplication
     //=------------------------------------------------------------------------=
     
-    /// Forms the product of multiplying `lhs` by `rhs`.
+    /// Forms the `low` product of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// var a = Int256(1); a *= Int256(2) // a = Int256( 2)
-    /// var b = Int256(2); b *= Int256(3) // b = Int256( 6)
-    /// var c = Int256(3); c *= Int256(4) // c = Int256(12)
-    /// var d = Int256(4); d *= Int256(5) // d = Int256(20)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int256( 2) │ Int256( 0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int256( 2) │ Int256(-1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable static func *=(lhs: inout Self, rhs: Self)
     
-    /// Forms the product of multiplying `lhs` by `rhs`.
+    /// Forms the `low` product of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// var a = Int256(1); a *= Int(2) // a = Int256( 2)
-    /// var b = Int256(2); b *= Int(3) // b = Int256( 6)
-    /// var c = Int256(3); c *= Int(4) // c = Int256(12)
-    /// var d = Int256(4); d *= Int(5) // d = Int256(20)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int(    0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int(    0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int(    2) │ Int(    0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int(    2) │ Int(   -1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @_disfavoredOverload @inlinable static func *=(lhs: inout Self, rhs: Digit)
     
-    /// Returns the product of multiplying `lhs` by `rhs`.
+    /// Returns the `low` product of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// Int256(1) * Int256(2) // Int256( 2)
-    /// Int256(2) * Int256(3) // Int256( 6)
-    /// Int256(3) * Int256(4) // Int256(12)
-    /// Int256(4) * Int256(5) // Int256(20)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int256( 4) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int256(-3) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int256( 2) │ Int256(-1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int256(-1) │ Int256( 0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int256( 2) │ Int256( 0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int256( 2) │ Int256(-1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable static func *(lhs: Self, rhs: Self) -> Self
     
-    /// Returns the product of multiplying `lhs` by `rhs`.
+    /// Returns the `low` product of `lhs` and `rhs`.
     ///
-    /// ```swift
-    /// Int256(1) * Int(2) // Int256( 2)
-    /// Int256(2) * Int(3) // Int256( 6)
-    /// Int256(3) * Int(4) // Int256(12)
-    /// Int256(4) * Int(5) // Int256(20)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ high       │ low        │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 1) │ Int(    4) │ Int(    0) │ Int256( 4) │ false    │
+    /// │ Int256( 2) │ Int(   -3) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-3) │ Int(    2) │ Int(   -1) │ Int256(-6) │ false    │
+    /// │ Int256(-4) │ Int(   -1) │ Int(    0) │ Int256( 4) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256.max │ Int(    2) │ Int(    0) │ Int256(-2) │ true     │
+    /// │ Int256.min │ Int(    2) │ Int(   -1) │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @_disfavoredOverload @inlinable static func *(lhs: Self, rhs: Digit) -> Self
     
@@ -247,278 +479,444 @@ BinaryInteger, Sendable where Magnitude: ANKUnsignedInteger, Words: Sendable {
     // MARK: Details x Division
     //=------------------------------------------------------------------------=
     
-    /// Forms the quotient of dividing `lhs` by `rhs`.
+    /// Forms the `quotient` of dividing `lhs` by `rhs`.
     ///
-    /// ```swift
-    /// var a = Int256( 7); a /= Int256( 3) // a = Int256( 2)
-    /// var b = Int256( 7); b /= Int256(-3) // b = Int256(-2)
-    /// var c = Int256(-7); c /= Int256( 3) // c = Int256(-2)
-    /// var d = Int256(-7); d /= Int256(-3) // d = Int256( 2)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │ Int256( 7) │ Int256(-3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256( 3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256(-3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 0) │ Int256( 7) │ Int256( 7) │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.min │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable static func /=(lhs: inout Self, rhs: Self)
     
-    /// Forms the quotient of dividing `lhs` by `rhs`.
+    /// Forms the `quotient` of dividing `lhs` by `rhs`.
     ///
-    /// ```swift
-    /// var a = Int256( 7); a /= Int( 3) // a = Int256( 2)
-    /// var b = Int256( 7); b /= Int(-3) // b = Int256(-2)
-    /// var c = Int256(-7); c /= Int( 3) // c = Int256(-2)
-    /// var d = Int256(-7); d /= Int(-3) // d = Int256( 2)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │ Int256( 7) │ Int(   -3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(    3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(   -3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    0) │ Int256( 7) │ Int(    7) │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.min │ Int(    0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @_disfavoredOverload @inlinable static func /=(lhs: inout Self, rhs: Digit)
     
-    /// Returns the quotient of dividing `lhs` by `rhs`.
+    /// Returns the `quotient` of dividing `lhs` by `rhs`.
     ///
-    /// ```swift
-    /// Int256( 7) / Int256( 3) // Int256( 2)
-    /// Int256( 7) / Int256(-3) // Int256(-2)
-    /// Int256(-7) / Int256( 3) // Int256(-2)
-    /// Int256(-7) / Int256(-3) // Int256( 2)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │ Int256( 7) │ Int256(-3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256( 3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256(-3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 0) │ Int256( 7) │ Int256( 7) │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.min │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable static func /(lhs: Self, rhs: Self) -> Self
     
-    /// Returns the quotient of dividing `lhs` by `rhs`.
+    /// Returns the `quotient` of dividing `lhs` by `rhs`.
     ///
-    /// ```swift
-    /// Int256( 7) / Int( 3) // Int256( 2)
-    /// Int256( 7) / Int(-3) // Int256(-2)
-    /// Int256(-7) / Int( 3) // Int256(-2)
-    /// Int256(-7) / Int(-3) // Int256( 2)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │ Int256( 7) │ Int(   -3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(    3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(   -3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    0) │ Int256( 7) │ Int(    7) │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.min │ Int(    0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @_disfavoredOverload @inlinable static func /(lhs: Self, rhs: Digit) -> Self
     
-    /// Forms the remainder of dividing `lhs` by `rhs`.
+    /// Forms the `remainder` of dividing `lhs` by `rhs`.
     ///
-    /// ```swift
-    /// var a = Int256( 7); a %= Int256( 3) // a = Int256( 1)
-    /// var b = Int256( 7); b %= Int256(-3) // b = Int256( 1)
-    /// var c = Int256(-7); c %= Int256( 3) // c = Int256(-1)
-    /// var d = Int256(-7); d %= Int256(-3) // d = Int256(-1)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │ Int256( 7) │ Int256(-3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256( 3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256(-3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 0) │ Int256( 7) │ Int256( 7) │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.min │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable static func %=(lhs: inout Self, rhs: Self)
     
-    /// Forms the remainder of dividing `lhs` by `rhs`.
+    /// Forms the `remainder` of dividing `lhs` by `rhs`.
     ///
-    /// ```swift
-    /// var a = Int256( 7); a %= Int( 3) // a = Int256( 1)
-    /// var b = Int256( 7); b %= Int(-3) // b = Int256( 1)
-    /// var c = Int256(-7); c %= Int( 3) // c = Int256(-1)
-    /// var d = Int256(-7); d %= Int(-3) // d = Int256(-1)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │ Int256( 7) │ Int(   -3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(    3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(   -3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    0) │ Int256( 7) │ Int(    7) │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.min │ Int(    0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @_disfavoredOverload @inlinable static func %=(lhs: inout Self, rhs: Digit)
     
-    /// Returns the remainder of dividing `lhs` by `rhs`.
+    /// Returns the `remainder` of dividing `lhs` by `rhs`.
     ///
-    /// ```swift
-    /// Int256( 7) % Int256( 3) // Int256( 1)
-    /// Int256( 7) % Int256(-3) // Int256( 1)
-    /// Int256(-7) % Int256( 3) // Int256(-1)
-    /// Int256(-7) % Int256(-3) // Int256(-1)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │ Int256( 7) │ Int256(-3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256( 3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256(-3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 0) │ Int256( 7) │ Int256( 7) │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.min │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable static func %(lhs: Self, rhs: Self) -> Self
     
-    /// Returns the remainder of dividing `lhs` by `rhs`.
+    /// Returns the `remainder` of dividing `lhs` by `rhs`.
     ///
-    /// ```swift
-    /// Int256( 7) % Int( 3) // Int( 1)
-    /// Int256( 7) % Int(-3) // Int( 1)
-    /// Int256(-7) % Int( 3) // Int(-1)
-    /// Int256(-7) % Int(-3) // Int(-1)
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ lhs        │ rhs        │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │ Int256( 7) │ Int(   -3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(    3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(   -3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    0) │ Int256( 7) │ Int(    7) │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.min │ Int(    0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @_disfavoredOverload @inlinable static func %(lhs: Self, rhs: Digit) -> Digit
     
-    /// Forms the quotient of this value divided by the given value, and returns an overflow indicator.
-    /// In the case of overflow, the result is either truncated or, if undefined, this value.
+    /// Returns the `quotient` and `remainder` of dividing `self` by `other`.
     ///
-    /// ```swift
-    /// var a = Int8(-128); a.divideReportingOverflow(by:  3)) // a = Int8( -42); -> false
-    /// var b = Int8(-128); b.divideReportingOverflow(by:  0)) // b = Int8(-128); -> true
-    /// var c = Int8(-128); c.divideReportingOverflow(by: -1)) // c = Int8(-128); -> true
+    /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │ Int256( 7) │ Int256(-3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256( 3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256(-3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 0) │ Int256( 7) │ Int256( 7) │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.min │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
     /// ```
     ///
-    @inlinable mutating func divideReportingOverflow(by other: Self) -> Bool
-    
-    /// Forms the quotient of this value divided by the given value, and returns an overflow indicator.
-    /// In the case of overflow, the result is either truncated or, if undefined, this value.
-    ///
-    /// ```swift
-    /// var a = Int256( 7); a.divideReportingOverflow(by: Int( 3)) // a = Int256( 2); -> false
-    /// var b = Int256.min; b.divideReportingOverflow(by: Int( 0)) // b = Int256.min; -> true
-    /// var c = Int256.min; c.divideReportingOverflow(by: Int(-1)) // c = Int256.min; -> true
-    /// ```
-    ///
-    @_disfavoredOverload @inlinable mutating func divideReportingOverflow(by other: Digit) -> Bool
-    
-    /// Returns the quotient of this value divided by the given value, along with an overflow indicator.
-    /// In the case of overflow, the result is either truncated or, if undefined, this value.
-    ///
-    /// ```swift
-    /// Int8(-128).dividedReportingOverflow(by: Int8( 3)) // (partialValue: Int8( -42), overflow: false)
-    /// Int8(-128).dividedReportingOverflow(by: Int8( 0)) // (partialValue: Int8(-128), overflow: true )
-    /// Int8(-128).dividedReportingOverflow(by: Int8(-1)) // (partialValue: Int8(-128), overflow: true )
-    /// ```
-    ///
-    @inlinable func dividedReportingOverflow(by other: Self) -> PVO<Self>
-    
-    /// Returns the quotient of this value divided by the given value, along with an overflow indicator.
-    /// In the case of overflow, the result is either truncated or, if undefined, this value.
-    ///
-    /// ```swift
-    /// Int256( 7).dividedReportingOverflow(by: Int( 3)) // (partialValue: Int256( 2), overflow: false)
-    /// Int256.min.dividedReportingOverflow(by: Int( 0)) // (partialValue: Int256.min, overflow: true )
-    /// Int256.min.dividedReportingOverflow(by: Int(-1)) // (partialValue: Int256.min, overflow: true )
-    /// ```
-    ///
-    @_disfavoredOverload @inlinable func dividedReportingOverflow(by other: Digit) -> PVO<Self>
-    
-    /// Forms the remainder of this value divided by the given value, and returns an overflow indicator.
-    /// In the case of overflow, the result is either the entire remainder or, if undefined, this value.
-    ///
-    /// ```swift
-    /// var a = Int8(-128); a.formRemainderReportingOverflow(dividingBy:  3) // a = Int8(   2); -> false
-    /// var b = Int8(-128); b.formRemainderReportingOverflow(dividingBy:  0) // b = Int8(-128); -> true
-    /// var c = Int8(-128); c.formRemainderReportingOverflow(dividingBy: -1) // c = Int8(   0); -> true
-    /// ```
-    ///
-    @inlinable mutating func formRemainderReportingOverflow(dividingBy other: Self) -> Bool
-    
-    /// Forms the remainder of this value divided by the given value, and returns an overflow indicator.
-    /// In the case of overflow, the result is either the entire remainder or, if undefined, zero.
-    ///
-    /// ```swift
-    /// var a = Int256( 7); a.formRemainderReportingOverflow(dividingBy: Int( 3)) // a = Int256(1); -> false
-    /// var b = Int256.min; b.formRemainderReportingOverflow(dividingBy: Int( 0)) // b = Int256(0); -> true
-    /// var c = Int256.min; c.formRemainderReportingOverflow(dividingBy: Int(-1)) // c = Int256(0); -> true
-    /// ```
-    ///
-    @_disfavoredOverload @inlinable mutating func formRemainderReportingOverflow(dividingBy other: Digit) -> Bool
-    
-    /// Returns the remainder of this value divided by the given value, along with an overflow indicator.
-    /// In the case of overflow, the result is either the entire remainder or, if undefined, this value.
-    ///
-    /// ```swift
-    /// Int8(-128).remainderReportingOverflow(dividingBy:  3) // (partialValue: Int8(   2), overflow: false)
-    /// Int8(-128).remainderReportingOverflow(dividingBy:  0) // (partialValue: Int8(-128), overflow: true )
-    /// Int8(-128).remainderReportingOverflow(dividingBy: -1) // (partialValue: Int8(   0), overflow: true )
-    /// ```
-    ///
-    @inlinable func remainderReportingOverflow(dividingBy other: Self) -> PVO<Self>
-    
-    /// Returns the remainder of this value divided by the given value, along with an overflow indicator.
-    /// In the case of overflow, the result is either the entire remainder or, if undefined, zero.
-    ///
-    /// ```swift
-    /// Int256( 7).remainderReportingOverflow(dividingBy: Int( 3)) // (partialValue: Int(1), overflow: false)
-    /// Int256.min.remainderReportingOverflow(dividingBy: Int( 0)) // (partialValue: Int(0), overflow: true )
-    /// Int256.min.remainderReportingOverflow(dividingBy: Int(-1)) // (partialValue: Int(0), overflow: true )
-    /// ```
-    ///
-    @_disfavoredOverload @inlinable func remainderReportingOverflow(dividingBy other: Digit) -> PVO<Digit>
-    
-    /// Returns the quotient and remainder of this value divided by the given value.
-    ///
-    /// ```swift
-    /// Int8( 7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8( 2), remainder: Int8( 1))
-    /// Int8( 7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8(-2), remainder: Int8( 1))
-    /// Int8(-7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8(-2), remainder: Int8(-1))
-    /// Int8(-7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8( 2), remainder: Int8(-1))
-    /// ```
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable func quotientAndRemainder(dividingBy other: Self) -> QR<Self, Self>
     
-    /// Returns the quotient and remainder of this value divided by the given value.
+    /// Returns the `quotient` and `remainder` of dividing `self` by `other`.
     ///
-    /// ```swift
-    /// Int256( 7).quotientAndRemainder(dividingBy: Int( 3)) // (quotient: Int256( 2), remainder: Int( 1))
-    /// Int256( 7).quotientAndRemainder(dividingBy: Int(-3)) // (quotient: Int256(-2), remainder: Int( 1))
-    /// Int256(-7).quotientAndRemainder(dividingBy: Int( 3)) // (quotient: Int256(-2), remainder: Int(-1))
-    /// Int256(-7).quotientAndRemainder(dividingBy: Int(-3)) // (quotient: Int256( 2), remainder: Int(-1))
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │ Int256( 7) │ Int(   -3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(    3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(   -3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    0) │ Int256( 7) │ Int(    7) │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.min │ Int(    0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @_disfavoredOverload @inlinable func quotientAndRemainder(dividingBy other: Digit) -> QR<Self, Digit>
     
-    /// Returns the quotient and remainder of this value divided by the given value, along with an overflow indicator.
-    /// In the case of overflow, the result is either truncated or, if undefined, this value.
+    /// Forms the `quotient` of dividing `self` by `other`, and returns an `overflow` indicator.
     ///
-    /// ```swift
-    /// let a = Int8(-128).quotientAndRemainderReportingOverflow(dividingBy: Int8( 3))
-    /// a.partialValue.quotient  // Int8( -42)
-    /// a.partialValue.remainder // Int8(   2)
-    /// a.overflow               // false
-    ///
-    /// let b = Int8(-128).quotientAndRemainderReportingOverflow(dividingBy: Int8( 0))
-    /// b.partialValue.quotient  // Int8(-128)
-    /// b.partialValue.remainder // Int8(-128)
-    /// b.overflow               // true
-    ///
-    /// let c = Int8(-128).quotientAndRemainderReportingOverflow(dividingBy: Int8(-1))
-    /// c.partialValue.quotient  // Int8(-128)
-    /// c.partialValue.remainder // Int8(   0)
-    /// c.overflow               // true
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │ Int256( 7) │ Int256(-3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256( 3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256(-3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 0) │ Int256( 7) │ Int256( 7) │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.min │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is either truncated or, if undefined, `self`.
+    ///
+    @inlinable mutating func divideReportingOverflow(by other: Self) -> Bool
+    
+    /// Forms the `quotient` of dividing `self` by `other`, and returns an `overflow` indicator.
+    ///
+    /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │ Int256( 7) │ Int(   -3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(    3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(   -3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    0) │ Int256( 7) │ Int(    7) │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.min │ Int(    0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is either truncated or, if undefined, `self`.
+    ///
+    @_disfavoredOverload @inlinable mutating func divideReportingOverflow(by other: Digit) -> Bool
+    
+    /// Returns the `quotient` of dividing `self` by `other`, along with an `overflow` indicator.
+    ///
+    /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │ Int256( 7) │ Int256(-3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256( 3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256(-3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 0) │ Int256( 7) │ Int256( 7) │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.min │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is either truncated or, if undefined, `self`.
+    ///
+    @inlinable func dividedReportingOverflow(by other: Self) -> PVO<Self>
+    
+    /// Returns the `quotient` of dividing `self` by `other`, along with an `overflow` indicator.
+    ///
+    /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │ Int256( 7) │ Int(   -3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(    3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(   -3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    0) │ Int256( 7) │ Int(    7) │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.min │ Int(    0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is either truncated or, if undefined, `self`.
+    ///
+    @_disfavoredOverload @inlinable func dividedReportingOverflow(by other: Digit) -> PVO<Self>
+    
+    /// Forms the `remainder` of dividing `self` by `other`, and returns an `overflow` indicator.
+    ///
+    /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │ Int256( 7) │ Int256(-3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256( 3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256(-3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 0) │ Int256( 7) │ Int256( 7) │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.min │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is either the entire remainder or, if undefined, `self`.
+    ///
+    @inlinable mutating func formRemainderReportingOverflow(dividingBy other: Self) -> Bool
+    
+    /// Forms the `remainder` of dividing `self` by `other`, and returns an `overflow` indicator.
+    ///
+    /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │ Int256( 7) │ Int(   -3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(    3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(   -3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    0) │ Int256( 7) │ Int(    7) │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.min │ Int(    0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is either the entire remainder or, if undefined, `self`.
+    ///
+    @_disfavoredOverload @inlinable mutating func formRemainderReportingOverflow(dividingBy other: Digit) -> Bool
+    
+    /// Returns the `remainder` of dividing `self` by `other`, along with an `overflow` indicator.
+    ///
+    /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │ Int256( 7) │ Int256(-3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256( 3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256(-3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 0) │ Int256( 7) │ Int256( 7) │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.min │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is either truncated or, if undefined, `self` and `self`.
+    ///
+    @inlinable func remainderReportingOverflow(dividingBy other: Self) -> PVO<Self>
+    
+    /// Returns the `remainder` of dividing `self` by `other`, along with an `overflow` indicator.
+    ///
+    /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │ Int256( 7) │ Int(   -3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(    3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(   -3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    0) │ Int256( 7) │ Int(    7) │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.min │ Int(    0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is either truncated or, if undefined, `self`.
+    ///
+    @_disfavoredOverload @inlinable func remainderReportingOverflow(dividingBy other: Digit) -> PVO<Digit>
+    
+    /// Returns the `quotient` and `remainder` of dividing `self` by `other`, along with an `overflow` indicator.
+    ///
+    /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │ Int256( 7) │ Int256(-3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256( 3) │ Int256(-2) │ Int256(-1) │ false    │
+    /// │ Int256(-7) │ Int256(-3) │ Int256( 2) │ Int256( 0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int256( 0) │ Int256( 7) │ Int256( 7) │ true     │
+    /// │ Int256.min │ Int256(-1) │ Int256.min │ Int256( 0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is either truncated or, if undefined, `self` and `self`.
     ///
     @inlinable func quotientAndRemainderReportingOverflow(dividingBy other: Self) -> PVO<QR<Self, Self>>
     
-    /// Returns the quotient and remainder of this value divided by the given value, along with an overflow indicator.
-    /// In the case of overflow, the result is either truncated or, if undefined, this value.
+    /// Returns the `quotient` and `remainder` of dividing `self` by `other`, along with an `overflow` indicator.
     ///
-    /// ```swift
-    /// let a = Int256( 7).quotientAndRemainderReportingOverflow(dividingBy: Int( 3))
-    /// a.partialValue.quotient  // Int256( 2)
-    /// a.partialValue.remainder // Int256( 1)
-    /// a.overflow               // false
-    ///
-    /// let b = Int256.min.quotientAndRemainderReportingOverflow(dividingBy: Int( 0))
-    /// b.partialValue.quotient  // Int256.min
-    /// b.partialValue.remainder // Int256.min
-    /// b.overflow               // true
-    ///
-    /// let c = Int256.min.quotientAndRemainderReportingOverflow(dividingBy: Int(-1))
-    /// c.partialValue.quotient  // Int256.min
-    /// c.partialValue.remainder // Int256( 0)
-    /// c.overflow               // true
     /// ```
+    /// ┌────────────┬─────────── → ───────────┬────────────┬──────────┐
+    /// │ self       │ other      │ quotient   | remainder  │ overflow │
+    /// ├────────────┼─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │ Int256( 7) │ Int(   -3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(    3) │ Int256(-2) │ Int(   -1) │ false    │
+    /// │ Int256(-7) │ Int(   -3) │ Int256( 2) │ Int(    0) │ false    │
+    /// │────────────┤─────────── → ───────────┤────────────┤──────────┤
+    /// │ Int256( 7) │ Int(    0) │ Int256( 7) │ Int(    7) │ true     │
+    /// │ Int256.min │ Int(   -1) │ Int256.min │ Int(    0) │ true     │
+    /// └────────────┴─────────── → ───────────┴────────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is either truncated or, if undefined, `self` and `self`.
     ///
     @_disfavoredOverload @inlinable func quotientAndRemainderReportingOverflow(dividingBy other: Digit) -> PVO<QR<Self, Digit>>
     
     //=------------------------------------------------------------------------=
-    // MARK: + Details x Sign & Magnitude
+    // MARK: Details x Text
     //=------------------------------------------------------------------------=
     
-    /// Creates a new instance from the given integer.
+    /// Creates a new instance from the given `description` and `radix`.
     ///
-    /// If the value passed as source is not representable, an error may occur.
+    /// The `description` may contain a plus or minus sign (+ or -), followed by one
+    /// or more numeric digits (0-9) or letters (a-z or A-Z), according to the `radix`.
+    /// If the description uses an invalid format, or it's value cannot be represented,
+    /// the result is nil.
     ///
-    @inlinable init(_ source: ANKSigned<Magnitude>)
+    /// ```
+    /// ┌─────────────┬────── → ─────────────┐
+    /// │ description │ radix │ self         │
+    /// ├─────────────┼────── → ─────────────┤
+    /// │  "123"      │ 16    │ Int256( 291) │
+    /// │ "+123"      │ 16    │ Int256( 291) │
+    /// │ "-123"      │ 16    │ Int256(-291) │
+    /// │ "~123"      │ 16    │ nil          │
+    /// └─────────────┴────── → ─────────────┘
+    /// ```
+    ///
+    /// - Note:  The decoding strategy is case insensitive.
+    ///
+    @inlinable init?(_ description: some StringProtocol, radix: Int)
     
-    /// Creates a new instance from the given integer, if it is representable.
+    /// Creates a `description` representing this value, in the given format.
     ///
-    /// If the value passed as source is not representable, the result is nil.
+    /// ```
+    /// ┌──────────────┬───────┬─────────── → ────────────┐
+    /// │ self         │ radix │ uppercase  │ description │
+    /// ├──────────────┼───────┼─────────── → ────────────┤
+    /// │ Int256( 123) │ 12    │ true       │  "A3"       │
+    /// │ Int256(-123) │ 16    │ false      │ "-7b"       │
+    /// └──────────────┴───────┴─────────── → ────────────┘
+    /// ```
     ///
-    @inlinable init?(exactly source: ANKSigned<Magnitude>)
-    
-    /// Creates a new instance with the representable value closest to the given integer.
-    ///
-    /// If the value passed as source is greater than the maximum representable value,
-    /// the result is this type’s max value. If value passed as source is less than the
-    /// smallest representable value, the result is this type’s min value.
-    ///
-    @inlinable init(clamping source: ANKSigned<Magnitude>)
-    
-    /// Creates a new instance from the two's complement bit pattern of the given integer.
-    ///
-    /// - The two's complement representation of `+0` is an infinite sequence of `0s`.
-    /// - The two's complement representation of `-1` is an infinite sequence of `1s`.
-    ///
-    @inlinable init(truncatingIfNeeded source: ANKSigned<Magnitude>)
+    @inlinable func description(radix: Int, uppercase: Bool) -> String
 }
 
 //=----------------------------------------------------------------------------=
@@ -531,172 +929,152 @@ extension ANKBinaryInteger {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent public init(digit: Digit) where Digit == Self {
+    @inlinable public init(digit: Digit) where Digit == Self {
         self = digit
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
+    // MARK: Details x Comparisons
     //=------------------------------------------------------------------------=
     
     /// Returns whether this value is odd.
-    @_transparent public var isOdd: Bool {
+    ///
+    /// ```
+    /// ┌───────────────────────── → ──────┐
+    /// │ self                     │ odd   │
+    /// ├─────────── = ─────────── → ──────┤
+    /// │ Int256( 3) │ 0........11 │ true  │
+    /// │ Int256( 2) │ 0........10 │ false │
+    /// │ Int256( 1) │ 0.........1 │ true  │
+    /// │ Int256( 0) │ 0.......... │ false │
+    /// │ Int256(-1) │ 1.......... │ true  │
+    /// │ Int256(-2) │ 1.........0 │ false │
+    /// │ Int256(-3) │ 1........01 │ true  │
+    /// │ Int256(-4) │ 1........00 │ false │
+    /// └─────────── = ─────────── → ──────┘
+    /// ```
+    ///
+    /// Semantically, it is equivalent to the following expression:
+    ///
+    /// ```swift
+    /// leastSignificantBit == true
+    /// ```
+    ///
+    @inlinable public var isOdd: Bool {
         self.leastSignificantBit
     }
     
     /// Returns whether this value is even.
-    @_transparent public var isEven: Bool {
-        self.leastSignificantBit == false
+    ///
+    /// ```
+    /// ┌───────────────────────── → ──────┐
+    /// │ self                     │ even  │
+    /// ├─────────── = ─────────── → ──────┤
+    /// │ Int256( 3) │ 0........11 │ false │
+    /// │ Int256( 2) │ 0........10 │ true  │
+    /// │ Int256( 1) │ 0.........1 │ false │
+    /// │ Int256( 0) │ 0.......... │ true  │
+    /// │ Int256(-1) │ 1.......... │ false │
+    /// │ Int256(-2) │ 1.........0 │ true  │
+    /// │ Int256(-3) │ 1........01 │ false │
+    /// │ Int256(-4) │ 1........00 │ true  │
+    /// └─────────── = ─────────── → ──────┘
+    /// ```
+    ///
+    /// Semantically, it is equivalent to the following expression:
+    ///
+    /// ```swift
+    /// leastSignificantBit == false
+    /// ```
+    ///
+    @inlinable public var isEven: Bool {
+        !self.leastSignificantBit
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Details x Division
     //=------------------------------------------------------------------------=
     
-    /// Forms the quotient of dividing `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// var a = Int8( 7); a /= Int8( 3) // a = Int8( 2)
-    /// var b = Int8( 7); b /= Int8(-3) // b = Int8(-2)
-    /// var c = Int8(-7); c /= Int8( 3) // c = Int8(-2)
-    /// var d = Int8(-7); d /= Int8(-3) // d = Int8( 2)
-    /// ```
-    ///
-    @_transparent public static func /=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func /=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.divideReportingOverflow(by: rhs)
         precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
-    /// Forms the quotient of dividing `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// var a = Int256( 7); a /= Int( 3) // a = Int256( 2)
-    /// var b = Int256( 7); b /= Int(-3) // b = Int256(-2)
-    /// var c = Int256(-7); c /= Int( 3) // c = Int256(-2)
-    /// var d = Int256(-7); d /= Int(-3) // d = Int256( 2)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func /=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func /=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.divideReportingOverflow(by: rhs)
         precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
-    /// Returns the quotient of dividing `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// Int8( 7) / Int8( 3) // Int8( 2)
-    /// Int8( 7) / Int8(-3) // Int8(-2)
-    /// Int8(-7) / Int8( 3) // Int8(-2)
-    /// Int8(-7) / Int8(-3) // Int8( 2)
-    /// ```
-    ///
-    @_transparent public static func /(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func /(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
-    /// Returns the quotient of dividing `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// Int256( 7) / Int( 3) // Int256( 2)
-    /// Int256( 7) / Int(-3) // Int256(-2)
-    /// Int256(-7) / Int( 3) // Int256(-2)
-    /// Int256(-7) / Int(-3) // Int256( 2)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func /(lhs: Self, rhs: Digit) -> Self {
+    @_disfavoredOverload @inlinable public static func /(lhs: Self, rhs: Digit) -> Self {
         let pvo: PVO<Self> = lhs.dividedReportingOverflow(by: rhs)
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
-    /// Forms the remainder of dividing `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// var a = Int8( 7); a %= Int8( 3) // a = Int8( 1)
-    /// var b = Int8( 7); b %= Int8(-3) // b = Int8( 1)
-    /// var c = Int8(-7); c %= Int8( 3) // c = Int8(-1)
-    /// var d = Int8(-7); d %= Int8(-3) // d = Int8(-1)
-    /// ```
-    ///
-    @_transparent public static func %=(lhs: inout Self, rhs: Self) {
+    @inlinable public static func %=(lhs: inout Self, rhs: Self) {
         let overflow: Bool = lhs.formRemainderReportingOverflow(dividingBy: rhs)
         precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
-    /// Forms the remainder of dividing `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// var a = Int256( 7); a %= Int( 3) // a = Int256( 1)
-    /// var b = Int256( 7); b %= Int(-3) // b = Int256( 1)
-    /// var c = Int256(-7); c %= Int( 3) // c = Int256(-1)
-    /// var d = Int256(-7); d %= Int(-3) // d = Int256(-1)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func %=(lhs: inout Self, rhs: Digit) {
+    @_disfavoredOverload @inlinable public static func %=(lhs: inout Self, rhs: Digit) {
         let overflow: Bool = lhs.formRemainderReportingOverflow(dividingBy: rhs)
         precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
-    /// Returns the remainder of dividing `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// Int8( 7) % Int8( 3) // Int8( 1)
-    /// Int8( 7) % Int8(-3) // Int8( 1)
-    /// Int8(-7) % Int8( 3) // Int8(-1)
-    /// Int8(-7) % Int8(-3) // Int8(-1)
-    /// ```
-    ///
-    @_transparent public static func %(lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func %(lhs: Self, rhs: Self) -> Self {
         let pvo: PVO<Self> = lhs.remainderReportingOverflow(dividingBy: rhs)
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
     }
     
-    /// Returns the remainder of dividing `lhs` by `rhs`.
-    ///
-    /// ```swift
-    /// Int256( 7) % Int( 3) // Int( 1)
-    /// Int256( 7) % Int(-3) // Int( 1)
-    /// Int256(-7) % Int( 3) // Int(-1)
-    /// Int256(-7) % Int(-3) // Int(-1)
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public static func %(lhs: Self, rhs: Digit) -> Digit {
+    @_disfavoredOverload @inlinable public static func %(lhs: Self, rhs: Digit) -> Digit {
         let pvo: PVO<Digit> = lhs.remainderReportingOverflow(dividingBy: rhs)
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Digit
     }
     
-    /// Returns the quotient and remainder of this value divided by the given value.
-    ///
-    /// ```swift
-    /// Int8( 7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8( 2), remainder: Int8( 1))
-    /// Int8( 7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8(-2), remainder: Int8( 1))
-    /// Int8(-7).quotientAndRemainder(dividingBy: Int8( 3)) // (quotient: Int8(-2), remainder: Int8(-1))
-    /// Int8(-7).quotientAndRemainder(dividingBy: Int8(-3)) // (quotient: Int8( 2), remainder: Int8(-1))
-    /// ```
-    ///
-    @_transparent public func quotientAndRemainder(dividingBy other: Self) -> QR<Self, Self> {
+    @inlinable public func quotientAndRemainder(dividingBy other: Self) -> QR<Self, Self> {
         let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: other)
         precondition(!qro.overflow, ANK.callsiteOverflowInfo())
         return qro.partialValue as QR<Self, Self>
     }
     
-    /// Returns the quotient and remainder of this value divided by the given value.
-    ///
-    /// ```swift
-    /// Int256( 7).quotientAndRemainder(dividingBy: Int( 3)) // (quotient: Int256( 2), remainder: Int( 1))
-    /// Int256( 7).quotientAndRemainder(dividingBy: Int(-3)) // (quotient: Int256(-2), remainder: Int( 1))
-    /// Int256(-7).quotientAndRemainder(dividingBy: Int( 3)) // (quotient: Int256(-2), remainder: Int(-1))
-    /// Int256(-7).quotientAndRemainder(dividingBy: Int(-3)) // (quotient: Int256( 2), remainder: Int(-1))
-    /// ```
-    ///
-    @_disfavoredOverload @_transparent public func quotientAndRemainder(dividingBy other: Digit) -> QR<Self, Digit> {
+    @_disfavoredOverload @inlinable public func quotientAndRemainder(dividingBy other: Digit) -> QR<Self, Digit> {
         let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: other)
         precondition(!qro.overflow, ANK.callsiteOverflowInfo())
         return qro.partialValue as QR<Self, Digit>
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Details x Text x String
+//=----------------------------------------------------------------------------=
+
+extension String {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Initializers
+    //=------------------------------------------------------------------------=
+    
+    /// Creates a string representing the given value, in the given format.
+    ///
+    /// ```
+    /// ┌──────────────┬───────┬─────────── → ────────────┐
+    /// │ integer      │ radix │ uppercase  │ self        │
+    /// ├──────────────┼───────┼─────────── → ────────────┤
+    /// │ Int256( 123) │ 12    │ true       │  "A3"       │
+    /// │ Int256(-123) │ 16    │ false      │ "-7b"       │
+    /// └──────────────┴───────┴─────────── → ────────────┘
+    /// ```
+    ///
+    @inlinable public init(_ source: some ANKBinaryInteger, radix: Int = 10, uppercase: Bool = false) {
+        self = source.description(radix: radix, uppercase: uppercase)
     }
 }
 
@@ -704,70 +1082,112 @@ extension ANKBinaryInteger {
 // MARK: * ANK x Binary Integer x Signed
 //*============================================================================*
 
-/// An awesome, signed, binary integer.
+/// A signed, binary, integer.
 ///
 /// ### Two's Complement
 ///
 /// Like `BinaryInteger`, it has [two's complement][2s] semantics.
 ///
-/// - The two's complement representation of `+0` is an infinite sequence of `0s`.
-/// - The two's complement representation of `-1` is an infinite sequence of `1s`.
+/// ```
+/// The two's complement representation of  0 is an infinite sequence of 0s.
+/// The two's complement representation of -1 is an infinite sequence of 1s.
+/// ```
 ///
 /// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///
 public protocol ANKSignedInteger: ANKBinaryInteger, SignedInteger where Digit: ANKSignedInteger {
-    
+
     //=------------------------------------------------------------------------=
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    /// Returns a value with equal magnitude but opposite sign.
+    /// Returns the additive inverse of `number`.
     ///
-    /// ```swift
-    /// -Int8( 1) // Int8(-1)
-    /// -Int8( 0) // Int8( 0)
-    /// -Int8(-1) // Int8( 1)
+    /// ```
+    /// ┌─────────── → ───────────┬──────────┐
+    /// │ number     │ -number    │ overflow │
+    /// ├─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int256(-1) │ false    │
+    /// │ Int256( 0) │ Int256( 0) │ false    │
+    /// │ Int256(-1) │ Int256( 1) │ false    │
+    /// ├─────────── → ───────────┼──────────┤
+    /// | Int256.min | Int256.min | true     |
+    /// └─────────── → ───────────┴──────────┘
     /// ```
     ///
-    @inlinable static prefix func -(x: Self) -> Self
+    /// - Note: In the case of `overflow`, a runtime error may occur.
+    ///
+    @inlinable static prefix func -(number: Self) -> Self
     
-    /// Forms a value with equal magnitude but opposite sign.
+    /// Forms the additive inverse of `self`.
     ///
-    /// ```swift
-    /// var a = Int8( 1); a.negate() // a = Int8(-1)
-    /// var b = Int8( 0); b.negate() // b = Int8( 0)
-    /// var c = Int8(-1); c.negate() // c = Int8( 1)
     /// ```
+    /// ┌─────────── → ───────────┬──────────┐
+    /// │ self       │ -self      │ overflow │
+    /// ├─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int256(-1) │ false    │
+    /// │ Int256( 0) │ Int256( 0) │ false    │
+    /// │ Int256(-1) │ Int256( 1) │ false    │
+    /// ├─────────── → ───────────┼──────────┤
+    /// | Int256.min | Int256.min | true     |
+    /// └─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable mutating func negate()
     
-    /// Returns a value with equal magnitude but opposite sign.
+    /// Returns the additive inverse of `self`.
     ///
-    /// ```swift
-    /// Int8( 1).negated() // Int8(-1)
-    /// Int8( 0).negated() // Int8( 0)
-    /// Int8(-1).negated() // Int8( 1)
     /// ```
+    /// ┌─────────── → ───────────┬──────────┐
+    /// │ self       │ -self      │ overflow │
+    /// ├─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int256(-1) │ false    │
+    /// │ Int256( 0) │ Int256( 0) │ false    │
+    /// │ Int256(-1) │ Int256( 1) │ false    │
+    /// ├─────────── → ───────────┼──────────┤
+    /// | Int256.min | Int256.min | true     |
+    /// └─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, a runtime error may occur.
     ///
     @inlinable func negated() -> Self
     
-    /// Forms a value with equal magnitude but opposite sign, and returns an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Forms the additive inverse of `self`, and returns an `overflow` indicator.
     ///
-    /// ```swift
-    /// var a: Int8(-127); a.negateReportingOverflow() // a = Int8( 127); -> false
-    /// var b: Int8(-128); b.negateReportingOverflow() // b = Int8(-128); -> true
     /// ```
+    /// ┌─────────── → ───────────┬──────────┐
+    /// │ self       │ -self      │ overflow │
+    /// ├─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int256(-1) │ false    │
+    /// │ Int256( 0) │ Int256( 0) │ false    │
+    /// │ Int256(-1) │ Int256( 1) │ false    │
+    /// ├─────────── → ───────────┼──────────┤
+    /// | Int256.min | Int256.min | true     |
+    /// └─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @inlinable mutating func negateReportingOverflow() -> Bool
     
-    /// Returns a value with equal magnitude but opposite sign, along with an overflow indicator.
-    /// In the case of overflow, the result is truncated.
+    /// Returns the additive inverse of `self`, along with an `overflow` indicator.
     ///
-    /// ```swift
-    /// Int8(-127).negatedReportingOverflow() // -> (partialValue: Int8( 127), overflow: false)
-    /// Int8(-128).negatedReportingOverflow() // -> (partialValue: Int8(-128), overflow: true )
     /// ```
+    /// ┌─────────── → ───────────┬──────────┐
+    /// │ self       │ -self      │ overflow │
+    /// ├─────────── → ───────────┼──────────┤
+    /// │ Int256( 1) │ Int256(-1) │ false    │
+    /// │ Int256( 0) │ Int256( 0) │ false    │
+    /// │ Int256(-1) │ Int256( 1) │ false    │
+    /// ├─────────── → ───────────┼──────────┤
+    /// | Int256.min | Int256.min | true     |
+    /// └─────────── → ───────────┴──────────┘
+    /// ```
+    ///
+    /// - Note: In the case of `overflow`, the result is truncated.
     ///
     @inlinable func negatedReportingOverflow() -> PVO<Self>
 }
@@ -782,40 +1202,16 @@ extension ANKSignedInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    /// Returns a value with equal magnitude but opposite sign.
-    ///
-    /// ```swift
-    /// -Int8( 1) // Int8(-1)
-    /// -Int8( 0) // Int8( 0)
-    /// -Int8(-1) // Int8( 1)
-    /// ```
-    ///
-    @_transparent public static prefix func -(x: Self) -> Self {
+    @inlinable public static prefix func -(x: Self) -> Self {
         x.negated()
     }
     
-    /// Forms a value with equal magnitude but opposite sign.
-    ///
-    /// ```swift
-    /// var a = Int8( 1); a.negate() // a = Int8(-1)
-    /// var b = Int8( 0); b.negate() // b = Int8( 0)
-    /// var c = Int8(-1); c.negate() // c = Int8( 1)
-    /// ```
-    ///
-    @_transparent public mutating func negate() {
+    @inlinable public mutating func negate() {
         let overflow: Bool = self.negateReportingOverflow()
         precondition(!overflow, ANK.callsiteOverflowInfo())
     }
     
-    /// Returns a value with equal magnitude but opposite sign.
-    ///
-    /// ```swift
-    /// Int8( 1).negated() // Int8(-1)
-    /// Int8( 0).negated() // Int8( 0)
-    /// Int8(-1).negated() // Int8( 1)
-    /// ```
-    ///
-    @_transparent public func negated() -> Self {
+    @inlinable public func negated() -> Self {
         let pvo: PVO<Self> = self.negatedReportingOverflow()
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as Self
@@ -826,14 +1222,16 @@ extension ANKSignedInteger {
 // MARK: * ANK x Binary Integer x Unsigned
 //*============================================================================*
 
-/// An awesome, unsigned, binary integer.
+/// An unsigned, binary, integer.
 ///
 /// ### Two's Complement
 ///
 /// Like `BinaryInteger`, it has [two's complement][2s] semantics.
 ///
-/// - The two's complement representation of `+0` is an infinite sequence of `0s`.
-/// - The two's complement representation of `-1` is an infinite sequence of `1s`.
+/// ```
+/// The two's complement representation of  0 is an infinite sequence of 0s.
+/// The two's complement representation of -1 is an infinite sequence of 1s.
+/// ```
 ///
 /// [2s]: https://en.wikipedia.org/wiki/Two%27s_complement
 ///

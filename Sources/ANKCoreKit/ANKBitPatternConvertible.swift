@@ -13,8 +13,8 @@
 
 /// A type that can be converted to and from a bit pattern representation.
 ///
-/// ``init(bitPattern:)`` is a type-safe alternative to `unsafeBitCast(_:to:)`.
-/// 
+/// `init(bitPattern:)` is a type-safe alternative to `unsafeBitCast(_:to:)`.
+///
 public protocol ANKBitPatternConvertible<BitPattern> {
     
     /// The bit pattern of this type.
@@ -29,30 +29,40 @@ public protocol ANKBitPatternConvertible<BitPattern> {
     
     /// Creates a new instance from the given bit pattern.
     ///
-    /// ```swift
-    /// Int8(bitPattern: UInt8(255)) // Int8(-1)
-    /// Int8(bitPattern: UInt8(254)) // Int8(-2)
-    /// Int8(bitPattern: UInt8(253)) // Int8(-3)
+    /// ```
+    /// ┌─────────── ⇄ ─────────── ⇄ ────────────┐
+    /// │ Int256     │             │ UInt256     │
+    /// ├─────────── ⇄ ─────────── ⇄ ────────────┤
+    /// │ Int256( 1) │ 0.........1 │ UInt256( 1) │
+    /// │ Int256( 0) │ 0.......... │ UInt256( 0) │
+    /// │ Int256(-1) │ 1.......... │ UInt256.max │
+    /// │ Int256(-2) │ 1.........0 │ UInt256(~1) │
+    /// └─────────── ⇄ ─────────── ⇄ ────────────┘
     /// ```
     ///
-    @inlinable init(bitPattern source: some ANKBitPatternConvertible<BitPattern>)
+    @inlinable init(bitPattern: BitPattern)
     
     /// The bit pattern of this value.
     ///
-    /// ```swift
-    /// Int8(-1).bitPattern // UInt8(255)
-    /// Int8(-2).bitPattern // UInt8(254)
-    /// Int8(-3).bitPattern // UInt8(253)
+    /// ```
+    /// ┌─────────── ⇄ ─────────── ⇄ ────────────┐
+    /// │ Int256     │             │ UInt256     │
+    /// ├─────────── ⇄ ─────────── ⇄ ────────────┤
+    /// │ Int256( 1) │ 0.........1 │ UInt256( 1) │
+    /// │ Int256( 0) │ 0.......... │ UInt256( 0) │
+    /// │ Int256(-1) │ 1.......... │ UInt256.max │
+    /// │ Int256(-2) │ 1.........0 │ UInt256(~1) │
+    /// └─────────── ⇄ ─────────── ⇄ ────────────┘
     /// ```
     ///
     @inlinable var bitPattern: BitPattern { get }
 }
 
 //=----------------------------------------------------------------------------=
-// MARK: + Details where Bit Pattern is Self
+// MARK: + Details
 //=----------------------------------------------------------------------------=
 
-extension ANKBitPatternConvertible where BitPattern == Self {
+extension ANKBitPatternConvertible {
     
     //=------------------------------------------------------------------------=
     // MARK: Initializers
@@ -60,25 +70,18 @@ extension ANKBitPatternConvertible where BitPattern == Self {
     
     /// Creates a new instance from the given bit pattern.
     ///
-    /// ```swift
-    /// Int8(bitPattern: UInt8(255)) // Int8(-1)
-    /// Int8(bitPattern: UInt8(254)) // Int8(-2)
-    /// Int8(bitPattern: UInt8(253)) // Int8(-3)
+    /// ```
+    /// ┌─────────── ⇄ ─────────── ⇄ ────────────┐
+    /// │ Int256     │             │ UInt256     │
+    /// ├─────────── ⇄ ─────────── ⇄ ────────────┤
+    /// │ Int256( 1) │ 0.........1 │ UInt256( 1) │
+    /// │ Int256( 0) │ 0.......... │ UInt256( 0) │
+    /// │ Int256(-1) │ 1.......... │ UInt256.max │
+    /// │ Int256(-2) │ 1.........0 │ UInt256(~1) │
+    /// └─────────── ⇄ ─────────── ⇄ ────────────┘
     /// ```
     ///
-    @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
-        self = source.bitPattern
-    }
-    
-    /// The bit pattern of this value.
-    ///
-    /// ```swift
-    /// Int8(-1).bitPattern // UInt8(255)
-    /// Int8(-2).bitPattern // UInt8(254)
-    /// Int8(-3).bitPattern // UInt8(253)
-    /// ```
-    ///
-    @_transparent public var bitPattern: BitPattern {
-        self
+    @inlinable public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
+        self.init(bitPattern: source.bitPattern)
     }
 }

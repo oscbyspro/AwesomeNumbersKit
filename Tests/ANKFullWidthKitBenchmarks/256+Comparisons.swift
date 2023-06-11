@@ -17,7 +17,7 @@ private typealias X = ANK256X64
 private typealias Y = ANK256X32
 
 //*============================================================================*
-// MARK: * Int256 x Comparisons
+// MARK: * ANK x Int256 x Comparisons
 //*============================================================================*
 
 final class Int256BenchmarksOnComparisons: XCTestCase {
@@ -65,15 +65,6 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testIsFull() {
-        var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
-        
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(abc.isFull)
-            ANK.blackHoleInoutIdentity(&abc)
-        }
-    }
-    
     func testIsZero() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
@@ -109,21 +100,10 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
             ANK.blackHoleInoutIdentity(&abc)
         }
     }
-    
-    func testMatchesRepeatingBit() {
-        var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
-        var bit = ANK.blackHoleIdentity(true)
-        
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(abc.matches(repeating: bit))
-            ANK.blackHoleInoutIdentity(&abc)
-            ANK.blackHoleInoutIdentity(&bit)
-        }
-    }
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Comparisons
+// MARK: * ANK x UInt256 x Comparisons
 //*============================================================================*
 
 final class UInt256BenchmarksOnComparisons: XCTestCase {
@@ -171,15 +151,6 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testIsFull() {
-        var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
-        
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(abc.isFull)
-            ANK.blackHoleInoutIdentity(&abc)
-        }
-    }
-    
     func testIsZero() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
@@ -213,17 +184,6 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(abc.isPowerOf2)
             ANK.blackHoleInoutIdentity(&abc)
-        }
-    }
-    
-    func testMatchesRepeatingBit() {
-        var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
-        var bit = ANK.blackHoleIdentity(true)
-        
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(abc.matches(repeating: bit))
-            ANK.blackHoleInoutIdentity(&abc)
-            ANK.blackHoleInoutIdentity(&bit)
         }
     }
 }

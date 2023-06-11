@@ -28,18 +28,13 @@ final class ANKSignedTests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testInitZero() {
-        ANKAssertIdentical(T(   ), T(M(  ), as: ANKSign.plus ))
-        ANKAssertIdentical(T.zero, T(M(  ), as: ANKSign.plus ))
+        ANKAssertIdentical(T(   ), T(M(  ), as: .plus ))
+        ANKAssertIdentical(T.zero, T(M(  ), as: .plus ))
     }
     
     func testInitEdges() {
-        ANKAssertIdentical(T.max,  T(M.max, as: ANKSign.plus ))
-        ANKAssertIdentical(T.min,  T(M.max, as: ANKSign.minus))
-    }
-    
-    func testInitBit() {
-        ANKAssertIdentical(T(bit: false), T(M(bit: false), as: ANKSign.plus ))
-        ANKAssertIdentical(T(bit: true ), T(M(bit: true ), as: ANKSign.plus ))
+        ANKAssertIdentical(T.max,  T(M.max, as: .plus ))
+        ANKAssertIdentical(T.min,  T(M.max, as: .minus))
     }
     
     func testInitDigit() {
@@ -54,10 +49,10 @@ final class ANKSignedTests: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSign() {
-        XCTAssertEqual(T(0, as: .plus ).sign, ANKSign.plus )
-        XCTAssertEqual(T(0, as: .minus).sign, ANKSign.minus)
-        XCTAssertEqual(T(1, as: .plus ).sign, ANKSign.plus )
-        XCTAssertEqual(T(1, as: .minus).sign, ANKSign.minus)
+        XCTAssertEqual(T(0, as: .plus ).sign, .plus )
+        XCTAssertEqual(T(0, as: .minus).sign, .minus)
+        XCTAssertEqual(T(1, as: .plus ).sign, .plus )
+        XCTAssertEqual(T(1, as: .minus).sign, .minus)
     }
     
     func testIsNormal() {
@@ -68,10 +63,10 @@ final class ANKSignedTests: XCTestCase {
     }
     
     func testNormalizedSign() {
-        XCTAssertEqual(T(0, as: .plus ).normalizedSign, ANKSign.plus )
-        XCTAssertEqual(T(0, as: .minus).normalizedSign, ANKSign.plus )
-        XCTAssertEqual(T(1, as: .plus ).normalizedSign, ANKSign.plus )
-        XCTAssertEqual(T(1, as: .minus).normalizedSign, ANKSign.minus)
+        XCTAssertEqual(T(0, as: .plus ).normalizedSign, .plus )
+        XCTAssertEqual(T(0, as: .minus).normalizedSign, .plus )
+        XCTAssertEqual(T(1, as: .plus ).normalizedSign, .plus )
+        XCTAssertEqual(T(1, as: .minus).normalizedSign, .minus)
     }
 }
 

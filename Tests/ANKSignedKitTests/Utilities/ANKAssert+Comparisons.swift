@@ -15,8 +15,8 @@ import XCTest
 // MARK: * ANK x Assert x Comparisons
 //*============================================================================*
 
-func ANKAssertComparisons<T: ANKFixedWidthInteger>(
-_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>, _ result: Int,
+func ANKAssertComparisons<M: ANKFixedWidthInteger>(
+_ lhs: ANKSigned<M>, _ rhs: ANKSigned<M>, _ result: Int,
 file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual(lhs == rhs, result ==  0, file: file, line: line)
     XCTAssertEqual(lhs != rhs, result !=  0, file: file, line: line)

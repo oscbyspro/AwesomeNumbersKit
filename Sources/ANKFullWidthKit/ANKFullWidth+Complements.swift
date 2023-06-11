@@ -39,16 +39,14 @@ extension ANKFullWidth {
     // MARK: Details x Two's Complement
     //=------------------------------------------------------------------------=
     
-    @inlinable public mutating func formTwosComplement() {
-        self.withUnsafeMutableWords { SELF in
-            var carry: Bool = true
-            for index: Int in SELF.indices {
-                (SELF[index], carry) = (~SELF[index]).addingReportingOverflow(UInt(bit: carry))
-            }
-        }
+    @inlinable public mutating func formTwosComplementSubsequence(_ carry: Bool) -> Bool {
+        let carry = self.low .formTwosComplementSubsequence(carry)
+        return /**/ self.high.formTwosComplementSubsequence(carry)
     }
     
-    @_transparent public func twosComplement() -> Self {
-        var next = self; next.formTwosComplement(); return next
+    @inlinable public func twosComplementSubsequence(_ carry: Bool) -> PVO<Self> {
+        var partialValue = self
+        let overflow: Bool = partialValue.formTwosComplementSubsequence(carry)
+        return PVO(partialValue, overflow)
     }
 }

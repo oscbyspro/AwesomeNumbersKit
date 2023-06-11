@@ -9,6 +9,7 @@
 
 #if DEBUG
 
+import ANKCoreKit
 import ANKFullWidthKit
 import XCTest
 
@@ -16,7 +17,7 @@ private typealias X = ANK256X64
 private typealias Y = ANK256X32
 
 //*============================================================================*
-// MARK: * Int256 x Division
+// MARK: * ANK x Int256 x Division
 //*============================================================================*
 
 final class Int256TestsOnDivision: XCTestCase {
@@ -29,9 +30,9 @@ final class Int256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividing() {
-        ANKAssertDivision( T(0),  T(1),  T(0),  T(0))
-        ANKAssertDivision( T(0),  T(2),  T(0),  T(0))
-        ANKAssertDivision( T(7),  T(1),  T(7),  T(0))
+        ANKAssertDivision( T( ),  T(1),  T( ),  T( ))
+        ANKAssertDivision( T( ),  T(2),  T( ),  T( ))
+        ANKAssertDivision( T(7),  T(1),  T(7),  T( ))
         ANKAssertDivision( T(7),  T(2),  T(3),  T(1))
                 
         ANKAssertDivision( T(7),  T(3),  T(2),  T(1))
@@ -40,18 +41,36 @@ final class Int256TestsOnDivision: XCTestCase {
         ANKAssertDivision(-T(7), -T(3),  T(2), -T(1))
     }
     
-    func testDividingUsingLargeValues() {
+    func testDividingReportingOverflow() {
+        ANKAssertDivision(T( 0),  T( ),  T( 0), T( ), true )
+        ANKAssertDivision(T( 1),  T( ),  T( 1), T(1), true )
+        ANKAssertDivision(T( 2),  T( ),  T( 2), T(2), true )
+        ANKAssertDivision(T.min, -T(1),  T.min, T( ), true )
+        ANKAssertDivision(T.max, -T(1), -T.max, T( ), false)
+    }
+    
+    func testDividingWithLargeDividend() {
         ANKAssertDivision( T(x64: X(1, 2, 3, 4)),  T(2),  T(x64: X(0, ~0/2 + 2, 1, 2)),  T(1))
         ANKAssertDivision( T(x64: X(1, 2, 3, 4)), -T(2), -T(x64: X(0, ~0/2 + 2, 1, 2)),  T(1))
         ANKAssertDivision(-T(x64: X(1, 2, 3, 4)),  T(2), -T(x64: X(0, ~0/2 + 2, 1, 2)), -T(1))
         ANKAssertDivision(-T(x64: X(1, 2, 3, 4)), -T(2),  T(x64: X(0, ~0/2 + 2, 1, 2)), -T(1))
+        
+        ANKAssertDivision( T(x64: X(1, 2, 3, 4)),  T(x64: X(0, ~0/2 + 2, 1, 2)),  T(2),  T(1))
+        ANKAssertDivision( T(x64: X(1, 2, 3, 4)), -T(x64: X(0, ~0/2 + 2, 1, 2)), -T(2),  T(1))
+        ANKAssertDivision(-T(x64: X(1, 2, 3, 4)), -T(x64: X(0, ~0/2 + 2, 1, 2)),  T(2), -T(1))
+        ANKAssertDivision(-T(x64: X(1, 2, 3, 4)),  T(x64: X(0, ~0/2 + 2, 1, 2)), -T(2), -T(1))
     }
     
-    func testDividingReportingOverflow() {
-        ANKAssertDivision(T( 0),  T(0), T( 0), T(0), true)
-        ANKAssertDivision(T( 1),  T(0), T( 1), T(1), true)
-        ANKAssertDivision(T( 2),  T(0), T( 2), T(2), true)
-        ANKAssertDivision(T.min, -T(1), T.min, T(0), true)
+    func testDividingWithLargeDivisor() {
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X( 1,  2,  3,  4 &+ 1 << 63)),  T(1), -T(x64: X(0, 0, 0, 0)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X( 2,  3,  4,  5 &+ 1 << 63)),  T(1), -T(x64: X(1, 1, 1, 1)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X( 3,  4,  5,  6 &+ 1 << 63)),  T(1), -T(x64: X(2, 2, 2, 2)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X( 4,  5,  6,  7 &+ 1 << 63)),  T(1), -T(x64: X(3, 3, 3, 3)))
+        
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X(~0, ~2, ~3, ~4 &+ 1 << 63)), -T(1), -T(x64: X(0, 0, 0, 0)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X(~1, ~3, ~4, ~5 &+ 1 << 63)), -T(1), -T(x64: X(1, 1, 1, 1)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X(~2, ~4, ~5, ~6 &+ 1 << 63)), -T(1), -T(x64: X(2, 2, 2, 2)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X(~3, ~5, ~6, ~7 &+ 1 << 63)), -T(1), -T(x64: X(3, 3, 3, 3)))
     }
     
     //=------------------------------------------------------------------------=
@@ -59,9 +78,9 @@ final class Int256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingByDigit() {
-        ANKAssertDivisionByDigit( T(0),  Int(1),  T(0),  Int(0))
-        ANKAssertDivisionByDigit( T(0),  Int(2),  T(0),  Int(0))
-        ANKAssertDivisionByDigit( T(7),  Int(1),  T(7),  Int(0))
+        ANKAssertDivisionByDigit( T( ),  Int(1),  T( ),  Int( ))
+        ANKAssertDivisionByDigit( T( ),  Int(2),  T( ),  Int( ))
+        ANKAssertDivisionByDigit( T(7),  Int(1),  T(7),  Int( ))
         ANKAssertDivisionByDigit( T(7),  Int(2),  T(3),  Int(1))
                 
         ANKAssertDivisionByDigit( T(7),  Int(3),  T(2),  Int(1))
@@ -70,18 +89,19 @@ final class Int256TestsOnDivision: XCTestCase {
         ANKAssertDivisionByDigit(-T(7), -Int(3),  T(2), -Int(1))
     }
     
-    func testDividingByDigitUsingLargeValues() {
+    func testDividingByDigitReportingOverflow() {
+        ANKAssertDivisionByDigit(T(  ),  Int( ),  T( 0), Int( ), true)
+        ANKAssertDivisionByDigit(T( 1),  Int( ),  T( 1), Int(1), true)
+        ANKAssertDivisionByDigit(T( 2),  Int( ),  T( 2), Int(2), true)
+        ANKAssertDivisionByDigit(T.min, -Int(1),  T.min, Int( ), true)
+        ANKAssertDivisionByDigit(T.max, -Int(1), -T.max, Int( ))
+    }
+    
+    func testDividingByDigitWithLargeDividend() {
         ANKAssertDivisionByDigit( T(x64: X(1, 2, 3, 4)),  Int(2),  T(x64: X(0, ~0/2 + 2, 1, 2)),  Int(1))
         ANKAssertDivisionByDigit( T(x64: X(1, 2, 3, 4)), -Int(2), -T(x64: X(0, ~0/2 + 2, 1, 2)),  Int(1))
         ANKAssertDivisionByDigit(-T(x64: X(1, 2, 3, 4)),  Int(2), -T(x64: X(0, ~0/2 + 2, 1, 2)), -Int(1))
         ANKAssertDivisionByDigit(-T(x64: X(1, 2, 3, 4)), -Int(2),  T(x64: X(0, ~0/2 + 2, 1, 2)), -Int(1))
-    }
-    
-    func testDividingByDigitReportingOverflow() {
-        ANKAssertDivisionByDigit(T( 0),  Int(0), T( 0), Int(0), true)
-        ANKAssertDivisionByDigit(T( 1),  Int(0), T( 1), Int(0), true)
-        ANKAssertDivisionByDigit(T( 2),  Int(0), T( 2), Int(0), true)
-        ANKAssertDivisionByDigit(T.min, -Int(1), T.min, Int(0), true)
     }
     
     //=------------------------------------------------------------------------=
@@ -116,12 +136,12 @@ final class Int256TestsOnDivision: XCTestCase {
         dividend.high = T(  )
         dividend.low  = M( 7)
 
-        ANKAssertDivisionFullWidth(dividend, T( 0),  T( 7), T( 7), true)
+        ANKAssertDivisionFullWidth(dividend, T(  ),  T( 7), T( 7), true)
         //=--------------------------------------=
         dividend.high = T(-1)
         dividend.low  = M( 7)
         
-        ANKAssertDivisionFullWidth(dividend, T( 0),  T( 7), T( 7), true)
+        ANKAssertDivisionFullWidth(dividend, T(  ),  T( 7), T( 7), true)
         //=--------------------------------------=
         dividend.high = T(-1)
         dividend.low  = M.max
@@ -170,11 +190,11 @@ final class Int256TestsOnDivision: XCTestCase {
         dividend.high = T(repeating: true )
         dividend.low  = M(repeating: false)
         
-        ANKAssertDivisionFullWidth(dividend, T(0), ~T(0) << (T.bitWidth - 0), T(0), true)
-        ANKAssertDivisionFullWidth(dividend, T(1), ~T(0) << (T.bitWidth - 0), T(0), true)
-        ANKAssertDivisionFullWidth(dividend, T(2), ~T(0) << (T.bitWidth - 1), T(0))
-        ANKAssertDivisionFullWidth(dividend, T(4), ~T(0) << (T.bitWidth - 2), T(0))
-        ANKAssertDivisionFullWidth(dividend, T(8), ~T(0) << (T.bitWidth - 3), T(0))
+        ANKAssertDivisionFullWidth(dividend, T( ), ~T( ) << (T.bitWidth - 0), T( ), true)
+        ANKAssertDivisionFullWidth(dividend, T(1), ~T( ) << (T.bitWidth - 0), T( ), true)
+        ANKAssertDivisionFullWidth(dividend, T(2), ~T( ) << (T.bitWidth - 1), T( ))
+        ANKAssertDivisionFullWidth(dividend, T(4), ~T( ) << (T.bitWidth - 2), T( ))
+        ANKAssertDivisionFullWidth(dividend, T(8), ~T( ) << (T.bitWidth - 3), T( ))
     }
     
     //=------------------------------------------------------------------------=
@@ -200,7 +220,7 @@ final class Int256TestsOnDivision: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Division
+// MARK: * ANK x UInt256 x Division
 //*============================================================================*
 
 final class UInt256TestsOnDivision: XCTestCase {
@@ -213,23 +233,40 @@ final class UInt256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividing() {
-        ANKAssertDivision(T(0), T(1), T(0), T(0))
-        ANKAssertDivision(T(0), T(2), T(0), T(0))
-        ANKAssertDivision(T(7), T(1), T(7), T(0))
+        ANKAssertDivision(T( ), T(1), T( ), T( ))
+        ANKAssertDivision(T( ), T(2), T( ), T( ))
+        ANKAssertDivision(T(7), T(1), T(7), T( ))
         ANKAssertDivision(T(7), T(2), T(3), T(1))
     }
     
-    func testDividingUsingLargeValues() {
+    func testDividingReportingOverflow() {
+        ANKAssertDivision(T( ), T( ), T( ), T( ), true)
+        ANKAssertDivision(T(1), T( ), T(1), T(1), true)
+        ANKAssertDivision(T(2), T( ), T(2), T(2), true)
+    }
+    
+    func testDividingWithLargeDividend() {
         ANKAssertDivision(T(x64: X(~2,  ~4,  ~6,  9)), T(2), T(x64: X(~1, ~2, ~3, 4)), T(1))
         ANKAssertDivision(T(x64: X(~3,  ~6,  ~9, 14)), T(3), T(x64: X(~1, ~2, ~3, 4)), T(2))
         ANKAssertDivision(T(x64: X(~4,  ~8, ~12, 19)), T(4), T(x64: X(~1, ~2, ~3, 4)), T(3))
         ANKAssertDivision(T(x64: X(~5, ~10, ~15, 24)), T(5), T(x64: X(~1, ~2, ~3, 4)), T(4))
+        
+        ANKAssertDivision(T(x64: X(~2,  ~4,  ~6,  9)), T(x64: X(~1, ~2, ~3, 4)), T(2), T(1))
+        ANKAssertDivision(T(x64: X(~3,  ~6,  ~9, 14)), T(x64: X(~1, ~2, ~3, 4)), T(3), T(2))
+        ANKAssertDivision(T(x64: X(~4,  ~8, ~12, 19)), T(x64: X(~1, ~2, ~3, 4)), T(4), T(3))
+        ANKAssertDivision(T(x64: X(~5, ~10, ~15, 24)), T(x64: X(~1, ~2, ~3, 4)), T(5), T(4))
     }
     
-    func testDividingReportingOverflow() {
-        ANKAssertDivision(T(0), T(0), T(0), T(0), true)
-        ANKAssertDivision(T(1), T(0), T(1), T(1), true)
-        ANKAssertDivision(T(2), T(0), T(2), T(2), true)
+    func testDividingWithLargeDivisor() {
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X( 1,  2,  3,  4 &+ 1 << 63)), T(1), T(x64: X(0, 0, 0, 0)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X( 0,  1,  2,  3 &+ 1 << 63)), T(1), T(x64: X(1, 1, 1, 1)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X(~0, ~0,  0,  2 &+ 1 << 63)), T(1), T(x64: X(2, 2, 2, 2)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X(~1, ~1, ~0,  0 &+ 1 << 63)), T(1), T(x64: X(3, 3, 3, 3)))
+        
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X(~2, ~2, ~1, ~0 &+ 1 << 63)), T(1), T(x64: X(4, 4, 4, 4)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X(~3, ~3, ~2, ~1 &+ 1 << 63)), T(1), T(x64: X(5, 5, 5, 5)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X(~4, ~4, ~3, ~2 &+ 1 << 63)), T(1), T(x64: X(6, 6, 6, 6)))
+        ANKAssertDivision(T(x64: X(1, 2, 3, 4 + 1 << 63)), T(x64: X(~5, ~5, ~4, ~3 &+ 1 << 63)), T(1), T(x64: X(7, 7, 7, 7)))
     }
     
     //=------------------------------------------------------------------------=
@@ -237,23 +274,23 @@ final class UInt256TestsOnDivision: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDividingByDigit() {
-        ANKAssertDivisionByDigit(T(0), UInt(1), T(0), UInt(0))
-        ANKAssertDivisionByDigit(T(0), UInt(2), T(0), UInt(0))
-        ANKAssertDivisionByDigit(T(7), UInt(1), T(7), UInt(0))
+        ANKAssertDivisionByDigit(T( ), UInt(1), T( ), UInt( ))
+        ANKAssertDivisionByDigit(T( ), UInt(2), T( ), UInt( ))
+        ANKAssertDivisionByDigit(T(7), UInt(1), T(7), UInt( ))
         ANKAssertDivisionByDigit(T(7), UInt(2), T(3), UInt(1))
     }
+        
+    func testDividingByDigitReportingOverflow() {
+        ANKAssertDivisionByDigit(T( ), UInt( ), T( ), UInt( ), true)
+        ANKAssertDivisionByDigit(T(1), UInt( ), T(1), UInt(1), true)
+        ANKAssertDivisionByDigit(T(2), UInt( ), T(2), UInt(2), true)
+    }
     
-    func testDividingByDigitUsingLargeValues() {
+    func testDividingByDigitWithLargeDividend() {
         ANKAssertDivisionByDigit(T(x64: X(~2,  ~4,  ~6,  9)), UInt(2), T(x64: X(~1, ~2, ~3, 4)), UInt(1))
         ANKAssertDivisionByDigit(T(x64: X(~3,  ~6,  ~9, 14)), UInt(3), T(x64: X(~1, ~2, ~3, 4)), UInt(2))
         ANKAssertDivisionByDigit(T(x64: X(~4,  ~8, ~12, 19)), UInt(4), T(x64: X(~1, ~2, ~3, 4)), UInt(3))
         ANKAssertDivisionByDigit(T(x64: X(~5, ~10, ~15, 24)), UInt(5), T(x64: X(~1, ~2, ~3, 4)), UInt(4))
-    }
-    
-    func testDividingByDigitReportingOverflow() {
-        ANKAssertDivisionByDigit(T(0), UInt(0), T(0), UInt(0), true)
-        ANKAssertDivisionByDigit(T(1), UInt(0), T(1), UInt(0), true)
-        ANKAssertDivisionByDigit(T(2), UInt(0), T(2), UInt(0), true)
     }
     
     //=------------------------------------------------------------------------=

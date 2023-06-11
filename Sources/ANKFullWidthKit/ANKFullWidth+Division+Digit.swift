@@ -83,7 +83,7 @@ extension ANKFullWidth where High == High.Magnitude {
     @inlinable mutating func formQuotientWithRemainderReportingOverflow(dividingBy other: Digit) -> PVO<Digit> {
         //=--------------------------------------=
         if  other.isZero {
-            return PVO(UInt(), true)
+            return ANK.bitCast(PVO(self.first, true))
         }
         //=--------------------------------------=
         var remainder = UInt()

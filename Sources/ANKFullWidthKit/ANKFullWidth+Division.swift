@@ -152,10 +152,10 @@ extension ANKFullWidth where High == High.Magnitude {
         // shift to clamp approximation
         //=--------------------------------------=
         var remainder = Plus1(low: self)
-        remainder._bitshiftLeft(words: Int.zero, bits: shift)
+        remainder.bitshiftLeftUnchecked(words: Int.zero, bits: shift)
         
         var increment = Plus1(low: other)
-        increment.low._bitshiftLeft(words: minLastIndexGapSize, bits: shift)
+        increment.low.bitshiftLeftUnchecked(words: minLastIndexGapSize, bits: shift)
         assert(increment.high.isZero)
         
         let discriminant: UInt = increment.low[unchecked: self_.minLastIndex]
@@ -192,14 +192,14 @@ extension ANKFullWidth where High == High.Magnitude {
                 assert(approximation <= remainder)
                 remainder &-= approximation
                 QUOTIENT[quotientIndex] = digit
-                increment.low._bitshiftRight(words: 1, bits: Int.zero)
+                increment.low.bitshiftRightUnchecked(words: 1, bits: Int.zero)
             }
         }
         //=--------------------------------------=
         // undo shift before division
         //=--------------------------------------=
         assert(remainder.high.isZero)
-        remainder.low._bitshiftRight(words: Int.zero, bits: shift)
+        remainder.low.bitshiftRightUnchecked(words: Int.zero, bits: shift)
         return PVO(QR(quotient, remainder.low), false)
     }
     

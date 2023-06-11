@@ -21,12 +21,12 @@ final class ANKCoreIntegerTests: XCTestCase {
     typealias T = any ANKCoreInteger.Type
     
     //=------------------------------------------------------------------------=
-    // MARK: Accessors
+    // MARK: State
     //=------------------------------------------------------------------------=
     
-    static let types: [T] =
-    [Int.self,  Int8.self,  Int16.self,  Int32.self,  Int64.self,
-    UInt.self, UInt8.self, UInt16.self, UInt32.self, UInt64.self]
+    static let signed:   [T] = [ Int.self,  Int8.self,  Int16.self,  Int32.self,  Int64.self]
+    static let unsigned: [T] = [UInt.self, UInt8.self, UInt16.self, UInt32.self, UInt64.self]
+    static let types:    [T] = signed + unsigned
     
     //=------------------------------------------------------------------------=
     // MARK: State
@@ -37,10 +37,6 @@ final class ANKCoreIntegerTests: XCTestCase {
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
-    
-    func testANKBigEndianTextCodable() {
-        XCTAssertEqual(10, types.compactMap({ $0 as  any ANKBigEndianTextCodable.Type }).count)
-    }
     
     func testANKBinaryInteger() {
         XCTAssertEqual(10, types.compactMap({ $0 as  any ANKBinaryInteger.Type }).count)

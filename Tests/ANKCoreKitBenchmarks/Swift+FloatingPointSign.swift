@@ -10,17 +10,15 @@
 #if !DEBUG
 
 import ANKCoreKit
-import ANKFullWidthKit
-import ANKSignedKit
 import XCTest
 
 //*============================================================================*
-// MARK: * ANK x Sign
+// MARK: * ANK x Swift x Floating Point Sign
 //*============================================================================*
 
-final class ANKSignBenchmarks: XCTestCase {
+final class ANKSwiftBenchmarksOnFloatingPointSign: XCTestCase {
     
-    typealias T = ANKSign
+    typealias T = FloatingPointSign
     
     //=------------------------------------------------------------------------=
     // MARK: Tests x Initializers
@@ -29,19 +27,6 @@ final class ANKSignBenchmarks: XCTestCase {
     func testInitBit() {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
-        
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(T(abc))
-            ANK.blackHole(T(xyz))
-            
-            ANK.blackHoleInoutIdentity(&abc)
-            ANK.blackHoleInoutIdentity(&xyz)
-        }
-    }
-    
-    func testInitWithFloatingPointSign() {
-        var abc = ANK.blackHoleIdentity(FloatingPointSign.plus )
-        var xyz = ANK.blackHoleIdentity(FloatingPointSign.minus)
         
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(T(abc))
@@ -63,19 +48,6 @@ final class ANKSignBenchmarks: XCTestCase {
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(abc.bit)
             ANK.blackHole(xyz.bit)
-            
-            ANK.blackHoleInoutIdentity(&abc)
-            ANK.blackHoleInoutIdentity(&xyz)
-        }
-    }
-    
-    func testDescription() {
-        var abc = ANK.blackHoleIdentity(T.plus )
-        var xyz = ANK.blackHoleIdentity(T.minus)
-        
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(abc.description)
-            ANK.blackHole(xyz.description)
             
             ANK.blackHoleInoutIdentity(&abc)
             ANK.blackHoleInoutIdentity(&xyz)

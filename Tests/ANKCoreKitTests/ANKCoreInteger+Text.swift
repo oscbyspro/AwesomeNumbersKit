@@ -30,69 +30,137 @@ final class ANKCoreIntegerTestsOnText: XCTestCase {
     // MARK: Tests x Decode
     //=------------------------------------------------------------------------=
     
-    func testDecodingRadix16() {
+    func testDecodingRadix10() {
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertDecodeText(T( 123), 10,  "123")
+            ANKAssertDecodeText(T( 123), 10, "+123")
+            
+            guard type.isSigned else { return }
+            
+            ANKAssertDecodeText(T(-123), 10, "-123")
+        }
+        
         for type: T in types {
-            XCTAssertEqual(Int(type.init(decoding:  "7b", radix: 16)!),  123)
-            XCTAssertEqual(Int(type.init(decoding: "+7b", radix: 16)!),  123)
-            guard type.isSigned else { continue }
-            XCTAssertEqual(Int(type.init(decoding: "-7b", radix: 16)!), -123)
+            whereIs(type)
         }
     }
     
-    func testDecodingRadix10() {
+    func testDecodingRadix16() {
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertDecodeText(T( 123), 16,  "7b")
+            ANKAssertDecodeText(T( 123), 16, "+7b")
+            
+            guard type.isSigned else { return }
+            
+            ANKAssertDecodeText(T(-123), 16, "-7b")
+        }
+        
         for type: T in types {
-            XCTAssertEqual(Int(type.init(decoding:  "123", radix: 10)!),  123)
-            XCTAssertEqual(Int(type.init(decoding: "+123", radix: 10)!),  123)
-            guard type.isSigned else { continue }
-            XCTAssertEqual(Int(type.init(decoding: "-123", radix: 10)!), -123)
+            whereIs(type)
         }
     }
     
     func testDecodingRadixLiteralAsNumber() {
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertDecodeText(T( 33), 36,  "0x")
+            ANKAssertDecodeText(T( 24), 36,  "0o")
+            ANKAssertDecodeText(T( 11), 36,  "0b")
+            
+            ANKAssertDecodeText(T( 33), 36, "+0x")
+            ANKAssertDecodeText(T( 24), 36, "+0o")
+            ANKAssertDecodeText(T( 11), 36, "+0b")
+            
+            guard type.isSigned else { return }
+            
+            ANKAssertDecodeText(T(-33), 36, "-0x")
+            ANKAssertDecodeText(T(-24), 36, "-0o")
+            ANKAssertDecodeText(T(-11), 36, "-0b")
+        }
+        
         for type: T in types {
-            XCTAssertEqual(Int(type.init(decoding:  "0x", radix: 36)!),  33)
-            XCTAssertEqual(Int(type.init(decoding:  "0o", radix: 36)!),  24)
-            XCTAssertEqual(Int(type.init(decoding:  "0b", radix: 36)!),  11)
-            guard type.isSigned else { continue }
-            XCTAssertEqual(Int(type.init(decoding: "-0x", radix: 36)!), -33)
-            XCTAssertEqual(Int(type.init(decoding: "-0o", radix: 36)!), -24)
-            XCTAssertEqual(Int(type.init(decoding: "-0b", radix: 36)!), -11)
+            whereIs(type)
         }
     }
     
-    func testDecodingStringsWithOrWithoutSignAndRadixLiteral() {
+    func testDecodingRadixLiteralAsRadixReturnsNil() {
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertDecodeText(T?.none, 10,  "0x10")
+            ANKAssertDecodeText(T?.none, 10,  "0o10")
+            ANKAssertDecodeText(T?.none, 10,  "0b10")
+            
+            ANKAssertDecodeText(T?.none, 10, "+0x10")
+            ANKAssertDecodeText(T?.none, 10, "+0o10")
+            ANKAssertDecodeText(T?.none, 10, "+0b10")
+            
+            guard type.isSigned else { return }
+            
+            ANKAssertDecodeText(T?.none, 10, "-0x10")
+            ANKAssertDecodeText(T?.none, 10, "-0o10")
+            ANKAssertDecodeText(T?.none, 10, "-0b10")
+        }
+        
         for type: T in types {
-            XCTAssertEqual(Int(type.init(decoding:    "10", radix: nil)!),    10)
-            XCTAssertEqual(Int(type.init(decoding:  "0b10", radix: nil)!),  0b10)
-            XCTAssertEqual(Int(type.init(decoding:  "0o10", radix: nil)!),  0o10)
-            XCTAssertEqual(Int(type.init(decoding:  "0x10", radix: nil)!),  0x10)
-            XCTAssertEqual(Int(type.init(decoding:   "+10", radix: nil)!),    10)
-            XCTAssertEqual(Int(type.init(decoding: "+0b10", radix: nil)!),  0b10)
-            XCTAssertEqual(Int(type.init(decoding: "+0o10", radix: nil)!),  0o10)
-            XCTAssertEqual(Int(type.init(decoding: "+0x10", radix: nil)!),  0x10)
-            guard type.isSigned else { continue }
-            XCTAssertEqual(Int(type.init(decoding:   "-10", radix: nil)!),   -10)
-            XCTAssertEqual(Int(type.init(decoding: "-0b10", radix: nil)!), -0b10)
-            XCTAssertEqual(Int(type.init(decoding: "-0o10", radix: nil)!), -0o10)
-            XCTAssertEqual(Int(type.init(decoding: "-0x10", radix: nil)!), -0x10)
+            whereIs(type)
+        }
+    }
+    
+    func testDecodingStringsWithOrWithoutSign() {
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertDecodeText(T( 123), 10,  "123")
+            ANKAssertDecodeText(T( 123), 10, "+123")
+            
+            guard type.isSigned else { return }
+            
+            ANKAssertDecodeText(T(-123), 10, "-123")
+        }
+        
+        for type: T in types {
+            whereIs(type)
         }
     }
     
     func testDecodingPrefixingZerosHasNoEffect() {
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertDecodeText(T(0), 10, String(repeating: "0", count: 99) + "0")
+            ANKAssertDecodeText(T(1), 10, String(repeating: "0", count: 99) + "1")
+        }
+        
         for type: T in types {
-            XCTAssertEqual(Int(type.init(decoding: String(repeating: "0", count: 99) + "0")!), 0)
-            XCTAssertEqual(Int(type.init(decoding: String(repeating: "0", count: 99) + "1")!), 1)
+            whereIs(type)
+        }
+    }
+    
+    func testDecodingStringsWithoutDigitsReturnsNil() {
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
+            ANKAssertDecodeText(T?.none, 10,  "")
+            ANKAssertDecodeText(T?.none, 10, "+")
+            ANKAssertDecodeText(T?.none, 10, "-")
+            ANKAssertDecodeText(T?.none, 10, "~")
+            
+            ANKAssertDecodeText(T?.none, 16,  "")
+            ANKAssertDecodeText(T?.none, 16, "+")
+            ANKAssertDecodeText(T?.none, 16, "-")
+            ANKAssertDecodeText(T?.none, 16, "~")
+        }
+        
+        for type: T in types {
+            whereIs(type)
         }
     }
     
     func testDecodingValueOutsideOfRepresentableRangeReturnsNil() {
         let positive = "+" + String(repeating: "1", count: 65)
         let negative = "-" + String(repeating: "1", count: 65)
-        for type: T in types {
+        
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
             for radix in 2 ... 36 {
-                XCTAssertNil(type.init(decoding: positive, radix: radix))
-                XCTAssertNil(type.init(decoding: negative, radix: radix))
+                ANKAssertDecodeText(T?.none, radix, positive)
+                ANKAssertDecodeText(T?.none, radix, negative)
             }
+        }
+        
+        for type: T in types {
+            whereIs(type)
         }
     }
     
@@ -100,25 +168,41 @@ final class ANKCoreIntegerTestsOnText: XCTestCase {
     // MARK: Tests x Encode
     //=------------------------------------------------------------------------=
     
-    func testEncodingRadix16() {
+    func testEncodingRadix10() {
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
+            let max = T(123)
+            let min = T(exactly: -123)
+            
+            ANKAssertEncodeText(max, 10, false,  "123")
+            ANKAssertEncodeText(max, 10, true ,  "123")
+            
+            guard let min else { return }
+            
+            ANKAssertEncodeText(min, 10, false, "-123")
+            ANKAssertEncodeText(min, 10, true , "-123")
+        }
+        
         for type: T in types {
-            let max = type.init(123), min = type.init(exactly: -123)
-            XCTAssertEqual(String(encoding: max, radix: 16, uppercase: false),   "7b")
-            XCTAssertEqual(String(encoding: max, radix: 16, uppercase: true ),   "7B")
-            guard let min else { continue }
-            XCTAssertEqual(String(encoding: min, radix: 16, uppercase: false),  "-7b")
-            XCTAssertEqual(String(encoding: min, radix: 16, uppercase: true ),  "-7B")
+            whereIs(type)
         }
     }
     
-    func testEncodingRadix10() {
+    func testEncodingRadix16() {
+        func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
+            let max = T(123)
+            let min = T(exactly: -123)
+            
+            ANKAssertEncodeText(max, 16, false,  "7b")
+            ANKAssertEncodeText(max, 16, true ,  "7B")
+            
+            guard let min else { return }
+            
+            ANKAssertEncodeText(min, 16, false, "-7b")
+            ANKAssertEncodeText(min, 16, true , "-7B")
+        }
+        
         for type: T in types {
-            let max = type.init(123), min = type.init(exactly: -123)
-            XCTAssertEqual(String(encoding: max, radix: 10, uppercase: false),  "123")
-            XCTAssertEqual(String(encoding: max, radix: 10, uppercase: true ),  "123")
-            guard let min else { continue }
-            XCTAssertEqual(String(encoding: min, radix: 10, uppercase: false), "-123")
-            XCTAssertEqual(String(encoding: min, radix: 10, uppercase: true ), "-123")
+            whereIs(type)
         }
     }
 }

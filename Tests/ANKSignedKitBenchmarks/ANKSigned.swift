@@ -41,19 +41,6 @@ final class ANKSignedBenchmarks: XCTestCase {
         }
     }
     
-    func testInitBit() {
-        var abc = ANK.blackHoleIdentity(true )
-        var xyz = ANK.blackHoleIdentity(false)
-        
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(T(bit: abc))
-            ANK.blackHole(T(bit: xyz))
-            
-            ANK.blackHoleInoutIdentity(&abc)
-            ANK.blackHoleInoutIdentity(&xyz)
-        }
-    }
-    
     func testInitDigit() {
         var abc = ANK.blackHoleIdentity(D.min)
         var xyz = ANK.blackHoleIdentity(D.max)

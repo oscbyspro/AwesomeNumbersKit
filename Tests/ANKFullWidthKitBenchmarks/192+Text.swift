@@ -17,7 +17,7 @@ private typealias X = ANK192X64
 private typealias Y = ANK192X32
 
 //*============================================================================*
-// MARK: * Int192 x Text
+// MARK: * ANK x Int192 x Text
 //*============================================================================*
 
 final class Int192BenchmarksOnText: XCTestCase {
@@ -28,7 +28,7 @@ final class Int192BenchmarksOnText: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
 
-    static var number = ANK.blackHoleIdentity(T(decoding:    source, radix: 16)!)
+    static var number = ANK.blackHoleIdentity(T(source, radix: 16)!)
     static var source = ANK.blackHoleIdentity(String(repeating: "1", count: 48) )
 
     //=------------------------------------------------------------------------=
@@ -37,29 +37,28 @@ final class Int192BenchmarksOnText: XCTestCase {
     
     func testDecodingRadix10() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(T(decoding: Self.source, radix: 10)!)
+            ANK.blackHole(T(Self.source, radix: 10)!)
             ANK.blackHoleInoutIdentity(&Self.source)
         }
     }
     
     func testDecodingRadix16() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(T(decoding: Self.source, radix: 16)!)
+            ANK.blackHole(T(Self.source, radix: 16)!)
             ANK.blackHoleInoutIdentity(&Self.source)
         }
     }
     
     func testEncodingRadix10() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(String(encoding: Self.number, radix: 10))
+            ANK.blackHole(String(Self.number, radix: 10))
             ANK.blackHoleInoutIdentity(&Self.number)
-
         }
     }
     
     func testEncodingRadix16() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(String(encoding: Self.number, radix: 16))
+            ANK.blackHole(String(Self.number, radix: 16))
             ANK.blackHoleInoutIdentity(&Self.number)
         }
     }
@@ -70,35 +69,35 @@ final class Int192BenchmarksOnText: XCTestCase {
     
     func testDecodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(T(Self.source, radix: 10)!)
+            ANK.blackHole(T.stdlib(Self.source, radix: 10)!)
             ANK.blackHoleInoutIdentity(&Self.source)
         }
     }
     
     func testDecodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(T(Self.source, radix: 16)!)
+            ANK.blackHole(T.stdlib(Self.source, radix: 16)!)
             ANK.blackHoleInoutIdentity(&Self.source)
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(String(Self.number, radix: 10))
+            ANK.blackHole(String.stdlib(Self.number, radix: 10))
             ANK.blackHoleInoutIdentity(&Self.number)
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(String(Self.number, radix: 16))
+            ANK.blackHole(String.stdlib(Self.number, radix: 16))
             ANK.blackHoleInoutIdentity(&Self.number)
         }
     }
 }
 
 //*============================================================================*
-// MARK: * UInt192 x Text
+// MARK: * ANK x UInt192 x Text
 //*============================================================================*
 
 final class UInt192BenchmarksOnText: XCTestCase {
@@ -109,7 +108,7 @@ final class UInt192BenchmarksOnText: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
 
-    static var number = ANK.blackHoleIdentity(T(decoding:    source, radix: 16)!)
+    static var number = ANK.blackHoleIdentity(T(source, radix: 16)!)
     static var source = ANK.blackHoleIdentity(String(repeating: "1", count: 48) )
 
     //=------------------------------------------------------------------------=
@@ -118,28 +117,28 @@ final class UInt192BenchmarksOnText: XCTestCase {
     
     func testDecodingRadix10() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(T(decoding: Self.source, radix: 10)!)
+            ANK.blackHole(T(Self.source, radix: 10)!)
             ANK.blackHoleInoutIdentity(&Self.source)
         }
     }
     
     func testDecodingRadix16() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(T(decoding: Self.source, radix: 16)!)
+            ANK.blackHole(T(Self.source, radix: 16)!)
             ANK.blackHoleInoutIdentity(&Self.source)
         }
     }
     
     func testEncodingRadix10() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(String(encoding: Self.number, radix: 10))
+            ANK.blackHole(String(Self.number, radix: 10))
             ANK.blackHoleInoutIdentity(&Self.number)
         }
     }
     
     func testEncodingRadix16() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(String(encoding: Self.number, radix: 16))
+            ANK.blackHole(String(Self.number, radix: 16))
             ANK.blackHoleInoutIdentity(&Self.number)
         }
     }
@@ -150,28 +149,28 @@ final class UInt192BenchmarksOnText: XCTestCase {
     
     func testDecodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(T(Self.source, radix: 10)!)
+            ANK.blackHole(T.stdlib(Self.source, radix: 10)!)
             ANK.blackHoleInoutIdentity(&Self.source)
         }
     }
     
     func testDecodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(T(Self.source, radix: 16)!)
+            ANK.blackHole(T.stdlib(Self.source, radix: 16)!)
             ANK.blackHoleInoutIdentity(&Self.source)
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix10() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(String(Self.number, radix: 10))
+            ANK.blackHole(String.stdlib(Self.number, radix: 10))
             ANK.blackHoleInoutIdentity(&Self.number)
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix16() {
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(String(Self.number, radix: 16))
+            ANK.blackHole(String.stdlib(Self.number, radix: 16))
             ANK.blackHoleInoutIdentity(&Self.number)
         }
     }

@@ -48,9 +48,10 @@ import ANKCoreKit
 ///
 /// - Note: The `Digit` type is `Int` when `Self` is signed, and `UInt` otherwise.
 ///
-@frozen public struct ANKFullWidth<High, Low>: ANKFixedWidthInteger, CustomStringConvertible,
-CustomDebugStringConvertible, MutableCollection, RandomAccessCollection where High: ANKFixedWidthInteger,
-High.Digit: ANKCoreInteger<UInt>, Low: ANKFixedWidthInteger & ANKUnsignedInteger, Low.Digit == UInt {
+@frozen public struct ANKFullWidth<High, Low>:
+ANKFixedWidthInteger, MutableCollection, RandomAccessCollection where
+High: ANKFixedWidthInteger, High.Digit: ANKCoreInteger<UInt>,
+Low: ANKFixedWidthInteger & ANKUnsignedInteger, Low.Digit == UInt {
     
     /// The most significant component of this type.
     public typealias High = High

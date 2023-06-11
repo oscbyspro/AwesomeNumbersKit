@@ -9,6 +9,7 @@
 
 #if DEBUG
 
+import ANKCoreKit
 import ANKFullWidthKit
 import XCTest
 
@@ -16,7 +17,7 @@ private typealias X = ANK256X64
 private typealias Y = ANK256X32
 
 //*============================================================================*
-// MARK: * Int256 x Complements
+// MARK: * ANK x Int256 x Complements
 //*============================================================================*
 
 final class Int256TestsOnComplements: XCTestCase {
@@ -62,13 +63,17 @@ final class Int256TestsOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        XCTAssertEqual(T.min.twosComplement(), T.min)
-        XCTAssertEqual(T.max.twosComplement(), T.min + T(1))
+        ANKAssertTwosComplement(T(-1), T( 1))
+        ANKAssertTwosComplement(T( 0), T( 0))
+        ANKAssertTwosComplement(T( 1), T(-1))
+        
+        ANKAssertTwosComplement(T.min, T.min + 0, true)
+        ANKAssertTwosComplement(T.max, T.min + 1)
     }
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Complements
+// MARK: * ANK x UInt256 x Complements
 //*============================================================================*
 
 final class UInt256TestsOnComplements: XCTestCase {
@@ -107,8 +112,12 @@ final class UInt256TestsOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        XCTAssertEqual(T.min.twosComplement(), T.min)
-        XCTAssertEqual(T.max.twosComplement(), T.min + T(1))
+        ANKAssertTwosComplement(T( 1), T.max - 0)
+        ANKAssertTwosComplement(T( 2), T.max - 1)
+        ANKAssertTwosComplement(T( 3), T.max - 2)
+        
+        ANKAssertTwosComplement(T.min, T.min + 0, true)
+        ANKAssertTwosComplement(T.max, T.min + 1)
     }
 }
 

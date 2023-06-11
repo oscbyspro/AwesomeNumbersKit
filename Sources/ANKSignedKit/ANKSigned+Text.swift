@@ -7,45 +7,51 @@
 // See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 //=----------------------------------------------------------------------------=
 
-import ANKCoreKit
-
 //*============================================================================*
 // MARK: * ANK x Signed x Text
 //*============================================================================*
 
-extension ANKSigned where Magnitude: ANKBigEndianTextCodable {
+extension ANKSigned {
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
+    // MARK: Details x Decode
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public init?(_ description: String) {
+        self.init(description, radix: 10)
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Encode
     //=------------------------------------------------------------------------=
     
     @_transparent public var description: String {
-        String(encoding: self)
-    }
-    
-    @inlinable public var debugDescription: String {
-        "\(Self.self)(sign: \(sign), magnitude: \(magnitude))"
+        self.description(radix: 10, uppercase: false)
     }
 }
 
-//*============================================================================*
-// MARK: * ANK x Signed x Text x Big Endian Text Codable
-//*============================================================================*
+//=----------------------------------------------------------------------------=
+// MARK: + String
+//=----------------------------------------------------------------------------=
 
-extension ANKSigned where Magnitude: ANKBigEndianTextCodable {
+extension String {
     
     //=------------------------------------------------------------------------=
-    // MARK: Utilities
+    // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @inlinable public static func decodeBigEndianText(_ source: some StringProtocol, radix: Int?) throws -> Self {
-        let components = ANK.bigEndianTextComponents(source, radix: radix)
-        let magnitude  = try Magnitude.decodeBigEndianText(components.body, radix: components.radix)
-        return Self(magnitude, as: components.sign)
-    }
-    
-    @inlinable public static func encodeBigEndianText(_ source: Self, radix: Int, uppercase: Bool) -> String {
-        let magnitudeBigEndianText = Magnitude.encodeBigEndianText(source.magnitude, radix: radix, uppercase: uppercase)
-        return source.isLessThanZero ? "-" + magnitudeBigEndianText : magnitudeBigEndianText
+    /// Creates a string representing the given value, in the given format.
+    ///
+    /// ```
+    /// ┌──────────────┬───────┬─────────── → ────────────┐
+    /// │ integer      │ radix │ uppercase  │ self        │
+    /// ├──────────────┼───────┼─────────── → ────────────┤
+    /// │ Int256( 123) │ 12    │ true       │  "A3"       │
+    /// │ Int256(-123) │ 16    │ false      │ "-7b"       │
+    /// └──────────────┴───────┴─────────── → ────────────┘
+    /// ```
+    ///
+    @inlinable public init<T>(_ value: ANKSigned<T>, radix: Int = 10, uppercase: Bool = false) {
+        self = value.description(radix: radix, uppercase: uppercase)
     }
 }

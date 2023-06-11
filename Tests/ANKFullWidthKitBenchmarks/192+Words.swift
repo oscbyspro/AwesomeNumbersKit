@@ -17,7 +17,7 @@ private typealias X = ANK192X64
 private typealias Y = ANK192X32
 
 //*============================================================================*
-// MARK: * Int192 x Words
+// MARK: * ANK x Int192 x Words
 //*============================================================================*
 
 final class Int192BenchmarksOnWords: XCTestCase {
@@ -56,7 +56,7 @@ final class Int192BenchmarksOnWords: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt192 x Words
+// MARK: * ANK x UInt192 x Words
 //*============================================================================*
 
 final class UInt192BenchmarksOnWords: XCTestCase {

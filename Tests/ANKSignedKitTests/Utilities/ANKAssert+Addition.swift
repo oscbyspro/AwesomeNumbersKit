@@ -15,8 +15,8 @@ import XCTest
 // MARK: * ANK x Assert x Addition
 //*============================================================================*
 
-func ANKAssertAddition<T: ANKFixedWidthInteger>(
-_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>, _ partialValue: ANKSigned<T>, _ overflow: Bool = false,
+func ANKAssertAddition<M: ANKFixedWidthInteger>(
+_ lhs: ANKSigned<M>, _ rhs: ANKSigned<M>, _ partialValue: ANKSigned<M>, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     //=------------------------------------------=
     if !overflow {
@@ -34,8 +34,8 @@ file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual(/**/{ var x = lhs; let o = x.addReportingOverflow(rhs); return o }(), overflow,     file: file, line: line)
 }
 
-func ANKAssertAdditionByDigit<T: ANKFixedWidthInteger>(
-_ lhs: ANKSigned<T>, _ rhs: ANKSigned<T>.Digit, _ partialValue: ANKSigned<T>, _ overflow: Bool = false,
+func ANKAssertAdditionByDigit<M: ANKFixedWidthInteger>(
+_ lhs: ANKSigned<M>, _ rhs: ANKSigned<M>.Digit, _ partialValue: ANKSigned<M>, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     //=------------------------------------------=
     if !overflow {

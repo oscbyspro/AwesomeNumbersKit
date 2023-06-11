@@ -15,8 +15,8 @@ import XCTest
 // MARK: * ANK x Assert x Negation
 //*============================================================================*
 
-func ANKAssertNegation<T: ANKFixedWidthInteger>(
-_ operand: ANKSigned<T>, _ partialValue: ANKSigned<T>, _ overflow: Bool = false,
+func ANKAssertNegation<M: ANKFixedWidthInteger>(
+_ operand: ANKSigned<M>, _ partialValue: ANKSigned<M>, _ overflow: Bool = false,
 file: StaticString = #file, line: UInt = #line) {
     //=------------------------------------------=
     if !overflow {

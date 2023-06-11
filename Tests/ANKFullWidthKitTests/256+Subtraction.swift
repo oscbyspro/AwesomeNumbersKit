@@ -16,7 +16,7 @@ private typealias X = ANK256X64
 private typealias Y = ANK256X32
 
 //*============================================================================*
-// MARK: * Int256 x Subtraction
+// MARK: * ANK x Int256 x Subtraction
 //*============================================================================*
 
 final class Int256TestsOnSubtraction: XCTestCase {
@@ -136,7 +136,7 @@ final class Int256TestsOnSubtraction: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Subtraction
+// MARK: * ANK x UInt256 x Subtraction
 //*============================================================================*
 
 final class UInt256TestsOnSubtraction: XCTestCase {

@@ -6,7 +6,6 @@ Large number arithmetic in Swift.
 
 ### Models
 
-- ``ANKError``
 - ``ANKSign``
 - ``ANKSigned``
 

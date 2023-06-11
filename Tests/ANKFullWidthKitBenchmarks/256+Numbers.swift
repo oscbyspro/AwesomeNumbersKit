@@ -17,7 +17,7 @@ private typealias X = ANK256X64
 private typealias Y = ANK256X32
 
 //*============================================================================*
-// MARK: * Int256 x Numbers
+// MARK: * ANK x Int256 x Numbers
 //*============================================================================*
 
 final class Int256BenchmarksOnNumbers: XCTestCase {
@@ -220,21 +220,15 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSignedMagnitude() {
-        var abc = ANK.blackHoleIdentity(ANKSigned(M(x64: X(0, 1, 2, 3)), as: .plus ))
-        var xyz = ANK.blackHoleIdentity(ANKSigned(M(x64: X(0, 1, 2, 3)), as: .minus))
+        var abc = ANK.blackHoleIdentity((sign: FloatingPointSign.plus,  magnitude: M(x64: X(0, 1, 2, 3))))
+        var xyz = ANK.blackHoleIdentity((sign: FloatingPointSign.minus, magnitude: M(x64: X(0, 1, 2, 3))))
         
         for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(T(abc))
-            ANK.blackHole(T(xyz))
-
-            ANK.blackHole(T(exactly:  abc))
-            ANK.blackHole(T(exactly:  xyz))
-
-            ANK.blackHole(T(clamping: abc))
-            ANK.blackHole(T(clamping: xyz))
+            ANK.blackHole(T.exactly (sign: abc.sign, magnitude: abc.magnitude))
+            ANK.blackHole(T.exactly (sign: xyz.sign, magnitude: xyz.magnitude))
             
-            ANK.blackHole(T(truncatingIfNeeded: abc))
-            ANK.blackHole(T(truncatingIfNeeded: xyz))
+            ANK.blackHole(T.clamping(sign: abc.sign, magnitude: abc.magnitude))
+            ANK.blackHole(T.clamping(sign: xyz.sign, magnitude: xyz.magnitude))
             
             ANK.blackHoleInoutIdentity(&abc)
             ANK.blackHoleInoutIdentity(&xyz)
@@ -243,7 +237,7 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * UInt256 x Numbers
+// MARK: * ANK x UInt256 x Numbers
 //*============================================================================*
 
 final class UInt256BenchmarksOnNumbers: XCTestCase {
@@ -446,21 +440,15 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testSignedMagnitude() {
-        var abc = ANK.blackHoleIdentity(ANKSigned(M(x64: X(0, 1, 2, 3)), as: .plus ))
-        var xyz = ANK.blackHoleIdentity(ANKSigned(M(x64: X(0, 1, 2, 3)), as: .minus))
+        var abc = ANK.blackHoleIdentity((sign: FloatingPointSign.plus,  magnitude: M(x64: X(0, 1, 2, 3))))
+        var xyz = ANK.blackHoleIdentity((sign: FloatingPointSign.minus, magnitude: M(x64: X(0, 1, 2, 3))))
         
         for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(T(abc))
-            ANK.blackHole((    ))
-
-            ANK.blackHole(T(exactly:  abc))
-            ANK.blackHole(T(exactly:  xyz))
-
-            ANK.blackHole(T(clamping: abc))
-            ANK.blackHole(T(clamping: xyz))
+            ANK.blackHole(T.exactly (sign: abc.sign, magnitude: abc.magnitude))
+            ANK.blackHole(T.exactly (sign: xyz.sign, magnitude: xyz.magnitude))
             
-            ANK.blackHole(T(truncatingIfNeeded: abc))
-            ANK.blackHole(T(truncatingIfNeeded: xyz))
+            ANK.blackHole(T.clamping(sign: abc.sign, magnitude: abc.magnitude))
+            ANK.blackHole(T.clamping(sign: xyz.sign, magnitude: xyz.magnitude))
             
             ANK.blackHoleInoutIdentity(&abc)
             ANK.blackHoleInoutIdentity(&xyz)

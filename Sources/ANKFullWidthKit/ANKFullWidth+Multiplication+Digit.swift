@@ -19,67 +19,94 @@ extension ANKFullWidth {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    @_disfavoredOverload @inlinable public mutating func multiplyReportingOverflow(by  other: Digit) -> Bool {
+    @_disfavoredOverload @inlinable public mutating func multiplyReportingOverflow(by other: Digit) -> Bool {
         let pvo: PVO<Self> = self.multipliedReportingOverflow(by: other)
         self = pvo.partialValue
         return pvo.overflow as Bool
     }
     
     @_disfavoredOverload @inlinable public func multipliedReportingOverflow(by other: Digit) -> PVO<Self> {
-        let product = Plus1(descending: self.multipliedFullWidth(by: other))
+        let lhsIsLessThanZero: Bool = self .isLessThanZero
+        let rhsIsLessThanZero: Bool = other.isLessThanZero
+        let minus = lhsIsLessThanZero != rhsIsLessThanZero
         //=--------------------------------------=
-        let overflow: Bool
-        if !Self.isSigned {
-            overflow = !(product.high.isZero)
-        }   else if self.isLessThanZero == other.isLessThanZero {
-            // overflow = product > Self.max, but more efficient
-            overflow = !(product.high.isZero && !product.low.mostSignificantBit)
-        }   else {
-            // overflow = product < Self.min, but more efficient
-            overflow = !(product.high.isFull &&  product.low.mostSignificantBit) && product.high.mostSignificantBit
+        var pvo = ANK.bitCast(self.magnitude.multipliedReportingOverflow(by: other.magnitude)) as PVO<Self>
+        //=--------------------------------------=
+        var suboverflow = (pvo.partialValue.isLessThanZero)
+        if  minus {
+            suboverflow = !pvo.partialValue.formTwosComplementSubsequence(true) && suboverflow
         }
+        
+        pvo.overflow = pvo.overflow || suboverflow as Bool
         //=--------------------------------------=
-        return ANK.bitCast(PVO(product.low, overflow)) as PVO<Self>
+        return pvo as PVO<Self>
     }
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Transformations x Full Width
     //=------------------------------------------------------------------------=
     
     @_disfavoredOverload @inlinable public mutating func multiplyFullWidth(by other: Digit) -> Digit {
-        let product: HL<Digit, Magnitude> = self.multipliedFullWidth(by: other)
+        let product = self.multipliedFullWidth(by: other) as HL<Digit, Magnitude>
         self = Self(bitPattern: product.low)
         return product.high as  Digit
     }
     
     @_disfavoredOverload @inlinable public func multipliedFullWidth(by other: Digit) -> HL<Digit, Magnitude> {
-        //=--------------------------------------=
-        if  other.isZero {
-            return HL(Digit.zero, Magnitude.zero)
-        }
-        //=--------------------------------------=
-        let lhsIsLessThanZero: Bool =  self.isLessThanZero
+        let lhsIsLessThanZero: Bool = self .isLessThanZero
         let rhsIsLessThanZero: Bool = other.isLessThanZero
+        var minus = lhsIsLessThanZero != rhsIsLessThanZero
         //=--------------------------------------=
-        var high = UInt()
-        let low: Magnitude = self.withUnsafeWords { LHS in
-            Magnitude.fromUnsafeMutableWords { LOW in
-                //=------------------------------=
-                let rhsWord = UInt(bitPattern: other)
-                var rhsIsLessThanZeroCarry = rhsIsLessThanZero
-                //=------------------------------=
-                for index: Int in LHS.indices {
-                    let lhsWord: UInt  = LHS[index]
-                    (high, LOW[index]) = high.addingFullWidth(multiplicands:(lhsWord, rhsWord))
-                    if  rhsIsLessThanZero {
-                        rhsIsLessThanZeroCarry = high.addReportingOverflow(~lhsWord, rhsIsLessThanZeroCarry)
-                    }
-                }
-                //=------------------------------=
-                high = lhsIsLessThanZero ? high &+ rhsWord.twosComplement() : high
-            }
+        var product = self.magnitude.multipliedFullWidth(by: other.magnitude) as HL<UInt, Magnitude>
+        //=--------------------------------------=
+        if  minus {
+            minus = product.low .formTwosComplementSubsequence(minus)
+            minus = product.high.formTwosComplementSubsequence(minus)
         }
         //=--------------------------------------=
-        return ANK.bitCast(HL(high, low)) as HL<Digit, Magnitude>
+        return ANK.bitCast(product) as HL<Digit, Magnitude>
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Unsigned
+//=----------------------------------------------------------------------------=
+
+extension ANKFullWidth where High == High.Magnitude {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    @_disfavoredOverload @inlinable mutating func multiplyReportingOverflow(by other: Digit) -> Bool {
+        !self.multiplyFullWidth(by: other).isZero
+    }
+    
+    @_disfavoredOverload @inlinable func multipliedReportingOverflow(by other: Digit) -> PVO<Self> {
+        var pvo = PVO(self, false)
+        pvo.overflow = pvo.partialValue.multiplyReportingOverflow(by: other)
+        return pvo as PVO<Self>
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Full Width
+    //=------------------------------------------------------------------------=
+    
+    @_disfavoredOverload @inlinable mutating func multiplyFullWidth(by other: Digit) -> Digit {
+        var carry = UInt.zero
+        
+        for index in self.indices {
+            var subproduct = self[index].multipliedFullWidth(by: other)
+            subproduct.high &+= UInt(bit: subproduct.low.addReportingOverflow(carry))
+            (carry, self[index]) = subproduct as HL<UInt, UInt>
+        }
+        
+        return carry as Digit
+    }
+    
+    @_disfavoredOverload @inlinable func multipliedFullWidth(by other: Digit) -> HL<Digit, Magnitude> {
+        var product  = HL(UInt.zero, self)
+        product.high = product.low.multiplyFullWidth(by: other)
+        return product as HL<Digit, Magnitude>
     }
 }
