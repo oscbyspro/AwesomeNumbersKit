@@ -20,21 +20,19 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @_disfavoredOverload @inlinable public mutating func addReportingOverflow(_ other: Digit) -> Bool {
-        self.withUnsafeMutableWords { SELF in
+        self.withUnsafeMutableWords { this in
             let minus: Bool = other.isLessThanZero
-            var carry: Bool = SELF.first.addReportingOverflow(UInt(bitPattern: other))
+            var carry: Bool = this.first.addReportingOverflow(UInt(bitPattern: other))
             //=----------------------------------=
             if  carry == minus { return false }
             let extra =  UInt(bitPattern: minus ? -1 : 1)
             //=----------------------------------=
-            for index in 1 ..< SELF.lastIndex {
-                carry =  SELF[index].addReportingOverflow(extra)
+            for index in 1 ..< this.lastIndex {
+                carry = this[index].addReportingOverflow(extra)
                 if carry == minus { return false }
             }
             //=----------------------------------=
-            let pvo: PVO<Digit> = Digit(bitPattern: SELF.last).addingReportingOverflow(Digit(bitPattern: extra))
-            SELF.last = UInt(bitPattern: pvo.partialValue)
-            return pvo.overflow as Bool
+            return this.tail.addReportingOverflow(Digit(bitPattern: extra))
         }
     }
     

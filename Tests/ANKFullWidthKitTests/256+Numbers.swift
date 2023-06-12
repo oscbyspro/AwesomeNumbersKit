@@ -178,6 +178,9 @@ final class Int256TestsOnNumbers: XCTestCase {
     func testFromMagnitude() {
         ANKAssertNumbers(from: M.min, exactly: T(), clamping: 00000, truncating: T(bitPattern: M.min))
         ANKAssertNumbers(from: M.max, exactly: nil, clamping: T.max, truncating: T(bitPattern: M.max))
+        
+        ANKAssertNumbers(from: M(bitPattern: S.max) + 0, default: M (bitPattern: S.max))
+        ANKAssertNumbers(from: M(bitPattern: S.max) + 1, exactly: nil, clamping: T.max, truncating: T.min)
     }
     
     //=------------------------------------------------------------------------=
@@ -465,10 +468,12 @@ final class UInt256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testFromSignitude() {
-        ANKAssertNumbers(from: S.min, exactly: nil, clamping: 0, truncating: T(bitPattern: S.min))
-        ANKAssertNumbers(from: S.max, default: /*-------------------------*/ T(bitPattern: S.max))
+        ANKAssertNumbers(from: S.min, exactly: nil, clamping: T.min, truncating: T(bitPattern: S.min))
+        ANKAssertNumbers(from: S(-1), exactly: nil, clamping: T.min, truncating: T(bitPattern: S(-1)))
+        ANKAssertNumbers(from: S(  ), default: /*-----------------------------*/ T(bitPattern: S(  )))
+        ANKAssertNumbers(from: S.max, default: /*-----------------------------*/ T(bitPattern: S.max))
     }
-
+    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Magnitude
     //=------------------------------------------------------------------------=

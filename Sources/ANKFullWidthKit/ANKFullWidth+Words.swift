@@ -19,10 +19,33 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    @inlinable public var words: Self {
+        _read { yield self }
+    }
+    
+    /// The least significant word of this value.
+    ///
+    /// - Note: This member is required by `Swift.BinaryInteger.
+    ///
+    @inlinable public var _lowWord: UInt {
+        self.low._lowWord
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Collection
+//=----------------------------------------------------------------------------=
+
+extension ANKFullWidth {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Accessors
+    //=------------------------------------------------------------------------=
+    
     @inlinable public static var count: Int {
-        assert(Self.bitWidth / UInt.bitWidth >= 2, "invalid memory layout")
-        assert(Self.bitWidth % UInt.bitWidth == 0, "invalid memory layout")
-        return Self.bitWidth / UInt.bitWidth
+        assert(MemoryLayout<Self>.size / MemoryLayout<UInt>.stride >= 2)
+        assert(MemoryLayout<Self>.size % MemoryLayout<UInt>.stride == 0)
+        return MemoryLayout<Self>.size / MemoryLayout<UInt>.stride
     }
     
     @inlinable public static var startIndex: Int {
@@ -34,7 +57,7 @@ extension ANKFullWidth {
     }
     
     @inlinable public static var lastIndex: Int {
-        self.count &- 1
+        self.count - 1
     }
     
     @inlinable public static var indices: Range<Int> {
@@ -45,23 +68,23 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent public var count: Int {
+    @inlinable public var count: Int {
         Self.count
     }
     
-    @_transparent public var startIndex: Int {
+    @inlinable public var startIndex: Int {
         Self.startIndex
     }
     
-    @_transparent public var endIndex: Int {
+    @inlinable public var endIndex: Int {
         Self.endIndex
     }
     
-    @_transparent public var lastIndex: Int {
+    @inlinable public var lastIndex: Int {
         Self.lastIndex
     }
     
-    @_transparent public var indices: Range<Int> {
+    @inlinable public var indices: Range<Int> {
         Self.indices
     }
     
@@ -69,62 +92,52 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @_transparent public var words: BitPattern {
-        self.bitPattern
+    @inlinable public var first: UInt {
+        get { self.withUnsafeWords({/*---*/ $0.first /*------*/ }) }
+        set { self.withUnsafeMutableWords({ $0.first = newValue }) }
     }
     
-    /// The least significant word of this value.
-    ///
-    /// This is a top-secret™ requirement of [BinaryInteger][].
-    ///
-    /// []: https://github.com/apple/swift/blob/main/stdlib/public/core/Integers.swift
-    ///
-    @_transparent public var _lowWord: UInt {
-        self.low._lowWord
+    @inlinable public var last: UInt {
+        get { self.withUnsafeWords({/*---*/ $0.last /*------*/ }) }
+        set { self.withUnsafeMutableWords({ $0.last = newValue }) }
+    }
+    
+    @inlinable public var tail: Digit {
+        get { self.withUnsafeWords({/*---*/ $0.tail /*------*/ }) }
+        set { self.withUnsafeMutableWords({ $0.tail = newValue }) }
     }
     
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
-    @inlinable public var first: UInt {
-        @_transparent _read {
-            yield  self[unchecked: self.startIndex]
-        }
-        
-        @_transparent _modify {
-            yield &self[unchecked: self.startIndex]
-        }
-    }
-    
-    @inlinable public var last: UInt {
-        @_transparent _read {
-            yield  self[unchecked: self.lastIndex]
-        }
-        
-        @_transparent _modify {
-            yield &self[unchecked: self.lastIndex]
-        }
-    }
-    
     @inlinable public subscript(index: Int) -> UInt {
-        @_transparent _read {
-            precondition(self.indices ~= index, ANK.callsiteIndexOutOfBoundsInfo())
-            yield  self[unchecked: index]
-        }
-        @_transparent _modify {
-            precondition(self.indices ~= index, ANK.callsiteIndexOutOfBoundsInfo())
-            yield &self[unchecked: index]
-        }
+        get { self.withUnsafeWords({/*---*/ $0[index] /*------*/ }) }
+        set { self.withUnsafeMutableWords({ $0[index] = newValue }) }
     }
     
-    @inlinable subscript(unchecked index: Int) -> UInt {
-        @_transparent _read {
-            yield  self.withUnsafeWords({ $0[index] })
-        }
-        
-        @_transparent set {
-            self.withUnsafeMutableWords({ $0[index] = newValue })
-        }
+    @inlinable public subscript(unchecked index: Int) -> UInt {
+        get { self.withUnsafeWords({/*---*/ $0[unchecked: index] /*------*/ }) }
+        set { self.withUnsafeMutableWords({ $0[unchecked: index] = newValue }) }
+    }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Unsigned
+//=----------------------------------------------------------------------------=
+
+extension ANKFullWidth where High == High.Magnitude {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Utilities x Private
+    //=------------------------------------------------------------------------=
+    
+    @inlinable static func endiannessSensitiveIndex(unchecked index: Int) -> Int {
+        assert(self.indices ~= index, ANK.callsiteIndexOutOfBoundsInfo())
+        #if _endian(big)
+        return self.lastIndex - index
+        #else
+        return index
+        #endif
     }
 }

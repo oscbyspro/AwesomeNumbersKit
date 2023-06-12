@@ -163,20 +163,20 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         // division
         //=--------------------------------------=
-        let quotient = Self.fromUnsafeMutableWords { QUOTIENT in
-            for quotientIndex in QUOTIENT.indices  {
-                QUOTIENT[quotientIndex] = UInt()
+        let quotient = Self.fromUnsafeMutableWords { quotient in
+            for quotientIndex in quotient.indices  {
+                quotient[unchecked: quotientIndex] = UInt.zero
             }
             //=----------------------------------=
-            for quotientIndex in QUOTIENT.indices[...minLastIndexGapSize].reversed() {
+            for quotientIndex in quotient.indices[...minLastIndexGapSize].reversed() {
                 //=------------------------------=
                 // approximate quotient digit
                 //=------------------------------=
-                var digit: UInt = remainder.withUnsafeWords { REMAINDER in
+                var digit: UInt = remainder.withUnsafeWords { remainder in
                     let  remainderIndex  = other_.minLastIndex &+ quotientIndex
-                    let  remainderLast0  = REMAINDER[remainderIndex &+ 1]
+                    let  remainderLast0  = remainder[unchecked: remainderIndex &+ 1]
                     if   remainderLast0 >= discriminant { return UInt.max }
-                    let  remainderLast1  = REMAINDER[remainderIndex]
+                    let  remainderLast1  = remainder[unchecked: remainderIndex]
                     return discriminant.dividingFullWidth(HL(remainderLast0, remainderLast1)).quotient
                 }
                 //=------------------------------=
@@ -191,7 +191,7 @@ extension ANKFullWidth where High == High.Magnitude {
                 //=------------------------------=
                 assert(approximation <= remainder)
                 remainder &-= approximation
-                QUOTIENT[quotientIndex] = digit
+                quotient[unchecked: quotientIndex] = digit
                 increment.low.bitshiftRightUnchecked(words: 1, bits: Int.zero)
             }
         }

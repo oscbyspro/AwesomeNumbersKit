@@ -95,11 +95,11 @@ extension ANKFullWidth where High == High.Magnitude {
     @_disfavoredOverload @inlinable mutating func multiplyFullWidth(by other: Digit) -> Digit {
         var carry = UInt.zero
         
-        self.withUnsafeMutableWords { SELF in
-            for index in SELF.indices {
-                var subproduct = SELF[index].multipliedFullWidth(by: other)
+        self.withUnsafeMutableWords { this in
+            for index in this.indices {
+                var subproduct = this[index].multipliedFullWidth(by: other)
                 subproduct.high &+= UInt(bit: subproduct.low.addReportingOverflow(carry))
-                (carry, SELF[index]) = subproduct as HL<UInt, UInt>
+                (carry, this[index]) = subproduct as HL<UInt, UInt>
             }
         }
                 

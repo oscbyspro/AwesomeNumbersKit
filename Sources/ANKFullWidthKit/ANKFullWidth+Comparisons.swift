@@ -57,23 +57,20 @@ extension ANKFullWidth {
     }
     
     @inlinable public func compared(to other: Self) -> Int {
-        self .withUnsafeWords { LHS in
-        other.withUnsafeWords { RHS in
-            var index = LHS.lastIndex
-            
+        self .withUnsafeWords { this  in
+        other.withUnsafeWords { other in
             backwards: do {
-                let lhsWord  = Digit(bitPattern: LHS[index])
-                let rhsWord  = Digit(bitPattern: RHS[index])
-                if  lhsWord != rhsWord { return  lhsWord < rhsWord ? -1 : 1 }
+                let lhsWord: Digit = this .tail
+                let rhsWord: Digit = other.tail
+                if  lhsWord != rhsWord { return lhsWord < rhsWord ? -1 : 1 }
             }
-            
-            backwards: while !index.isZero {
-                LHS.formIndex(before: &index)
-                let lhsWord  = LHS[index]
-                let rhsWord  = RHS[index]
-                if  lhsWord != rhsWord { return  lhsWord < rhsWord ? -1 : 1 }
+                    
+            backwards: for index in this.indices.dropLast().reversed() {
+                let lhsWord: UInt = this [index]
+                let rhsWord: UInt = other[index]
+                if  lhsWord != rhsWord { return lhsWord < rhsWord ? -1 : 1 }
             }
-            
+
             return Int.zero
         }}
     }

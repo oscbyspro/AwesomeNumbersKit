@@ -17,7 +17,7 @@ private typealias X = ANK.U192X64
 private typealias Y = ANK.U192X32
 
 //*============================================================================*
-// MARK: * ANK x Int192 x Bitshifts
+// MARK: * ANK x Int192 x Shifts
 //*============================================================================*
 
 final class Int192BenchmarksOnShifts: XCTestCase {

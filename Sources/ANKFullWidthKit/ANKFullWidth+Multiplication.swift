@@ -123,22 +123,37 @@ extension ANKFullWidth where High == High.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable func multipliedFullWidthAsNormal(by other: Self) -> HL<Self, Magnitude> {
-        var product = DoubleWidth()
-        //=--------------------------------------=
-        self   .withUnsafeWords { LHS in
-        other  .withUnsafeWords { RHS in
-        product.withUnsafeMutableWords  { PRO in
-            for lhsIndex in LHS.indices {
-                var carry = UInt()
-                for rhsIndex in RHS.indices {
-                    carry = PRO[lhsIndex &+ rhsIndex].addFullWidth(carry, multiplicands:(LHS[lhsIndex], RHS[rhsIndex]))
+        self.multipliedFullWidthAsNormal(by: other).descending
+    }
+    
+    @inlinable func multipliedFullWidthAsNormal(by other: Self) -> DoubleWidth {
+        DoubleWidth.fromUnsafeMutableWords { product in
+        self .withUnsafeWords { this  in
+        other.withUnsafeWords { other in
+            //=----------------------------------=
+            let subrange = this.indices
+            //=----------------------------------=
+            for productIndex in subrange {
+                product[productIndex] = UInt.zero
+            }
+            //=----------------------------------=
+            for lhsIndex in subrange {
+                var carry = UInt.zero
+                let lhsWord = this[lhsIndex]
+                
+                for rhsIndex in subrange {
+                    let rhsWord = other[rhsIndex]
+                    let productIndex = lhsIndex &+ rhsIndex
+                    var subproduct = lhsWord.multipliedFullWidth(by: rhsWord)
+                    
+                    carry   = UInt(bit: subproduct.low.addReportingOverflow(carry))
+                    carry &+= UInt(bit: product[productIndex].addReportingOverflow(subproduct.low))
+                    carry &+= subproduct.high
                 }
                 
-                PRO[RHS.endIndex &+ lhsIndex] = carry
+                product[subrange.endIndex &+ lhsIndex] = carry
             }
         }}}
-        //=--------------------------------------=
-        return product.descending
     }
 }
 
