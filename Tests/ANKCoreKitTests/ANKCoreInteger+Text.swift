@@ -104,7 +104,7 @@ final class ANKCoreIntegerTestsOnText: XCTestCase {
         }
     }
     
-    func testDecodingStringsWithOrWithoutSign() {
+    func testDecodingStringsWithAndWithoutSign() {
         func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
             ANKAssertDecodeText(T( 123), 10,  "123")
             ANKAssertDecodeText(T( 123), 10, "+123")

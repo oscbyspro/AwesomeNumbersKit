@@ -88,7 +88,7 @@ final class ANKSignedTestsOnText: XCTestCase {
         ANKAssertDecodeText(T?.none, 10, "-0b10")
     }
     
-    func testDecodingStringsWithOrWithoutSign() {
+    func testDecodingStringsWithAndWithoutSign() {
         ANKAssertDecodeText(T( 1234567890), 10,  "1234567890")
         ANKAssertDecodeText(T( 1234567890), 10, "+1234567890")
         ANKAssertDecodeText(T(-1234567890), 10, "-1234567890")

@@ -30,26 +30,26 @@ final class ANKCoreIntegerTestsOnNumbers: XCTestCase {
     // MARK: Tests x Sign & Magnitude
     //=------------------------------------------------------------------------=
     
-    func testsFromSignedMagnitude() {
+    func testsFromSignAndMagnitude() {
         func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
             typealias M = T.Magnitude
             
             XCTAssertEqual(T.exactly (sign: .plus,  magnitude: M( 1)), T( 1))
-            XCTAssertEqual(T.exactly (sign: .minus, magnitude: M( 1)), T(-1))
-            
-            XCTAssertEqual(T.exactly (sign: .plus,  magnitude: M.max),   nil)
-            XCTAssertEqual(T.exactly (sign: .minus, magnitude: M.max),   nil)
-            
-            XCTAssertEqual(T.exactly (sign: .plus,  magnitude: T.max.magnitude), T.max)
-            XCTAssertEqual(T.exactly (sign: .minus, magnitude: T.min.magnitude), T.min)
-            
             XCTAssertEqual(T.clamping(sign: .plus,  magnitude: M( 1)), T( 1))
+            
+            XCTAssertEqual(T.exactly (sign: .minus, magnitude: M( 1)), T(-1))
             XCTAssertEqual(T.clamping(sign: .minus, magnitude: M( 1)), T(-1))
             
+            XCTAssertEqual(T.exactly (sign: .plus,  magnitude: M.max),   nil)
             XCTAssertEqual(T.clamping(sign: .plus,  magnitude: M.max), T.max)
+            
+            XCTAssertEqual(T.exactly (sign: .minus, magnitude: M.max),   nil)
             XCTAssertEqual(T.clamping(sign: .minus, magnitude: M.max), T.min)
             
+            XCTAssertEqual(T.exactly (sign: .plus,  magnitude: T.max.magnitude), T.max)
             XCTAssertEqual(T.clamping(sign: .plus,  magnitude: T.max.magnitude), T.max)
+            
+            XCTAssertEqual(T.exactly (sign: .minus, magnitude: T.min.magnitude), T.min)
             XCTAssertEqual(T.clamping(sign: .minus, magnitude: T.min.magnitude), T.min)
         }
 
@@ -57,21 +57,21 @@ final class ANKCoreIntegerTestsOnNumbers: XCTestCase {
             typealias M = T.Magnitude
             
             XCTAssertEqual(T.exactly (sign: .plus,  magnitude: M( 1)), T( 1))
-            XCTAssertEqual(T.exactly (sign: .minus, magnitude: M( 1)),   nil)
-            
-            XCTAssertEqual(T.exactly (sign: .plus,  magnitude: M.max), T.max)
-            XCTAssertEqual(T.exactly (sign: .minus, magnitude: M.max),   nil)
-            
-            XCTAssertEqual(T.exactly (sign: .plus,  magnitude: T.max.magnitude), T.max)
-            XCTAssertEqual(T.exactly (sign: .minus, magnitude: T.min.magnitude), T.min)
-            
             XCTAssertEqual(T.clamping(sign: .plus,  magnitude: M( 1)), T( 1))
+            
+            XCTAssertEqual(T.exactly (sign: .minus, magnitude: M( 1)),   nil)
             XCTAssertEqual(T.clamping(sign: .minus, magnitude: M( 1)), T.min)
             
+            XCTAssertEqual(T.exactly (sign: .plus,  magnitude: M.max), T.max)
             XCTAssertEqual(T.clamping(sign: .plus,  magnitude: M.max), T.max)
+            
+            XCTAssertEqual(T.exactly (sign: .minus, magnitude: M.max),   nil)
             XCTAssertEqual(T.clamping(sign: .minus, magnitude: M.max), T.min)
             
+            XCTAssertEqual(T.exactly (sign: .plus,  magnitude: T.max.magnitude), T.max)
             XCTAssertEqual(T.clamping(sign: .plus,  magnitude: T.max.magnitude), T.max)
+            
+            XCTAssertEqual(T.exactly (sign: .minus, magnitude: T.min.magnitude), T.min)                        
             XCTAssertEqual(T.clamping(sign: .minus, magnitude: T.min.magnitude), T.min)
         }
 
@@ -80,7 +80,7 @@ final class ANKCoreIntegerTestsOnNumbers: XCTestCase {
         }
     }
 
-    func testsFromSignedMagnitudePlusMinusZero() {
+    func testsFromSignAndMagnitudeAsPlusMinusZero() {
         func whereIs<T>(_ type: T.Type) where T: ANKCoreInteger {
             typealias M = T.Magnitude
             

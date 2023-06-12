@@ -32,14 +32,14 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public init(integerLiteral source: StaticBigInt) {
-        guard let value = Self(_exactlyIntegerLiteral: source) else {
+        guard let value = Self(exactlyIntegerLiteral: source) else {
             preconditionFailure("\(Self.description) cannot represent \(source)")
         }
         
         self = value
     }
     
-    @inlinable init?(_exactlyIntegerLiteral source: StaticBigInt) {
+    @inlinable init?(exactlyIntegerLiteral source: StaticBigInt) {
         guard  Self.isSigned
         ? source.bitWidth <= Self.bitWidth
         : source.bitWidth <= Self.bitWidth + 1 && source.signum() >= 0
@@ -83,27 +83,27 @@ extension ANKFullWidth {
         // Int
         //=--------------------------------------=
         if  let source = source as? Int {
-            self.init(_exactlyAsDigit: source)
+            self.init(exactlyAsIntOrUInt: source)
             return
         }
         //=--------------------------------------=
         // UInt
         //=--------------------------------------=
         if  let source = source as? UInt {
-            self.init(_exactlyAsDigit: source)
+            self.init(exactlyAsIntOrUInt: source)
             return
         }
         //=--------------------------------------=
         // Magnitude
         //=--------------------------------------=
         if  let source = source as? Magnitude {
-            self.init(_exactlyAsMagnitude: source)
+            self.init(exactlyAsMagnitude: source)
             return
         }
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(_exactlyAsBinaryInteger: source)
+        self.init(exactlyAsBinaryInteger: source)
     }
     
     @inlinable public init(clamping source: some BinaryInteger) {
@@ -118,27 +118,27 @@ extension ANKFullWidth {
         // Int
         //=--------------------------------------=
         if  let source = source as? Int {
-            self.init(_clampingAsDigit: source)
+            self.init(clampingAsIntOrUInt: source)
             return
         }
         //=--------------------------------------=
         // UInt
         //=--------------------------------------=
         if  let source = source as? UInt {
-            self.init(_clampingAsDigit: source)
+            self.init(clampingAsIntOrUInt: source)
             return
         }
         //=--------------------------------------=
         // Magnitude
         //=--------------------------------------=
         if  let source = source as? Magnitude {
-            self.init(_clampingAsMagnitude: source)
+            self.init(clampingAsMagnitude: source)
             return
         }
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(_clampingAsBinaryInteger: source)
+        self.init(clampingAsBinaryInteger: source)
     }
     
     @inlinable public init(truncatingIfNeeded source: some BinaryInteger) {
@@ -153,27 +153,27 @@ extension ANKFullWidth {
         // Int
         //=--------------------------------------=
         if  let source = source as? Int {
-            self.init(_truncatingIfNeededAsDigit: source)
+            self.init(truncatingIfNeededAsIntOrUInt: source)
             return
         }
         //=--------------------------------------=
         // UInt
         //=--------------------------------------=
         if  let source = source as? UInt {
-            self.init(_truncatingIfNeededAsDigit: source)
+            self.init(truncatingIfNeededAsIntOrUInt: source)
             return
         }
         //=--------------------------------------=
         // Magnitude
         //=--------------------------------------=
         if  let source = source as? Magnitude {
-            self.init(_truncatingIfNeededAsMagnitude: source)
+            self.init(truncatingIfNeededAsMagnitude: source)
             return
         }
         //=--------------------------------------=
         // some BinaryInteger
         //=--------------------------------------=
-        self.init(_truncatingIfNeededAsBinaryInteger: source)
+        self.init(truncatingIfNeededAsBinaryInteger: source)
     }
 }
 
@@ -187,7 +187,7 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init?(_exactlyAsDigit source: some ANKCoreInteger<UInt>) {
+    @_transparent @usableFromInline init?(exactlyAsIntOrUInt source: some ANKCoreInteger<UInt>) {
         //=--------------------------------------=
         // Int
         //=--------------------------------------=
@@ -197,14 +197,14 @@ extension ANKFullWidth {
         //=--------------------------------------=
         // some ANKCoreInteger<UInt>
         //=--------------------------------------=
-        self.init(_truncatingIfNeededAsDigit: source)
+        self.init(truncatingIfNeededAsIntOrUInt: source)
     }
     
-    @_transparent @usableFromInline init(_clampingAsDigit source: some ANKCoreInteger<UInt>) {
-        self = Self(_exactlyAsDigit: source) ?? Self()
+    @_transparent @usableFromInline init(clampingAsIntOrUInt source: some ANKCoreInteger<UInt>) {
+        self = Self(exactlyAsIntOrUInt: source) ?? Self()
     }
     
-    @_transparent @usableFromInline init(_truncatingIfNeededAsDigit source: some ANKCoreInteger<UInt>) {
+    @_transparent @usableFromInline init(truncatingIfNeededAsIntOrUInt source: some ANKCoreInteger<UInt>) {
         assert(Low.bitWidth >= source.bitWidth)
         //=--------------------------------------=
         let high = High(repeating: source.isLessThanZero)
@@ -234,20 +234,20 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init?(_exactlyAsMagnitude source: Magnitude) {
+    @_transparent @usableFromInline init?(exactlyAsMagnitude source: Magnitude) {
         //=--------------------------------------=
         if  Self.isSigned, source.mostSignificantBit {
             return nil
         }
         //=--------------------------------------=
-        self.init(_truncatingIfNeededAsMagnitude: source)
+        self.init(truncatingIfNeededAsMagnitude: source)
     }
     
-    @_transparent @usableFromInline init(_clampingAsMagnitude source: Magnitude) {
-        self = Self(_exactlyAsMagnitude: source) ?? Self.max
+    @_transparent @usableFromInline init(clampingAsMagnitude source: Magnitude) {
+        self = Self(exactlyAsMagnitude: source) ?? Self.max
     }
     
-    @_transparent @usableFromInline init(_truncatingIfNeededAsMagnitude source: Magnitude) {
+    @_transparent @usableFromInline init(truncatingIfNeededAsMagnitude source: Magnitude) {
         self.init(bitPattern: source)
     }
 }
@@ -262,23 +262,23 @@ extension ANKFullWidth {
     // MARK: Initializers
     //=------------------------------------------------------------------------=
     
-    @_transparent @usableFromInline init?(_exactlyAsBinaryInteger source: some BinaryInteger) {
-        let (value, words, sign) = Self._copy(source)
-        let isOK = value.isLessThanZero != sign.isZero && words.allSatisfy({ $0 == sign })
+    @_transparent @usableFromInline init?(exactlyAsBinaryInteger source: some BinaryInteger) {
+        let (value, remainders, sign) = Self.truncating(source)
+        let isOK = value.isLessThanZero != sign.isZero && remainders.allSatisfy({ $0 == sign })
         if  isOK { self = value } else { return nil }
     }
 
-    @_transparent @usableFromInline init(_clampingAsBinaryInteger source: some BinaryInteger) {
-        let (value, words, sign) = Self._copy(source)
-        let isOK = value.isLessThanZero != sign.isZero && words.allSatisfy({ $0 == sign })
+    @_transparent @usableFromInline init(clampingAsBinaryInteger source: some BinaryInteger) {
+        let (value, remainders, sign) = Self.truncating(source)
+        let isOK = value.isLessThanZero != sign.isZero && remainders.allSatisfy({ $0 == sign })
         self = isOK ? value : sign.isZero ? Self.max : Self.min
     }
 
-    @_transparent @usableFromInline init(_truncatingIfNeededAsBinaryInteger source: some BinaryInteger) {
-        self = Self._copy(source).value
+    @_transparent @usableFromInline init(truncatingIfNeededAsBinaryInteger source: some BinaryInteger) {
+        self = Self.truncating(source).value
     }
 
-    @inlinable static func _copy<T>(_ source: T) -> (value: Self, words: T.Words.SubSequence, sign: UInt) where T: BinaryInteger {
+    @inlinable static func truncating<T>(_ source: T) -> (value: Self, remainders: T.Words.SubSequence, sign: UInt) where T: BinaryInteger {
         let words: T.Words = source.words
         var wordsIndex = words.startIndex
         let sign  = UInt(repeating: T.isSigned && words.last?.mostSignificantBit == true)
@@ -298,6 +298,6 @@ extension ANKFullWidth {
             }
         }
         //=--------------------------------------=
-        return (value: value, words: words[wordsIndex...], sign: sign)
+        return (value: value, remainders: words[wordsIndex...], sign: sign)
     }
 }

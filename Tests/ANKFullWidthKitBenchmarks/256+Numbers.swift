@@ -219,18 +219,17 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     // MARK: Tests x Sign & Magnitude
     //=------------------------------------------------------------------------=
     
-    func testSignedMagnitude() {
+    func testSignAndMagnitude() {
         var abc = ANK.blackHoleIdentity((sign: FloatingPointSign.plus,  magnitude: M(x64: X(0, 1, 2, 3))))
         var xyz = ANK.blackHoleIdentity((sign: FloatingPointSign.minus, magnitude: M(x64: X(0, 1, 2, 3))))
         
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(T.exactly (sign: abc.sign, magnitude: abc.magnitude))
-            ANK.blackHole(T.exactly (sign: xyz.sign, magnitude: xyz.magnitude))
-            
             ANK.blackHole(T.clamping(sign: abc.sign, magnitude: abc.magnitude))
-            ANK.blackHole(T.clamping(sign: xyz.sign, magnitude: xyz.magnitude))
-            
             ANK.blackHoleInoutIdentity(&abc)
+            
+            ANK.blackHole(T.exactly (sign: xyz.sign, magnitude: xyz.magnitude))
+            ANK.blackHole(T.clamping(sign: xyz.sign, magnitude: xyz.magnitude))
             ANK.blackHoleInoutIdentity(&xyz)
         }
     }
@@ -439,18 +438,17 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     // MARK: Tests x Sign & Magnitude
     //=------------------------------------------------------------------------=
     
-    func testSignedMagnitude() {
+    func testSignAndMagnitude() {
         var abc = ANK.blackHoleIdentity((sign: FloatingPointSign.plus,  magnitude: M(x64: X(0, 1, 2, 3))))
         var xyz = ANK.blackHoleIdentity((sign: FloatingPointSign.minus, magnitude: M(x64: X(0, 1, 2, 3))))
         
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(T.exactly (sign: abc.sign, magnitude: abc.magnitude))
-            ANK.blackHole(T.exactly (sign: xyz.sign, magnitude: xyz.magnitude))
-            
             ANK.blackHole(T.clamping(sign: abc.sign, magnitude: abc.magnitude))
-            ANK.blackHole(T.clamping(sign: xyz.sign, magnitude: xyz.magnitude))
-            
             ANK.blackHoleInoutIdentity(&abc)
+            
+            ANK.blackHole(T.exactly (sign: xyz.sign, magnitude: xyz.magnitude))
+            ANK.blackHole(T.clamping(sign: xyz.sign, magnitude: xyz.magnitude))
             ANK.blackHoleInoutIdentity(&xyz)
         }
     }

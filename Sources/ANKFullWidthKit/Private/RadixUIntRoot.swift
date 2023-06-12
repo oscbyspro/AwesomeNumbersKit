@@ -35,7 +35,7 @@ import ANKCoreKit
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
-    /// Divides the dividend by its base.
+    /// Divides `dividend` by the `base` of this solution.
     @inlinable func dividing(_ dividend: UInt) -> QR<UInt, UInt>
 }
 
@@ -97,25 +97,16 @@ extension RadixUIntRoot {
         precondition(2 ... 36 ~= radix, "radix must be in 2 through 36")
         ( self.base) = UInt(bitPattern: radix)
         ( self.exponent, self.power)  = radix.isPowerOf2
-        ? Self._rootWhereRadixIsPowerOf2(self.base)
-        : Self._rootWhereRadixIsWhatever(self.base)
+        ? Self.rootWhereRadixIsPowerOf2(self.base)
+        : Self.rootWhereRadixIsWhatever(self.base)
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Utilities
-    //=------------------------------------------------------------------------=
-    
-    /// Branches based on whether its power is zero or not.
-    @inlinable func `switch`<T>(perfect: (PerfectRadixUIntRoot) throws -> T, imperfect: (ImperfectRadixUIntRoot) throws -> T) rethrows -> T {
-        try self.power.isZero ? perfect(.init(unchecked: self)) : imperfect(.init(unchecked: self))
-    }
-        
     //=------------------------------------------------------------------------=
     // MARK: Utilities
     //=------------------------------------------------------------------------=
     
     /// Returns the largest exponent in `pow(radix, exponent) <= UInt.max + 1`.
-    @inlinable static func _rootWhereRadixIsPowerOf2(_ radix: UInt) -> (exponent: UInt, power: UInt) {
+    @inlinable static func rootWhereRadixIsPowerOf2(_ radix: UInt) -> (exponent: UInt, power: UInt) {
         assert(radix >= 2)
         assert(radix.isPowerOf2)
         //=--------------------------------------=
@@ -127,7 +118,7 @@ extension RadixUIntRoot {
             let exponent = UInt(bitPattern: UInt.bitWidth &>> zeros.trailingZeroBitCount)
             return (exponent: exponent, power: 0)
         //=--------------------------------------=
-        // radix == 8, 32, 64, 128, ...
+        // radix == 08, 32, 64, 128, ...
         //=--------------------------------------=
         }   else {
             let exponent = UInt(bitPattern: UInt.bitWidth) / zeros
@@ -136,7 +127,7 @@ extension RadixUIntRoot {
     }
     
     /// Returns the largest exponent in `pow(radix, exponent) <= UInt.max + 1`.
-    @inlinable static func _rootWhereRadixIsWhatever(_ radix: UInt) -> (exponent: UInt, power: UInt) {
+    @inlinable static func rootWhereRadixIsWhatever(_ radix: UInt) -> (exponent: UInt, power: UInt) {
         assert(radix >= 2)
         //=--------------------------------------=
         var exponent  = 1 as UInt
@@ -151,12 +142,14 @@ extension RadixUIntRoot {
                     power = product.low
                 }
                 
-                return (exponent: exponent, power: power)
+                break exponentiate
             }
             
             exponent &+= 1
             power = product.low
         }
+        //=--------------------------------------=
+        return (exponent: exponent, power: power)
     }
 }
 
@@ -255,9 +248,6 @@ extension RadixUIntRoot {
     //=------------------------------------------------------------------------=
     
     /// Overestimates how many times its power divides the magnitude.
-    ///
-    /// [magic]: https://github.com/oscbyspro/AwesomeNumbersKit/issues/67
-    ///
     @inlinable func divisibilityByPowerUpperBound(_ magnitude: some UnsignedInteger) -> Int {
         magnitude.bitWidth / 36.leadingZeroBitCount &+ 1
     }

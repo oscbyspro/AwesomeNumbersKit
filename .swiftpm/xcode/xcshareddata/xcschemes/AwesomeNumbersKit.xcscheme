@@ -74,16 +74,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ANKFoundationTests"
-               BuildableName = "ANKFoundationTests"
-               BlueprintName = "ANKFoundationTests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "ANKFullWidthKitTests"
                BuildableName = "ANKFullWidthKitTests"
                BlueprintName = "ANKFullWidthKitTests"
@@ -97,6 +87,16 @@
                BlueprintIdentifier = "ANKSignedKitTests"
                BuildableName = "ANKSignedKitTests"
                BlueprintName = "ANKSignedKitTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ANKCoreKitTests"
+               BuildableName = "ANKCoreKitTests"
+               BlueprintName = "ANKCoreKitTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
