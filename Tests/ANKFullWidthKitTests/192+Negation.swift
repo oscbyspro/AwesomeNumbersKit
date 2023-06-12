@@ -9,11 +9,12 @@
 
 #if DEBUG
 
+import ANKCoreKit
 import ANKFullWidthKit
 import XCTest
 
-private typealias X = ANK192X64
-private typealias Y = ANK192X32
+private typealias X = ANK.U192X64
+private typealias Y = ANK.U192X32
 
 //*============================================================================*
 // MARK: * ANK x Int192 x Negation

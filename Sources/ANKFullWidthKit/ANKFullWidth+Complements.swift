@@ -20,11 +20,11 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @_transparent public var bitPattern: BitPattern {
-        unsafeBitCast(self, to: BitPattern.self)
+        Swift.unsafeBitCast(self, to: BitPattern.self)
     }
     
     @_transparent public init(bitPattern source: some ANKBitPatternConvertible<BitPattern>) {
-        self = unsafeBitCast(source.bitPattern, to: Self.self)
+        self = Swift.unsafeBitCast(source.bitPattern, to: Self.self)
     }
     
     //=------------------------------------------------------------------------=

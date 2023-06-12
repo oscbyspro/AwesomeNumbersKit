@@ -29,7 +29,7 @@ extension Swift.FloatingPointSign {
     /// ```
     ///
     @_transparent public init(_ bit: Bool) {
-        self = unsafeBitCast(bit, to: Self.self)
+        self = Swift.unsafeBitCast(bit, to: Self.self)
     }
     
     //=------------------------------------------------------------------------=
@@ -48,7 +48,7 @@ extension Swift.FloatingPointSign {
     /// ```
     ///
     @_transparent public var bit: Bool {
-        unsafeBitCast(self, to: Bool.self)
+        Swift.unsafeBitCast(self, to: Bool.self)
     }
     
     /// The `data` representation of this value.
@@ -63,7 +63,7 @@ extension Swift.FloatingPointSign {
     /// ```
     ///
     @_transparent @usableFromInline var data: UInt8 {
-        unsafeBitCast(self, to: UInt8.self)
+        Swift.unsafeBitCast(self, to: UInt8.self)
     }
     
     //=------------------------------------------------------------------------=
@@ -115,105 +115,105 @@ extension Swift.FloatingPointSign {
         sign ^ minus
     }
     
-    /// Forms logical `AND` of `lhs` and `rhs`.
+    /// Forms the logical `AND` of `lhs` and `rhs`.
     ///
     /// ```
-    /// ┌────────────────────── → ──────────┐
-    /// │ lhs       │ rhs       │ sign      │
-    /// ├────── = ──┼────── = ─ → ───── = ──┤
-    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0 │
-    /// │ plus  │ 0 │ minus │ 1 │ plus  │ 0 │
-    /// │ minus │ 1 │ plus  │ 0 │ plus  │ 0 │
-    /// │ minus │ 1 │ minus │ 1 │ plus  │ 1 │
-    /// └────── = ─ → ────── = ─ → ──── = ──┘
+    /// ┌────────────────────── → ────────────┐
+    /// │ lhs       │ rhs       │ lhs AND rhs │
+    /// ├────── = ──┼────── = ─ → ───── = ────┤
+    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0   │
+    /// │ plus  │ 0 │ minus │ 1 │ plus  │ 0   │
+    /// │ minus │ 1 │ plus  │ 0 │ plus  │ 0   │
+    /// │ minus │ 1 │ minus │ 1 │ minus │ 1   │
+    /// └────── = ─ → ────── = ─ → ──── = ────┘
     /// ```
     ///
     @_transparent public static func &=(lhs: inout Self, rhs: Self) {
         lhs = lhs & rhs
     }
     
-    /// Returns logical `AND` of `lhs` and `rhs`.
+    /// Returns the logical `AND` of `lhs` and `rhs`.
     ///
     /// ```
-    /// ┌────────────────────── → ──────────┐
-    /// │ lhs       │ rhs       │ sign      │
-    /// ├────── = ──┼────── = ─ → ───── = ──┤
-    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0 │
-    /// │ plus  │ 0 │ minus │ 1 │ plus  │ 0 │
-    /// │ minus │ 1 │ plus  │ 0 │ plus  │ 0 │
-    /// │ minus │ 1 │ minus │ 1 │ plus  │ 1 │
-    /// └────── = ─ → ────── = ─ → ──── = ──┘
+    /// ┌────────────────────── → ────────────┐
+    /// │ lhs       │ rhs       │ lhs AND rhs │
+    /// ├────── = ──┼────── = ─ → ───── = ────┤
+    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0   │
+    /// │ plus  │ 0 │ minus │ 1 │ plus  │ 0   │
+    /// │ minus │ 1 │ plus  │ 0 │ plus  │ 0   │
+    /// │ minus │ 1 │ minus │ 1 │ minus │ 1   │
+    /// └────── = ─ → ────── = ─ → ──── = ────┘
     /// ```
     ///
     @_transparent public static func &(lhs: Self, rhs: Self) -> Self {
-        unsafeBitCast(lhs.data & rhs.data, to: Self.self)
+        Swift.unsafeBitCast(lhs.data & rhs.data, to: Self.self)
     }
     
-    /// Forms logical `OR` of `lhs` and `rhs`.
+    /// Forms the logical `OR` of `lhs` and `rhs`.
     ///
     /// ```
-    /// ┌────────────────────── → ──────────┐
-    /// │ lhs       │ rhs       │ sign      │
-    /// ├────── = ──┼────── = ─ → ───── = ──┤
-    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0 │
-    /// │ plus  │ 0 │ minus │ 1 │ minus │ 1 │
-    /// │ minus │ 1 │ plus  │ 0 │ minus │ 1 │
-    /// │ minus │ 1 │ minus │ 1 │ minus │ 1 │
-    /// └────── = ─ → ────── = ─ → ──── = ──┘
+    /// ┌────────────────────── → ────────────┐
+    /// │ lhs       │ rhs       │ lhs OR rhs  │
+    /// ├────── = ──┼────── = ─ → ───── = ────┤
+    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0   │
+    /// │ plus  │ 0 │ minus │ 1 │ minus │ 1   │
+    /// │ minus │ 1 │ plus  │ 0 │ minus │ 1   │
+    /// │ minus │ 1 │ minus │ 1 │ minus │ 1   │
+    /// └────── = ─ → ────── = ─ → ──── = ────┘
     /// ```
     ///
     @_transparent public static func |=(lhs: inout Self, rhs: Self) {
         lhs = lhs | rhs
     }
     
-    /// Returns logical `OR` of `lhs` and `rhs`.
+    /// Returns the logical `OR` of `lhs` and `rhs`.
     ///
     /// ```
-    /// ┌────────────────────── → ──────────┐
-    /// │ lhs       │ rhs       │ sign      │
-    /// ├────── = ──┼────── = ─ → ───── = ──┤
-    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0 │
-    /// │ plus  │ 0 │ minus │ 1 │ minus │ 1 │
-    /// │ minus │ 1 │ plus  │ 0 │ minus │ 1 │
-    /// │ minus │ 1 │ minus │ 1 │ minus │ 1 │
-    /// └────── = ─ → ────── = ─ → ──── = ──┘
+    /// ┌────────────────────── → ────────────┐
+    /// │ lhs       │ rhs       │ lhs OR rhs  │
+    /// ├────── = ──┼────── = ─ → ───── = ────┤
+    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0   │
+    /// │ plus  │ 0 │ minus │ 1 │ minus │ 1   │
+    /// │ minus │ 1 │ plus  │ 0 │ minus │ 1   │
+    /// │ minus │ 1 │ minus │ 1 │ minus │ 1   │
+    /// └────── = ─ → ────── = ─ → ──── = ────┘
     /// ```
     ///
     @_transparent public static func |(lhs: Self, rhs: Self) -> Self {
-        unsafeBitCast(lhs.data | rhs.data, to: Self.self)
+        Swift.unsafeBitCast(lhs.data | rhs.data, to: Self.self)
     }
     
-    /// Forms logical `XOR` of `lhs` and `rhs`.
+    /// Forms the logical `XOR` of `lhs` and `rhs`.
     ///
     /// ```
-    /// ┌────────────────────── → ──────────┐
-    /// │ lhs       │ rhs       │ sign      │
-    /// ├────── = ──┼────── = ─ → ───── = ──┤
-    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0 │
-    /// │ plus  │ 0 │ minus │ 1 │ minus │ 1 │
-    /// │ minus │ 1 │ plus  │ 0 │ minus │ 1 │
-    /// │ minus │ 1 │ minus │ 1 │ plus  │ 0 │
-    /// └────── = ─ → ────── = ─ → ──── = ──┘
+    /// ┌────────────────────── → ────────────┐
+    /// │ lhs       │ rhs       │ lhs XOR rhs │
+    /// ├────── = ──┼────── = ─ → ───── = ────┤
+    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0   │
+    /// │ plus  │ 0 │ minus │ 1 │ minus │ 1   │
+    /// │ minus │ 1 │ plus  │ 0 │ minus │ 1   │
+    /// │ minus │ 1 │ minus │ 1 │ plus  │ 0   │
+    /// └────── = ─ → ────── = ─ → ──── = ────┘
     /// ```
     ///
     @_transparent public static func ^=(lhs: inout Self, rhs: Self) {
         lhs = lhs ^ rhs
     }
     
-    /// Returns logical `XOR` of `lhs` and `rhs`.
+    /// Returns the logical `XOR` of `lhs` and `rhs`.
     ///
     /// ```
-    /// ┌────────────────────── → ──────────┐
-    /// │ lhs       │ rhs       │ sign      │
-    /// ├────── = ──┼────── = ─ → ───── = ──┤
-    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0 │
-    /// │ plus  │ 0 │ minus │ 1 │ minus │ 1 │
-    /// │ minus │ 1 │ plus  │ 0 │ minus │ 1 │
-    /// │ minus │ 1 │ minus │ 1 │ plus  │ 0 │
-    /// └────── = ─ → ────── = ─ → ──── = ──┘
+    /// ┌────────────────────── → ────────────┐
+    /// │ lhs       │ rhs       │ lhs XOR rhs │
+    /// ├────── = ──┼────── = ─ → ───── = ────┤
+    /// │ plus  │ 0 │ plus  │ 0 │ plus  │ 0   │
+    /// │ plus  │ 0 │ minus │ 1 │ minus │ 1   │
+    /// │ minus │ 1 │ plus  │ 0 │ minus │ 1   │
+    /// │ minus │ 1 │ minus │ 1 │ plus  │ 0   │
+    /// └────── = ─ → ────── = ─ → ──── = ────┘
     /// ```
     ///
     @_transparent public static func ^(lhs: Self, rhs: Self) -> Self {
-        unsafeBitCast(lhs.data ^ rhs.data, to: Self.self)
+        Swift.unsafeBitCast(lhs.data ^ rhs.data, to: Self.self)
     }
 }

@@ -13,8 +13,8 @@ import ANKCoreKit
 import ANKFullWidthKit
 import XCTest
 
-private typealias X = ANK256X64
-private typealias Y = ANK256X32
+private typealias X = ANK.U256X64
+private typealias Y = ANK.U256X32
 
 //*============================================================================*
 // MARK: * ANK x Int256 x Text
