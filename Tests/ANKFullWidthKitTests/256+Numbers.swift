@@ -31,6 +31,20 @@ final class Int256TestsOnNumbers: XCTestCase {
     typealias M2 = M.DoubleWidth
     
     //=------------------------------------------------------------------------=
+    // MARK: Tests
+    //=------------------------------------------------------------------------=
+    
+    func testInitZero() {
+        XCTAssertEqual(T(   ), T(x64: X(0, 0, 0, 0)))
+        XCTAssertEqual(T.zero, T(x64: X(0, 0, 0, 0)))
+    }
+    
+    func testInitEdges() {
+        XCTAssertEqual(T.min,  T(x64: X(0, 0, 0, 1 << 63)))
+        XCTAssertEqual(T.max, ~T(x64: X(0, 0, 0, 1 << 63)))
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Tests x Literal
     //=------------------------------------------------------------------------=
     
@@ -174,6 +188,11 @@ final class Int256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     // MARK: Tests x Magnitude
     //=------------------------------------------------------------------------=
+    
+    func testToMagnitude() {
+        ANKAssertNumbers(from: T.min, exactly: nil, clamping: 0, truncating: M(bitPattern: T.min))
+        ANKAssertNumbers(from: T.max, default: /*-------------------------*/ M(bitPattern: T.max))
+    }
     
     func testFromMagnitude() {
         ANKAssertNumbers(from: M.min, exactly: T(), clamping: 00000, truncating: T(bitPattern: M.min))
@@ -335,6 +354,20 @@ final class UInt256TestsOnNumbers: XCTestCase {
     typealias M2 = M.DoubleWidth
     
     //=------------------------------------------------------------------------=
+    // MARK: Tests
+    //=------------------------------------------------------------------------=
+    
+    func testInitZero() {
+        XCTAssertEqual(T(   ), T(x64: X(0, 0, 0, 0)))
+        XCTAssertEqual(T.zero, T(x64: X(0, 0, 0, 0)))
+    }
+    
+    func testInitEdges() {
+        XCTAssertEqual(T.min,  T(x64: X(0, 0, 0, 0)))
+        XCTAssertEqual(T.max, ~T(x64: X(0, 0, 0, 0)))
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Tests x Literal
     //=------------------------------------------------------------------------=
     
@@ -477,6 +510,11 @@ final class UInt256TestsOnNumbers: XCTestCase {
     //=------------------------------------------------------------------------=
     // MARK: Tests x Magnitude
     //=------------------------------------------------------------------------=
+    
+    func testToMagnitude() {
+        ANKAssertNumbers(from: T.min, default: M.min)
+        ANKAssertNumbers(from: T.max, default: M.max)
+    }
     
     func testFromMagnitude() {
         ANKAssertNumbers(from: M.min, default: T.min)

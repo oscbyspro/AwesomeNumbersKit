@@ -39,7 +39,7 @@ extension ANKFullWidth {
         
         pvo.overflow = pvo.overflow || suboverflow as Bool
         //=--------------------------------------=
-        return pvo as PVO<Self>
+        return pvo  as PVO<Self>
     }
     
     //=------------------------------------------------------------------------=
@@ -193,10 +193,10 @@ extension ANKFullWidth where High == Low {
     /// The order of operations matters a lot, so don't reorder it without a profiler.
     ///
     @inlinable func multipliedFullWidthAsKaratsuba(by other: Self) -> HL<Self, Magnitude> {
-        var ax = self.low .multipliedFullWidth(by: other.low ) as HL<Low, Low>
-        let bx = self.low .multipliedFullWidth(by: other.high) as HL<Low, Low>
-        let ay = self.high.multipliedFullWidth(by: other.low ) as HL<Low, Low>
-        var by = self.high.multipliedFullWidth(by: other.high) as HL<Low, Low>
+        var ax = self.low .multipliedFullWidth(by: other.low ) as HL<High, Low>
+        let ay = self.low .multipliedFullWidth(by: other.high) as HL<High, Low>
+        let bx = self.high.multipliedFullWidth(by: other.low ) as HL<High, Low>
+        var by = self.high.multipliedFullWidth(by: other.high) as HL<High, Low>
         //=--------------------------------------=
         let a0 = ax.high.addReportingOverflow(bx.low) as Bool
         let a1 = ax.high.addReportingOverflow(ay.low) as Bool

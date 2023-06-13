@@ -29,15 +29,7 @@ final class Int192TestsOnComplements: XCTestCase {
     // MARK: Tests x Bit Pattern
     //=------------------------------------------------------------------------=
     
-    func testInitBitPattern() {
-        XCTAssertEqual(T(bitPattern: M.min), T( 0))
-        XCTAssertEqual(T(bitPattern: M.max), T(-1))
-        
-        XCTAssertEqual(T(bitPattern:  (M(1) << (M.bitWidth - 1))), T.min)
-        XCTAssertEqual(T(bitPattern: ~(M(1) << (M.bitWidth - 1))), T.max)
-    }
-    
-    func testValueAsBitPattern() {
+    func testToBitPattern() {
         XCTAssertEqual(T( 0).bitPattern, M.min)
         XCTAssertEqual(T(-1).bitPattern, M.max)
         
@@ -45,17 +37,23 @@ final class Int192TestsOnComplements: XCTestCase {
         XCTAssertEqual(T.max.bitPattern, ~(M(1) << (M.bitWidth - 1)))
     }
     
+    func testFromBitPattern() {
+        XCTAssertEqual(T(bitPattern: M.min), T( 0))
+        XCTAssertEqual(T(bitPattern: M.max), T(-1))
+        
+        XCTAssertEqual(T(bitPattern:  (M(1) << (M.bitWidth - 1))), T.min)
+        XCTAssertEqual(T(bitPattern: ~(M(1) << (M.bitWidth - 1))), T.max)
+    }
+    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Magnitude
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        XCTAssertEqual(T(-1).magnitude, M(1))
-        XCTAssertEqual(T( 0).magnitude, M(0))
-        XCTAssertEqual(T( 1).magnitude, M(1))
-        
-        XCTAssertEqual(T.min.magnitude,  (M(1) << (M.bitWidth - 1)))
-        XCTAssertEqual(T.max.magnitude, ~(M(1) << (M.bitWidth - 1)))
+        XCTAssertEqual(T.min.magnitude, M(bitPattern: T.min))
+        XCTAssertEqual(T(-1).magnitude, M( 1))
+        XCTAssertEqual(T( 0).magnitude, M( 0))
+        XCTAssertEqual(T.max.magnitude, M(bitPattern: T.max))
     }
     
     //=------------------------------------------------------------------------=
@@ -85,14 +83,14 @@ final class UInt192TestsOnComplements: XCTestCase {
     // MARK: Tests x Bit Pattern
     //=------------------------------------------------------------------------=
     
-    func testInitBitPattern() {
-        XCTAssertEqual(T(bitPattern: M.min), T.min)
-        XCTAssertEqual(T(bitPattern: M.max), T.max)
-    }
-    
-    func testValueAsBitPattern() {
+    func testToBitPattern() {
         XCTAssertEqual(T.min.bitPattern, M.min)
         XCTAssertEqual(T.max.bitPattern, M.max)
+    }
+    
+    func testFromBitPattern() {
+        XCTAssertEqual(T(bitPattern: M.min), T.min)
+        XCTAssertEqual(T(bitPattern: M.max), T.max)
     }
     
     //=------------------------------------------------------------------------=
@@ -100,10 +98,9 @@ final class UInt192TestsOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
+        XCTAssertEqual(T.min.magnitude, M.min)
         XCTAssertEqual(T( 0).magnitude, M( 0))
         XCTAssertEqual(T( 1).magnitude, M( 1))
-        
-        XCTAssertEqual(T.min.magnitude, M.min)
         XCTAssertEqual(T.max.magnitude, M.max)
     }
     

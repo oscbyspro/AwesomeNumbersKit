@@ -74,9 +74,9 @@ extension ANKFullWidth {
     ///
     @inlinable public mutating func bitshiftLeftUnchecked(by amount: Int) {
         assert(0 ..< Self.bitWidth ~= amount, "invalid left shift amount")
-        let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
-        let bits:  Int = amount &  (UInt.bitWidth &- 1)
-        return self.bitshiftLeftUnchecked(words: words, bits: bits)
+        let major = amount .quotientDividingByBitWidthAssumingIsAtLeastZero()
+        let minor = amount.remainderDividingByBitWidthAssumingIsAtLeastZero()
+        return self.bitshiftLeftUnchecked(words: major, bits: minor)
     }
     
     /// Performs an unchecked left shift.
@@ -100,7 +100,7 @@ extension ANKFullWidth {
         //=--------------------------------------=
         let a = UInt(bitPattern: minor)
         let b = UInt(bitPattern: UInt.bitWidth &- minor)
-        let x = minor.isZero  as  Bool
+        let x = minor.isZero as  Bool
         //=--------------------------------------=
         self.withUnsafeMutableWords { this in
             for i: Int  in  this.indices.reversed() {
@@ -191,9 +191,9 @@ extension ANKFullWidth {
     ///
     @inlinable public mutating func bitshiftRightUnchecked(by amount: Int) {
         assert(0 ..< Self.bitWidth ~= amount, "invalid right shift amount")
-        let words: Int = amount &>> UInt.bitWidth.trailingZeroBitCount
-        let bits:  Int = amount &  (UInt.bitWidth &- 1)
-        return self.bitshiftRightUnchecked(words: words, bits: bits)
+        let major = amount .quotientDividingByBitWidthAssumingIsAtLeastZero()
+        let minor = amount.remainderDividingByBitWidthAssumingIsAtLeastZero()
+        return self.bitshiftRightUnchecked(words: major, bits: minor)
     }
     
     /// Performs an unchecked, signed, right shift.
@@ -218,7 +218,7 @@ extension ANKFullWidth {
         let a = UInt(bitPattern: minor)
         let b = UInt(bitPattern: UInt.bitWidth &- minor)
         let c = UInt(repeating:  self.isLessThanZero)
-        let x = minor.isZero  as  Bool
+        let x = minor.isZero as  Bool
         //=--------------------------------------=
         self.withUnsafeMutableWords { this in
             for i: Int  in  this.indices {

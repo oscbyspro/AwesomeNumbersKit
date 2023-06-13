@@ -22,21 +22,26 @@ private typealias Y = ANK.U192X32
 
 final class Int192TestsOnBits: XCTestCase {
     
-    typealias T = Int192
+    typealias T =  Int192
+    typealias M = UInt192
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitBit() {
+    func testFromBit() {
         XCTAssertEqual(T(bit: false), T( ))
         XCTAssertEqual(T(bit: true ), T(1))
     }
     
-    func testInitRepeatingBit() {
+    func testFromRepeatingBit() {
         XCTAssertEqual(T(repeating: false),  T( ))
         XCTAssertEqual(T(repeating: true ), ~T( ))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Accessors
+    //=------------------------------------------------------------------------=
     
     func testBitWidth() {
         XCTAssertEqual(T(x64: X( 0,  0,  0)).bitWidth, 64 * 3)
@@ -93,20 +98,25 @@ final class Int192TestsOnBits: XCTestCase {
 final class UInt192TestsOnBits: XCTestCase {
     
     typealias T = UInt192
+    typealias M = UInt192
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitBit() {
+    func testFromBit() {
         XCTAssertEqual(T(bit: false), T( ))
         XCTAssertEqual(T(bit: true ), T(1))
     }
     
-    func testInitRepeatingBit() {
+    func testFromRepeatingBit() {
         XCTAssertEqual(T(repeating: false),  T( ))
         XCTAssertEqual(T(repeating: true ), ~T( ))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Accessors
+    //=------------------------------------------------------------------------=
     
     func testBitWidth() {
         XCTAssertEqual(T(x64: X( 0,  0,  0)).bitWidth, 64 * 3)

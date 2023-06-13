@@ -26,6 +26,31 @@ final class ANKSignedTestsOnNumbers: XCTestCase {
     typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
+    // MARK: Tests
+    //=------------------------------------------------------------------------=
+    
+    func testZero() {
+        ANKAssertIdentical(T(   ), T(M(  ), as: .plus ))
+        ANKAssertIdentical(T.zero, T(M(  ), as: .plus ))
+    }
+    
+    func testEdges() {
+        ANKAssertIdentical(T.max,  T(M.max, as: .plus ))
+        ANKAssertIdentical(T.min,  T(M.max, as: .minus))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Digit
+    //=------------------------------------------------------------------------=
+    
+    func testFromDigit() {
+        ANKAssertIdentical(T(digit:  D(4)),  T(4))
+        ANKAssertIdentical(T(digit: -D(4)), -T(4))
+        ANKAssertIdentical(D(digit:  D(4)),  D(4))
+        ANKAssertIdentical(D(digit: -D(4)), -D(4))
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Tests x Signitude
     //=------------------------------------------------------------------------=
     
@@ -93,7 +118,7 @@ final class ANKSignedTestsOnNumbers: XCTestCase {
         XCTAssertEqual(M(          T(M( 1), as: .plus )), M( 1))
         XCTAssertEqual(M(exactly:  T(M( 1), as: .plus )), M( 1))
         XCTAssertEqual(M(clamping: T(M( 1), as: .plus )), M( 1))
-
+        
         XCTAssertEqual(M(exactly:  T(M( 1), as: .minus)),   nil)
         XCTAssertEqual(M(clamping: T(M( 1), as: .minus)), M.min)
         

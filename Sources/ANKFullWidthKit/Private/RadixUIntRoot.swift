@@ -134,17 +134,14 @@ extension RadixUIntRoot {
         var power = radix as UInt
         let radix = radix as UInt
         //=--------------------------------------=
-        exponentiate: while true {
-            let product = power.multipliedFullWidth(by: radix) as HL<UInt, UInt>
-            if !product.high.isZero {
-                if  product.high == 1, product.low.isZero {
-                    exponent &+= 1
-                    power = product.low
-                }
-                
-                break exponentiate
-            }
-            
+        var product = power.multipliedFullWidth(by: radix)
+        exponentiate: while product.high.isZero {
+            exponent  &+= 1
+            power   = product.low
+            product = power.multipliedFullWidth(by: radix)
+        }
+        //=--------------------------------------=
+        if  product.high == 1, product.low.isZero {
             exponent &+= 1
             power = product.low
         }

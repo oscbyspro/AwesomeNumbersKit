@@ -17,10 +17,10 @@ private typealias X = ANK.U256X64
 private typealias Y = ANK.U256X32
 
 //*============================================================================*
-// MARK: * ANK x Int256 x Bitwise
+// MARK: * ANK x Int256 x Endianness
 //*============================================================================*
 
-final class Int256BenchmarksOnBitwise: XCTestCase {
+final class Int256BenchmarksOnEndianness: XCTestCase {
     
     typealias T = Int256
     
@@ -28,44 +28,20 @@ final class Int256BenchmarksOnBitwise: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testAnd() {
-        var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
-        
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(lhs & rhs)
-            ANK.blackHoleInoutIdentity(&lhs)
-            ANK.blackHoleInoutIdentity(&rhs)
-        }
-    }
-    
-    func testOr() {
-        var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
-
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(lhs | rhs)
-            ANK.blackHoleInoutIdentity(&lhs)
-            ANK.blackHoleInoutIdentity(&rhs)
-        }
-    }
-    
-    func testXor() {
-        var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
-
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(lhs ^ rhs)
-            ANK.blackHoleInoutIdentity(&lhs)
-            ANK.blackHoleInoutIdentity(&rhs)
-        }
-    }
-    
-    func testNot() {
+    func testBigEndian() {
         var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(~abc)
+            ANK.blackHole(abc.bigEndian)
+            ANK.blackHoleInoutIdentity(&abc)
+        }
+    }
+    
+    func testLittleEndian() {
+        var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        
+        for _ in 0 ..< 1_000_000 {
+            ANK.blackHole(abc.littleEndian)
             ANK.blackHoleInoutIdentity(&abc)
         }
     }
@@ -81,10 +57,10 @@ final class Int256BenchmarksOnBitwise: XCTestCase {
 }
 
 //*============================================================================*
-// MARK: * ANK x UInt256 x Bitwise
+// MARK: * ANK x UInt256 x Endianness
 //*============================================================================*
 
-final class UInt256BenchmarksOnBitwise: XCTestCase {
+final class UInt256BenchmarksOnEndianness: XCTestCase {
     
     typealias T = UInt256
     
@@ -92,44 +68,20 @@ final class UInt256BenchmarksOnBitwise: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testAnd() {
-        var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
-        
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(lhs & rhs)
-            ANK.blackHoleInoutIdentity(&lhs)
-            ANK.blackHoleInoutIdentity(&rhs)
-        }
-    }
-    
-    func testOr() {
-        var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
-
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(lhs | rhs)
-            ANK.blackHoleInoutIdentity(&lhs)
-            ANK.blackHoleInoutIdentity(&rhs)
-        }
-    }
-    
-    func testXor() {
-        var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
-        var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2,  3)))
-
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(lhs ^ rhs)
-            ANK.blackHoleInoutIdentity(&lhs)
-            ANK.blackHoleInoutIdentity(&rhs)
-        }
-    }
-    
-    func testNot() {
+    func testBigEndian() {
         var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
         for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(~abc)
+            ANK.blackHole(abc.bigEndian)
+            ANK.blackHoleInoutIdentity(&abc)
+        }
+    }
+    
+    func testLittleEndian() {
+        var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
+        
+        for _ in 0 ..< 1_000_000 {
+            ANK.blackHole(abc.littleEndian)
             ANK.blackHoleInoutIdentity(&abc)
         }
     }

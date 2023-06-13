@@ -31,15 +31,13 @@ extension ANKFullWidth {
     
     /// Grants unsafe access to the integer's words, from least significant to most.
     @_transparent public static func fromUnsafeMutableWords(_ body: (UnsafeMutableWords) throws -> Void) rethrows -> Self {
-        try Swift.withUnsafeTemporaryAllocation(of: Self.self, capacity: 1) { buffer in
+        try Swift.withUnsafeTemporaryAllocation(of: UInt.self, capacity: Self.count) { buffer in
             //=--------------------------------------=
             // de/init: pointee is trivial
             //=--------------------------------------=
-            try buffer.baseAddress.unsafelyUnwrapped.withMemoryRebound(to: UInt.self, capacity: Self.count) { base in
-                try body(UnsafeMutableWords(base))
-            }
-            
-            return buffer.baseAddress.unsafelyUnwrapped.pointee
+            let base = buffer.baseAddress.unsafelyUnwrapped
+            try body(UnsafeMutableWords(base))
+            return UnsafeRawPointer(base).load(as: Self.self)
         }
     }
     
@@ -131,7 +129,7 @@ extension ANKFullWidth {
     ///
     @inlinable mutating func withUnsafeMutableUIntBufferPointer<T>(_ body: (inout ANK.UnsafeMutableWords) throws -> T) rethrows -> T {
         try self.withUnsafeMutableUIntPointer { start in
-            var mutable = UnsafeMutableBufferPointer(start: start, count: Self.count);
+            var mutable = UnsafeMutableBufferPointer(start: start, count: Self.count)
             return try body(&mutable)
         }
     }

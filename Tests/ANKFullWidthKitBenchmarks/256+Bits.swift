@@ -28,7 +28,7 @@ final class Int256BenchmarksOnBits: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitBit() {
+    func testFromBit() {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
@@ -41,7 +41,7 @@ final class Int256BenchmarksOnBits: XCTestCase {
         }
     }
     
-    func testInitRepeatingBit() {
+    func testFromRepeatingBit() {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
@@ -53,6 +53,10 @@ final class Int256BenchmarksOnBits: XCTestCase {
             ANK.blackHoleInoutIdentity(&xyz)
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Accessors
+    //=------------------------------------------------------------------------=
     
     func testBitWidth() {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0, 0)))
@@ -145,7 +149,7 @@ final class UInt256BenchmarksOnBits: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitBit() {
+    func testFromBit() {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
@@ -158,7 +162,7 @@ final class UInt256BenchmarksOnBits: XCTestCase {
         }
     }
     
-    func testInitRepeatingBit() {
+    func testFromRepeatingBit() {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
@@ -170,6 +174,10 @@ final class UInt256BenchmarksOnBits: XCTestCase {
             ANK.blackHoleInoutIdentity(&xyz)
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Accessors
+    //=------------------------------------------------------------------------=
     
     func testBitWidth() {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0, 0)))

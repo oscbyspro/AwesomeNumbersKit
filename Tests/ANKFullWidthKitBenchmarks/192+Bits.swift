@@ -28,7 +28,7 @@ final class Int192BenchmarksOnBits: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitBit() {
+    func testFromBit() {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
@@ -41,7 +41,7 @@ final class Int192BenchmarksOnBits: XCTestCase {
         }
     }
     
-    func testInitRepeatingBit() {
+    func testFromRepeatingBit() {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
@@ -53,6 +53,10 @@ final class Int192BenchmarksOnBits: XCTestCase {
             ANK.blackHoleInoutIdentity(&xyz)
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Accessors
+    //=------------------------------------------------------------------------=
     
     func testBitWidth() {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
@@ -145,7 +149,33 @@ final class UInt192BenchmarksOnBits: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitBit() {
+    func testToBitPattern() {
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
+
+        for _ in 0 ..< 1_000_000 {
+            ANK.blackHole(abc.bitPattern)
+            ANK.blackHole(xyz.bitPattern)
+            
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
+        }
+    }
+    
+    func testFromBitPattern() {
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
+        
+        for _ in 0 ..< 1_000_000 {
+            ANK.blackHole(T(bitPattern: abc))
+            ANK.blackHole(T(bitPattern: xyz))
+            
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
+        }
+    }
+    
+    func testFromBit() {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
@@ -158,7 +188,7 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         }
     }
     
-    func testInitRepeatingBit() {
+    func testFromRepeatingBit() {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
@@ -170,6 +200,10 @@ final class UInt192BenchmarksOnBits: XCTestCase {
             ANK.blackHoleInoutIdentity(&xyz)
         }
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Accessors
+    //=------------------------------------------------------------------------=
     
     func testBitWidth() {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))

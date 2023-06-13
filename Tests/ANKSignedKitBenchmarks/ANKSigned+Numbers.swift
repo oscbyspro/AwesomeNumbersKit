@@ -27,6 +27,41 @@ final class ANKSignedBenchmarksOnNumbers: XCTestCase {
     typealias D = ANKSigned<UInt>
     
     //=------------------------------------------------------------------------=
+    // MARK: Tests
+    //=------------------------------------------------------------------------=
+    
+    func testZero() {
+        for _ in 0 ..< 1_000_000 {
+            ANK.blackHole(T(   ))
+            ANK.blackHole(T.zero)
+        }
+    }
+    
+    func testEdges() {
+        for _ in 0 ..< 1_000_000 {
+            ANK.blackHole(T.min)
+            ANK.blackHole(T.max)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Digit
+    //=------------------------------------------------------------------------=
+    
+    func testFromDigit() {
+        var abc = ANK.blackHoleIdentity(D.min)
+        var xyz = ANK.blackHoleIdentity(D.max)
+        
+        for _ in 0 ..< 1_000_000 {
+            ANK.blackHole(T(digit: abc))
+            ANK.blackHole(T(digit: xyz))
+            
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
+        }
+    }
+    
+    //=------------------------------------------------------------------------=
     // MARK: Tests x Signitude
     //=------------------------------------------------------------------------=
     

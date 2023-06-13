@@ -29,23 +29,9 @@ final class Int256Benchmarks: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitZero() {
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(T(   ))
-            ANK.blackHole(T.zero)
-        }
-    }
-    
-    func testInitEdges() {
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(T.min )
-            ANK.blackHole(T.max )
-        }
-    }
-    
-    func testInitComponents() {
-        var abc = ANK.blackHoleIdentity(LH( T.Low (), T.High() ))
-        var xyz = ANK.blackHoleIdentity(HL( T.High(), T.Low () ))
+    func testFromComponents() {
+        var abc = ANK.blackHoleIdentity(LH( T.Low .zero, T.High.zero ))
+        var xyz = ANK.blackHoleIdentity(HL( T.High.zero, T.Low .zero ))
 
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(T(ascending:  abc))
@@ -70,23 +56,9 @@ final class UInt256Benchmarks: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitZero() {
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(T(   ))
-            ANK.blackHole(T.zero)
-        }
-    }
-    
-    func testInitEdges() {
-        for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(T.min )
-            ANK.blackHole(T.max )
-        }
-    }
-    
-    func testInitComponents() {
-        var abc = ANK.blackHoleIdentity(LH( T.Low (), T.High() ))
-        var xyz = ANK.blackHoleIdentity(HL( T.High(), T.Low () ))
+    func testFromComponents() {
+        var abc = ANK.blackHoleIdentity(LH( T.Low .zero, T.High.zero ))
+        var xyz = ANK.blackHoleIdentity(HL( T.High.zero, T.Low .zero ))
 
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(T(ascending:  abc))

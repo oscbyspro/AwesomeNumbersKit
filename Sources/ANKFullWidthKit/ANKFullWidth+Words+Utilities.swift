@@ -10,7 +10,7 @@
 import ANKCoreKit
 
 //*============================================================================*
-// MARK: * NBK x Full Width x Words x Utilities
+// MARK: * ANK x Full Width x Words x Utilities
 //*============================================================================*
 
 extension ANKFullWidth {

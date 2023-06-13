@@ -10,7 +10,7 @@
 import ANKCoreKit
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Bitwise
+// MARK: * ANK x Full Width x Logic
 //*============================================================================*
 
 extension ANKFullWidth {
@@ -36,19 +36,5 @@ extension ANKFullWidth {
     @inlinable public static func ^=(lhs: inout Self, rhs: Self) {
         lhs.low  ^= rhs.low
         lhs.high ^= rhs.high
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public var byteSwapped: Self {
-        self.withUnsafeWords { this in
-            Self.fromUnsafeMutableWords { other in
-                for index in other.indices {
-                    other[other.lastIndex &- index] = this[index].byteSwapped
-                }
-            }
-        }
     }
 }

@@ -17,10 +17,10 @@ private typealias X = ANK.U256X64
 private typealias Y = ANK.U256X32
 
 //*============================================================================*
-// MARK: * ANK x Int256 x Bitwise
+// MARK: * ANK x Int256 x Logic
 //*============================================================================*
 
-final class Int256TestsOnBitwise: XCTestCase {
+final class Int256TestsOnLogic: XCTestCase {
     
     typealias T = Int256
     
@@ -65,28 +65,13 @@ final class Int256TestsOnBitwise: XCTestCase {
         XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  3,  2)))
         XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 2,  3,  0,  1)))
     }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testByteSwapped() {
-        XCTAssertEqual(T(x64: X( 0,  0,  0,  0)).byteSwapped, T(x64: X( 0,  0,  0,  0)))
-        XCTAssertEqual(T(x64: X(~0,  0,  0,  0)).byteSwapped, T(x64: X( 0,  0,  0, ~0)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0,  0)).byteSwapped, T(x64: X( 0,  0, ~0, ~0)))
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0,  0)).byteSwapped, T(x64: X( 0, ~0, ~0, ~0)))
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0, ~0)).byteSwapped, T(x64: X(~0, ~0, ~0, ~0)))
-        
-        XCTAssertEqual(T(x64: X(1, 2, 3, 4)).byteSwapped, T(x64: X(4 << 56, 3 << 56, 2 << 56, 1 << 56)))
-        XCTAssertEqual(T(x64: X(4 << 56, 3 << 56, 2 << 56, 1 << 56)).byteSwapped, T(x64: X(1, 2, 3, 4)))
-    }
 }
 
 //*============================================================================*
-// MARK: * ANK x UInt256 x Bitwise
+// MARK: * ANK x UInt256 x Logic
 //*============================================================================*
 
-final class UInt256TestsOnBitwise: XCTestCase {
+final class UInt256TestsOnLogic: XCTestCase {
     
     typealias T = UInt256
     
@@ -130,21 +115,6 @@ final class UInt256TestsOnBitwise: XCTestCase {
         
         XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  3,  2)))
         XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 2,  3,  0,  1)))
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testByteSwapped() {
-        XCTAssertEqual(T(x64: X( 0,  0,  0,  0)).byteSwapped, T(x64: X( 0,  0,  0,  0)))
-        XCTAssertEqual(T(x64: X(~0,  0,  0,  0)).byteSwapped, T(x64: X( 0,  0,  0, ~0)))
-        XCTAssertEqual(T(x64: X(~0, ~0,  0,  0)).byteSwapped, T(x64: X( 0,  0, ~0, ~0)))
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0,  0)).byteSwapped, T(x64: X( 0, ~0, ~0, ~0)))
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0, ~0)).byteSwapped, T(x64: X(~0, ~0, ~0, ~0)))
-        
-        XCTAssertEqual(T(x64: X(1, 2, 3, 4)).byteSwapped, T(x64: X(4 << 56, 3 << 56, 2 << 56, 1 << 56)))
-        XCTAssertEqual(T(x64: X(4 << 56, 3 << 56, 2 << 56, 1 << 56)).byteSwapped, T(x64: X(1, 2, 3, 4)))
     }
 }
 

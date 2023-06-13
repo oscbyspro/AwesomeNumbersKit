@@ -29,21 +29,29 @@ final class Int192BenchmarksOnComplements: XCTestCase {
     // MARK: Tests x Bit Pattern
     //=------------------------------------------------------------------------=
     
-    func testInitBitPattern() {
-        var abc = ANK.blackHoleIdentity(M.max)
-        
+    func testToBitPattern() {
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
+
         for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(T(bitPattern: abc))
+            ANK.blackHole(abc.bitPattern)
+            ANK.blackHole(xyz.bitPattern)
+            
             ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
-    func testValueAsBitPattern() {
-        var abc = ANK.blackHoleIdentity(T.max)
+    func testFromBitPattern() {
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(abc.bitPattern)
+            ANK.blackHole(T(bitPattern: abc))
+            ANK.blackHole(T(bitPattern: xyz))
+            
             ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
@@ -52,11 +60,15 @@ final class Int192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(abc.magnitude)
+            ANK.blackHole(xyz.magnitude)
+            
             ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
@@ -65,11 +77,28 @@ final class Int192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
+
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(abc.twosComplement())
+            ANK.blackHole(xyz.twosComplement())
+            
             ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
+        }
+    }
+    
+    func testTwosComplementSubsequence() {
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
+
+        for _ in 0 ..< 1_000_000 {
+            ANK.blackHole(abc.twosComplementSubsequence(true))
+            ANK.blackHole(xyz.twosComplementSubsequence(true))
+            
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
 }
@@ -82,26 +111,34 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
     
     typealias T = UInt192
     typealias M = UInt192
-
+    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Bit Pattern
     //=------------------------------------------------------------------------=
     
-    func testInitBitPattern() {
-        var abc = ANK.blackHoleIdentity(M.max)
-        
+    func testToBitPattern() {
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
+
         for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(T(bitPattern: abc))
+            ANK.blackHole(abc.bitPattern)
+            ANK.blackHole(xyz.bitPattern)
+            
             ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
-    func testValueAsBitPattern() {
-        var abc = ANK.blackHoleIdentity(T.max)
+    func testFromBitPattern() {
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
-            ANK.blackHole(abc.bitPattern)
+            ANK.blackHole(T(bitPattern: abc))
+            ANK.blackHole(T(bitPattern: xyz))
+            
             ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
@@ -110,11 +147,15 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testMagnitude() {
-        var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(abc.magnitude)
+            ANK.blackHole(xyz.magnitude)
+            
             ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
     
@@ -123,11 +164,28 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testTwosComplement() {
-        var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
-        
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
+
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(abc.twosComplement())
+            ANK.blackHole(xyz.twosComplement())
+            
             ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
+        }
+    }
+    
+    func testTwosComplementSubsequence() {
+        var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
+        var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
+
+        for _ in 0 ..< 1_000_000 {
+            ANK.blackHole(abc.twosComplementSubsequence(true))
+            ANK.blackHole(xyz.twosComplementSubsequence(true))
+            
+            ANK.blackHoleInoutIdentity(&abc)
+            ANK.blackHoleInoutIdentity(&xyz)
         }
     }
 }

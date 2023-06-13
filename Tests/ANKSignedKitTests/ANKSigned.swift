@@ -24,27 +24,6 @@ final class ANKSignedTests: XCTestCase {
     typealias M = UInt256
     
     //=------------------------------------------------------------------------=
-    // MARK: Tests
-    //=------------------------------------------------------------------------=
-    
-    func testInitZero() {
-        ANKAssertIdentical(T(   ), T(M(  ), as: .plus ))
-        ANKAssertIdentical(T.zero, T(M(  ), as: .plus ))
-    }
-    
-    func testInitEdges() {
-        ANKAssertIdentical(T.max,  T(M.max, as: .plus ))
-        ANKAssertIdentical(T.min,  T(M.max, as: .minus))
-    }
-    
-    func testInitDigit() {
-        ANKAssertIdentical(T(digit:  D(4)),  T(4))
-        ANKAssertIdentical(T(digit: -D(4)), -T(4))
-        ANKAssertIdentical(D(digit:  D(4)),  D(4))
-        ANKAssertIdentical(D(digit: -D(4)), -D(4))
-    }
-    
-    //=------------------------------------------------------------------------=
     // MARK: Tests x Normalization
     //=------------------------------------------------------------------------=
     

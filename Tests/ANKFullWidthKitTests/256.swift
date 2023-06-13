@@ -47,16 +47,6 @@ final class Int256Tests: XCTestCase {
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 1)), T(1) << 224)
     }
     
-    func testInitZero() {
-        XCTAssertEqual(T(   ), T(x64: X(0, 0, 0, 0)))
-        XCTAssertEqual(T.zero, T(x64: X(0, 0, 0, 0)))
-    }
-    
-    func testInitEdges() {
-        XCTAssertEqual(T.min,  T(x64: X(0, 0, 0, 1 << 63)))
-        XCTAssertEqual(T.max, ~T(x64: X(0, 0, 0, 1 << 63)))
-    }
-    
     //=------------------------------------------------------------------------=
     // MARK: Tests x Components
     //=------------------------------------------------------------------------=
@@ -98,16 +88,6 @@ final class UInt256Tests: XCTestCase {
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 1, 0, 0)), T(1) << 160)
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 1, 0)), T(1) << 192)
         XCTAssertEqual(T(x32: Y(0, 0, 0, 0, 0, 0, 0, 1)), T(1) << 224)
-    }
-    
-    func testInitZero() {
-        XCTAssertEqual(T(   ), T(x64: X(0, 0, 0, 0)))
-        XCTAssertEqual(T.zero, T(x64: X(0, 0, 0, 0)))
-    }
-    
-    func testInitEdges() {
-        XCTAssertEqual(T.min,  T(x64: X(0, 0, 0, 0)))
-        XCTAssertEqual(T.max, ~T(x64: X(0, 0, 0, 0)))
     }
     
     //=------------------------------------------------------------------------=

@@ -52,4 +52,14 @@ extension ANKFullWidth {
         return self
         #endif
     }
+    
+    @inlinable public var byteSwapped: Self {
+        self.withUnsafeWords { this in
+            Self.fromUnsafeMutableWords { other in
+                for index in other.indices {
+                    other[other.lastIndex &- index] = this[index].byteSwapped
+                }
+            }
+        }
+    }
 }

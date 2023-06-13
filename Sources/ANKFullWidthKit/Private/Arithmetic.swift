@@ -10,6 +10,50 @@
 import ANKCoreKit
 
 //*============================================================================*
+// MARK: * ANK x Arithmetic x Int
+//*============================================================================*
+
+extension Int {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    /// Returns the `quotient` of dividing this value by its bit width.
+    @inlinable func quotientDividingByBitWidthAssumingIsAtLeastZero() -> Self {
+        assert(self.isLessThanZero == false, "this value must be at least zero")
+        return Self(bitPattern: Magnitude(bitPattern: self).quotientDividingByBitWidth())
+    }
+    
+    /// Returns the `remainder` of dividing this value by its bit width.
+    @inlinable func remainderDividingByBitWidthAssumingIsAtLeastZero() -> Self {
+        assert(self.isLessThanZero == false, "this value must be at least zero")
+        return Self(bitPattern: Magnitude(bitPattern: self).remainderDividingByBitWidth())
+    }
+}
+
+//*============================================================================*
+// MARK: * ANK x Arithmetic x UInt
+//*============================================================================*
+
+extension UInt {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations
+    //=------------------------------------------------------------------------=
+    
+    /// Returns the `quotient` of dividing this value by its bit width.
+    @inlinable func quotientDividingByBitWidth() -> Self {
+        self &>> Self(bitPattern: Self.bitWidth.trailingZeroBitCount)
+    }
+    
+    /// Returns the `remainder` of dividing this value by its bit width.
+    @inlinable func remainderDividingByBitWidth() -> Self {
+        self & Self(bitPattern: Self.bitWidth &- 1)
+    }
+}
+
+//*============================================================================*
 // MARK: * ANK x Arithmetic x Modulo
 //*============================================================================*
 
@@ -20,29 +64,29 @@ extension BinaryInteger {
     //=------------------------------------------------------------------------=
     
     /// Returns `self` modulo `self.bitWidth`.
-    @inlinable func moduloBitWidth() -> Int where Self: ANKFixedWidthInteger, Self.Digit: ANKCoreInteger<UInt> {
+    @inlinable func moduloBitWidth() -> Int where Self: FixedWidthInteger {
         self.moduloBitWidth(of: Self.self)
     }
     
     /// Returns `self` modulo `other.bitWidth`.
-    @inlinable func moduloBitWidth<T>(of other: T.Type) -> Int where T: ANKFixedWidthInteger, T.Digit: ANKCoreInteger<UInt> {
+    @inlinable func moduloBitWidth<T>(of other: T.Type) -> Int where T: FixedWidthInteger {
+        Int(bitPattern: self.modulo(UInt(bitPattern: other.bitWidth)))
+    }
+    
+    /// Returns `self` modulo `modulus`.
+    @inlinable func modulo(_ modulus: UInt) -> UInt {
         //=--------------------------------------=
-        if  T.bitWidth.isPowerOf2 {
-            return Int(bitPattern: self._lowWord) & (T.bitWidth &- 1)
-        //=--------------------------------------=
-        }   else if T.bitWidth >= self.bitWidth {
-            let minus: Bool = self < (0 as Self)
-            let divisor   = T.Magnitude.Digit(bitPattern: T.bitWidth)
-            let magnitude = T.Magnitude(truncatingIfNeeded: self.magnitude)
-            let remainder = Int(bitPattern: magnitude % divisor)
-            return Int(bitPattern: minus ? T.bitWidth - remainder : remainder)
-        //=--------------------------------------=
-        }   else {
-            let minus: Bool = self < (0 as Self)
-            let divisor   = Magnitude(truncatingIfNeeded: T.bitWidth)
-            let magnitude = Magnitude(truncatingIfNeeded: self.magnitude)
-            let remainder = Int(bitPattern: (magnitude % divisor)._lowWord)
-            return Int(bitPattern: minus ? T.bitWidth - remainder : remainder)
+        if  modulus.isPowerOf2 {
+            return self._lowWord & (modulus &- 1)
         }
+        //=--------------------------------------=
+        let minus = Self.isSigned && self < (0 as Self)
+        var residue = UInt.zero
+        
+        for word in self.magnitude.words.reversed() {
+            residue = modulus.dividingFullWidth(HL(residue, word)).remainder
+        }
+        
+        return minus ? modulus &- residue : residue
     }
 }
