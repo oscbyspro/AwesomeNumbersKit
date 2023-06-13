@@ -30,14 +30,14 @@ final class Int256BenchmarksOnNumbers: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitZero() {
+    func testZero() {
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(T(   ))
             ANK.blackHole(T.zero)
         }
     }
     
-    func testInitEdges() {
+    func testEdges() {
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(T.min)
             ANK.blackHole(T.max)
@@ -462,14 +462,14 @@ final class UInt256BenchmarksOnNumbers: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitZero() {
+    func testZero() {
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(T(   ))
             ANK.blackHole(T.zero)
         }
     }
     
-    func testInitEdges() {
+    func testEdges() {
         for _ in 0 ..< 1_000_000 {
             ANK.blackHole(T.min)
             ANK.blackHole(T.max)

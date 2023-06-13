@@ -34,31 +34,14 @@ final class Int192TestsOnNumbers: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitZero() {
+    func testZero() {
         XCTAssertEqual(T(   ), T(x64: X(0, 0, 0)))
         XCTAssertEqual(T.zero, T(x64: X(0, 0, 0)))
     }
     
-    func testInitEdges() {
+    func testEdges() {
         XCTAssertEqual(T.min,  T(x64: X(0, 0, 1 << 63)))
         XCTAssertEqual(T.max, ~T(x64: X(0, 0, 1 << 63)))
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Literal
-    //=------------------------------------------------------------------------=
-    
-    func testFromLiteral() {
-        XCTAssertEqual(T(x64:( 0,  0,  0)),  0)
-        XCTAssertEqual(T(x64:(~0,  0,  0)),  18446744073709551615)
-        XCTAssertEqual(T(x64:(~0, ~0,  0)),  340282366920938463463374607431768211455)
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)), -1)
-        
-        XCTAssertEqual(T.min, -3138550867693340381917894711603833208051177722232017256448)
-        XCTAssertEqual(T.max,  3138550867693340381917894711603833208051177722232017256447)
-        
-        XCTAssertNil(T(exactlyIntegerLiteral: -3138550867693340381917894711603833208051177722232017256449))
-        XCTAssertNil(T(exactlyIntegerLiteral:  3138550867693340381917894711603833208051177722232017256448))
     }
     
     //=------------------------------------------------------------------------=
@@ -335,6 +318,23 @@ final class Int192TestsOnNumbers: XCTestCase {
         XCTAssertEqual(T.exactly (sign: .minus, magnitude: M(  )), T(  ))
         XCTAssertEqual(T.clamping(sign: .minus, magnitude: M(  )), T(  ))
     }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Literal
+    //=------------------------------------------------------------------------=
+    
+    func testFromLiteral() {
+        XCTAssertEqual(T(x64:( 0,  0,  0)),  0)
+        XCTAssertEqual(T(x64:(~0,  0,  0)),  18446744073709551615)
+        XCTAssertEqual(T(x64:(~0, ~0,  0)),  340282366920938463463374607431768211455)
+        XCTAssertEqual(T(x64:(~0, ~0, ~0)), -1)
+        
+        XCTAssertEqual(T.min, -3138550867693340381917894711603833208051177722232017256448)
+        XCTAssertEqual(T.max,  3138550867693340381917894711603833208051177722232017256447)
+        
+        XCTAssertNil(T(exactlyIntegerLiteral: -3138550867693340381917894711603833208051177722232017256449))
+        XCTAssertNil(T(exactlyIntegerLiteral:  3138550867693340381917894711603833208051177722232017256448))
+    }
 }
 
 //*============================================================================*
@@ -355,28 +355,14 @@ final class UInt192TestsOnNumbers: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitZero() {
+    func testZero() {
         XCTAssertEqual(T(   ), T(x64: X(0, 0, 0)))
         XCTAssertEqual(T.zero, T(x64: X(0, 0, 0)))
     }
     
-    func testInitEdges() {
+    func testEdges() {
         XCTAssertEqual(T.min,  T(x64: X(0, 0, 0)))
         XCTAssertEqual(T.max, ~T(x64: X(0, 0, 0)))
-    }
-    
-    //=------------------------------------------------------------------------=
-    // MARK: Tests x Literal
-    //=------------------------------------------------------------------------=
-    
-    func testFromLiteral() {
-        XCTAssertEqual(T(x64:( 0,  0,  0)), 0)
-        XCTAssertEqual(T(x64:(~0,  0,  0)), 18446744073709551615)
-        XCTAssertEqual(T(x64:(~0, ~0,  0)), 340282366920938463463374607431768211455)
-        XCTAssertEqual(T(x64:(~0, ~0, ~0)), 6277101735386680763835789423207666416102355444464034512895)
-        
-        XCTAssertNil(T(exactlyIntegerLiteral: -1))
-        XCTAssertNil(T(exactlyIntegerLiteral:  6277101735386680763835789423207666416102355444464034512896))
     }
     
     //=------------------------------------------------------------------------=
@@ -639,6 +625,20 @@ final class UInt192TestsOnNumbers: XCTestCase {
         
         XCTAssertEqual(T.exactly (sign: .minus, magnitude: M(  )), T(  ))
         XCTAssertEqual(T.clamping(sign: .minus, magnitude: M(  )), T(  ))
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Literal
+    //=------------------------------------------------------------------------=
+    
+    func testFromLiteral() {
+        XCTAssertEqual(T(x64:( 0,  0,  0)), 0)
+        XCTAssertEqual(T(x64:(~0,  0,  0)), 18446744073709551615)
+        XCTAssertEqual(T(x64:(~0, ~0,  0)), 340282366920938463463374607431768211455)
+        XCTAssertEqual(T(x64:(~0, ~0, ~0)), 6277101735386680763835789423207666416102355444464034512895)
+        
+        XCTAssertNil(T(exactlyIntegerLiteral: -1))
+        XCTAssertNil(T(exactlyIntegerLiteral:  6277101735386680763835789423207666416102355444464034512896))
     }
 }
 

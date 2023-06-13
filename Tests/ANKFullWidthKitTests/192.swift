@@ -29,13 +29,13 @@ final class Int192Tests: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitX64() {
+    func testFromX64() {
         XCTAssertEqual(T(x64: X(1, 0, 0)), T(1) <<   0)
         XCTAssertEqual(T(x64: X(0, 1, 0)), T(1) <<  64)
         XCTAssertEqual(T(x64: X(0, 0, 1)), T(1) << 128)
     }
     
-    func testInitX32() {
+    func testFromX32() {
         XCTAssertEqual(T(x32: Y(1, 0, 0, 0, 0, 0)), T(1) <<   0)
         XCTAssertEqual(T(x32: Y(0, 1, 0, 0, 0, 0)), T(1) <<  32)
         XCTAssertEqual(T(x32: Y(0, 0, 1, 0, 0, 0)), T(1) <<  64)
@@ -69,13 +69,13 @@ final class UInt192Tests: XCTestCase {
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
-    func testInitX64() {
+    func testFromX64() {
         XCTAssertEqual(T(x64: X(1, 0, 0)), T(1) <<   0)
         XCTAssertEqual(T(x64: X(0, 1, 0)), T(1) <<  64)
         XCTAssertEqual(T(x64: X(0, 0, 1)), T(1) << 128)
     }
     
-    func testInitX32() {
+    func testFromX32() {
         XCTAssertEqual(T(x32: Y(1, 0, 0, 0, 0, 0)), T(1) <<   0)
         XCTAssertEqual(T(x32: Y(0, 1, 0, 0, 0, 0)), T(1) <<  32)
         XCTAssertEqual(T(x32: Y(0, 0, 1, 0, 0, 0)), T(1) <<  64)
