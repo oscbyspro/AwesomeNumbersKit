@@ -482,6 +482,24 @@ Digit: ANKFixedWidthInteger, Magnitude: ANKFixedWidthInteger, Magnitude.BitPatte
     /// - Note: In the case of `overflow`, the result is truncated or, if undefined, `other` and `other`.
     ///
     @inlinable func dividingFullWidthReportingOverflow(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>>
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Details x Shifts
+    //=------------------------------------------------------------------------=
+    // see: https://github.com/oscbyspro/AwesomeNumbersKit/issues/135
+    //=------------------------------------------------------------------------=
+    
+    /// Forms the result of performing a masking left shift on `lhs` by `rhs`.
+    @inlinable static func &<<=(lhs: inout Self, rhs: some BinaryInteger)
+    
+    /// Returns the result of performing a masking left shift on `lhs` by `rhs`.
+    @inlinable static func &<<(lhs: Self, rhs: some BinaryInteger) -> Self
+    
+    /// Forms the result of performing a masking right shift on `lhs` by `rhs`.
+    @inlinable static func &>>=(lhs: inout Self, rhs: some BinaryInteger)
+    
+    /// Returns the result of performing a masking right shift on `lhs` by `rhs`.
+    @inlinable static func &>>(lhs: Self, rhs: some BinaryInteger) -> Self
 }
 
 //=----------------------------------------------------------------------------=
