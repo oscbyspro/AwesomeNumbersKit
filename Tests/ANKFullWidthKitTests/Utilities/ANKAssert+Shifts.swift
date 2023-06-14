@@ -93,7 +93,7 @@ file: StaticString = #file, line: UInt = #line) where S.Digit: ANKCoreInteger<UI
     typealias M2 = ANKFullWidth<S, S .Magnitude>.Magnitude
     precondition(S.Magnitude.self == M.self)
     //=------------------------------------------=
-    func NBKAssertWith(_ lhs: T, _ rhs: Int, _ result: T) {
+    func ANKAssertWith(_ lhs: T, _ rhs: Int, _ result: T) {
         XCTAssertEqual(lhs &<<   (rhs), result, file: file, line: line)
         XCTAssertEqual(lhs &<<  S(rhs), result, file: file, line: line)
         XCTAssertEqual(lhs &<< S2(rhs), result, file: file, line: line)
@@ -103,11 +103,11 @@ file: StaticString = #file, line: UInt = #line) where S.Digit: ANKCoreInteger<UI
         XCTAssertEqual(lhs &<< M2(rhs), result, file: file, line: line)
     }
     
-    NBKAssertWith(lhs, rhs,                result)
-    NBKAssertWith(lhs, rhs + lhs.bitWidth, result)
-    NBKAssertWith(lhs, rhs - lhs.bitWidth, result)
+    ANKAssertWith(lhs, rhs,                result)
+    ANKAssertWith(lhs, rhs + lhs.bitWidth, result)
+    ANKAssertWith(lhs, rhs - lhs.bitWidth, result)
     //=------------------------------------------=
-    func NBKAssertWithProtocolWitnessesOf<T>(_ lhs: T, _ rhs: Int, _ result: T) where T: ANKFixedWidthInteger {
+    func ANKAssertWithProtocolWitnessesOf<T>(_ lhs: T, _ rhs: Int, _ result: T) where T: ANKFixedWidthInteger {
         XCTAssertEqual(lhs &<<   (rhs), result, file: file, line: line)
         XCTAssertEqual(lhs &<<  S(rhs), result, file: file, line: line)
         XCTAssertEqual(lhs &<< S2(rhs), result, file: file, line: line)
@@ -117,9 +117,9 @@ file: StaticString = #file, line: UInt = #line) where S.Digit: ANKCoreInteger<UI
         XCTAssertEqual(lhs &<< M2(rhs), result, file: file, line: line)
     }
     
-    NBKAssertWithProtocolWitnessesOf(lhs, rhs,                result)
-    NBKAssertWithProtocolWitnessesOf(lhs, rhs + lhs.bitWidth, result)
-    NBKAssertWithProtocolWitnessesOf(lhs, rhs - lhs.bitWidth, result)
+    ANKAssertWithProtocolWitnessesOf(lhs, rhs,                result)
+    ANKAssertWithProtocolWitnessesOf(lhs, rhs + lhs.bitWidth, result)
+    ANKAssertWithProtocolWitnessesOf(lhs, rhs - lhs.bitWidth, result)
 }
 
 func ANKAssertShiftRightByMasking<H: ANKFixedWidthInteger, L: ANKFixedWidthInteger, S: ANKFixedWidthInteger & ANKSignedInteger>(
@@ -132,7 +132,7 @@ file: StaticString = #file, line: UInt = #line) where S.Digit: ANKCoreInteger<UI
     typealias M2 = ANKFullWidth<S, S .Magnitude>.Magnitude
     precondition(S.Magnitude.self == M.self)
     //=------------------------------------------=
-    func NBKAssertWith(_ lhs: ANKFullWidth<H, L>, _ rhs: Int, _ result: ANKFullWidth<H, L>) {
+    func ANKAssertWith(_ lhs: ANKFullWidth<H, L>, _ rhs: Int, _ result: ANKFullWidth<H, L>) {
         XCTAssertEqual(lhs &>>   (rhs), result, file: file, line: line)
         XCTAssertEqual(lhs &>>  S(rhs), result, file: file, line: line)
         XCTAssertEqual(lhs &>> S2(rhs), result, file: file, line: line)
@@ -142,11 +142,11 @@ file: StaticString = #file, line: UInt = #line) where S.Digit: ANKCoreInteger<UI
         XCTAssertEqual(lhs &>> M2(rhs), result, file: file, line: line)
     }
     
-    NBKAssertWith(lhs, rhs,                result)
-    NBKAssertWith(lhs, rhs + lhs.bitWidth, result)
-    NBKAssertWith(lhs, rhs - lhs.bitWidth, result)
+    ANKAssertWith(lhs, rhs,                result)
+    ANKAssertWith(lhs, rhs + lhs.bitWidth, result)
+    ANKAssertWith(lhs, rhs - lhs.bitWidth, result)
     //=------------------------------------------=
-    func NBKAssertWithProtocolWitnessesOf<T>(_ lhs: T, _ rhs: Int, _ result: T) where T: ANKFixedWidthInteger {
+    func ANKAssertWithProtocolWitnessesOf<T>(_ lhs: T, _ rhs: Int, _ result: T) where T: ANKFixedWidthInteger {
         XCTAssertEqual(lhs &>>   (rhs), result, file: file, line: line)
         XCTAssertEqual(lhs &>>  S(rhs), result, file: file, line: line)
         XCTAssertEqual(lhs &>> S2(rhs), result, file: file, line: line)
@@ -156,7 +156,7 @@ file: StaticString = #file, line: UInt = #line) where S.Digit: ANKCoreInteger<UI
         XCTAssertEqual(lhs &>> M2(rhs), result, file: file, line: line)
     }
     
-    NBKAssertWithProtocolWitnessesOf(lhs, rhs,                result)
-    NBKAssertWithProtocolWitnessesOf(lhs, rhs + lhs.bitWidth, result)
-    NBKAssertWithProtocolWitnessesOf(lhs, rhs - lhs.bitWidth, result)
+    ANKAssertWithProtocolWitnessesOf(lhs, rhs,                result)
+    ANKAssertWithProtocolWitnessesOf(lhs, rhs + lhs.bitWidth, result)
+    ANKAssertWithProtocolWitnessesOf(lhs, rhs - lhs.bitWidth, result)
 }

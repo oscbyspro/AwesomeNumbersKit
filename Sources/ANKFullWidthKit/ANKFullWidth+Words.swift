@@ -92,16 +92,19 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    /// The least significant word of this integer.
     @inlinable public var first: UInt {
         get { self.withUnsafeWords({/*---*/ $0.first /*------*/ }) }
         set { self.withUnsafeMutableWords({ $0.first = newValue }) }
     }
     
+    /// The most significant word of this integer.
     @inlinable public var last: UInt {
         get { self.withUnsafeWords({/*---*/ $0.last /*------*/ }) }
         set { self.withUnsafeMutableWords({ $0.last = newValue }) }
     }
     
+    /// The most significant word of this integer, reinterpreted as a ``Digit``.
     @inlinable public var tail: Digit {
         get { self.withUnsafeWords({/*---*/ $0.tail /*------*/ }) }
         set { self.withUnsafeMutableWords({ $0.tail = newValue }) }
@@ -111,11 +114,18 @@ extension ANKFullWidth {
     // MARK: Accessors
     //=------------------------------------------------------------------------=
     
+    /// Accesses the word at the given index, from least significant to most.
     @inlinable public subscript(index: Int) -> UInt {
         get { self.withUnsafeWords({/*---*/ $0[index] /*------*/ }) }
         set { self.withUnsafeMutableWords({ $0[index] = newValue }) }
     }
     
+    /// Accesses the word at the given index, from least significant to most.
+    ///
+    /// - Warning: This subscript provides unchecked read and write access. Use
+    ///   it only when you know the index is valid and that bounds-checking poses
+    ///   significant performance problems.
+    ///
     @inlinable public subscript(unchecked index: Int) -> UInt {
         get { self.withUnsafeWords({/*---*/ $0[unchecked: index] /*------*/ }) }
         set { self.withUnsafeMutableWords({ $0[unchecked: index] = newValue }) }

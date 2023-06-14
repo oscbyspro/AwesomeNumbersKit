@@ -190,14 +190,17 @@ extension ANKFullWidth {
         // MARK: Accessors
         //=------------------------------------------------------------------------=
         
+        /// The least significant word of this integer.
         @inlinable public var first: UInt {
             self[unchecked: self.startIndex]
         }
         
+        /// The most significant word of this integer.
         @inlinable public var last: UInt {
             self[unchecked: self.lastIndex]
         }
         
+        /// The most significant word of this integer, reinterpreted as a ``Digit``.
         @inlinable public var tail: Digit {
             Digit(bitPattern: self.last)
         }
@@ -206,11 +209,18 @@ extension ANKFullWidth {
         // MARK: Accessors
         //=------------------------------------------------------------------------=
         
+        /// Accesses the word at the given index, from least significant to most.
         @inlinable public subscript(index: Int) -> UInt {
             precondition(self.indices ~= index, ANK.callsiteIndexOutOfBoundsInfo())
             return self[unchecked: index]
         }
         
+        /// Accesses the word at the given index, from least significant to most.
+        ///
+        /// - Warning: This subscript provides unchecked read and write access. Use
+        ///   it only when you know the index is valid and that bounds-checking poses
+        ///   significant performance problems.
+        ///
         @inlinable public subscript(unchecked index: Int) -> UInt {
             self.base[ANKFullWidth.BitPattern.endiannessSensitiveIndex(unchecked: index)]
         }
@@ -265,16 +275,19 @@ extension ANKFullWidth {
         // MARK: Accessors
         //=------------------------------------------------------------------------=
         
+        /// The least significant word of this integer.
         @inlinable public var first: UInt {
             nonmutating get { self[unchecked: self.startIndex] }
             nonmutating set { self[unchecked: self.startIndex] = newValue }
         }
         
+        /// The most significant word of this integer.
         @inlinable public var last: UInt {
             nonmutating get { self[unchecked: self.lastIndex] }
             nonmutating set { self[unchecked: self.lastIndex] = newValue }
         }
         
+        /// The most significant word of this integer, reinterpreted as a ``Digit``.
         @inlinable public var tail: Digit {
             nonmutating get { Digit(bitPattern: self.last) }
             nonmutating set { self.last = UInt(bitPattern: newValue) }
@@ -284,6 +297,7 @@ extension ANKFullWidth {
         // MARK: Accessors
         //=------------------------------------------------------------------------=
         
+        /// Accesses the word at the given index, from least significant to most.
         @inlinable public subscript(index: Int) -> UInt {
             nonmutating get {
                 precondition(self.indices ~= index, ANK.callsiteIndexOutOfBoundsInfo())
@@ -296,6 +310,12 @@ extension ANKFullWidth {
             }
         }
         
+        /// Accesses the word at the given index, from least significant to most.
+        ///
+        /// - Warning: This subscript provides unchecked read and write access. Use
+        ///   it only when you know the index is valid and that bounds-checking poses
+        ///   significant performance problems.
+        ///
         @inlinable public subscript(unchecked index: Int) -> UInt {
             nonmutating get {
                 self.base[ANKFullWidth.BitPattern.endiannessSensitiveIndex(unchecked: index)]
