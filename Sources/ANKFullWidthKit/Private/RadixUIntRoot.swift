@@ -97,8 +97,8 @@ extension RadixUIntRoot {
         precondition(2 ... 36 ~= radix, "radix must be in 2 through 36")
         ( self.base) = UInt(bitPattern: radix)
         ( self.exponent, self.power)  = radix.isPowerOf2
-        ? Self.rootWhereRadixIsPowerOf2(self.base)
-        : Self.rootWhereRadixIsWhatever(self.base)
+        ? Self.rootAssumingRadixIsPowerOf2(self.base)
+        : Self.rootAssumingRadixIsWhatever(self.base)
     }
     
     //=------------------------------------------------------------------------=
@@ -106,7 +106,7 @@ extension RadixUIntRoot {
     //=------------------------------------------------------------------------=
     
     /// Returns the largest exponent in `pow(radix, exponent) <= UInt.max + 1`.
-    @inlinable static func rootWhereRadixIsPowerOf2(_ radix: UInt) -> (exponent: UInt, power: UInt) {
+    @inlinable static func rootAssumingRadixIsPowerOf2(_ radix: UInt) -> (exponent: UInt, power: UInt) {
         assert(radix >= 2)
         assert(radix.isPowerOf2)
         //=--------------------------------------=
@@ -127,7 +127,7 @@ extension RadixUIntRoot {
     }
     
     /// Returns the largest exponent in `pow(radix, exponent) <= UInt.max + 1`.
-    @inlinable static func rootWhereRadixIsWhatever(_ radix: UInt) -> (exponent: UInt, power: UInt) {
+    @inlinable static func rootAssumingRadixIsWhatever(_ radix: UInt) -> (exponent: UInt, power: UInt) {
         assert(radix >= 2)
         //=--------------------------------------=
         var exponent  = 1 as UInt

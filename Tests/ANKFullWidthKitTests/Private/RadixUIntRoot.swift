@@ -31,8 +31,8 @@ final class RadixUIntRootTests: XCTestCase {
     
     func testTheGeneralCaseAlgorithmAlsoSolvesPowerOf2() {
         for radix in self.radices where radix.isPowerOf2 {
-            let general = AnyRadixUIntRoot.rootWhereRadixIsWhatever(radix)
-            let special = AnyRadixUIntRoot.rootWhereRadixIsPowerOf2(radix)
+            let general = AnyRadixUIntRoot.rootAssumingRadixIsWhatever(radix)
+            let special = AnyRadixUIntRoot.rootAssumingRadixIsPowerOf2(radix)
             XCTAssert(general == special)
         }
     }

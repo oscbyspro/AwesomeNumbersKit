@@ -901,7 +901,7 @@ public protocol ANKBinaryInteger: BinaryInteger, Sendable where Magnitude: ANKUn
     /// └─────────────┴────── → ─────────────┘
     /// ```
     ///
-    /// - Note:  The decoding strategy is case insensitive.
+    /// - Note: The decoding strategy is case insensitive.
     ///
     @inlinable init?(_ description: some StringProtocol, radix: Int)
     
