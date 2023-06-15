@@ -68,12 +68,6 @@ Low: ANKFixedWidthInteger & ANKUnsignedInteger, Low.Digit == UInt {
     /// The bit pattern of this type.
     public typealias BitPattern = Magnitude
     
-    /// An integer type with one more ``Digit`` than this type.
-    public typealias Plus1 = ANKFullWidth<Digit, Magnitude>
-    
-    /// An integer type with double the width of this type.
-    public typealias DoubleWidth = ANKFullWidth<Self, Magnitude>
-    
     //=------------------------------------------------------------------------=
     // MARK: Accessors
     //=------------------------------------------------------------------------=

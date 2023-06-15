@@ -68,20 +68,20 @@ extension ANKFullWidth {
     //=------------------------------------------------------------------------=
     
     @inlinable public func dividingFullWidth(_ other: HL<Self, Magnitude>) -> QR<Self, Self> {
-        self.dividingFullWidth(DoubleWidth(descending: other))
+        self.dividingFullWidth(ANKFullWidth<Self, Magnitude>(descending: other))
     }
-
-    @inlinable public func dividingFullWidth(_ other: DoubleWidth) -> QR<Self, Self> {
+    
+    @inlinable public func dividingFullWidth(_ other: ANKFullWidth<Self, Magnitude>) -> QR<Self, Self> {
         let pvo: PVO<QR<Self, Self>> = self.dividingFullWidthReportingOverflow(other)
         precondition(!pvo.overflow, ANK.callsiteOverflowInfo())
         return pvo.partialValue as  QR<Self, Self>
     }
-
+    
     @inlinable public func dividingFullWidthReportingOverflow(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>> {
-        self.dividingFullWidthReportingOverflow(DoubleWidth(descending: other))
+        self.dividingFullWidthReportingOverflow(ANKFullWidth<Self, Magnitude>(descending: other))
     }
     
-    @inlinable public func dividingFullWidthReportingOverflow(_ other: DoubleWidth) -> PVO<QR<Self, Self>> {
+    @inlinable public func dividingFullWidthReportingOverflow(_ other: ANKFullWidth<Self, Magnitude>) -> PVO<QR<Self, Self>> {
         let lhsIsLessThanZero: Bool = other.isLessThanZero
         let rhsIsLessThanZero: Bool = self .isLessThanZero
         let minus = lhsIsLessThanZero != rhsIsLessThanZero
@@ -150,10 +150,10 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         // shift to clamp approximation
         //=--------------------------------------=
-        var remainder = Plus1(low: self)
+        var remainder = ANKFullWidth<Digit, Magnitude>(low: self)
         remainder.bitshiftLeftUnchecked(words: Int.zero, bits: shift)
         
-        var increment = Plus1(low: other)
+        var increment = ANKFullWidth<Digit, Magnitude>(low: other)
         increment.low.bitshiftLeftUnchecked(words: minLastIndexGapSize, bits: shift)
         assert(increment.high.isZero)
         
@@ -179,7 +179,7 @@ extension ANKFullWidth where High == High.Magnitude {
                     return discriminant.dividingFullWidth(HL(remainderLast0, remainderLast1)).quotient
                 }
                 //=------------------------------=
-                var approximation = Plus1(descending: increment.low.multipliedFullWidth(by: digit))
+                var approximation = ANKFullWidth<Digit, Magnitude>(descending: increment.low.multipliedFullWidth(by: digit))
                 //=------------------------------=
                 // decrement if overestimated
                 //=------------------------------=
@@ -210,8 +210,8 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Transformations x Full Width
     //=------------------------------------------------------------------------=
     
-    @inlinable func dividingFullWidthReportingOverflow(_ other: DoubleWidth) -> PVO<QR<Self, Self>> {
-        let extended = other.quotientAndRemainderReportingOverflow(dividingBy: DoubleWidth(low: self))
+    @inlinable func dividingFullWidthReportingOverflow(_ other: ANKFullWidth<Self, Magnitude>) -> PVO<QR<Self, Self>> {
+        let extended = other.quotientAndRemainderReportingOverflow(dividingBy: ANKFullWidth<Self, Magnitude>(low: self))
         let overflow = extended.overflow || !extended.partialValue.quotient.high.isZero
         return PVO(QR(extended.partialValue.quotient.low, extended.partialValue.remainder.low), overflow)
     }

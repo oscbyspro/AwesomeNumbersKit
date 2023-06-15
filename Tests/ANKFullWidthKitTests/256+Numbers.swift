@@ -22,13 +22,13 @@ private typealias Y = ANK.U256X32
 
 final class Int256TestsOnNumbers: XCTestCase {
     
-    typealias S =  Int256
-    typealias T =  Int256
-    typealias M = UInt256
+    typealias S  =  Int256
+    typealias T  =  Int256
+    typealias M  = UInt256
     
-    typealias S2 = S.DoubleWidth
-    typealias T2 = T.DoubleWidth
-    typealias M2 = M.DoubleWidth
+    typealias S2 = ANKFullWidth<S, S.Magnitude>
+    typealias T2 = ANKFullWidth<T, T.Magnitude>
+    typealias M2 = ANKFullWidth<M, M.Magnitude>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -345,13 +345,13 @@ final class Int256TestsOnNumbers: XCTestCase {
 
 final class UInt256TestsOnNumbers: XCTestCase {
     
-    typealias S =  Int256
-    typealias T = UInt256
-    typealias M = UInt256
+    typealias S  =  Int256
+    typealias T  = UInt256
+    typealias M  = UInt256
     
-    typealias S2 = S.DoubleWidth
-    typealias T2 = T.DoubleWidth
-    typealias M2 = M.DoubleWidth
+    typealias S2 = ANKFullWidth<S, S.Magnitude>
+    typealias T2 = ANKFullWidth<T, T.Magnitude>
+    typealias M2 = ANKFullWidth<M, M.Magnitude>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

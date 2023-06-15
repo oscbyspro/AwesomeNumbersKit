@@ -22,13 +22,13 @@ private typealias Y = ANK.U192X32
 
 final class Int192TestsOnNumbers: XCTestCase {
     
-    typealias S =  Int192
-    typealias T =  Int192
-    typealias M = UInt192
+    typealias S  =  Int192
+    typealias T  =  Int192
+    typealias M  = UInt192
     
-    typealias S2 = S.DoubleWidth
-    typealias T2 = T.DoubleWidth
-    typealias M2 = M.DoubleWidth
+    typealias S2 = ANKFullWidth<S, S.Magnitude>
+    typealias T2 = ANKFullWidth<T, T.Magnitude>
+    typealias M2 = ANKFullWidth<M, M.Magnitude>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -343,13 +343,13 @@ final class Int192TestsOnNumbers: XCTestCase {
 
 final class UInt192TestsOnNumbers: XCTestCase {
     
-    typealias S =  Int192
-    typealias T = UInt192
-    typealias M = UInt192
+    typealias S  =  Int192
+    typealias T  = UInt192
+    typealias M  = UInt192
     
-    typealias S2 = S.DoubleWidth
-    typealias T2 = T.DoubleWidth
-    typealias M2 = M.DoubleWidth
+    typealias S2 = ANKFullWidth<S, S.Magnitude>
+    typealias T2 = ANKFullWidth<T, T.Magnitude>
+    typealias M2 = ANKFullWidth<M, M.Magnitude>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

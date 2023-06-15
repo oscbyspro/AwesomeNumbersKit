@@ -22,8 +22,8 @@ private typealias Y = ANK.U192X32
 
 final class Int192TestsOnText: XCTestCase {
     
-    typealias T = Int192
-    
+    typealias T  = Int192
+    typealias T2 = ANKFullWidth<T, T.Magnitude>
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
@@ -49,8 +49,8 @@ final class Int192TestsOnText: XCTestCase {
     }
     
     func testMetaTypeDescriptionIsSimple() {
-        XCTAssertEqual("Int192", T.description)
-        XCTAssertEqual("Int384", T.DoubleWidth.description)
+        XCTAssertEqual("Int192", T .description)
+        XCTAssertEqual("Int384", T2.description)
     }
     
     //=------------------------------------------------------------------------=
@@ -238,7 +238,8 @@ final class Int192TestsOnText: XCTestCase {
 
 final class UInt192TestsOnText: XCTestCase {
     
-    typealias T = UInt192
+    typealias T  = UInt192
+    typealias T2 = ANKFullWidth<T, T.Magnitude>
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -262,8 +263,8 @@ final class UInt192TestsOnText: XCTestCase {
     }
     
     func testMetaTypeDescriptionIsSimple() {
-        XCTAssertEqual("UInt192", T.description)
-        XCTAssertEqual("UInt384", T.DoubleWidth.description)
+        XCTAssertEqual("UInt192", T .description)
+        XCTAssertEqual("UInt384", T2.description)
     }
     
     //=------------------------------------------------------------------------=

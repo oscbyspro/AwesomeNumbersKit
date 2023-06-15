@@ -126,8 +126,8 @@ extension ANKFullWidth where High == High.Magnitude {
         self.multipliedFullWidthAsNormal(by: other).descending
     }
     
-    @inlinable func multipliedFullWidthAsNormal(by other: Self) -> DoubleWidth {
-        DoubleWidth.fromUnsafeMutableWords { product in
+    @inlinable func multipliedFullWidthAsNormal(by other: Self) -> ANKFullWidth<Self, Magnitude> {
+        ANKFullWidth<Self, Magnitude>.fromUnsafeMutableWords { product in
         self .withUnsafeWords { this  in
         other.withUnsafeWords { other in
             //=----------------------------------=
