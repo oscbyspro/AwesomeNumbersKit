@@ -124,12 +124,18 @@ extension ANKFullWidth where High == High.Magnitude {
     @_specialize(where Self == UInt384)
     @_specialize(where Self == UInt512)
     @inlinable func quotientAndRemainderReportingOverflow(dividingBy other: Self) -> PVO<QR<Self, Self>> {
-        let other_ = other.minLastIndexReportingIsZeroOrMinusOne()
         //=--------------------------------------=
         // divisor is zero
         //=--------------------------------------=
-        if  other_.isZeroOrMinusOne {
+        guard let otherMinLastIndex: Int = other.lastIndex(where:{ !$0.isZero }) else {
             return PVO(QR(self, self), true)
+        }
+        //=--------------------------------------=
+        // divisor is one word
+        //=--------------------------------------=
+        if  otherMinLastIndex.isZero {
+            let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: other.first)
+            return   PVO(QR(qro.partialValue.quotient, Self(digit: qro.partialValue.remainder)),  qro.overflow)
         }
         //=--------------------------------------=
         // divisor is greater than or equal
@@ -138,16 +144,9 @@ extension ANKFullWidth where High == High.Magnitude {
             return self == other ? PVO(QR(1, Self.zero), false) : PVO(QR(Self.zero, self), false)
         }
         //=--------------------------------------=
-        // divisor is one word
-        //=--------------------------------------=
-        if  other_.minLastIndex.isZero {
-            let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: other.first)
-            return   PVO(QR(qro.partialValue.quotient, Self(digit: qro.partialValue.remainder)),  qro.overflow)
-        }
-        //=--------------------------------------=
-        let self_ = self.minLastIndexReportingIsZeroOrMinusOne()
-        let minLastIndexGapSize = self_.minLastIndex &- other_.minLastIndex as Int
-        let shift: Int = other[unchecked: other_.minLastIndex].leadingZeroBitCount
+        let thisMinLastIndex: Int = self.lastIndex(where:{ !$0.isZero })!
+        let minLastIndexGapSize = thisMinLastIndex &- otherMinLastIndex as Int
+        let shift = other[unchecked: otherMinLastIndex].leadingZeroBitCount as Int
         //=--------------------------------------=
         // shift to clamp approximation
         //=--------------------------------------=
@@ -158,7 +157,7 @@ extension ANKFullWidth where High == High.Magnitude {
         increment.low.bitshiftLeftUnchecked(words: minLastIndexGapSize, bits: shift)
         assert(increment.high.isZero)
         
-        let discriminant: UInt = increment.low[unchecked: self_.minLastIndex]
+        let discriminant: UInt = increment.low[unchecked: thisMinLastIndex]
         assert(discriminant.mostSignificantBit)
         //=--------------------------------------=
         // division
@@ -172,11 +171,11 @@ extension ANKFullWidth where High == High.Magnitude {
                 //=------------------------------=
                 // approximate quotient digit
                 //=------------------------------=
-                var digit: UInt = remainder.withUnsafeWords { remainder in
-                    let  remainderIndex  = other_.minLastIndex &+ quotientIndex
-                    let  remainderLast0  = remainder[unchecked: remainderIndex &+ 1]
-                    if   remainderLast0 >= discriminant { return UInt.max }
-                    let  remainderLast1  = remainder[unchecked: remainderIndex]
+                var digit: UInt = remainder.withUnsafeWords {  remainder in
+                    let remainderIndex  = otherMinLastIndex &+  quotientIndex
+                    let remainderLast0  = remainder[unchecked: remainderIndex &+ 1]
+                    if  remainderLast0 >= discriminant { return UInt.max }
+                    let remainderLast1  = remainder[unchecked: remainderIndex]
                     return discriminant.dividingFullWidth(HL(remainderLast0, remainderLast1)).quotient
                 }
                 //=------------------------------=
@@ -188,10 +187,14 @@ extension ANKFullWidth where High == High.Magnitude {
                     brrrrrrrrrrrrrrrrrrrrrrr: do { digit &-= 1; approximation &-= increment }
                     if approximation > remainder { digit &-= 1; approximation &-= increment }
                 }
-                //=------------------------------=
+                
                 assert(approximation <= remainder)
+                //=------------------------------=
                 remainder &-= approximation
                 quotient[unchecked: quotientIndex] = digit
+                //=------------------------------=
+                guard !quotientIndex.isZero else { break }
+                assert(increment.low.first.isZero)
                 increment.low.bitshiftRightUnchecked(words: 1, bits: Int.zero)
             }
         }

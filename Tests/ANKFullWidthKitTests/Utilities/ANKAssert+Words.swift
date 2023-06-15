@@ -33,17 +33,3 @@ file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual(generic.withContiguousStorageIfAvailable({        Array($0) }), words, file: file, line: line)
     XCTAssertEqual(generic.withContiguousMutableStorageIfAvailable({ Array($0) }), words, file: file, line: line)
 }
-
-func ANKAssertMinLastIndexReportingIsZeroOrMinusOne<H: ANKFixedWidthInteger, L: ANKFixedWidthInteger>(
-_ integer: ANKFullWidth<H, L>, _ minLastIndex: Int, _ isZeroOrMinusOne: Bool,
-file: StaticString = #file, line: UInt = #line) {
-    let aboutIndex = integer.minLastIndexReportingIsZeroOrMinusOne()
-    
-    XCTAssertEqual(aboutIndex.minLastIndex,     minLastIndex,     file: file, line: line)
-    XCTAssertEqual(aboutIndex.isZeroOrMinusOne, isZeroOrMinusOne, file: file, line: line)
-    
-    let aboutCount = integer.minWordCountReportingIsZeroOrMinusOne()
-    
-    XCTAssertEqual(aboutCount.minWordCount,     minLastIndex + 1, file: file, line: line)
-    XCTAssertEqual(aboutCount.isZeroOrMinusOne, isZeroOrMinusOne, file: file, line: line)
-}
