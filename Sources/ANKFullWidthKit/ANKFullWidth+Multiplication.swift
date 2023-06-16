@@ -49,7 +49,7 @@ extension ANKFullWidth {
     @inlinable public mutating func multiplyFullWidth(by other: Self) -> Self {
         let product: HL<Self, Magnitude> = self.multipliedFullWidth(by: other)
         self = Self(bitPattern: product.low)
-        return product.high as Self
+        return product.high as  Self
     }
     
     @inlinable public func multipliedFullWidth(by other: Self) -> HL<Self, Magnitude> {

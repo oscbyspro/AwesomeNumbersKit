@@ -44,7 +44,7 @@ extension ANKSigned {
     @_disfavoredOverload @_transparent public func quotientAndRemainder(dividingBy other: Digit) -> QR<Self, Digit> {
         let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: other)
         precondition(!qro.overflow, ANK.callsiteOverflowInfo())
-        return qro.partialValue as QR<Self, Digit>
+        return qro.partialValue as  QR<Self, Digit>
     }
     
     //=------------------------------------------------------------------------=
