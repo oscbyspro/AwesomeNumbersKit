@@ -4,8 +4,7 @@ Large number arithmetic in Swift.
 
 | Package | Swift | iOS  | iPadOS | Mac Catalyst | macOS | tvOS | watchOS |
 |:-------:|:-----:|:----:|:------:|:------------:|:-----:|:----:|:-------:|
-| 2.2.0   | 5.8   | 16.4 | 16.4   | 16.4         | 13.3  | 16.4 | 9.4     |
-
+| 3.0.0   | 5.8   | 16.4 | 16.4   | 16.4         | 13.3  | 16.4 | 9.4     |
 
 ## ANKCoreKit ([Sources][COR/S], [Tests][COR/T], [Benchmarks][COR/B])
 
