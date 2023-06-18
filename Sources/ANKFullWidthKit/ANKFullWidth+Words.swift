@@ -23,7 +23,7 @@ extension ANKFullWidth {
         _read { yield self }
     }
     
-    /// The least significant word of this value.
+    /// The least significant word of this integer.
     ///
     /// - Note: This member is required by `Swift.BinaryInteger.
     ///
@@ -81,12 +81,12 @@ extension ANKFullWidth {
         Self.startIndex
     }
     
-    @inlinable public var endIndex: Int {
-        Self.endIndex
-    }
-    
     @inlinable public var lastIndex: Int {
         Self.lastIndex
+    }
+    
+    @inlinable public var endIndex: Int {
+        Self.endIndex
     }
     
     @inlinable public var indices: Range<Int> {

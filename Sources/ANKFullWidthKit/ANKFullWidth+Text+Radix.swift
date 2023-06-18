@@ -68,19 +68,20 @@ extension ANKFullWidth where High == High.Magnitude {
         //=--------------------------------------=
         var digits = digits.drop(while:{ $0 == 48 })
         //=--------------------------------------=
-        self.init()
-        
-        var index: Int = self.startIndex
-        backwards: while !digits.isEmpty {
-            guard index < self.endIndex else { return nil }
-            
-            let chunk = digits.suffix(radix.exponent)
-            digits    = digits.prefix(upTo: chunk.startIndex)
-            
-            guard let word = UInt(digits: ANK.UnsafeUTF8(rebasing: chunk), radix: radix.base) else { return nil }
-            self[index] = word
-            self.formIndex(after: &index)
+        var error = false
+        let value = Self.uninitialized { value in
+            for index in value.indices {
+                if  digits.isEmpty {
+                    value[index] = UInt.zero
+                }   else {
+                    let chunk = ANK.removeSuffix(from: &digits, maxLength: radix.exponent)
+                    guard let word = UInt(digits: ANK.UnsafeUTF8(rebasing: chunk), radix: radix.base) else { return error = true }
+                    value[index] = word
+                }
+            }
         }
+        
+        if !error, digits.isEmpty { self = value } else { return nil }
     }
     
     @inlinable init?(digits: ANK.UnsafeUTF8, radix: ImperfectRadixUIntRoot) {
@@ -89,26 +90,27 @@ extension ANKFullWidth where High == High.Magnitude {
         var digits = digits.drop(while:{ $0 == 48 })
         let alignment = digits.count % radix.exponent
         //=--------------------------------------=
-        self.init()
-        
-        forwards: if !alignment.isZero {
-            let chunkEndIndex = digits.startIndex &+ alignment
-            let chunk = digits.prefix(upTo: chunkEndIndex)
-            digits    = digits.suffix(from: chunkEndIndex)
+        var error = false
+        let value = Self.uninitialized { value in
+            for index in value.indices {
+                value[index] = UInt.zero
+            }
             
-            guard let word = UInt(digits: ANK.UnsafeUTF8(rebasing: chunk), radix: radix.base) else { return nil }
-            self.first = word // self = self * radix.power + word
+            forwards: if !alignment.isZero {
+                let chunk = ANK.removePrefix(from: &digits, maxLength: alignment)
+                guard let word = UInt(digits: ANK.UnsafeUTF8(rebasing: chunk), radix: radix.base) else { return error = true }
+                value.first = word
+            }
+            
+            forwards: while !digits.isEmpty {
+                let chunk = ANK.removePrefix(from: &digits, maxLength: radix.exponent)
+                guard let word = UInt(digits: ANK.UnsafeUTF8(rebasing: chunk), radix: radix.base) else { return error = true }
+                guard !value.multiplyReportingOverflow(by: radix.power) else { return error = true }
+                guard !value.addReportingOverflow(word)/*------------*/ else { return error = true }
+            }
         }
         
-        forwards: while !digits.isEmpty {
-            let chunkEndIndex = digits.startIndex &+ radix.exponent
-            let chunk = digits.prefix(upTo: chunkEndIndex)
-            digits    = digits.suffix(from: chunkEndIndex)
-            
-            guard let word = UInt(digits: ANK.UnsafeUTF8(rebasing: chunk), radix: radix.base) else { return nil }
-            guard !self.multiplyReportingOverflow(by: radix.power) else { return nil }
-            guard !self.addReportingOverflow(word)/*------------*/ else { return nil }
-        }
+        if !error { self = value } else { return nil }
     }
     
     //=------------------------------------------------------------------------=

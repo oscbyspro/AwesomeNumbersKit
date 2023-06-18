@@ -69,4 +69,35 @@ file: StaticString = #file, line: UInt = #line) {
     }
 }
 
+//*============================================================================*
+// MARK: * ANK x Arithmetic x Binary Integer
+//*============================================================================*
+
+final class ArithmeticTestsOnBinaryInteger: XCTestCase {
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Tests x Modulo
+    //=------------------------------------------------------------------------=
+    
+    func testModuloPowerOf2() {
+        XCTAssertEqual( Int8.min.modulo(8), 0)
+        XCTAssertEqual( Int8(-1).modulo(8), 7)
+        XCTAssertEqual( Int8.max.modulo(8), 7)
+        
+        XCTAssertEqual(UInt8.min.modulo(8), 0)
+        XCTAssertEqual(UInt8( 1).modulo(8), 1)
+        XCTAssertEqual(UInt8.max.modulo(8), 7)
+    }
+    
+    func testModuloNonPowerOf2() {
+        XCTAssertEqual( Int8.min.modulo(7), 5)
+        XCTAssertEqual( Int8(-1).modulo(7), 6)
+        XCTAssertEqual( Int8.max.modulo(7), 1)
+        
+        XCTAssertEqual(UInt8.min.modulo(7), 0)
+        XCTAssertEqual(UInt8( 1).modulo(7), 1)
+        XCTAssertEqual(UInt8.max.modulo(7), 3)
+    }
+}
+
 #endif

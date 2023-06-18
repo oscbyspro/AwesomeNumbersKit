@@ -174,12 +174,12 @@ extension ANKFullWidth {
             ANKFullWidth.startIndex
         }
         
-        @inlinable public var endIndex: Int {
-            ANKFullWidth.endIndex
-        }
-        
         @inlinable public var lastIndex: Int {
             ANKFullWidth.lastIndex
+        }
+        
+        @inlinable public var endIndex: Int {
+            ANKFullWidth.endIndex
         }
         
         @inlinable public var indices: Range<Int> {
@@ -259,12 +259,12 @@ extension ANKFullWidth {
             ANKFullWidth.startIndex
         }
         
-        @inlinable public var endIndex: Int {
-            ANKFullWidth.endIndex
-        }
-        
         @inlinable public var lastIndex: Int {
             ANKFullWidth.lastIndex
+        }
+        
+        @inlinable public var endIndex: Int {
+            ANKFullWidth.endIndex
         }
         
         @inlinable public var indices: Range<Int> {
