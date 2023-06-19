@@ -14,7 +14,27 @@
 extension ANK {
     
     //=------------------------------------------------------------------------=
-    // MARK: Transformations
+    // MARK: Transformations x Remove Count
+    //=------------------------------------------------------------------------=
+    
+    /// Removes `count` prefixing elements from the given `collection`.
+    @inlinable public static func removePrefix<T>(from collection: inout T, count: Int) -> T where T: RandomAccessCollection, T == T.SubSequence {
+        let index  = collection.index(collection.startIndex, offsetBy: count)
+        let prefix = collection.prefix(upTo: index)
+        collection = collection.suffix(from: index)
+        return prefix as T
+    }
+    
+    /// Removes `count` suffixing elements from the given `collection`.
+    @inlinable public static func removeSuffix<T>(from collection: inout T, count: Int) -> T where T: RandomAccessCollection, T == T.SubSequence {
+        let index  = collection.index(collection.endIndex, offsetBy: count.negated())
+        let suffix = collection.suffix(from: index)
+        collection = collection.prefix(upTo: index)
+        return suffix as T
+    }
+    
+    //=------------------------------------------------------------------------=
+    // MARK: Transformations x Remove Max Length
     //=------------------------------------------------------------------------=
     
     /// Removes up to `maxLength` prefixing elements from the given `collection`.
