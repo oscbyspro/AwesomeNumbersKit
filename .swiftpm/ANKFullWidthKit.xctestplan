@@ -1,0 +1,32 @@
+{
+  "configurations" : [
+    {
+      "id" : "AEDAEC7C-8FF3-4DB0-BDEF-5BA893E836F0",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:",
+          "identifier" : "ANKFullWidthKit",
+          "name" : "ANKFullWidthKit"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ANKFullWidthKitTests",
+        "name" : "ANKFullWidthKitTests"
+      }
+    }
+  ],
+  "version" : 1
+}

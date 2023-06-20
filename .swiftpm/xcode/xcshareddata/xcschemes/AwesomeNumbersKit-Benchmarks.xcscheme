@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1400"
-   version = "1.3">
+   LastUpgradeVersion = "1430"
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -20,48 +20,6 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "YES"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ANKCoreKitBenchmarks"
-               BuildableName = "ANKCoreKitBenchmarks"
-               BlueprintName = "ANKCoreKitBenchmarks"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "YES"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ANKFullWidthKitBenchmarks"
-               BuildableName = "ANKFullWidthKitBenchmarks"
-               BlueprintName = "ANKFullWidthKitBenchmarks"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "YES"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ANKSignedKitBenchmarks"
-               BuildableName = "ANKSignedKitBenchmarks"
-               BlueprintName = "ANKSignedKitBenchmarks"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -69,102 +27,12 @@
       selectedDebuggerIdentifier = ""
       selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ANKCoreKitBenchmarks"
-               BuildableName = "ANKCoreKitBenchmarks"
-               BlueprintName = "ANKCoreKitBenchmarks"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ANKFullWidthKitBenchmarks"
-               BuildableName = "ANKFullWidthKitBenchmarks"
-               BlueprintName = "ANKFullWidthKitBenchmarks"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "Int192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
-               </Test>
-               <Test
-                  Identifier = "Int192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
-               </Test>
-               <Test
-                  Identifier = "Int192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
-               </Test>
-               <Test
-                  Identifier = "Int192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
-               </Test>
-               <Test
-                  Identifier = "Int256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
-               </Test>
-               <Test
-                  Identifier = "Int256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
-               </Test>
-               <Test
-                  Identifier = "Int256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
-               </Test>
-               <Test
-                  Identifier = "Int256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
-               </Test>
-               <Test
-                  Identifier = "UInt192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
-               </Test>
-               <Test
-                  Identifier = "UInt192BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
-               </Test>
-               <Test
-                  Identifier = "UInt192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
-               </Test>
-               <Test
-                  Identifier = "UInt192BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
-               </Test>
-               <Test
-                  Identifier = "UInt256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
-               </Test>
-               <Test
-                  Identifier = "UInt256BenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
-               </Test>
-               <Test
-                  Identifier = "UInt256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
-               </Test>
-               <Test
-                  Identifier = "UInt256BenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
-               </Test>
-            </SkippedTests>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ANKSignedKitBenchmarks"
-               BuildableName = "ANKSignedKitBenchmarks"
-               BlueprintName = "ANKSignedKitBenchmarks"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "ANKSignedBenchmarksOnText/testDecodingUsingSwiftStdlibRadix10()">
-               </Test>
-               <Test
-                  Identifier = "ANKSignedBenchmarksOnText/testDecodingUsingSwiftStdlibRadix16()">
-               </Test>
-               <Test
-                  Identifier = "ANKSignedBenchmarksOnText/testEncodingUsingSwiftStdlibRadix10()">
-               </Test>
-               <Test
-                  Identifier = "ANKSignedBenchmarksOnText/testEncodingUsingSwiftStdlibRadix16()">
-               </Test>
-            </SkippedTests>
-         </TestableReference>
-      </Testables>
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:.swiftpm/AwesomeNumbersKit-Benchmarks.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Release"

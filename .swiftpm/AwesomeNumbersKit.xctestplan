@@ -1,0 +1,56 @@
+{
+  "configurations" : [
+    {
+      "id" : "AEDAEC7C-8FF3-4DB0-BDEF-5BA893E836F0",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:",
+          "identifier" : "ANKCoreKit",
+          "name" : "ANKCoreKit"
+        },
+        {
+          "containerPath" : "container:",
+          "identifier" : "ANKFullWidthKit",
+          "name" : "ANKFullWidthKit"
+        },
+        {
+          "containerPath" : "container:",
+          "identifier" : "ANKSignedKit",
+          "name" : "ANKSignedKit"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ANKCoreKitTests",
+        "name" : "ANKCoreKitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ANKFullWidthKitTests",
+        "name" : "ANKFullWidthKitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ANKSignedKitTests",
+        "name" : "ANKSignedKitTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "9FC61488-E76C-4E8E-8C3E-C41651533538",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ANKCoreKitBenchmarks",
+        "name" : "ANKCoreKitBenchmarks"
+      }
+    }
+  ],
+  "version" : 1
+}
