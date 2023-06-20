@@ -27,54 +27,54 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    static var number = ANK.blackHoleIdentity(T(source, radix: 16)!)
-    static var source = ANK.blackHoleIdentity(String(repeating: "1", count: 64) )
+    static var decoded = ANK.blackHoleIdentity(T(encoded, radix: 16)!)
+    static var encoded = ANK.blackHoleIdentity(String(repeating: "1", count: 64) )
     
     //=------------------------------------------------------------------------=
     // MARK: Tests
     //=------------------------------------------------------------------------=
     
     func testDecodingRadix10() {
-        var radix  = ANK.blackHoleIdentity(10)
-        var source = ANK.blackHoleIdentity(Self.source)
+        var radix   = ANK.blackHoleIdentity(10)
+        var encoded = ANK.blackHoleIdentity(Self.encoded)
         
         for _ in 0 ..< 250_000 {
-            ANK.blackHole(T(source, radix: radix)!)
-            ANK.blackHoleInoutIdentity( &radix)
-            ANK.blackHoleInoutIdentity(&source)
+            ANK.blackHole(T(encoded, radix: radix)!)
+            ANK.blackHoleInoutIdentity(&radix)
+            ANK.blackHoleInoutIdentity(&encoded)
         }
     }
     
     func testDecodingRadix16() {
-        var radix  = ANK.blackHoleIdentity(16)
-        var source = ANK.blackHoleIdentity(Self.source)
+        var radix   = ANK.blackHoleIdentity(16)
+        var encoded = ANK.blackHoleIdentity(Self.encoded)
         
         for _ in 0 ..< 250_000 {
-            ANK.blackHole(T(source, radix: radix)!)
-            ANK.blackHoleInoutIdentity( &radix)
-            ANK.blackHoleInoutIdentity(&source)
+            ANK.blackHole(T(encoded, radix: radix)!)
+            ANK.blackHoleInoutIdentity(&radix)
+            ANK.blackHoleInoutIdentity(&encoded)
         }
     }
     
     func testEncodingRadix10() {
-        var radix  = ANK.blackHoleIdentity(10)
-        var number = ANK.blackHoleIdentity(Self.number)
+        var radix   = ANK.blackHoleIdentity(10)
+        var decoded = ANK.blackHoleIdentity(Self.decoded)
         
         for _ in 0 ..< 250_000 {
-            ANK.blackHole(String(number, radix: radix))
-            ANK.blackHoleInoutIdentity( &radix)
-            ANK.blackHoleInoutIdentity(&number)
+            ANK.blackHole(String(decoded, radix: radix))
+            ANK.blackHoleInoutIdentity(&radix)
+            ANK.blackHoleInoutIdentity(&decoded)
         }
     }
     
     func testEncodingRadix16() {
-        var radix  = ANK.blackHoleIdentity(16)
-        var number = ANK.blackHoleIdentity(Self.number)
+        var radix   = ANK.blackHoleIdentity(16)
+        var decoded = ANK.blackHoleIdentity(Self.decoded)
         
         for _ in 0 ..< 250_000 {
-            ANK.blackHole(String(number, radix: radix))
-            ANK.blackHoleInoutIdentity( &radix)
-            ANK.blackHoleInoutIdentity(&number)
+            ANK.blackHole(String(decoded, radix: radix))
+            ANK.blackHoleInoutIdentity(&radix)
+            ANK.blackHoleInoutIdentity(&decoded)
         }
     }
     
@@ -83,46 +83,46 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDecodingUsingSwiftStdlibRadix10() {
-        var radix  = ANK.blackHoleIdentity(10)
-        var source = ANK.blackHoleIdentity(Self.source)
+        var radix   = ANK.blackHoleIdentity(10)
+        var encoded = ANK.blackHoleIdentity(Self.encoded)
         
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(T.Magnitude.stdlib(source, radix: radix)!)
-            ANK.blackHoleInoutIdentity( &radix)
-            ANK.blackHoleInoutIdentity(&source)
+            ANK.blackHole(T.Magnitude.stdlib(encoded, radix: radix)!)
+            ANK.blackHoleInoutIdentity(&radix)
+            ANK.blackHoleInoutIdentity(&encoded)
         }
     }
     
     func testDecodingUsingSwiftStdlibRadix16() {
-        var radix  = ANK.blackHoleIdentity(16)
-        var source = ANK.blackHoleIdentity(Self.source)
+        var radix   = ANK.blackHoleIdentity(16)
+        var encoded = ANK.blackHoleIdentity(Self.encoded)
         
         for _ in 0 ..< 50_000 {
-            ANK.blackHole(T.Magnitude.stdlib(source, radix: radix)!)
-            ANK.blackHoleInoutIdentity( &radix)
-            ANK.blackHoleInoutIdentity(&source)
+            ANK.blackHole(T.Magnitude.stdlib(encoded, radix: radix)!)
+            ANK.blackHoleInoutIdentity(&radix)
+            ANK.blackHoleInoutIdentity(&encoded)
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix10() {
-        var radix  = ANK.blackHoleIdentity(10)
-        var number = ANK.blackHoleIdentity(Self.number.magnitude)
+        var radix   = ANK.blackHoleIdentity(10)
+        var decoded = ANK.blackHoleIdentity(Self.decoded.magnitude)
         
-        for _ in 0 ..< 50_000 {
-            ANK.blackHole(String.stdlib(number, radix: radix))
-            ANK.blackHoleInoutIdentity( &radix)
-            ANK.blackHoleInoutIdentity(&number)
+        for _ in 0 ..< 1_000 {
+            ANK.blackHole(String.stdlib(decoded, radix: radix))
+            ANK.blackHoleInoutIdentity(&radix)
+            ANK.blackHoleInoutIdentity(&decoded)
         }
     }
     
     func testEncodingUsingSwiftStdlibRadix16() {
-        var radix  = ANK.blackHoleIdentity(16)
-        var number = ANK.blackHoleIdentity(Self.number.magnitude)
+        var radix   = ANK.blackHoleIdentity(16)
+        var decoded = ANK.blackHoleIdentity(Self.decoded.magnitude)
         
-        for _ in 0 ..< 50_000 {
-            ANK.blackHole(String.stdlib(number, radix: radix))
-            ANK.blackHoleInoutIdentity( &radix)
-            ANK.blackHoleInoutIdentity(&number)
+        for _ in 0 ..< 1_000 {
+            ANK.blackHole(String.stdlib(decoded, radix: radix))
+            ANK.blackHoleInoutIdentity(&radix)
+            ANK.blackHoleInoutIdentity(&decoded)
         }
     }
 }

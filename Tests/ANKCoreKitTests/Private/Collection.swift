@@ -13,7 +13,7 @@ import ANKCoreKit
 import XCTest
 
 //*============================================================================*
-// MARK: * ANK x Collection x Tests
+// MARK: * ANK x Collection
 //*============================================================================*
 
 final class ANKCollectionTests: XCTestCase {

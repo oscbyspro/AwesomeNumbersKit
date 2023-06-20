@@ -53,7 +53,7 @@ ANKFixedWidthInteger, MutableCollection, RandomAccessCollection where
 High: ANKFixedWidthInteger, High.Digit: ANKCoreInteger<UInt>,
 Low: ANKFixedWidthInteger & ANKUnsignedInteger, Low.Digit == UInt {
     
-    /// The most significant component of this type.
+    /// The most  significant component of this type.
     public typealias High = High
     
     /// The least significant component of this type.
