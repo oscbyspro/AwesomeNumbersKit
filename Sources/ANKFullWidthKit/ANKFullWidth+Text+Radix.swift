@@ -38,7 +38,8 @@ extension ANKFullWidth {
     @inlinable public func description(radix: Int = 10, uppercase: Bool = false) -> String {
         Swift.withUnsafePointer(to: UInt8(ascii: "-")) { minus in
             let prefix = ANK.UnsafeUTF8(start: minus, count: Int(bit: self.isLessThanZero))
-            return self.magnitude.description(radix: radix, uppercase: uppercase, prefix: prefix)
+            let suffix = ANK.UnsafeUTF8(start: nil,   count: Int.zero)
+            return self.magnitude.description(radix: radix, uppercase: uppercase, prefix: prefix, suffix: suffix)
         }
     }
 }
@@ -113,23 +114,23 @@ extension ANKFullWidth where High == High.Magnitude {
     // MARK: Details x Encode x Private
     //=------------------------------------------------------------------------=
     
-    @inlinable func description(radix: Int, uppercase: Bool, prefix: ANK.UnsafeUTF8) -> String {
-        self.description(radix: AnyRadixUIntRoot(radix), alphabet: MaxRadixAlphabetEncoder(uppercase: uppercase), prefix: prefix)
+    @inlinable func description(radix: Int, uppercase: Bool, prefix: ANK.UnsafeUTF8, suffix: ANK.UnsafeUTF8) -> String {
+        self.description(radix: AnyRadixUIntRoot(radix), alphabet: MaxRadixAlphabetEncoder(uppercase: uppercase), prefix: prefix, suffix: suffix)
     }
     
-    @inlinable func description(radix: AnyRadixUIntRoot, alphabet: MaxRadixAlphabetEncoder, prefix: ANK.UnsafeUTF8) -> String {
+    @inlinable func description(radix: AnyRadixUIntRoot, alphabet: MaxRadixAlphabetEncoder, prefix: ANK.UnsafeUTF8, suffix: ANK.UnsafeUTF8) -> String {
         switch radix.power.isZero {
-        case  true: return self.description(radix:   PerfectRadixUIntRoot(unchecked: radix), alphabet: alphabet, prefix: prefix)
-        case false: return self.description(radix: ImperfectRadixUIntRoot(unchecked: radix), alphabet: alphabet, prefix: prefix) }
+        case  true: return self.description(radix:   PerfectRadixUIntRoot(unchecked: radix), alphabet: alphabet, prefix: prefix, suffix: suffix)
+        case false: return self.description(radix: ImperfectRadixUIntRoot(unchecked: radix), alphabet: alphabet, prefix: prefix, suffix: suffix) }
     }
     
-    @inlinable func description(radix: PerfectRadixUIntRoot, alphabet: MaxRadixAlphabetEncoder, prefix: ANK.UnsafeUTF8) -> String {
+    @inlinable func description(radix: PerfectRadixUIntRoot, alphabet: MaxRadixAlphabetEncoder, prefix: ANK.UnsafeUTF8, suffix: ANK.UnsafeUTF8) -> String {
         let index = self.lastIndex(where:{ !$0.isZero }) ?? self.startIndex
         let chunks: Words.SubSequence = self[...index]
-        return String.fromUTF8Unchecked(chunks: chunks, radix: radix, alphabet: alphabet, prefix: prefix)
+        return String.fromUTF8Unchecked(chunks: chunks, radix: radix, alphabet: alphabet, prefix: prefix, suffix: suffix)
     }
     
-    @inlinable func description(radix: ImperfectRadixUIntRoot, alphabet: MaxRadixAlphabetEncoder, prefix: ANK.UnsafeUTF8) -> String {
+    @inlinable func description(radix: ImperfectRadixUIntRoot, alphabet: MaxRadixAlphabetEncoder, prefix: ANK.UnsafeUTF8, suffix: ANK.UnsafeUTF8) -> String {
         let capacity: Int = radix.divisibilityByPowerUpperBound(self)
         return Swift.withUnsafeTemporaryAllocation(of: UInt.self, capacity: capacity) { buffer in
             //=----------------------------------=
@@ -146,7 +147,7 @@ extension ANKFullWidth where High == High.Magnitude {
             }   while !magnitude.isZero
             //=----------------------------------=
             let chunks  = ANK.UnsafeWords(rebasing: buffer[..<index])
-            return String.fromUTF8Unchecked(chunks: chunks, radix: radix, alphabet: alphabet, prefix: prefix)
+            return String.fromUTF8Unchecked(chunks: chunks, radix: radix, alphabet: alphabet, prefix: prefix, suffix: suffix)
         }
     }
 }

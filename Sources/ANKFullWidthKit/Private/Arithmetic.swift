@@ -69,11 +69,6 @@ extension BinaryInteger {
     // MARK: Transformations
     //=------------------------------------------------------------------------=
     
-    /// Returns `self` modulo `self.bitWidth`.
-    @inlinable func moduloBitWidth() -> Int where Self: FixedWidthInteger {
-        self.moduloBitWidth(of: Self.self)
-    }
-    
     /// Returns `self` modulo `other.bitWidth`.
     @inlinable func moduloBitWidth<T>(of other: T.Type) -> Int where T: FixedWidthInteger {
         Int(bitPattern: self.modulo(UInt(bitPattern: other.bitWidth)))

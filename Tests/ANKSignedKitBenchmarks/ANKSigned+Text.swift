@@ -27,8 +27,8 @@ final class ANKSignedBenchmarksOnText: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
     
-    static var decoded = ANK.blackHoleIdentity(T(encoded, radix: 16)!)
-    static var encoded = ANK.blackHoleIdentity(String(repeating: "1", count: 64) )
+    static let decoded = ANK.blackHoleIdentity(T(encoded, radix: 16)!)
+    static let encoded = ANK.blackHoleIdentity(String(repeating: "1", count: 64) )
     
     //=------------------------------------------------------------------------=
     // MARK: Tests

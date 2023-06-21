@@ -28,8 +28,8 @@ final class Int192BenchmarksOnText: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
 
-    static var decoded = ANK.blackHoleIdentity(T(encoded, radix: 16)!)
-    static var encoded = ANK.blackHoleIdentity(String(repeating: "1", count: 48) )
+    static let decoded = ANK.blackHoleIdentity(T(encoded, radix: 16)!)
+    static let encoded = ANK.blackHoleIdentity(String(repeating: "1", count: 48) )
 
     //=------------------------------------------------------------------------=
     // MARK: Tests
@@ -140,8 +140,8 @@ final class UInt192BenchmarksOnText: XCTestCase {
     // MARK: State
     //=------------------------------------------------------------------------=
 
-    static var decoded = ANK.blackHoleIdentity(T(encoded, radix: 16)!)
-    static var encoded = ANK.blackHoleIdentity(String(repeating: "1", count: 48) )
+    static let decoded = ANK.blackHoleIdentity(T(encoded, radix: 16)!)
+    static let encoded = ANK.blackHoleIdentity(String(repeating: "1", count: 48) )
 
     //=------------------------------------------------------------------------=
     // MARK: Tests
