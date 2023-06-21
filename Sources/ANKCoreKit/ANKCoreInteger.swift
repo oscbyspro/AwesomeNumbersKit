@@ -104,12 +104,6 @@ extension ANKCoreInteger {
         return pvo.overflow as Bool
     }
     
-    @inlinable public func quotientAndRemainder(dividingBy other: Self) -> QR<Self, Self> {
-        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: other)
-        precondition(!qro.overflow, ANK.callsiteOverflowInfo())
-        return qro.partialValue as  QR<Self, Self>
-    }
-    
     @inlinable public func quotientAndRemainderReportingOverflow(dividingBy other: Self) -> PVO<QR<Self, Self>> {
         let quotient:  PVO<Self> = self.dividedReportingOverflow(by: other)
         let remainder: PVO<Self> = self.remainderReportingOverflow(dividingBy: other)
@@ -117,7 +111,11 @@ extension ANKCoreInteger {
         return PVO(QR(quotient.partialValue, remainder.partialValue), quotient.overflow)
     }
     
-    @inlinable public func dividingFullWidthReportingOverflow(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>> {
+    //=------------------------------------------------------------------------=
+    // MARK: Division x Full Width
+    //=------------------------------------------------------------------------=
+    
+    @inlinable public func dividingFullWidthReportingOverflow(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>> where Self: SignedInteger {
         let lhsIsLessThanZero: Bool =  other.high.isLessThanZero
         let rhsIsLessThanZero: Bool =  /*--*/self.isLessThanZero
         let minus: Bool = lhsIsLessThanZero != rhsIsLessThanZero
@@ -131,7 +129,7 @@ extension ANKCoreInteger {
         
         let rhsMagnitude = self.magnitude as Magnitude
         //=--------------------------------------=
-        var qro = ANK.bitCast(rhsMagnitude.dividingFullWidthReportingOverflowAsUnsigned(lhsMagnitude)) as PVO<QR<Self, Self>>
+        var qro = ANK.bitCast(rhsMagnitude.dividingFullWidthReportingOverflow(lhsMagnitude)) as PVO<QR<Self, Self>>
         //=--------------------------------------=
         if  minus {
             qro.partialValue.quotient.formTwosComplement()
@@ -147,19 +145,8 @@ extension ANKCoreInteger {
         //=--------------------------------------=
         return qro as PVO<QR<Self, Self>>
     }
-}
-
-//=----------------------------------------------------------------------------=
-// MARK: + Unsigned
-//=----------------------------------------------------------------------------=
-
-extension ANKCoreInteger where Self == Magnitude {
     
-    //=------------------------------------------------------------------------=
-    // MARK: Division x Full Width
-    //=------------------------------------------------------------------------=
-    
-    @inlinable func dividingFullWidthReportingOverflowAsUnsigned(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>> {
+    @inlinable public func dividingFullWidthReportingOverflow(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>> where Self: UnsignedInteger {
         //=--------------------------------------=
         // divisor is zero
         //=--------------------------------------=
@@ -170,16 +157,10 @@ extension ANKCoreInteger where Self == Magnitude {
         // quotient does not fit in two halves
         //=--------------------------------------=
         if  self <= other.high {
-            return PVO(self.dividingFullWidthUncheckedAsUnsigned(HL(other.high % self, other.low)), true)
+            return PVO(self.dividingFullWidth(HL(other.high % self, other.low)), true) // stdlib
         }
         //=--------------------------------------=
-        return PVO(self.dividingFullWidthUncheckedAsUnsigned(other), false)
-    }
-    
-    @inlinable func dividingFullWidthUncheckedAsUnsigned(_ other: HL<Self, Magnitude>) -> QR<Self, Self> {
-        assert(self > 0, "must not divide by zero")
-        assert(self > other.high, "quotient must fit in two halves")
-        return self.dividingFullWidth(other) // stdlib
+        return PVO(self.dividingFullWidth(other), false) // stdlib
     }
 }
 

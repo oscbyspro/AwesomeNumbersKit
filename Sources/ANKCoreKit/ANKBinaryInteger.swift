@@ -1045,6 +1045,12 @@ extension ANKBinaryInteger {
         return qro.partialValue as  QR<Self, Self>
     }
     
+    @inlinable public func quotientAndRemainder(dividingBy other: Self) -> QR<Self, Self> where Self == Digit {
+        let qro: PVO<QR<Self, Self>> = self.quotientAndRemainderReportingOverflow(dividingBy: other)
+        precondition(!qro.overflow, ANK.callsiteOverflowInfo())
+        return qro.partialValue as  QR<Self, Self>
+    }
+    
     @_disfavoredOverload @inlinable public func quotientAndRemainder(dividingBy other: Digit) -> QR<Self, Digit> {
         let qro: PVO<QR<Self, Digit>> = self.quotientAndRemainderReportingOverflow(dividingBy: other)
         precondition(!qro.overflow, ANK.callsiteOverflowInfo())
