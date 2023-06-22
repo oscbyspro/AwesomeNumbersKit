@@ -23,8 +23,10 @@ extension ANKFullWidth {
         var description = String(description)
         
         let value: Optional<Self> = description.withUTF8 { utf8 in
-            let (sign,body) = ANK.integerComponents(utf8:  utf8)
-            let (magnitude) = Magnitude(digits: ANK.UnsafeUTF8(rebasing: body), radix: radix)
+            let (radix) = AnyRadixUIntRoot(radix)
+            let (sign,body) = ANK.integerComponents(utf8: utf8)
+            let (digits) = ANK.UnsafeUTF8(rebasing: body)
+            let (magnitude) = Magnitude(digits: digits, radix: radix)
             return magnitude.flatMap({ Self.exactly(sign: sign, magnitude: $0) })
         }
         
@@ -37,9 +39,11 @@ extension ANKFullWidth {
     
     @inlinable public func description(radix: Int = 10, uppercase: Bool = false) -> String {
         Swift.withUnsafePointer(to: UInt8(ascii: "-")) { minus in
+            let radix = AnyRadixUIntRoot(radix)
+            let alphabet = MaxRadixAlphabetEncoder(uppercase: uppercase)
             let prefix = ANK.UnsafeUTF8(start: minus, count: Int(bit: self.isLessThanZero))
             let suffix = ANK.UnsafeUTF8(start: nil,   count: Int.zero)
-            return self.magnitude.description(radix: radix, uppercase: uppercase, prefix: prefix, suffix: suffix)
+            return self.magnitude.description(radix:  radix, alphabet: alphabet, prefix: prefix, suffix: suffix)
         }
     }
 }
@@ -53,10 +57,6 @@ extension ANKFullWidth where High == High.Magnitude {
     //=------------------------------------------------------------------------=
     // MARK: Details x Decode x Private
     //=------------------------------------------------------------------------=
-    
-    @inlinable init?(digits: ANK.UnsafeUTF8, radix: Int) {
-        self.init(digits: digits, radix: AnyRadixUIntRoot(radix))
-    }
     
     @inlinable init?(digits: ANK.UnsafeUTF8, radix: AnyRadixUIntRoot) {
         switch radix.power.isZero {
@@ -113,10 +113,6 @@ extension ANKFullWidth where High == High.Magnitude {
     //=------------------------------------------------------------------------=
     // MARK: Details x Encode x Private
     //=------------------------------------------------------------------------=
-    
-    @inlinable func description(radix: Int, uppercase: Bool, prefix: ANK.UnsafeUTF8, suffix: ANK.UnsafeUTF8) -> String {
-        self.description(radix: AnyRadixUIntRoot(radix), alphabet: MaxRadixAlphabetEncoder(uppercase: uppercase), prefix: prefix, suffix: suffix)
-    }
     
     @inlinable func description(radix: AnyRadixUIntRoot, alphabet: MaxRadixAlphabetEncoder, prefix: ANK.UnsafeUTF8, suffix: ANK.UnsafeUTF8) -> String {
         switch radix.power.isZero {

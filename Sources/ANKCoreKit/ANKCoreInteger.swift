@@ -115,7 +115,7 @@ extension ANKCoreInteger {
     // MARK: Division x Full Width
     //=------------------------------------------------------------------------=
     
-    @inlinable public func dividingFullWidthReportingOverflow(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>> where Self: SignedInteger {
+    @inlinable public func dividingFullWidthReportingOverflow(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>> where Self: ANKSignedInteger {
         let lhsIsLessThanZero: Bool =  other.high.isLessThanZero
         let rhsIsLessThanZero: Bool =  /*--*/self.isLessThanZero
         let minus: Bool = lhsIsLessThanZero != rhsIsLessThanZero
@@ -146,7 +146,7 @@ extension ANKCoreInteger {
         return qro as PVO<QR<Self, Self>>
     }
     
-    @inlinable public func dividingFullWidthReportingOverflow(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>> where Self: UnsignedInteger {
+    @inlinable public func dividingFullWidthReportingOverflow(_ other: HL<Self, Magnitude>) -> PVO<QR<Self, Self>> where Self: ANKUnsignedInteger {
         //=--------------------------------------=
         // divisor is zero
         //=--------------------------------------=
