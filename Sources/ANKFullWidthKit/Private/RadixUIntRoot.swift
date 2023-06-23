@@ -95,10 +95,10 @@ extension RadixUIntRoot {
     ///
     @inlinable init(_ radix: Int) {
         precondition(2 ... 36 ~= radix, "radix must be in 2 through 36")
-        ( self.base) = UInt(bitPattern: radix)
-        ( self.exponent, self.power)  = radix.isPowerOf2
-        ? Self.rootAssumingRadixIsPowerOf2(self.base)
-        : Self.rootAssumingRadixIsWhatever(self.base)
+        ( self.base) = UInt(bitPattern:  radix)
+        ( self.exponent, self.power)  =  radix.isPowerOf2
+        ? Self.solutionAssumingRadixIsPowerOf2(self.base)
+        : Self.solutionAssumingRadixIsWhatever(self.base)
     }
     
     //=------------------------------------------------------------------------=
@@ -106,19 +106,19 @@ extension RadixUIntRoot {
     //=------------------------------------------------------------------------=
     
     /// Returns the largest exponent in `pow(radix, exponent) <= UInt.max + 1`.
-    @inlinable static func rootAssumingRadixIsPowerOf2(_ radix: UInt) -> (exponent: UInt, power: UInt) {
+    @inlinable static func solutionAssumingRadixIsPowerOf2(_ radix: UInt) -> (exponent: UInt, power: UInt) {
         assert(radix >= 2)
         assert(radix.isPowerOf2)
         //=--------------------------------------=
         let zeros = UInt(bitPattern: radix.trailingZeroBitCount)
         //=--------------------------------------=
-        // radix == 02, 04, 16, 256, ...
+        // radix: 02, 04, 16, 256, ...
         //=--------------------------------------=
         if  zeros.isPowerOf2 {
             let exponent = UInt(bitPattern: UInt.bitWidth &>> zeros.trailingZeroBitCount)
             return (exponent: exponent, power: 0)
         //=--------------------------------------=
-        // radix == 08, 32, 64, 128, ...
+        // radix: 08, 32, 64, 128, ...
         //=--------------------------------------=
         }   else {
             let exponent = UInt(bitPattern: UInt.bitWidth) / zeros
@@ -127,7 +127,7 @@ extension RadixUIntRoot {
     }
     
     /// Returns the largest exponent in `pow(radix, exponent) <= UInt.max + 1`.
-    @inlinable static func rootAssumingRadixIsWhatever(_ radix: UInt) -> (exponent: UInt, power: UInt) {
+    @inlinable static func solutionAssumingRadixIsWhatever(_ radix: UInt) -> (exponent: UInt, power: UInt) {
         assert(radix >= 2)
         //=--------------------------------------=
         var exponent  = 1 as UInt
