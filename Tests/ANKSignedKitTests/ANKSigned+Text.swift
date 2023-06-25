@@ -30,6 +30,11 @@ final class ANKSignedTestsOnText: XCTestCase {
         ANKAssertDecodeText(T.max, 2,       String(repeating: "1", count: M.bitWidth / 1))
     }
     
+    func testDecodingRadix03() {
+        ANKAssertDecodeText(T.min, 3, "-11112220022122120101211020120210210211220")
+        ANKAssertDecodeText(T.max, 3,  "11112220022122120101211020120210210211220")
+    }
+    
     func testDecodingRadix04() {
         ANKAssertDecodeText(T.min, 4, "-" + String(repeating: "3", count: M.bitWidth / 2))
         ANKAssertDecodeText(T.max, 4,       String(repeating: "3", count: M.bitWidth / 2))
@@ -161,6 +166,11 @@ final class ANKSignedTestsOnText: XCTestCase {
     func testEncodingRadix02() {
         ANKAssertEncodeText(T.min, 2, false, "-" + String(repeating: "1", count: M.bitWidth / 1))
         ANKAssertEncodeText(T.max, 2, false,       String(repeating: "1", count: M.bitWidth / 1))
+    }
+    
+    func testEncodingRadix03() {
+        ANKAssertEncodeText(T.min, 3, false, "-11112220022122120101211020120210210211220")
+        ANKAssertEncodeText(T.max, 3, false,  "11112220022122120101211020120210210211220")
     }
     
     func testEncodingRadix04() {
