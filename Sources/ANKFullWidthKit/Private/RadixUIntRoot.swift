@@ -238,8 +238,13 @@ extension RadixUIntRoot {
         assert(radix >= 2)
         assert(radix.isPowerOf2 == false)
         //=--------------------------------------=
-        let capacity: Int = UInt.bitWidth.trailingZeroBitCount
-        return withUnsafeTemporaryAllocation(of: Solution.self, capacity: capacity) { squares in
+        // radix: 03, 05, 06, 007, ...
+        //=--------------------------------------=
+        let capacity: Int = UInt.bitWidth.trailingZeroBitCount - 1
+        return Swift.withUnsafeTemporaryAllocation(of: Solution.self, capacity: capacity) { squares in
+            //=----------------------------------=
+            // de/init: pointee is trivial
+            //=----------------------------------=
             var solution = Solution(1, radix)
             var index = squares.startIndex as Int
             
@@ -248,14 +253,14 @@ extension RadixUIntRoot {
                 let product = solution.power.multipliedReportingOverflow(by: solution.power)
                 if  product.overflow { break loop }
                 
-                solution.exponent &<<= 1
+                solution.exponent &<<= 1 as UInt
                 solution.power = product.partialValue
                 squares.formIndex(after: &index)
             }
             
             loop: while index  > squares.startIndex {
                 squares.formIndex(before: &index)
-                let square: Solution = squares[index]
+                let square  = squares[index]
                 let product = solution.power.multipliedReportingOverflow(by: square.power)
                 if  product.overflow { continue loop }
                 
