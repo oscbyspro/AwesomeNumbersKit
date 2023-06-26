@@ -42,7 +42,7 @@ final class TextTestsOnUInt: XCTestCase {
         ANKAssertDecodeDigitsAsUIntByTruncating(T(0xffffffffffffffff), 16, "ffffffffffffffff")
         
         ANKAssertDecodeDigitsAsUIntByTruncating(T(0x0000000000000000), 16, "10000000000000000") // + 01
-        ANKAssertDecodeDigitsAsUIntByTruncating(T(0xfffffffffffffff0), 16, "ffffffffffffffff0") // + 16
+        ANKAssertDecodeDigitsAsUIntByTruncating(T(0xfffffffffffffff0), 16, "ffffffffffffffff0") // * 16
     }
     
     func testDecodingStringWithoutDigitsReturnsNil() {

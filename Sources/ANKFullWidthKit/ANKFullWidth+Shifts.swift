@@ -10,7 +10,7 @@
 import ANKCoreKit
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Shifts x L
+// MARK: * ANK x Full Width x Shifts x Left
 //*============================================================================*
 
 extension ANKFullWidth {
@@ -22,19 +22,15 @@ extension ANKFullWidth {
     @inlinable public static func <<=(lhs: inout Self, rhs: some BinaryInteger) {
         lhs.bitshiftLeftSmart(by: Int(clamping: rhs))
     }
-
+    
     @inlinable public static func <<(lhs: Self, rhs: some BinaryInteger) -> Self {
         var lhs = lhs; lhs <<= rhs; return lhs
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
     @inlinable public static func &<<=(lhs: inout Self, rhs: some BinaryInteger) {
         lhs.bitshiftLeftUnchecked(by: rhs.moduloBitWidth(of: Self.self))
     }
-
+    
     @inlinable public static func &<<(lhs: Self, rhs: some BinaryInteger) -> Self {
         var lhs = lhs; lhs &<<= rhs; return lhs
     }
@@ -52,10 +48,9 @@ extension ANKFullWidth {
         let unsigned = amount.magnitude as UInt
         switch (amount >= 0, unsigned < UInt(bitPattern: Self.bitWidth)) {
         case (true,  true ): self.bitshiftLeftUnchecked(by:  Int(bitPattern: unsigned))
-        case (true,  false): self = Self(repeating:  false)
+        case (true,  false): self = Self(repeating: false)
         case (false, true ): self.bitshiftRightUnchecked(by: Int(bitPattern: unsigned))
-        case (false, false): self = Self(repeating:  self.isLessThanZero)
-        }
+        case (false, false): self = Self(repeating: self.isLessThanZero) }
     }
     
     /// Performs a smart left shift.
@@ -94,17 +89,17 @@ extension ANKFullWidth {
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
-    @inlinable public mutating func bitshiftLeftUnchecked(words major: Int, bits minor: Int) {
-        assert(0 ..< Self.endIndex ~= major, "invalid major left shift amount")
-        assert(0 ..< UInt.bitWidth ~= minor, "invalid minor left shift amount")
+    @inlinable public mutating func bitshiftLeftUnchecked(words: Int, bits: Int) {
+        assert(0 ..< Self.endIndex ~= words, "invalid major left shift amount")
+        assert(0 ..< UInt.bitWidth ~= bits,  "invalid minor left shift amount")
         //=--------------------------------------=
-        let a = UInt(bitPattern: minor)
-        let b = UInt(bitPattern: UInt.bitWidth &- minor)
-        let x = minor.isZero as  Bool
+        let a = UInt(bitPattern: bits)
+        let b = UInt(bitPattern: UInt.bitWidth &- bits)
+        let x = bits.isZero  as  Bool
         //=--------------------------------------=
         self.withUnsafeMutableWords { this in
             for i: Int  in  this.indices.reversed() {
-                let j:  Int = i &- major
+                let j:  Int = i &- words
                 let k:  Int = j &- 1
                 
                 let p: UInt =         (j >= this.startIndex ? this[j] : 0) &<< a
@@ -127,7 +122,7 @@ extension ANKFullWidth {
 }
 
 //*============================================================================*
-// MARK: * ANK x Full Width x Shifts x R
+// MARK: * ANK x Full Width x Shifts x Right
 //*============================================================================*
 
 extension ANKFullWidth {
@@ -144,11 +139,7 @@ extension ANKFullWidth {
         var lhs = lhs; lhs >>= rhs; return lhs
     }
     
-    //=------------------------------------------------------------------------=
-    // MARK: Transformations
-    //=------------------------------------------------------------------------=
-    
-    @inlinable public static func &>>=(lhs: inout Self,  rhs: some BinaryInteger) {
+    @inlinable public static func &>>=(lhs: inout Self, rhs: some BinaryInteger) {
         lhs.bitshiftRightUnchecked(by: rhs.moduloBitWidth(of: Self.self))
     }
     
@@ -169,10 +160,9 @@ extension ANKFullWidth {
         let unsigned = amount.magnitude as UInt
         switch (amount >= 0, unsigned < UInt(bitPattern: Self.bitWidth)) {
         case (true,  true ): self.bitshiftRightUnchecked(by: Int(bitPattern: unsigned))
-        case (true,  false): self = Self(repeating:  self.isLessThanZero)
+        case (true,  false): self = Self(repeating: self.isLessThanZero)
         case (false, true ): self.bitshiftLeftUnchecked(by:  Int(bitPattern: unsigned))
-        case (false, false): self = Self(repeating:  false)
-        }
+        case (false, false): self = Self(repeating: false) }
     }
     
     /// Performs a smart, signed, right shift.
@@ -211,18 +201,18 @@ extension ANKFullWidth {
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
-    @inlinable public mutating func bitshiftRightUnchecked(words major: Int, bits minor: Int) {
-        assert(0 ..< Self.endIndex ~= major, "invalid major right shift amount")
-        assert(0 ..< UInt.bitWidth ~= minor, "invalid minor right shift amount")
+    @inlinable public mutating func bitshiftRightUnchecked(words: Int, bits: Int) {
+        assert(0 ..< Self.endIndex ~= words, "invalid major right shift amount")
+        assert(0 ..< UInt.bitWidth ~= bits,  "invalid minor right shift amount")
         //=--------------------------------------=
-        let a = UInt(bitPattern: minor)
-        let b = UInt(bitPattern: UInt.bitWidth &- minor)
+        let a = UInt(bitPattern: bits)
+        let b = UInt(bitPattern: UInt.bitWidth &- bits)
         let c = UInt(repeating:  self.isLessThanZero)
-        let x = minor.isZero as  Bool
+        let x = bits.isZero  as  Bool
         //=--------------------------------------=
         self.withUnsafeMutableWords { this in
             for i: Int  in  this.indices {
-                let j:  Int = i &+ major
+                let j:  Int = i &+ words
                 let k:  Int = j &+ 1
                 
                 let p: UInt =         (j < this.endIndex ? this[j] : c) &>> a

@@ -58,29 +58,29 @@ final class Int192TestsOnText: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDecodingRadix02() {
-        ANKAssertDecodeText(T.min, 2, "-1" + String(repeating: "0", count: T.bitWidth / 1 - 1))
-        ANKAssertDecodeText(T.max, 2,        String(repeating: "1", count: T.bitWidth / 1 - 1))
+        ANKAssertDecodeText(T.min, 02, "-1" + String(repeating: "0", count: T.bitWidth / 1 - 1))
+        ANKAssertDecodeText(T.max, 02,        String(repeating: "1", count: T.bitWidth / 1 - 1))
     }
     
     func testDecodingRadix03() {
-        ANKAssertDecodeText(T.min, 3,
+        ANKAssertDecodeText(T.min, 03,
         /*-----------------------*/ "-120201102001101000002" +
         "22102210012020102021201210011100212110221222012012" +
         "00011102210020110020202220120111200122011002002212" )
-        ANKAssertDecodeText(T.max, 3,
+        ANKAssertDecodeText(T.max, 03,
         /*------------------------*/ "120201102001101000002" +
         "22102210012020102021201210011100212110221222012012" +
         "00011102210020110020202220120111200122011002002211" )
     }
     
     func testDecodingRadix04() {
-        ANKAssertDecodeText(T.min, 4, "-2" + String(repeating: "0", count: T.bitWidth / 2 - 1))
-        ANKAssertDecodeText(T.max, 4,  "1" + String(repeating: "3", count: T.bitWidth / 2 - 1))
+        ANKAssertDecodeText(T.min, 04, "-2" + String(repeating: "0", count: T.bitWidth / 2 - 1))
+        ANKAssertDecodeText(T.max, 04,  "1" + String(repeating: "3", count: T.bitWidth / 2 - 1))
     }
 
     func testDecodingRadix08() {
-        ANKAssertDecodeText(T.min, 8, "-4" + String(repeating: "0", count: 63))
-        ANKAssertDecodeText(T.max, 8,  "3" + String(repeating: "7", count: 63))
+        ANKAssertDecodeText(T.min, 08, "-4" + String(repeating: "0", count: 63))
+        ANKAssertDecodeText(T.max, 08,  "3" + String(repeating: "7", count: 63))
     }
     
     func testDecodingRadix10() {
@@ -153,7 +153,7 @@ final class Int192TestsOnText: XCTestCase {
         let zero = String(repeating: "0", count: T.bitWidth) + "0"
         let one  = String(repeating: "0", count: T.bitWidth) + "1"
         
-        for radix in 2 ... 36 {
+        for radix in 02 ... 36 {
             ANKAssertDecodeText(T(0), radix, zero)
             ANKAssertDecodeText(T(1), radix, one )
         }
@@ -186,7 +186,7 @@ final class Int192TestsOnText: XCTestCase {
         let positive = "+" + String(repeating: "1", count: T.bitWidth)
         let negative = "-" + String(repeating: "1", count: T.bitWidth)
         
-        for radix in 2 ... 36 {
+        for radix in 02 ... 36 {
             ANKAssertDecodeText(T?.none, radix, positive)
             ANKAssertDecodeText(T?.none, radix, negative)
         }
@@ -202,29 +202,29 @@ final class Int192TestsOnText: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testEncodingRadix02() {
-        ANKAssertEncodeText(T.min, 2, false, "-1" + String(repeating: "0", count: T.bitWidth / 1 - 1))
-        ANKAssertEncodeText(T.max, 2, false,        String(repeating: "1", count: T.bitWidth / 1 - 1))
+        ANKAssertEncodeText(T.min, 02, false, "-1" + String(repeating: "0", count: T.bitWidth / 1 - 1))
+        ANKAssertEncodeText(T.max, 02, false,        String(repeating: "1", count: T.bitWidth / 1 - 1))
     }
     
     func testEncodingRadix03() {
-        ANKAssertEncodeText(T.min, 3, false,
+        ANKAssertEncodeText(T.min, 03, false,
         /*-----------------------*/ "-120201102001101000002" +
         "22102210012020102021201210011100212110221222012012" +
         "00011102210020110020202220120111200122011002002212" )
-        ANKAssertEncodeText(T.max, 3, false,
+        ANKAssertEncodeText(T.max, 03, false,
         /*------------------------*/ "120201102001101000002" +
         "22102210012020102021201210011100212110221222012012" +
         "00011102210020110020202220120111200122011002002211" )
     }
     
     func testEncodingRadix04() {
-        ANKAssertEncodeText(T.min, 4, false, "-2" + String(repeating: "0", count: T.bitWidth / 2 - 1))
-        ANKAssertEncodeText(T.max, 4, false,  "1" + String(repeating: "3", count: T.bitWidth / 2 - 1))
+        ANKAssertEncodeText(T.min, 04, false, "-2" + String(repeating: "0", count: T.bitWidth / 2 - 1))
+        ANKAssertEncodeText(T.max, 04, false,  "1" + String(repeating: "3", count: T.bitWidth / 2 - 1))
     }
     
     func testEncodingRadix08() {
-        ANKAssertEncodeText(T.min, 8, false, "-4" + String(repeating: "0", count: 63))
-        ANKAssertEncodeText(T.max, 8, false,  "3" + String(repeating: "7", count: 63))
+        ANKAssertEncodeText(T.min, 08, false, "-4" + String(repeating: "0", count: 63))
+        ANKAssertEncodeText(T.max, 08, false,  "3" + String(repeating: "7", count: 63))
     }
     
     func testEncodingRadix10() {
@@ -294,26 +294,26 @@ final class UInt192TestsOnText: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testDecodingRadix02() {
-        ANKAssertDecodeText(T.min, 2, "0")
-        ANKAssertDecodeText(T.max, 2, String(repeating: "1", count: T.bitWidth / 1))
+        ANKAssertDecodeText(T.min, 02, "0")
+        ANKAssertDecodeText(T.max, 02, String(repeating: "1", count: T.bitWidth / 1))
     }
     
     func testDecodingRadix03() {
-        ANKAssertDecodeText(T.min, 3, "0" )
-        ANKAssertDecodeText(T.max, 3,
+        ANKAssertDecodeText(T.min, 03, "0" )
+        ANKAssertDecodeText(T.max, 03,
         /*-----------------------*/ "1011102211002202000012" +
         "21212120101110211120110120022201201221220221101101" +
         "00022212120110220111112211011000101021022011012200" )
     }
     
     func testDecodingRadix04() {
-        ANKAssertDecodeText(T.min, 4, "0")
-        ANKAssertDecodeText(T.max, 4, String(repeating: "3", count: T.bitWidth / 2))
+        ANKAssertDecodeText(T.min, 04, "0")
+        ANKAssertDecodeText(T.max, 04, String(repeating: "3", count: T.bitWidth / 2))
     }
     
     func testDecodingRadix08() {
-        ANKAssertDecodeText(T.min, 8, "0")
-        ANKAssertDecodeText(T.max, 8, String(repeating: "7", count: 64))
+        ANKAssertDecodeText(T.min, 08, "0")
+        ANKAssertDecodeText(T.max, 08, String(repeating: "7", count: 64))
     }
     
     func testDecodingRadix10() {
@@ -377,7 +377,7 @@ final class UInt192TestsOnText: XCTestCase {
         let zero = String(repeating: "0", count: T.bitWidth) + "0"
         let one  = String(repeating: "0", count: T.bitWidth) + "1"
         
-        for radix in 2 ... 36 {
+        for radix in 02 ... 36 {
             ANKAssertDecodeText(T(0), radix, zero)
             ANKAssertDecodeText(T(1), radix, one )
         }
@@ -410,7 +410,7 @@ final class UInt192TestsOnText: XCTestCase {
         let positive = "+" + String(repeating: "1", count: T.bitWidth + 1)
         let negative = "-" + String(repeating: "1", count: 1)
         
-        for radix in 2 ... 36 {
+        for radix in 02 ... 36 {
             ANKAssertDecodeText(T?.none, radix, positive)
             ANKAssertDecodeText(T?.none, radix, negative)
         }
@@ -424,26 +424,26 @@ final class UInt192TestsOnText: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testEncodingRadix02() {
-        ANKAssertEncodeText(T.min, 2, false, "0")
-        ANKAssertEncodeText(T.max, 2, false, String(repeating: "1", count: T.bitWidth / 1))
+        ANKAssertEncodeText(T.min, 02, false, "0")
+        ANKAssertEncodeText(T.max, 02, false, String(repeating: "1", count: T.bitWidth / 1))
     }
     
     func testEncodingRadix03() {
-        ANKAssertEncodeText(T.min, 3, false, "0" )
-        ANKAssertEncodeText(T.max, 3, false,
+        ANKAssertEncodeText(T.min, 03, false, "0" )
+        ANKAssertEncodeText(T.max, 03, false,
         /*-----------------------*/ "1011102211002202000012" +
         "21212120101110211120110120022201201221220221101101" +
         "00022212120110220111112211011000101021022011012200" )
     }
     
     func testEncodingRadix04() {
-        ANKAssertEncodeText(T.min, 4, false, "0")
-        ANKAssertEncodeText(T.max, 4, false, String(repeating: "3", count: T.bitWidth / 2))
+        ANKAssertEncodeText(T.min, 04, false, "0")
+        ANKAssertEncodeText(T.max, 04, false, String(repeating: "3", count: T.bitWidth / 2))
     }
     
     func testEncodingRadix08() {
-        ANKAssertEncodeText(T.min, 8, false, "0")
-        ANKAssertEncodeText(T.max, 8, false, String(repeating: "7", count: 64))
+        ANKAssertEncodeText(T.min, 08, false, "0")
+        ANKAssertEncodeText(T.max, 08, false, String(repeating: "7", count: 64))
     }
     
     func testEncodingRadix10() {
