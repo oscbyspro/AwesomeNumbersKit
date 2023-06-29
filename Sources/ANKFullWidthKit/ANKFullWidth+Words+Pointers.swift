@@ -224,6 +224,38 @@ extension ANKFullWidth {
         @inlinable public subscript(unchecked index: Int) -> UInt {
             self.base[ANKFullWidth.BitPattern.endiannessSensitiveIndex(unchecked: index)]
         }
+        
+        //=------------------------------------------------------------------------=
+        // MARK: Utilities
+        //=------------------------------------------------------------------------=
+        
+        @inlinable public func distance(from start: Int, to end: Int) -> Int {
+            ANKFullWidth.distance(from: start, to: end)
+        }
+        
+        @inlinable public func index(after index: Int) -> Int {
+            ANKFullWidth.index(after: index)
+        }
+        
+        @inlinable public func formIndex(after index: inout Int) {
+            ANKFullWidth.formIndex(after: &index)
+        }
+        
+        @inlinable public func index(before index: Int) -> Int {
+            ANKFullWidth.index(before: index)
+        }
+        
+        @inlinable public func formIndex(before index: inout Int) {
+            ANKFullWidth.formIndex(before: &index)
+        }
+        
+        @inlinable public func index(_ index: Int, offsetBy distance: Int) -> Int {
+            ANKFullWidth.index(index, offsetBy: distance)
+        }
+        
+        @inlinable public func index(_ index: Int, offsetBy distance: Int, limitedBy limit: Int) -> Int? {
+            ANKFullWidth.index(index, offsetBy: distance, limitedBy: limit)
+        }
     }
     
     //*========================================================================*
@@ -324,6 +356,38 @@ extension ANKFullWidth {
             nonmutating set {
                 self.base[ANKFullWidth.BitPattern.endiannessSensitiveIndex(unchecked: index)] = newValue
             }
+        }
+        
+        //=------------------------------------------------------------------------=
+        // MARK: Utilities
+        //=------------------------------------------------------------------------=
+        
+        @inlinable public func distance(from start: Int, to end: Int) -> Int {
+            ANKFullWidth.distance(from: start, to: end)
+        }
+        
+        @inlinable public func index(after index: Int) -> Int {
+            ANKFullWidth.index(after: index)
+        }
+        
+        @inlinable public func formIndex(after index: inout Int) {
+            ANKFullWidth.formIndex(after: &index)
+        }
+        
+        @inlinable public func index(before index: Int) -> Int {
+            ANKFullWidth.index(before: index)
+        }
+        
+        @inlinable public func formIndex(before index: inout Int) {
+            ANKFullWidth.formIndex(before: &index)
+        }
+        
+        @inlinable public func index(_ index: Int, offsetBy distance: Int) -> Int {
+            ANKFullWidth.index(index, offsetBy: distance)
+        }
+        
+        @inlinable public func index(_ index: Int, offsetBy distance: Int, limitedBy limit: Int) -> Int? {
+            ANKFullWidth.index(index, offsetBy: distance, limitedBy: limit)
         }
     }
 }

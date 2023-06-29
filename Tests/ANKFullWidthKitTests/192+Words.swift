@@ -48,6 +48,30 @@ final class Int192TestsOnWords: XCTestCase {
         ANKAssertWords(T(x32: Y(1, 2, 3, 4, 5, 0)), [1, 2, 3, 4, 5, 0])
         ANKAssertWords(T(x32: Y(1, 2, 3, 4, 5, 6)), [1, 2, 3, 4, 5, 6])
     }
+    
+    //=----------------------------------------------------------------------------=
+    // MARK: + Indices
+    //=----------------------------------------------------------------------------=
+    
+    func testIndexOffsetByLimitedBy() {
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  1,  2,  2,  nil)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  1,  1,  2,  2)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  1,  0,  2,  1)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  1, -1,  2,  0)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  1, -2,  2, -1)
+        
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  2,  2,  2,  nil)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  2,  1,  2,  nil)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  2,  0,  2,  2)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  2, -1,  2,  nil)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  2, -2,  2,  nil)
+        
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  3,  2,  2,  5)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  3,  1,  2,  4)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  3,  0,  2,  3)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  3, -1,  2,  2)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  3, -2,  2,  nil)
+    }
 }
 
 //*============================================================================*
@@ -81,6 +105,30 @@ final class UInt192TestsOnWords: XCTestCase {
         ANKAssertWords(T(x32: Y(1, 2, 3, 4, 0, 0)), [1, 2, 3, 4, 0, 0])
         ANKAssertWords(T(x32: Y(1, 2, 3, 4, 5, 0)), [1, 2, 3, 4, 5, 0])
         ANKAssertWords(T(x32: Y(1, 2, 3, 4, 5, 6)), [1, 2, 3, 4, 5, 6])
+    }
+    
+    //=----------------------------------------------------------------------------=
+    // MARK: + Indices
+    //=----------------------------------------------------------------------------=
+    
+    func testIndexOffsetByLimitedBy() {
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  1,  2,  2,  nil)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  1,  1,  2,  2)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  1,  0,  2,  1)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  1, -1,  2,  0)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  1, -2,  2, -1)
+        
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  2,  2,  2,  nil)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  2,  1,  2,  nil)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  2,  0,  2,  2)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  2, -1,  2,  nil)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  2, -2,  2,  nil)
+        
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  3,  2,  2,  5)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  3,  1,  2,  4)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  3,  0,  2,  3)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  3, -1,  2,  2)
+        ANKAssertIndexOffsetByLimitedBy(T.zero,  3, -2,  2,  nil)
     }
 }
 

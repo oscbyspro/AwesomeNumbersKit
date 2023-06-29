@@ -51,3 +51,29 @@ file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual({ var x = T.zero; x.last  = last;  return x.last  }(), last,  file: file, line: line)
     XCTAssertEqual({ var x = T.zero; x.tail  = tail;  return x.tail  }(), tail,  file: file, line: line)
 }
+
+//=----------------------------------------------------------------------------=
+// MARK: + Indices
+//=----------------------------------------------------------------------------=
+
+func ANKAssertIndexOffsetByLimitedBy<H: ANKFixedWidthInteger, L: ANKFixedWidthInteger>(
+_ integer: ANKFullWidth<H, L>, _ index: Int, _ distance: Int, _ limit: Int, _ expectation: Int?,
+file: StaticString = #file, line: UInt = #line) {
+    let wordsIndex = /*-*/(integer).index(index, offsetBy: distance, limitedBy: limit)
+    let arrayIndex = Array(integer).index(index, offsetBy: distance, limitedBy: limit)
+    
+    XCTAssertEqual(wordsIndex, expectation, file: file, line: line)
+    XCTAssertEqual(arrayIndex, expectation, file: file, line: line)
+    //=------------------------------------------=
+    var integer = integer
+    
+    integer.withUnsafeWords {
+        let index = $0.index(index, offsetBy: distance, limitedBy: limit)
+        XCTAssertEqual(index, expectation, file: file, line: line)
+    }
+    
+    integer.withUnsafeMutableWords {
+        let index = $0.index(index, offsetBy: distance, limitedBy: limit)
+        XCTAssertEqual(index, expectation, file: file, line: line)
+    }
+}
