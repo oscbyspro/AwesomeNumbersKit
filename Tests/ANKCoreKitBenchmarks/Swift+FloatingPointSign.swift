@@ -28,7 +28,7 @@ final class ANKSwiftBenchmarksOnFloatingPointSign: XCTestCase {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(T(abc))
             ANK.blackHole(T(xyz))
             
@@ -45,7 +45,7 @@ final class ANKSwiftBenchmarksOnFloatingPointSign: XCTestCase {
         var abc = ANK.blackHoleIdentity(T.plus )
         var xyz = ANK.blackHoleIdentity(T.minus)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.bit)
             ANK.blackHole(xyz.bit)
             
@@ -62,7 +62,7 @@ final class ANKSwiftBenchmarksOnFloatingPointSign: XCTestCase {
         var abc = ANK.blackHoleIdentity(T.plus )
         var xyz = ANK.blackHoleIdentity(T.minus)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(~abc)
             ANK.blackHole(~xyz)
             
@@ -75,7 +75,7 @@ final class ANKSwiftBenchmarksOnFloatingPointSign: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T.plus )
         var rhs = ANK.blackHoleIdentity(T.minus)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs & rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -86,7 +86,7 @@ final class ANKSwiftBenchmarksOnFloatingPointSign: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T.plus )
         var rhs = ANK.blackHoleIdentity(T.minus)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs | rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -97,7 +97,7 @@ final class ANKSwiftBenchmarksOnFloatingPointSign: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T.plus )
         var rhs = ANK.blackHoleIdentity(T.minus)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs ^ rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)

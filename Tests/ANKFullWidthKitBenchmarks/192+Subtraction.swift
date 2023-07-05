@@ -32,7 +32,7 @@ final class Int192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs - rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -43,7 +43,7 @@ final class Int192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &- rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -54,7 +54,7 @@ final class Int192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.subtractingReportingOverflow(rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -69,7 +69,7 @@ final class Int192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(Int.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs - rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -80,7 +80,7 @@ final class Int192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(Int.max)
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &- rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -91,7 +91,7 @@ final class Int192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(Int.max)
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.subtractingReportingOverflow(rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -115,7 +115,7 @@ final class UInt192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs - rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -126,7 +126,7 @@ final class UInt192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &- rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -137,7 +137,7 @@ final class UInt192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(T(x64: X( 0,  1,  2)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.subtractingReportingOverflow(rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -152,7 +152,7 @@ final class UInt192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(UInt.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs - rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -163,7 +163,7 @@ final class UInt192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(UInt.max)
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &- rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -174,7 +174,7 @@ final class UInt192BenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2)))
         var rhs = ANK.blackHoleIdentity(UInt.max)
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.subtractingReportingOverflow(rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)

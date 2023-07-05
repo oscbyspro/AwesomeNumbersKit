@@ -31,7 +31,7 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(1, as: .plus ))
         var rhs = ANK.blackHoleIdentity(T(1, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs == rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -42,7 +42,7 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(1, as: .plus ))
         var rhs = ANK.blackHoleIdentity(T(1, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs < rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -53,7 +53,7 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(1, as: .plus ))
         var rhs = ANK.blackHoleIdentity(T(1, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.compared(to: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -68,7 +68,7 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
         var abc = ANK.blackHoleIdentity(T(1, as: .plus ))
         var xyz = ANK.blackHoleIdentity(T(1, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.isZero)
             ANK.blackHole(xyz.isZero)
             
@@ -81,7 +81,7 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
         var abc = ANK.blackHoleIdentity(T(1, as: .plus ))
         var xyz = ANK.blackHoleIdentity(T(1, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.isLessThanZero)
             ANK.blackHole(xyz.isLessThanZero)
             
@@ -94,7 +94,7 @@ final class ANKSignedBenchmarksOnComparisons: XCTestCase {
         var abc = ANK.blackHoleIdentity(T(1, as: .plus ))
         var xyz = ANK.blackHoleIdentity(T(1, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.isMoreThanZero)
             ANK.blackHole(xyz.isMoreThanZero)
             

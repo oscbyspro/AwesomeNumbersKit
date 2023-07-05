@@ -33,7 +33,7 @@ final class Int192BenchmarksOnComplements: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.bitPattern)
             ANK.blackHole(xyz.bitPattern)
             
@@ -46,7 +46,7 @@ final class Int192BenchmarksOnComplements: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(T(bitPattern: abc))
             ANK.blackHole(T(bitPattern: xyz))
             
@@ -63,7 +63,7 @@ final class Int192BenchmarksOnComplements: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.magnitude)
             ANK.blackHole(xyz.magnitude)
             
@@ -80,7 +80,7 @@ final class Int192BenchmarksOnComplements: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.twosComplement())
             ANK.blackHole(xyz.twosComplement())
             
@@ -93,7 +93,7 @@ final class Int192BenchmarksOnComplements: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.twosComplementSubsequence(true))
             ANK.blackHole(xyz.twosComplementSubsequence(true))
             
@@ -120,7 +120,7 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.bitPattern)
             ANK.blackHole(xyz.bitPattern)
             
@@ -133,7 +133,7 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(T(bitPattern: abc))
             ANK.blackHole(T(bitPattern: xyz))
             
@@ -150,7 +150,7 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.magnitude)
             ANK.blackHole(xyz.magnitude)
             
@@ -167,7 +167,7 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.twosComplement())
             ANK.blackHole(xyz.twosComplement())
             
@@ -180,7 +180,7 @@ final class UInt192BenchmarksOnComplements: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.twosComplementSubsequence(true))
             ANK.blackHole(xyz.twosComplementSubsequence(true))
             

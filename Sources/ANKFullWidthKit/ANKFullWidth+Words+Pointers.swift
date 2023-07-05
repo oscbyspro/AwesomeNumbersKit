@@ -211,7 +211,7 @@ extension ANKFullWidth {
         
         /// Accesses the word at the given index, from least significant to most.
         @inlinable public subscript(index: Int) -> UInt {
-            precondition(self.indices ~= index, ANK.callsiteIndexOutOfBoundsInfo())
+            precondition(self.indices ~= index, ANK.callsiteOutOfBoundsInfo())
             return self[unchecked: index]
         }
         
@@ -332,12 +332,12 @@ extension ANKFullWidth {
         /// Accesses the word at the given index, from least significant to most.
         @inlinable public subscript(index: Int) -> UInt {
             nonmutating get {
-                precondition(self.indices ~= index, ANK.callsiteIndexOutOfBoundsInfo())
+                precondition(self.indices ~= index, ANK.callsiteOutOfBoundsInfo())
                 return self[unchecked: index]
             }
             
             nonmutating set {
-                precondition(self.indices ~= index, ANK.callsiteIndexOutOfBoundsInfo())
+                precondition(self.indices ~= index, ANK.callsiteOutOfBoundsInfo())
                 self[unchecked: index] = newValue
             }
         }

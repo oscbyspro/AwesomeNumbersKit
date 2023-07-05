@@ -31,7 +31,7 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(4, as: .plus ))
         var rhs = ANK.blackHoleIdentity(T(4, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs * rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -42,7 +42,7 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(4, as: .plus ))
         var rhs = ANK.blackHoleIdentity(T(4, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &* rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -53,7 +53,7 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(4, as: .plus ))
         var rhs = ANK.blackHoleIdentity(T(4, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedReportingOverflow(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -64,7 +64,7 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(4, as: .plus ))
         var rhs = ANK.blackHoleIdentity(T(4, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedFullWidth(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -79,7 +79,7 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(4, as: .plus ))
         var rhs = ANK.blackHoleIdentity(D(4, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs * rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -90,7 +90,7 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(4, as: .plus ))
         var rhs = ANK.blackHoleIdentity(D(4, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &* rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -101,7 +101,7 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(4, as: .plus ))
         var rhs = ANK.blackHoleIdentity(D(4, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedReportingOverflow(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -112,7 +112,7 @@ final class ANKSignedBenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(4, as: .plus ))
         var rhs = ANK.blackHoleIdentity(D(4, as: .minus))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedFullWidth(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)

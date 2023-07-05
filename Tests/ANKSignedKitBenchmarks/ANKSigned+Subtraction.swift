@@ -31,7 +31,7 @@ final class ANKSignedBenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T.max)
         var rhs = ANK.blackHoleIdentity(T.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs - rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -42,7 +42,7 @@ final class ANKSignedBenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T.max)
         var rhs = ANK.blackHoleIdentity(T.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &- rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -53,7 +53,7 @@ final class ANKSignedBenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T.max)
         var rhs = ANK.blackHoleIdentity(T.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.subtractingReportingOverflow(rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -68,7 +68,7 @@ final class ANKSignedBenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T.max)
         var rhs = ANK.blackHoleIdentity(D.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs - rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -79,7 +79,7 @@ final class ANKSignedBenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T.max)
         var rhs = ANK.blackHoleIdentity(D.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &- rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -90,7 +90,7 @@ final class ANKSignedBenchmarksOnSubtraction: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T.max)
         var rhs = ANK.blackHoleIdentity(D.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.subtractingReportingOverflow(rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)

@@ -32,7 +32,7 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity( T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(-T(x64: X(3, 0, 0, 0)))
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs * rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -43,7 +43,7 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity( T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(-T(x64: X(3, 0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &* rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -54,7 +54,7 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity( T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(-T(x64: X(3, 0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedReportingOverflow(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -65,7 +65,7 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity( T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(-T(x64: X(3, 0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedFullWidth(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -80,7 +80,7 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity( T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(-Int.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs * rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -91,7 +91,7 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity( T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(-Int.max)
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &* rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -102,7 +102,7 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity( T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(-Int.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedReportingOverflow(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -113,7 +113,7 @@ final class Int256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity( T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(-Int.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedFullWidth(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -137,7 +137,7 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs * rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -148,7 +148,7 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &* rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -159,7 +159,7 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedReportingOverflow(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -170,7 +170,7 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(T(x64: X(3, 0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedFullWidth(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -185,7 +185,7 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(UInt.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs * rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -196,7 +196,7 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(UInt.max)
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs &* rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -207,7 +207,7 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(UInt.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedReportingOverflow(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -218,7 +218,7 @@ final class UInt256BenchmarksOnMultiplication: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(3, 3, 3, 0)))
         var rhs = ANK.blackHoleIdentity(UInt.max)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.multipliedFullWidth(by: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)

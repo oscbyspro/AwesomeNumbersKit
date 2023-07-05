@@ -32,7 +32,7 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         var rhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs == rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -43,7 +43,7 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         var rhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs < rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -54,7 +54,7 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         var rhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.compared(to: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -68,7 +68,7 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
     func testIsZero() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.isZero)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -77,7 +77,7 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
     func testIsLessThanZero() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.isLessThanZero)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -86,7 +86,7 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
     func testIsMoreThanZero() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.isMoreThanZero)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -95,7 +95,7 @@ final class Int256BenchmarksOnComparisons: XCTestCase {
     func testIsPowerOf2() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.isPowerOf2)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -118,7 +118,7 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         var rhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs == rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -129,7 +129,7 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         var rhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs < rhs)
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -140,7 +140,7 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
         var lhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         var rhs = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(lhs.compared(to: rhs))
             ANK.blackHoleInoutIdentity(&lhs)
             ANK.blackHoleInoutIdentity(&rhs)
@@ -154,7 +154,7 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
     func testIsZero() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.isZero)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -163,7 +163,7 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
     func testIsLessThanZero() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.isLessThanZero)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -172,7 +172,7 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
     func testIsMoreThanZero() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.isMoreThanZero)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -181,7 +181,7 @@ final class UInt256BenchmarksOnComparisons: XCTestCase {
     func testIsPowerOf2() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2, 3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.isPowerOf2)
             ANK.blackHoleInoutIdentity(&abc)
         }

@@ -31,7 +31,7 @@ final class Int192BenchmarksOnNegation: XCTestCase {
     func testNegated() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(-abc)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -40,7 +40,7 @@ final class Int192BenchmarksOnNegation: XCTestCase {
     func testNegatedReportingOverflow() {
         var abc = ANK.blackHoleIdentity(T(x64: X(0, 1, 2)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.negatedReportingOverflow())
             ANK.blackHoleInoutIdentity(&abc)
         }

@@ -33,7 +33,7 @@ final class Int256Benchmarks: XCTestCase {
         var abc = ANK.blackHoleIdentity(LH( T.Low .zero, T.High.zero ))
         var xyz = ANK.blackHoleIdentity(HL( T.High.zero, T.Low .zero ))
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(T(ascending:  abc))
             ANK.blackHole(T(descending: xyz))
             
@@ -60,7 +60,7 @@ final class UInt256Benchmarks: XCTestCase {
         var abc = ANK.blackHoleIdentity(LH( T.Low .zero, T.High.zero ))
         var xyz = ANK.blackHoleIdentity(HL( T.High.zero, T.Low .zero ))
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(T(ascending:  abc))
             ANK.blackHole(T(descending: xyz))
             

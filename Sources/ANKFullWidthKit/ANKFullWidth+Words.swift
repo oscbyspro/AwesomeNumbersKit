@@ -228,7 +228,7 @@ extension ANKFullWidth where High == High.Magnitude {
     //=------------------------------------------------------------------------=
     
     @inlinable static func endiannessSensitiveIndex(unchecked index: Int) -> Int {
-        assert(self.indices ~= index, ANK.callsiteIndexOutOfBoundsInfo())
+        assert(self.indices ~= index, ANK.callsiteOutOfBoundsInfo())
         #if _endian(big)
         return self.lastIndex - index
         #else

@@ -31,7 +31,7 @@ final class Int256BenchmarksOnEndianness: XCTestCase {
     func testBigEndian() {
         var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.bigEndian)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -40,7 +40,7 @@ final class Int256BenchmarksOnEndianness: XCTestCase {
     func testLittleEndian() {
         var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.littleEndian)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -49,7 +49,7 @@ final class Int256BenchmarksOnEndianness: XCTestCase {
     func testByteSwapped() {
         var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.byteSwapped)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -71,7 +71,7 @@ final class UInt256BenchmarksOnEndianness: XCTestCase {
     func testBigEndian() {
         var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.bigEndian)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -80,7 +80,7 @@ final class UInt256BenchmarksOnEndianness: XCTestCase {
     func testLittleEndian() {
         var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.littleEndian)
             ANK.blackHoleInoutIdentity(&abc)
         }
@@ -89,7 +89,7 @@ final class UInt256BenchmarksOnEndianness: XCTestCase {
     func testByteSwapped() {
         var abc = ANK.blackHoleIdentity(T(x64: X(~0, ~1, ~2, ~3)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.byteSwapped)
             ANK.blackHoleInoutIdentity(&abc)
         }

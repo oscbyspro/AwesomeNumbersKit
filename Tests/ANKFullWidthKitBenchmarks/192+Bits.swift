@@ -32,7 +32,7 @@ final class Int192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(T(bit: abc))
             ANK.blackHole(T(bit: xyz))
             
@@ -45,7 +45,7 @@ final class Int192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(T(repeating: abc))
             ANK.blackHole(T(repeating: xyz))
             
@@ -62,7 +62,7 @@ final class Int192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.bitWidth)
             ANK.blackHole(xyz.bitWidth)
             
@@ -75,7 +75,7 @@ final class Int192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.nonzeroBitCount)
             ANK.blackHole(xyz.nonzeroBitCount)
             
@@ -88,7 +88,7 @@ final class Int192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.leadingZeroBitCount)
             ANK.blackHole(xyz.leadingZeroBitCount)
             
@@ -101,7 +101,7 @@ final class Int192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.trailingZeroBitCount)
             ANK.blackHole(xyz.trailingZeroBitCount)
             
@@ -114,7 +114,7 @@ final class Int192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.mostSignificantBit)
             ANK.blackHole(xyz.mostSignificantBit)
             
@@ -127,7 +127,7 @@ final class Int192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.leastSignificantBit)
             ANK.blackHole(xyz.leastSignificantBit)
             
@@ -153,7 +153,7 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
 
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.bitPattern)
             ANK.blackHole(xyz.bitPattern)
             
@@ -166,7 +166,7 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(T(bitPattern: abc))
             ANK.blackHole(T(bitPattern: xyz))
             
@@ -179,7 +179,7 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(T(bit: abc))
             ANK.blackHole(T(bit: xyz))
             
@@ -192,7 +192,7 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity(true )
         var xyz = ANK.blackHoleIdentity(false)
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(T(repeating: abc))
             ANK.blackHole(T(repeating: xyz))
             
@@ -209,7 +209,7 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.bitWidth)
             ANK.blackHole(xyz.bitWidth)
             
@@ -222,7 +222,7 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.nonzeroBitCount)
             ANK.blackHole(xyz.nonzeroBitCount)
             
@@ -235,7 +235,7 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.leadingZeroBitCount)
             ANK.blackHole(xyz.leadingZeroBitCount)
             
@@ -248,7 +248,7 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.trailingZeroBitCount)
             ANK.blackHole(xyz.trailingZeroBitCount)
             
@@ -261,7 +261,7 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.mostSignificantBit)
             ANK.blackHole(xyz.mostSignificantBit)
             
@@ -274,7 +274,7 @@ final class UInt192BenchmarksOnBits: XCTestCase {
         var abc = ANK.blackHoleIdentity( T(x64: X(0, 0, 0)))
         var xyz = ANK.blackHoleIdentity(~T(x64: X(0, 0, 0)))
         
-        for _ in 0 ..< 1_000_000 {
+        for _ in 0 ..< 5_000_000 {
             ANK.blackHole(abc.leastSignificantBit)
             ANK.blackHole(xyz.leastSignificantBit)
             

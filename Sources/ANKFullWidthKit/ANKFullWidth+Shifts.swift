@@ -62,19 +62,19 @@ extension ANKFullWidth {
         var result = self; result.bitshiftLeftSmart(by: distance); return result
     }
     
-    /// Performs an unchecked left shift.
+    /// Performs a left shift.
     ///
     /// - Parameters:
     ///   - distance: `0 <= distance < Self.bitWidth`
     ///
     @inlinable public mutating func bitshiftLeft(by distance: Int) {
-        precondition(distance >= 0, "shift distance must be at least zero")
+        precondition(distance >= 0, ANK.callsiteOutOfBoundsInfo())
         let major  = distance .quotientDividingByBitWidthAssumingIsAtLeastZero()
         let minor  = distance.remainderDividingByBitWidthAssumingIsAtLeastZero()
         return self.bitshiftLeft(words: major, bits: minor)
     }
     
-    /// Performs an unchecked left shift.
+    /// Performs a left shift.
     ///
     /// - Parameters:
     ///   - distance: `0 <= distance < Self.bitWidth`
@@ -83,15 +83,15 @@ extension ANKFullWidth {
         var result = self; result.bitshiftLeft(by: distance); return result
     }
     
-    /// Performs an unchecked left shift.
+    /// Performs a left shift.
     ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable public mutating func bitshiftLeft(words: Int, bits: Int) {
-        precondition(0 ..< self.endIndex ~= words, "invalid major shift distance")
-        precondition(0 ..< UInt.bitWidth ~= bits,  "invalid minor shift distance")
+        precondition(0 ..< self.endIndex ~= words, ANK.callsiteOutOfBoundsInfo())
+        precondition(0 ..< UInt.bitWidth ~= bits,  ANK.callsiteOutOfBoundsInfo())
         //=--------------------------------------=
         if  bits.isZero {
             return self.bitshiftLeft(words: words)
@@ -113,7 +113,7 @@ extension ANKFullWidth {
         }
     }
     
-    /// Performs an unchecked left shift.
+    /// Performs a left shift.
     ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
@@ -123,13 +123,13 @@ extension ANKFullWidth {
         var result = self; result.bitshiftLeft(words: words, bits: bits); return result
     }
         
-    /// Performs an unchecked left shift.
+    /// Performs a left shift.
     ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///
     @inlinable public mutating func bitshiftLeft(words: Int) {
-        precondition(0 ..< self.endIndex ~= words, "invalid major shift distance")
+        precondition(0 ..< self.endIndex ~= words, ANK.callsiteOutOfBoundsInfo())
         //=--------------------------------------=
         if  words.isZero { return }
         //=--------------------------------------=
@@ -138,7 +138,7 @@ extension ANKFullWidth {
         }
     }
     
-    /// Performs an unchecked left shift.
+    /// Performs a left shift.
     ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
@@ -201,19 +201,19 @@ extension ANKFullWidth {
         var result = self; result.bitshiftRightSmart(by: distance); return result
     }
     
-    /// Performs an unchecked, signed, right shift.
+    /// Performs a signed right shift.
     ///
     /// - Parameters:
     ///   - distance: `0 <= distance < Self.bitWidth`
     ///
     @inlinable public mutating func bitshiftRight(by distance: Int) {
-        precondition(distance >= 0, "shift distance must be at least zero")
+        precondition(distance >= 0, ANK.callsiteOutOfBoundsInfo())
         let major =  distance .quotientDividingByBitWidthAssumingIsAtLeastZero()
         let minor =  distance.remainderDividingByBitWidthAssumingIsAtLeastZero()
         return self.bitshiftRight(words: major, bits: minor)
     }
     
-    /// Performs an unchecked, signed, right shift.
+    /// Performs a signed right shift.
     ///
     /// - Parameters:
     ///   - distance: `0 <= distance < Self.bitWidth`
@@ -222,15 +222,15 @@ extension ANKFullWidth {
         var result = self; result.bitshiftRight(by: distance); return result
     }
     
-    /// Performs an unchecked, signed, right shift.
+    /// Performs a signed right shift.
     ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///   - bits:  `0 <= bits  < UInt.bitWidth`
     ///
     @inlinable public mutating func bitshiftRight(words: Int, bits: Int) {
-        precondition(0 ..< self.endIndex ~= words, "invalid major shift distance")
-        precondition(0 ..< UInt.bitWidth ~= bits,  "invalid minor shift distance")
+        precondition(0 ..< self.endIndex ~= words, ANK.callsiteOutOfBoundsInfo())
+        precondition(0 ..< UInt.bitWidth ~= bits,  ANK.callsiteOutOfBoundsInfo())
         //=--------------------------------------=
         if  bits.isZero {
             return self.bitshiftRight(words: words)
@@ -254,7 +254,7 @@ extension ANKFullWidth {
         }
     }
     
-    /// Performs an unchecked, signed, right shift.
+    /// Performs a signed right shift.
     ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
@@ -264,13 +264,13 @@ extension ANKFullWidth {
         var result = self; result.bitshiftRight(words: words, bits: bits); return result
     }
         
-    /// Performs an unchecked, signed, right shift.
+    /// Performs a signed right shift.
     ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
     ///
     @inlinable public mutating func bitshiftRight(words: Int) {
-        precondition(0 ..< self.endIndex ~= words, "invalid major shift distance")
+        precondition(0 ..< self.endIndex ~= words, ANK.callsiteOutOfBoundsInfo())
         //=--------------------------------------=
         if  words.isZero { return }
         //=--------------------------------------=
@@ -283,7 +283,7 @@ extension ANKFullWidth {
         }
     }
     
-    /// Performs an unchecked, signed, right shift.
+    /// Performs a signed right shift.
     ///
     /// - Parameters:
     ///   - words: `0 <= words < Self.endIndex`
