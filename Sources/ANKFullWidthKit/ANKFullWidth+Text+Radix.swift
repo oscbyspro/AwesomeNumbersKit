@@ -121,9 +121,14 @@ extension ANKFullWidth where High == High.Magnitude {
     }
     
     @inlinable func description(radix: PerfectRadixUIntRoot, alphabet: MaxRadixAlphabetEncoder, prefix: ANK.UnsafeUTF8, suffix: ANK.UnsafeUTF8) -> String {
-        let index = self.lastIndex(where:{ !$0.isZero }) ?? self.startIndex
-        let chunks: Words.SubSequence = self[...index]
-        return String.fromUTF8Unchecked(chunks: chunks, radix: radix, alphabet: alphabet, prefix: prefix, suffix: suffix)
+        //=--------------------------------------=
+        // with one buffer pointer specialization
+        //=--------------------------------------=
+        self.withContiguousStorage { buffer in
+            let index = buffer.lastIndex(where:{ !$0.isZero }) ?? buffer.startIndex
+            let chunks  = ANK.UnsafeWords(rebasing: buffer[...index])
+            return String.fromUTF8Unchecked(chunks: chunks, radix: radix, alphabet: alphabet, prefix: prefix, suffix: suffix)
+        }
     }
     
     @inlinable func description(radix: ImperfectRadixUIntRoot, alphabet: MaxRadixAlphabetEncoder, prefix: ANK.UnsafeUTF8, suffix: ANK.UnsafeUTF8) -> String {
