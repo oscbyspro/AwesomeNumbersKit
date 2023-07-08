@@ -112,17 +112,23 @@ final class Int192TestsOnShifts: XCTestCase {
     }
     
     func testBitshiftingByMaskingIsEquivalentToBitshiftingModuloBitWidth() {
+        ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)),  192, T(x64: X(1, 2, 3)), signitude: S.self)
+        ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)), -192, T(x64: X(1, 2, 3)), signitude: S.self)
+        
         ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)),  193, T(x64: X(2, 4, 6)), signitude: S.self)
         ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)), -191, T(x64: X(2, 4, 6)), signitude: S.self)
         
         ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)),  256, T(x64: X(0, 1, 2)), signitude: S.self)
         ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)), -128, T(x64: X(0, 1, 2)), signitude: S.self)
         
+        ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)),  192, T(x64: X(2, 4, 6)), signitude: S.self)
+        ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)), -192, T(x64: X(2, 4, 6)), signitude: S.self)
+        
         ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)),  193, T(x64: X(1, 2, 3)), signitude: S.self)
         ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)), -191, T(x64: X(1, 2, 3)), signitude: S.self)
 
-        ANKAssertShiftRightByMasking(T(x64: X(1, 2, 3)),  256, T(x64: X(2, 3, 0)), signitude: S.self)
-        ANKAssertShiftRightByMasking(T(x64: X(1, 2, 3)), -128, T(x64: X(2, 3, 0)), signitude: S.self)
+        ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)),  256, T(x64: X(4, 6, 0)), signitude: S.self)
+        ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)), -128, T(x64: X(4, 6, 0)), signitude: S.self)
     }
 }
 
@@ -222,17 +228,23 @@ final class UInt192TestsOnShifts: XCTestCase {
     }
     
     func testBitshiftingByMaskingIsEquivalentToBitshiftingModuloBitWidth() {
+        ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)),  192, T(x64: X(1, 2, 3)), signitude: S.self)
+        ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)), -192, T(x64: X(1, 2, 3)), signitude: S.self)
+        
         ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)),  193, T(x64: X(2, 4, 6)), signitude: S.self)
         ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)), -191, T(x64: X(2, 4, 6)), signitude: S.self)
         
         ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)),  256, T(x64: X(0, 1, 2)), signitude: S.self)
         ANKAssertShiftLeftByMasking (T(x64: X(1, 2, 3)), -128, T(x64: X(0, 1, 2)), signitude: S.self)
         
+        ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)),  192, T(x64: X(2, 4, 6)), signitude: S.self)
+        ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)), -192, T(x64: X(2, 4, 6)), signitude: S.self)
+        
         ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)),  193, T(x64: X(1, 2, 3)), signitude: S.self)
         ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)), -191, T(x64: X(1, 2, 3)), signitude: S.self)
 
-        ANKAssertShiftRightByMasking(T(x64: X(1, 2, 3)),  256, T(x64: X(2, 3, 0)), signitude: S.self)
-        ANKAssertShiftRightByMasking(T(x64: X(1, 2, 3)), -128, T(x64: X(2, 3, 0)), signitude: S.self)
+        ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)),  256, T(x64: X(4, 6, 0)), signitude: S.self)
+        ANKAssertShiftRightByMasking(T(x64: X(2, 4, 6)), -128, T(x64: X(4, 6, 0)), signitude: S.self)
     }
 }
 
