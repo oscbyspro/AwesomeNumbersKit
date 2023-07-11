@@ -151,17 +151,20 @@ final class ANKCoreIntegerTestsOnComparisons: XCTestCase {
     
     func testIsPowerOf2() {
         func whereIsSigned<T>(_ type: T.Type) where T: ANKCoreInteger {
-            XCTAssertFalse((T( 3)).isPowerOf2)
-            XCTAssertTrue ((T( 2)).isPowerOf2)
-            XCTAssertTrue ((T( 1)).isPowerOf2)
-            XCTAssertFalse((T( 0)).isPowerOf2)
-            XCTAssertFalse((T(-1)).isPowerOf2)
-            XCTAssertFalse((T(-2)).isPowerOf2)
-            XCTAssertFalse((T(-3)).isPowerOf2)
+            XCTAssertFalse((T.min).isPowerOf2)
             XCTAssertFalse((T(-4)).isPowerOf2)
+            XCTAssertFalse((T(-3)).isPowerOf2)
+            XCTAssertFalse((T(-2)).isPowerOf2)
+            XCTAssertFalse((T(-1)).isPowerOf2)
+            XCTAssertFalse((T( 0)).isPowerOf2)
+            XCTAssertTrue ((T( 1)).isPowerOf2)
+            XCTAssertTrue ((T( 2)).isPowerOf2)
+            XCTAssertFalse((T( 3)).isPowerOf2)
+            XCTAssertFalse((T.max).isPowerOf2)
         }
         
         func whereIsUnsigned<T>(_ type: T.Type) where T: ANKCoreInteger {
+            XCTAssertFalse((T.min).isPowerOf2)
             XCTAssertFalse((T( 0)).isPowerOf2)
             XCTAssertTrue ((T( 1)).isPowerOf2)
             XCTAssertTrue ((T( 2)).isPowerOf2)
@@ -170,6 +173,7 @@ final class ANKCoreIntegerTestsOnComparisons: XCTestCase {
             XCTAssertFalse((T( 5)).isPowerOf2)
             XCTAssertFalse((T( 6)).isPowerOf2)
             XCTAssertFalse((T( 7)).isPowerOf2)
+            XCTAssertFalse((T.max).isPowerOf2)
         }
         
         for type: T in types {

@@ -545,7 +545,7 @@ extension ANKFixedWidthInteger {
     }
     
     @inlinable public var isPowerOf2: Bool {
-        self.nonzeroBitCount == 1
+        !self.isLessThanZero && self.nonzeroBitCount == 1
     }
     
     @inlinable public func compared(to other: Self) -> Int {

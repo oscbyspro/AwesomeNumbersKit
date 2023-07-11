@@ -142,6 +142,28 @@ final class Int256TestsOnComparisons: XCTestCase {
         XCTAssertEqual((~T(1)).signum(), Int(-1))
         XCTAssertEqual((~T(2)).signum(), Int(-1))
     }
+    
+    func testIsPowerOf2() {
+        XCTAssertFalse((T.min).isPowerOf2)
+        XCTAssertFalse((T(-4)).isPowerOf2)
+        XCTAssertFalse((T(-3)).isPowerOf2)
+        XCTAssertFalse((T(-2)).isPowerOf2)
+        XCTAssertFalse((T(-1)).isPowerOf2)
+        XCTAssertFalse((T( 0)).isPowerOf2)
+        XCTAssertTrue ((T( 1)).isPowerOf2)
+        XCTAssertTrue ((T( 2)).isPowerOf2)
+        XCTAssertFalse((T( 3)).isPowerOf2)
+        XCTAssertFalse((T.max).isPowerOf2)
+        
+        XCTAssertFalse(T(x64: X(0, 0, 0, 0)).isPowerOf2)
+        XCTAssertTrue (T(x64: X(1, 0, 0, 0)).isPowerOf2)
+        XCTAssertFalse(T(x64: X(1, 1, 0, 0)).isPowerOf2)
+        XCTAssertTrue (T(x64: X(0, 1, 0, 0)).isPowerOf2)
+        XCTAssertFalse(T(x64: X(0, 1, 1, 0)).isPowerOf2)
+        XCTAssertTrue (T(x64: X(0, 0, 1, 0)).isPowerOf2)
+        XCTAssertFalse(T(x64: X(0, 0, 1, 1)).isPowerOf2)
+        XCTAssertTrue (T(x64: X(0, 0, 0, 1)).isPowerOf2)
+    }
 }
 
 //*============================================================================*
@@ -254,6 +276,28 @@ final class UInt256TestsOnComparisons: XCTestCase {
         XCTAssertEqual((~T(0)).signum(), Int(1))
         XCTAssertEqual((~T(1)).signum(), Int(1))
         XCTAssertEqual((~T(2)).signum(), Int(1))
+    }
+    
+    func testIsPowerOf2() {        
+        XCTAssertFalse((T.min).isPowerOf2)
+        XCTAssertFalse((T( 0)).isPowerOf2)
+        XCTAssertTrue ((T( 1)).isPowerOf2)
+        XCTAssertTrue ((T( 2)).isPowerOf2)
+        XCTAssertFalse((T( 3)).isPowerOf2)
+        XCTAssertTrue ((T( 4)).isPowerOf2)
+        XCTAssertFalse((T( 5)).isPowerOf2)
+        XCTAssertFalse((T( 6)).isPowerOf2)
+        XCTAssertFalse((T( 7)).isPowerOf2)
+        XCTAssertFalse((T.max).isPowerOf2)
+        
+        XCTAssertFalse(T(x64: X(0, 0, 0, 0)).isPowerOf2)
+        XCTAssertTrue (T(x64: X(1, 0, 0, 0)).isPowerOf2)
+        XCTAssertFalse(T(x64: X(1, 1, 0, 0)).isPowerOf2)
+        XCTAssertTrue (T(x64: X(0, 1, 0, 0)).isPowerOf2)
+        XCTAssertFalse(T(x64: X(0, 1, 1, 0)).isPowerOf2)
+        XCTAssertTrue (T(x64: X(0, 0, 1, 0)).isPowerOf2)
+        XCTAssertFalse(T(x64: X(0, 0, 1, 1)).isPowerOf2)
+        XCTAssertTrue (T(x64: X(0, 0, 0, 1)).isPowerOf2)
     }
 }
 
