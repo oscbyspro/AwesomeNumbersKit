@@ -29,41 +29,41 @@ final class Int256TestsOnLogic: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNot() {
-        XCTAssertEqual(~T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~1, ~2, ~3)))
-        XCTAssertEqual(~T(x64: X(~0, ~1, ~2, ~3)), T(x64: X( 0,  1,  2,  3)))
+        ANKAssertNot(T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~1, ~2, ~3)))
+        ANKAssertNot(T(x64: X(~0, ~1, ~2, ~3)), T(x64: X( 0,  1,  2,  3)))
     }
     
     func testAnd() {
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
+        ANKAssertAnd(T(x64: X( 0,  1,  2,  3)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
+        ANKAssertAnd(T(x64: X( 3,  2,  1,  0)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 3,  2,  1,  0)))
+        ANKAssertAnd(T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 0,  1,  2,  3)))
+        ANKAssertAnd(T(x64: X( 3,  2,  1,  0)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X( 1,  1,  1,  1)), T(x64: X( 0,  1,  0,  1)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  1,  0)))
+        ANKAssertAnd(T(x64: X( 0,  1,  2,  3)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 0,  1,  0,  1)))
+        ANKAssertAnd(T(x64: X( 3,  2,  1,  0)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  1,  0)))
     }
     
     func testOr() {
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
+        ANKAssertOr (T(x64: X( 0,  1,  2,  3)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
+        ANKAssertOr (T(x64: X( 3,  2,  1,  0)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
+        ANKAssertOr (T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
+        ANKAssertOr (T(x64: X( 3,  2,  1,  0)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  1,  3,  3)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X( 1,  1,  1,  1)), T(x64: X( 3,  3,  1,  1)))
+        ANKAssertOr (T(x64: X( 0,  1,  2,  3)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  1,  3,  3)))
+        ANKAssertOr (T(x64: X( 3,  2,  1,  0)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 3,  3,  1,  1)))
     }
     
     func testXor() {
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
+        ANKAssertXor(T(x64: X( 0,  1,  2,  3)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
+        ANKAssertXor(T(x64: X( 3,  2,  1,  0)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~1, ~2, ~3)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~3, ~2, ~1, ~0)))
+        ANKAssertXor(T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~1, ~2, ~3)))
+        ANKAssertXor(T(x64: X( 3,  2,  1,  0)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~3, ~2, ~1, ~0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  3,  2)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 2,  3,  0,  1)))
+        ANKAssertXor(T(x64: X( 0,  1,  2,  3)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  3,  2)))
+        ANKAssertXor(T(x64: X( 3,  2,  1,  0)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 2,  3,  0,  1)))
     }
 }
 
@@ -80,41 +80,41 @@ final class UInt256TestsOnLogic: XCTestCase {
     //=------------------------------------------------------------------------=
     
     func testNot() {
-        XCTAssertEqual(~T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~1, ~2, ~3)))
-        XCTAssertEqual(~T(x64: X(~0, ~1, ~2, ~3)), T(x64: X( 0,  1,  2,  3)))
+        ANKAssertNot(T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~1, ~2, ~3)))
+        ANKAssertNot(T(x64: X(~0, ~1, ~2, ~3)), T(x64: X( 0,  1,  2,  3)))
     }
     
     func testAnd() {
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
+        ANKAssertAnd(T(x64: X( 0,  1,  2,  3)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
+        ANKAssertAnd(T(x64: X( 3,  2,  1,  0)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  0,  0,  0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 3,  2,  1,  0)))
+        ANKAssertAnd(T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 0,  1,  2,  3)))
+        ANKAssertAnd(T(x64: X( 3,  2,  1,  0)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) & T(x64: X( 1,  1,  1,  1)), T(x64: X( 0,  1,  0,  1)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) & T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  1,  0)))
+        ANKAssertAnd(T(x64: X( 0,  1,  2,  3)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 0,  1,  0,  1)))
+        ANKAssertAnd(T(x64: X( 3,  2,  1,  0)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  1,  0)))
     }
     
     func testOr() {
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
+        ANKAssertOr (T(x64: X( 0,  1,  2,  3)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
+        ANKAssertOr (T(x64: X( 3,  2,  1,  0)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
+        ANKAssertOr (T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
+        ANKAssertOr (T(x64: X( 3,  2,  1,  0)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~0, ~0, ~0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) | T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  1,  3,  3)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) | T(x64: X( 1,  1,  1,  1)), T(x64: X( 3,  3,  1,  1)))
+        ANKAssertOr (T(x64: X( 0,  1,  2,  3)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  1,  3,  3)))
+        ANKAssertOr (T(x64: X( 3,  2,  1,  0)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 3,  3,  1,  1)))
     }
     
     func testXor() {
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
+        ANKAssertXor(T(x64: X( 0,  1,  2,  3)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 0,  1,  2,  3)))
+        ANKAssertXor(T(x64: X( 3,  2,  1,  0)), T(x64: X( 0,  0,  0,  0)), T(x64: X( 3,  2,  1,  0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~1, ~2, ~3)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~3, ~2, ~1, ~0)))
+        ANKAssertXor(T(x64: X( 0,  1,  2,  3)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~0, ~1, ~2, ~3)))
+        ANKAssertXor(T(x64: X( 3,  2,  1,  0)), T(x64: X(~0, ~0, ~0, ~0)), T(x64: X(~3, ~2, ~1, ~0)))
         
-        XCTAssertEqual(T(x64: X(0, 1, 2, 3)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  3,  2)))
-        XCTAssertEqual(T(x64: X(3, 2, 1, 0)) ^ T(x64: X( 1,  1,  1,  1)), T(x64: X( 2,  3,  0,  1)))
+        ANKAssertXor(T(x64: X( 0,  1,  2,  3)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 1,  0,  3,  2)))
+        ANKAssertXor(T(x64: X( 3,  2,  1,  0)), T(x64: X( 1,  1,  1,  1)), T(x64: X( 2,  3,  0,  1)))
     }
 }
 
