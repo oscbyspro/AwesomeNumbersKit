@@ -65,18 +65,18 @@ final class Int256TestsOnComparisons: XCTestCase {
         ANKAssertComparisons(T.min, T.max, -Int(1))
         ANKAssertComparisons(T.min, T.min,  Int(0))
         
-        ANKAssertComparisons(T(x64: X(0, 2, 3, 4)), T(x64: X(1, 2, 3, 4)), -1)
-        ANKAssertComparisons(T(x64: X(1, 0, 3, 4)), T(x64: X(1, 2, 3, 4)), -1)
-        ANKAssertComparisons(T(x64: X(1, 2, 0, 4)), T(x64: X(1, 2, 3, 4)), -1)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 0)), T(x64: X(1, 2, 3, 4)), -1)
-        ANKAssertComparisons(T(x64: X(0, 2, 3, 4)), T(x64: X(0, 2, 3, 4)),  0)
-        ANKAssertComparisons(T(x64: X(1, 0, 3, 4)), T(x64: X(1, 0, 3, 4)),  0)
-        ANKAssertComparisons(T(x64: X(1, 2, 0, 4)), T(x64: X(1, 2, 0, 4)),  0)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 0)), T(x64: X(1, 2, 3, 0)),  0)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(0, 2, 3, 4)),  1)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 0, 3, 4)),  1)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 2, 0, 4)),  1)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 2, 3, 0)),  1)
+        ANKAssertComparisons(T(x64: X(0, 2, 3, 4)), T(x64: X(1, 2, 3, 4)), -Int(1))
+        ANKAssertComparisons(T(x64: X(1, 0, 3, 4)), T(x64: X(1, 2, 3, 4)), -Int(1))
+        ANKAssertComparisons(T(x64: X(1, 2, 0, 4)), T(x64: X(1, 2, 3, 4)), -Int(1))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 0)), T(x64: X(1, 2, 3, 4)), -Int(1))
+        ANKAssertComparisons(T(x64: X(0, 2, 3, 4)), T(x64: X(0, 2, 3, 4)),  Int(0))
+        ANKAssertComparisons(T(x64: X(1, 0, 3, 4)), T(x64: X(1, 0, 3, 4)),  Int(0))
+        ANKAssertComparisons(T(x64: X(1, 2, 0, 4)), T(x64: X(1, 2, 0, 4)),  Int(0))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 0)), T(x64: X(1, 2, 3, 0)),  Int(0))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(0, 2, 3, 4)),  Int(1))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 0, 3, 4)),  Int(1))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 2, 0, 4)),  Int(1))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 2, 3, 0)),  Int(1))
     }
     
     //=------------------------------------------------------------------------=
@@ -134,13 +134,13 @@ final class Int256TestsOnComparisons: XCTestCase {
     }
     
     func testSignum() {
-        XCTAssertEqual(( T(0)).signum(), Int( 0))
-        XCTAssertEqual(( T(1)).signum(), Int( 1))
-        XCTAssertEqual(( T(2)).signum(), Int( 1))
+        XCTAssertEqual(( T(0)).signum(),  Int(0))
+        XCTAssertEqual(( T(1)).signum(),  Int(1))
+        XCTAssertEqual(( T(2)).signum(),  Int(1))
         
-        XCTAssertEqual((~T(0)).signum(), Int(-1))
-        XCTAssertEqual((~T(1)).signum(), Int(-1))
-        XCTAssertEqual((~T(2)).signum(), Int(-1))
+        XCTAssertEqual((~T(0)).signum(), -Int(1))
+        XCTAssertEqual((~T(1)).signum(), -Int(1))
+        XCTAssertEqual((~T(2)).signum(), -Int(1))
     }
     
     func testIsPowerOf2() {
@@ -200,18 +200,18 @@ final class UInt256TestsOnComparisons: XCTestCase {
         ANKAssertComparisons(T.min, T.max, -Int(1))
         ANKAssertComparisons(T.min, T.min,  Int(0))
         
-        ANKAssertComparisons(T(x64: X(0, 2, 3, 4)), T(x64: X(1, 2, 3, 4)), -1)
-        ANKAssertComparisons(T(x64: X(1, 0, 3, 4)), T(x64: X(1, 2, 3, 4)), -1)
-        ANKAssertComparisons(T(x64: X(1, 2, 0, 4)), T(x64: X(1, 2, 3, 4)), -1)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 0)), T(x64: X(1, 2, 3, 4)), -1)
-        ANKAssertComparisons(T(x64: X(0, 2, 3, 4)), T(x64: X(0, 2, 3, 4)),  0)
-        ANKAssertComparisons(T(x64: X(1, 0, 3, 4)), T(x64: X(1, 0, 3, 4)),  0)
-        ANKAssertComparisons(T(x64: X(1, 2, 0, 4)), T(x64: X(1, 2, 0, 4)),  0)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 0)), T(x64: X(1, 2, 3, 0)),  0)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(0, 2, 3, 4)),  1)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 0, 3, 4)),  1)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 2, 0, 4)),  1)
-        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 2, 3, 0)),  1)
+        ANKAssertComparisons(T(x64: X(0, 2, 3, 4)), T(x64: X(1, 2, 3, 4)), -Int(1))
+        ANKAssertComparisons(T(x64: X(1, 0, 3, 4)), T(x64: X(1, 2, 3, 4)), -Int(1))
+        ANKAssertComparisons(T(x64: X(1, 2, 0, 4)), T(x64: X(1, 2, 3, 4)), -Int(1))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 0)), T(x64: X(1, 2, 3, 4)), -Int(1))
+        ANKAssertComparisons(T(x64: X(0, 2, 3, 4)), T(x64: X(0, 2, 3, 4)),  Int(0))
+        ANKAssertComparisons(T(x64: X(1, 0, 3, 4)), T(x64: X(1, 0, 3, 4)),  Int(0))
+        ANKAssertComparisons(T(x64: X(1, 2, 0, 4)), T(x64: X(1, 2, 0, 4)),  Int(0))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 0)), T(x64: X(1, 2, 3, 0)),  Int(0))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(0, 2, 3, 4)),  Int(1))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 0, 3, 4)),  Int(1))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 2, 0, 4)),  Int(1))
+        ANKAssertComparisons(T(x64: X(1, 2, 3, 4)), T(x64: X(1, 2, 3, 0)),  Int(1))
     }
     
     //=------------------------------------------------------------------------=

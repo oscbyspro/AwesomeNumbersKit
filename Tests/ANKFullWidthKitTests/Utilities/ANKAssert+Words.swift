@@ -35,24 +35,6 @@ file: StaticString = #file, line: UInt = #line) {
 }
 
 //=----------------------------------------------------------------------------=
-// MARK: + First, Last, Tail
-//=----------------------------------------------------------------------------=
-
-func ANKAssertFirstLastTail<H: ANKFixedWidthInteger, L: ANKFixedWidthInteger>(
-_ integer: ANKFullWidth<H, L>, first: UInt, last: UInt, tail: H.Digit,
-file: StaticString = #file, line: UInt = #line) {
-    typealias T = ANKFullWidth<H, L>
-    //=------------------------------------------=
-    XCTAssertEqual(integer.first, first, file: file, line: line)
-    XCTAssertEqual(integer.last,  last,  file: file, line: line)
-    XCTAssertEqual(integer.tail,  tail,  file: file, line: line)
-    //=------------------------------------------=
-    XCTAssertEqual({ var x = T.zero; x.first = first; return x.first }(), first, file: file, line: line)
-    XCTAssertEqual({ var x = T.zero; x.last  = last;  return x.last  }(), last,  file: file, line: line)
-    XCTAssertEqual({ var x = T.zero; x.tail  = tail;  return x.tail  }(), tail,  file: file, line: line)
-}
-
-//=----------------------------------------------------------------------------=
 // MARK: + Indices
 //=----------------------------------------------------------------------------=
 
@@ -76,4 +58,22 @@ file: StaticString = #file, line: UInt = #line) {
         let index = $0.index(index, offsetBy: distance, limitedBy: limit)
         XCTAssertEqual(index, expectation, file: file, line: line)
     }
+}
+
+//=----------------------------------------------------------------------------=
+// MARK: + Elements x First, Last, Tail
+//=----------------------------------------------------------------------------=
+
+func ANKAssertFirstLastTail<H: ANKFixedWidthInteger, L: ANKFixedWidthInteger>(
+_ integer: ANKFullWidth<H, L>, first: UInt, last: UInt, tail: H.Digit,
+file: StaticString = #file, line: UInt = #line) {
+    typealias T = ANKFullWidth<H, L>
+    //=------------------------------------------=
+    XCTAssertEqual(integer.first, first, file: file, line: line)
+    XCTAssertEqual(integer.last,  last,  file: file, line: line)
+    XCTAssertEqual(integer.tail,  tail,  file: file, line: line)
+    //=------------------------------------------=
+    XCTAssertEqual({ var x = T.zero; x.first = first; return x.first }(), first, file: file, line: line)
+    XCTAssertEqual({ var x = T.zero; x.last  = last;  return x.last  }(), last,  file: file, line: line)
+    XCTAssertEqual({ var x = T.zero; x.tail  = tail;  return x.tail  }(), tail,  file: file, line: line)
 }

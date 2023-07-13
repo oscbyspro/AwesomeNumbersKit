@@ -190,17 +190,17 @@ extension ANKFullWidth {
         // MARK: Accessors
         //=------------------------------------------------------------------------=
         
-        /// The least significant word of this integer.
+        /// The least significant word.
         @inlinable public var first: UInt {
             self[unchecked: self.startIndex]
         }
         
-        /// The most significant word of this integer.
+        /// The most significant word.
         @inlinable public var last: UInt {
             self[unchecked: self.lastIndex]
         }
         
-        /// The most significant word of this integer, reinterpreted as a ``Digit``.
+        /// The most significant word, reinterpreted as a ``Digit``.
         @inlinable public var tail: Digit {
             Digit(bitPattern: self.last)
         }
@@ -307,19 +307,19 @@ extension ANKFullWidth {
         // MARK: Accessors
         //=------------------------------------------------------------------------=
         
-        /// The least significant word of this integer.
+        /// The least significant word.
         @inlinable public var first: UInt {
             nonmutating get { self[unchecked: self.startIndex] }
             nonmutating set { self[unchecked: self.startIndex] = newValue }
         }
         
-        /// The most significant word of this integer.
+        /// The most significant word.
         @inlinable public var last: UInt {
             nonmutating get { self[unchecked: self.lastIndex] }
             nonmutating set { self[unchecked: self.lastIndex] = newValue }
         }
         
-        /// The most significant word of this integer, reinterpreted as a ``Digit``.
+        /// The most significant word, reinterpreted as a ``Digit``.
         @inlinable public var tail: Digit {
             nonmutating get { Digit(bitPattern: self.last) }
             nonmutating set { self.last = UInt(bitPattern: newValue) }
