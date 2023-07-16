@@ -63,8 +63,8 @@ final class Int192TestsOnBits: XCTestCase {
     }
     
     func testTrailingZeroBitCount() {
-        XCTAssertEqual(T(x64: X( 0,  0,  0)).leadingZeroBitCount,  64 * 3)
-        XCTAssertEqual(T(x64: X(~0, ~0, ~0)).leadingZeroBitCount,  64 * 0)
+        XCTAssertEqual(T(x64: X( 0,  0,  0)).trailingZeroBitCount, 64 * 3)
+        XCTAssertEqual(T(x64: X(~0, ~0, ~0)).trailingZeroBitCount, 64 * 0)
         
         XCTAssertEqual(T(x64: X( 2,  0,  0)).trailingZeroBitCount, 64 * 0 + 1)
         XCTAssertEqual(T(x64: X( 0,  2,  0)).trailingZeroBitCount, 64 * 1 + 1)
