@@ -6,6 +6,9 @@ Large number arithmetic in Swift.
 |:-------:|:-----:|:----:|:------:|:------------:|:-----:|:----:|:-------:|
 | 4.0.2   | 5.8   | 16.4 | 16.4   | 16.4         | 13.3  | 16.4 | 9.4     |
 
+> [!IMPORTANT]
+> The development of this project has moved over to [**Numberick**](https://github.com/oscbyspro/Numberick).
+
 ## ANKCoreKit ([Sources][COR/S], [Tests][COR/T], [Benchmarks][COR/B])
 
 Models, protocols, extensions and utilities underpinning this package.
